@@ -376,12 +376,6 @@ msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "Calculer une signature..."
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Ouvre le fichier de signature à la fin de la tâche"
@@ -3124,11 +3118,6 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.HINT"
 msgid "Go to root directory"
 msgstr "Aller au dossier racine"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgctxt "TFRMMAIN.BTNLEFTUP.HINT"
 msgid "Go to parent directory"
@@ -3162,11 +3151,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "tfrmmain.caption"
@@ -4688,31 +4672,6 @@ msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
 msgid "Apply modification to all columns"
 msgstr "Appliquer les modifications à toutes les colonnes"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
 msgid "&Delete"
@@ -4723,29 +4682,9 @@ msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "Aller à la valeur par défaut"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
@@ -7092,11 +7031,6 @@ msgstr "Journalisation des opérations"
 msgid "Operation status"
 msgstr "Statut de l'opération"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "tfrmoptionsmisc.btnoutputpathfortoolbar.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
@@ -7757,11 +7691,6 @@ msgstr "&Insérer un nouveau bouton"
 msgid "Select"
 msgstr "Choisir"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
@@ -7771,11 +7700,6 @@ msgstr "Autre..."
 msgctxt "tfrmoptionstoolbarbase.btnremovehotkey.caption"
 msgid "Remove hotke&y"
 msgstr "Retirer raccourci clavier"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -8287,11 +8211,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8542,11 +8461,6 @@ msgstr "Déplacer les fichiers dans l'archive"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "Archive en plusieurs &volumes"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

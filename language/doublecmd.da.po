@@ -342,12 +342,6 @@ msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "Dan CRC-kontrolsumfil"
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 # Filer - Dan_CRC_kontrolsumfil(er)
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
@@ -3224,11 +3218,6 @@ msgstr "/"
 msgid "Go to root directory"
 msgstr "Gå til roden"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "tfrmmain.btnleftup.caption"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
 msgstr "Gå til overordnet mappe"
@@ -3261,11 +3250,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "TFRMMAIN.CAPTION"
@@ -4887,31 +4871,6 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.HINT"
 msgid "Apply modification to all columns"
 msgstr "Udfør ændringer på alle kolonner"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELETECONFIGCOLUMNS.CAPTION"
 msgid "&Delete"
@@ -4922,30 +4881,10 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFONT.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 # Opsætning - Indstillinger - Visning - Kolonner - brugertilpassede kolonner
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "Gå til standardindstilling"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVECURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVEMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCONFIG.CAPTION"
@@ -7524,11 +7463,6 @@ msgstr "Log følgende operationer"
 msgid "Operation status"
 msgstr "Log følgende udfald"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "TFRMOPTIONSMISC.BTNOUTPUTPATHFORTOOLBAR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "TFRMOPTIONSMISC.BTNRELATIVEOUTPUTPATHFORTOOLBAR.HINT"
 msgid "Some functions to select appropriate path"
@@ -8270,12 +8204,6 @@ msgctxt "tfrmoptionstoolbarbase.btnopencmddlg.caption"
 msgid "Select"
 msgstr "Vælg"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-#, fuzzy
-msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 #, fuzzy
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
@@ -8287,12 +8215,6 @@ msgstr "Andre..."
 msgctxt "tfrmoptionstoolbarbase.btnremovehotkey.caption"
 msgid "Remove hotke&y"
 msgstr "Fjern genvejstast"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-#, fuzzy
-msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 #, fuzzy
@@ -8918,11 +8840,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "Slet"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -9213,11 +9130,6 @@ msgstr "Fl&yt til arkiv"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "&Fordel arkiv over flere diske"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

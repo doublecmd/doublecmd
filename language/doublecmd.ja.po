@@ -333,12 +333,6 @@ msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate checksum..."
 msgstr "チェックサムを計算…"
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "作業完了後にチェックサムファイルを開く"
@@ -3072,11 +3066,6 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.HINT"
 msgid "Go to root directory"
 msgstr "ルート ディレクトリに移動"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgctxt "TFRMMAIN.BTNLEFTUP.HINT"
 msgid "Go to parent directory"
@@ -3110,11 +3099,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "TFRMMAIN.CAPTION"
@@ -4622,31 +4606,6 @@ msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
 msgid "Apply modification to all columns"
 msgstr "すべてのカラムに変更を適用"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
 msgid "&Delete"
@@ -4657,29 +4616,9 @@ msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
 msgid "..."
 msgstr "…"
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "デフォルトの設定に進みます"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
@@ -7016,11 +6955,6 @@ msgstr "操作をログファイルに記録"
 msgid "Operation status"
 msgstr "操作の状態"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "TFRMOPTIONSMISC.BTNOUTPUTPATHFORTOOLBAR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "TFRMOPTIONSMISC.BTNRELATIVEOUTPUTPATHFORTOOLBAR.HINT"
 msgid "Some functions to select appropriate path"
@@ -7678,11 +7612,6 @@ msgstr "新しいボタンを挿入(&I)"
 msgid "Select"
 msgstr "選択"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
@@ -7692,11 +7621,6 @@ msgstr "その他…"
 msgctxt "tfrmoptionstoolbarbase.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "ホットキーを削除(&y)"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -8198,11 +8122,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "削除(&e)"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8452,11 +8371,6 @@ msgstr "アーカイブに移動(&v)"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "複数ディスクのアーカイブ(&M)"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

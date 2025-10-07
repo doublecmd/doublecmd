@@ -332,12 +332,6 @@ msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "Izračunaj nadzorne vsote ..."
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Po koncu izračunavanja odpri datoteko nadzorne vsote"
@@ -3012,11 +3006,6 @@ msgstr "/"
 msgid "Go to root directory"
 msgstr "Pojdi v korensko mapo"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "tfrmmain.btnleftup.caption"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
 msgstr "Pojdi v mapo višje"
@@ -3049,11 +3038,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "TFRMMAIN.CAPTION"
@@ -4533,31 +4517,6 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.HINT"
 msgid "Apply modification to all columns"
 msgstr "Uveljavi spremembo za vse stolpce"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELETECONFIGCOLUMNS.CAPTION"
 msgid "&Delete"
@@ -4568,29 +4527,9 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFONT.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "Nastavi kot privzeto"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVECURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVEMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCONFIG.CAPTION"
@@ -6839,11 +6778,6 @@ msgstr "Beleži opravila"
 msgid "Operation status"
 msgstr "Stanje opravila"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "TFRMOPTIONSMISC.BTNOUTPUTPATHFORTOOLBAR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "TFRMOPTIONSMISC.BTNRELATIVEOUTPUTPATHFORTOOLBAR.HINT"
 msgid "Some functions to select appropriate path"
@@ -7482,11 +7416,6 @@ msgstr "&Vstavi nov gumb"
 msgid "Select"
 msgstr "Izbor"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
@@ -7495,11 +7424,6 @@ msgstr "Drugo ..."
 #: tfrmoptionstoolbarbase.btnremovehotkey.caption
 msgid "Remove hotke&y"
 msgstr "Odstrani &hitre tipke"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -8000,11 +7924,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "Izbriši"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8251,11 +8170,6 @@ msgstr "Datoteke pre&makni v arhiv"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "Ustvari arhiv v več &delih"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

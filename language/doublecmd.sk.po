@@ -325,12 +325,6 @@ msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "Výpočet kontrolného súčtu..."
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Otvoriť súbor s kontrolným súčtom po dokončení"
@@ -3004,11 +2998,6 @@ msgstr "/"
 msgid "Go to root directory"
 msgstr "Ísť do koreňového priečinka"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "tfrmmain.btnleftup.caption"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
 msgstr "Ísť do nadradeného priečinka"
@@ -3041,11 +3030,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "TFRMMAIN.CAPTION"
@@ -4525,31 +4509,6 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.HINT"
 msgid "Apply modification to all columns"
 msgstr "Použiť zmenu na všetky stĺpce"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELETECONFIGCOLUMNS.CAPTION"
 msgid "&Delete"
@@ -4560,29 +4519,9 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFONT.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "Nastaviť predvolené"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVECURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVEMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCONFIG.CAPTION"
@@ -6831,11 +6770,6 @@ msgstr "Zaznamenávať operácie"
 msgid "Operation status"
 msgstr "Stav operácie"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "TFRMOPTIONSMISC.BTNOUTPUTPATHFORTOOLBAR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "TFRMOPTIONSMISC.BTNRELATIVEOUTPUTPATHFORTOOLBAR.HINT"
 msgid "Some functions to select appropriate path"
@@ -7475,11 +7409,6 @@ msgstr "&Vložiť nové tlačidlo"
 msgid "Select"
 msgstr "Vybrať"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
@@ -7488,11 +7417,6 @@ msgstr "Iné ..."
 #: tfrmoptionstoolbarbase.btnremovehotkey.caption
 msgid "Remove hotke&y"
 msgstr "V&ymazať klávesovú skratku"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -7993,11 +7917,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "Vymazať"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8244,11 +8163,6 @@ msgstr "Pre&sunúť do archívu"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "&Viaczväzkový archív"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

@@ -324,11 +324,6 @@ msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "计算校验码..."
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr ""
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "任务完成后打开校验码文件"
@@ -3002,11 +2997,6 @@ msgstr ""
 msgid "Go to root directory"
 msgstr "转到根文件夹"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "tfrmmain.btnleftup.caption"
-msgid ".."
-msgstr ""
-
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
 msgstr "转到父文件夹"
@@ -3038,11 +3028,6 @@ msgstr ""
 #: tfrmmain.btnrightroot.caption
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
-msgstr ""
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
 msgstr ""
 
 #: tfrmmain.caption
@@ -4523,31 +4508,6 @@ msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
 msgid "Apply modification to all columns"
 msgstr "应用修改到全部列"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
 msgid "&Delete"
@@ -4558,29 +4518,9 @@ msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
 msgid "..."
 msgstr ""
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "转到设置默认值"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
-msgid ">>"
-msgstr ""
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
@@ -6828,11 +6768,6 @@ msgstr "记录操作"
 msgid "Operation status"
 msgstr "操作状态"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "tfrmoptionsmisc.btnoutputpathfortoolbar.caption"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
@@ -7469,11 +7404,6 @@ msgstr "插入新的按钮(&I)"
 msgid "Select"
 msgstr "选择"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
@@ -7482,11 +7412,6 @@ msgstr "其他..."
 #: tfrmoptionstoolbarbase.btnremovehotkey.caption
 msgid "Remove hotke&y"
 msgstr "移除热键(&Y)"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
-msgid ">>"
-msgstr ""
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -7987,11 +7912,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "删除"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8238,11 +8158,6 @@ msgstr "移动到文件包(&O)"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "多卷压缩(&M)"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr ""
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"

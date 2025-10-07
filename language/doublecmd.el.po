@@ -338,12 +338,6 @@ msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate checksum..."
 msgstr "Υπολογισμός αθροίσματος ελέγχου..."
 
-#: tfrmchecksumcalc.cbhashalgorithm.caption
-#, fuzzy
-msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
-msgid "=>"
-msgstr "=>"
-
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Άνοιγμα αρχείου αθροίσματος ελέγχου μετά την ολοκλήρωση της εργασίας"
@@ -3063,11 +3057,6 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.HINT"
 msgid "Go to root directory"
 msgstr "Μετάβαση στον κατάλογο root"
 
-#: tfrmmain.btnleftup.caption
-msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
-msgid ".."
-msgstr ".."
-
 #: tfrmmain.btnleftup.hint
 msgctxt "TFRMMAIN.BTNLEFTUP.HINT"
 msgid "Go to parent directory"
@@ -3101,11 +3090,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: tfrmmain.btnrightup.caption
-msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
-msgid ".."
-msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "TFRMMAIN.CAPTION"
@@ -4606,31 +4590,6 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.HINT"
 msgid "Apply modification to all columns"
 msgstr "Εφαρμογή των αλλαγών σε όλες τις στήλες"
 
-#: tfrmoptionscustomcolumns.btnbackcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btncursortext.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELETECONFIGCOLUMNS.CAPTION"
 msgid "&Delete"
@@ -4641,29 +4600,9 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFONT.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnforecolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
 msgstr "Μετάβαση στον ορισμό προκαθορισμένου"
-
-#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVECURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVEMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionscustomcolumns.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCONFIG.CAPTION"
@@ -6994,11 +6933,6 @@ msgstr "Εργασίες Καταγραφής"
 msgid "Operation status"
 msgstr "Κατάσταση Λειτουργίας"
 
-#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
-msgctxt "TFRMOPTIONSMISC.BTNOUTPUTPATHFORTOOLBAR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "TFRMOPTIONSMISC.BTNRELATIVEOUTPUTPATHFORTOOLBAR.HINT"
 msgid "Some functions to select appropriate path"
@@ -7653,11 +7587,6 @@ msgstr "Εισαγωγή νέου κουμπιού"
 msgid "Select"
 msgstr "Επιλέξτε"
 
-#: tfrmoptionstoolbarbase.btnopenfile.caption
-msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstoolbarbase.btnother.caption
 msgctxt "tfrmoptionstoolbarbase.BTNOTHER.CAPTION"
 msgid "Other..."
@@ -7667,11 +7596,6 @@ msgstr "Άλλα..."
 msgctxt "tfrmoptionstoolbarbase.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "Αφαίρεση ειδικού πλήκτρου"
-
-#: tfrmoptionstoolbarbase.btnstartpath.caption
-msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
@@ -8173,11 +8097,6 @@ msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: tfrmoptionstooltips.btnfieldslist.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstooltips.btnfieldssearchtemplate.hint
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -8427,11 +8346,6 @@ msgstr "Μετακίνηση στην αρχειοθήκη"
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
 msgstr "Πολλαπλή αρχειοθήκη δίσκου"
-
-#: tfrmpackdlg.cbotherplugins.caption
-msgctxt "tfrmpackdlg.cbotherplugins.caption"
-msgid "=>"
-msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
