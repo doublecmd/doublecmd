@@ -1007,6 +1007,41 @@ begin
         LCanvas.Handle:= 0;
         LCanvas.Free;
       end;
+    end
+    else if iPartId in [TP_SEPARATOR, TP_SEPARATORVERT] then
+    begin
+      LCanvas:= TCanvas.Create;
+      try
+        LRect:= pRect;
+        LCanvas.Handle:= hdc;
+        LCanvas.Brush.Color:= SysColor[COLOR_BTNSHADOW];
+
+        if (iPartId = TP_SEPARATOR) then
+        begin
+          if (LRect.Right - LRect.Left) > 4 then
+          begin
+            LRect.Left := (LRect.Left + LRect.Right) div 2 - 1;
+            LRect.Right := LRect.Left + 1;
+          end;
+          LRect.Top:= LRect.Top + 2;
+          LRect.Bottom:= LRect.Bottom - 2;
+        end
+        else begin
+          if (LRect.Bottom - LRect.Top) > 4 then
+          begin
+            LRect.Top := (LRect.Top + LRect.Bottom) div 2 - 1;
+            LRect.Bottom := LRect.Top + 1;
+          end;
+          LRect.Left:= LRect.Left + 2;
+          LRect.Right:= LRect.Right - 2;
+        end;
+
+        LCanvas.FillRect(LRect);
+
+      finally
+        LCanvas.Handle:= 0;
+        LCanvas.Free;
+      end;
     end;
   end
 
