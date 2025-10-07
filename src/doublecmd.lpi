@@ -25,6 +25,11 @@
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="..\language"/>
+      <ExcludedOriginals Count="3">
+        <Item1 Value=".."/>
+        <Item2 Value=">>"/>
+        <Item3 Value="=>"/>
+      </ExcludedOriginals>
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
@@ -1378,7 +1383,7 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="WcxArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
+        <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fWcxArchiveCopyOperationOptions"/>
       </Unit169>
       <Unit170>
