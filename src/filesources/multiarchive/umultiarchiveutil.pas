@@ -74,14 +74,23 @@ begin
   FErrorLevel:= ExtractErrorLevel(Result);
   Index:= Pos('%O', Result);
   FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
-  if (Index > 0) and (Index + 2 <= Length(Result)) then
-  begin
-    case (Result[Index + 2]) of
-      'A': FConvertEncoding:= CeSysToUtf8;
-      'U': FConvertEncoding:= @Utf8ToUtf8;
+  if (Index > 0) then
+    if (Index + 2 <= Length(Result)) then
+    begin
+      // force encoding
+      case (Result[Index + 2]) of
+        'O': FConvertEncoding:= CeOemToUtf8;
+        'A': FConvertEncoding:= CeAnsiToUtf8;
+        'U': FConvertEncoding:= @Utf8ToUtf8;
+      end;
+      Delete(Result, Index, 3);
+    end
+    else if (Index + 1 <= Length(Result)) then
+    begin
+      // "skip oem->ansi encoding" behavior on win
+      FConvertEncoding:= CeSysToUtf8;
+      Delete(Result, Index, 2);
     end;
-    Delete(Result, Index, 3);
-  end;
 end;
 
 procedure TOutputParser.SetOnGetArchiveItem(AValue: TOnGetArchiveItem);
@@ -243,7 +252,7 @@ type
     ftVolumeSize, ftPassword, ftCustomParams);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmOnlyFiles, fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
-    fmPathOnly, fmUTF8, fmAnsi);
+    fmPathOnly, fmUTF8, fmAnsi, fmOEM, fmSysEnc);
 
   TState = record
     pos: TStatePos;
@@ -291,8 +300,12 @@ var
       else begin
         FileName := BuildName(aFiles[I].FullPath);
       end;
-      if (fmAnsi in state.FuncModifiers) then
+      if (fmSysEnc in state.FuncModifiers) then
         FileName := CeUtf8ToSys(FileName)
+      else if (fmAnsi in state.FuncModifiers) then
+        FileName := CeUtf8ToAnsi(FileName)
+      else if (fmOEM in state.FuncModifiers) then
+        FileName := CeUtf8ToOem(FileName)
       else if not (fmUTF8 in state.FuncModifiers) then begin
         FileName := UTF8ToConsole(FileName);
       end;
@@ -513,7 +526,17 @@ begin
             end;
             'A':
             begin
+              state.FuncModifiers := state.FuncModifiers + [fmSysEnc];
+              state.pos := spFunction;
+            end;
+            'a':
+            begin
               state.FuncModifiers := state.FuncModifiers + [fmAnsi];
+              state.pos := spFunction;
+            end;
+            'o':
+            begin
+              state.FuncModifiers := state.FuncModifiers + [fmOEM];
               state.pos := spFunction;
             end;
             '}':
