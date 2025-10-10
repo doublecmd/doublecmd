@@ -96,10 +96,17 @@ type
 implementation
 
 const
-  FINDER_TAGS_DATABASE_PATH_14plus  = '/Library/Daemon Containers/F6F9E4C1-EF5D-4BF3-BEAD-0D777574F0A0/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_PATH_15plus  = '/Library/Daemon Containers/EC9E0408-42BF-4F2F-93FC-5DC028346EC8/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_PATH_14to15  = '/Library/Daemon Containers/F6F9E4C1-EF5D-4BF3-BEAD-0D777574F0A0/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
   FINDER_TAGS_DATABASE_PATH_12to13  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
   FINDER_TAGS_FILE_PATH_11minus     = '/Library/SyncedPreferences/com.apple.finder.plist';
   FAVORITE_FINDER_TAGS_FILE_PATH    = '/Library/Preferences/com.apple.finder.plist';
+
+const
+  FINDER_TAGS_DATABASE_PATHS: TStringArray = (
+    FINDER_TAGS_DATABASE_PATH_15plus,
+    FINDER_TAGS_DATABASE_PATH_14to15,
+    FINDER_TAGS_DATABASE_PATH_12to13 );
 
 { TFinderTag }
 
@@ -534,6 +541,21 @@ begin
 end;
 
 class function uDarwinFinderModelUtil.getTagsDataFromDatabase: TBytes;
+  function getDatabasePath: String;
+  var
+    i: Integer;
+    path: String;
+  begin
+    for i:=0 to Length(FINDER_TAGS_DATABASE_PATHS)-1 do begin
+      path:= NSHomeDirectory.UTF8String + FINDER_TAGS_DATABASE_PATHS[i];
+      if FileExists( path ) then begin
+        Result:= path;
+        Exit;
+      end;
+    end;
+    Result:= EmptyStr;
+  end;
+
 var
   connection: TSQLConnection = nil;
   transaction: TSQLTransaction = nil;
@@ -545,11 +567,9 @@ begin
     connection:= TSQLite3Connection.Create( nil );
     transaction:= TSQLTransaction.Create( connection );
     connection.Transaction:= transaction;
-    if NSAppKitVersionNumber >= NSAppKitVersionNumber14_0 then
-      databasePath:= FINDER_TAGS_DATABASE_PATH_14plus
-    else
-      databasePath:= FINDER_TAGS_DATABASE_PATH_12to13;
-    databasePath:= NSHomeDirectory.UTF8String + databasePath;
+    databasePath:= getDatabasePath;
+    if databasePath = EmptyStr then
+      Exit;
     connection.DatabaseName:= databasePath;
 
     query:= TSQLQuery.Create( nil );
