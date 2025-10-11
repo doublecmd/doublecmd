@@ -173,6 +173,7 @@ end;
 procedure TfrmCheckSumCalc.lbHashAlgorithmSelectionChange(Sender: TObject;
   User: boolean);
 begin
+  if lbHashAlgorithm.ItemIndex < 0 then Exit;
   FAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
   edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
 end;
