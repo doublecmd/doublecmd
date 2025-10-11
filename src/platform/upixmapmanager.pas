@@ -1142,26 +1142,23 @@ end;
 
 function NSImageToTBitmap( const image:NSImage ): TBitmap;
 var
+  nsbitmap: NSBitmapImageRep;
   tempData: NSData;
   tempStream: TBlobStream;
-  tempBitmap: TTiffImage;
   bitmap: TBitmap;
 begin
   Result:= nil;
   if image=nil then exit;
 
   tempStream:= nil;
-  tempBitmap:= nil;
   try
-    tempData:= image.TIFFRepresentation;
+    nsbitmap:= NSBitmapImageRep.imageRepWithData( image.TIFFRepresentation );
+    tempData:= nsbitmap.representationUsingType_properties( NSBMPFileType, nil );
     tempStream:= TBlobStream.Create( tempData.Bytes, tempData.Length );
-    tempBitmap:= TTiffImage.Create;
-    tempBitmap.LoadFromStream( tempStream );
     bitmap:= TBitmap.Create;
-    bitmap.Assign( tempBitmap );
+    bitmap.LoadFromStream( tempStream );
     Result:= bitmap;
   finally
-    FreeAndNil(tempBitmap);
     FreeAndNil(tempStream);
   end;
 end;
