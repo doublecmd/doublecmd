@@ -176,6 +176,7 @@ Type
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
     function ComputeSignature(seed: dword): dword;
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
+    function Add(Ext: String; Flags: PtrInt; AEnabled: Boolean; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
     function Find(const aFileName, aExt: String): Integer; overload;
     function LoadModule(const FileName: String): TWcxModule;
@@ -760,6 +761,12 @@ end;
 function TWCXModuleList.Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
 begin
   Result:= AddObject(Ext + '=' + IntToStr(Flags) + #44 + FileName, TObject(True));
+end;
+
+function TWCXModuleList.Add(Ext: String; Flags: PtrInt; AEnabled: Boolean;
+  FileName: String): Integer;
+begin
+  Result:= AddObject(Ext + '=' + IntToStr(Flags) + #44 + FileName, TObject(UIntPtr(AEnabled)));
 end;
 
 function TWCXModuleList.FindFirstEnabledByName(Name: String): Integer;

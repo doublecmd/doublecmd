@@ -52,6 +52,7 @@ mkdir -p $DC_INSTALL_DIR/plugins/wcx/deb
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/rpm
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/unrar
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/zip
+mkdir -p $DC_INSTALL_DIR/plugins/wcx/sevenzip
 # WDX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/scripts
@@ -88,6 +89,8 @@ cp -r plugins/wcx/unrar/language                    $DC_INSTALL_DIR/plugins/wcx/
 install -m 644 plugins/wcx/unrar/unrar.wcx          $DC_INSTALL_DIR/plugins/wcx/unrar/
 cp -r plugins/wcx/zip/language                      $DC_INSTALL_DIR/plugins/wcx/zip
 install -m 644 plugins/wcx/zip/zip.wcx              $DC_INSTALL_DIR/plugins/wcx/zip/
+cp -r plugins/wcx/sevenzip/language                 $DC_INSTALL_DIR/plugins/wcx/sevenzip
+install -m 644 plugins/wcx/sevenzip/sevenzip.wcx    $DC_INSTALL_DIR/plugins/wcx/sevenzip/
 # WDX
 install -m 644 plugins/wdx/rpm_wdx/rpm_wdx.wdx      $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 install -m 644 plugins/wdx/deb_wdx/deb_wdx.wdx      $DC_INSTALL_DIR/plugins/wdx/deb_wdx/

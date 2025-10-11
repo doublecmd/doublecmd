@@ -19,6 +19,12 @@ $lazbuild wcx/rpm/src/rpm.lpi          $DC_ARCH
 $lazbuild wcx/unrar/src/unrar.lpi      $DC_ARCH
 $lazbuild wcx/zip/src/Zip.lpi          $DC_ARCH
 
+if [ -n $(uname | grep Linux) ]; then
+
+  $lazbuild wcx/sevenzip/src/SevenZipWcx.lpi $DC_ARCH
+
+fi
+
 # WDX plugins
 $lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi     $DC_ARCH
 $lazbuild wdx/deb_wdx/src/deb_wdx.lpi     $DC_ARCH
