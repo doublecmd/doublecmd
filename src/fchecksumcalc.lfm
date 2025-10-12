@@ -11,7 +11,6 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
   Constraints.MinHeight = 400
   Constraints.MinWidth = 400
   OnCreate = FormCreate
-  OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;lbHashAlgorithm.ItemIndex'
   inherited pnlContent: TPanel

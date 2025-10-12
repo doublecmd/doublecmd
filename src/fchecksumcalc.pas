@@ -45,13 +45,12 @@ type
     procedure cbSeparateFileChange(Sender: TObject);
     procedure edtSaveToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure lbHashAlgorithmSelectionChange(Sender: TObject; User: boolean);
   private
     FFileName: String;
     FAlgorithm: THashAlgorithm;
   public
-    { public declarations }
+    constructor Create(TheOwner: TComponent; const FileName: String); overload;
   end; 
 
 function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
@@ -76,9 +75,8 @@ function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean; out
 const
   TextLineBreak: array[Boolean] of TTextLineBreakStyle = (tlbsLF, tlbsCRLF);
 begin
-  with TfrmCheckSumCalc.Create(Application) do
+  with TfrmCheckSumCalc.Create(Application, sFileName) do
   try
-    FFileName:= sFileName;
     if (DefaultTextLineBreakStyle = tlbsCRLF) then
       rbWindows.Checked:= True
     else begin
@@ -156,6 +154,7 @@ procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
 var
   I: THashAlgorithm;
 begin
+  edtSaveTo.Text:= FFileName + ExtensionSeparator;
   for I:= Low(HashName) to High(HashName) do
   begin
     lbHashAlgorithm.Items.Add(UpperCase(HashName[I]));
@@ -164,18 +163,18 @@ begin
   if (lbHashAlgorithm.ItemIndex=-1) AND (lbHashAlgorithm.Count>0) then lbHashAlgorithm.ItemIndex:= 0;
 end;
 
-procedure TfrmCheckSumCalc.FormShow(Sender: TObject);
-begin
-  edtSaveTo.Text:= FFileName + ExtensionSeparator;
-  lbHashAlgorithmSelectionChange(lbHashAlgorithm,FALSE);
-end;
-
 procedure TfrmCheckSumCalc.lbHashAlgorithmSelectionChange(Sender: TObject;
   User: boolean);
 begin
   if lbHashAlgorithm.ItemIndex < 0 then Exit;
   FAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
   edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
+end;
+
+constructor TfrmCheckSumCalc.Create(TheOwner: TComponent; const FileName: String);
+begin
+  FFileName:= FileName;
+  inherited Create(TheOwner);
 end;
 
 end.
