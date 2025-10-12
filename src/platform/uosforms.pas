@@ -783,7 +783,7 @@ begin
   try
     // Create new context menu
     contextFiles:= Files;
-    ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
+    ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background, UserWishForContextMenu);
     ShellContextMenu.OnClose := CloseEvent;
     frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
     // Show context menu

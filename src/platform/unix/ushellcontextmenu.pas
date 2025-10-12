@@ -503,6 +503,7 @@ var
   ImageIndex: PtrInt;
   bmpTemp: TBitmap = nil;
   mi, miOpenWith: TMenuItem;
+  imageSize: Integer;
 
   appArray: NSArray;
   appUrl: NSURL;
@@ -517,8 +518,10 @@ begin
   miOpenWith.Caption:= rsMnuOpenWith;
 
   if Assigned(appArray) and (appArray.count>0) then begin
-    FMenuImageList := TImageList.Create(nil);
+    imageSize:= Round(16.0 * TWinControl(Owner).GetCanvasScaleFactor);
+    FMenuImageList := TImageList.CreateSize(imageSize, imageSize);
     miOpenWith.SubMenuImages := FMenuImageList;
+    miOpenWith.SubMenuImagesWidth := 16;
 
     for I:= 0 to appArray.count-1 do begin
       appUrl:= NSURL( appArray.objectAtIndex(I) );
