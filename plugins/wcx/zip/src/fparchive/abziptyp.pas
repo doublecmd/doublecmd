@@ -1654,6 +1654,9 @@ begin
       LFH.ExtraField.Delete(Ab_Zip64SubfieldID);
     end;
     LFH.SaveToStream( Stream );
+    { Synchronize central directory header with local file header }
+    FItemInfo.CompressedSize := LFH.CompressedSize;
+    FItemInfo.UncompressedSize := LFH.UncompressedSize;
   finally
     LFH.Free;
   end;
