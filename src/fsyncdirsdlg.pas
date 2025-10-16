@@ -1000,6 +1000,7 @@ var
   s: string;
 begin
   if (FVisibleItems = nil) or (aRow >= FVisibleItems.Count) then Exit;
+  FontOptionsToFont(gFonts[dcfSearchResults], MainDrawGrid.Canvas.Font);
   with MainDrawGrid.Canvas do
   begin
     r := TFileSyncRec(FVisibleItems.Objects[aRow]);
