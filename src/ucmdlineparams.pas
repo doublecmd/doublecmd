@@ -31,11 +31,14 @@ uses
 function DecodePath(const Path: String): String;
 begin
   Result := TrimQuotes(Path);
-  if Pos(fileScheme, Result) = 1 then
+  if not Result.StartsWith('wfx://') then
   begin
-    Result:= URIDecode(Copy(Result, 8, MaxInt));
+    if Pos(fileScheme, Result) = 1 then
+    begin
+      Result:= URIDecode(Copy(Result, 8, MaxInt));
+    end;
+    Result:= GetAbsoluteFileName(IncludeTrailingBackslash(GetCurrentDir), Result);
   end;
-  Result:= GetAbsoluteFileName(IncludeTrailingBackslash(GetCurrentDir), Result);
 end;
 
 procedure ProcessCommandLineParams;
