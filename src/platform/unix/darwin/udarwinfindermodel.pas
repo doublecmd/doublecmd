@@ -96,17 +96,16 @@ type
 implementation
 
 const
-  FINDER_TAGS_DATABASE_PATH_15plus  = '/Library/Daemon Containers/EC9E0408-42BF-4F2F-93FC-5DC028346EC8/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  FINDER_TAGS_DATABASE_PATH_14to15  = '/Library/Daemon Containers/F6F9E4C1-EF5D-4BF3-BEAD-0D777574F0A0/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  FINDER_TAGS_DATABASE_PATH_12to13  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_NAME         = '/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_UUID_PATH    = '/Library/Daemon Containers';
+  FINDER_TAGS_DATABASE_STATIC_PATH  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
   FINDER_TAGS_FILE_PATH_11minus     = '/Library/SyncedPreferences/com.apple.finder.plist';
   FAVORITE_FINDER_TAGS_FILE_PATH    = '/Library/Preferences/com.apple.finder.plist';
 
-const
-  FINDER_TAGS_DATABASE_PATHS: TStringArray = (
-    FINDER_TAGS_DATABASE_PATH_15plus,
-    FINDER_TAGS_DATABASE_PATH_14to15,
-    FINDER_TAGS_DATABASE_PATH_12to13 );
+var
+  NSSTR_FINDER_TAGS_DATABASE_NAME: NSString;
+  NSSTR_FINDER_TAGS_DATABASE_UUID_PATH: NSString;
+  FINDER_TAGS_DATABASE_PATH_12to13: String;
 
 { TFinderTag }
 
@@ -541,19 +540,31 @@ begin
 end;
 
 class function uDarwinFinderModelUtil.getTagsDataFromDatabase: TBytes;
-  function getDatabasePath: String;
+  function getDatabaseUUIDPath: String;
   var
-    i: Integer;
-    path: String;
+    manager: NSFileManager;
+    subPaths: NSArray;
+    uuid: NSString;
+    databasePath: NSString;
   begin
-    for i:=0 to Length(FINDER_TAGS_DATABASE_PATHS)-1 do begin
-      path:= NSHomeDirectory.UTF8String + FINDER_TAGS_DATABASE_PATHS[i];
-      if FileExists( path ) then begin
-        Result:= path;
+    manager:= NSFileManager.defaultManager;
+    subPaths:= manager.contentsOfDirectoryAtPath_error( NSSTR_FINDER_TAGS_DATABASE_UUID_PATH, nil );
+    for uuid in subPaths do begin
+      databasePath:= NSSTR_FINDER_TAGS_DATABASE_UUID_PATH.stringByAppendingPathComponent(uuid).stringByAppendingPathComponent(NSSTR_FINDER_TAGS_DATABASE_NAME);
+      if manager.fileExistsAtPath(databasePath) then begin
+        Result:= databasePath.UTF8String;
         Exit;
       end;
     end;
     Result:= EmptyStr;
+  end;
+
+  function getDatabasePath: String;
+  begin
+    if NSAppKitVersionNumber < NSAppKitVersionNumber14_0 then
+      Result:= FINDER_TAGS_DATABASE_PATH_12to13
+    else
+      Result:= getDatabaseUUIDPath;
   end;
 
 var
@@ -660,7 +671,15 @@ begin
   ];
 end;
 
+procedure initNSSTR;
+begin
+  NSSTR_FINDER_TAGS_DATABASE_NAME:= NSSTR( FINDER_TAGS_DATABASE_NAME );
+  NSSTR_FINDER_TAGS_DATABASE_UUID_PATH:= NSHomeDirectory.stringByAppendingPathComponent( NSSTR(FINDER_TAGS_DATABASE_UUID_PATH) ).retain;
+  FINDER_TAGS_DATABASE_PATH_12to13:= NSHomeDirectory.UTF8String + FINDER_TAGS_DATABASE_STATIC_PATH;
+end;
+
 initialization
+  initNSSTR;
   uDarwinFinderModelUtil.initFinderTagNSColors;
 
 end.
