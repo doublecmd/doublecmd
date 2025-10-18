@@ -1200,13 +1200,7 @@ begin
       Exit;
 
     image:= getBestNSImageWithSize(image, AIconSize);
-    if image = nil then
-      raise Exception.Create( AFullPath + ' in CheckAddFileUniqueIcon() Exception: step 1' );
-
     bmpBitmap:= NSImageToTBitmap(image);
-    if bmpBitmap = nil then
-      raise Exception.Create( AFullPath + ' in CheckAddFileUniqueIcon() Exception: step 2' );
-
     Result := FPixmapList.Add(bmpBitmap);
     FPixmapsFileNames.Add(AFullPath, Pointer(Result));
   finally

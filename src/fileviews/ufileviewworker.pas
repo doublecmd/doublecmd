@@ -10,8 +10,7 @@ uses
   DCBasicTypes,
   uFileSourceOperation,
   uFileSourceListOperation,
-  fQuickSearch,uMasks,
-  uLog;
+  fQuickSearch,uMasks;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -447,160 +446,136 @@ var
   HaveUpDir: Boolean = False;
   FileSourceFiles: TFiles = nil;
 begin
-  LogWrite( '' );
-  LogWrite( '>> TFileListBuilder.Execute: ' + FCurrentPath );
   try
-    try
-      if Aborted then
-        Exit;
+    if Aborted then
+      Exit;
 
-      LogWrite( '  1' );
-      if fsoList in FFileSource.GetOperationsTypes then
-      begin
+    if fsoList in FFileSource.GetOperationsTypes then
+    begin
+      FListOperationLock.Acquire;
+      try
+        FListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
+      finally
+        FListOperationLock.Release;
+      end;
+
+      if Assigned(FListOperation) then
+      try
+        FListOperation.FlatView := FFlatView;
+        FListOperation.AssignThread(Thread);
+        FListOperation.Execute;
+        if FListOperation.Result = fsorFinished then
+          FileSourceFiles := FListOperation.ReleaseFiles;
+      finally
         FListOperationLock.Acquire;
         try
-          FListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
+          FreeAndNil(FListOperation);
         finally
           FListOperationLock.Release;
         end;
-
-        if Assigned(FListOperation) then
-        try
-          FListOperation.FlatView := FFlatView;
-          FListOperation.AssignThread(Thread);
-          FListOperation.Execute;
-          if FListOperation.Result = fsorFinished then
-            FileSourceFiles := FListOperation.ReleaseFiles;
-        finally
-          FListOperationLock.Acquire;
-          try
-            FreeAndNil(FListOperation);
-          finally
-            FListOperationLock.Release;
-          end;
-        end;
-      end;
-
-      {$IFDEF timeFileView}
-      filelistPrintTime('Loaded files        : ');
-      {$ENDIF}
-
-      LogWrite( '  2' );
-      if Aborted then
-        Exit;
-
-      LogWrite( '  3' );
-      if Assigned(FileSourceFiles) then
-      begin
-        // Check if up-dir '..' is present.
-        // If it is present it will usually be the first file.
-        for i := 0 to FileSourceFiles.Count - 1 do
-        begin
-          if FileSourceFiles[i].Name = '..' then
-          begin
-            HaveUpDir := True;
-            Break;
-          end;
-        end;
-
-        if (not HaveUpDir) and
-           ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
-            // Add '..' to go to higher level file source, if there is more than one.
-            ((FFileSourceIndex > 0) and not (fspNoneParent in FFileSource.Properties))) then
-        begin
-          AFile := FFileSource.CreateFileObject(FCurrentPath);
-          AFile.Name := '..';
-          if fpAttributes in AFile.SupportedProperties then
-          begin
-            if AFile.AttributesProperty is TNtfsFileAttributesProperty then
-              AFile.Attributes := FILE_ATTRIBUTE_DIRECTORY
-            else if AFile.AttributesProperty is TUnixFileAttributesProperty then
-              AFile.Attributes := S_IFDIR
-            else
-              AFile.Attributes := faFolder;
-          end;
-          FileSourceFiles.Insert(AFile, 0);
-        end;
-      end;
-
-      LogWrite( '  4' );
-      if Aborted then
-        Exit;
-
-      LogWrite( '  5' );
-      // Retrieve RetrievableFileProperties which used in sorting
-      if FFilePropertiesNeeded <> [] then
-      begin
-        for I:= 0 to FileSourceFiles.Count - 1 do
-          FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
-      end;
-
-      // Make display file list from file source file list.
-      LogWrite( '  6' );
-      if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
-      begin
-        LogWrite( '  6.1' );
-        // Updating existing list.
-        MakeAllDisplayFileList(
-          FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
-      end
-      else
-      begin
-        // Creating new list.
-        LogWrite( '  6.2' );
-        if Assigned(FAllDisplayFiles) then
-          FAllDisplayFiles.Clear
-        else
-          FAllDisplayFiles := TDisplayFiles.Create(True);
-        MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
-      end;
-
-      LogWrite( '  7' );
-      // By now the TFile objects have been transfered to FAllDisplayFiles.
-      if Assigned(FileSourceFiles) then
-        FileSourceFiles.OwnsObjects := False;
-
-      {$IFDEF timeFileView}
-      filelistPrintTime('Made sorted disp.lst: ');
-      {$ENDIF}
-
-      LogWrite( '  8' );
-      FFilteredDisplayFiles := TDisplayFiles.Create(False);
-      MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
-
-      {$IFDEF timeFileView}
-      filelistPrintTime('Made filtered list  : ');
-      {$ENDIF}
-
-      LogWrite( '  9' );
-      if Aborted then
-        Exit;
-
-      LogWrite( '  10' );
-      // Loading file list is complete. Update grid with the new file list.
-      TThread.Synchronize(Thread, @DoSetFilelist);
-
-      {$IFDEF timeFileView}
-      filelistPrintTime('Grid files updated  : ');
-      {$ENDIF}
-    except
-      on e: Exception do begin
-        LogWrite( '  11' );
-        HandleException(e);
-        raise e;
       end;
     end;
+
+    {$IFDEF timeFileView}
+    filelistPrintTime('Loaded files        : ');
+    {$ENDIF}
+
+    if Aborted then
+      Exit;
+
+    if Assigned(FileSourceFiles) then
+    begin
+      // Check if up-dir '..' is present.
+      // If it is present it will usually be the first file.
+      for i := 0 to FileSourceFiles.Count - 1 do
+      begin
+        if FileSourceFiles[i].Name = '..' then
+        begin
+          HaveUpDir := True;
+          Break;
+        end;
+      end;
+
+      if (not HaveUpDir) and
+         ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
+          // Add '..' to go to higher level file source, if there is more than one.
+          ((FFileSourceIndex > 0) and not (fspNoneParent in FFileSource.Properties))) then
+      begin
+        AFile := FFileSource.CreateFileObject(FCurrentPath);
+        AFile.Name := '..';
+        if fpAttributes in AFile.SupportedProperties then
+        begin
+          if AFile.AttributesProperty is TNtfsFileAttributesProperty then
+            AFile.Attributes := FILE_ATTRIBUTE_DIRECTORY
+          else if AFile.AttributesProperty is TUnixFileAttributesProperty then
+            AFile.Attributes := S_IFDIR
+          else
+            AFile.Attributes := faFolder;
+        end;
+        FileSourceFiles.Insert(AFile, 0);
+      end;
+    end;
+
+    if Aborted then
+      Exit;
+
+    // Retrieve RetrievableFileProperties which used in sorting
+    if FFilePropertiesNeeded <> [] then
+    begin
+      for I:= 0 to FileSourceFiles.Count - 1 do
+        FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
+    end;
+
+    // Make display file list from file source file list.
+    if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
+    begin
+      // Updating existing list.
+      MakeAllDisplayFileList(
+        FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
+    end
+    else
+    begin
+      // Creating new list.
+      if Assigned(FAllDisplayFiles) then
+        FAllDisplayFiles.Clear
+      else
+        FAllDisplayFiles := TDisplayFiles.Create(True);
+      MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
+    end;
+
+    // By now the TFile objects have been transfered to FAllDisplayFiles.
+    if Assigned(FileSourceFiles) then
+      FileSourceFiles.OwnsObjects := False;
+
+    {$IFDEF timeFileView}
+    filelistPrintTime('Made sorted disp.lst: ');
+    {$ENDIF}
+
+    FFilteredDisplayFiles := TDisplayFiles.Create(False);
+    MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
+
+    {$IFDEF timeFileView}
+    filelistPrintTime('Made filtered list  : ');
+    {$ENDIF}
+
+    if Aborted then
+      Exit;
+
+    // Loading file list is complete. Update grid with the new file list.
+    TThread.Synchronize(Thread, @DoSetFilelist);
+
+    {$IFDEF timeFileView}
+    filelistPrintTime('Grid files updated  : ');
+    {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
     filelistPrintTime('Finished            : ');
     {$ENDIF}
 
-    LogWrite( '  12' );
     FreeAndNil(FFilteredDisplayFiles);
     FreeAndNil(FileSourceFiles);
     FreeAndNil(FAllDisplayFiles);
-    LogWrite( '  TFileListBuilder.Execute End' );
   end;
 end;
 
@@ -784,7 +759,6 @@ var
   HaveIcons: Boolean;
   DirectAccess: Boolean;
 begin
-  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(2) begin' );
   aDisplayFiles.Clear;
 
   if Assigned(aFileSourceFiles) then
@@ -797,7 +771,6 @@ begin
     end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
-      LogWrite( '      ' + IntToStr(i) + '. ' + aFileSourceFiles[i].FullPath );
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
@@ -816,7 +789,6 @@ begin
     end;
     TDisplayFileSorter.Sort(aDisplayFiles, aSortings);
   end;
-  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(2) end' );
 end;
 
 class procedure TFileListBuilder.MakeAllDisplayFileList(
@@ -833,7 +805,6 @@ var
   HaveIcons: Boolean;
   DirectAccess: Boolean;
 begin
-  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(1) begin' );
   if Assigned(aFileSourceFiles) then
   begin
     HaveIcons := gShowIcons <> sim_none;
@@ -846,7 +817,6 @@ begin
     try
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
-        LogWrite( '      ' + IntToStr(i) + '. ' + aFileSourceFiles[i].FullPath );
         j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
         if j >= 0 then
         begin
@@ -893,7 +863,6 @@ begin
   begin
     aExistingDisplayFiles.Clear;
   end;
-  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(1) end' );
 end;
 
 class function TFileListBuilder.MatchesFilter(
