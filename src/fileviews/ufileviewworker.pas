@@ -10,7 +10,8 @@ uses
   DCBasicTypes,
   uFileSourceOperation,
   uFileSourceListOperation,
-  fQuickSearch,uMasks;
+  fQuickSearch,uMasks,
+  uLog;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -446,11 +447,14 @@ var
   HaveUpDir: Boolean = False;
   FileSourceFiles: TFiles = nil;
 begin
+  LogWrite( '' );
+  LogWrite( '>> TFileListBuilder.Execute: ' + FCurrentPath );
   try
     try
       if Aborted then
         Exit;
 
+      LogWrite( '  1' );
       if fsoList in FFileSource.GetOperationsTypes then
       begin
         FListOperationLock.Acquire;
@@ -481,9 +485,11 @@ begin
       filelistPrintTime('Loaded files        : ');
       {$ENDIF}
 
+      LogWrite( '  2' );
       if Aborted then
         Exit;
 
+      LogWrite( '  3' );
       if Assigned(FileSourceFiles) then
       begin
         // Check if up-dir '..' is present.
@@ -517,9 +523,11 @@ begin
         end;
       end;
 
+      LogWrite( '  4' );
       if Aborted then
         Exit;
 
+      LogWrite( '  5' );
       // Retrieve RetrievableFileProperties which used in sorting
       if FFilePropertiesNeeded <> [] then
       begin
@@ -528,8 +536,10 @@ begin
       end;
 
       // Make display file list from file source file list.
+      LogWrite( '  6' );
       if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
       begin
+        LogWrite( '  6.1' );
         // Updating existing list.
         MakeAllDisplayFileList(
           FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
@@ -537,6 +547,7 @@ begin
       else
       begin
         // Creating new list.
+        LogWrite( '  6.2' );
         if Assigned(FAllDisplayFiles) then
           FAllDisplayFiles.Clear
         else
@@ -544,6 +555,7 @@ begin
         MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
       end;
 
+      LogWrite( '  7' );
       // By now the TFile objects have been transfered to FAllDisplayFiles.
       if Assigned(FileSourceFiles) then
         FileSourceFiles.OwnsObjects := False;
@@ -552,6 +564,7 @@ begin
       filelistPrintTime('Made sorted disp.lst: ');
       {$ENDIF}
 
+      LogWrite( '  8' );
       FFilteredDisplayFiles := TDisplayFiles.Create(False);
       MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
 
@@ -559,9 +572,11 @@ begin
       filelistPrintTime('Made filtered list  : ');
       {$ENDIF}
 
+      LogWrite( '  9' );
       if Aborted then
         Exit;
 
+      LogWrite( '  10' );
       // Loading file list is complete. Update grid with the new file list.
       TThread.Synchronize(Thread, @DoSetFilelist);
 
@@ -570,6 +585,7 @@ begin
       {$ENDIF}
     except
       on e: Exception do begin
+        LogWrite( '  11' );
         HandleException(e);
         raise e;
       end;
@@ -580,9 +596,11 @@ begin
     filelistPrintTime('Finished            : ');
     {$ENDIF}
 
+    LogWrite( '  12' );
     FreeAndNil(FFilteredDisplayFiles);
     FreeAndNil(FileSourceFiles);
     FreeAndNil(FAllDisplayFiles);
+    LogWrite( '  TFileListBuilder.Execute End' );
   end;
 end;
 
@@ -766,6 +784,7 @@ var
   HaveIcons: Boolean;
   DirectAccess: Boolean;
 begin
+  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(2) begin' );
   aDisplayFiles.Clear;
 
   if Assigned(aFileSourceFiles) then
@@ -778,6 +797,7 @@ begin
     end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
+      LogWrite( '      ' + IntToStr(i) + '. ' + aFileSourceFiles[i].FullPath );
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
@@ -796,6 +816,7 @@ begin
     end;
     TDisplayFileSorter.Sort(aDisplayFiles, aSortings);
   end;
+  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(2) end' );
 end;
 
 class procedure TFileListBuilder.MakeAllDisplayFileList(
@@ -812,6 +833,7 @@ var
   HaveIcons: Boolean;
   DirectAccess: Boolean;
 begin
+  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(1) begin' );
   if Assigned(aFileSourceFiles) then
   begin
     HaveIcons := gShowIcons <> sim_none;
@@ -824,6 +846,7 @@ begin
     try
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
+        LogWrite( '      ' + IntToStr(i) + '. ' + aFileSourceFiles[i].FullPath );
         j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
         if j >= 0 then
         begin
@@ -870,6 +893,7 @@ begin
   begin
     aExistingDisplayFiles.Clear;
   end;
+  LogWrite( '    TFileListBuilder.MakeAllDisplayFileList(1) end' );
 end;
 
 class function TFileListBuilder.MatchesFilter(
