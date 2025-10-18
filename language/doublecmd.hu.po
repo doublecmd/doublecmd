@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-09-06 08:42+0200\n"
-"Last-Translator: Mihaly Nyilas <dr.dabzse@gmail.com>\n"
-"Language-Team: dabzse.net | nyilas.dev <dr.dabzse@gmail.com>\n"
+"PO-Revision-Date: 2025-10-18 21:58+0200\n"
+"Last-Translator: Faludi Zoltán <zoltan@faludi.info>\n"
+"Language-Team: Hungarian\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Magyar\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -355,7 +355,7 @@ msgstr "Windows"
 
 #: tfrmchecksumcalc.rghashalgorithm.caption
 msgid "Algorithm"
-msgstr ""
+msgstr "Algoritmus"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -3511,7 +3511,7 @@ msgstr "Utolsó sablon betöltése"
 
 #: tfrmmultirename.actloadnamesfromclipboard.caption
 msgid "Load Names from Clipboard"
-msgstr ""
+msgstr "Nevek betöltése Vágólapról"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3660,11 +3660,11 @@ msgstr "Reguláris kifejezése&k"
 
 #: tfrmmultirename.cbrepext.caption
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
-msgstr ""
+msgstr "Csere a fájl kiterjesztésekben is"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
@@ -5072,7 +5072,7 @@ msgstr "Összes gyorsmappa útvonal és &cél ellenőrzése a létezők megtalá
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory &Hotlist file (.hotlist)"
-msgstr "Gyorsmappa &fájlba (.hotlist)"
+msgstr "egy gyorsmappa &fájlba (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
@@ -5100,11 +5100,11 @@ msgstr "Gyorsmappa tesztmenü"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory &Hotlist file (.hotlist)"
-msgstr "Gyorsmappa-fájlból (.hotlist)"
+msgstr "egy gyorsmappa-fájlból (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"&wincmd.ini\" of TC"
-msgstr "TC \"wincmd.ini\" fájljából"
+msgstr "a TC \"wincmd.ini\" fájljából"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
@@ -5759,7 +5759,7 @@ msgstr "A parancs kezdő útvonala. Ne tegyen idézőjeleket a sztring köré."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr "A művelet neve. Ezt a rendszer nem kapja meg, csak egy emlékeztető név, amit Ön választott magának."
+msgstr "A művelet neve. Ezt a rendszer nem kapja meg, csak egy emlékeztető név, amit Ön választott magának"
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
@@ -7534,27 +7534,27 @@ msgstr "Jelenlegi eszköztár..."
 #: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTODCBAR.CAPTION"
 msgid "to a Toolbar File (.toolbar)"
-msgstr "Eszköztár fájlba (.toolbar)"
+msgstr "egy eszköztár fájlba (.toolbar)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
 msgid "to a TC .BAR file (keep existing)"
-msgstr "TC .BAR fájlba (meglévők megtartása)"
+msgstr "egy TC .BAR fájlba (meglévők megtartása)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
 msgid "to a TC .BAR file (erase existing)"
-msgstr "TC .BAR fájlba (meglévők törlése)"
+msgstr "egy TC .BAR fájlba (meglévők törlése)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "TC \"wincmd.ini\" fájljába (meglévők megtartása)"
+msgstr "egy TC \"wincmd.ini\" fájljába (meglévők megtartása)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "TC \"wincmd.ini\" fájljába (meglévők törlése)"
+msgstr "egy TC \"wincmd.ini\" fájljába (meglévők törlése)"
 
 #: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
@@ -7567,17 +7567,17 @@ msgstr "Eszköztár mentése biztonsági másatként"
 #: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr "Eszköztár fájlba (.toolbar)"
+msgstr "egy eszköztár fájlba (.toolbar)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr "TC .BAR fájlba (meglévők megtartása)"
+msgstr "egy TC .BAR fájlba (meglévők megtartása)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr "TC .BAR fájlba (meglévők törlése)"
+msgstr "egy TC .BAR fájlba (meglévők törlése)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCINIKEEP.CAPTION"
@@ -7645,7 +7645,7 @@ msgstr "felső eszköztár lecserélése"
 
 #: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
-msgstr "Eszköztár fájlból (.toolbar)"
+msgstr "egy eszköztár fájlból (.toolbar)"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
@@ -14302,4 +14302,3 @@ msgstr "Nem történt csere."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
-
