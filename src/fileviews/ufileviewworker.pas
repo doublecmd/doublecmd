@@ -447,126 +447,133 @@ var
   FileSourceFiles: TFiles = nil;
 begin
   try
-    if Aborted then
-      Exit;
+    try
+      if Aborted then
+        Exit;
 
-    if fsoList in FFileSource.GetOperationsTypes then
-    begin
-      FListOperationLock.Acquire;
-      try
-        FListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
-      finally
-        FListOperationLock.Release;
-      end;
-
-      if Assigned(FListOperation) then
-      try
-        FListOperation.FlatView := FFlatView;
-        FListOperation.AssignThread(Thread);
-        FListOperation.Execute;
-        if FListOperation.Result = fsorFinished then
-          FileSourceFiles := FListOperation.ReleaseFiles;
-      finally
+      if fsoList in FFileSource.GetOperationsTypes then
+      begin
         FListOperationLock.Acquire;
         try
-          FreeAndNil(FListOperation);
+          FListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
         finally
           FListOperationLock.Release;
         end;
-      end;
-    end;
 
-    {$IFDEF timeFileView}
-    filelistPrintTime('Loaded files        : ');
-    {$ENDIF}
-
-    if Aborted then
-      Exit;
-
-    if Assigned(FileSourceFiles) then
-    begin
-      // Check if up-dir '..' is present.
-      // If it is present it will usually be the first file.
-      for i := 0 to FileSourceFiles.Count - 1 do
-      begin
-        if FileSourceFiles[i].Name = '..' then
-        begin
-          HaveUpDir := True;
-          Break;
+        if Assigned(FListOperation) then
+        try
+          FListOperation.FlatView := FFlatView;
+          FListOperation.AssignThread(Thread);
+          FListOperation.Execute;
+          if FListOperation.Result = fsorFinished then
+            FileSourceFiles := FListOperation.ReleaseFiles;
+        finally
+          FListOperationLock.Acquire;
+          try
+            FreeAndNil(FListOperation);
+          finally
+            FListOperationLock.Release;
+          end;
         end;
       end;
 
-      if (not HaveUpDir) and
-         ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
-          // Add '..' to go to higher level file source, if there is more than one.
-          ((FFileSourceIndex > 0) and not (fspNoneParent in FFileSource.Properties))) then
+      {$IFDEF timeFileView}
+      filelistPrintTime('Loaded files        : ');
+      {$ENDIF}
+
+      if Aborted then
+        Exit;
+
+      if Assigned(FileSourceFiles) then
       begin
-        AFile := FFileSource.CreateFileObject(FCurrentPath);
-        AFile.Name := '..';
-        if fpAttributes in AFile.SupportedProperties then
+        // Check if up-dir '..' is present.
+        // If it is present it will usually be the first file.
+        for i := 0 to FileSourceFiles.Count - 1 do
         begin
-          if AFile.AttributesProperty is TNtfsFileAttributesProperty then
-            AFile.Attributes := FILE_ATTRIBUTE_DIRECTORY
-          else if AFile.AttributesProperty is TUnixFileAttributesProperty then
-            AFile.Attributes := S_IFDIR
-          else
-            AFile.Attributes := faFolder;
+          if FileSourceFiles[i].Name = '..' then
+          begin
+            HaveUpDir := True;
+            Break;
+          end;
         end;
-        FileSourceFiles.Insert(AFile, 0);
+
+        if (not HaveUpDir) and
+           ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
+            // Add '..' to go to higher level file source, if there is more than one.
+            ((FFileSourceIndex > 0) and not (fspNoneParent in FFileSource.Properties))) then
+        begin
+          AFile := FFileSource.CreateFileObject(FCurrentPath);
+          AFile.Name := '..';
+          if fpAttributes in AFile.SupportedProperties then
+          begin
+            if AFile.AttributesProperty is TNtfsFileAttributesProperty then
+              AFile.Attributes := FILE_ATTRIBUTE_DIRECTORY
+            else if AFile.AttributesProperty is TUnixFileAttributesProperty then
+              AFile.Attributes := S_IFDIR
+            else
+              AFile.Attributes := faFolder;
+          end;
+          FileSourceFiles.Insert(AFile, 0);
+        end;
       end;
-    end;
 
-    if Aborted then
-      Exit;
+      if Aborted then
+        Exit;
 
-    // Retrieve RetrievableFileProperties which used in sorting
-    if FFilePropertiesNeeded <> [] then
-    begin
-      for I:= 0 to FileSourceFiles.Count - 1 do
-        FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
-    end;
+      // Retrieve RetrievableFileProperties which used in sorting
+      if FFilePropertiesNeeded <> [] then
+      begin
+        for I:= 0 to FileSourceFiles.Count - 1 do
+          FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
+      end;
 
-    // Make display file list from file source file list.
-    if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
-    begin
-      // Updating existing list.
-      MakeAllDisplayFileList(
-        FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
-    end
-    else
-    begin
-      // Creating new list.
-      if Assigned(FAllDisplayFiles) then
-        FAllDisplayFiles.Clear
+      // Make display file list from file source file list.
+      if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
+      begin
+        // Updating existing list.
+        MakeAllDisplayFileList(
+          FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
+      end
       else
-        FAllDisplayFiles := TDisplayFiles.Create(True);
-      MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
+      begin
+        // Creating new list.
+        if Assigned(FAllDisplayFiles) then
+          FAllDisplayFiles.Clear
+        else
+          FAllDisplayFiles := TDisplayFiles.Create(True);
+        MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
+      end;
+
+      // By now the TFile objects have been transfered to FAllDisplayFiles.
+      if Assigned(FileSourceFiles) then
+        FileSourceFiles.OwnsObjects := False;
+
+      {$IFDEF timeFileView}
+      filelistPrintTime('Made sorted disp.lst: ');
+      {$ENDIF}
+
+      FFilteredDisplayFiles := TDisplayFiles.Create(False);
+      MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
+
+      {$IFDEF timeFileView}
+      filelistPrintTime('Made filtered list  : ');
+      {$ENDIF}
+
+      if Aborted then
+        Exit;
+
+      // Loading file list is complete. Update grid with the new file list.
+      TThread.Synchronize(Thread, @DoSetFilelist);
+
+      {$IFDEF timeFileView}
+      filelistPrintTime('Grid files updated  : ');
+      {$ENDIF}
+    except
+      on e: Exception do begin
+        HandleException(e);
+        raise e;
+      end;
     end;
-
-    // By now the TFile objects have been transfered to FAllDisplayFiles.
-    if Assigned(FileSourceFiles) then
-      FileSourceFiles.OwnsObjects := False;
-
-    {$IFDEF timeFileView}
-    filelistPrintTime('Made sorted disp.lst: ');
-    {$ENDIF}
-
-    FFilteredDisplayFiles := TDisplayFiles.Create(False);
-    MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
-
-    {$IFDEF timeFileView}
-    filelistPrintTime('Made filtered list  : ');
-    {$ENDIF}
-
-    if Aborted then
-      Exit;
-
-    // Loading file list is complete. Update grid with the new file list.
-    TThread.Synchronize(Thread, @DoSetFilelist);
-
-    {$IFDEF timeFileView}
-    filelistPrintTime('Grid files updated  : ');
-    {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
