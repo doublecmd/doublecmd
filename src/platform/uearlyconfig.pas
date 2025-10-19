@@ -14,8 +14,10 @@ uses
 var
 {$IFDEF DARKWIN}
   gAppMode: Integer = 1;
-{$ENDIF}
+  gSplashForm: Boolean = False;
+{$ELSE}
   gSplashForm: Boolean = True;
+{$ENDIF}
 
 procedure SaveEarlyConfig;
 
