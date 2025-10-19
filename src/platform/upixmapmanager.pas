@@ -1144,21 +1144,24 @@ function NSImageToTBitmap( const image:NSImage ): TBitmap;
 var
   nsbitmap: NSBitmapImageRep;
   tempData: NSData;
-  tempStream: TBlobStream;
+  tempStream: TBlobStream = nil;
+  tempBitmap: TPortableNetworkGraphic = nil;
   bitmap: TBitmap;
 begin
   Result:= nil;
   if image=nil then exit;
 
-  tempStream:= nil;
   try
     nsbitmap:= NSBitmapImageRep.imageRepWithData( image.TIFFRepresentation );
-    tempData:= nsbitmap.representationUsingType_properties( NSBMPFileType, nil );
+    tempData:= nsbitmap.representationUsingType_properties( NSPNGFileType, nil );
     tempStream:= TBlobStream.Create( tempData.Bytes, tempData.Length );
+    tempBitmap:= TPortableNetworkGraphic.Create;
+    tempBitmap.LoadFromStream( tempStream );
     bitmap:= TBitmap.Create;
-    bitmap.LoadFromStream( tempStream );
+    bitmap.Assign( tempBitmap );
     Result:= bitmap;
   finally
+    FreeAndNil(tempBitmap);
     FreeAndNil(tempStream);
   end;
 end;
