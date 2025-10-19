@@ -1186,13 +1186,18 @@ var
   fileIndex: PtrInt;
   image: NSImage;
   bmpBitmap: Graphics.TBitmap;
+  key: String;
 begin
   Result:= -1;
   if AIconSize = 0 then AIconSize := gIconsSize;
 
+  key:= AFullPath;
+  if AIconSize <> gIconsSize then
+    key:= key + '@' + IntToStr(AIconSize);
+
   FPixmapsLock.Acquire;
   try
-    fileIndex := FPixmapsFileNames.Find(AFullPath);
+    fileIndex := FPixmapsFileNames.Find(key);
     if fileIndex >= 0 then begin
       Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
       Exit;
@@ -1205,7 +1210,8 @@ begin
     image:= getBestNSImageWithSize(image, AIconSize);
     bmpBitmap:= NSImageToTBitmap(image);
     Result := FPixmapList.Add(bmpBitmap);
-    FPixmapsFileNames.Add(AFullPath, Pointer(Result));
+
+    FPixmapsFileNames.Add(key, Pointer(Result));
   finally
     FPixmapsLock.Release;
   end;
