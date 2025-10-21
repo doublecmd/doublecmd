@@ -95,6 +95,7 @@ type
 type TFixedStatfs = TDarwinStatfs;
 
 const
+  MNT_RDONLY     = $00000001;
   MNT_DONTBROWSE = $00100000;
 
 type
@@ -1407,6 +1408,17 @@ begin
     begin
       Drive^.DisplayName:= GetVolumeName(fs.mntfromname);
       if Length(Drive^.DisplayName) = 0 then Drive^.DisplayName:= 'System';
+    end
+    else
+    begin
+      if (fs.fstypename = 'apfs') and (fs.fflags and MNT_RDONLY = MNT_RDONLY) then
+      begin
+        // APFS bootable specifications, there are two Volumns:
+        //   VolumnName:        ReadOnly, No FSEvent
+        //   VolumnName - Data: Writable, MNT_DONTBROWSE, FSEvent
+        Drive^.Path := Drive^.Path + ' - Data';
+        Drive^.DriveLabel := Drive^.Path;
+      end;
     end;
 {$ENDIF}
   end; { for }
