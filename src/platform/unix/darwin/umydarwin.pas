@@ -29,6 +29,7 @@ unit uMyDarwin;
 
 {$mode delphi}
 {$modeswitch objectivec2}
+{$modeswitch cblocks}
 {$linkframework DiskArbitration}
 
 interface
@@ -37,7 +38,7 @@ uses
   Classes, SysUtils, UnixType,
   InterfaceBase, Menus, Controls, Forms,
   uFileProperty, uDisplayFile, uFileView, uColumnsFileView,
-  uLng,
+  uLng, uLog, uDebug,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel, uDarwinUtil;
@@ -666,9 +667,52 @@ begin
   NSWorkspace.sharedWorkspace.openURL( url );
 end;
 
+type
+  TUnmountManager = class
+  public
+    class function unmount( const path: String; const allPartitions: Boolean ): Boolean;
+  private
+    function doUnmount( const path: String; const allPartitions: Boolean ): Boolean;
+    procedure onComplete( error: NSError ); cdecl;
+  end;
+
+class function TUnmountManager.unmount( const path: String; const allPartitions: Boolean ): Boolean;
+var
+  manager: TUnmountManager;
+begin
+  manager:= TUnmountManager.Create;
+  Result:= manager.doUnmount( path, allPartitions );
+  // free in TUnmountManager.onComplete();
+end;
+
+function TUnmountManager.doUnmount(const path: String; const allPartitions: Boolean): Boolean;
+var
+  url: NSURL;
+  options: NSFileManagerUnmountOptions = 0;
+begin
+  url:= NSURL.fileURLWithPath( StringToNSString(path) );
+  if allPartitions then
+    options:= NSFileManagerUnmountAllPartitionsAndEjectDisk;
+  NSFileManager.defaultManager.unmountVolumeAtURL_options_completionHandler( url, options, self.onComplete );
+  sleep( 1000 );
+  Result:= True;
+end;
+
+procedure TUnmountManager.onComplete( error: NSError ); cdecl;
+var
+  msg: String;
+begin
+  if Assigned(error) then begin
+    msg:= 'there is an error in TUnmountManager when unmount: ' + error.localizedDescription.UTF8String;
+    DCDebug( msg );
+    LogWrite( msg , lmtError );
+  end;
+  self.Free;
+end;
+
 function unmountAndEject(const path: String): Boolean;
 begin
-  Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
+  Result:= TUnmountManager.unmount( path, True );
 end;
 
 procedure openNewInstance();
