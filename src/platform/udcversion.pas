@@ -278,7 +278,7 @@ begin
   if (Gestalt(gestaltSystemVersionMajor, versionMajor) <> noErr) then Exit;
   if (Gestalt(gestaltSystemVersionMinor, versionMinor) <> noErr) then Exit;
   if (Gestalt(gestaltSystemVersionBugFix, versionBugFix) <> noErr) then Exit;
-  Result:= Format('Mac OS X %d.%d.%d', [versionMajor, versionMinor, versionBugFix]);
+  Result:= Format('macOS %d.%d.%d', [versionMajor, versionMinor, versionBugFix]);
 end;
 {$ENDIF}
 
