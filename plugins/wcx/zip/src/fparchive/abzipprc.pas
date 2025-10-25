@@ -57,7 +57,8 @@ uses
   AbZlibPrc,
   AbZipxPrc,
   DCcrc32,
-  DCClassesUtf8;
+  DCClassesUtf8,
+  DCDateTimeUtils;
 
 
 { ========================================================================== }
@@ -281,14 +282,10 @@ end;
 { -------------------------------------------------------------------------- }
 procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
-var
-  FileTimeStamp : LongInt;
 begin
   // Set item properties for non-file streams
   Item.ExternalFileAttributes := 0;
-  FileTimeStamp := DateTimeToFileDate(SysUtils.Now);
-  Item.LastModFileTime := LongRec(FileTimeStamp).Lo;
-  Item.LastModFileDate := LongRec(FileTimeStamp).Hi;
+  Item.LastWriteTime := DateTimeToWinFileTime(SysUtils.Now);
 
   DoZipFromStream(Sender, Item, OutStream, InStream);
 end;
@@ -297,21 +294,13 @@ procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream;
-  AttrEx : TAbAttrExRec;
 begin
-  if not AbFileGetAttrEx(Item.DiskFileName, AttrEx) then
-    Raise EAbFileNotFound.Create;
-  if ((AttrEx.Attr and faDirectory) <> 0) then
+  if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
     UncompressedStream := TMemoryStream.Create
-  else
+  else begin
     UncompressedStream := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+  end;
   try {UncompressedStream}
-    {$IFDEF UNIX}
-    Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
-    {$ELSE}
-    Item.ExternalFileAttributes := AttrEx.Attr;
-    {$ENDIF}
-    Item.LastModTimeAsDateTime := AttrEx.Time;
     DoZipFromStream(Sender, Item, OutStream, UncompressedStream);
   finally {UncompressedStream}
     UncompressedStream.Free;

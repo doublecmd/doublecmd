@@ -63,6 +63,7 @@ uses
 {$IFDEF UNIX}
   DCClassesUtf8,
 {$ENDIF}
+  DCBasicTypes,
   DateUtils,
   SysUtils,
   Classes;
@@ -298,9 +299,9 @@ const
 
 type
   TAbAttrExRec = record
-    Time: TDateTime;
     Size: Int64;
     Attr: Integer;
+    Time: TFileTimeEx;
     Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
   end;
 
@@ -329,8 +330,8 @@ const
   function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
   function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
 
-  function AbGetFileTime(const aFileName: string): TDateTime;
-  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
+  function AbGetFileTime(const aFileName: string): TWinFileTime;
+  function AbSetFileTime(const aFileName: string; aValue: TWinFileTime): Boolean;
 
 { file attributes }
   function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
@@ -378,7 +379,6 @@ uses
   AbExcept,
   DCOSUtils,
   DCStrUtils,
-  DCBasicTypes,
   DCDateTimeUtils;
 
 (*
@@ -1041,55 +1041,16 @@ Result := Result * SecondsInMinute;
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
-function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime;
+function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime; inline;
 { convert UTC unix date to Delphi TDateTime in local timezone }
-{$IFDEF MSWINDOWS}
-var
-  Hrs, Mins, Secs : Word;
-  TodaysSecs : LongInt;
-  Time: TDateTime;
-begin
-  UnixTime := UnixTime - AbOffsetFromUTC;
-  TodaysSecs := UnixTime mod SecondsInDay;
-  Hrs := TodaysSecs div SecondsInHour;
-  TodaysSecs := TodaysSecs - (Hrs * SecondsInHour);
-  Mins := TodaysSecs div SecondsInMinute;
-  Secs := TodaysSecs - (Mins * SecondsInMinute);
-
-  if TryEncodeTime(Hrs, Mins, Secs, 0, Time) then
-    Result := Unix0Date + (UnixTime div SecondsInDay) + Time
-  else
-    Result := 0;
-{$ENDIF}
-{$IFDEF UNIX}
 begin
   Result := UnixFileTimeToDateTime(TUnixFileTime(UnixTime));
-{$ENDIF}
 end;
-
 { -------------------------------------------------------------------------- }
-function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64;
+function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64; inline;
 { convert local Delphi TDateTime to UTC unix date }
-{$IFDEF MSWINDOWS}
-var
-  Hrs, Mins, Secs, MSecs : Word;
-  Dt, Tm : TDateTime;
 begin
-  Dt := Trunc(DateTime);
-  Tm := DateTime - Dt;
-  if Dt < Unix0Date then
-    Result := 0
-  else
-    Result := Trunc(Dt - Unix0Date) * SecondsInDay;
-
-  DecodeTime(Tm, Hrs, Mins, Secs, MSecs);
-  Result := Result + (Hrs * SecondsInHour) + (Mins * SecondsInMinute) + Secs;
-  Result := Result + AbOffsetFromUTC;
-{$ENDIF}
-{$IFDEF UNIX}
-begin
-  Result := Int64(DateTimeToUnixFileTime(DateTime));
-{$ENDIF}
+  Result := DateTimeToUnixFileTime(DateTime);
 end;
 { -------------------------------------------------------------------------- }
 function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
@@ -1144,17 +1105,17 @@ end;
 
 { -------------------------------------------------------------------------- }
 
-function AbGetFileTime(const aFileName: string): TDateTime;
+function AbGetFileTime(const aFileName: string): TWinFileTime;
 var
   Attr: TAbAttrExRec;
 begin
   AbFileGetAttrEx(aFileName, Attr);
-  Result := Attr.Time;
+  Result := FileTimeExToWinFileTime(Attr.Time);
 end;
 
-function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
+function AbSetFileTime(const aFileName: string; aValue: TWinFileTime): Boolean;
 begin
-  Result:= mbFileSetTime(aFileName, DateTimeToFileTime(aValue));
+  Result:= mbFileSetTimeEx(aFileName, WinFileTimeToFileTimeEx(aValue), TFileTimeExNull, TFileTimeExNull);
 end;
 
 { -------------------------------------------------------------------------- }
@@ -1243,65 +1204,49 @@ end;
 { -------------------------------------------------------------------------- }
 function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec; FollowLinks: Boolean = True) : Boolean;
 var
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
   FileDate: LongRec;
   FindData: TWin32FindDataW;
   LocalFileTime: Windows.TFileTime;
-{$ENDIF}
-{$IFDEF FPCUnixAPI}
+{$ELSEIF DEFINED(UNIX)}
   StatBuf: stat;
 {$ENDIF}
-{$IFDEF LibcAPI}
-  StatBuf: TStatBuf64;
-{$ENDIF}
-{$IFDEF PosixAPI}
-  StatBuf: _stat;
-{$ENDIF}
 begin
-  aAttr.Time := 0;
   aAttr.Size := -1;
   aAttr.Attr := -1;
   aAttr.Mode := 0;
-{$IFDEF MSWINDOWS}
+  aAttr.Time := TFileTimeExNull;
+{$IF DEFINED(MSWINDOWS)}
   Result := GetFileAttributesExW(PWideChar(UTF16LongName(aFileName)), GetFileExInfoStandard, @FindData);
-  if Result then begin
-    aAttr.Time := WinFileTimeToDateTime(FindData.ftLastWriteTime);
+  if Result then
+  begin
+    aAttr.Attr := FindData.dwFileAttributes;
     LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
     LARGE_INTEGER(aAttr.Size).HighPart := FindData.nFileSizeHigh;
-    aAttr.Attr := FindData.dwFileAttributes;
     aAttr.Mode := AbDOS2UnixFileAttributes(FindData.dwFileAttributes);
+    aAttr.Time := DCBasicTypes.TFileTimeEx(FindData.ftLastWriteTime);
   end;
-{$ENDIF}
-{$IFDEF UNIX}
-  {$IFDEF FPCUnixAPI}
+{$ELSEIF DEFINED(UNIX)}
   if FollowLinks then
     Result := (FpStat(UTF8ToSys(aFileName), StatBuf) = 0)
-  else
+  else begin
     Result := (FpLStat(UTF8ToSys(aFileName), StatBuf) = 0);
-  {$ENDIF}
-  {$IFDEF LibcAPI}
-  // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-  Result := (__lxstat64(_STAT_VER, PAnsiChar(aFileName), StatBuf) = 0);
-  {$ENDIF}
-  {$IFDEF PosixAPI}
-  Result := (stat(PAnsiChar(AbSysString(aFileName)), StatBuf) = 0);
-  {$ENDIF}
-  if Result then begin
-    aAttr.Time := FileDateToDateTime(StatBuf.st_mtime);
+  end;
+  if Result then
+  begin
     aAttr.Size := StatBuf.st_size;
-    aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
     aAttr.Mode := StatBuf.st_mode;
+    aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
+    aAttr.Time := TFileTimeEx.Create(Int64(StatBuf.st_mtime), Int64(StatBuf.st_mtime_nsec));
   end;
 {$ENDIF UNIX}
 end;
 
-
-const
-  MAX_VOL_LABEL = 16;
-
 function AbGetVolumeLabel(Drive : Char) : string;
 {-Get the volume label for the specified drive.}
 {$IFDEF MSWINDOWS}
+const
+  MAX_VOL_LABEL = 16;
 var
   Root : WideString;
   Flags, MaxLength : DWORD;

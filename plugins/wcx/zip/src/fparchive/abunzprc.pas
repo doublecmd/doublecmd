@@ -1265,7 +1265,7 @@ begin
   end;
   if not FPS_ISLNK(Item.NativeFileAttributes) then
   begin
-    AbSetFileTime(UseName, Item.LastModTimeAsDateTime);
+    AbSetFileTime(UseName, Item.LastWriteTime);
     AbSetFileAttr(UseName, Item.NativeFileAttributes);
   end;
 end;

@@ -46,7 +46,7 @@ unit AbGzTyp;
 interface
 
 uses
-  Classes, AbUtils, AbArcTyp, AbTarTyp;
+  Classes, AbUtils, AbArcTyp, AbTarTyp, DCBasicTypes;
 
 type
   { pre-defined "operating system" (really more FILE system)
@@ -138,16 +138,14 @@ type
 
     function GetExternalFileAttributes : LongWord; override;
     function GetIsEncrypted : Boolean; override;
-    function GetLastModFileDate : Word; override;
-    function GetLastModFileTime : Word; override;
+    function GetLastWriteTime: TWinFileTime; override;
     function GetLastModTimeAsDateTime: TDateTime; override;
     function GetNativeLastModFileTime: Longint; override;
 
     procedure SetExternalFileAttributes( Value : LongWord ); override;
     procedure SetFileName(const Value : string); override;
     procedure SetIsEncrypted(Value : Boolean); override;
-    procedure SetLastModFileDate(const Value : Word); override;
-    procedure SetLastModFileTime(const Value : Word); override;
+    procedure SetLastWriteTime(AValue: TWinFileTime); override;
     procedure SetLastModTimeAsDateTime(const Value: TDateTime); override;
 
     procedure SaveGzHeaderToStream(AStream : TStream);
@@ -295,7 +293,7 @@ implementation
 uses
   SysUtils, BufStream,
   AbBitBkt, AbGz, AbZlibPrc, AbExcept, AbResString, AbProgress,
-  AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
+  AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCDateTimeUtils;
 
 const
   { Header Signature Values}
@@ -700,16 +698,9 @@ begin
   Result := (FGZHeader.Flags and AB_GZ_FLAG_FTEXT) = AB_GZ_FLAG_FTEXT;
 end;
 
-function TAbGzipItem.GetLastModFileDate: Word;
+function TAbGzipItem.GetLastWriteTime: TWinFileTime;
 begin
-  { convert to local DOS file Date }
-  Result := LongRec(AbDateTimeToDosFileDate(LastModTimeAsDateTime)).Hi;
-end;
-
-function TAbGzipItem.GetLastModFileTime: Word;
-begin
-  { convert to local DOS file Time }
-  Result := LongRec(AbDateTimeToDosFileDate(LastModTimeAsDateTime)).Lo;
+  Result := UnixFileTimeToWinTime(TUnixFileTime(FGZHeader.ModTime));
 end;
 
 function TAbGzipItem.GetLastModTimeAsDateTime: TDateTime;
@@ -718,16 +709,10 @@ begin
 end;
 
 function TAbGzipItem.GetNativeLastModFileTime: Longint;
-{$IFDEF MSWINDOWS}
-var
-  DateTime: TDateTime;
-{$ENDIF}
 begin
   Result   := FGZHeader.ModTime;
-
 {$IFDEF MSWINDOWS}
-  DateTime := AbUnixTimeToLocalDateTime(Result);
-  Result   := AbDateTimeToDosFileDate(DateTime);
+  Result   := UnixFileTimeToDosTime(Result);
 {$ENDIF}
 end;
 
@@ -857,26 +842,18 @@ begin
     FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FTEXT;
 end;
 
-procedure TAbGzipItem.SetLastModFileDate(const Value: Word);
+procedure TAbGzipItem.SetLastWriteTime(AValue: TWinFileTime);
+var
+  ATime: TUnixFileTime;
 begin
-  { replace date, keep existing time }
-  LastModTimeAsDateTime :=
-    EncodeDate(
-      Value shr 9 + 1980,
-      Value shr 5 and 15,
-      Value and 31) +
-    Frac(LastModTimeAsDateTime);
-end;
-
-procedure TAbGzipItem.SetLastModFileTime(const Value: Word);
-begin
-  { keep current date, replace time }
-  LastModTimeAsDateTime :=
-    Trunc(LastModTimeAsDateTime) +
-    EncodeTime(
-      Value shr 11,
-      Value shr 5 and 63,
-      Value and 31 shl 1, 0);
+  ATime:= WinFileTimeToUnixTime(AValue);
+  if ATime < Low(LongInt) then
+    FGZHeader.ModTime := Low(LongInt)
+  else if ATime > High(LongInt) then
+    FGZHeader.ModTime := High(LongInt)
+  else begin
+    FGZHeader.ModTime := LongInt(ATime);
+  end;
 end;
 
 procedure TAbGzipItem.SetLastModTimeAsDateTime(const Value: TDateTime);
@@ -970,7 +947,7 @@ begin
       finally {OutStream}
         OutStream.Free;
       end; {OutStream}
-      AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
+      AbSetFileTime(UseName, CurItem.LastWriteTime);
       AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
     except
       on E : EAbUserAbort do begin
@@ -1235,7 +1212,7 @@ begin
                   OutGzHelp.WriteArchiveTail;
                 end
                 else begin
-                  CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
+                  CurItem.LastWriteTime := AbGetFileTime(CurItem.DiskFileName);
                   UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
                       fmOpenRead or fmShareDenyWrite);
 

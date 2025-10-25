@@ -243,9 +243,12 @@ begin
       HeaderData.UnpSize      := Lo(UncompressedSize);
       HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
       HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
-      HeaderData.MfileTime    := DateTimeToWinFileTime(LastModTimeAsDateTime);
+      HeaderData.MfileTime    := LastWriteTime;
+
+      if (HeaderData.MfileTime = 0) then begin
+        HeaderData.FileTime   := NativeLastModFileTime;
+      end;
 
       if IsEncrypted then begin
         HeaderData.Flags      := RHDF_ENCRYPTED;

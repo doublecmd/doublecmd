@@ -39,7 +39,7 @@ unit AbZipTyp;
 interface
 
 uses
-  Classes, AbArcTyp, AbUtils, AbSpanSt;
+  Classes, AbArcTyp, AbUtils, AbSpanSt, DCBasicTypes;
 
 const
   { note  #$50 = 'P', #$4B = 'K'}
@@ -387,10 +387,10 @@ type
   TAbZipItem = class( TAbArchiveItem )
   protected {private}
     FItemInfo : TAbZipDirectoryFileHeader;
+    FLastWriteDosTime : TDosFileTime;
     FDiskNumberStart : LongWord;
     FLFHExtraField : TAbExtraField;
     FRelativeOffset : Int64;
-    FDateTime : TDateTime;
 
   protected {methods}
     function GetCompressionMethod : TAbZipCompressionMethod;
@@ -406,6 +406,8 @@ type
     function GetShannonFanoTreeCount : Byte;
     function GetVersionMadeBy : Word;
     function GetVersionNeededToExtract : Word;
+    function GetLastModFileDate : Word;
+    function GetLastModFileTime : Word;
     procedure SaveCDHToStream( Stream : TStream );
     procedure SaveDDToStream( Stream : TStream );
     procedure SaveLFHToStream( Stream : TStream );
@@ -426,8 +428,7 @@ type
     function  GetExternalFileAttributes : LongWord; override;
     function  GetIsDirectory: Boolean; override;
     function  GetIsEncrypted : Boolean; override;
-    function  GetLastModFileDate : Word; override;
-    function  GetLastModFileTime : Word; override;
+    function  GetLastWriteTime: TWinFileTime; override;
     function  GetNativeFileAttributes : LongInt; override;
     function  GetNativeLastModFileTime: Longint; override;
     function  GetLastModTimeAsDateTime: TDateTime; override;
@@ -435,10 +436,8 @@ type
     procedure SetCRC32( const Value : Longint ); override;
     procedure SetExternalFileAttributes( Value : LongWord ); override;
     procedure SetFileName(const Value : string ); override;
-    procedure SetLastModFileDate(const Value : Word ); override;
-    procedure SetLastModFileTime(const Value : Word ); override;
+    procedure SetLastWriteTime(AValue: TWinFileTime); override;
     procedure SetUncompressedSize( const Value : Int64 ); override;
-    procedure SetLastModTimeAsDateTime(const Value: TDateTime); override;
 
   public {methods}
     constructor Create;
@@ -472,6 +471,10 @@ type
     property GeneralPurposeBitFlag : Word
       read GetGeneralPurposeBitFlag
       write SetGeneralPurposeBitFlag;
+    property LastModFileDate : Word
+      read GetLastModFileDate;
+    property LastModFileTime : Word
+      read GetLastModFileTime;
     property LFHExtraField : TAbExtraField
       read FLFHExtraField;
     property RawFileName : AnsiString
@@ -652,7 +655,6 @@ uses
   LazUTF8,
   DCOSUtils,
   DCStrUtils,
-  DCBasicTypes,
   DCClassesUtf8,
   DCDateTimeUtils,
   DCConvertEncoding;
@@ -1421,14 +1423,13 @@ begin
   Result := FItemInfo.IsEncrypted;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetLastModFileDate : Word;
+function TAbZipItem.GetLastWriteTime: TWinFileTime;
 begin
-  Result := FItemInfo.LastModFileDate;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbZipItem.GetLastModFileTime : Word;
-begin
-  Result := FItemInfo.LastModFileTime;
+  if FLastWriteTime <> 0 then
+    Result := FLastWriteTime
+  else begin
+    Result := DosTimeToWinFileTime(FLastWriteDosTime);
+  end;
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetNativeFileAttributes : LongInt;
@@ -1460,35 +1461,29 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetNativeLastModFileTime: Longint;
-{$IFDEF UNIX}
-var
-  DateTime: TDateTime;
-{$ENDIF}
 begin
   // Zip stores MS-DOS date/time.
 {$IFDEF UNIX}
-  if (FDateTime <> 0) then
-    DateTime := FDateTime
+  if (FLastWriteTime <> 0) then
+    Result := Longint(WinFileTimeToUnixTime(FLastWriteTime))
   else begin
-    DateTime := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
+    Result := Longint(DosTimeToUnixFileTime(FLastWriteDosTime));
   end;
-  Result := DateTimeToUnixFileTime(DateTime);
 {$ELSE}
-  if (FDateTime <> 0) then
-    Result := DateTimeToDosFileTime(FDateTime)
+  if (FLastWriteTime <> 0) then
+    Result := Longint(WinFileTimeToDosTime(FLastWriteTime))
   else begin
-    LongRec(Result).Hi := LastModFileDate;
-    LongRec(Result).Lo := LastModFileTime;
+    Result := Longint(FLastWriteDosTime);
   end;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetLastModTimeAsDateTime: TDateTime;
 begin
-  if (FDateTime <> 0) then
-    Result := FDateTime
+  if (FLastWriteTime <> 0) then
+    Result := WinFileTimeToDateTime(FLastWriteTime)
   else
-    Result := AbDosFileDateToDateTime(FItemInfo.LastModFileDate, FItemInfo.LastModFileTime);
+    Result := DosFileTimeToDateTime(FLastWriteDosTime);
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetShannonFanoTreeCount : Byte;
@@ -1504,6 +1499,16 @@ end;
 function TAbZipItem.GetVersionNeededToExtract : Word;
 begin
   Result := FItemInfo.VersionNeededToExtract;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipItem.GetLastModFileDate: Word;
+begin
+  Result := LongRec(FLastWriteDosTime).Hi;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipItem.GetLastModFileTime: Word;
+begin
+  Result := LongRec(FLastWriteDosTime).Lo;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
@@ -1566,8 +1571,8 @@ begin
       FieldStream.Free;
     end;
 
-  LastModFileTime := FItemInfo.LastModFileTime;
-  LastModFileDate := FItemInfo.LastModFileDate;
+  LongRec(FLastWriteDosTime).Lo := FItemInfo.LastModFileTime;
+  LongRec(FLastWriteDosTime).Hi := FItemInfo.LastModFileDate;
   // NTFS Extra Field
   if FItemInfo.ExtraField.GetStream(Ab_NTFSSubfieldID, FieldStream) then
   try
@@ -1585,7 +1590,7 @@ begin
         TagSize:= Min(TagSize, FieldSize);
         if (Tag = $0001) and (TagSize >= 24) then
         begin
-          FDateTime:= WinFileTimeToDateTime(TWinFileTime(FieldStream.ReadQWord));
+          FLastWriteTime:= TWinFileTime(FieldStream.ReadQWord);
           Break;
         end;
         Dec(FieldSize, TagSize);
@@ -1602,7 +1607,7 @@ begin
     begin
       Tag:= FieldStream.ReadByte;
       if (Tag and $01 <> 0) then
-        FDateTime:= UnixFileTimeToDateTime(TUnixFileTime(FieldStream.ReadDWord));
+        FLastWriteTime:= UnixFileTimeToWinTime(TUnixFileTime(FieldStream.ReadDWord));
     end;
   finally
     FieldStream.Free;
@@ -1630,6 +1635,7 @@ begin
     LFH.ExtraField.Assign(LFHExtraField);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_InfoZipUnicodePathSubfieldID);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_XceedUnicodePathSubfieldID);
+    LFH.ExtraField.CloneFrom(ExtraField, Ab_InfoZipTimestampSubfieldID);
     { Write ZIP64 local header when file size > 3 GB to speed up archive creation }
     if (UncompressedSize > $C0000000) then
     begin
@@ -1798,16 +1804,6 @@ begin
   FItemInfo.InternalFileAttributes := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetLastModFileDate( const Value : Word );
-begin
-  FItemInfo.LastModFileDate := Value;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetLastModFileTime( const Value : Word );
-begin
-  FItemInfo.LastModFileTime := Value;
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetRelativeOffset( Value : Int64 );
 begin
   FRelativeOffset := Value;
@@ -1815,20 +1811,20 @@ begin
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetUncompressedSize( const Value : Int64 );
-begin
-  FUncompressedSize := Value;
-  FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
-  UpdateZip64ExtraHeader;
-end;
-
-procedure TAbZipItem.SetLastModTimeAsDateTime(const Value: TDateTime);
+procedure TAbZipItem.SetLastWriteTime(AValue: TWinFileTime);
 var
   DataSize: Word;
+  AUnixTime: TUnixFileTime;
   ANtfsTime: PNtfsTimeField;
   AInfoZipTime: PInfoZipTimeField;
 begin
-  inherited SetLastModTimeAsDateTime(Value);
+  inherited SetLastWriteTime(AValue);
+
+  FLastWriteDosTime:= WinFileTimeToDosTime(AValue);
+
+  // Update central directory header fields
+  FItemInfo.LastModFileTime:= LastModFileTime;
+  FItemInfo.LastModFileDate:= LastModFileDate;
 
   // Update time extra fields
   if FItemInfo.ExtraField.Get(Ab_NTFSSubfieldID, ANtfsTime, DataSize) then
@@ -1837,7 +1833,7 @@ begin
     begin
       if ANtfsTime^.Tag = $0001 then
       begin
-        ANtfsTime^.Mtime := DateTimeToWinFileTime(Value);
+        ANtfsTime^.Mtime := AValue;
       end;
     end;
   end
@@ -1847,12 +1843,37 @@ begin
     begin
       if (AInfoZipTime^.Tag and $01 <> 0) then
       begin
-        AInfoZipTime^.Mtime := UInt32(DateTimeToUnixFileTime(Value));
+        AUnixTime:= WinFileTimeToUnixTime(AValue);
+        if (AUnixTime >= 0) and (AUnixTime <= High(UInt32)) then
+          AInfoZipTime^.Mtime := UInt32(AUnixTime)
+        else begin
+          FItemInfo.ExtraField.Delete(Ab_InfoZipTimestampSubfieldID);
+        end
+      end;
+    end;
+  end
+  else begin
+    AUnixTime:= WinFileTimeToUnixTime(AValue);
+    if (AUnixTime >= 0) and (AUnixTime <= High(UInt32)) then
+    begin
+      New(AInfoZipTime);
+      try
+        AInfoZipTime^.Tag:= $01;
+        AInfoZipTime^.Mtime := UInt32(AUnixTime);
+        FItemInfo.ExtraField.Put(Ab_InfoZipTimestampSubfieldID, AInfoZipTime^, SizeOf(TInfoZipTimeField));
+      finally
+        Dispose(AInfoZipTime);
       end;
     end;
   end;
 end;
-
+{ -------------------------------------------------------------------------- }
+procedure TAbZipItem.SetUncompressedSize( const Value : Int64 );
+begin
+  FUncompressedSize := Value;
+  FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
+  UpdateZip64ExtraHeader;
+end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetVersionMadeBy( Value : Word );
 begin
@@ -2266,6 +2287,7 @@ var
   Progress           : Byte;
   ATempName          : String;
   CreateArchive      : Boolean;
+  AttrEx             : TAbAttrExRec;
 begin
   if Count = 0 then
     Exit;
@@ -2343,6 +2365,17 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
+            if not AbFileGetAttrEx(CurrItem.DiskFileName, AttrEx) then
+              Raise EAbFileNotFound.Create;
+
+            {$IFDEF UNIX}
+            CurrItem.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
+            {$ELSE}
+            CurrItem.ExternalFileAttributes := AttrEx.Attr;
+            {$ENDIF}
+            CurrItem.LastWriteTime := FileTimeExToWinFileTime(AttrEx.Time);
+
+
             if NewStream is TAbSpanWriteStream then
             begin
               WorkingStream := TAbVirtualMemoryStream.Create;

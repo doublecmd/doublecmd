@@ -42,7 +42,7 @@ interface
 
 uses
   Classes,
-  AbUtils, AbArcTyp;
+  AbUtils, AbArcTyp, DCBasicTypes;
 
 const
   AB_TAR_RECORDSIZE  = 512; {Note: SizeOf(TAbTarHeaderRec) = AB_TAR_RECORDSIZE}
@@ -317,8 +317,7 @@ type
     function GetFileName : string; override;
     function GetIsDirectory: Boolean; override;
     function GetIsEncrypted : Boolean; override;
-    function GetLastModFileDate : Word; override;
-    function GetLastModFileTime : Word; override;
+    function GetLastWriteTime: TWinFileTime; override;
     function GetLastModTimeAsDateTime: TDateTime; override;
     function GetNativeFileAttributes : LongInt; override;
     function GetNativeLastModFileTime: Longint; override;
@@ -328,8 +327,7 @@ type
     procedure SetExternalFileAttributes( Value : LongWord ); override;
     procedure SetFileName(const Value : string); override;            { Extended Headers }
     procedure SetIsEncrypted(Value : Boolean); override;
-    procedure SetLastModFileDate(const Value : Word); override;       { Extended Headers }
-    procedure SetLastModFileTime(const Value : Word); override;       { Extended Headers }
+    procedure SetLastWriteTime(AValue: TWinFileTime); override;
     procedure SetLastModTimeAsDateTime(const Value: TDateTime); override;
     procedure SetUncompressedSize(const Value : Int64); override;     { Extended Headers }
 
@@ -474,7 +472,7 @@ implementation
 
 uses
   Math, RTLConsts, SysUtils, AbVMStrm, AbExcept, AbProgress,
-  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils;
+  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils, DCDateTimeUtils;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
@@ -788,16 +786,9 @@ begin
   Result := False;
 end;
 
-function TAbTarItem.GetLastModFileDate: Word;
+function TAbTarItem.GetLastWriteTime: TWinFileTime;
 begin
-  { convert to local DOS file Date }
-  Result := LongRec(AbDateTimeToDosFileDate(LastModTimeAsDateTime)).Hi;
-end;
-
-function TAbTarItem.GetLastModFileTime: Word;
-begin
-  { convert to local DOS file Time }
-  Result := LongRec(AbDateTimeToDosFileDate(LastModTimeAsDateTime)).Lo;
+  Result := UnixFileTimeToWinTime(FTarItem.ModTime);
 end;
 
 function TAbTarItem.GetLastModTimeAsDateTime: TDateTime;
@@ -1721,26 +1712,9 @@ begin
   { do nothing, TAR has no native encryption }
 end;
 
-procedure TAbTarItem.SetLastModFileDate(const Value: Word);
+procedure TAbTarItem.SetLastWriteTime(AValue: TWinFileTime);
 begin
-  { replace date, keep existing time }
-  LastModTimeAsDateTime :=
-    EncodeDate(
-      Value shr 9 + 1980,
-      Value shr 5 and 15,
-      Value and 31) +
-    Frac(LastModTimeAsDateTime);
-end;
-
-procedure TAbTarItem.SetLastModFileTime(const Value: Word);
-begin
-  { keep current date, replace time }
-  LastModTimeAsDateTime :=
-    Trunc(LastModTimeAsDateTime) +
-    EncodeTime(
-      Value shr 11,
-      Value shr 5 and 63,
-      Value and 31 shl 1, 0);
+  SetModTime(WinFileTimeToUnixTime(AValue));
 end;
 
 procedure TAbTarItem.SetLastModTimeAsDateTime(const Value: TDateTime);
@@ -2299,7 +2273,7 @@ begin
   end;
   if (CurItem.Mode and $F000) <> AB_FMODE_FILELINK then
   begin
-    AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
+    AbSetFileTime(UseName, CurItem.LastWriteTime);
     AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
   end;
 end;
@@ -2500,7 +2474,7 @@ begin
             if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx, False) then
               Raise EAbFileNotFound.Create;
             CurItem.ExternalFileAttributes := AttrEx.Mode;
-            CurItem.LastModTimeAsDateTime := AttrEx.Time;
+            CurItem.LastWriteTime := FileTimeExToWinFileTime(AttrEx.Time);
             { TODO: uid, gid, uname, gname should be added here }
             { TODO: Add support for different types of files here }
             case (AttrEx.Mode and $F000) of

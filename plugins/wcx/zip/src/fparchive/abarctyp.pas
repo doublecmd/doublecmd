@@ -41,7 +41,8 @@ uses
   {$ENDIF MSWINDOWS}
   Classes,
   Types,
-  AbUtils;
+  AbUtils,
+  DCBasicTypes;
 
 { ===== TAbArchiveItem ====================================================== }
 type
@@ -55,8 +56,7 @@ type
     FExternalFileAttributes : LongWord;
     FFileName         : string;
     FIsEncrypted      : Boolean;
-    FLastModFileTime  : Word;
-    FLastModFileDate  : Word;
+    FLastWriteTime    : TWinFileTime;
     FTagged           : Boolean;
     FUncompressedSize : Int64;
 
@@ -68,8 +68,7 @@ type
     function GetFileName : string; virtual;
     function GetIsDirectory: Boolean; virtual;
     function GetIsEncrypted : Boolean; virtual;
-    function GetLastModFileDate : Word; virtual;
-    function GetLastModFileTime : Word; virtual;
+    function GetLastWriteTime: TWinFileTime; virtual;
     { This depends on in what format the attributes are stored in the archive,
       to which system they refer (MS-DOS, Unix, etc.) and what system
       we're running on (compile time). }
@@ -85,8 +84,7 @@ type
     procedure SetExternalFileAttributes( Value : LongWord ); virtual;
     procedure SetFileName(const Value : string); virtual;
     procedure SetIsEncrypted(Value : Boolean); virtual;
-    procedure SetLastModFileDate(const Value : Word); virtual;
-    procedure SetLastModFileTime(const Value : Word); virtual;
+    procedure SetLastWriteTime(AValue: TWinFileTime); virtual;
     procedure SetUncompressedSize(const Value : Int64); virtual;
     function GetLastModTimeAsDateTime: TDateTime; virtual;
     procedure SetLastModTimeAsDateTime(const Value: TDateTime); virtual;
@@ -125,12 +123,9 @@ type
     property IsEncrypted : Boolean
       read GetIsEncrypted
       write SetIsEncrypted;
-    property LastModFileDate : Word
-      read GetLastModFileDate
-      write SetLastModFileDate;
-    property LastModFileTime : Word
-      read GetLastModFileTime
-      write SetLastModFileTime;
+    property LastWriteTime : TWinFileTime
+      read GetLastWriteTime
+      write SetLastWriteTime;
     property NativeFileAttributes : LongInt
       read GetNativeFileAttributes;
     property NativeLastModFileTime : Longint
@@ -613,7 +608,8 @@ uses
   AbConst,
   AbResString,
   DCOSUtils,
-  DCClassesUtf8;
+  DCClassesUtf8,
+  DCDateTimeUtils;
 
 
 { TAbArchiveItem implementation ============================================ }
@@ -625,8 +621,6 @@ begin
   FUncompressedSize := 0;
   FFileName := '';
   FAction := aaNone;
-  FLastModFileTime := 0;
-  FLastModFileDate := 0;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchiveItem.Destroy;
@@ -669,14 +663,9 @@ begin
   Result := FIsEncrypted;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetLastModFileTime : Word;
+function TAbArchiveItem.GetLastWriteTime: TWinFileTime;
 begin
-  Result := FLastModFileTime;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetLastModFileDate : Word;
-begin
-  Result := FLastModFileDate;
+  Result := FLastWriteTime;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetNativeFileAttributes : LongInt;
@@ -697,8 +686,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetNativeLastModFileTime : Longint;
 begin
-  LongRec(Result).Hi := LastModFileDate;
-  LongRec(Result).Lo := LastModFileTime;
+  Result := 0;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetStoredPath : string;
@@ -781,33 +769,24 @@ begin
   FIsEncrypted := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetLastModFileDate(const Value : Word);
+procedure TAbArchiveItem.SetLastWriteTime(AValue: TWinFileTime);
 begin
-  FLastModFileDate := Value;
+  FLastWriteTime := AValue;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetLastModFileTime(const Value : Word);
-begin
-  FLastModFileTime := Value;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetUnCompressedSize(const Value : Int64);
+procedure TAbArchiveItem.SetUnCompressedSize(const Value: Int64);
 begin
   FUnCompressedSize := Value;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetLastModTimeAsDateTime: TDateTime;
 begin
-  Result := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
+  Result := WinFileTimeToDateTime(FLastWriteTime);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetLastModTimeAsDateTime(const Value: TDateTime);
-var
-  FileDate : Integer;
 begin
-  FileDate := AbDateTimeToDosFileDate(Value);
-  LastModFileTime := LongRec(FileDate).Lo;
-  LastModFileDate := LongRec(FileDate).Hi;
+  SetLastWriteTime(DateTimeToWinFileTime(Value));
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1705,29 +1684,22 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
 var
-  FS : TFileStreamEx;
-  DateTime : LongInt;
-  FileTime : Word;
-  FileDate : Word;
-  Matched : Boolean;
-  SaveDir : string;
+  SaveDir  : String;
+  Matched  : Boolean;
+  Attr     : TAbAttrExRec;
+  FileTime : TWinFileTime;
 begin
   GetDir(0, SaveDir);
   if BaseDirectory <> '' then
     ChDir(BaseDirectory);
   try
-    FS := TFileStreamEx.Create(Item.DiskFileName,
-                               fmOpenRead or fmShareDenyWrite);
-    try
-      DateTime := FileGetDate(FS.Handle);
-      FileTime := LongRec(DateTime).Lo;
-      FileDate := LongRec(DateTime).Hi;
-      Matched := (Item.LastModFileDate = FileDate) and
-                 (Item.LastModFileTime = FileTime) and
-                 (Item.UncompressedSize = FS.Size);
+    if not AbFileGetAttrEx(Item.DiskFileName, Attr) then
+      Result := False
+    else begin
+      FileTime := FileTimeExToWinFileTime(Attr.Time);
+      Matched := (Item.LastWriteTime = FileTime) and
+                 (Item.UncompressedSize = Attr.Size);
       Result := not Matched;
-    finally
-      FS.Free;
     end;
   finally
     if BaseDirectory <> '' then
