@@ -105,9 +105,15 @@ function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTim
 function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
 function DateTimeToUnixFileTimeEx(DateTime: TDateTime) : DCBasicTypes.TFileTimeEx;
 function UnixFileTimeToFileTime(UnixTime: TUnixFileTime): DCBasicTypes.TFileTime;
+
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
+function DosTimeToUnixFileTime(DosTime: TDosFileTime): TUnixFileTime;
+
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
+
+function WinFileTimeToDosTime(FileTime: TWinFileTime): TDosFileTime;
+function DosTimeToWinFileTime(FileTime: TDosFileTime): TWinFileTime;
 
 function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime; inline;
 function FileTimeToWcxFileTime(FileTime: DCBasicTypes.TFileTime): LongInt; inline;
@@ -459,9 +465,15 @@ var
   Hr, Mn, S, MS: Word;
 begin
   DecodeDate(DateTime, Yr, Mo, Dy);
-  if (Yr < 1980) or (Yr > 2107) then // outside DOS file date year range
-    Yr := 1980;
   DecodeTime(DateTime, Hr, Mn, S, MS);
+
+  // Outside DOS file date year range
+  if (Yr < 1980) then
+    Yr := 1980
+  else if (Yr > 2107) then
+  begin
+    Yr := 2107;
+  end;
 
   LongRec(Result).Lo := (S shr 1) or (Mn shl 5) or (Hr shl 11);
   LongRec(Result).Hi := Dy or (Mo shl 5) or (Word(Yr - 1980) shl 9);
@@ -661,6 +673,11 @@ begin
   Result := DateTimeToDosFileTime(UnixFileTimeToDateTime(UnixTime));
 end;
 
+function DosTimeToUnixFileTime(DosTime: TDosFileTime): TUnixFileTime;
+begin
+  Result:= DateTimeToUnixFileTime(DosFileTimeToDateTime(DosTime));
+end;
+
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 var
   WinFileTime: TWinFileTime;
@@ -676,6 +693,16 @@ begin
     Result:= 0
   else
     Result:= TUnixFileTime((WinTime - UnixWinEpoch) div 10000000);
+end;
+
+function WinFileTimeToDosTime(FileTime: TWinFileTime): TDosFileTime;
+begin
+  Result := DateTimeToDosFileTime(WinFileTimeToDateTime(FileTime));
+end;
+
+function DosTimeToWinFileTime(FileTime: TDosFileTime): TWinFileTime;
+begin
+  Result := DateTimeToWinFileTime(DosFileTimeToDateTime(FileTime));
 end;
 
 function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime;
