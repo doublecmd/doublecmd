@@ -62,10 +62,17 @@ const
 implementation
 
 {$IF not DEFINED(MSWINDOWS)}
-constructor TFileTimeEx.create( aSec:int64; aNanosec:int64 );
+constructor TFileTimeEx.Create(aSec: Int64; aNanosec: Int64);
 begin
-  self.sec:= aSec;
-  self.nanosec:= aNanosec;
+  Self.sec:= aSec;
+  Self.nanosec:= aNanosec;
+
+  if Self.nanosec < 0 then
+    Self.nanosec := 0
+  else if Self.nanosec > 999999999 then
+  begin
+    Self.nanosec := 999999999;
+  end;
 end;
 
 class operator TFileTimeEx.=(l,r : TFileTimeEx): Boolean;

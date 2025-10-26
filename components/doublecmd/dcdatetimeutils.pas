@@ -4,7 +4,7 @@
    Date and time functions.
 
    Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
-   Copyright (C) 2017-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,6 +42,10 @@ function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
 function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;
 function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime;
 function DateTimeToFileTimeEx(DateTime : TDateTime) : DCBasicTypes.TFileTimeEx;
+
+function FileTimeToWinFileTime(FileTime : DCBasicTypes.TFileTime) : TWinFileTime;
+function FileTimeExToWinFileTime(FileTime : DCBasicTypes.TFileTimeEx) : TWinFileTime;
+function WinFileTimeToFileTimeEx(FileTime: TWinFileTime) : DCBasicTypes.TFileTimeEx;
 
 {en
    Converts system specific UTC time to local time.
@@ -100,9 +104,16 @@ function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTim
 {$ENDIF}
 function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
 function DateTimeToUnixFileTimeEx(DateTime: TDateTime) : DCBasicTypes.TFileTimeEx;
+function UnixFileTimeToFileTime(UnixTime: TUnixFileTime): DCBasicTypes.TFileTime;
+
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
+function DosTimeToUnixFileTime(DosTime: TDosFileTime): TUnixFileTime;
+
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
+
+function WinFileTimeToDosTime(FileTime: TWinFileTime): TDosFileTime;
+function DosTimeToWinFileTime(FileTime: TDosFileTime): TWinFileTime;
 
 function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime; inline;
 function FileTimeToWcxFileTime(FileTime: DCBasicTypes.TFileTime): LongInt; inline;
@@ -143,6 +154,8 @@ uses
 
 const
   UnixWinEpoch = TWinFileTime($019DB1DED53E8000); // Unix epoch start
+  MinWinUnixSec = (0 - TUnixFileTime(UnixWinEpoch div 10000000 - 1));
+  MaxWinUnixSec = TUnixFileTime(High(TWinFileTime) div 10000000 - 1);
 
 const  { Short names of months. }
   ShortMonthNames: TMonthNameArray = ('Jan','Feb','Mar','Apr','May','Jun',
@@ -279,6 +292,46 @@ begin
 end;
 {$ENDIF}
 
+function FileTimeToWinFileTime(FileTime: DCBasicTypes.TFileTime): TWinFileTime; inline;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= TWinFileTime(FileTime)
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result:= UnixFileTimeToWinTime(TUnixFileTime(FileTime));
+end;
+{$ENDIF}
+
+function FileTimeExToWinFileTime(FileTime: DCBasicTypes.TFileTimeEx): TWinFileTime;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= TWinFileTime(FileTime)
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  if (FileTime.Sec > MaxWinUnixSec) then
+    Result:= High(TWinFileTime)
+  else if (FileTime.Sec < MinWinUnixSec) then
+    Result:= Low(TWinFileTime)
+  else begin
+    Result:= UnixWinEpoch + FileTime.sec * 10000000 + FileTime.nanosec div 100;
+  end;
+end;
+{$ENDIF}
+
+function WinFileTimeToFileTimeEx(FileTime: TWinFileTime): DCBasicTypes.TFileTimeEx;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result := TFileTimeEx(FileTime);
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result.Sec:= Int64((FileTime - UnixWinEpoch) div 10000000);
+  Result.NanoSec:= Int64((FileTime - UnixWinEpoch) mod 10000000) * 100;
+end;
+{$ENDIF}
+
 function FileTimeToLocalFileTime(const FileTime: DCBasicTypes.TFileTime;
                                  out LocalFileTime: DCBasicTypes.TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
@@ -331,9 +384,7 @@ function WinFileTimeToDateTime(ft : TWinFileTime) : TDateTime;
 {$IF DEFINED(MSWINDOWS)}
 var
   lpUniversalTime, lpLocalTime: TSystemTime;
-{$ENDIF}
 begin
-{$IF DEFINED(MSWINDOWS)}
   if (Win32MajorVersion > 5) then
   begin
     FileTimeToSystemTime(@ft, @lpUniversalTime);
@@ -341,20 +392,22 @@ begin
     Result := SystemTimeToDateTime(lpLocalTime);
   end
   else
-{$ENDIF}
   begin
     WinFileTimeToLocalFileTime(ft,ft);
     Result := (ft / 864000000000.0) - 109205.0;
   end;
 end;
+{$ELSE}
+begin
+  Result := FileTimeToDateTimeEx(WinFileTimeToFileTimeEx(ft));
+end;
+{$ENDIF}
 
 function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
 {$IF DEFINED(MSWINDOWS)}
 var
   lpUniversalTime, lpLocalTime: TSystemTime;
-{$ENDIF}
 begin
-{$IF DEFINED(MSWINDOWS)}
   if (Win32MajorVersion > 5) then
   begin
     DateTimeToSystemTime(dt, lpLocalTime);
@@ -362,12 +415,16 @@ begin
     SystemTimeToFileTime(@lpUniversalTime, @Result);
   end
   else
-{$ENDIF}
   begin
     Result := Round((Extended(dt) + 109205.0) * 864000000000.0);
     WinLocalFileTimeToFileTime(Result, Result);
   end;
 end;
+{$ELSE}
+begin
+  Result := FileTimeExToWinFileTime(DateTimeToFileTimeEx(dt));
+end;
+{$ENDIF}
 
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
 var
@@ -408,9 +465,15 @@ var
   Hr, Mn, S, MS: Word;
 begin
   DecodeDate(DateTime, Yr, Mo, Dy);
-  if (Yr < 1980) or (Yr > 2107) then // outside DOS file date year range
-    Yr := 1980;
   DecodeTime(DateTime, Hr, Mn, S, MS);
+
+  // Outside DOS file date year range
+  if (Yr < 1980) then
+    Yr := 1980
+  else if (Yr > 2107) then
+  begin
+    Yr := 2107;
+  end;
 
   LongRec(Result).Lo := (S shr 1) or (Mn shl 5) or (Hr shl 11);
   LongRec(Result).Hi := Dy or (Mo shl 5) or (Word(Yr - 1980) shl 9);
@@ -472,43 +535,6 @@ end;
 
 
 {$IF DEFINED(UNIX)}
-procedure NormalizeFileTime(var UnixTime: DCBasicTypes.TFileTimeEx);
-const
-  NSecsPerSec = 1000000000;
-begin
-  while UnixTime.nanosec <= -NSecsPerSec do
-  begin
-    if (UnixTime.sec = Low(Int64)) then
-    begin
-      UnixTime.nanosec:= 0;
-      Exit;
-    end;
-    Dec(UnixTime.sec);
-    Inc(UnixTime.nanosec, NSecsPerSec);
-  end;
-  while UnixTime.nanosec >= NSecsPerSec do
-  begin
-    if (UnixTime.sec = High(Int64)) then
-    begin
-      UnixTime.nanosec:= NSecsPerSec - 1;
-      Exit;
-    end;
-    Inc(UnixTime.sec);
-    Dec(UnixTime.nanosec, NSecsPerSec);
-  end;
-  if (UnixTime.nanosec < 0) then
-  begin
-    if (UnixTime.sec = Low(Int64)) then
-    begin
-      UnixTime.nanosec:= 0;
-    end
-    else begin
-      Dec(UnixTime.sec);
-      Inc(UnixTime.nanosec, NSecsPerSec);
-    end;
-  end;
-end;
-
 function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
 var
   filetime: DCBasicTypes.TFileTimeEx;
@@ -522,8 +548,6 @@ var
   ATime: TTimeStruct;
   Milliseconds: Word;
 begin
-  NormalizeFileTime(UnixTime);
-
   if (fpLocalTime(@UnixTime.sec, @ATime) = nil) then
     Exit(UnixEpoch);
 
@@ -623,7 +647,7 @@ begin
   if (AUnixTime = -1) then
     Result:= TFileTimeExNull
   else begin
-    Result:= TFileTimeEx.create(AUnixTime, MilliSecond*1000*1000);
+    Result:= TFileTimeEx.Create(AUnixTime, MilliSecond * 1000 * 1000);
   end;
 end;
 {$ELSE}
@@ -635,9 +659,23 @@ begin
 end;
 {$ENDIF}
 
+function UnixFileTimeToFileTime(UnixTime: TUnixFileTime): DCBasicTypes.TFileTime; inline;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result:= UnixFileTimeToWinTime(UnixTime);
+{$ELSE}
+  Result:= UnixTime;
+{$ENDIF}
+end;
+
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 begin
   Result := DateTimeToDosFileTime(UnixFileTimeToDateTime(UnixTime));
+end;
+
+function DosTimeToUnixFileTime(DosTime: TDosFileTime): TUnixFileTime;
+begin
+  Result:= DateTimeToUnixFileTime(DosFileTimeToDateTime(DosTime));
 end;
 
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
@@ -655,6 +693,16 @@ begin
     Result:= 0
   else
     Result:= TUnixFileTime((WinTime - UnixWinEpoch) div 10000000);
+end;
+
+function WinFileTimeToDosTime(FileTime: TWinFileTime): TDosFileTime;
+begin
+  Result := DateTimeToDosFileTime(WinFileTimeToDateTime(FileTime));
+end;
+
+function DosTimeToWinFileTime(FileTime: TDosFileTime): TWinFileTime;
+begin
+  Result := DateTimeToWinFileTime(DosFileTimeToDateTime(FileTime));
 end;
 
 function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime;
