@@ -2212,8 +2212,10 @@ end;
 
 procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
 var
-  AFileName: String;
+  AFileName : String;
+  LinkTarget : String;
   OutStream : TStream;
+  PathType : TPathType;
   CurItem : TAbTarItem;
 begin
   { Check the index is not out of range. }
@@ -2265,8 +2267,23 @@ begin
         end;
       end;
 
-      AB_FMODE_FILELINK: begin
-        if not CreateSymLink(CurItem.LinkName, UseName) then
+      AB_FMODE_FILELINK:
+      begin
+        LinkTarget := NormalizePathDelimiters(CurItem.LinkName);
+
+        PathType := GetPathType(LinkTarget);
+        if PathType in [ptRelative, ptAbsolute] then
+        begin
+          if PathType = ptAbsolute then
+            AFileName := LinkTarget
+          else begin
+            AFileName := GetAbsoluteFileName(ExtractFilePath(UseName), LinkTarget);
+          end;
+          if not IsInPath(BaseDirectory, AFileName, True, True) then
+            raise EInvalidOpException.Create(EmptyStr);
+        end;
+
+        if not CreateSymLink(LinkTarget, UseName) then
           raise EOSError.Create(mbSysErrorMessage(GetLastOSError));
       end;
     end;

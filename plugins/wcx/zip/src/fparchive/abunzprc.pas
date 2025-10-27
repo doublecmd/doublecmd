@@ -162,6 +162,7 @@ uses
   AbWinZipAes,
   Inflate64Stream,
   DCOSUtils,
+  DCStrUtils,
   DCClassesUtf8,
   DCConvertEncoding;
 
@@ -1215,6 +1216,8 @@ procedure AbUnzip(Sender : TObject; Item : TAbZipItem; const UseName : string);
   {create the output filestream and pass it to DoExtract}
 var
   LinkTarget : String;
+  PathType : TPathType;
+  AbsolutePath : String;
   ZipArchive : TAbZipArchive;
   InStream, OutStream : TStream;
 begin
@@ -1232,10 +1235,23 @@ begin
           try    {OutStream}
             DoExtract(ZipArchive, Item, InStream, OutStream);
             SetString(LinkTarget, TMemoryStream(OutStream).Memory, OutStream.Size);
-            LinkTarget := CeRawToUtf8(LinkTarget);
+            LinkTarget := NormalizePathDelimiters(CeRawToUtf8(LinkTarget));
           finally {OutStream}
             OutStream.Free;
           end;   {OutStream}
+
+          PathType := GetPathType(LinkTarget);
+          if PathType in [ptRelative, ptAbsolute] then
+          begin
+            if PathType = ptAbsolute then
+              AbsolutePath := LinkTarget
+            else begin
+              AbsolutePath := GetAbsoluteFileName(ExtractFilePath(UseName), LinkTarget);
+            end;
+            if not IsInPath(ZipArchive.BaseDirectory, AbsolutePath, True, True) then
+              raise EInvalidOpException.Create(EmptyStr);
+          end;
+
           if not CreateSymLink(LinkTarget, UseName, UInt32(Item.NativeFileAttributes)) then
             RaiseLastOSError;
         except
