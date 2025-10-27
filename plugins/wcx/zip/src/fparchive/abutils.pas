@@ -1237,7 +1237,7 @@ begin
     aAttr.Size := StatBuf.st_size;
     aAttr.Mode := StatBuf.st_mode;
     aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
-    aAttr.Time := TFileTimeEx.Create(Int64(StatBuf.st_mtime), Int64(StatBuf.st_mtime_nsec));
+    aAttr.Time := TFileTimeEx.Create(Int64(StatBuf.st_mtime), Int64(StatBuf.{$IFDEF LINUX}st_mtime_nsec{$ELSE}st_mtimensec{$ENDIF}));
   end;
 {$ENDIF UNIX}
 end;
