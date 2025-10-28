@@ -1052,6 +1052,7 @@ procedure TKASToolButton.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 var
   TextSize: TSize;
+  iconWidth: Integer;
 begin
   if (Parent = nil) then
     inherited
@@ -1069,7 +1070,10 @@ begin
     begin
       // Size to extent of the icon + caption.
       TextSize := Canvas.TextExtent(Caption);
-      PreferredWidth  := Max(TextSize.cx + Glyph.Width + 16, PreferredWidth);
+      iconWidth := self.ImageWidth;
+      if iconWidth = 0 then
+        iconWidth := Glyph.Width;
+      PreferredWidth  := Max(TextSize.cx + iconWidth + 16, PreferredWidth);
       PreferredHeight := Max(TextSize.cy + 4, PreferredHeight);
     end;
   end;

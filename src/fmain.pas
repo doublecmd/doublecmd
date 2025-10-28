@@ -5092,12 +5092,15 @@ var
   BitmapTmp: Graphics.TBitmap;
   ToolItem: TKASDriveItem;
   Button: TKASToolButton;
+  images: TImageList;
+  imageListSize: Integer;
 begin
   dskPanel.BeginUpdate;
   try
     dskPanel.Clear;
     dskPanel.Flat := gDriveBarFlat;
     Count := DrivesList.Count - 1;
+    imageListSize := Round(gDiskIconsSize * GetCanvasScaleFactor);
 
     for I := 0 to Count do
     begin
@@ -5111,7 +5114,14 @@ begin
 
       // Set drive icon.
       BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace, False);
-      Button.Glyph.Assign(BitmapTmp);
+      images := TImageList.Create(Button);
+      images.Width := imageListSize;
+      images.Height := imageListSize;
+      images.Scaled := True;
+      images.Add(BitmapTmp, nil);
+      Button.ImageWidth := gDiskIconsSize;
+      Button.Images := images;
+      Button.ImageIndex := 0;
       FreeAndNil(BitmapTmp);
 
       {Set Buttons Transparent. Is need? }
@@ -6585,6 +6595,8 @@ procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileVie
 var
   Drive: PDrive;
   BitmapTmp: Graphics.TBitmap = nil;
+  images: TImageList;
+  imageListSize: Integer;
 begin
   DriveButton.Tag := FindMatchingDrive(FileView.CurrentAddress, FileView.CurrentPath);
 
@@ -6607,9 +6619,18 @@ begin
       BitmapTmp := PixMapManager.GetDefaultDriveIcon(gDiskIconsSize, DriveButton.Color);
   end;
 
-  DriveButton.Glyph := BitmapTmp;
+  imageListSize := Round(gDiskIconsSize * GetCanvasScaleFactor);
+  images := TImageList.Create(DriveButton);
+  images.Width := imageListSize;
+  images.Height := imageListSize;
+  images.Scaled := True;
+  images.Add(BitmapTmp, nil);
+  DriveButton.ImageWidth := gDiskIconsSize;
+  DriveButton.Images := images;
+  DriveButton.ImageIndex := 0;
+  FreeAndNil(BitmapTmp);
 
-  DriveButton.Width := DriveButton.Glyph.Width
+  DriveButton.Width := gDiskIconsSize
                      + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 24;
 
   FreeAndNil(BitmapTmp);
