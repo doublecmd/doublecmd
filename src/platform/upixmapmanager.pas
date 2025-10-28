@@ -45,7 +45,8 @@ interface
 {$ENDIF}
 
 uses
-  Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
+  Classes, SysUtils,
+  Graphics, ImgList, Controls, ExtCtrls, Buttons, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils, FPImage,
   LCLVersion, uVectorImage, uMultiArc, uFileSource, WfxPlugin
   {$IF DEFINED(MSWINDOWS)}
@@ -377,6 +378,16 @@ function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
+
+procedure AssignRetinaBitmapForControl(
+  const button: TCustomSpeedButton;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
+
+procedure AssignRetinaBitmapForControl(
+  const imageControl: TCustomImage;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
 
 {$IF DEFINED(DARWIN)}
 function NSImageToTBitmap( const image:NSImage ): TBitmap;
@@ -1140,6 +1151,71 @@ begin
   end;
 end;
 
+function findScaleFactor( control: TControl ): Double;
+var
+  topParent: TControl;
+begin
+  if Assigned(control) then begin
+    topParent:= control.GetTopParent;
+    if Assigned(topParent) then
+      control:= topParent;
+    if (control is TWinControl) and TWinControl(control).HandleAllocated then begin
+      Result:= control.GetCanvasScaleFactor;
+      Exit;
+    end;
+  end;
+  if Screen.FormCount > 0 then begin
+    Result:= Screen.Forms[0].GetCanvasScaleFactor();
+    Exit;
+  end;
+  Result:= 1;
+end;
+
+procedure AssignRetinaBitmapForControl(
+  const button: TCustomSpeedButton;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
+var
+  oldImages: TCustomImageList;
+  images: TImageList;
+  imageListSize: Integer;
+begin
+  oldImages:= button.Images;
+  imageListSize := Round(imageSize * findScaleFactor(button));
+  images := TImageList.Create(button);
+  images.Width := imageListSize;
+  images.Height := imageListSize;
+  images.Scaled := True;
+  images.Add(bitmap, nil);
+  button.ImageWidth := imageSize;
+  button.Images := images;
+  button.ImageIndex := 0;
+  FreeAndNil(bitmap);
+  FreeAndNil(oldImages);
+end;
+
+procedure AssignRetinaBitmapForControl(
+  const imageControl: TCustomImage;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
+var
+  oldImages: TCustomImageList;
+  images: TImageList;
+  imageListSize: Integer;
+begin
+  oldImages:= imageControl.Images;
+  imageListSize := Round(imageSize * findScaleFactor(imageControl));
+  images := TImageList.Create(imageControl);
+  images.Width := imageListSize;
+  images.Height := imageListSize;
+  images.Add(bitmap, nil);
+  imageControl.ImageWidth := imageSize;
+  imageControl.Images := images;
+  imageControl.ImageIndex := 0;
+  FreeAndNil(bitmap);
+  FreeAndNil(oldImages);
+end;
+
 function NSImageToTBitmap( const image:NSImage ): TBitmap;
 var
   nsbitmap: NSBitmapImageRep;
@@ -1300,10 +1376,7 @@ var
   FileName: String;
   bitmapSize: Integer;
 begin
-  if Screen.FormCount > 0 then
-    bitmapSize := Round(AIconSize * Screen.Forms[0].GetCanvasScaleFactor())
-  else
-    bitmapSize := AIconSize;
+  bitmapSize := Round(AIconSize * findScaleFactor(nil));
   FileName:= AIconTheme.FindIcon(AIconName, bitmapSize, 1);
   if FileName = EmptyStr then Exit(nil);
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
