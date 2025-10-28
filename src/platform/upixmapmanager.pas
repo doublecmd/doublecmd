@@ -1298,16 +1298,21 @@ end;
 function TPixMapManager.LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   FileName: String;
+  bitmapSize: Integer;
 begin
-  FileName:= AIconTheme.FindIcon(AIconName, AIconSize);
+  if Screen.FormCount > 0 then
+    bitmapSize := Round(AIconSize * Screen.Forms[0].GetCanvasScaleFactor())
+  else
+    bitmapSize := AIconSize;
+  FileName:= AIconTheme.FindIcon(AIconName, bitmapSize, 1);
   if FileName = EmptyStr then Exit(nil);
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
-    Result := TScalableVectorGraphics.CreateBitmap(FileName, AIconSize, AIconSize)
+    Result := TScalableVectorGraphics.CreateBitmap(FileName, bitmapSize, bitmapSize)
   else
   begin
     Result := CheckLoadPixmapFromFile(FileName);
     if Assigned(Result) then begin
-      Result:= StretchBitmap(Result, AIconSize, clNone, True);
+      Result:= StretchBitmap(Result, bitmapSize, clNone, True);
     end;
   end;
 end;
