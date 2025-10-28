@@ -315,9 +315,9 @@ begin
       // Center icon in the cell.
       aRect.Left := aRect.Left + (ColWidths[aCol] - FDriveIconSize) div 2;
       aRect.Top := aRect.Top + (RowHeights[aRow] - FDriveIconSize) div 2;
-
-      Canvas.Draw(aRect.Left, aRect.Top, BitmapTmp);
-
+      aRect.Width := FDriveIconSize;
+      aRect.Height := FDriveIconSize;
+      Canvas.StretchDraw(aRect, BitmapTmp);
       FreeAndNil(BitmapTmp);
     end;
   end
