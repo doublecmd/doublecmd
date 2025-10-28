@@ -27,7 +27,7 @@ unit fOptionsIcons;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ExtCtrls, fOptionsFrame;
+  Classes, SysUtils, Controls, StdCtrls, ExtCtrls, fOptionsFrame;
 
 type
 
@@ -87,12 +87,20 @@ uses
 procedure TfrmOptionsIcons.cbIconsSizeChange(Sender: TObject);
 var
   iSize: Integer;
+  imageListSize: Integer;
   bmpTemp: TBitmap;
+  images: TImageList;
 begin
   if cbIconsSize.ItemIndex < 0 then Exit;
   iSize:= PtrInt(cbIconsSize.Items.Objects[cbIconsSize.ItemIndex]);
   bmpTemp:= PixmapManager.GetFolderIcon(iSize, pnlImage.Color);
-  imgIconExample.Picture.Assign(bmpTemp);
+  imageListSize:= Round(iSize * GetCanvasScaleFactor);
+  images:= TImageList.Create(imgIconExample);
+  images.Width:= imageListSize;
+  images.Height:= imageListSize;
+  images.Add(bmpTemp, nil);
+  imgIconExample.ImageWidth:= iSize;
+  imgIconExample.Images:= images;
   FreeAndNil(bmpTemp);
 end;
 
@@ -104,12 +112,20 @@ end;
 procedure TfrmOptionsIcons.cbDiskIconsSizeChange(Sender: TObject);
 var
   iSize: Integer;
+  imageListSize: Integer;
   bmpTemp: TBitmap;
+  images: TImageList;
 begin
   if cbDiskIconsSize.ItemIndex < 0 then Exit;
   iSize:= PtrInt(cbDiskIconsSize.Items.Objects[cbDiskIconsSize.ItemIndex]);
   bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlImage.Color);
-  imgDiskIconExample.Picture.Assign(bmpTemp);
+  imageListSize:= Round(iSize * GetCanvasScaleFactor);
+  images:= TImageList.Create(imgDiskIconExample);
+  images.Width:= imageListSize;
+  images.Height:= imageListSize;
+  images.Add(bmpTemp, nil);
+  imgDiskIconExample.ImageWidth:= iSize;
+  imgDiskIconExample.Images:= images;
   FreeAndNil(bmpTemp);
 end;
 
