@@ -1536,7 +1536,6 @@ var
 begin
   Result:= -1;
   if not FUseSystemTheme then Exit;
-  if AIconSize = 24 then AIconSize:= 32;
   nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
   // Try to find best representation for requested icon size
   bestRect.origin.x:= 0;
