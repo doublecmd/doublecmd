@@ -99,8 +99,8 @@ type
        as a list of UTF-8 strings.
        @returns(List of filenames or nil in case of an error.)
     }
-    function GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
-    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; FileInfo: PFileDescriptorW):boolean;
+    class function GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
+    class function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; FileInfo: PFileDescriptorW):boolean;
 
     {en
        Retrieves the text from the CF_UNICODETEXT/CF_TEXT format, will store this in a single file
@@ -991,7 +991,7 @@ begin
 end;
 
 { TFileDropTarget.SaveCfuContentToFile }
-function TFileDropTarget.SaveCfuContentToFile(const dataObj: IDataObject;
+class function TFileDropTarget.SaveCfuContentToFile(const dataObj: IDataObject;
   Index: Integer; WantedFilename: String; FileInfo: PFileDescriptorW): boolean;
 const
   TEMPFILENAME='CfuContentFile.bin';
@@ -1003,37 +1003,44 @@ var
   hFile: THandle;
   pvStrm: IStream;
   statstg: TStatStg;
-  dwSize:     LongInt;
+  dwRead: ULONG;
   AnyPointer: PAnsiChar;
   InnerFilename: String;
   StgDocFile: WideString;
   msStream:   TMemoryStream;
   i64Size, i64Move: {$IF FPC_FULLVERSION < 030002}Int64{$ELSE}QWord{$ENDIF};
+  hr: HRESULT;
 begin
   result:=FALSE;
   InnerFilename:= ExtractFilepath(WantedFilename) + TEMPFILENAME;
+  
   Format.cfFormat := CFU_FILECONTENTS;
   Format.dwAspect := DVASPECT_CONTENT;
   Format.lindex := Index;
   Format.ptd := nil;
   Format.TYMED := TYMED_ISTREAM OR TYMED_ISTORAGE or TYMED_HGLOBAL;
 
-  if dataObj.GetData(Format, Medium) = S_OK then
-  begin
+  hr := dataObj.GetData(Format, Medium);
+  if hr <> S_OK then Exit;
+
+  try
     if Medium.TYMED = TYMED_ISTORAGE then
     begin
       iStg := IStorage(Medium.pstg);
       StgDocFile := CeUtf8ToUtf16(InnerFilename);
-      StgCreateDocfile(PWideChar(StgDocFile), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
-      tIID:=nil;
-      iStg.CopyTo(0, tIID, nil, iFile);
-      iFile.Commit(0);
-      iFile := nil;
+      if StgCreateDocfile(PWideChar(StgDocFile), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile) = S_OK then
+      begin
+        tIID:=nil;
+        iStg.CopyTo(0, tIID, nil, iFile);
+        iFile.Commit(0);
+        iFile := nil;
+      end;
       iStg := nil;
     end
     else if Medium.Tymed = TYMED_HGLOBAL then
     begin
       AnyPointer := GlobalLock(Medium.HGLOBAL);
+      if AnyPointer <> nil then
       try
         hFile := mbFileCreate(InnerFilename);
         if hFile <> feInvalidHandle then
@@ -1044,39 +1051,53 @@ begin
       finally
         GlobalUnlock(Medium.HGLOBAL);
       end;
-      if Medium.PUnkForRelease = nil then GlobalFree(Medium.HGLOBAL);
     end
-    else
+    else if Medium.Tymed = TYMED_ISTREAM then
     begin
       pvStrm:= IStream(Medium.pstm);
-      // Figure out how large the data is
-      if (FileInfo^.dwFlags and FD_FILESIZE <> 0) then
-        i64Size:= Int64(FileInfo.nFileSizeLow) or (Int64(FileInfo.nFileSizeHigh) shl 32)
-      else if (pvStrm.Stat(statstg, STATFLAG_DEFAULT) = S_OK) then
-        i64Size:= statstg.cbSize
-      else if (pvStrm.Seek(0, STREAM_SEEK_END, i64Size) = S_OK) then
-        // Seek back to start of stream
-        pvStrm.Seek(0, STREAM_SEEK_SET, i64Move)
-      else begin
-        Exit;
+      if pvStrm <> nil then
+      begin
+        // Figure out how large the data is
+        i64Size := 0;
+        if (FileInfo^.dwFlags and FD_FILESIZE <> 0) then
+          i64Size:= Int64(FileInfo.nFileSizeLow) or (Int64(FileInfo.nFileSizeHigh) shl 32)
+        else if (pvStrm.Stat(statstg, STATFLAG_NONAME) = S_OK) then
+          i64Size:= statstg.cbSize
+        else if (pvStrm.Seek(0, STREAM_SEEK_END, i64Size) = S_OK) then
+        begin
+          // Seek back to start of stream
+          pvStrm.Seek(0, STREAM_SEEK_SET, i64Move);
+        end;
+
+        if i64Size > 0 then
+        begin
+          // Create memory stream to convert to
+          msStream:= TMemoryStream.Create;
+          try
+            // Allocate size
+            msStream.Size:= i64Size;
+            // Read from the IStream into the memory for the TMemoryStream
+            dwRead := 0;
+            if pvStrm.Read(msStream.Memory, i64Size, @dwRead) = S_OK then
+              msStream.Size:= dwRead
+            else
+              msStream.Size:= 0;
+
+            if msStream.Size > 0 then
+            begin
+              msStream.Position:=0;
+              msStream.SaveToFile(UTF8ToSys(InnerFilename));
+            end;
+          finally
+            msStream.Free;
+          end;
+        end;
+        pvStrm := nil;
       end;
-
-      // Create memory stream to convert to
-      msStream:= TMemoryStream.Create;
-      // Allocate size
-      msStream.Size:= i64Size;
-      // Read from the IStream into the memory for the TMemoryStream
-      if pvStrm.Read(msStream.Memory, i64Size, @dwSize) = S_OK then
-        msStream.Size:= dwSize
-      else
-        msStream.Size:= 0;
-      // Release interface
-      pvStrm:=nil;
-
-      msStream.Position:=0;
-      msStream.SaveToFile(UTF8ToSys(InnerFilename));
-      msStream.Free;
     end;
+  finally
+    // Always release the medium - this is required by COM
+    ReleaseStgMedium(@Medium);
   end;
 
   if mbFileExists(InnerFilename) then
@@ -1093,7 +1114,7 @@ begin
 end;
 
 { TFileDropTarget.GetDropFileGroupFilenames }
-function TFileDropTarget.GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
+class function TFileDropTarget.GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
 var
   SuffixStr: String;
   AnyPointer: Pointer;

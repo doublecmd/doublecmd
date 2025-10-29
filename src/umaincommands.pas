@@ -395,6 +395,9 @@ implementation
 uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX, uFlatViewFileSource,
      uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, DCStringHashListUtf8,
+{$IFDEF MSWINDOWS}
+     Windows,
+{$ENDIF}
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -4450,9 +4453,13 @@ begin
   begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     try
-      // fill file list with files
+      // Create file list from filenames
       Files := TFileSystemFileSource.CreateFilesFromFileList(
           ExtractFilePath(filenamesList[0]), fileNamesList, True);
+
+{$IFDEF MSWINDOWS}
+      CloseClipboard;
+{$ENDIF}
 
       if Files.Count > 0 then
       begin
@@ -4523,6 +4530,7 @@ begin
 
         if Assigned(Operation) then
         begin
+          // Don't access Files after creating operation - it may have taken ownership
           if Operation is TFileSystemCopyOperation then
             (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
           OperationsManager.AddOperation(Operation);
