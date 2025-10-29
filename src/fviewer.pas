@@ -1418,7 +1418,7 @@ begin
   if pnlPreview.Visible or delete then
     begin
       if not Assigned(FThumbnailManager) then
-        FThumbnailManager:= TThumbnailManager.Create(DrawPreview.Canvas.Brush.Color);
+        FThumbnailManager:= TThumbnailManager.Create(self, DrawPreview.Canvas.Brush.Color);
       if delete then
         begin
           FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need

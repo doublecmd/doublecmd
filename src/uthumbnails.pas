@@ -5,7 +5,7 @@ unit uThumbnails;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Types, fgl, DCClassesUtf8, uFile;
+  Classes, SysUtils, Graphics, Controls, Types, fgl, DCClassesUtf8, uFile;
 
 type
 
@@ -21,7 +21,9 @@ type
 
   TThumbnailManager = class
   private
+    FOwnerControl: TControl;
     FBitmap: TBitmap;
+    FThumbBitmapSize: TSize;
     FBackColor: TColor;
     FFileName: String;
     FThumbPath: String;
@@ -35,21 +37,21 @@ type
     function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     class function ReadFileName(const aThumb: String; out aFileName: String): Boolean;
   public
-    constructor Create(BackColor: TColor);
+    constructor Create(const OwnerControl: TControl; const BackColor: TColor);
     function CreatePreview(const aFile: TFile): TBitmap;
     function CreatePreview(const FullPathToFile: String): TBitmap;
     function RemovePreview(const FullPathToFile: String): Boolean;
   public
     class procedure CompactCache;
     class function RegisterProvider(Provider: TCreatePreviewHandler): Integer;
-    class function GetPreviewScaleSize(aWidth, aHeight: Integer): TSize;
+    class function GetPreviewScaleSize(const bitmapSize: TSize; const aWidth, aHeight: Integer): TSize;
     class function GetPreviewFromProvider(const aFileName: String; aSize: TSize; aSkip: Integer): TBitmap;
   end;
 
 implementation
 
 uses
-  StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, DCOSUtils, DCStrUtils,
+  StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, uDCUtils, DCOSUtils, DCStrUtils,
   uDebug, uReSample, uGlobsPaths, uGlobs, uPixmapManager, uFileSystemFileSource,
   uGraphics, uFileProcs;
 
@@ -76,7 +78,7 @@ var
 begin
   try
     // Calculate aspect width and height of thumb
-    aSize:= GetPreviewScaleSize(Graphic.Width, Graphic.Height);
+    aSize:= GetPreviewScaleSize(FThumbBitmapSize, Graphic.Width, Graphic.Height);
     bmpTemp:= TBitMap.Create;
     bmpTemp.Assign(Graphic);
     Result:= TBitMap.Create;
@@ -97,11 +99,11 @@ begin
   FBitmap:= TBitmap.Create;
   with FBitmap do
   begin
-    SetSize(gThumbSize.cx, gThumbSize.cy);
+    SetSize(FThumbBitmapSize.cx, FThumbBitmapSize.cy);
     Canvas.Brush.Color:= clWindow;
     Canvas.FillRect(Canvas.ClipRect);
     Canvas.Font.Color:= clWindowText;
-    Canvas.Font.Size := gThumbSize.cy div 16;
+    Canvas.Font.Size := FThumbBitmapSize.cy div 16;
     try
       Stream:= TFileStreamEx.Create(FFileName, fmOpenRead or fmShareDenyNone);
       try
@@ -111,7 +113,7 @@ begin
           S:= Reader.ReadLine;
           Canvas.TextOut(0, Y, S);
           Y += Canvas.TextHeight(S) + 2;
-        until (Y >= gThumbSize.cy) or Reader.Eof;
+        until (Y >= FThumbBitmapSize.cy) or Reader.Eof;
       finally
         Reader.Free;
       end;
@@ -191,8 +193,9 @@ begin
   end;
 end;
 
-constructor TThumbnailManager.Create(BackColor: TColor);
+constructor TThumbnailManager.Create(const OwnerControl: TControl; const BackColor: TColor);
 begin
+  FOwnerControl:= OwnerControl;
   FBackColor:= BackColor;
   FThumbPath:= gpThumbCacheDir;
   // If directory not exists then create it
@@ -217,9 +220,13 @@ var
   fsFileStream: TFileStreamEx = nil;
   Picture: TPicture = nil;
   ABitmap: TBitmap;
+  factor: Double;
 begin
   Result:= nil;
   try
+    factor:= findScaleFactorByControl(FOwnerControl);
+    FThumbBitmapSize.Width:= Round(gThumbSize.Width * factor);
+    FThumbBitmapSize.Height:= Round(gThumbSize.Height * factor);
     Picture:= TPicture.Create;
     try
       sFullPathToFile:= aFile.FullPath;
@@ -245,12 +252,12 @@ begin
       // Try to create thumnail using providers
       for I:= Low(FProviderList) to High(FProviderList) do
       begin
-        Result:= FProviderList[I](sFullPathToFile, gThumbSize);
+        Result:= FProviderList[I](sFullPathToFile, FThumbBitmapSize);
         if Assigned(Result) then Break;
       end;
       if Assigned(Result) then
       begin
-        if (Result.Width > gThumbSize.cx) or (Result.Height > gThumbSize.cy) then
+        if (Result.Width > FThumbBitmapSize.cx) or (Result.Height > FThumbBitmapSize.cy) then
         begin
           ABitmap:= CreatePreviewImage(Result);
           BitmapAssign(Result, ABitmap);
@@ -267,7 +274,7 @@ begin
             with Picture do
             try
               LoadFromStreamWithFileExt(fsFileStream, sExt);
-              if (Graphic.Width > gThumbSize.cx) or (Graphic.Height > gThumbSize.cy) then
+              if (Graphic.Width > FThumbBitmapSize.cx) or (Graphic.Height > FThumbBitmapSize.cy) then
                 Result:= CreatePreviewImage(Graphic)
               else
                 begin
@@ -314,7 +321,7 @@ begin
     Result:= nil;
   end;
   if not Assigned(Result) then
-    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
+    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize*2, True, FBackColor);
 end;
 
 function TThumbnailManager.CreatePreview(const FullPathToFile: String): TBitmap;
@@ -353,21 +360,21 @@ begin
   Result:= High(FProviderList);
 end;
 
-class function TThumbnailManager.GetPreviewScaleSize(aWidth, aHeight: Integer): TSize;
+class function TThumbnailManager.GetPreviewScaleSize(const bitmapSize: TSize; const aWidth, aHeight: Integer): TSize;
 begin
   if aWidth > aHeight then
     begin
-      Result.cx:= gThumbSize.cx;
+      Result.cx:= bitmapSize.cx;
       Result.cy:= Result.cx * aHeight div aWidth;
-      if Result.cy > gThumbSize.cy then
+      if Result.cy > bitmapSize.cy then
       begin
-        Result.cy:= gThumbSize.cy;
+        Result.cy:= bitmapSize.cy;
         Result.cx:= Result.cy * aWidth div aHeight;
       end;
     end
   else
     begin
-      Result.cy:= gThumbSize.cy;
+      Result.cy:= bitmapSize.cy;
       Result.cx:= Result.cy * aWidth div aHeight;
     end;
 end;

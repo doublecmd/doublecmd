@@ -469,12 +469,17 @@ var
 
   procedure DrawIconCell(aRect: TRect);
   var
-    iTextTop: Integer;
+    factor: Double;
+    IconRect: TRect;
+    IconWidth: Integer;
+    IconHeight: Integer;
     X, Y: Integer;
+    iTextTop: Integer;
     s: string;
     IconID: PtrInt;
     Bitmap: TBitmap;
   begin
+    factor:= self.GetCanvasScaleFactor;
     iTextTop := aRect.Bottom - Canvas.TextHeight('Wg');
 
     IconID := AFile.Tag;
@@ -483,9 +488,13 @@ var
        (IconID < FThumbView.FBitmapList.Count) then
       begin
         Bitmap:= FThumbView.FBitmapList[IconID];
-        X:= aRect.Left + (aRect.Right - aRect.Left - Bitmap.Width) div 2;
-        Y:= aRect.Top + (iTextTop - aRect.Top - Bitmap.Height) div 2;
-        Canvas.Draw(X, Y, Bitmap);
+        IconWidth:= Round(Bitmap.Width / factor);
+        IconHeight:= Round(Bitmap.Height / factor);
+        IconRect.Left:= aRect.Left + (aRect.Right - aRect.Left - IconWidth) div 2;
+        IconRect.Top:= aRect.Top + (iTextTop - aRect.Top - IconHeight) div 2;
+        IconRect.Width:= IconWidth;
+        IconRect.Height:= IconHeight;
+        Canvas.StretchDraw(IconRect, Bitmap);
       end
     else
       begin
@@ -600,7 +609,7 @@ begin
 
   tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(gColors.FilePanel^.BackColor);
+  FThumbnailManager:= TThumbnailManager.Create(self, gColors.FilePanel^.BackColor);
 end;
 
 procedure TThumbFileView.AfterChangePath;
