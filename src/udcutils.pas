@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -235,6 +235,8 @@ function LightColor(AColor: TColor; APercent: Byte): TColor;
 function ContrastColor(Color: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
+function findScaleFactorByFirstForm: Double;
+function findScaleFactorByControl( control: TControl ): Double;
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 procedure SetComboWidthToLargestElement(AComboBox: TCustomComboBox; iExtraWidthToAdd: integer = 0);
 
@@ -248,7 +250,7 @@ procedure DCPlaceCursorNearControlIfNecessary(AControl: TControl);
 implementation
 
 uses
-  uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
+  Forms, uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
   DCStrUtils, DCOSUtils, DCConvertEncoding, LazUTF8
 {$IF DEFINED(MSWINDOWS)}
   , Windows
@@ -1260,6 +1262,29 @@ begin
     Control.Color:= clDefault
   else
     Control.Color:= $FFFFFFFF8000000F;
+end;
+
+function findScaleFactorByFirstForm: Double;
+begin
+  Result:= 1;
+  if Screen.FormCount > 0 then
+    Result:= Screen.Forms[0].GetCanvasScaleFactor();
+end;
+
+function findScaleFactorByControl( control: TControl ): Double;
+var
+  topParent: TControl;
+begin
+  if Assigned(control) then begin
+    topParent:= control.GetTopParent;
+    if Assigned(topParent) then
+      control:= topParent;
+    if (control is TWinControl) and TWinControl(control).HandleAllocated then begin
+      Result:= control.GetCanvasScaleFactor;
+      Exit;
+    end;
+  end;
+  Result:= findScaleFactorByFirstForm();
 end;
 
 procedure EnableControl(Control: TControl; Enabled: Boolean);

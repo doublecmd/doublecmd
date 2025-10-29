@@ -1151,26 +1151,6 @@ begin
   end;
 end;
 
-function findScaleFactor( control: TControl ): Double;
-var
-  topParent: TControl;
-begin
-  if Assigned(control) then begin
-    topParent:= control.GetTopParent;
-    if Assigned(topParent) then
-      control:= topParent;
-    if (control is TWinControl) and TWinControl(control).HandleAllocated then begin
-      Result:= control.GetCanvasScaleFactor;
-      Exit;
-    end;
-  end;
-  if Screen.FormCount > 0 then begin
-    Result:= Screen.Forms[0].GetCanvasScaleFactor();
-    Exit;
-  end;
-  Result:= 1;
-end;
-
 procedure AssignRetinaBitmapForControl(
   const button: TCustomSpeedButton;
   const imageSize: Integer;
@@ -1181,7 +1161,7 @@ var
   imageListSize: Integer;
 begin
   oldImages:= button.Images;
-  imageListSize := Round(imageSize * findScaleFactor(button));
+  imageListSize := Round(imageSize * findScaleFactorByControl(button));
   images := TImageList.Create(button);
   images.Width := imageListSize;
   images.Height := imageListSize;
@@ -1204,7 +1184,7 @@ var
   imageListSize: Integer;
 begin
   oldImages:= imageControl.Images;
-  imageListSize := Round(imageSize * findScaleFactor(imageControl));
+  imageListSize := Round(imageSize * findScaleFactorByControl(imageControl));
   images := TImageList.Create(imageControl);
   images.Width := imageListSize;
   images.Height := imageListSize;
@@ -1376,7 +1356,7 @@ var
   FileName: String;
   bitmapSize: Integer;
 begin
-  bitmapSize := Round(AIconSize * findScaleFactor(nil));
+  bitmapSize := Round(AIconSize * findScaleFactorByFirstForm());
   FileName:= AIconTheme.FindIcon(AIconName, bitmapSize, 1);
   if FileName = EmptyStr then Exit(nil);
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
