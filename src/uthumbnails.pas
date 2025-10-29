@@ -140,7 +140,7 @@ begin
     if not Result then Exit;
     Result:= (aFile.Size = FileStream.ReadQWord) and (QWord(aFile.ModificationTime) = FileStream.ReadQWord);
     if not Result then Exit;
-    Result:= (gThumbSize.cx = FileStream.ReadWord) and (gThumbSize.cy = FileStream.ReadWord);
+    Result:= (FThumbBitmapSize.cx = FileStream.ReadWord) and (FThumbBitmapSize.cy = FileStream.ReadWord);
   except
     Result:= False;
   end;
@@ -160,8 +160,8 @@ begin
     FileStream.WriteAnsiString(FilenameToURI(aFile.FullPath));
     FileStream.WriteQWord(aFile.Size);
     FileStream.WriteQWord(QWord(aFile.ModificationTime));
-    FileStream.WriteWord(gThumbSize.cx);
-    FileStream.WriteWord(gThumbSize.cy);
+    FileStream.WriteWord(FThumbBitmapSize.cx);
+    FileStream.WriteWord(FThumbBitmapSize.cy);
     // Write original file size
     FileStream.WriteDWord(iEnd);
   except
