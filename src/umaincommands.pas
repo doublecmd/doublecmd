@@ -1891,15 +1891,18 @@ begin
   //    Let's assume that if we have an "=" sign, it's can be a legacy usage but one with actual parameters.
   if (length(Params)>0) then
   begin
-    sOutputTabsFilename := GetDefaultParam(Params);
-    if pos('=',sOutputTabsFilename)<>0 then
+    sValue := GetDefaultParam(Params);
+    if pos('=',sValue)<>0 then
     begin
-      sOutputTabsFilename := '';
       for Param in Params do
       begin
-        if GetParamValue(Param, 'filename', sValue) then sOutputTabsFilename := sValue
+        if GetParamValue(Param, 'filename', sValue) then sOutputTabsFilename := RemoveQuotation(PrepareParameter(sValue))
         else if GetParamBoolValue(Param, 'savedirhistory', boolValue) then bSaveDirHistory := boolValue;
       end;
+    end
+    else begin
+      if length(Params)=1 then
+        sOutputTabsFilename := RemoveQuotation(PrepareParameter(sValue));
     end;
   end;
 
@@ -1968,17 +1971,20 @@ begin
   //    Let's assume that if we have an "=" sign, it's can't be a legacy usage but one with actual parameters.
   if (length(Params)>0) then
   begin
-    sInputTabsFilename:=GetDefaultParam(Params);
-    if pos('=',sInputTabsFilename)<>0 then
+    sValue:=GetDefaultParam(Params);
+    if pos('=',sValue)<>0 then
     begin
-      sInputTabsFilename:='';
       for Param in Params do
       begin
-        if GetParamValue(Param, 'filename', sValue) then sInputTabsFilename := sValue
+        if GetParamValue(Param, 'filename', sValue) then sInputTabsFilename := RemoveQuotation(PrepareParameter(sValue))
         else if GetParamValue(Param, 'loadleftto', sValue) then TargetDestinationForLeft:=EvaluateSideResult(sValue,TargetDestinationForLeft)
         else if GetParamValue(Param, 'loadrightto', sValue) then TargetDestinationForRight:=EvaluateSideResult(sValue,TargetDestinationForRight)
         else if GetParamValue(Param, 'keep', sValue) then DestinationToKeep:=EvaluateSideResult(sValue,DestinationToKeep);
       end;
+    end
+    else begin
+      if length(Params)=1 then
+        sInputTabsFilename := RemoveQuotation(PrepareParameter(sValue));
     end;
   end;
 
@@ -4610,7 +4616,7 @@ begin
   if Length(Params)=1 then
   begin
     if (not GetParamValue(Params[0], 'activepath', WantedPath)) AND (not GetParamValue(Params[0], 'inactivepath', WantedPath)) AND (not GetParamValue(Params[0], 'leftpath', WantedPath)) AND (not GetParamValue(Params[0], 'rightpath', WantedPath)) then
-      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(Params[0])));
+      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(PrepareParameter(Params[0])));
   end;
 end;
 
@@ -5625,7 +5631,7 @@ begin
     for AParam in Params do
     begin
       if GetParamValue(AParam, 'filename', sValue) then
-        AFileName := sValue
+        AFileName := RemoveQuotation(PrepareParameter(sValue))
       else if GetParamValue(AParam, 'side', sValue) then
       begin
         if sValue = 'left' then Notebook := LeftTabs
