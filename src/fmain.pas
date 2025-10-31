@@ -5111,7 +5111,8 @@ begin
 
       // Set drive icon.
       BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace, False);
-      AssignRetinaBitmapForControl(Button, gDiskIconsSize, BitmapTmp);
+      Button.Glyph := BitmapTmp;
+      FreeAndNil(BitmapTmp);
 
       {Set Buttons Transparent. Is need? }
       Button.Glyph.Transparent := True;
