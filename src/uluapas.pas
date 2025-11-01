@@ -643,6 +643,12 @@ begin
     frmMain.SetActiveFrame(TFilePanelSelect(lua_tointeger(L, 1)));
 end;
 
+function luaExecute(L: Plua_State): Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushboolean(L, ExecCmdFork(luaL_optstring(L, 1, nil)));
+end;
+
 function luaExpandEnv(L : Plua_State) : Integer; cdecl;
 var
   S: String;
@@ -881,6 +887,7 @@ begin
     luaP_register(L, 'MatchesMask', @luaMatchesMask);
     luaP_register(L, 'MatchesMaskList', @luaMatchesMaskList);
 
+    luaP_register(L, 'Execute', @luaExecute);
     luaP_register(L, 'ExpandEnv', @luaExpandEnv);
     luaP_register(L, 'FileSetTime', @luaFileSetTime);
     luaP_register(L, 'GetFileProperty', @luaGetFileProperty);
