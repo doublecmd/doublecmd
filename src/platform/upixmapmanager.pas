@@ -471,6 +471,51 @@ begin
   end;
 end;
 
+procedure AssignRetinaBitmapForControl(
+  const button: TCustomSpeedButton;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
+var
+  oldImages: TCustomImageList;
+  images: TImageList;
+  imageListSize: Integer;
+begin
+  oldImages:= button.Images;
+  imageListSize := Round(imageSize * findScaleFactorByControl(button));
+  images := TImageList.Create(button);
+  images.Width := imageListSize;
+  images.Height := imageListSize;
+  images.Scaled := True;
+  images.Add(bitmap, nil);
+  button.ImageWidth := imageSize;
+  button.Images := images;
+  button.ImageIndex := 0;
+  FreeAndNil(bitmap);
+  FreeAndNil(oldImages);
+end;
+
+procedure AssignRetinaBitmapForControl(
+  const imageControl: TCustomImage;
+  const imageSize: Integer;
+  bitmap: Graphics.TBitmap);
+var
+  oldImages: TCustomImageList;
+  images: TImageList;
+  imageListSize: Integer;
+begin
+  oldImages:= imageControl.Images;
+  imageListSize := Round(imageSize * findScaleFactorByControl(imageControl));
+  images := TImageList.Create(imageControl);
+  images.Width := imageListSize;
+  images.Height := imageListSize;
+  images.Add(bitmap, nil);
+  imageControl.ImageWidth := imageSize;
+  imageControl.Images := images;
+  imageControl.ImageIndex := 0;
+  FreeAndNil(bitmap);
+  FreeAndNil(oldImages);
+end;
+
 { TPixMapManager }
 
 { TPixMapManager.LoadBitmapFromFile }
@@ -1149,51 +1194,6 @@ begin
   finally
     if Assigned(srcImage) then srcImage.release;
   end;
-end;
-
-procedure AssignRetinaBitmapForControl(
-  const button: TCustomSpeedButton;
-  const imageSize: Integer;
-  bitmap: Graphics.TBitmap);
-var
-  oldImages: TCustomImageList;
-  images: TImageList;
-  imageListSize: Integer;
-begin
-  oldImages:= button.Images;
-  imageListSize := Round(imageSize * findScaleFactorByControl(button));
-  images := TImageList.Create(button);
-  images.Width := imageListSize;
-  images.Height := imageListSize;
-  images.Scaled := True;
-  images.Add(bitmap, nil);
-  button.ImageWidth := imageSize;
-  button.Images := images;
-  button.ImageIndex := 0;
-  FreeAndNil(bitmap);
-  FreeAndNil(oldImages);
-end;
-
-procedure AssignRetinaBitmapForControl(
-  const imageControl: TCustomImage;
-  const imageSize: Integer;
-  bitmap: Graphics.TBitmap);
-var
-  oldImages: TCustomImageList;
-  images: TImageList;
-  imageListSize: Integer;
-begin
-  oldImages:= imageControl.Images;
-  imageListSize := Round(imageSize * findScaleFactorByControl(imageControl));
-  images := TImageList.Create(imageControl);
-  images.Width := imageListSize;
-  images.Height := imageListSize;
-  images.Add(bitmap, nil);
-  imageControl.ImageWidth := imageSize;
-  imageControl.Images := images;
-  imageControl.ImageIndex := 0;
-  FreeAndNil(bitmap);
-  FreeAndNil(oldImages);
 end;
 
 function NSImageToTBitmap( const image:NSImage ): TBitmap;

@@ -176,7 +176,7 @@ begin
       if Scale then
       begin
         // Calculate aspect width and height of thumb
-        aSize:= TThumbnailManager.GetPreviewScaleSize(RsvgDimensionData.width, RsvgDimensionData.height);
+        aSize:= TThumbnailManager.GetPreviewScaleSize(aSize, RsvgDimensionData.width, RsvgDimensionData.height);
       end
       else begin
         aSize.cx:= RsvgDimensionData.width;
