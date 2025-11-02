@@ -171,6 +171,17 @@ begin
   DoDirSeparators(Result);
   Result := ExcludeFrontPathDelimiter(Result);
   Result := ExcludeTrailingPathDelimiter(Result);
+  while StrBegins(Result, '..' + PathDelim) do
+  begin
+    Result := Copy(Result, 4, MaxInt);
+    Result := ExcludeFrontPathDelimiter(Result);
+  end;
+  if StrEnds(Result, PathDelim + '..') then
+  begin
+    Result[Length(Result)]     := '_';
+    Result[Length(Result) - 1] := '_';
+  end;
+  Result := StringReplace(Result, PathDelim + '..' + PathDelim, PathDelim + '__' + PathDelim, [rfReplaceAll]);
 end;
 
 procedure TAbZipKit.DeleteDirectoriesRecursively(const Paths: String);
