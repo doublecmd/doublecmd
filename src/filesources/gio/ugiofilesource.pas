@@ -35,6 +35,7 @@ type
 
       class function IsSupportedPath(const Path: String): Boolean; override;
 
+      function GetProcessor: TFileSourceProcessor; override;
       function GetPathType(sPath : String): TPathType; override;
       function CreateDirectory(const Path: String): Boolean; override;
       function FileSystemEntryExists(const Path: String): Boolean; override;
@@ -79,7 +80,45 @@ uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
-  DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio;
+  DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio, uFileSourceManager;
+
+type
+
+  { TGioFileSourceProcessor }
+
+  TGioFileSourceProcessor = class(TDefaultFileSourceProcessor)
+    procedure consultOperation(var params: TFileSourceConsultParams); override;
+  end;
+
+var
+  GioFileSourceProcessor: TGioFileSourceProcessor;
+
+{ TGioFileSourceProcessor }
+
+procedure TGioFileSourceProcessor.consultOperation(var params: TFileSourceConsultParams);
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
+begin
+  if params.operationType = fsoCopy then
+  begin
+    if params.phase <> TFileSourceConsultPhase.source then
+      Exit;
+
+    sourceFS:= params.sourceFS;
+    targetFS:= params.targetFS;
+
+    // If same file source
+    if (fsoCopy in sourceFS.GetOperationsTypes) and
+       (fsoCopy in targetFS.GetOperationsTypes) and
+       sourceFS.ClassName.Equals(targetFS.ClassName) then
+    begin
+      params.resultFS:= params.targetFS;
+      Exit;
+    end;
+  end;
+  inherited consultOperation(params);
+end;
 
 { TGioFileSource }
 
@@ -380,6 +419,11 @@ begin
   end;
 end;
 
+function TGioFileSource.GetProcessor: TFileSourceProcessor;
+begin
+  Result:= GioFileSourceProcessor;
+end;
+
 function TGioFileSource.GetPathType(sPath: String): TPathType;
 begin
   if (Pos('://', sPath) > 0) then
@@ -553,5 +597,11 @@ begin
   if not StrBegins(theTargetFiles.Path, FCurrentAddress) then theTargetFiles.Path:= FCurrentAddress + theTargetFiles.Path;
   Result := TGioSetFilePropertyOperation.Create(TargetFileSource, theTargetFiles, theNewProperties);
 end;
+
+initialization
+  GioFileSourceProcessor:= TGioFileSourceProcessor.Create;
+
+finalization
+  GioFileSourceProcessor.Free;
 
 end.
