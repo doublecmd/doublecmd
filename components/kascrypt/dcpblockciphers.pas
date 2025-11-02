@@ -459,6 +459,7 @@ end;
 procedure TDCP_blockcipher128.IncCounter;
 begin
   Inc(PQWord(@CV[0])^);
+  if (PQWord(@CV[0])^ = 0) then Inc(PQWord(@CV[8])^);
 end;
 
 class function TDCP_blockcipher128.GetBlockSize: integer;
