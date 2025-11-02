@@ -61,7 +61,7 @@ begin
             Bitmap:= TBitmap.Create;
             try
               Bitmap.LoadFromRawImage(RawImage, True);
-              aSize:= TThumbnailManager.GetPreviewScaleSize(Bitmap.Width, Bitmap.Height);
+              aSize:= TThumbnailManager.GetPreviewScaleSize(aSize, Bitmap.Width, Bitmap.Height);
               Result.SetSize(aSize.cx, aSize.cy);
               Stretch(Bitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
             finally

@@ -146,7 +146,7 @@ begin
         if (Width > aSize.cx) or (Height > aSize.cy) then
         begin
           // Calculate aspect width and height of thumb
-          aSize:= TThumbnailManager.GetPreviewScaleSize(Width, Height);
+          aSize:= TThumbnailManager.GetPreviewScaleSize(aSize, Width, Height);
           // Create image thumbnail
           if Assigned(MagickResizeImageNew) then
             Status:= MagickResizeImageNew(Wand, aSize.cx, aSize.cy, LanczosFilter)
