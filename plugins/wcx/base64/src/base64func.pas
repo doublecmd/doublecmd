@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Base64 archiver plugin
 
-  Copyright (C) 2022-2024 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2022-2025 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -181,6 +181,7 @@ var
   fsOutput: TStream;
   APercent: Integer;
   ATargetName: String;
+  ASourceName: UnicodeString;
   AStream: TBase64DecodingStreamEx;
   AHandle: TRecord absolute hArcData;
 begin
@@ -200,13 +201,14 @@ begin
           try
             AFileSize:= AHandle.Stream.Size;
             SetLength(ABuffer, BUFFER_SIZE);
+            ASourceName:= CeUtf8ToUtf16(AHandle.FileName);
             repeat
               ARead:= AStream.Read(ABuffer[0], BUFFER_SIZE);
               if ARead > 0 then
               begin
                 fsOutput.WriteBuffer(ABuffer[0], ARead);
                 APercent:= (AStream.Source.Position * 100) div AFileSize;
-                if (AHandle.ProcessDataProcW(DestName, -APercent) = 0) then
+                if (AHandle.ProcessDataProcW(PWideChar(ASourceName), -APercent) = 0) then
                 begin
                   FreeAndNil(fsOutput);
                   if Operation = PK_EXTRACT then mbDeleteFile(ATargetName);
