@@ -84,6 +84,8 @@ begin
   begin
 {$IF DEFINED(CPUX86_64)}
     Algorithm:= HASH_BLAKE3;
+{$ELSEIF DEFINED(CPUAARCH64)}
+    Algorithm:= HASH_BLAKE3;
 {$ELSEIF DEFINED(CPU64)}
     Algorithm:= HASH_BLAKE2B;
 {$ELSE}
