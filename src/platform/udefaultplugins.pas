@@ -31,7 +31,7 @@ uses
 
 const
   { Default plugins list version number }
-  pdVersion = 2;
+  pdVersion = 3;
 
 const
   WcxMask = '*.wcx'{$IFDEF CPU64} + ';*.wcx64'{$ENDIF};
