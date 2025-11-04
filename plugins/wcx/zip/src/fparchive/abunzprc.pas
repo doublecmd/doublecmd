@@ -1249,7 +1249,7 @@ begin
               AbsolutePath := GetAbsoluteFileName(ExtractFilePath(UseName), LinkTarget);
             end;
             if not IsInPath(ZipArchive.BaseDirectory, AbsolutePath, True, True) then
-              raise EInvalidOpException.Create(EmptyStr);
+              ZipArchive.SuspiciousLinks.Add(NormalizePathDelimiters(Item.FileName));
           end;
 
           if not CreateSymLink(LinkTarget, UseName, UInt32(Item.NativeFileAttributes)) then
@@ -1261,6 +1261,7 @@ begin
         end;
       end
       else begin
+        ZipArchive.VerifyItem(Item);
         OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
         try
           try    {OutStream}

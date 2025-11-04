@@ -600,6 +600,9 @@ type
       read GetItem
       write PutItem; default;
 
+    property SuspiciousLinks : TStringList
+      read FSuspiciousLinks;
+
   public {events}
     property OnNeedPassword : TAbNeedPasswordEvent
       read FOnNeedPassword write FOnNeedPassword;
@@ -1943,6 +1946,7 @@ begin
   FPasswordRetries := AbDefPasswordRetries;
   FTempDir := '';
   SpanningThreshold := AbDefZipSpanningThreshold;
+  FSuspiciousLinks := TStringList.Create;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbZipArchive.Destroy;
@@ -1950,6 +1954,7 @@ begin
   FInfo.Free;
   FInfo := nil;
   inherited Destroy;
+  FSuspiciousLinks.Free;
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipArchive.CreateItem(const SourceFileName   : string;

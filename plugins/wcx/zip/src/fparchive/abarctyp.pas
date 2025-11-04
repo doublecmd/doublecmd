@@ -36,11 +36,9 @@ unit AbArcTyp;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF MSWINDOWS}
   Classes,
   Types,
+  DCStrUtils,
   AbUtils,
   DCBasicTypes;
 
@@ -293,6 +291,7 @@ type
     FSpanningThreshold      : Int64;
     FCompressionLevel       : IntPtr;
     FCompressionMethod      : IntPtr;
+    FSuspiciousLinks        : TStringList;
     FItemList       : TAbArchiveList;
     FLogFile        : string;
     FLogging        : Boolean;
@@ -444,6 +443,7 @@ type
     procedure TestTaggedItems;
     procedure TestAt(Index : Integer);
     procedure UnTagItems(const FileMask : string);
+    procedure VerifyItem(Item: TAbArchiveItem);
 
     function StreamFindNext(out Item: TAbArchiveItem): Boolean; virtual;
     procedure StreamSeekNext(ASkip: Boolean); virtual;
@@ -2014,6 +2014,22 @@ begin
         if MatchesStoredNameEx(FileMask) then
           Tagged := False;
       end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchive.VerifyItem(Item: TAbArchiveItem);
+var
+  Index: Integer;
+  AFileName: String;
+begin
+  if FSuspiciousLinks.Count > 0 then
+  begin
+    AFileName := NormalizePathDelimiters(Item.FileName);
+    for Index := 0 to FSuspiciousLinks.Count - 1 do
+    begin
+      if IsInPath(FSuspiciousLinks[Index], AFileName, True, True) then
+        raise EInvalidOpException.Create(AbSuspiciousSymlinkOperation);
+    end;
+  end;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.StreamFindNext(out Item: TAbArchiveItem): Boolean;
