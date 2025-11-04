@@ -3713,6 +3713,15 @@ begin
       // Replace target by temp directory
       TargetFileSource := TTempFileSystemFileSource.Create();
       TargetPath := TargetFileSource.GetRootDir;
+      BaseDir := SourceFileSource.CurrentAddress;
+      if Length(BaseDir) > 0 then
+      begin
+        if StrBegins(TargetFiles[0].Path, BaseDir) and
+           not StrBegins(TargetFiles.Path, BaseDir) then
+        begin
+          TargetFiles.Path := BaseDir + TargetFiles.Path;
+        end;
+      end;
       ChangeFileListRoot(TargetPath, TargetFiles);
     end;
 
