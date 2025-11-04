@@ -234,6 +234,29 @@ begin
   RegisterComponents('KASComponents',[TKASToolBar]);
 end;
 
+function findScaleFactorByFirstForm: Double;
+begin
+  Result:= 1;
+  if Screen.FormCount > 0 then
+    Result:= Screen.Forms[0].GetCanvasScaleFactor();
+end;
+
+function findScaleFactorByControl( control: TControl ): Double;
+var
+  topParent: TControl;
+begin
+  if Assigned(control) then begin
+    topParent:= control.GetTopParent;
+    if Assigned(topParent) then
+      control:= topParent;
+    if (control is TWinControl) and TWinControl(control).HandleAllocated then begin
+      Result:= control.GetCanvasScaleFactor;
+      Exit;
+    end;
+  end;
+  Result:= findScaleFactorByFirstForm();
+end;
+
 { TKASToolBar }
 
 procedure TKASToolBar.InsertButton(InsertAt: Integer; ToolButton: TKASToolButton);
@@ -572,6 +595,7 @@ begin
   self.images.Width:= GlyphBitmapSize;
   self.images.Height:= GlyphBitmapSize;
   self.ImagesWidth:= FGlyphSize;
+  Self.Images.Scaled := (findScaleFactorByControl(Self) > 1.0);
 
   BeginUpdate;
   try
@@ -870,7 +894,6 @@ constructor TKASToolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   self.images:= TImageList.Create(self);
-  self.Images.Scaled:= True;
   self.GlyphSize:= 16; // by default
   FUpdateCount:= 0;
   FButtonWidth := 23;
@@ -1071,29 +1094,6 @@ var
 begin
   for I:= 0 to ButtonCount - 1 do
     Buttons[I].Down:= False;
-end;
-
-function findScaleFactorByFirstForm: Double;
-begin
-  Result:= 1;
-  if Screen.FormCount > 0 then
-    Result:= Screen.Forms[0].GetCanvasScaleFactor();
-end;
-
-function findScaleFactorByControl( control: TControl ): Double;
-var
-  topParent: TControl;
-begin
-  if Assigned(control) then begin
-    topParent:= control.GetTopParent;
-    if Assigned(topParent) then
-      control:= topParent;
-    if (control is TWinControl) and TWinControl(control).HandleAllocated then begin
-      Result:= control.GetCanvasScaleFactor;
-      Exit;
-    end;
-  end;
-  Result:= findScaleFactorByFirstForm();
 end;
 
 function TKASToolBar.GlyphBitmapSize: Integer;

@@ -476,16 +476,18 @@ procedure AssignRetinaBitmapForControl(
   const imageSize: Integer;
   bitmap: Graphics.TBitmap);
 var
+  ScaleFactor: Double;
   oldImages: TCustomImageList;
   images: TImageList;
   imageListSize: Integer;
 begin
   oldImages:= button.Images;
-  imageListSize := Round(imageSize * findScaleFactorByControl(button));
+  ScaleFactor := findScaleFactorByControl(button);
+  imageListSize := Round(imageSize * ScaleFactor);
   images := TImageList.Create(button);
   images.Width := imageListSize;
   images.Height := imageListSize;
-  images.Scaled := True;
+  images.Scaled := (ScaleFactor > 1.0);
   images.Add(bitmap, nil);
   button.ImageWidth := imageSize;
   button.Images := images;
