@@ -395,9 +395,6 @@ implementation
 uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX, uFlatViewFileSource,
      uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, DCStringHashListUtf8,
-{$IFDEF MSWINDOWS}
-     Windows,
-{$ENDIF}
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -4456,10 +4453,6 @@ begin
       // Create file list from filenames
       Files := TFileSystemFileSource.CreateFilesFromFileList(
           ExtractFilePath(filenamesList[0]), fileNamesList, True);
-
-{$IFDEF MSWINDOWS}
-      CloseClipboard;
-{$ENDIF}
 
       if Files.Count > 0 then
       begin
