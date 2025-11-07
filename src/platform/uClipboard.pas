@@ -783,10 +783,8 @@ begin
         end;
       end;
       
-      // Normal files - DON'T close clipboard yet for lazy materialization
-      // Clipboard will be closed after copy operation in umaincommands
+      // Normal files
       Result := True;
-      Exit; // Exit without closing clipboard
     end;
 
   finally
