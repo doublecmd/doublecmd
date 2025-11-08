@@ -65,7 +65,7 @@ uses
    , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
-   , StrUtils, uMyDarwin, uDarwinFSWatch, ExtCtrls
+   , StrUtils, uMyDarwin, uDarwinFSWatch, uDarwinIO, ExtCtrls
    {$ENDIF}
    {$IFDEF HAIKU}
    , BaseUnix, DCHaiku
@@ -1306,6 +1306,9 @@ var
   iMounted, iAdded, count: Integer;
   found: boolean;
   dtype: TDriveType;
+{$IF DEFINED(DARWIN)}
+  darwinVolumns: TDarwinIOVolumns;
+{$ENDIF}
 begin
   Result := TDrivesList.Create;
 
@@ -1344,6 +1347,9 @@ begin
   endfsent();
 
   count := getfsstat(@fsList, SizeOf(fsList), MNT_WAIT);
+{$IF DEFINED(DARWIN)}
+  darwinVolumns:= TDarwinIOVolumns.Create( @fsList, count );
+{$ENDIF}
   for iMounted := 0 to count - 1 do
   begin
     fs := fsList[iMounted];
@@ -1391,11 +1397,11 @@ begin
 
     with drive^ do
     begin
-      Path := CeSysToUtf8(fs.mountpoint);
-      DisplayName := ExtractFileName(Path);
+      DeviceId := {$IFDEF DARWIN}fs.mntfromname{$ELSE}fs.mnfromname{$ENDIF};
+      Path := {$IFDEF DARWIN}darwinVolumns.getPathByDeviceID(DeviceID,@fs){$ELSE}CeSysToUtf8(fs.mountpoint){$ENDIF};
+      DisplayName := ExtractFileName({$IFDEF DARWIN}darwinVolumns.getDisplayNameByDeviceID(DeviceID,@fs){$ELSE}Path{$ENDIF});
       DriveLabel := Path;
       FileSystem := fs.fstypename;
-      DeviceId := {$IF DEFINED(DARWIN)}fs.mntfromname{$ELSE}fs.mnfromname{$ENDIF};
       DriveType := dtype;
       IsMediaAvailable := true;
       IsMediaEjectable := false;
@@ -1408,20 +1414,12 @@ begin
     begin
       Drive^.DisplayName:= GetVolumeName(fs.mntfromname);
       if Length(Drive^.DisplayName) = 0 then Drive^.DisplayName:= 'System';
-    end
-    else
-    begin
-      if (fs.fstypename = 'apfs') and (fs.fflags and MNT_RDONLY = MNT_RDONLY) then
-      begin
-        // APFS bootable specifications, there are two Volumns:
-        //   VolumnName:        ReadOnly, No FSEvent
-        //   VolumnName - Data: Writable, MNT_DONTBROWSE, FSEvent
-        Drive^.Path := Drive^.Path + ' - Data';
-        Drive^.DriveLabel := Drive^.Path;
-      end;
     end;
 {$ENDIF}
   end; { for }
+{$IF DEFINED(DARWIN)}
+  FreeAndNil( darwinVolumns );
+{$ENDIF}
 end;
 {$ELSEIF DEFINED(HAIKU)}
 var
