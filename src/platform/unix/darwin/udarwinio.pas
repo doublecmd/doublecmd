@@ -210,6 +210,10 @@ var
   groupUUID: NSString;
   dataDeviceID: NSString;
 begin
+  Result:= fs^.mountpoint;
+  if Result = PathDelim then
+    Exit;
+
   dataFs:= nil;
   groupUUID:= self.getGroupUUIDByDeviceID( StrToNSString(deviceID) );
   if groupUUID <> nil then begin
@@ -217,15 +221,20 @@ begin
     if dataDeviceID <> nil then
       dataFs:= self.getStatfsByDeviceID( dataDeviceID );
   end;
-  if dataFs = nil then
-    dataFS:= fs;
-  Result:= dataFS^.mountpoint;
+  if Assigned(dataFs) then
+    Result:= dataFS^.mountpoint;
 end;
 
 function TDarwinIOVolumns.getDisplayNameByDeviceID(const deviceID: String;
   fs: PDarwinStatfs): String;
 begin
-  Result:= fs^.mountpoint;
+  if fs^.mountpoint = PathDelim then begin
+    Result:= GetVolumeName( fs^.mntfromname );
+    if Result = EmptyStr then
+      Result:= 'System';
+  end else begin
+    Result:= fs^.mountpoint;
+  end;
 end;
 
 initialization

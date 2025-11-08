@@ -1409,13 +1409,6 @@ begin
       IsMounted := true;
       AutoMount := true;
     end; { with }
-{$IF DEFINED(DARWIN)}
-    if (fs.mountpoint = PathDelim) then
-    begin
-      Drive^.DisplayName:= GetVolumeName(fs.mntfromname);
-      if Length(Drive^.DisplayName) = 0 then Drive^.DisplayName:= 'System';
-    end;
-{$ENDIF}
   end; { for }
 {$IF DEFINED(DARWIN)}
   FreeAndNil( darwinVolumns );
