@@ -1,0 +1,238 @@
+unit uDarwinIO;
+
+{$mode ObjFPC}{$H+}
+{$modeswitch objectivec2}
+{$linkframework IOKit}
+
+interface
+
+uses
+  Classes, SysUtils,
+  MacOSAll, CocoaAll, CocoaUtils,
+  uMyDarwin;
+
+type
+  natural_t = UInt32;
+  mach_port_t = natural_t;
+  io_object_t = mach_port_t;
+  io_iterator_t = io_object_t;
+  p_io_iterator_t = ^io_iterator_t;
+  io_connect_t = io_object_t;
+  io_service_t = io_object_t;
+  io_registry_entry_t = io_object_t;
+  p_io_registry_entry_t = ^io_object_t;
+
+  kern_return_t = integer;
+  IOOptionBits = UInt32;
+  io_name_t = array of char;
+
+function IOServiceGetMatchingServices(
+  mainPort: mach_port_t;
+  matching: NSDictionary;
+  existing: p_io_iterator_t ): kern_return_t; cdecl; external;
+
+function IORegistryEntryGetParentEntry(
+  entry: io_registry_entry_t;
+  const plane: io_name_t;
+  parent: p_io_registry_entry_t ): kern_return_t; cdecl; external;
+
+function IORegistryEntryCreateCFProperty(
+  entry: io_registry_entry_t;
+  key: NSString;
+  allocator: CFAllocatorRef;
+  options: IOOptionBits ): CFTypeRef; cdecl; external;
+
+function IORegistryEntryCreateCFProperties(
+  entry: io_registry_entry_t;
+  properties: CFMutableDictionaryRefPtr;
+  allocator: CFAllocatorRef;
+  options: IOOptionBits ):  kern_return_t; cdecl; external;
+
+function IOServiceMatching( const name: pchar ): NSDictionary; cdecl; external;
+
+function IOIteratorNext( iterator: io_iterator_t ): io_object_t; cdecl; external;
+
+var
+  kIOMasterPortDefault: mach_port_t; cvar; external;
+
+const
+  kIOServicePlane = 'IOService';
+
+type
+  PDarwinStatfs = ^TDarwinStatfs;
+
+  { TDarwinIOVolumns }
+
+  TDarwinIOVolumns = class
+  private
+    _volumns: NSArray;
+    _pStatfs: PDarwinStatfs;
+    _statfsCount: Integer;
+  private
+    function createVolumns: NSArray;
+    function getGroupUUIDByDeviceID( const deviceID: NSString ): NSString;
+    function getApfsDataDeviceIDByGroupUUID( const groupUUID: NSString ): NSString;
+    function getStatfsByDeviceID( const deviceID: NSString ): PDarwinStatfs;
+  public
+    constructor Create( const pStatfs: PDarwinStatfs; const statfsCount: Integer );
+    destructor Destroy; override;
+    function getPathByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
+    function getDisplayNameByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
+  end;
+
+implementation
+
+const
+  ROLE_SYSTEM_MASK = $01;
+  ROLE_DATA_MASK   = $40;
+
+var
+  VolGroupUUID_KEY: NSString;
+  VolGroupMntFromName_KEY: NSString;
+  RoleValue_KEY: NSString;
+  NULL_UUID: NSString;
+
+{ TDarwinIOVolumns }
+
+function TDarwinIOVolumns.createVolumns: NSArray;
+var
+  ioIterator: io_iterator_t;
+  ioServiceObject: io_object_t;
+  ioVolumnObject: io_object_t;
+  ret: integer;
+  volumnProperties: NSMutableDictionary;
+  volumns: NSMutableArray;
+  groupUUID: CFTypeRef;
+  mntFromName: CFTypeRef;
+  roleValue: CFTypeRef;
+begin
+  Result:= nil;
+
+  ret:= IOServiceGetMatchingServices(
+    kIOMasterPortDefault,
+    IOServiceMatching( 'IOMediaBSDClient' ),
+    @ioIterator );
+  if ret <> 0 then
+    Exit;
+
+  volumns:= NSMutableArray.new;
+
+  repeat
+    ioServiceObject:= IOIteratorNext( ioIterator );
+    if ioServiceObject = 0 then
+      break;
+    ret:= IORegistryEntryGetParentEntry( ioServiceObject, kIOServicePlane, @ioVolumnObject );
+    if ret <> 0 then
+      break;
+    volumnProperties:= NSMutableDictionary.new;
+    groupUUID:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupUUID_KEY, kCFAllocatorDefault, 0 );
+    volumnProperties.setValue_forKey( groupUUID , VolGroupUUID_KEY );
+    mntFromName:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupMntFromName_KEY, kCFAllocatorDefault, 0 );
+    volumnProperties.setValue_forKey( mntFromName , VolGroupMntFromName_KEY );
+    roleValue:= IORegistryEntryCreateCFProperty( ioVolumnObject, RoleValue_KEY, kCFAllocatorDefault, 0 );
+    volumnProperties.setValue_forKey( roleValue , RoleValue_KEY );
+    volumns.addObject( volumnProperties );
+    volumnProperties.release;
+  until False;
+
+  Result:= volumns;
+end;
+
+function TDarwinIOVolumns.getGroupUUIDByDeviceID(const deviceID: NSString
+  ): NSString;
+var
+  volumn: NSDictionary;
+begin
+  Result:= nil;
+  for volumn in _volumns do begin
+    if NOT deviceID.isEqual( volumn.valueForKey(VolGroupMntFromName_KEY) ) then
+      continue;
+    Result:= NSString( volumn.valueForKey(VolGroupUUID_KEY) );
+    if Result.isEqualToString(NULL_UUID) then
+      Result:= nil;
+    break;
+  end;
+end;
+
+function TDarwinIOVolumns.getApfsDataDeviceIDByGroupUUID(
+  const groupUUID: NSString): NSString;
+var
+  volumn: NSDictionary;
+  roleValue: NSUInteger;
+begin
+  Result:= nil;
+  for volumn in _volumns do begin
+    if NOT groupUUID.isEqual( volumn.valueForKey(VolGroupUUID_KEY) ) then
+      continue;
+    roleValue:= NSNumber( volumn.valueForKey(RoleValue_KEY) ).unsignedIntValue;
+    if (roleValue and ROLE_DATA_MASK) = 0  then
+      continue;
+    Result:= NSString( volumn.valueForKey(VolGroupMntFromName_KEY) );
+    break;
+  end;
+end;
+
+function TDarwinIOVolumns.getStatfsByDeviceID(const deviceID: NSString
+  ): PDarwinStatfs;
+var
+  fs: PDarwinStatfs;
+  i: Integer;
+  mntfromname: String;
+begin
+  Result:= nil;
+  fs:= _pStatfs;
+  mntfromname:= deviceID.UTF8String;
+  for i:= 0 to _statfsCount-1 do begin
+    if fs^.mntfromname = mntfromname then begin
+      Result:= fs;
+      break;
+    end;
+    inc( fs );
+  end;
+end;
+
+constructor TDarwinIOVolumns.Create(const pStatfs: PDarwinStatfs;
+  const statfsCount: Integer);
+begin
+  _volumns:= createVolumns;
+  _pStatfs:= pStatfs;
+  _statfsCount:= statfsCount;
+end;
+
+destructor TDarwinIOVolumns.Destroy;
+begin
+  _volumns.release;
+end;
+
+function TDarwinIOVolumns.getPathByDeviceID(const deviceID: String; fs: PDarwinStatfs): String;
+var
+  dataFs: PDarwinStatfs;
+  groupUUID: NSString;
+  dataDeviceID: NSString;
+begin
+  dataFs:= nil;
+  groupUUID:= self.getGroupUUIDByDeviceID( StrToNSString(deviceID) );
+  if groupUUID <> nil then begin
+    dataDeviceID:= self.getApfsDataDeviceIDByGroupUUID( groupUUID );
+    if dataDeviceID <> nil then
+      dataFs:= self.getStatfsByDeviceID( dataDeviceID );
+  end;
+  if dataFs = nil then
+    dataFS:= fs;
+  Result:= dataFS^.mountpoint;
+end;
+
+function TDarwinIOVolumns.getDisplayNameByDeviceID(const deviceID: String;
+  fs: PDarwinStatfs): String;
+begin
+  Result:= fs^.mountpoint;
+end;
+
+initialization
+  VolGroupUUID_KEY:= NSSTR( 'VolGroupUUID' );
+  VolGroupMntFromName_KEY:= NSSTR( 'VolGroupMntFromName' );
+  RoleValue_KEY:= NSSTR( 'RoleValue' );
+  NULL_UUID:= NSSTR('00000000-0000-0000-0000-000000000000');
+
+end.
+
