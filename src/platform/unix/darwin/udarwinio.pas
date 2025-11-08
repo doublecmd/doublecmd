@@ -229,7 +229,7 @@ function TDarwinIOVolumns.getDisplayNameByDeviceID(const deviceID: String;
   fs: PDarwinStatfs): String;
 begin
   if fs^.mountpoint = PathDelim then begin
-    Result:= GetVolumeName( fs^.mntfromname );
+    Result:= getMacOSDisplayNameFromPath( PathDelim );
     if Result = EmptyStr then
       Result:= 'System';
   end else begin
