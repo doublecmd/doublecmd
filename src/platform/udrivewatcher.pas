@@ -1301,7 +1301,7 @@ const
 var
   drive: PDrive;
   fstab: PFSTab;
-  fs: TFixedStatfs;
+  fsPtr: ^TFixedStatfs;
   fsList: array[0..MAX_FS] of TFixedStatfs;
   iMounted, iAdded, count: Integer;
   found: boolean;
@@ -1352,10 +1352,10 @@ begin
 {$ENDIF}
   for iMounted := 0 to count - 1 do
   begin
-    fs := fsList[iMounted];
+    fsPtr := @fsList[iMounted];
 
 {$IF DEFINED(DARWIN)}
-    if (fs.fflags and MNT_DONTBROWSE <> 0) then
+    if (fsPtr^.fflags and MNT_DONTBROWSE <> 0) then
       Continue;
 {$ENDIF}
 
@@ -1363,7 +1363,7 @@ begin
     found := false;
     for iAdded := 0 to Result.Count - 1 do
     begin
-      if Result[iAdded]^.Path = fs.mountpoint then
+      if Result[iAdded]^.Path = fsPtr^.mountpoint then
       begin
         drive := Result[iAdded];
         with drive^ do
@@ -1381,15 +1381,15 @@ begin
 
     dtype := GetDriveTypeFromDeviceOrFSType(
                                             {$IF DEFINED(DARWIN)}
-                                            fs.mntfromname
+                                            fsPtr^.mntfromname
                                             {$ELSE}
-                                            fs.mnfromname
+                                            fsPtr^.mnfromname
                                             {$ENDIF},
-                                            fs.fstypename
+                                            fsPtr^.fstypename
                                             );
 
     // only add known drive types and skip root directory
-    if (dtype = dtUnknown) {$IFNDEF DARWIN}or (fs.mountpoint = PathDelim){$ENDIF} then
+    if (dtype = dtUnknown) {$IFNDEF DARWIN}or (fsPtr^.mountpoint = PathDelim){$ENDIF} then
       Continue;
 
     New(drive);
@@ -1397,11 +1397,11 @@ begin
 
     with drive^ do
     begin
-      DeviceId := {$IFDEF DARWIN}fs.mntfromname{$ELSE}fs.mnfromname{$ENDIF};
-      Path := {$IFDEF DARWIN}darwinVolumns.getPathByDeviceID(DeviceID,@fs){$ELSE}CeSysToUtf8(fs.mountpoint){$ENDIF};
-      DisplayName := ExtractFileName({$IFDEF DARWIN}darwinVolumns.getDisplayNameByDeviceID(DeviceID,@fs){$ELSE}Path{$ENDIF});
+      DeviceId := {$IFDEF DARWIN}fsPtr^.mntfromname{$ELSE}fsPtr^.mnfromname{$ENDIF};
+      Path := {$IFDEF DARWIN}darwinVolumns.getPathByDeviceID(DeviceID,fsPtr){$ELSE}CeSysToUtf8(fsPtr^.mountpoint){$ENDIF};
+      DisplayName := ExtractFileName({$IFDEF DARWIN}darwinVolumns.getDisplayNameByDeviceID(DeviceID,fsPtr){$ELSE}Path{$ENDIF});
       DriveLabel := Path;
-      FileSystem := fs.fstypename;
+      FileSystem := fsPtr^.fstypename;
       DriveType := dtype;
       IsMediaAvailable := true;
       IsMediaEjectable := false;
