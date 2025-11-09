@@ -1392,6 +1392,9 @@ begin
     if (dtype = dtUnknown) {$IFNDEF DARWIN}or (fsPtr^.mountpoint = PathDelim){$ENDIF} then
       Continue;
 
+    if (dtype = dtHardDisk) and (fsPtr^.mountpoint <> PathDelim) then
+      dtype := dtRemovableUsb;
+
     New(drive);
     Result.Add(drive);
 
