@@ -1,5 +1,13 @@
 unit uDarwinIO;
 
+{
+  APFS bootable specifications, there are two Volumns in the same Grouop:
+    System Volumn: ReadOnly, No FSEvent
+    Data Volumn:   Writable, MNT_DONTBROWSE, FSEvent
+  for bootable APFS volumes, we need to combine the Name of the System Volume and
+  the path of the Data Volume by the GroupUUID.
+}
+
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
 {$linkframework IOKit}
