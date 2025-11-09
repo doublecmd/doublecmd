@@ -4969,6 +4969,8 @@ var
   driver1: PDrive absolute Item1;
   driver2: PDrive absolute Item2;
 begin
+  if driver1 = driver2 then
+    Exit(0);
   if driver1^.Path = PathDelim then
     Exit(-1);
   if driver2^.Path = PathDelim then
