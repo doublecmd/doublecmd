@@ -64,6 +64,17 @@ begin
   Result:= 0;
 end;
 
+function FsMkDir(RemoteDir:pchar):bool; dcpcall;
+begin
+  Result:= true;
+end;
+
+function FsPutFile(LocalName,RemoteName:pchar;CopyFlags:integer):integer; dcpcall;
+begin
+  gRequestProc(gPluginNr, RT_MsgOK, LocalName,RemoteName, nil, 0);
+  Result:= FS_FILE_OK;
+end;
+
 function FsRenMovFile(OldName,NewName:pchar;Move,OverWrite:bool;
   RemoteInfo:pRemoteInfo):integer; dcpcall;
 begin
@@ -118,6 +129,8 @@ exports
       FsFindNext,
       FsFindClose,
       // optional
+      FsMkDir,
+      FsPutFile,
       FsRenMovFile,
       FsExecuteFile,
       FsExtractCustomIcon,
