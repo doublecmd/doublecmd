@@ -75,6 +75,7 @@ resourcestring
   AbLogCreateErrorS = 'Error creating Log File';
   AbMoveFileErrorS = 'Error Moving File %s to %s';
   AbFileSizeTooBigS = 'File size is too big for archive type';
+  AbSuspiciousSymlinkOperation = 'Suspicious operation with symbolic link!';
 
   AbNoCabinetDllErrorS = 'Cannot load cabinet.dll';
   AbFCIFileOpenErrorS = 'FCI cannot open file';

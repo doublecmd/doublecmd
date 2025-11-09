@@ -448,6 +448,8 @@ type
   public {methods}
     constructor CreateFromStream(aStream : TStream; const aArchiveName : string);
       override;
+    destructor Destroy;
+      override;
     property UnsupportedTypesDetected : Boolean
       read FArchReadOnly;
     property Items[Index : Integer] : TAbTarItem
@@ -2094,7 +2096,14 @@ end;
 constructor TAbTarArchive.CreateFromStream(aStream : TStream; const aArchiveName : string);
 begin
   inherited;
-  FArchFormat := V7_FORMAT;  // Default for new archives
+  FArchFormat := OLDGNU_FORMAT;  // Default for new archives
+  FSuspiciousLinks := TStringList.Create;
+end;
+
+destructor TAbTarArchive.Destroy;
+begin
+  inherited Destroy;
+  FSuspiciousLinks.Free;
 end;
 
 function TAbTarArchive.CreateItem(const SourceFileName   : string;
@@ -2196,7 +2205,9 @@ begin
     AbCreateDirectory(UseName)
   else begin
     case (CurItem.Mode and $F000) of
-      AB_FMODE_FILE, AB_FMODE_FILE2: begin
+      AB_FMODE_FILE, AB_FMODE_FILE2:
+      begin
+        VerifyItem(CurItem);
         OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
         try
           try {OutStream}
@@ -2225,7 +2236,7 @@ begin
             AFileName := GetAbsoluteFileName(ExtractFilePath(UseName), LinkTarget);
           end;
           if not IsInPath(BaseDirectory, AFileName, True, True) then
-            raise EInvalidOpException.Create(EmptyStr);
+            FSuspiciousLinks.Add(NormalizePathDelimiters(CurItem.FileName));
         end;
 
         if not CreateSymLink(LinkTarget, UseName) then
