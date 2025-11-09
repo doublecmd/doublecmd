@@ -4965,8 +4965,15 @@ begin
 end;
 
 function CompareDrives(Item1, Item2: Pointer): Integer;
+var
+  driver1: PDrive absolute Item1;
+  driver2: PDrive absolute Item2;
 begin
-  Result := CompareText(PDrive(Item1)^.DisplayName, PDrive(Item2)^.DisplayName);
+  if driver1^.Path = PathDelim then
+    Exit(-1);
+  if driver2^.Path = PathDelim then
+    Exit(1);
+  Result := CompareText(driver1^.DisplayName, driver2^.DisplayName);
 end;
 
 procedure TfrmMain.UpdateDiskCount;
