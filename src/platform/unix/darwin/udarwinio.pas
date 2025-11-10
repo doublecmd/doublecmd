@@ -86,9 +86,9 @@ type
   public
     constructor Create( const pStatfs: PDarwinStatfs; const statfsCount: Integer );
     destructor Destroy; override;
-    function getPathByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
-    function getDisplayNameByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
-    function isRemovable( fs: PDarwinStatfs ): Boolean;
+    function getPath( const fs: PDarwinStatfs ): String;
+    function getDisplayName( const fs: PDarwinStatfs ): String;
+    function isRemovable( const fs: PDarwinStatfs ): Boolean;
   end;
 
 implementation
@@ -100,7 +100,6 @@ const
 var
   BsdName_KEY: NSString;
   VolGroupUUID_KEY: NSString;
-  VolGroupMntFromName_KEY: NSString;
   RoleValue_KEY: NSString;
   Removable_KEY: NSString;
   NULL_UUID: NSString;
@@ -145,8 +144,6 @@ begin
     volumnProperties.setValue_forKey( bsdName , BsdName_KEY );
     groupUUID:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupUUID_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( groupUUID , VolGroupUUID_KEY );
-    mntFromName:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupMntFromName_KEY, kCFAllocatorDefault, 0 );
-    volumnProperties.setValue_forKey( mntFromName , VolGroupMntFromName_KEY );
     roleValue:= IORegistryEntryCreateCFProperty( ioVolumnObject, RoleValue_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( roleValue , RoleValue_KEY );
     removable:= IORegistryEntryCreateCFProperty( ioVolumnObject, Removable_KEY, kCFAllocatorDefault, 0 );
@@ -187,7 +184,7 @@ var
 begin
   Result:= nil;
   for volumn in _volumns do begin
-    if NOT deviceID.isEqual( volumn.valueForKey(VolGroupMntFromName_KEY) ) then
+    if NOT deviceID.isEqual( volumn.valueForKey(BsdName_KEY) ) then
       continue;
     Result:= NSString( volumn.valueForKey(VolGroupUUID_KEY) );
     if Result.isEqualToString(NULL_UUID) then
@@ -209,7 +206,7 @@ begin
     roleValue:= NSNumber( volumn.valueForKey(RoleValue_KEY) ).unsignedIntValue;
     if (roleValue and ROLE_DATA_MASK) = 0  then
       continue;
-    Result:= NSString( volumn.valueForKey(VolGroupMntFromName_KEY) );
+    Result:= NSString( volumn.valueForKey(BsdName_KEY) );
     break;
   end;
 end;
@@ -219,13 +216,13 @@ function TDarwinIOVolumns.getStatfsByDeviceID(const deviceID: NSString
 var
   fs: PDarwinStatfs;
   i: Integer;
-  mntfromname: String;
+  deviceIDStr: String;
 begin
   Result:= nil;
   fs:= _pStatfs;
-  mntfromname:= deviceID.UTF8String;
+  deviceIDStr:= deviceID.UTF8String;
   for i:= 0 to _statfsCount-1 do begin
-    if fs^.mntfromname = mntfromname then begin
+    if ExtractFileName(fs^.mntfromname) = deviceIDStr then begin
       Result:= fs;
       break;
     end;
@@ -246,8 +243,9 @@ begin
   _volumns.release;
 end;
 
-function TDarwinIOVolumns.getPathByDeviceID(const deviceID: String; fs: PDarwinStatfs): String;
+function TDarwinIOVolumns.getPath(const fs: PDarwinStatfs): String;
 var
+  deviceID: NSString;
   dataFs: PDarwinStatfs;
   groupUUID: NSString;
   dataDeviceID: NSString;
@@ -257,7 +255,8 @@ begin
     Exit;
 
   dataFs:= nil;
-  groupUUID:= self.getGroupUUIDByDeviceID( StrToNSString(deviceID) );
+  deviceID:= self.getDeviceID( fs );
+  groupUUID:= self.getGroupUUIDByDeviceID( deviceID );
   if groupUUID <> nil then begin
     dataDeviceID:= self.getApfsDataDeviceIDByGroupUUID( groupUUID );
     if dataDeviceID <> nil then
@@ -267,8 +266,7 @@ begin
     Result:= dataFS^.mountpoint;
 end;
 
-function TDarwinIOVolumns.getDisplayNameByDeviceID(const deviceID: String;
-  fs: PDarwinStatfs): String;
+function TDarwinIOVolumns.getDisplayName(const fs: PDarwinStatfs): String;
 begin
   if fs^.mountpoint = PathDelim then begin
     Result:= getMacOSDisplayNameFromPath( PathDelim );
@@ -279,7 +277,7 @@ begin
   end;
 end;
 
-function TDarwinIOVolumns.isRemovable(fs: PDarwinStatfs): Boolean;
+function TDarwinIOVolumns.isRemovable(const fs: PDarwinStatfs): Boolean;
 var
   deviceID: NSString;
   volumn: NSDictionary;
@@ -294,7 +292,6 @@ end;
 initialization
   BsdName_KEY:= NSSTR( 'BSD Name' );
   VolGroupUUID_KEY:= NSSTR( 'VolGroupUUID' );
-  VolGroupMntFromName_KEY:= NSSTR( 'VolGroupMntFromName' );
   RoleValue_KEY:= NSSTR( 'RoleValue' );
   Removable_KEY:= NSSTR( 'Removable' );
   NULL_UUID:= NSSTR('00000000-0000-0000-0000-000000000000');

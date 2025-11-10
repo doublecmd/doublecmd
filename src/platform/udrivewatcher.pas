@@ -1405,8 +1405,8 @@ begin
     with drive^ do
     begin
       DeviceId := {$IFDEF DARWIN}fsPtr^.mntfromname{$ELSE}fsPtr^.mnfromname{$ENDIF};
-      Path := {$IFDEF DARWIN}darwinVolumns.getPathByDeviceID(DeviceID,fsPtr){$ELSE}CeSysToUtf8(fsPtr^.mountpoint){$ENDIF};
-      DisplayName := ExtractFileName({$IFDEF DARWIN}darwinVolumns.getDisplayNameByDeviceID(DeviceID,fsPtr){$ELSE}Path{$ENDIF});
+      Path := {$IFDEF DARWIN}darwinVolumns.getPath(fsPtr){$ELSE}CeSysToUtf8(fsPtr^.mountpoint){$ENDIF};
+      DisplayName := ExtractFileName({$IFDEF DARWIN}darwinVolumns.getDisplayName(fsPtr){$ELSE}Path{$ENDIF});
       DriveLabel := Path;
       FileSystem := fsPtr^.fstypename;
       DriveType := dtype;
