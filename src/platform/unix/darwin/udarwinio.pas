@@ -78,6 +78,8 @@ type
     _statfsCount: Integer;
   private
     function createVolumns: NSArray;
+    function getDeviceID( const fs: PDarwinStatfs ): NSString;
+    function getVolumnByDeviceID( const deviceID: NSString ): NSDictionary;
     function getGroupUUIDByDeviceID( const deviceID: NSString ): NSString;
     function getApfsDataDeviceIDByGroupUUID( const groupUUID: NSString ): NSString;
     function getStatfsByDeviceID( const deviceID: NSString ): PDarwinStatfs;
@@ -86,6 +88,7 @@ type
     destructor Destroy; override;
     function getPathByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
     function getDisplayNameByDeviceID( const deviceID: String; fs: PDarwinStatfs ): String;
+    function isRemovable( fs: PDarwinStatfs ): Boolean;
   end;
 
 implementation
@@ -95,9 +98,11 @@ const
   ROLE_DATA_MASK   = $40;
 
 var
+  BsdName_KEY: NSString;
   VolGroupUUID_KEY: NSString;
   VolGroupMntFromName_KEY: NSString;
   RoleValue_KEY: NSString;
+  Removable_KEY: NSString;
   NULL_UUID: NSString;
 
 { TDarwinIOVolumns }
@@ -110,9 +115,12 @@ var
   ret: integer;
   volumnProperties: NSMutableDictionary;
   volumns: NSMutableArray;
+
+  bsdName: CFTypeRef;
   groupUUID: CFTypeRef;
   mntFromName: CFTypeRef;
   roleValue: CFTypeRef;
+  removable: CFTypeRef;
 begin
   Result:= nil;
 
@@ -133,17 +141,43 @@ begin
     if ret <> 0 then
       break;
     volumnProperties:= NSMutableDictionary.new;
+    bsdName:= IORegistryEntryCreateCFProperty( ioVolumnObject, BsdName_KEY, kCFAllocatorDefault, 0 );
+    volumnProperties.setValue_forKey( bsdName , BsdName_KEY );
     groupUUID:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupUUID_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( groupUUID , VolGroupUUID_KEY );
     mntFromName:= IORegistryEntryCreateCFProperty( ioVolumnObject, VolGroupMntFromName_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( mntFromName , VolGroupMntFromName_KEY );
     roleValue:= IORegistryEntryCreateCFProperty( ioVolumnObject, RoleValue_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( roleValue , RoleValue_KEY );
+    removable:= IORegistryEntryCreateCFProperty( ioVolumnObject, Removable_KEY, kCFAllocatorDefault, 0 );
+    volumnProperties.setValue_forKey( removable , Removable_KEY );
     volumns.addObject( volumnProperties );
     volumnProperties.release;
   until False;
 
   Result:= volumns;
+end;
+
+function TDarwinIOVolumns.getDeviceID(const fs: PDarwinStatfs): NSString;
+var
+  deviceID: String;
+begin
+  deviceID:= ExtractFileName( fs^.mntfromname );
+  Result:= StrToNSString( deviceID );
+end;
+
+function TDarwinIOVolumns.getVolumnByDeviceID(const deviceID: NSString
+  ): NSDictionary;
+var
+  volumn: NSDictionary;
+begin
+  Result:= nil;
+  for volumn in _volumns do begin
+    if NOT deviceID.isEqual( volumn.valueForKey(BsdName_KEY) ) then
+      continue;
+    Result:= volumn;
+    break;
+  end;
 end;
 
 function TDarwinIOVolumns.getGroupUUIDByDeviceID(const deviceID: NSString
@@ -245,10 +279,24 @@ begin
   end;
 end;
 
+function TDarwinIOVolumns.isRemovable(fs: PDarwinStatfs): Boolean;
+var
+  deviceID: NSString;
+  volumn: NSDictionary;
+  removable: NSNumber;
+begin
+  deviceID:= self.getDeviceID( fs );
+  volumn:= self.getVolumnByDeviceID( deviceID );
+  removable:= NSNumber( volumn.valueForKey(Removable_KEY) );
+  Result:= ( removable.integerValue <> 0 );
+end;
+
 initialization
+  BsdName_KEY:= NSSTR( 'BSD Name' );
   VolGroupUUID_KEY:= NSSTR( 'VolGroupUUID' );
   VolGroupMntFromName_KEY:= NSSTR( 'VolGroupMntFromName' );
   RoleValue_KEY:= NSSTR( 'RoleValue' );
+  Removable_KEY:= NSSTR( 'Removable' );
   NULL_UUID:= NSSTR('00000000-0000-0000-0000-000000000000');
 
 end.

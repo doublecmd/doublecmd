@@ -1394,6 +1394,10 @@ begin
 
     if (dtype = dtHardDisk) and (fsPtr^.mountpoint <> PathDelim) then
       dtype := dtRemovableUsb;
+    {$IFDEF DARWIN}
+      if darwinVolumns.isRemovable(fsPtr) then
+        dtype := dtRemovable;
+    {$ENDIF}
 
     New(drive);
     Result.Add(drive);
