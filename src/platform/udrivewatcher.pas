@@ -77,6 +77,9 @@ uses
   {$ENDIF}
   ;
 
+const
+  MAX_FS = 128;
+
 {$IFDEF LINUX}
 type
 
@@ -241,18 +244,18 @@ end;
 procedure TDarwinDriverWatcher.tryAddDrive( Sender: TObject );
   function driveReady: Boolean;
   var
-    driveList: TDrivesList = nil;
+    fsPtr: ^TFixedStatfs;
+    fsList: array[0..MAX_FS] of TFixedStatfs;
+    count: Integer;
     i: Integer;
   begin
     Result:= False;
-    driveList:= TDriveWatcher.GetDrivesList;
-    try
-      for i:=0 to driveList.Count-1 do begin
-        if _drivePath = driveList[i]^.Path then
-          Exit( True );
-      end;
-    finally
-      FreeAndNil( driveList );
+    count := getfsstat(@fsList, SizeOf(fsList), MNT_WAIT);
+    fsPtr := @fsList;
+    for i:=0 to count-1 do begin
+      if _drivePath = fsPtr^.mountpoint then
+        Exit( True );
+      inc( fsPtr );
     end;
   end;
 var
@@ -1296,8 +1299,6 @@ end;
     else
       Result := dtUnknown; // devfs, nullfs, procfs, etc.
   end;
-const
-  MAX_FS = 128;
 var
   drive: PDrive;
   fstab: PFSTab;
