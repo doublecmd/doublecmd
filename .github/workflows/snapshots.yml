@@ -24,6 +24,11 @@ jobs:
       with:
         lazarus-version: "stable"
 
+    - name: Replace linker
+      run: |
+           sudo rm -f /Library/Developer/CommandLineTools/usr/bin/ld
+           sudo ln -sf /Library/Developer/CommandLineTools/usr/bin/ld-classic /Library/Developer/CommandLineTools/usr/bin/ld
+
     - name: Get Lazarus source
       uses: actions/checkout@v5
       with:
