@@ -60,6 +60,8 @@ function IOServiceMatching( const name: pchar ): NSDictionary; cdecl; external;
 
 function IOIteratorNext( iterator: io_iterator_t ): io_object_t; cdecl; external;
 
+function IOObjectRelease( o: io_object_t ): kern_return_t; cdecl; external;
+
 var
   kIOMasterPortDefault: mach_port_t; cvar; external;
 
@@ -117,7 +119,6 @@ var
 
   bsdName: CFTypeRef;
   groupUUID: CFTypeRef;
-  mntFromName: CFTypeRef;
   roleValue: CFTypeRef;
   removable: CFTypeRef;
 begin
@@ -150,8 +151,21 @@ begin
     volumnProperties.setValue_forKey( removable , Removable_KEY );
     volumns.addObject( volumnProperties );
     volumnProperties.release;
+
+    if Assigned( bsdName ) then
+      CFRelease( bsdName );
+    if Assigned( groupUUID ) then
+      CFRelease( groupUUID );
+    if Assigned( roleValue ) then
+      CFRelease( roleValue );
+    if Assigned( removable ) then
+      CFRelease( removable );
+
+    IOObjectRelease( ioVolumnObject );
+    IOObjectRelease( ioServiceObject );
   until False;
 
+  IOObjectRelease( ioIterator );
   Result:= volumns;
 end;
 
