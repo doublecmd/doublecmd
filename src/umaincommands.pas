@@ -4450,7 +4450,7 @@ begin
   begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     try
-      // fill file list with files
+      // Create file list from filenames
       Files := TFileSystemFileSource.CreateFilesFromFileList(
           ExtractFilePath(filenamesList[0]), fileNamesList, True);
 
@@ -4523,6 +4523,7 @@ begin
 
         if Assigned(Operation) then
         begin
+          // Don't access Files after creating operation - it may have taken ownership
           if Operation is TFileSystemCopyOperation then
             (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
           OperationsManager.AddOperation(Operation);

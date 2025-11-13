@@ -108,7 +108,7 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Clipbrd, Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu, uOSForms
+  Clipbrd, Windows, ActiveX, Dialogs, DCOSUtils, uOleDragDrop, fMain, uShellContextMenu, uOSForms
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
   Clipbrd, LCLIntf
 {$ELSEIF DEFINED(DARWIN)}
@@ -127,11 +127,11 @@ begin
   CFU_UNIFORM_RESOURCE_LOCATOR  := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATOR);
   CFU_UNIFORM_RESOURCE_LOCATORW := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATORW);
   CFU_SHELL_IDLIST_ARRAY        := RegisterClipboardFormat(CFSTR_SHELL_IDLIST_ARRAY);
-  CFU_FILECONTENTS := $8000 OR RegisterClipboardFormat(CFSTR_FILECONTENTS) And $7FFF;
-  CFU_FILEGROUPDESCRIPTOR := $8000 OR RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR) And $7FFF;
-  CFU_FILEGROUPDESCRIPTORW := $8000 OR RegisterClipboardFormat(CFSTR_FILEDESCRIPTORW) And $7FFF;
-  CFU_HTML := $8000 OR RegisterClipboardFormat(CFSTR_HTMLFORMAT) And $7FFF;
-  CFU_RICHTEXT := $8000 OR RegisterClipboardFormat(CFSTR_RICHTEXTFORMAT) And $7FFF;
+  CFU_FILECONTENTS := $8000 OR (RegisterClipboardFormat(CFSTR_FILECONTENTS) And $7FFF);
+  CFU_FILEGROUPDESCRIPTOR := $8000 OR (RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR) And $7FFF);
+  CFU_FILEGROUPDESCRIPTORW := $8000 OR (RegisterClipboardFormat(CFSTR_FILEDESCRIPTORW) And $7FFF);
+  CFU_HTML := $8000 OR (RegisterClipboardFormat(CFSTR_HTMLFORMAT) And $7FFF);
+  CFU_RICHTEXT := $8000 OR (RegisterClipboardFormat(CFSTR_RICHTEXTFORMAT) And $7FFF);
 
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
 
@@ -616,53 +616,180 @@ var
   hGlobalBuffer: HGLOBAL;
   pBuffer: LPVOID;
   PreferredEffect: DWORD;
+  dataObj: IDataObject;
+  Medium: TSTGMedium;
+  ChosenFormat: TFormatETC;
+  hr: HRESULT;
+  HasVirtualFiles: Boolean;
 begin
-
   filenames := nil;
   Result := False;
-
-  // Default to 'copy' if effect hasn't been given.
+  HasVirtualFiles := False;
   ClipboardOp := ClipboardCopy;
 
+  // Try to get IDataObject from clipboard for virtual file support
+  hr := OleGetClipboard(dataObj);
+  if Succeeded(hr) and Assigned(dataObj) then
+  begin
+    try
+      // Check for preferred drop effect
+      if CFU_PREFERRED_DROPEFFECT <> 0 then
+      begin
+        ChosenFormat.CfFormat := CFU_PREFERRED_DROPEFFECT;
+        ChosenFormat.ptd := nil;
+        ChosenFormat.dwAspect := DVASPECT_CONTENT;
+        ChosenFormat.lindex := -1;
+        ChosenFormat.tymed := TYMED_HGLOBAL;
+
+        if dataObj.GetData(ChosenFormat, Medium) = S_OK then
+        begin
+          try
+            if Medium.Tymed = TYMED_HGLOBAL then
+            begin
+              pBuffer := GlobalLock(Medium.hGlobal);
+              if pBuffer <> nil then
+              begin
+                try
+                  PreferredEffect := PDWORD(pBuffer)^;
+                  if PreferredEffect = DROPEFFECT_COPY then ClipboardOp := ClipboardCopy
+                  else if PreferredEffect = DROPEFFECT_MOVE then ClipboardOp := ClipboardCut;
+                finally
+                  GlobalUnlock(Medium.hGlobal);
+                end;
+              end;
+            end;
+          finally
+            ReleaseStgMedium(@Medium);
+          end;
+        end;
+      end;
+
+      // Check for virtual files
+      if (CFU_FILECONTENTS <> 0) then
+      begin
+        // Try Unicode version first
+        if (CFU_FILEGROUPDESCRIPTORW <> 0) then
+        begin
+          ChosenFormat.CfFormat := CFU_FILEGROUPDESCRIPTORW;
+          ChosenFormat.ptd := nil;
+          ChosenFormat.dwAspect := DVASPECT_CONTENT;
+          ChosenFormat.lindex := -1;
+          ChosenFormat.tymed := TYMED_HGLOBAL;
+
+          hr := dataObj.QueryGetData(ChosenFormat);
+          if hr = S_OK then
+          begin
+            hr := dataObj.GetData(ChosenFormat, Medium);
+            if hr = S_OK then
+            begin
+              try
+                if Medium.Tymed = TYMED_HGLOBAL then
+                begin
+                  filenames := uOleDragDrop.TFileDropTarget.GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
+                  HasVirtualFiles := Assigned(filenames) and (filenames.Count > 0);
+                end;
+              finally
+                ReleaseStgMedium(@Medium);
+              end;
+            end;
+          end;
+        end;
+
+        // Try ANSI version if Unicode didn't work
+        if (not HasVirtualFiles) and (CFU_FILEGROUPDESCRIPTOR <> 0) then
+        begin
+          ChosenFormat.CfFormat := CFU_FILEGROUPDESCRIPTOR;
+          ChosenFormat.ptd := nil;
+          ChosenFormat.dwAspect := DVASPECT_CONTENT;
+          ChosenFormat.lindex := -1;
+          ChosenFormat.tymed := TYMED_HGLOBAL;
+
+          hr := dataObj.QueryGetData(ChosenFormat);
+          if hr = S_OK then
+          begin
+            if dataObj.GetData(ChosenFormat, Medium) = S_OK then
+            begin
+              try
+                if Medium.Tymed = TYMED_HGLOBAL then
+                begin
+                  filenames := uOleDragDrop.TFileDropTarget.GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
+                  HasVirtualFiles := Assigned(filenames) and (filenames.Count > 0);
+                end;
+              finally
+                ReleaseStgMedium(@Medium);
+              end;
+            end;
+          end;
+        end;
+      end;
+
+      // Success with virtual files?
+      if HasVirtualFiles then
+      begin
+        Result := True;
+        Exit;
+      end;
+
+    finally
+      dataObj := nil;
+    end;
+  end;
+
+  // Fallback to standard CF_HDROP
   if OpenClipboard(0) = False then Exit;
 
-  if CFU_PREFERRED_DROPEFFECT <> 0 then
-  begin
-    hGlobalBuffer := GetClipboardData(CFU_PREFERRED_DROPEFFECT);
-    if hGlobalBuffer <> 0 then
+  try
+    if CFU_PREFERRED_DROPEFFECT <> 0 then
     begin
-      pBuffer := GlobalLock(hGlobalBuffer);
-      if pBuffer <> nil then
+      hGlobalBuffer := GetClipboardData(CFU_PREFERRED_DROPEFFECT);
+      if hGlobalBuffer <> 0 then
       begin
-        PreferredEffect := PDWORD(pBuffer)^;
-        if PreferredEffect = DROPEFFECT_COPY then ClipboardOp := ClipboardCopy
-        else if PreferredEffect = DROPEFFECT_MOVE then ClipboardOp := ClipboardCut;
-
-        GlobalUnlock(hGlobalBuffer);
+        pBuffer := GlobalLock(hGlobalBuffer);
+        if pBuffer <> nil then
+        begin
+          PreferredEffect := PDWORD(pBuffer)^;
+          if PreferredEffect = DROPEFFECT_COPY then ClipboardOp := ClipboardCopy
+          else if PreferredEffect = DROPEFFECT_MOVE then ClipboardOp := ClipboardCut;
+          GlobalUnlock(hGlobalBuffer);
+        end;
       end;
     end;
-  end;
 
-  { Now, retrieve file names. }
+    hGlobalBuffer := GetClipboardData(CF_HDROP);
 
-  hGlobalBuffer := GetClipboardData(CF_HDROP);
-
-  if hGlobalBuffer = 0 then
-  begin
-    with frmMain do
+    if hGlobalBuffer = 0 then
     begin
-      CloseClipboard;
-      uShellContextMenu.PasteFromClipboard(Handle, ActiveFrame.CurrentPath);
-      Exit(False);
+      with frmMain do
+      begin
+        CloseClipboard;
+        uShellContextMenu.PasteFromClipboard(Handle, ActiveFrame.CurrentPath);
+        Exit(False);
+      end;
     end;
+
+    filenames := uOleDragDrop.TFileDropTarget.GetDropFilenames(hGlobalBuffer);
+    if Assigned(filenames) and (filenames.Count > 0) then
+    begin
+      // Check if first file exists - if not, likely lazy materialization
+      // Use shell paste which handles this properly
+      if not mbFileExists(filenames[0]) then
+      begin
+        with frmMain do
+        begin
+          // Keep clipboard open and use shell paste for lazy files
+          uShellContextMenu.PasteFromClipboard(Handle, ActiveFrame.CurrentPath);
+          // Shell will close clipboard when done
+          Exit(False);
+        end;
+      end;
+      
+      // Normal files
+      Result := True;
+    end;
+
+  finally
+    CloseClipboard;
   end;
-
-  filenames := uOleDragDrop.TFileDropTarget.GetDropFilenames(hGlobalBuffer);
-
-  if Assigned(filenames) then
-    Result := True;
-
-  CloseClipboard;
 
 end;
 {$ENDIF}
