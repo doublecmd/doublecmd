@@ -17,7 +17,7 @@ interface
 uses
   Classes, SysUtils,
   MacOSAll, CocoaAll, CocoaUtils,
-  uMyDarwin;
+  uMyDarwin, uLog;
 
 type
   natural_t = UInt32;
@@ -114,32 +114,24 @@ var
   ioServiceObject: io_object_t;
   ioVolumnObject: io_object_t;
   ret: integer;
-  volumnProperties: NSMutableDictionary;
   volumns: NSMutableArray;
+  hasMore: Boolean;
 
-  bsdName: CFTypeRef;
-  groupUUID: CFTypeRef;
-  roleValue: CFTypeRef;
-  removable: CFTypeRef;
-begin
-  Result:= nil;
-
-  ret:= IOServiceGetMatchingServices(
-    kIOMasterPortDefault,
-    IOServiceMatching( 'IOMediaBSDClient' ),
-    @ioIterator );
-  if ret <> 0 then
-    Exit;
-
-  volumns:= NSMutableArray.new;
-
-  repeat
+  function addOneVolumn: Boolean;
+  var
+    volumnProperties: NSMutableDictionary;
+    bsdName: CFTypeRef;
+    groupUUID: CFTypeRef;
+    roleValue: CFTypeRef;
+    removable: CFTypeRef;
+  begin
+    Result:= False;
     ioServiceObject:= IOIteratorNext( ioIterator );
     if ioServiceObject = 0 then
-      break;
+      Exit;
     ret:= IORegistryEntryGetParentEntry( ioServiceObject, kIOServicePlane, @ioVolumnObject );
     if ret <> 0 then
-      break;
+      Exit;
     volumnProperties:= NSMutableDictionary.new;
     bsdName:= IORegistryEntryCreateCFProperty( ioVolumnObject, BsdName_KEY, kCFAllocatorDefault, 0 );
     volumnProperties.setValue_forKey( bsdName , BsdName_KEY );
@@ -161,12 +153,36 @@ begin
     if Assigned( removable ) then
       CFRelease( removable );
 
-    IOObjectRelease( ioVolumnObject );
-    IOObjectRelease( ioServiceObject );
-  until False;
+    Result:= True;
+  end;
+
+begin
+  volumns:= NSMutableArray.new;
+  Result:= volumns;
+
+  ret:= IOServiceGetMatchingServices(
+    kIOMasterPortDefault,
+    IOServiceMatching( 'IOMediaBSDClient' ),
+    @ioIterator );
+  if ret <> 0 then
+    Exit;
+
+  repeat
+    ioServiceObject:= 0;
+    ioVolumnObject:= 0;
+    ret:= 0;
+
+    hasMore:= addOneVolumn();
+    if ret <> 0 then
+      volumns.removeAllObjects;
+
+    if ioVolumnObject <> 0 then
+      IOObjectRelease( ioVolumnObject );
+    if ioServiceObject <> 0 then
+      IOObjectRelease( ioServiceObject );
+  until NOT hasMore;
 
   IOObjectRelease( ioIterator );
-  Result:= volumns;
 end;
 
 function TDarwinIOVolumns.getDeviceID(const fs: PDarwinStatfs): NSString;
@@ -246,8 +262,21 @@ end;
 
 constructor TDarwinIOVolumns.Create(const pStatfs: PDarwinStatfs;
   const statfsCount: Integer);
+var
+  i: Integer;
 begin
-  _volumns:= createVolumns;
+  for i:= 1 to 10 do begin
+    _volumns:= createVolumns;
+    if _volumns.count > 0 then
+      break;
+    LogWrite( 'error in TDarwinIOVolumns.createVolumns(), times=' + IntToStr(i), lmtError );
+    if i < 10 then begin
+      _volumns.release;
+      _volumns:= nil;
+      sleep( 3000 );
+    end;
+  end;
+  LogWrite( 'TDarwinIOVolumns.createVolumns() Result:'#13 + _volumns.description.utf8String );
   _pStatfs:= pStatfs;
   _statfsCount:= statfsCount;
 end;
