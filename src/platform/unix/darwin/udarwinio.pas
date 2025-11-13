@@ -20,8 +20,6 @@ uses
   uMyDarwin, uLog;
 
 type
-  natural_t = UInt32;
-  mach_port_t = natural_t;
   io_object_t = mach_port_t;
   io_iterator_t = io_object_t;
   p_io_iterator_t = ^io_iterator_t;
@@ -30,8 +28,6 @@ type
   io_registry_entry_t = io_object_t;
   p_io_registry_entry_t = ^io_object_t;
 
-  kern_return_t = integer;
-  IOOptionBits = UInt32;
   io_name_t = array of char;
 
 function IOServiceGetMatchingServices(
