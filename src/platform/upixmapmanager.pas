@@ -1244,6 +1244,7 @@ var
   fileIndex: PtrInt;
   image: NSImage;
   bmpBitmap: Graphics.TBitmap;
+  oldBmpBitmap: Graphics.TBitmap;
   key: String;
 begin
   Result:= -1;
@@ -1255,21 +1256,23 @@ begin
 
   FPixmapsLock.Acquire;
   try
-    fileIndex := FPixmapsFileNames.Find(key);
-    if fileIndex >= 0 then begin
-      Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
-      Exit;
-    end;
-
     image:= getMacOSFileUniqueIcon(AFullPath);
     if image = nil then
       Exit;
 
     image:= getBestNSImageWithSize(image, AIconSize);
     bmpBitmap:= NSImageToTBitmap(image);
-    Result := FPixmapList.Add(bmpBitmap);
 
-    FPixmapsFileNames.Add(key, Pointer(Result));
+    fileIndex := FPixmapsFileNames.Find(key);
+    if fileIndex >= 0 then begin
+      Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
+      oldBmpBitmap:= Graphics.TBitmap(FPixmapList[Result]);
+      FPixmapList[Result]:= bmpBitmap;
+      oldBmpBitmap.Free;
+    end else begin
+      Result := FPixmapList.Add(bmpBitmap);
+      FPixmapsFileNames.Add(key, Pointer(Result));
+    end;
   finally
     FPixmapsLock.Release;
   end;
