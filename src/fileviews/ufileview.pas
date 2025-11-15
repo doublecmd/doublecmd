@@ -1312,6 +1312,11 @@ begin
         end;
     end;
     ADisplayFile.TextColor := clNone;
+    {$IFDEF DARWIN}
+    // on macOS, Icon of file maybe changed after updated.
+    // setting IconID to -1 forces the Icon of the file to be refreshed.
+    ADisplayFile.IconID := -1;
+    {$ENDIF}
     ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
     ADisplayFile.Busy := ADisplayFile.Busy - [bsProp];
