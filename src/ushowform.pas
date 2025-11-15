@@ -503,7 +503,7 @@ begin
     begin
       FileTime:= mbFileAge(Files[I].FullPath);
       if (FileTime = FileTimes[I]) or
-         (not msgYesNo(Format(rsMsgCopyBackward, [GetRelativeFileName(Files[I].FullPath)]) + LineEnding + LineEnding + GetFromPath)) then
+         (not (gAutoCopyBackward or msgYesNo(Format(rsMsgCopyBackward, [GetRelativeFileName(Files[I].FullPath)]) + LineEnding + LineEnding + GetFromPath))) then
       begin
         Files.Delete(I);
       end

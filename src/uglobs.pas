@@ -500,6 +500,7 @@ var
   gDragAndDropAskFormatEachTime: Boolean;
   gDragAndDropTextAutoFilename: Boolean;
   gDragAndDropSaveUnicodeTextInUFT8: Boolean;
+  gAutoCopyBackward: Boolean;
   gNtfsHourTimeDelay: Boolean;
   gAutoExtractOpenMask: String;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
@@ -1982,6 +1983,7 @@ begin
   gDragAndDropAskFormatEachTime := False;
   gDragAndDropTextAutoFilename := False;
   gDragAndDropSaveUnicodeTextInUFT8 := True;
+  gAutoCopyBackward := True;
   gNtfsHourTimeDelay := False;
   gAutoExtractOpenMask := EmptyStr;
   gFileOperationsProgressKind := fopkSeparateWindow;
@@ -2948,6 +2950,7 @@ begin
       gDragAndDropAskFormatEachTime := GetValue(Node,'DragAndDropAskFormatEachTime', gDragAndDropAskFormatEachTime);
       gDragAndDropTextAutoFilename := GetValue(Node, 'DragAndDropTextAutoFilename', gDragAndDropTextAutoFilename);
       gDragAndDropSaveUnicodeTextInUFT8 := GetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
+      gAutoCopyBackward := GetValue(Node, 'AutoCopyBackward', gAutoCopyBackward);
       gNtfsHourTimeDelay := GetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
       gAutoExtractOpenMask := GetValue(Node, 'AutoExtractOpenMask', gAutoExtractOpenMask);
       gSearchDefaultTemplate := GetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
@@ -3634,6 +3637,7 @@ begin
     SetValue(Node, 'DragAndDropAskFormatEachTime', gDragAndDropAskFormatEachTime);
     SetValue(Node, 'DragAndDropTextAutoFilename', gDragAndDropTextAutoFilename);
     SetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
+    SetValue(Node, 'AutoCopyBackward', gAutoCopyBackward);
     SetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
     SetValue(Node, 'AutoExtractOpenMask', gAutoExtractOpenMask);
     SetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
