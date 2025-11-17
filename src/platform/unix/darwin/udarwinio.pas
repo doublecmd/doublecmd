@@ -10,6 +10,7 @@ unit uDarwinIO;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
+{$interfaces corba}
 {$linkframework IOKit}
 
 interface
@@ -87,6 +88,32 @@ type
     function getPath( const fs: PDarwinStatfs ): String;
     function getDisplayName( const fs: PDarwinStatfs ): String;
     function isRemovable( const fs: PDarwinStatfs ): Boolean;
+  end;
+
+  { IDarwinVolumnHandler }
+
+  IDarwinVolumnHandler = Interface
+    procedure handleAdded( const fullpath: String );
+    procedure handleRemoved( const fullpath: String );
+    procedure handleRenamed( const fullpath: String );
+  end;
+
+  { TDarwinVolumnObserver }
+
+  TDarwinVolumnObserver = Objcclass(NSObject)
+    procedure dcHandle( notification: NSNotification ); message 'dcHandle:';
+  end;
+
+  { TDarwinVolumnUtil }
+
+  TDarwinVolumnUtil = class
+  private
+    class var _observer: TDarwinVolumnObserver;
+    class var _handler: IDarwinVolumnHandler;
+    class procedure handle( notification: NSNotification );
+  public
+    class procedure setHandler( const handler: IDarwinVolumnHandler );
+    class procedure removeHandler;
   end;
 
 implementation
@@ -326,6 +353,59 @@ begin
   volumn:= self.getVolumnByDeviceID( deviceID );
   removable:= NSNumber( volumn.valueForKey(Removable_KEY) );
   Result:= ( removable.integerValue <> 0 );
+end;
+
+class procedure TDarwinVolumnUtil.handle( notification: NSNotification );
+var
+  url: NSURL;
+  path: String;
+  notificationName: NSString;
+begin
+  LogWrite( '>> handle:' );
+  LogWrite( notification.description.UTF8String );
+  if _handler = nil then
+    Exit;
+  url:= notification.userInfo.valueForKey( NSWorkspaceVolumeURLKey );
+  if url = nil then
+    Exit;
+  path:= url.path.UTF8String;
+  notificationName:= notification.name;
+
+  if notificationName = NSWorkspaceDidMountNotification then
+    _handler.handleAdded( path )
+  else if notificationName = NSWorkspaceDidUnmountNotification then
+    _handler.handleRemoved( path )
+  else if notificationName = NSWorkspaceDidRenameVolumeNotification then
+    _handler.handleRenamed( path )
+end;
+
+class procedure TDarwinVolumnUtil.setHandler( const handler: IDarwinVolumnHandler );
+var
+  nc: NSNotificationCenter;
+begin
+  if _observer = nil then begin
+    nc:= NSWorkspace.sharedWorkspace.notificationCenter;
+    _observer:= TDarwinVolumnObserver.new;
+    nc.addObserver_selector_name_object( _observer, ObjCSelector('dcHandle:'), NSWorkspaceDidMountNotification, nil );
+    nc.addObserver_selector_name_object( _observer, ObjCSelector('dcHandle:'), NSWorkspaceDidUnmountNotification, nil );
+    nc.addObserver_selector_name_object( _observer, ObjCSelector('dcHandle:'), NSWorkspaceDidRenameVolumeNotification, nil );
+  end;
+  _handler:= handler;
+end;
+
+class procedure TDarwinVolumnUtil.removeHandler;
+begin
+  _handler:= nil;
+  NSWorkspace.sharedWorkspace.notificationCenter.removeObserver( _observer );
+  _observer.Release;
+  _observer:= nil;
+end;
+
+{ TDarwinVolumnObserver }
+
+procedure TDarwinVolumnObserver.dcHandle( notification: NSNotification );
+begin
+  TDarwinVolumnUtil.handle( notification );
 end;
 
 initialization
