@@ -22,7 +22,6 @@
 unit Argon2;
 
 {$mode objfpc}{$H+}
-{$define USE_MTPROCS}
 {.$define GENKAT}
 
 interface
@@ -44,6 +43,7 @@ const
   ARGON2_OK = 0;
   ARGON2_MEMORY_ALLOCATION_ERROR = -22;
   ARGON2_INCORRECT_PARAMETER = -25;
+  ARGON2_THREAD_FAIL = -33;
 
 
 type
@@ -88,6 +88,11 @@ type
     ARGON2_VERSION_NUMBER = ARGON2_VERSION_13
   );
 
+function argon2d_kdf(const t_cost, m_cost, parallelism: cuint32;
+                     const pwd: pansichar; const pwdlen: csize_t;
+                     const salt: pansichar; const saltlen: csize_t;
+                     hash: Pointer; const hashlen: csize_t): cint;
+
 function argon2id_kdf(const t_cost, m_cost, parallelism: cuint32;
                       const pwd: pansichar; const pwdlen: csize_t;
                       const salt: pansichar; const saltlen: csize_t;
@@ -108,11 +113,7 @@ implementation
 {$R-}{$Q-}
 
 uses
-  Math, Hash, SysUtils, StrUtils
-{$IF DEFINED(USE_MTPROCS)}
-  , MTProcs
-{$ENDIF}
-  ;
+  Math, Hash, SysUtils, StrUtils;
 
 //**********************Argon2 internal constants*******************************/
 
@@ -170,6 +171,7 @@ type
   Pargon2_position_t = ^Targon2_position_t;
   Targon2_position_t = record
     pass: cuint32;
+    lane: cuint32;
     slice: cuint8;
     index: cuint32;
     instance_ptr: Pargon2_instance_t;
@@ -613,7 +615,7 @@ begin
   Result:= absolute_position;
 end;
 
-procedure fill_segment(position_lane: PtrInt; Data: Pointer; {%H-}Item: TObject);
+function fill_segment(Data: Pointer): PtrInt;
 var
   ref_block: Pblock = nil;
   curr_block: Pblock = nil;
@@ -626,6 +628,7 @@ var
   position: Targon2_position_t;
   instance: Pargon2_instance_t absolute position.instance_ptr;
 begin
+  Result:= 0;
   if (Data = nil) then Exit;
 
   position := Pargon2_position_t(Data)^;
@@ -641,7 +644,7 @@ begin
     init_block_value(@input_block, 0);
 
     input_block.v[0] := position.pass;
-    input_block.v[1] := position_lane;
+    input_block.v[1] := position.lane;
     input_block.v[2] := position.slice;
     input_block.v[3] := instance^.memory_blocks;
     input_block.v[4] := instance^.passes;
@@ -662,7 +665,7 @@ begin
   end;
 
   //* Offset of the current block */
-  curr_offset := position_lane * instance^.lane_length +
+  curr_offset := position.lane * instance^.lane_length +
                 position.slice * instance^.segment_length + starting_index;
 
   if (0 = curr_offset mod instance^.lane_length) then
@@ -701,13 +704,13 @@ begin
 
     if ((position.pass = 0) and (position.slice = 0)) then begin
         //* Can not reference other lanes yet */
-        ref_lane := position_lane;
+        ref_lane := position.lane;
     end;
 
     //* 1.2.3 Computing the number of possible reference block within the lane. */
     position.index := i;
     ref_index := index_alpha(instance, @position, pseudo_rand and $FFFFFFFF,
-                            ref_lane = position_lane);
+                            ref_lane = position.lane);
 
     //* 2 Creating a new block */
     ref_block :=
@@ -770,14 +773,12 @@ begin
   end;
 end;
 
-function fill_memory_blocks(instance: Pargon2_instance_t): cint;
+//* Single-threaded version for p=1 case */
+function fill_memory_blocks_st(instance: Pargon2_instance_t): cint;
 var
   r, s, l: cuint32;
   position: Targon2_position_t;
 begin
-  if (instance = nil) or (instance^.lanes = 0) then begin
-    Exit(ARGON2_INCORRECT_PARAMETER);
-  end;
   position.instance_ptr:= instance;
   for r := 0 to instance^.passes - 1 do
   begin
@@ -785,18 +786,76 @@ begin
     for s := 0 to ARGON2_SYNC_POINTS - 1 do
     begin
       position.slice:= s;
-{$IF DEFINED(USE_MTPROCS)}
-      if instance^.lanes > 1 then
-        ProcThreadPool.DoParallel(TMTProcedure(@fill_segment), 0, instance^.lanes - 1, @position)
-      else
-{$ENDIF}
-        for l := 0 to instance^.lanes - 1 do fill_segment(l, @position, nil);
+      for l:= 0 to instance^.lanes - 1 do
+      begin
+        position.lane:= l;
+        fill_segment(@position);
+      end;
     end;
 {$IFDEF GENKAT}
-    internal_kat(instance, r); ///* Print all memory blocks */
+    internal_kat(instance, r); //* Print all memory blocks */
 {$ENDIF}
   end;
   Result:= ARGON2_OK;
+end;
+
+//* Multi-threaded version for p > 1 case */
+function fill_memory_blocks_mt(instance: Pargon2_instance_t): cint;
+var
+  r, s, l, ll: cuint32;
+  threads: array of TThreadID;
+  positions: array of Targon2_position_t;
+begin
+  // 1. Allocating space for threads
+  SetLength(threads, instance^.lanes);
+  SetLength(positions, instance^.lanes);
+  for r := 0 to instance^.passes - 1 do
+  begin
+    for s := 0 to ARGON2_SYNC_POINTS - 1 do
+    begin
+      // 2. Calling threads
+      for l:= 0 to instance^.lanes - 1 do
+      begin
+        positions[l].pass:= r;
+        positions[l].lane:= l;
+        positions[l].slice:= s;
+        positions[l].instance_ptr:= instance;
+        threads[l]:= BeginThread(@fill_segment, @positions[l]);
+        if (threads[l] = TThreadID(0)) then
+        begin
+          // Wait for already running threads
+          for ll:= 0 to l - 1 do
+          begin
+            WaitForThreadTerminate(threads[ll], -1);
+            CloseThread(threads[ll]);
+          end;
+          Exit(ARGON2_THREAD_FAIL);
+        end;
+      end;
+      // 3. Joining remaining threads
+      for l := instance^.lanes - instance^.threads to instance^.lanes - 1 do
+      begin
+        WaitForThreadTerminate(threads[l], -1);
+        CloseThread(threads[l]);
+      end;
+    end;
+{$IFDEF GENKAT}
+    internal_kat(instance, r); //* Print all memory blocks */
+{$ENDIF}
+  end;
+  Result:= ARGON2_OK;
+end;
+
+function fill_memory_blocks(instance: Pargon2_instance_t): cint;
+begin
+  if (instance = nil) or (instance^.lanes = 0) then begin
+    Exit(ARGON2_INCORRECT_PARAMETER);
+  end;
+  if (instance^.threads > 1) then
+    Result:= fill_memory_blocks_mt(instance)
+  else begin
+    Result:= fill_memory_blocks_st(instance);
+  end;
 end;
 
 procedure fill_first_blocks(blockhash: pcuint8; const instance: pargon2_instance_t);
@@ -1056,10 +1115,19 @@ begin
   FreeMem(context.out_);
 end;
 
+function argon2d_kdf(const t_cost, m_cost, parallelism: cuint32;
+                     const pwd: pansichar; const pwdlen: csize_t;
+                     const salt: pansichar; const saltlen: csize_t;
+                     hash: Pointer; const hashlen: csize_t): cint; inline;
+begin
+  Result:= argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen, nil, 0,
+                       nil, 0, hash, hashlen, Argon2_d, ARGON2_VERSION_NUMBER);
+end;
+
 function argon2id_kdf(const t_cost, m_cost, parallelism: cuint32;
                       const pwd: pansichar; const pwdlen: csize_t;
                       const salt: pansichar; const saltlen: csize_t;
-                      hash: Pointer; const hashlen: csize_t): cint;
+                      hash: Pointer; const hashlen: csize_t): cint; inline;
 begin
   Result:= argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen, nil, 0,
                        nil, 0, hash, hashlen, Argon2_id, ARGON2_VERSION_NUMBER);
@@ -1068,35 +1136,36 @@ end;
 function argon2_selftest: Boolean;
 
   function hash_test(version: Targon2_version; type_: Targon2_type; t, m, p: cuint32; pwd, salt, hex: String): Boolean;
+  const
+    AName: array[Targon2_type] of String = ('Argon2d', 'Argon2i', 'Argon2id');
   var
     Q: QWord;
     out_: String;
     out_hex: String;
     out_len: Integer;
   begin
-      out_len:= Length(hex) div 2;
-      WriteLn(Format('Hash test: $v=%d t=%d, m=%d, p=%d, pass=%s, salt=%s, result=%d',
-              [version, t, m, p, pwd, salt, out_len]));
+    WriteLn(AName[type_]);
+    out_len:= Length(hex) div 2;
+    WriteLn(Format('Hash test: $v=%d t=%d, m=%d, p=%d, pass=%s, salt=%s, result=%d',
+            [version, t, m, p, pwd, salt, out_len]));
 
-      SetLength(out_, out_len);
-      Q:= GetTickCount64;
-      argon2_hash(t, 1 shl m, p, Pointer(pwd), Length(pwd), Pointer(salt), Length(salt),
-                  nil, 0, nil, 0, Pointer(out_), OUT_LEN, type_, version);
-      WriteLn('Time:   ', GetTickCount64 - Q);
-      SetLength(out_hex, OUT_LEN * 2);
-      BinToHex(PAnsiChar(out_), PAnsiChar(out_hex), OUT_LEN);
-      Result:= SameText(hex, out_hex);
-      WriteLn('Must:   ', hex);
-      WriteLn('Have:   ', out_hex);
-      WriteLn('Result: ', Result);
-      WriteLn('------------------------------------------------------------');
+    SetLength(out_, out_len);
+    Q:= GetTickCount64;
+    argon2_hash(t, 1 shl m, p, Pointer(pwd), Length(pwd), Pointer(salt), Length(salt),
+                nil, 0, nil, 0, Pointer(out_), OUT_LEN, type_, version);
+    WriteLn('Time:   ', GetTickCount64 - Q);
+    SetLength(out_hex, OUT_LEN * 2);
+    BinToHex(PAnsiChar(out_), PAnsiChar(out_hex), OUT_LEN);
+    Result:= SameText(hex, out_hex);
+    WriteLn('Must:   ', hex);
+    WriteLn('Have:   ', out_hex);
+    WriteLn('Result: ', Result);
+    WriteLn('------------------------------------------------------------');
   end;
 
 begin
   Result:= True;
   // Test Argon2i
-  Result:= Result and hash_test(ARGON2_VERSION_10, Argon2_i, 2, 16, 1, 'password', 'somesalt',
-                                'f6c4db4a54e2a370627aff3db6176b94a2a209a62c8e36152711802f7b30c694');
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 1, 'password', 'somesalt',
                                 'c1628832147d9720c5bd1cfd61367078729f6dfb6f8fea9ff98158e0d7816ed0');
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 1, 'differentpassword', 'somesalt',
@@ -1106,6 +1175,20 @@ begin
   // Test Argon2d
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 2, 16, 1, 'password', 'somesalt',
                                 '955e5d5b163a1b60bba35fc36d0496474fba4f6b59ad53628666f07fb2f93eaf');
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 4, 17, 4,
+                                'The quick brown fox jumps over the lazy dog',
+                                '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
+                                '595193668d0ae6169235017f58d2a197d9cc485af5cb8f26357d95ee7eb991c4');
+
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 10, 16, 4,
+                                'The quick brown fox jumps over the lazy dog',
+                                '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
+                                '49101d42bd15dc1559bfd978753ac957c239b2f6184b8de2042e03fdd4b6676c');
+
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 6, 17, 4,
+                                'The quick brown fox jumps over the lazy dog',
+                                '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
+                                '13ea5db0e564b8719f7f3fc55559b8ca224dd063256f53051dd5bb682b48b5ac');
   // Test Argon2id
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 1, 'password', 'somesalt',
                                 '09316115d5cf24ed5a15a31a3ba326e5cf32edc24702987c02b6566f61913cf7');
