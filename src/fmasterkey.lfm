@@ -1,0 +1,289 @@
+object frmMasterKey: TfrmMasterKey
+  Left = 557
+  Height = 494
+  Top = 163
+  Width = 480
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Create Master Key'
+  ChildSizing.LeftRightSpacing = 12
+  ChildSizing.TopBottomSpacing = 12
+  ClientHeight = 494
+  ClientWidth = 480
+  Constraints.MinWidth = 480
+  Position = poMainFormCenter
+  LCLVersion = '4.3.0.0'
+  object gbMasterKey: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 98
+    Top = 41
+    Width = 456
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 12
+    Caption = 'Master key'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 10
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 76
+    ClientWidth = 452
+    TabOrder = 0
+    object lblPassword: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 25
+      Top = 10
+      Width = 243
+      Caption = '&Master password:'
+    end
+    object edtPassword: TEdit
+      Left = 255
+      Height = 25
+      Top = 10
+      Width = 185
+      EchoMode = emPassword
+      PasswordChar = '*'
+      TabOrder = 0
+      OnChange = edtPasswordChange
+    end
+    object lblRepeat: TLabel
+      Left = 12
+      Height = 25
+      Top = 41
+      Width = 243
+      Caption = '&Repeat password:'
+    end
+    object edtRepeat: TEdit
+      Left = 255
+      Height = 25
+      Top = 41
+      Width = 185
+      EchoMode = emPassword
+      PasswordChar = '*'
+      TabOrder = 1
+      OnChange = edtPasswordChange
+    end
+  end
+  object gbKeyTransform: TGroupBox
+    AnchorSideLeft.Control = gbMasterKey
+    AnchorSideTop.Control = gbMasterKey
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 291
+    Top = 139
+    Width = 456
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Key transformation'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 12
+    ClientHeight = 269
+    ClientWidth = 452
+    TabOrder = 1
+    object lblHeader: TLabel
+      AnchorSideLeft.Control = gbKeyTransform
+      AnchorSideTop.Control = gbKeyTransform
+      AnchorSideRight.Control = gbKeyTransform
+      AnchorSideRight.Side = asrBottom
+      Left = 12
+      Height = 34
+      Top = 12
+      Width = 428
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder.'
+      WordWrap = True
+    end
+    object pnlKeyTransform: TPanel
+      AnchorSideLeft.Control = gbKeyTransform
+      AnchorSideTop.Control = lblHeader
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbKeyTransform
+      AnchorSideRight.Side = asrBottom
+      Left = 12
+      Height = 160
+      Top = 46
+      Width = 428
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.TopBottomSpacing = 12
+      ChildSizing.HorizontalSpacing = 48
+      ChildSizing.VerticalSpacing = 12
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 160
+      ClientWidth = 428
+      TabOrder = 0
+      object lblFunction: TLabel
+        Left = 0
+        Height = 25
+        Top = 12
+        Width = 219
+        Caption = '&Key derivation function:'
+      end
+      object cmbFunction: TComboBox
+        Left = 267
+        Height = 25
+        Top = 12
+        Width = 161
+        ItemHeight = 17
+        ItemIndex = 0
+        Items.Strings = (
+          'Argon2d'
+          'Argon2id'
+        )
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'Argon2d'
+      end
+      object lblIterations: TLabel
+        Left = 0
+        Height = 25
+        Top = 49
+        Width = 219
+        Caption = '&Iterations:'
+      end
+      object seIterations: TSpinEdit
+        Left = 267
+        Height = 25
+        Top = 49
+        Width = 161
+        MaxValue = 64
+        MinValue = 2
+        TabOrder = 1
+        Value = 4
+      end
+      object lblMemory: TLabel
+        Left = 0
+        Height = 25
+        Top = 86
+        Width = 219
+        Caption = '&Memory:'
+      end
+      object pnlMemory: TPanel
+        Left = 267
+        Height = 25
+        Top = 86
+        Width = 161
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 25
+        ClientWidth = 161
+        TabOrder = 2
+        object seMemory: TSpinEdit
+          Left = 0
+          Height = 25
+          Top = 0
+          Width = 65
+          MaxValue = 1024
+          MinValue = 64
+          TabOrder = 0
+          Value = 64
+        end
+        object lblUnit: TLabel
+          AnchorSideLeft.Control = seMemory
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = seMemory
+          AnchorSideBottom.Control = seMemory
+          AnchorSideBottom.Side = asrBottom
+          Left = 73
+          Height = 25
+          Top = 0
+          Width = 19
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 8
+          Caption = 'MB'
+          Layout = tlCenter
+        end
+      end
+      object lblParallelism: TLabel
+        Left = 0
+        Height = 25
+        Top = 123
+        Width = 219
+        Caption = '&Parallelism:'
+      end
+      object seParallelism: TSpinEdit
+        Left = 267
+        Height = 25
+        Top = 123
+        Width = 161
+        MaxValue = 64
+        MinValue = 2
+        TabOrder = 3
+        Value = 2
+      end
+    end
+    object lblFooter: TLabel
+      AnchorSideLeft.Control = gbKeyTransform
+      AnchorSideTop.Control = pnlKeyTransform
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnTest
+      Left = 12
+      Height = 51
+      Top = 206
+      Width = 335
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 18
+      Caption = 'The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time.'
+      WordWrap = True
+    end
+    object btnTest: TButton
+      AnchorSideTop.Control = pnlKeyTransform
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbKeyTransform
+      AnchorSideRight.Side = asrBottom
+      Left = 365
+      Height = 25
+      Top = 206
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = 'Test'
+      TabOrder = 1
+      OnClick = btnTestClick
+    end
+  end
+  object lblText: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 12
+    Height = 17
+    Top = 12
+    Width = 441
+    Caption = 'Specify a new master key, which will be used to encrypt the password store.'
+  end
+  object pnlButtons: TButtonPanel
+    AnchorSideTop.Control = gbKeyTransform
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 27
+    Top = 454
+    Width = 456
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 18
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.Enabled = False
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end
