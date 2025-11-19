@@ -76,8 +76,8 @@ type
 
   //* Argon2 primitive type */
   Targon2_type = (
-    Argon2_d = 0,
-    Argon2_i = 1,
+    Argon2_i = 0,
+    Argon2_d = 1,
     Argon2_id = 2
   );
 
@@ -97,6 +97,12 @@ function argon2id_kdf(const t_cost, m_cost, parallelism: cuint32;
                       const pwd: pansichar; const pwdlen: csize_t;
                       const salt: pansichar; const saltlen: csize_t;
                       hash: Pointer; const hashlen: csize_t): cint;
+
+function argon2_kdf(const t_cost, m_cost, parallelism: cuint32;
+                    const pwd: pansichar; const pwdlen: csize_t;
+                    const salt: pansichar; const saltlen: csize_t;
+                    hash: Pointer; const hashlen: csize_t;
+                    type_: Targon2_type): cint;
 
 function argon2_hash(const t_cost, m_cost, parallelism: cuint32;
                      const pwd: pansichar; const pwdlen: csize_t;
@@ -1133,11 +1139,21 @@ begin
                        nil, 0, hash, hashlen, Argon2_id, ARGON2_VERSION_NUMBER);
 end;
 
+function argon2_kdf(const t_cost, m_cost, parallelism: cuint32;
+                    const pwd: pansichar; const pwdlen: csize_t;
+                    const salt: pansichar; const saltlen: csize_t;
+                    hash: Pointer; const hashlen: csize_t;
+                    type_: Targon2_type): cint; inline;
+begin
+  Result:= argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen, nil, 0,
+                       nil, 0, hash, hashlen, type_, ARGON2_VERSION_NUMBER);
+end;
+
 function argon2_selftest: Boolean;
 
   function hash_test(version: Targon2_version; type_: Targon2_type; t, m, p: cuint32; pwd, salt, hex: String): Boolean;
   const
-    AName: array[Targon2_type] of String = ('Argon2d', 'Argon2i', 'Argon2id');
+    AName: array[Targon2_type] of String = ('Argon2i', 'Argon2d', 'Argon2id');
   var
     Q: QWord;
     out_: String;
