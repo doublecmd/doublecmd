@@ -211,7 +211,6 @@ type
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveWithStartingPathClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
-    procedure cbCaseSensChange(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbFindInArchiveChange(Sender: TObject);
@@ -1035,12 +1034,6 @@ begin
   SaveTemplate(False);
 end;
 
-{ TfrmFindDlg.cbCaseSensChange }
-procedure TfrmFindDlg.cbCaseSensChange(Sender: TObject);
-begin
-  if cbCaseSens.Checked then cbTextRegExp.Checked := False;
-end;
-
 { TfrmFindDlg.cbDateFromChange }
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
 begin
@@ -1097,17 +1090,6 @@ end;
 { TfrmFindDlg.cbTextRegExpChange }
 procedure TfrmFindDlg.cbTextRegExpChange(Sender: TObject);
 begin
-  if cbTextRegExp.Checked then
-  begin
-    if cbCaseSens.Enabled then
-    begin
-      cbCaseSens.Tag := Integer(cbCaseSens.Checked);
-    end;
-  end
-  else if not cbCaseSens.Enabled then
-  begin
-    cbCaseSens.Checked := Boolean(cbCaseSens.Tag);
-  end;
   UpdateEncodings;
 end;
 
@@ -1445,8 +1427,8 @@ begin
   cbTextRegExp.Enabled := cbFindText.Checked and SupportedEncoding and (not chkHex.Checked);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
-  cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked) and (not cbTextRegExp.Checked);
-  if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := not cbTextRegExp.Checked;
+  cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked);
+  if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := (chkHex.Checked or cbReplaceText.Checked);
 end;
 
 function TfrmFindDlg.GetEncodings(AList: TCustomComboBox): String;

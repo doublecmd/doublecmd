@@ -206,6 +206,7 @@ begin
           if TextRegExp then
           begin
             AEncoding.FRegExpr := TRegExprEx.Create(ATextEncoding, True);
+            AEncoding.FRegExpr.ModifierI := not CaseSensitive;
             AEncoding.FRegExpr.Expression := FSearchText;
           end;
         end;

@@ -383,7 +383,6 @@ object frmFindDlg: TfrmFindDlg
             BorderSpacing.Top = 4
             BorderSpacing.Bottom = 8
             Caption = 'Case sens&itive'
-            OnChange = cbCaseSensChange
             TabOrder = 4
           end
           object cbNotContainingText: TCheckBox
