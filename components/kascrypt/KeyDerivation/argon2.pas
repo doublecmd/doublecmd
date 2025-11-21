@@ -76,8 +76,8 @@ type
 
   //* Argon2 primitive type */
   Targon2_type = (
-    Argon2_i = 0,
-    Argon2_d = 1,
+    Argon2_d = 0,
+    Argon2_i = 1,
     Argon2_id = 2
   );
 
@@ -1153,7 +1153,7 @@ function argon2_selftest: Boolean;
 
   function hash_test(version: Targon2_version; type_: Targon2_type; t, m, p: cuint32; pwd, salt, hex: String): Boolean;
   const
-    AName: array[Targon2_type] of String = ('Argon2i', 'Argon2d', 'Argon2id');
+    AName: array[Targon2_type] of String = ('Argon2d', 'Argon2i', 'Argon2id');
   var
     Q: QWord;
     out_: String;
@@ -1195,12 +1195,10 @@ begin
                                 'The quick brown fox jumps over the lazy dog',
                                 '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
                                 '595193668d0ae6169235017f58d2a197d9cc485af5cb8f26357d95ee7eb991c4');
-
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 10, 16, 4,
                                 'The quick brown fox jumps over the lazy dog',
                                 '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
                                 '49101d42bd15dc1559bfd978753ac957c239b2f6184b8de2042e03fdd4b6676c');
-
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 6, 17, 4,
                                 'The quick brown fox jumps over the lazy dog',
                                 '49d91010f3cadfca4964a1305132537e28a195cf7b0823763fa34d190f9b2559',
