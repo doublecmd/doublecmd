@@ -3386,6 +3386,63 @@ msgstr "Укажите маску файлов:"
 msgid "O&r select predefined selection type:"
 msgstr "&Или выберите тип файлов по шаблону:"
 
+#: tfrmmasterkey.btntest.caption
+msgid "Test"
+msgstr "Тест"
+
+#: tfrmmasterkey.caption
+msgid "Create Master Key"
+msgstr "Создание мастер ключа"
+
+#: tfrmmasterkey.gbkeytransform.caption
+msgid "Key transformation"
+msgstr "Трансформация ключа"
+
+#: tfrmmasterkey.gbmasterkey.caption
+msgid "Master key"
+msgstr "Мастер ключ"
+
+#: tfrmmasterkey.lblfooter.caption
+msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
+msgstr "Чем больше итераций, тем надёжнее защита от атак угадыванием и по словарю, но тем медленнее загрузка и сохранение хранилища паролей."
+
+#: tfrmmasterkey.lblfunction.caption
+msgid "&Key derivation function:"
+msgstr "&Функция формирования ключа:"
+
+#: tfrmmasterkey.lblheader.caption
+msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgstr "Мастер ключ преобразуется с помощью функции формирования ключа, что добавляет вычисления и усложняет атаки по словарю и угадывание."
+
+#: tfrmmasterkey.lbliterations.caption
+msgid "&Iterations:"
+msgstr "&Количество итераций:"
+
+#: tfrmmasterkey.lblmemory.caption
+msgid "&Memory:"
+msgstr "&Память:"
+
+#: tfrmmasterkey.lblparallelism.caption
+msgid "&Parallelism:"
+msgstr "П&араллелизм:"
+
+#: tfrmmasterkey.lblpassword.caption
+msgid "Master pass&word:"
+msgstr "&Мастер пароль:"
+
+#: tfrmmasterkey.lblrepeat.caption
+msgid "&Repeat password:"
+msgstr "П&овторите пароль:"
+
+#: tfrmmasterkey.lbltext.caption
+msgid "Specify a new master key, which will be used to encrypt the password store."
+msgstr "Укажите новый мастер-ключ, который будет использоваться для шифрования хранилища паролей."
+
+#: tfrmmasterkey.lblunit.caption
+msgctxt "tfrmmasterkey.lblunit.caption"
+msgid "MB"
+msgstr "Мб"
+
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Создать новый каталог"
@@ -10254,6 +10311,7 @@ msgid "KB"
 msgstr "Кб"
 
 #: ulng.rsdefaultpersonalizedabbrevmega
+msgctxt "ulng.rsdefaultpersonalizedabbrevmega"
 msgid "MB"
 msgstr "Мб"
 
@@ -12148,6 +12206,16 @@ msgstr "Неправильное использование кавычек"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Некорректное выделение."
+
+#: ulng.rsmsgkeytransformerror
+#, object-pascal-format
+msgid "The key transformation failed (error code %d)!"
+msgstr "Трансформация ключа завершилась неудачей (код ошибки %d)!"
+
+#: ulng.rsmsgkeytransformtime
+#, object-pascal-format
+msgid "The key transformation took %f seconds."
+msgstr "Трансформация ключа заняла %f секунд."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."

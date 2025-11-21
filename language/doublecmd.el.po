@@ -3394,6 +3394,64 @@ msgstr "Μάσκα Εισαγωγής:"
 msgid "O&r select predefined selection type:"
 msgstr "Ή επιλέξτε τον προκαθορισμένο τύπο επιλογής:"
 
+#: tfrmmasterkey.btntest.caption
+msgid "Test"
+msgstr ""
+
+#: tfrmmasterkey.caption
+msgid "Create Master Key"
+msgstr ""
+
+#: tfrmmasterkey.gbkeytransform.caption
+msgid "Key transformation"
+msgstr ""
+
+#: tfrmmasterkey.gbmasterkey.caption
+msgid "Master key"
+msgstr ""
+
+#: tfrmmasterkey.lblfooter.caption
+msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
+msgstr ""
+
+#: tfrmmasterkey.lblfunction.caption
+msgid "&Key derivation function:"
+msgstr ""
+
+#: tfrmmasterkey.lblheader.caption
+msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgstr ""
+
+#: tfrmmasterkey.lbliterations.caption
+msgid "&Iterations:"
+msgstr ""
+
+#: tfrmmasterkey.lblmemory.caption
+msgid "&Memory:"
+msgstr ""
+
+#: tfrmmasterkey.lblparallelism.caption
+msgid "&Parallelism:"
+msgstr ""
+
+#: tfrmmasterkey.lblpassword.caption
+msgid "Master pass&word:"
+msgstr ""
+
+#: tfrmmasterkey.lblrepeat.caption
+msgid "&Repeat password:"
+msgstr ""
+
+#: tfrmmasterkey.lbltext.caption
+msgid "Specify a new master key, which will be used to encrypt the password store."
+msgstr ""
+
+#: tfrmmasterkey.lblunit.caption
+#, fuzzy
+msgctxt "tfrmmasterkey.lblunit.caption"
+msgid "MB"
+msgstr "MB"
+
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Δημιουργία νέου καταλόγου"
@@ -10219,6 +10277,7 @@ msgid "KB"
 msgstr "KB"
 
 #: ulng.rsdefaultpersonalizedabbrevmega
+msgctxt "ulng.rsdefaultpersonalizedabbrevmega"
 msgid "MB"
 msgstr "MB"
 
@@ -12109,6 +12168,16 @@ msgstr "Μη έγκυρη δημιουργία εισαγωγικών"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Μη Έγκυρη επιλογή."
+
+#: ulng.rsmsgkeytransformerror
+#, object-pascal-format
+msgid "The key transformation failed (error code %d)!"
+msgstr ""
+
+#: ulng.rsmsgkeytransformtime
+#, object-pascal-format
+msgid "The key transformation took %f seconds."
+msgstr ""
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
