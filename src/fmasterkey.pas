@@ -45,12 +45,16 @@ implementation
 
 {$R *.lfm}
 
+uses
+  uLng;
+
 function CreateMasterKey(Short: Boolean; out Password: String; out ArgonType: Targon2_type; var M: UInt32; var T, P: UInt16): Boolean;
 begin
   with TfrmMasterKey.Create(Application) do
   try
     seIterations.Value:= T;
     seParallelism.Value:= P;
+    cmbFunction.ItemIndex:= 0;
     seMemory.Value:= M div 1024;
     lblText.Visible:= not Short;
     gbMasterKey.Visible:= not Short;
@@ -103,9 +107,9 @@ begin
                    SALT, Length(SALT), @Hash[0], HASH_LEN, ArgonType);
 
   if (Res <> ARGON2_OK) then
-    ShowMessage('Error ' + IntToStr(Res))
+    ShowMessage(Format(rsMsgKeyTransformError, [Res]))
   else begin
-    ShowMessage(Format('The key transformation took %f seconds.', [Double(GetTickCount64 - StartTime) / 1000]));
+    ShowMessage(Format(rsMsgKeyTransformTime, [Double(GetTickCount64 - StartTime) / 1000]));
   end;
 end;
 

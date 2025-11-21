@@ -42,7 +42,7 @@ object frmMasterKey: TfrmMasterKey
       Height = 25
       Top = 10
       Width = 243
-      Caption = '&Master password:'
+      Caption = 'Master pass&word:'
     end
     object edtPassword: TEdit
       Left = 255
@@ -138,7 +138,6 @@ object frmMasterKey: TfrmMasterKey
         Top = 12
         Width = 161
         ItemHeight = 17
-        ItemIndex = 0
         Items.Strings = (
           'Argon2d'
           'Argon2id'

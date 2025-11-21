@@ -192,6 +192,8 @@ resourcestring
   rsMsgPasswordEnter = 'Please enter the password:';
   rsMsgPasswordVerify = 'Please re-enter the password for verification:';
   rsMsgPasswordDiff = 'Passwords are different!';
+  rsMsgKeyTransformTime = 'The key transformation took %f seconds.';
+  rsMsgKeyTransformError = 'The key transformation failed (error code %d)!';
   rsMsgUserName = 'User name:';
   rsMsgPassword = 'Password:';
   rsMsgAccount = 'Account:';
