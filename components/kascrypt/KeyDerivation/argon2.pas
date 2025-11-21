@@ -1156,6 +1156,7 @@ function argon2_selftest: Boolean;
     AName: array[Targon2_type] of String = ('Argon2d', 'Argon2i', 'Argon2id');
   var
     Q: QWord;
+    ret: Integer;
     out_: String;
     out_hex: String;
     out_len: Integer;
@@ -1163,13 +1164,19 @@ function argon2_selftest: Boolean;
     WriteLn(AName[type_]);
     out_len:= Length(hex) div 2;
     WriteLn(Format('Hash test: $v=%d t=%d, m=%d, p=%d, pass=%s, salt=%s, result=%d',
-            [version, t, m, p, pwd, salt, out_len]));
-
+                   [version, t, m, p, pwd, salt, out_len]));
     SetLength(out_, out_len);
+
     Q:= GetTickCount64;
-    argon2_hash(t, 1 shl m, p, Pointer(pwd), Length(pwd), Pointer(salt), Length(salt),
-                nil, 0, nil, 0, Pointer(out_), OUT_LEN, type_, version);
+    ret:= argon2_hash(t, 1 shl m, p, Pointer(pwd), Length(pwd), Pointer(salt), Length(salt),
+                      nil, 0, nil, 0, Pointer(out_), OUT_LEN, type_, version);
+    if (ret <> ARGON2_OK) then
+    begin
+      WriteLn('Error:  ', ret);
+      Exit(False);
+    end;
     WriteLn('Time:   ', GetTickCount64 - Q);
+
     SetLength(out_hex, OUT_LEN * 2);
     BinToHex(PAnsiChar(out_), PAnsiChar(out_hex), OUT_LEN);
     Result:= SameText(hex, out_hex);
@@ -1184,10 +1191,12 @@ begin
   // Test Argon2i
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 1, 'password', 'somesalt',
                                 'c1628832147d9720c5bd1cfd61367078729f6dfb6f8fea9ff98158e0d7816ed0');
-  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 1, 'differentpassword', 'somesalt',
-                                '14ae8da01afea8700c2358dcef7c5358d9021282bd88663a4562f59fb74d22ee');
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 1, 'password', 'diffsalt',
                                 'b0357cccfbef91f3860b0dba447b2348cbefecadaf990abfe9cc40726c521271');
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_i, 2, 16, 2,
+                                'The quick brown fox jumps over the lazy dog',
+                                '09316115d5cf24ed5a15a31a3ba326e5cf32edc24702987c02b6566f61913cf7',
+                                '81f1ba863be362444e3a22feca1d65e4d0ff53609ef9db5961d715552d38ac0d');
   // Test Argon2d
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_d, 2, 16, 1, 'password', 'somesalt',
                                 '955e5d5b163a1b60bba35fc36d0496474fba4f6b59ad53628666f07fb2f93eaf');
@@ -1206,12 +1215,11 @@ begin
   // Test Argon2id
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 1, 'password', 'somesalt',
                                 '09316115d5cf24ed5a15a31a3ba326e5cf32edc24702987c02b6566f61913cf7');
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 1, 'password', 'diffsalt',
+                                'bdf32b05ccc42eb15d58fd19b1f856b113da1e9a5874fdcc544308565aa8141c');
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 2, 'password', 'somesalt',
                                 '6f681ac1c3384a90119d2763a683f9ac79532d999abfab5644aa8aafd3d0d234');
-  // Recommended parameters (the running time about 125ms on Intel Core i5-7400 64 bit)
-  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 4,
-                                'password','123456789012345678901234567890xy',
-                                'c80142cbb6076b2d6be20137ddf24679cfc70eb4cde0f242a342e9e63636292eb2efcd907873fc19ca0bee0b7d7e992a7f68ce24a2da379bc41d5eb235f76eaa17220a6fa82d2d4a2e168b021dbfa5ba5a9f232ea0a1e24d');
+  // Print result
   WriteLn('Result: ', Result);
 end;
 
