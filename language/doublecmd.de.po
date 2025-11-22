@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-10-04 20:41+0200\n"
+"PO-Revision-Date: 2025-11-22 10:00+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -3334,58 +3334,57 @@ msgstr "Ode&r vordefinierten Auswahltyp wählen:"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: tfrmmasterkey.caption
 msgid "Create Master Key"
-msgstr ""
+msgstr "Master-Schlüssel erstellen"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Transformation der Schlüssel"
 
 #: tfrmmasterkey.gbmasterkey.caption
 msgid "Master key"
-msgstr ""
+msgstr "Master-Schlüssel"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Je mehr Wiederholungen, desto schwieriger sind Wörterbuch- und Brute-Force-Angriffe, aber das Laden/Speichern des Passwortspeichers dauert auch länger."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "Schlüsselableitungsfunktion:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "Der Master-Schlüssel wird mithilfe einer Schlüsselableitungsfunktion transformiert. Dies erhöht den Arbeitsaufwand und erschwert Wörterbuch- und Brute-Force-Angriffe."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "Wiederholungen:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "Speicher:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "Parallelität (Übereinstimmung):"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Master pass&word:"
-msgstr ""
+msgstr "Master-Passwort:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "Passwort wiederholen:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new master key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Geben Sie einen neuen Master-Schlüssel an, der zum Verschlüsseln des Passwortspeichers verwendet wird."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -11949,12 +11948,12 @@ msgstr "Ungültige Auswahl."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "Transformation der Schlüssel fehlgeschlagen (Fehlercode %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "Transformation der Schlüssel dauerte %f Sekunden."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -14377,4 +14376,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
