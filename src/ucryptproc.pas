@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains Encrypt/Decrypt classes and functions.
 
-    Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit uCryptProc;
 interface
 
 uses
-  Classes, SysUtils, DCClassesUtf8;
+  Classes, SysUtils, DCClassesUtf8, Argon2;
 
 type
 
@@ -40,17 +40,31 @@ type
      csrNoMasterKey // No master password entered yet
   );
 
+  { TArgon2Params }
+
+  TArgon2Params = packed record
+    A: Targon2_type;
+    case Integer of
+      0 : ( Value: Int64 );
+      1 : ( M: UInt32; T, P: UInt16; );
+  end;
+
   { TPasswordStore }
 
   TPasswordStore = class(TIniFileEx)
   private
     FMode: Byte;
-    FMasterStrong: Boolean;
+    FArgon2: TArgon2Params;
     FMasterKey: AnsiString;
     FMasterKeyHash: AnsiString;
   private
     procedure ConvertStore;
+    procedure LoadParameters;
+    procedure SaveParameters;
+    function EncodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
+    function DecodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
     procedure UpdateMasterKey(var MasterKey: AnsiString; var MasterKeyHash: AnsiString);
+    procedure DeriveBytes(Mode: Byte; MasterKey, Salt: AnsiString; var Key; KeyLen: Int32);
   public
     constructor Create(const AFileName: String); reintroduce;
   public
@@ -70,8 +84,11 @@ var
 implementation
 
 uses
-  LCLType, LCLStrConsts, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512,
-  Hash, DCPrijndael, Argon2, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
+  Math, LCLType, LCLStrConsts, Base64, BlowFish, HMAC, SCRYPT, SHA3_512,
+  Hash, DCPrijndael, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom, fMasterKey;
+
+const
+  KDF_MODE = 2;
 
 const
   SCRYPT_N = (1 shl 14);
@@ -81,73 +98,13 @@ const
 const
   ARGON2_M = (1 shl 16);
   ARGON2_T = 2;
-  ARGON2_P = 4;
+  ARGON2_P = 2;
 
 const
   AES_OFFS = 12; // (56 - 32) / 2
   KEY_SIZE = SizeOf(TBlowFishKey);
   MAC_SIZE = SizeOf(TSHA3_256Digest);
   BUF_SIZE = KEY_SIZE + MAC_SIZE;
-
-type
-  TBlowFishKeyRec = record
-    dwSize: LongWord;
-    case Boolean of
-      True:  (bBlowFishKey: TBlowFishKey);
-      False: (cBlowFishKey: array [0..KEY_SIZE - 1] of AnsiChar);
-  end;
-
-function Encode(MasterKey, Data: AnsiString): AnsiString;
-var
-  BlowFishKeyRec: TBlowFishKeyRec;
-  StringStream: TStringStream = nil;
-  Base64EncodingStream: TBase64EncodingStream = nil;
-  BlowFishEncryptStream: TBlowFishEncryptStream = nil;
-begin
-  Result:= EmptyStr;
-  BlowFishKeyRec.cBlowFishKey:= MasterKey;
-  BlowFishKeyRec.dwSize:= Length(MasterKey);
-
-  try
-    StringStream:= TStringStream.Create(EmptyStr);
-    Base64EncodingStream:= TBase64EncodingStream.Create(StringStream);
-    BlowFishEncryptStream:= TBlowFishEncryptStream.Create(BlowFishKeyRec.bBlowFishKey, BlowFishKeyRec.dwSize, Base64EncodingStream);
-
-    BlowFishEncryptStream.Write(PAnsiChar(Data)^, Length(Data));
-    BlowFishEncryptStream.Flush;
-    Base64EncodingStream.Flush;
-    Result:= StringStream.DataString;
-  finally
-    FreeAndNil(BlowFishEncryptStream);
-    FreeAndNil(Base64EncodingStream);
-    FreeAndNil(StringStream);
-  end;
-end;
-
-function Decode(MasterKey, Data: AnsiString): AnsiString;
-var
-  BlowFishKeyRec: TBlowFishKeyRec;
-  StringStream: TStringStream = nil;
-  Base64DecodingStream: TBase64DecodingStream = nil;
-  BlowFishDeCryptStream: TBlowFishDeCryptStream = nil;
-begin
-  Result:= EmptyStr;
-  BlowFishKeyRec.cBlowFishKey:= MasterKey;
-  BlowFishKeyRec.dwSize:= Length(MasterKey);
-
-  try
-    StringStream:= TStringStream.Create(Data);
-    Base64DecodingStream:= TBase64DecodingStream.Create(StringStream);
-
-    SetLength(Result, Base64DecodingStream.Size);
-    BlowFishDeCryptStream:= TBlowFishDeCryptStream.Create(BlowFishKeyRec.bBlowFishKey, BlowFishKeyRec.dwSize, Base64DecodingStream);
-    BlowFishDeCryptStream.Read(PAnsiChar(Result)^, Base64DecodingStream.Size);
-  finally
-    FreeAndNil(BlowFishDeCryptStream);
-    FreeAndNil(Base64DecodingStream);
-    FreeAndNil(StringStream);
-  end;
-end;
 
 function hmac_sha3_512(AKey: PByte; AKeyLength: Integer; AMessage: AnsiString): AnsiString;
 var
@@ -163,23 +120,28 @@ begin
   Move(Buffer[0], Result[1], HashDesc^.HDigestlen);
 end;
 
-procedure DeriveBytes(Mode: Byte; MasterKey, Salt: AnsiString; var Key; KeyLen: Int32);
+procedure TPasswordStore.DeriveBytes(Mode: Byte; MasterKey, Salt: AnsiString; var Key; KeyLen: Int32);
+var
+  Res: Integer;
 begin
   if (Mode > 1) then
   begin
-    argon2id_kdf(ARGON2_T, ARGON2_M, ARGON2_P,
-                 Pointer(MasterKey), Length(MasterKey),
-                 Pointer(Salt), Length(Salt), @Key, KeyLen);
+    Res:= argon2_kdf(FArgon2.T, FArgon2.M, FArgon2.P,
+                     Pointer(MasterKey), Length(MasterKey),
+                     Pointer(Salt), Length(Salt), @Key, KeyLen, FArgon2.A);
 
   end
   else begin
-    scrypt_kdf(Pointer(MasterKey), Length(MasterKey),
-               Pointer(Salt), Length(Salt),
-               SCRYPT_N, SCRYPT_R, SCRYPT_P, Key, KeyLen);
+    Res:= scrypt_kdf(Pointer(MasterKey), Length(MasterKey),
+                     Pointer(Salt), Length(Salt),
+                     SCRYPT_N, SCRYPT_R, SCRYPT_P, Key, KeyLen);
+  end;
+  if (Res < 0) then begin
+    raise Exception.CreateFmt(rsMsgKeyTransformError, [Res]);
   end;
 end;
 
-function EncodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
+function TPasswordStore.EncodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
 var
   Salt, Hash: AnsiString;
   StringStream: TStringStream = nil;
@@ -221,7 +183,7 @@ begin
   Result := EncodeStringBase64(Salt + Result + Copy(Hash, 1, 8));
 end;
 
-function DecodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
+function TPasswordStore.DecodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
 var
   Salt, Hash: AnsiString;
   StringStream: TStringStream = nil;
@@ -274,6 +236,13 @@ var
   Sections, Strings: TStringList;
 begin
   if ReadOnly then Exit;
+  if (FMode < 2) then
+  begin
+    with FArgon2 do begin
+      if not CreateMasterKey(True, Password, A, M, T, P) then
+        Exit;
+    end;
+  end;
   Strings:= TStringList.Create;
   Sections:= TStringList.Create;
   try
@@ -286,16 +255,16 @@ begin
         ReadSectionValues(Sections[I], Strings);
         for J:= 0 to Strings.Count - 1 do
         begin
-          Password:= Decode(FMasterKey, Strings.ValueFromIndex[J]);
-          Password:= EncodeStrong(FMode, FMasterKey, Password);
+          Password:= DecodeStrong(FMode, FMasterKey, Strings.ValueFromIndex[J]);
+          Password:= EncodeStrong(KDF_MODE, FMasterKey, Password);
           WriteString(Sections[I], Strings.Names[J], Password);
         end;
       end;
     end;
-    FMasterStrong:= True;
+    FMode:= KDF_MODE;
     FMasterKeyHash:= EmptyStr;
     UpdateMasterKey(FMasterKey, FMasterKeyHash);
-    WriteString('General', 'MasterKey', FMasterKeyHash);
+    SaveParameters;
     try
       CacheUpdates:= False;
     except
@@ -314,39 +283,59 @@ const
 var
   Randata: AnsiString;
 begin
-  if not FMasterStrong then
+  if Length(FMasterKeyHash) = 0 then
   begin
-    MasterKeyHash:= MD5Print(MD5String(MasterKey));
-    MasterKeyHash:= Encode(MasterKey, MasterKeyHash);
+    SetLength(Randata, RAND_SIZE);
+    Random(PByte(Randata), RAND_SIZE);
+    MasterKeyHash:= '!' + IntToStr(FMode) + EncodeStrong(FMode, MasterKey, Randata);
   end
   else begin
-    if Length(FMasterKeyHash) = 0 then
-    begin
-      SetLength(Randata, RAND_SIZE);
-      Random(PByte(Randata), RAND_SIZE);
-      MasterKeyHash:= '!' + IntToStr(FMode) + EncodeStrong(FMode, MasterKey, Randata);
-    end
+    FMode:= StrToIntDef(Copy(FMasterKeyHash, 2, 1), FMode);
+    Randata:= DecodeStrong(FMode, MasterKey, Copy(FMasterKeyHash, 3, MaxInt));
+    if Length(Randata) < RAND_SIZE then
+      MasterKeyHash:= EmptyStr
     else begin
-      FMode:= StrToIntDef(Copy(FMasterKeyHash, 2, 1), FMode);
-      Randata:= DecodeStrong(FMode, MasterKey, Copy(FMasterKeyHash, 3, MaxInt));
-      if Length(Randata) < RAND_SIZE then
-        MasterKeyHash:= EmptyStr
-      else begin
-        MasterKeyHash:= FMasterKeyHash;
-      end;
+      MasterKeyHash:= FMasterKeyHash;
     end;
   end;
 end;
 
+procedure TPasswordStore.LoadParameters;
+const
+  ARGON2_MTP = (1 << 17) or (4 << 32) or (4 << 48);
+  ARGON2_TYP: array[0..1] of Targon2_type = (Argon2_d, Argon2_id);
+var
+  ATemp: TArgon2Params;
+begin
+  ATemp.Value:= ReadInt64('General', 'Parameters', ARGON2_MTP);
+  FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
+  // Validate parameters
+  FArgon2.T:= Max(ATemp.T, ARGON2_T);
+  FArgon2.P:= Max(ATemp.P, ARGON2_P);
+  FArgon2.A:= ARGON2_TYP[ATemp.M >> 31];
+  FArgon2.M:= Max(ATemp.M and $7FFFFFFF, ARGON2_M);
+end;
+
+procedure TPasswordStore.SaveParameters;
+const
+  ARGON2_TYP: array[Targon2_type] of UInt32 = (0, 0, 1);
+var
+  ATemp: TArgon2Params;
+begin
+  ATemp:= FArgon2;
+  ATemp.M:= ATemp.M or (ARGON2_TYP[FArgon2.A] << 31);
+  WriteString('General', 'MasterKey', FMasterKeyHash);
+  WriteString('General', 'Parameters', '$' + HexStr(ATemp.Value, 16));
+end;
+
 constructor TPasswordStore.Create(const AFileName: String);
 begin
+  FMode:= KDF_MODE;
   inherited Create(AFileName);
 
-  FMode:= 1;
+  LoadParameters;
   CacheUpdates:= False;
   if ReadOnly then DCDebug('Read only password store!');
-  FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
-  FMasterStrong:= (Length(FMasterKeyHash) = 0) or (FMasterKeyHash[1] = '!');
 end;
 
 function TPasswordStore.MasterKeySet: Boolean;
@@ -368,26 +357,28 @@ begin
   if Length(FMasterKey) <> 0 then Exit(True);
   while (Result = False) do
   begin
-    if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
-      Exit;
-    if Length(MasterKey) = 0 then Exit;
-    if Length(FMasterKeyHash) = 0 then
-    repeat
-      if not ShowInputQuery(rsMsgMasterPassword, rsMsgPasswordVerify, True, MasterKeyHash) then
+    if Length(FMasterKeyHash) > 0 then
+    begin
+      if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
         Exit;
-    until (MasterKey = MasterKeyHash);
+    end
+    else begin
+      if not CreateMasterKey(False, MasterKey, FArgon2.A, FArgon2.M, FArgon2.T, FArgon2.P) then
+        Exit;
+    end;
+    if Length(MasterKey) = 0 then Exit;
     UpdateMasterKey(MasterKey, MasterKeyHash);
     if FMasterKeyHash = EmptyStr then
       begin
         FMasterKey:= MasterKey;
         FMasterKeyHash:= MasterKeyHash;
-        WriteString('General', 'MasterKey', FMasterKeyHash);
+        SaveParameters;
         Result:= True;
       end
     else if SameText(FMasterKeyHash, MasterKeyHash) then
       begin
         FMasterKey:= MasterKey;
-        if not FMasterStrong then ConvertStore;
+        if (FMode < KDF_MODE) then ConvertStore;
         Result:= True;
       end
     else
@@ -404,11 +395,7 @@ var
 begin
   if ReadOnly then Exit(csrWriteError);
   if CheckMasterKey = False then Exit(csrFailed);
-  if not FMasterStrong then
-    Data:= Encode(FMasterKey, Password)
-  else begin
-    Data:= EncodeStrong(FMode, FMasterKey, Password)
-  end;
+  Data:= EncodeStrong(FMode, FMasterKey, Password);
   if Length(Data) = 0 then Exit(csrFailed);
   try
     WriteString(Prefix + '_' + Name, Connection, Data);
@@ -426,11 +413,7 @@ begin
   if CheckMasterKey = False then Exit(csrFailed);
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
   if Length(Data) = 0 then Exit(csrNotFound);
-  if not FMasterStrong then
-    Password:= Decode(FMasterKey, Data)
-  else begin
-    Password:= DecodeStrong(FMode, FMasterKey, Data)
-  end;
+  Password:= DecodeStrong(FMode, FMasterKey, Data);
   if Length(Password) = 0 then
     Result:= csrFailed
   else begin
