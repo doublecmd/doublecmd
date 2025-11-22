@@ -453,7 +453,9 @@ begin
   TextEncoding := NormalizeEncoding(TextEncoding);
   if TextEncoding = EncodingDefault then TextEncoding := GetDefaultTextEncoding;
   Result := (TextEncoding <> EncodingUTF8) and (TextEncoding <> EncodingUTF8BOM) and
-            (TextEncoding <> EncodingUTF16LE) and (TextEncoding <> EncodingUTF16BE);
+            (TextEncoding <> EncodingUTF16LE) and (TextEncoding <> EncodingUTF16BE) and
+            (TextEncoding <> EncodingCP932) and (TextEncoding <> EncodingCP936) and
+            (TextEncoding <> EncodingCP949) and (TextEncoding <> EncodingCP950);
 end;
 
 function DetectEncoding(const S: String; ADefault: TMacroEncoding;
