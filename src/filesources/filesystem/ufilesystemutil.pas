@@ -1633,6 +1633,34 @@ var
     end;
   end;
 
+  function DoLinkExists(): TFileSystemOperationTargetExistsResult;
+  begin
+    case FileExists(SourceFile, AbsoluteTargetFileName, False) of
+      fsoofeSkip:
+        Exit(fsoterSkip);
+      fsoofeOverwrite:
+        begin
+          if FileIsReadOnly(Attrs) then
+          begin
+            FileSetReadOnlyUAC(AbsoluteTargetFileName, False);
+          end;
+          if FPS_ISDIR(Attrs) then
+            RemoveDirectoryUAC(AbsoluteTargetFileName)
+          else begin
+            DeleteFileUAC(AbsoluteTargetFileName);
+          end;
+          Exit(fsoterDeleted);
+        end;
+      fsoofeAutoRenameTarget,
+      fsoofeAutoRenameSource:
+        begin
+          Exit(fsoterRenamed);
+        end
+      else
+        raise Exception.Create('Invalid link exists option');
+    end;
+  end;
+
   function IsLinkFollowed: Boolean;
   begin
     // If link was followed then it's target is stored in a subnode.
@@ -1648,7 +1676,7 @@ var
 
   function AllowCopyInto: Boolean;
   begin
-    Result := SourceFile.AttributesProperty.IsDirectory or
+    Result := (SourceFile.IsDirectory and not SourceFile.IsLinkToDirectory) or
               (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory);
   end;
 
@@ -1667,13 +1695,18 @@ begin
         if (LinkTargetAttrs <> faInvalidAttributes) then
         begin
           if FPS_ISDIR(LinkTargetAttrs) then
-            Result := DoDirectoryExists(AllowCopyInto, False)
+          begin
+            if (SourceFile.IsLinkToDirectory and not IsLinkFollowed) then
+              Result := DoLinkExists()
+            else
+              Result := DoDirectoryExists(AllowCopyInto, False);
+          end
           else
-            Result := DoFileExists(AllowAppendFile);
+            Result := DoLinkExists();
         end
         else
           // Target of link doesn't exist. Treat link as file and don't allow append.
-          Result := DoFileExists(False);
+          Result := DoLinkExists();
       end
       else if FPS_ISDIR(Attrs) then
       begin
