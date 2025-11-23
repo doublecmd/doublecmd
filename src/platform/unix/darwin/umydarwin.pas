@@ -521,10 +521,10 @@ begin
   point:= control.ScreenToClient( Mouse.CursorPos );
   popupNSRect.origin.x:= point.X;
   popupNSRect.origin.y:= point.Y;
-  popupNSRect.size:= NSZeroSize;
+  popupNSRect.size:= NSMakeSize( 1, 1 );
 
   picker:= NSSharingServicePicker.alloc.initWithItems( cocoaArray );
-  picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
+  picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMaxXEdge );
   picker.release;
 end;
 
