@@ -107,6 +107,6 @@ build_doublecmd
 # Set processor architecture
 export CPU_TARGET=x86_64
 # Set minimal Mac OS X target version
-export MACOSX_DEPLOYMENT_TARGET=10.11
+export MACOSX_DEPLOYMENT_TARGET=11.0
 
 build_doublecmd
