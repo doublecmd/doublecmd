@@ -49,7 +49,7 @@ begin
     Exit(nil);
 
   // Check if there is a registered WCX plugin for possible archive.
-  Result := FileSourceManager.Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
+  Result := FileSourceManager_Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
   if not Assigned(Result) then
   begin
     if ArchiveSign then
@@ -62,7 +62,7 @@ begin
   // Check if there is a registered MultiArc addon for possible archive.
   if not Assigned(Result) then
   begin
-    Result := FileSourceManager.Find(TMultiArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
+    Result := FileSourceManager_Find(TMultiArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
     if not Assigned(Result) then
     begin
       if ArchiveSign then

@@ -5,32 +5,16 @@ unit uFileSourceManager;
 interface
 
 uses
-  Classes, SysUtils, syncobjs,
+  Classes, SysUtils,
   uFileSource, uFileSourceOperationTypes, uFileSourceUtil,
   uDebug, DCStrUtils;
 
+function FileSourceManager_Find(FileSourceClass: TClass; Address: String; CaseSensitive: Boolean = True): IFileSource;
+
+procedure FileSourceManager_consultOperation( var params: TFileSourceConsultParams );
+procedure FileSourceManager_confirmOperation( var params: TFileSourceConsultParams );
+
 type
-  { TFileSourceManager }
-
-  TFileSourceManager = class
-  private
-    _lockObject: TCriticalSection;
-  private
-    FFileSources: TFileSources;
-  public
-    // Only allow adding and removing to/from Manager by TFileSource constructor and destructor.
-    procedure Add(aFileSource: IFileSource);
-    procedure Remove(aFileSource: IFileSource);
-
-    constructor Create;
-    destructor Destroy; override;
-
-    function Find(FileSourceClass: TClass; Address: String; CaseSensitive: Boolean = True): IFileSource;
-
-    procedure consultOperation( var params: TFileSourceConsultParams );
-    procedure confirmOperation( var params: TFileSourceConsultParams );
-  end;
-
   { TDefaultFileSourceProcessor }
 
   TDefaultFileSourceProcessor = class( TFileSourceProcessor )
@@ -44,100 +28,54 @@ type
   end;
 
 var
-  FileSourceManager: TFileSourceManager;
+  AllFileSourceObjects: TFPList;// item type is TFileSource
+  AllFileSourceObjectsCriticalSection: TRTLCriticalSection;
 
 implementation
 
-{ TFileSourceManager }
-
-constructor TFileSourceManager.Create;
-begin
-  _lockObject:= TCriticalSection.Create;;
-  FFileSources := TFileSources.Create;
-end;
-
-destructor TFileSourceManager.Destroy;
-var
-  i: Integer;
-begin
-  if FFileSources.Count > 0 then
-  begin
-    DCDebug('Warning: Destroying manager with existing file sources!');
-
-    for i := 0 to FFileSources.Count - 1 do
-    begin
-      // Restore the reference taken in TFileSource.Create before removing
-      // all file sources from the list.
-      FFileSources[i]._AddRef;
-      // Free instance.
-      FFileSources[i]:= nil;
-    end;
-  end;
-
-  FreeAndNil(FFileSources);
-  FreeAndNil( _lockObject );
-
-  inherited Destroy;
-end;
-
-procedure TFileSourceManager.Add(aFileSource: IFileSource);
-begin
-  _lockObject.Acquire;
-  try
-    if FFileSources.IndexOf(aFileSource) < 0 then
-    begin
-      FFileSources.Add(aFileSource);
-    end
-    else
-      DCDebug('Error: File source already exists in manager!');
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-procedure TFileSourceManager.Remove(aFileSource: IFileSource);
-begin
-  _lockObject.Acquire;
-  try
-    FFileSources.Remove(aFileSource);
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-function TFileSourceManager.Find(FileSourceClass: TClass; Address: String;
+function FileSourceManager_Find(FileSourceClass: TClass; Address: String;
   CaseSensitive: Boolean): IFileSource;
+type
+  TFileSourcePointer = ^TFileSource;
 var
-  I: Integer;
   StrCmp: function(const S1, S2: String): Integer;
-  fs: IFileSource;
+  fl: TFileSourcePointer;
+  i: Integer;
+  f: TFileSource;
+  SilentResult: Pointer absolute Result;// no auto reference counting on assign!
 begin
   if CaseSensitive then
     StrCmp:= @CompareStr
   else begin
     StrCmp:= @CompareText;
   end;
+  SilentResult:= nil;
 
-  _lockObject.Acquire;
+  EnterCriticalSection(AllFileSourceObjectsCriticalSection);
   try
-    for I := 0 to FFileSources.Count - 1 do
+    fl:= TFileSourcePointer(AllFileSourceObjects.List);
+    for i:= 0 to AllFileSourceObjects.Count-1 do
     begin
-      fs:= FFileSources[I];
-      if (fs.IsClass(FileSourceClass)) and
-         (StrCmp(fs.CurrentAddress, Address) = 0) then
+      f:= fl[i];
+      // (f.RefCount<>0) check to avoid finding objects that:
+      //   1. constructed (after AfterConstruction) but didn't yet gain a reference
+      // or
+      //   2. lost all references but not yet called BeforeDestruction
+      if (f.RefCount<>0) and (f is FileSourceClass) and (StrCmp(f.CurrentAddress, Address)=0) then
       begin
-        Result := fs;
-        Exit;
+        // inc(f.RefCount) instead of f._AddRef to not EnterCriticalSection(AllFileSourceObjectsCriticalSection) again
+        inc(f.RefCount);
+        // IFileSource(f) doesn't call anything
+        SilentResult:= IFileSource(f);
+        Break;
       end;
     end;
   finally
-    _lockObject.Release;
+    LeaveCriticalSection(AllFileSourceObjectsCriticalSection);
   end;
-
-  Result := nil;
 end;
 
-procedure TFileSourceManager.consultOperation( var params: TFileSourceConsultParams);
+procedure FileSourceManager_consultOperation( var params: TFileSourceConsultParams);
 var
   fs: IFileSource;
   processor: TFileSourceProcessor;
@@ -170,7 +108,7 @@ begin
     processor.consultOperation( params );
 end;
 
-procedure TFileSourceManager.confirmOperation(var params: TFileSourceConsultParams);
+procedure FileSourceManager_confirmOperation(var params: TFileSourceConsultParams);
 var
   fs: IFileSource;
   processor: TFileSourceProcessor;
@@ -289,12 +227,12 @@ begin
 end;
 
 initialization
-  FileSourceManager := TFileSourceManager.Create;
-  defaultFileSourceProcessor:= TDefaultFileSourceProcessor.Create;
+  AllFileSourceObjects:= TFPList.Create;
+  InitCriticalSection(AllFileSourceObjectsCriticalSection);
 
 finalization
-  FreeAndNil(FileSourceManager);
-  FreeAndNil(defaultFileSourceProcessor);
+  if AllFileSourceObjects.Count <> 0 then
+    DCDebug('Warning: AllFileSourceObjects has existing file sources!');
 
 end.
 

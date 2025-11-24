@@ -785,7 +785,7 @@ class function TFileSystemFileSource.GetFileSource: IFileSystemFileSource;
 var
   aFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+  aFileSource := FileSourceManager_Find(TFileSystemFileSource, '');
   if not Assigned(aFileSource) then
     Result := TFileSystemFileSource.Create
   else
