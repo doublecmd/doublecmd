@@ -3391,16 +3391,17 @@ msgid "Test"
 msgstr "Тест"
 
 #: tfrmmasterkey.caption
-msgid "Create Master Key"
-msgstr "Создание мастер ключа"
+msgid "Create Key"
+msgstr "Создание ключа"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
 msgstr "Трансформация ключа"
 
 #: tfrmmasterkey.gbmasterkey.caption
-msgid "Master key"
-msgstr "Мастер ключ"
+msgctxt "tfrmmasterkey.gbmasterkey.caption"
+msgid "Main Password"
+msgstr "Главный пароль"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
@@ -3411,8 +3412,8 @@ msgid "&Key derivation function:"
 msgstr "&Функция формирования ключа:"
 
 #: tfrmmasterkey.lblheader.caption
-msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr "Мастер ключ преобразуется с помощью функции формирования ключа, что добавляет вычисления и усложняет атаки по словарю и угадывание."
+msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgstr "Ключ преобразуется с помощью функции формирования ключа, что добавляет вычисления и усложняет атаки по словарю и угадывание."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
@@ -3427,16 +3428,16 @@ msgid "&Parallelism:"
 msgstr "П&араллелизм:"
 
 #: tfrmmasterkey.lblpassword.caption
-msgid "Master pass&word:"
-msgstr "&Мастер пароль:"
+msgid "Pass&word:"
+msgstr "Па&роль:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
 msgstr "П&овторите пароль:"
 
 #: tfrmmasterkey.lbltext.caption
-msgid "Specify a new master key, which will be used to encrypt the password store."
-msgstr "Укажите новый мастер-ключ, который будет использоваться для шифрования хранилища паролей."
+msgid "Specify a new key, which will be used to encrypt the password store."
+msgstr "Укажите новый ключ, который будет использоваться для шифрования хранилища паролей."
 
 #: tfrmmasterkey.lblunit.caption
 msgctxt "tfrmmasterkey.lblunit.caption"
@@ -12318,6 +12319,7 @@ msgid "Wipe directory %s"
 msgstr "Стирание каталога %s"
 
 #: ulng.rsmsgmasterpassword
+msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
 msgstr "Главный пароль:"
 

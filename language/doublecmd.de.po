@@ -3337,7 +3337,9 @@ msgid "Test"
 msgstr "Test"
 
 #: tfrmmasterkey.caption
-msgid "Create Master Key"
+#, fuzzy
+#| msgid "Create Master Key"
+msgid "Create Key"
 msgstr "Master-Schlüssel erstellen"
 
 #: tfrmmasterkey.gbkeytransform.caption
@@ -3345,7 +3347,10 @@ msgid "Key transformation"
 msgstr "Transformation der Schlüssel"
 
 #: tfrmmasterkey.gbmasterkey.caption
-msgid "Master key"
+#, fuzzy
+#| msgid "Master key"
+msgctxt "tfrmmasterkey.gbmasterkey.caption"
+msgid "Main Password"
 msgstr "Master-Schlüssel"
 
 #: tfrmmasterkey.lblfooter.caption
@@ -3357,7 +3362,9 @@ msgid "&Key derivation function:"
 msgstr "Schlüsselableitungsfunktion:"
 
 #: tfrmmasterkey.lblheader.caption
-msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+#, fuzzy
+#| msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
 msgstr "Der Master-Schlüssel wird mithilfe einer Schlüsselableitungsfunktion transformiert. Dies erhöht den Arbeitsaufwand und erschwert Wörterbuch- und Brute-Force-Angriffe."
 
 #: tfrmmasterkey.lbliterations.caption
@@ -3373,7 +3380,9 @@ msgid "&Parallelism:"
 msgstr "Parallelität (Übereinstimmung):"
 
 #: tfrmmasterkey.lblpassword.caption
-msgid "Master pass&word:"
+#, fuzzy
+#| msgid "Master pass&word:"
+msgid "Pass&word:"
 msgstr "Master-Passwort:"
 
 #: tfrmmasterkey.lblrepeat.caption
@@ -3381,7 +3390,9 @@ msgid "&Repeat password:"
 msgstr "Passwort wiederholen:"
 
 #: tfrmmasterkey.lbltext.caption
-msgid "Specify a new master key, which will be used to encrypt the password store."
+#, fuzzy
+#| msgid "Specify a new master key, which will be used to encrypt the password store."
+msgid "Specify a new key, which will be used to encrypt the password store."
 msgstr "Geben Sie einen neuen Master-Schlüssel an, der zum Verschlüsseln des Passwortspeichers verwendet wird."
 
 #: tfrmmasterkey.lblunit.caption
@@ -12056,6 +12067,7 @@ msgid "Wipe directory %s"
 msgstr "Verzeichnis %s gründlich löschen"
 
 #: ulng.rsmsgmasterpassword
+msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
 msgstr "Master-Passwort"
 
@@ -14376,3 +14388,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
+

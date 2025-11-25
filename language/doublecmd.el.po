@@ -3399,7 +3399,7 @@ msgid "Test"
 msgstr ""
 
 #: tfrmmasterkey.caption
-msgid "Create Master Key"
+msgid "Create Key"
 msgstr ""
 
 #: tfrmmasterkey.gbkeytransform.caption
@@ -3407,8 +3407,10 @@ msgid "Key transformation"
 msgstr ""
 
 #: tfrmmasterkey.gbmasterkey.caption
-msgid "Master key"
-msgstr ""
+#, fuzzy
+msgctxt "tfrmmasterkey.gbmasterkey.caption"
+msgid "Main Password"
+msgstr "Κύριο Συνθηματικό"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
@@ -3419,7 +3421,7 @@ msgid "&Key derivation function:"
 msgstr ""
 
 #: tfrmmasterkey.lblheader.caption
-msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
 msgstr ""
 
 #: tfrmmasterkey.lbliterations.caption
@@ -3435,7 +3437,7 @@ msgid "&Parallelism:"
 msgstr ""
 
 #: tfrmmasterkey.lblpassword.caption
-msgid "Master pass&word:"
+msgid "Pass&word:"
 msgstr ""
 
 #: tfrmmasterkey.lblrepeat.caption
@@ -3443,7 +3445,7 @@ msgid "&Repeat password:"
 msgstr ""
 
 #: tfrmmasterkey.lbltext.caption
-msgid "Specify a new master key, which will be used to encrypt the password store."
+msgid "Specify a new key, which will be used to encrypt the password store."
 msgstr ""
 
 #: tfrmmasterkey.lblunit.caption
@@ -12280,6 +12282,7 @@ msgid "Wipe directory %s"
 msgstr "Ασφαλής Διαγραφή καταλόγου %s"
 
 #: ulng.rsmsgmasterpassword
+msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
 msgstr "Κύριο Συνθηματικό"
 
