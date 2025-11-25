@@ -186,8 +186,8 @@ resourcestring
   rsOptToolTipFileTypeExportCaption = 'Export tooltip file type configuration';
   rsOptToolTipFileTypeExportDone = 'Exportation of %d elements to file "%s" completed.';
 
-  rsMsgMasterPassword = 'Master Password';
-  rsMsgMasterPasswordEnter = 'Please enter the master password:';
+  rsMsgMasterPassword = 'Main Password';
+  rsMsgMasterPasswordEnter = 'Please enter the main password:';
   rsMsgWrongPasswordTryAgain = 'Wrong password!'#13'Please try again!';
   rsMsgPasswordEnter = 'Please enter the password:';
   rsMsgPasswordVerify = 'Please re-enter the password for verification:';

@@ -12054,11 +12054,11 @@ msgid "Wipe directory %s"
 msgstr "%s 폴더 영구 삭제"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "마스터 암호"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "마스터 암호를 입력하세요:"
 
 #: ulng.rsmsgnewfile

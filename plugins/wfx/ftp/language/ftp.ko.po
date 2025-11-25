@@ -54,7 +54,7 @@ msgid "Send keepalive during a transfer"
 msgstr "전송 중 킵얼라이브 전송"
 
 #: tdialogbox.chkmasterpassword.caption
-msgid "Use master password to protect the password"
+msgid "Use main password to protect the password"
 msgstr "마스터 암호를 사용하여 암호 보호"
 
 #: tdialogbox.chkpassivemode.caption

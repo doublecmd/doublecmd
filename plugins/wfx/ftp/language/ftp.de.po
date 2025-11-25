@@ -54,7 +54,7 @@ msgid "Send keepalive during a transfer"
 msgstr "'Keepalive'-Pakete senden aktivieren"
 
 #: tdialogbox.chkmasterpassword.caption
-msgid "Use master password to protect the password"
+msgid "Use main password to protect the password"
 msgstr "Master-Passwort zum Schutz des Passworts verwenden"
 
 #: tdialogbox.chkpassivemode.caption

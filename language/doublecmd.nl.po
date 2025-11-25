@@ -12096,11 +12096,11 @@ msgid "Wipe directory %s"
 msgstr "Wis map %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Hoofdwachtwoord"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Geef a.u.b. het hoofdwachtwoord in:"
 
 #: ulng.rsmsgnewfile

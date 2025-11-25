@@ -12404,11 +12404,11 @@ msgid "Wipe directory %s"
 msgstr "Supprimer de manière sécurisée le dossier %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Mot de passe principal"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Veuillez entrer le mot de passe principal :"
 
 #: ulng.rsmsgnewfile

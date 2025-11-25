@@ -12318,11 +12318,11 @@ msgid "Wipe directory %s"
 msgstr "Стирание каталога %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Главный пароль:"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Введите главный пароль:"
 
 #: ulng.rsmsgnewfile

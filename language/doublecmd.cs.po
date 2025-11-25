@@ -12101,11 +12101,11 @@ msgid "Wipe directory %s"
 msgstr "Nevratně smaže adresář %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Hlavní heslo"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Prosíme zadejte hlavní heslo:"
 
 #: ulng.rsmsgnewfile

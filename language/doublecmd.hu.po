@@ -12053,11 +12053,11 @@ msgid "Wipe directory %s"
 msgstr "%s könyvtár törlése"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Fő jelszó"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Kérem, adja meg a fő jelszót:"
 
 #: ulng.rsmsgnewfile

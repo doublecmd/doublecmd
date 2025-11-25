@@ -12073,11 +12073,11 @@ msgid "Wipe directory %s"
 msgstr "擦除文件夹 %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "主密码"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "请输入主密码："
 
 #: ulng.rsmsgnewfile

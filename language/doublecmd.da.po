@@ -13158,11 +13158,11 @@ msgid "Wipe directory %s"
 msgstr "Sikker sletning af mappe %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Hovedadgangskode"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Indtast venligst hovedadgangskoden:"
 
 #: ulng.rsmsgnewfile

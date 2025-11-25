@@ -12759,11 +12759,11 @@ msgid "Wipe directory %s"
 msgstr "Izbriši potpuno Mapa %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Glavna lozinka"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Unesite ponovo glavnu lozinku:"
 
 #: ulng.rsmsgnewfile

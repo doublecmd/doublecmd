@@ -12077,11 +12077,11 @@ msgid "Wipe directory %s"
 msgstr "Сцерці каталог %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Галоўны пароль"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Калі ласка, ўвядзіце галоўны пароль:"
 
 #: ulng.rsmsgnewfile

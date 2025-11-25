@@ -12280,11 +12280,11 @@ msgid "Wipe directory %s"
 msgstr "Ασφαλής Διαγραφή καταλόγου %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Κύριο Συνθηματικό"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Παρακαλώ εισάγετε το κύριο συνθηματικό:"
 
 #: ulng.rsmsgnewfile

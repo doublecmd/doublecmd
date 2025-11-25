@@ -12297,11 +12297,11 @@ msgid "Wipe directory %s"
 msgstr "Избриши потпуно фасциклу %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Главна лозинка"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Унесите поново главну лозинку:"
 
 #: ulng.rsmsgnewfile

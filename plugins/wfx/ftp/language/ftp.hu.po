@@ -53,7 +53,7 @@ msgid "Send keepalive during a transfer"
 msgstr "Életjel küldése az  átvitel alatt"
 
 #: tdialogbox.chkmasterpassword.caption
-msgid "Use master password to protect the password"
+msgid "Use main password to protect the password"
 msgstr "Mesterjelszóval védett jelszó használata"
 
 #: tdialogbox.chkpassivemode.caption

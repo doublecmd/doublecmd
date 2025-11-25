@@ -12066,11 +12066,11 @@ msgid "Wipe directory %s"
 msgstr "Neobnovljivo izbriši mapo %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Glavno geslo"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Vnesite glavno geslo:"
 
 #: ulng.rsmsgnewfile
