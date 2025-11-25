@@ -54,7 +54,7 @@ msgid "Send keepalive during a transfer"
 msgstr "Падтрымліваць злучэнне падчас перадачы"
 
 #: tdialogbox.chkmasterpassword.caption
-msgid "Use master password to protect the password"
+msgid "Use main password to protect the password"
 msgstr "Выкарыcтоўваць &галоўны пароль для абароны пароля"
 
 #: tdialogbox.chkpassivemode.caption

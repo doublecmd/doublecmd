@@ -12279,11 +12279,11 @@ msgid "Wipe directory %s"
 msgstr ""
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "主要密碼"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "請輸入主要密碼:"
 
 #: ulng.rsmsgnewfile

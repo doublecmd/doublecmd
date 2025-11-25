@@ -12061,11 +12061,11 @@ msgid "Wipe directory %s"
 msgstr "Cancella la cartella %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Password principale"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Prego inserire password principale:"
 
 #: ulng.rsmsgnewfile

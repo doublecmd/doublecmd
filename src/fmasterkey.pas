@@ -56,7 +56,6 @@ begin
     seParallelism.Value:= P;
     cmbFunction.ItemIndex:= 0;
     seMemory.Value:= M div 1024;
-    lblText.Visible:= not Short;
     gbMasterKey.Visible:= not Short;
     pnlButtons.OKButton.Enabled:= Short;
 

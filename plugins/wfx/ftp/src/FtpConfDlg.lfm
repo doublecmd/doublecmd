@@ -254,7 +254,7 @@ object DialogBox: TDialogBox
         Width = 306
         BorderSpacing.Left = 12
         BorderSpacing.Top = 12
-        Caption = 'Use master password to protect the password'
+        Caption = 'Use main password to protect the password'
         TabOrder = 7
         OnChange = CheckBoxChange
       end

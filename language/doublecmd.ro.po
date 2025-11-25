@@ -12359,11 +12359,11 @@ msgid "Wipe directory %s"
 msgstr "Șterge definitiv dosarul %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Parolă"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Introduceți parola:"
 
 #: ulng.rsmsgnewfile

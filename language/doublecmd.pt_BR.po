@@ -12505,11 +12505,11 @@ msgid "Wipe directory %s"
 msgstr "Limpar pasta %s"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Senha Mestra"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Por favor introduza senha mestra:"
 
 #: ulng.rsmsgnewfile

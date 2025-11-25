@@ -5,7 +5,7 @@ object frmMasterKey: TfrmMasterKey
   Width = 480
   AutoSize = True
   BorderStyle = bsDialog
-  Caption = 'Create Master Key'
+  Caption = 'Create Key'
   ChildSizing.LeftRightSpacing = 12
   ChildSizing.TopBottomSpacing = 12
   ClientHeight = 494
@@ -26,7 +26,7 @@ object frmMasterKey: TfrmMasterKey
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
-    Caption = 'Master key'
+    Caption = 'Main Password'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 10
     ChildSizing.VerticalSpacing = 6
@@ -42,7 +42,7 @@ object frmMasterKey: TfrmMasterKey
       Height = 25
       Top = 10
       Width = 243
-      Caption = 'Master pass&word:'
+      Caption = 'Pass&word:'
     end
     object edtPassword: TEdit
       Left = 255
@@ -100,7 +100,7 @@ object frmMasterKey: TfrmMasterKey
       Top = 12
       Width = 428
       Anchors = [akTop, akLeft, akRight]
-      Caption = 'The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder.'
+      Caption = 'The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder.'
       WordWrap = True
     end
     object pnlKeyTransform: TPanel
@@ -144,7 +144,6 @@ object frmMasterKey: TfrmMasterKey
         )
         Style = csDropDownList
         TabOrder = 0
-        Text = 'Argon2d'
       end
       object lblIterations: TLabel
         Left = 0
@@ -260,7 +259,7 @@ object frmMasterKey: TfrmMasterKey
     Height = 17
     Top = 12
     Width = 441
-    Caption = 'Specify a new master key, which will be used to encrypt the password store.'
+    Caption = 'Specify a new key, which will be used to encrypt the password store.'
   end
   object pnlButtons: TButtonPanel
     AnchorSideTop.Control = gbKeyTransform

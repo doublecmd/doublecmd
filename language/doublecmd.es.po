@@ -12201,11 +12201,11 @@ msgid "Wipe directory %s"
 msgstr "Destruir carpeta «%s»"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Contraseña maestra"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr "Por favor, introduce la contraseña maestra:"
 
 #: ulng.rsmsgnewfile

@@ -12537,11 +12537,11 @@ msgid "Wipe directory %s"
 msgstr "Унищожаване на папка „%s‟"
 
 #: ulng.rsmsgmasterpassword
-msgid "Master Password"
+msgid "Main Password"
 msgstr "Главна парола"
 
 #: ulng.rsmsgmasterpasswordenter
-msgid "Please enter the master password:"
+msgid "Please enter the main password:"
 msgstr ""
 
 #: ulng.rsmsgnewfile

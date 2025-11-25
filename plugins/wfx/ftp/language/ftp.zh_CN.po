@@ -43,7 +43,7 @@ msgid "Send keepalive during a transfer"
 msgstr "在传输期间发送 keepalive"
 
 #: tdialogbox.chkmasterpassword.caption
-msgid "Use master password to protect the password"
+msgid "Use main password to protect the password"
 msgstr "使用主密码保护密码"
 
 #: tdialogbox.chkpassivemode.caption
