@@ -84,6 +84,7 @@ object frmMasterKey: TfrmMasterKey
     Width = 456
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
+    BorderSpacing.Top = 6
     Caption = 'Key transformation'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 12
@@ -274,6 +275,7 @@ object frmMasterKey: TfrmMasterKey
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     OKButton.Enabled = False
+    OKButton.OnClick = OKButtonClick
     HelpButton.Name = 'HelpButton'
     HelpButton.DefaultCaption = True
     CloseButton.Name = 'CloseButton'
