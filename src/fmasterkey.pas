@@ -43,7 +43,7 @@ type
     function Test(Finish: Boolean): Boolean;
   end;
 
-function CreateMasterKey(Short: Boolean; out Password: String; out ArgonType: Targon2_type; var M: UInt32; var T, P: UInt16): Boolean;
+function CreateMasterKey(Short: Boolean; out Password: String; out ArgonType: Targon2_type; out M: UInt32; out T, P: UInt16): Boolean;
 
 implementation
 
@@ -52,14 +52,14 @@ implementation
 uses
   uLng;
 
-function CreateMasterKey(Short: Boolean; out Password: String; out ArgonType: Targon2_type; var M: UInt32; var T, P: UInt16): Boolean;
+function CreateMasterKey(Short: Boolean; out Password: String; out ArgonType: Targon2_type; out M: UInt32; out T, P: UInt16): Boolean;
 begin
   with TfrmMasterKey.Create(Application) do
   try
-    seIterations.Value:= T;
-    seParallelism.Value:= P;
+    seMemory.Value:= 256;
+    seIterations.Value:= 2;
+    seParallelism.Value:= 4;
     cmbFunction.ItemIndex:= 0;
-    seMemory.Value:= M div 1024;
     gbMasterKey.Visible:= not Short;
     pnlButtons.OKButton.Enabled:= Short;
     pnlButtons.OKButton.ModalResult:= mrNone;
