@@ -302,18 +302,20 @@ end;
 
 procedure TPasswordStore.LoadParameters;
 const
-  ARGON2_MTP = (1 << 17) or (4 << 32) or (4 << 48);
   ARGON2_TYP: array[0..1] of Targon2_type = (Argon2_d, Argon2_id);
 var
   ATemp: TArgon2Params;
 begin
-  ATemp.Value:= ReadInt64('General', 'Parameters', ARGON2_MTP);
   FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
-  // Validate parameters
-  FArgon2.T:= Max(ATemp.T, ARGON2_T);
-  FArgon2.P:= Max(ATemp.P, ARGON2_P);
-  FArgon2.A:= ARGON2_TYP[ATemp.M >> 31];
-  FArgon2.M:= Max(ATemp.M and $7FFFFFFF, ARGON2_M);
+  if (Length(FMasterKeyHash) > 0) then
+  begin
+    ATemp.Value:= ReadInt64('General', 'Parameters', 0);
+    // Validate parameters
+    FArgon2.A:= ARGON2_TYP[ATemp.M >> 31];
+    FArgon2.T:= Min(64, Max(ATemp.T, ARGON2_T));
+    FArgon2.P:= Min(64, Max(ATemp.P, ARGON2_P));
+    FArgon2.M:= Min(2048, Max(ATemp.M and $7FFFFFFF, ARGON2_M));
+  end;
 end;
 
 procedure TPasswordStore.SaveParameters;

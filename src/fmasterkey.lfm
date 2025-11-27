@@ -159,7 +159,7 @@ object frmMasterKey: TfrmMasterKey
         Top = 49
         Width = 161
         MaxValue = 64
-        MinValue = 2
+        MinValue = 1
         TabOrder = 1
         Value = 4
       end
@@ -185,7 +185,7 @@ object frmMasterKey: TfrmMasterKey
           Height = 25
           Top = 0
           Width = 65
-          MaxValue = 1024
+          MaxValue = 2048
           MinValue = 64
           TabOrder = 0
           Value = 64
