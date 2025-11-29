@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-03-29 01:55+0200\n"
+"PO-Revision-Date: 2025-11-30 00:26+0100\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Slovenčina\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -142,7 +142,7 @@ msgstr "O programe"
 #: tfrmabout.lblbuild.caption
 msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
-msgstr "Build"
+msgstr "Zostavenie"
 
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
@@ -343,7 +343,7 @@ msgstr "Vytvoriť samostatný kontrolný súčet pre každý súbor"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
-msgstr ""
+msgstr "Formát súboru"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
@@ -351,11 +351,11 @@ msgstr "&Uložiť súbor(y) s kontrolným súčtom do:"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
-msgstr ""
+msgstr "Unix"
 
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -368,7 +368,6 @@ msgid "Verify checksum..."
 msgstr "Overiť kontrolný súčet..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Kódovanie"
@@ -1296,7 +1295,7 @@ msgstr "Povoliť spustenie súboru ako program"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "&Rekurzívne"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1338,10 +1337,9 @@ msgid "Contains:"
 msgstr "Obsahuje:"
 
 #: tfrmfileproperties.lblcreatedstr.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
-msgstr "Vytvorený:"
+msgstr "Vytvorené:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1393,11 +1391,11 @@ msgstr "Posledná zmena stavu:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Odkazy:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Typ média:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1416,7 +1414,7 @@ msgstr "Čítanie"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "Veľkosť na disku:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
@@ -2755,7 +2753,7 @@ msgstr "Uložiť aktuálne karty do nových obľúbených kariet"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Uložiť všetky zobrazené stĺpce do súboru"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2831,7 +2829,7 @@ msgstr "Zobraziť históriu príkazového riadku"
 #: tfrmmain.actshowmainmenu.caption
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu"
-msgstr "Menu"
+msgstr "Ponuka"
 
 #: tfrmmain.actshowsysfiles.caption
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
@@ -2840,11 +2838,11 @@ msgstr "Zobraziť skryté/systémové súbory"
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "Zobraziť &binárne"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "Ukázať všetky nájdené položky"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -4224,56 +4222,53 @@ msgid "Use &Gradient Indicator"
 msgstr "Použiť Indikátor &Gradientu"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
-msgstr "Binárny mód"
+msgstr "Binárny režim"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "Režim knihy"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "Režim obrázku"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "Režim textu"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "Pridané:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Pozadie:"
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "Text:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "Kategória:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "Vymazané:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "Chyba:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr ""
+msgstr "Pozadie 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "Pozadie 2:"
@@ -4284,53 +4279,50 @@ msgstr "&Indikátor Zadnej Farby:"
 
 #: tfrmoptionscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr "&Indikátor Prednej Farby:"
+msgstr "&Indikátor farby popredia:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr ""
+msgstr "Indikátor &hraničnej farby:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "Informácie:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr ""
+msgstr "Ľavý:"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "Upravený:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "Upravený:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr ""
+msgstr "Pravý:"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "Úspech:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "Neznáme:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
-msgstr ""
+msgstr "Zarovnať názvy stĺpcov ako hodnoty"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -5379,11 +5371,11 @@ msgstr "Umožňuje odsadiť striešku, keď sa nový riadok vytvorí pomocou <En
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr ""
+msgstr "Zoskupiť zrušenie"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr ""
+msgstr "Všetky priebežné zmeny rovnakého typu sa spracujú v jednom volaní namiesto zrušenia/opakovania každej z nich"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -6231,7 +6223,7 @@ msgstr "Orámovanie kurzora"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "Aktuálna cesta"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
@@ -6264,11 +6256,9 @@ msgid "Inactive Mark Color:"
 msgstr "Farba vyznačenia neaktívneho výberu:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel:"
-msgstr "Úroveň jasu neaktívneho panela"
+msgstr "Úroveň &jasu neaktívneho panela:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -6278,21 +6268,20 @@ msgstr "Farba označenia:"
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Pozadie:"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Farba textu:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Neaktívne pozadie:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Farba vyznačenia neaktívneho výberu:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -8390,7 +8379,7 @@ msgstr "Zmeňte farbu na ľavej strane a uvidíte tu náhľad toho, ako budú vy
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Možnosti interného prehliadača"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
@@ -9015,7 +9004,7 @@ msgstr "Double Commander"
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "tfrmstartingsplash.lblbuild.caption"
 msgid "Build"
-msgstr "Build"
+msgstr "Zostavenie"
 
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
@@ -9520,13 +9509,11 @@ msgid "Full Screen"
 msgstr "Celá obrazovka"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Prejsť na riadok..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Prejsť na riadok"
@@ -9534,7 +9521,7 @@ msgstr "Prejsť na riadok"
 #: tfrmviewer.actimagecenter.caption
 msgctxt "tfrmviewer.actimagecenter.caption"
 msgid "Center"
-msgstr "Centrovať"
+msgstr "Na stred"
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -9543,7 +9530,7 @@ msgstr "&Další"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
-msgstr "Načítať Nasledujúci Súbor"
+msgstr "Načítať nasledujúci súbor"
 
 #: tfrmviewer.actloadprevfile.caption
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
@@ -9552,7 +9539,7 @@ msgstr "&Predchádzajúci"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
-msgstr "Načítať Predchádzajúci Súbor"
+msgstr "Načítať predchádzajúci súbor"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
@@ -9570,7 +9557,7 @@ msgstr "Zrkadliť vertikálne"
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
 msgid "Move File"
-msgstr "Presunúť Súbor"
+msgstr "Presunúť súbor"
 
 #: tfrmviewer.actmovefile.hint
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
@@ -9691,7 +9678,7 @@ msgstr "Zobraziť textový kurzor"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "Kód"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -10582,7 +10569,7 @@ msgstr "&Vzad"
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
-msgstr "Hľadanie"
+msgstr "Hľadať"
 
 #: ulng.rseditsearchfrw
 msgid "&Forward"
@@ -11072,7 +11059,7 @@ msgstr "Služby"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr ""
+msgstr "Zdieľať..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11241,7 +11228,7 @@ msgstr "Potvrdenie parametra"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr ""
+msgstr "Príkaz nebol nájdený! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -12663,7 +12650,7 @@ msgstr "Grafika"
 
 #: ulng.rsopenwithmacosfilter
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "Aplikácie (*.app)|*.app|Všetky súbory (*)|*"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
@@ -13717,7 +13704,7 @@ msgstr "Priečinok"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Viac typov"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -14309,4 +14296,3 @@ msgstr "Žiadne nahradenie nebolo vykonané."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Žiadne nastavenie s názvom \"%s\""
-
