@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.30g\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-11-29 23:34+0100\n"
+"PO-Revision-Date: 2025-11-30 00:27+0100\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -4235,11 +4235,11 @@ msgstr "Binárny mód"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr "Režim prezerania knihy"
+msgstr "Režim knihy"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr "Typ obrázku"
+msgstr "Režim obrázku"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
@@ -4265,7 +4265,7 @@ msgstr "Kategória:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr "Vymazať:"
+msgstr "Vymazané:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -4273,7 +4273,7 @@ msgstr "Chyba:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr "Pozadie 2:"
+msgstr "Pozadie 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
@@ -4286,19 +4286,19 @@ msgstr "&Indikátor Zadnej Farby:"
 
 #: tfrmoptionscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr "&Indikátor Prednej Farby:"
+msgstr "&Indikátor farby popredia:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr "&Indikátor Prednej Farby:"
+msgstr "Indikátor &hraničnej farby:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr "Nastavenie:"
+msgstr "Informácie:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr "&Ľavý:"
+msgstr "Ľavý:"
 
 #: tfrmoptionscolors.lblmodified.caption
 msgctxt "tfrmoptionscolors.lblmodified.caption"
@@ -4312,7 +4312,7 @@ msgstr "Upravený:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr "&Pravý:"
+msgstr "Pravý:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -4325,7 +4325,7 @@ msgstr "Neznáme:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr "Otočiť"
+msgstr "Stav"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
@@ -5307,7 +5307,7 @@ msgstr "Umožňuje odsadiť striešku, keď sa nový riadok vytvorí pomocou <En
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr "Skupina"
+msgstr "Zoskupiť zrušenie"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
@@ -8183,7 +8183,7 @@ msgstr "Zmeňte farbu na ľavej strane a uvidíte tu náhľad toho, ako budú vy
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr "Možnosti interného editora"
+msgstr "Možnosti interného prehliadača"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8800,7 +8800,7 @@ msgstr "Double Commander"
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLBUILD.CAPTION"
 msgid "Build"
-msgstr "Build"
+msgstr "Zostavenie"
 
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
@@ -9311,7 +9311,7 @@ msgstr "Prejsť na riadok"
 
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
-msgstr "Centrovať"
+msgstr "Na stred"
 
 #: tfrmviewer.actloadnextfile.caption
 msgid "&Next"
@@ -9319,7 +9319,7 @@ msgstr "&Další"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
-msgstr "Načítať Nasledujúci Súbor"
+msgstr "Načítať nasledujúci súbor"
 
 #: tfrmviewer.actloadprevfile.caption
 msgid "&Previous"
@@ -9327,7 +9327,7 @@ msgstr "&Predchádzajúci"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
-msgstr "Načítať Predchádzajúci Súbor"
+msgstr "Načítať predchádzajúci súbor"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
@@ -10882,7 +10882,7 @@ msgstr "Pridať \"%s\""
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr "Upraviť Finder štítky..."
+msgstr "Upraviť štítky Finder..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
@@ -10895,7 +10895,7 @@ msgstr "Odstrániť \"%s\""
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr "Zbaliť sem..."
+msgstr "Zdieľať..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
@@ -10938,7 +10938,7 @@ msgstr "Porovnať"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr "Upraviť Finder štítky..."
+msgstr "Upraviť štítky Finder..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
@@ -10955,7 +10955,7 @@ msgstr "Upraviť"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr "Zobraziť vo vyhľadávači"
+msgstr "Zobraziť v aplikácii Finder"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
@@ -11298,7 +11298,7 @@ msgstr "Potvrdenie parametra"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr "%s nebol nájdený!"
+msgstr "Príkaz nebol nájdený! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
