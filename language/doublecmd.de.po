@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-11-22 10:00+0100\n"
+"PO-Revision-Date: 2025-11-26 11:39+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -3337,21 +3337,17 @@ msgid "Test"
 msgstr "Test"
 
 #: tfrmmasterkey.caption
-#, fuzzy
-#| msgid "Create Master Key"
 msgid "Create Key"
-msgstr "Master-Schlüssel erstellen"
+msgstr "Schlüssel erstellen"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
 msgstr "Transformation der Schlüssel"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
-#| msgid "Master key"
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
-msgstr "Master-Schlüssel"
+msgstr "Hauptpasswort"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
@@ -3362,10 +3358,8 @@ msgid "&Key derivation function:"
 msgstr "Schlüsselableitungsfunktion:"
 
 #: tfrmmasterkey.lblheader.caption
-#, fuzzy
-#| msgid "The master key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr "Der Master-Schlüssel wird mithilfe einer Schlüsselableitungsfunktion transformiert. Dies erhöht den Arbeitsaufwand und erschwert Wörterbuch- und Brute-Force-Angriffe."
+msgstr "Der Schlüssel wird mithilfe einer Schlüsselableitungsfunktion transformiert. Dies erhöht den Arbeitsaufwand und erschwert Wörterbuch- und Brute-Force-Angriffe."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
@@ -3380,20 +3374,16 @@ msgid "&Parallelism:"
 msgstr "Parallelität (Übereinstimmung):"
 
 #: tfrmmasterkey.lblpassword.caption
-#, fuzzy
-#| msgid "Master pass&word:"
 msgid "Pass&word:"
-msgstr "Master-Passwort:"
+msgstr "Pass&wort:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
 msgstr "Passwort wiederholen:"
 
 #: tfrmmasterkey.lbltext.caption
-#, fuzzy
-#| msgid "Specify a new master key, which will be used to encrypt the password store."
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr "Geben Sie einen neuen Master-Schlüssel an, der zum Verschlüsseln des Passwortspeichers verwendet wird."
+msgstr "Geben Sie einen neuen Schlüssel an, der zum Verschlüsseln des Passwortspeichers verwendet wird."
 
 #: tfrmmasterkey.lblunit.caption
 msgctxt "tfrmmasterkey.lblunit.caption"
@@ -12069,11 +12059,11 @@ msgstr "Verzeichnis %s gründlich löschen"
 #: ulng.rsmsgmasterpassword
 msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
-msgstr "Master-Passwort"
+msgstr "Hauptpasswort"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the main password:"
-msgstr "Bitte Master-Passwort eingeben:"
+msgstr "Bitte Hauptpasswort eingeben:"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
