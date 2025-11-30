@@ -250,9 +250,9 @@ var
 begin
   finderTag:= TFinderTags.getTagOfName( self.stringValue );
   if finderTag <> nil then
-    color:= finderTag.color
+    color:= finderTag.editorColor
   else
-    color:= uDarwinFinderModelUtil.rectFinderTagNSColors[0];
+    color:= uDarwinFinderModelUtil.editorFinderTagNSColors[0];
 
   drawingRect:= self.drawingRectForBounds( cellFrame );
   path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
