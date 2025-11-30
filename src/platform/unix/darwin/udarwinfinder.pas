@@ -982,8 +982,11 @@ var
     color.set_;
     rect.origin:= NSZeroPoint;
     rect.size:= imageSize;
+    rect:= NSInsetRect( rect, 1, 1 );
     path:= NSBezierPath.bezierPathWithOvalInRect( rect );
     path.fill;
+    color.blendedColorWithFraction_ofColor( 0.1, NSColor.textColor ).set_;
+    path.stroke;
   end;
 
   function createOneColorImage( const color: NSColor ): NSImage;
@@ -1011,7 +1014,7 @@ var
 
 begin
   imageSize:= NSMakeSize( FINDER_TAGS_MENU_ROUND_SIZE, FINDER_TAGS_MENU_ROUND_SIZE );
-  colors:= uDarwinFinderModelUtil.rectFinderTagNSColors;
+  colors:= uDarwinFinderModelUtil.menuFinderTagNSColors;
   count:= Length( colors );
   SetLength( _menuTagRoundImages, count );
   for i:= 0 to count-1 do begin
