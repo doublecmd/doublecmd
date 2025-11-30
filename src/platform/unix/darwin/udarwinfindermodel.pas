@@ -62,7 +62,6 @@ type
   uDarwinFinderModelUtil = class
   strict private class var
     _rectFinderTagNSColors: TFinderTagNSColors;
-    _dotFinderTagNSColors: TFinderTagNSColors;
     _menuFinderTagNSColors: TFinderTagNSColors;
     _favoriteTags: NSArray;
   private
@@ -91,7 +90,6 @@ type
     class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
-    class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
     class property menuFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
     class property favoriteTags: NSArray read getFavoriteTags;
   end;
@@ -666,17 +664,6 @@ begin
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.934, 0.852, 0.266, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.980, 0.383, 0.348, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.961, 0.660, 0.254, 1 ).retain
-  ];
-
-  _dotFinderTagNSColors:= [
-    NSColor.textColor,
-    NSColor.grayColor,
-    NSColor.greenColor,
-    NSColor.purpleColor,
-    NSColor.blueColor,
-    NSColor.yellowColor,
-    NSColor.redColor,
-    NSColor.orangeColor
   ];
 
   _menuFinderTagNSColors:= [
