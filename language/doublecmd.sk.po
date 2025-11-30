@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.22g\n"
+"Project-Id-Version: Double Commander 1.1.30g\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-01-18 15:45+0100\n"
+"PO-Revision-Date: 2025-11-30 00:27+0100\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Slovenčina\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -355,7 +355,7 @@ msgstr "Windows (CRLF)"
 
 #: tfrmchecksumcalc.rghashalgorithm.caption
 msgid "Algorithm"
-msgstr ""
+msgstr "Algoritmus"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -1006,7 +1006,7 @@ msgstr "Vybrať všetko"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "Čas/Dátum"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -3333,60 +3333,58 @@ msgstr "Alebo zvoľte preddefinovaný typ výbe&ru:"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "Vyskúšať"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "Vytvoriť kľúč"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Transformácia kľúča"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
 msgstr "Hlavné heslo"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Čím viac iterácií, tým ťažšie sú slovníkové a odhadovacie útoky, ale aj načítanie/ukladanie hesiel trvá dlhšie."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "Funkcia odvodenia &kľúča:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "Kľúč sa transformuje pomocou funkcie odvodenia kľúča. To pridáva pracovný faktor a sťažuje útoky pomocou slovníkov a hádania."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "&Iterácie:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "Pa&mäť:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "&Paralelizmus:"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "&Heslo:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "&Opakovať heslo:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Určite nový kľúč, ktorý sa bude používať na šifrovanie úložiska hesiel."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -3571,7 +3569,7 @@ msgstr "Načítať poslednú predvoľbu"
 
 #: tfrmmultirename.actloadnamesfromclipboard.caption
 msgid "Load Names from Clipboard"
-msgstr ""
+msgstr "Načítať názvy zo schránky"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3720,11 +3718,11 @@ msgstr "&Regulárne výrazy"
 
 #: tfrmmultirename.cbrepext.caption
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
-msgstr ""
+msgstr "Nahradiť aj v príponách súborov"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
@@ -4237,11 +4235,11 @@ msgstr "Binárny mód"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr "Režim prezerania knihy"
+msgstr "Režim knihy"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr "Typ obrázku"
+msgstr "Režim obrázku"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
@@ -4267,7 +4265,7 @@ msgstr "Kategória:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr "Vymazať:"
+msgstr "Vymazané:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -4275,7 +4273,7 @@ msgstr "Chyba:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr "Pozadie 2:"
+msgstr "Pozadie 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
@@ -4288,19 +4286,19 @@ msgstr "&Indikátor Zadnej Farby:"
 
 #: tfrmoptionscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr "&Indikátor Prednej Farby:"
+msgstr "&Indikátor farby popredia:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr "&Indikátor Prednej Farby:"
+msgstr "Indikátor &hraničnej farby:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr "Nastavenie:"
+msgstr "Informácie:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr "&Ľavý:"
+msgstr "Ľavý:"
 
 #: tfrmoptionscolors.lblmodified.caption
 msgctxt "tfrmoptionscolors.lblmodified.caption"
@@ -4314,7 +4312,7 @@ msgstr "Upravený:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr "&Pravý:"
+msgstr "Pravý:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -4327,7 +4325,7 @@ msgstr "Neznáme:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr "Otočiť"
+msgstr "Stav"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
@@ -5309,7 +5307,7 @@ msgstr "Umožňuje odsadiť striešku, keď sa nový riadok vytvorí pomocou <En
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr "Skupina"
+msgstr "Zoskupiť zrušenie"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
@@ -6547,12 +6545,12 @@ msgstr "Ovládanie"
 #: tfrmoptionsicloud.appslistview.columns[0].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
 msgid "Applications"
-msgstr ""
+msgstr "Aplikácie"
 
 #: tfrmoptionsicloud.appslistview.columns[1].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
 msgid "Count of Contents"
-msgstr ""
+msgstr "Obsah"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6941,7 +6939,7 @@ msgstr "Kliknutím na ikonu"
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "Zväčšenie pomocou klávesy Ctrl + kolieska myši"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -6957,7 +6955,6 @@ msgid "Selection"
 msgstr "Výber"
 
 #: tfrmoptionsmouse.gbzoom.caption
-#, fuzzy
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
 msgstr "Priblíženie"
@@ -7187,11 +7184,9 @@ msgid "File name"
 msgstr "Názov súboru"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
-#, fuzzy
-#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "Zásuvné moduly súborových systémov umožnia prístup k bežne nedostupným médiám ako sú napr. externé zariadenia (Palm/PocketPC)."
+msgstr "Zásuvné moduly súborového systému umožňujú prístup k diskom, ktoré sú pre operačný systém nedostupné, alebo k externým zariadeniam, ako sú smartfóny."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -8188,7 +8183,7 @@ msgstr "Zmeňte farbu na ľavej strane a uvidíte tu náhľad toho, ako budú vy
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr "Možnosti interného editora"
+msgstr "Možnosti interného prehliadača"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8340,11 +8335,11 @@ msgstr "Rozlišovať veľkosť písmen"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "Diakritika a ligatúry"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -8805,7 +8800,7 @@ msgstr "Double Commander"
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLBUILD.CAPTION"
 msgid "Build"
-msgstr "Build"
+msgstr "Zostavenie"
 
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
@@ -9316,7 +9311,7 @@ msgstr "Prejsť na riadok"
 
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
-msgstr "Centrovať"
+msgstr "Na stred"
 
 #: tfrmviewer.actloadnextfile.caption
 msgid "&Next"
@@ -9324,7 +9319,7 @@ msgstr "&Další"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
-msgstr "Načítať Nasledujúci Súbor"
+msgstr "Načítať nasledujúci súbor"
 
 #: tfrmviewer.actloadprevfile.caption
 msgid "&Previous"
@@ -9332,7 +9327,7 @@ msgstr "&Predchádzajúci"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
-msgstr "Načítať Predchádzajúci Súbor"
+msgstr "Načítať predchádzajúci súbor"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
@@ -10118,7 +10113,6 @@ msgid " Modifies: "
 msgstr " Upraví: "
 
 #: ulng.rsdiffshow
-#, fuzzy
 msgctxt "ulng.rsdiffshow"
 msgid "&Show"
 msgstr "&Zobraziť"
@@ -10332,19 +10326,19 @@ msgstr "Prejsť na riadok"
 
 #: ulng.rsedithintcursorpos
 msgid "Cursor Position"
-msgstr ""
+msgstr "Poloha kurzora"
 
 #: ulng.rsedithintinsertmode
 msgid "Insert Mode"
-msgstr ""
+msgstr "Režim vkladania"
 
 #: ulng.rsedithintmodified
 msgid "Modified"
-msgstr ""
+msgstr "Upravené"
 
 #: ulng.rsedithintselectionmode
 msgid "Selection Mode"
-msgstr ""
+msgstr "Režim výberu"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10378,23 +10372,23 @@ msgstr "Nahradiť"
 
 #: ulng.rseditstatinsertmodeins
 msgid "INS"
-msgstr ""
+msgstr "INS"
 
 #: ulng.rseditstatinsertmodeovr
 msgid "OVR"
-msgstr ""
+msgstr "OVR"
 
 #: ulng.rseditstatselmodecol
 msgid "COL"
-msgstr ""
+msgstr "COL"
 
 #: ulng.rseditstatselmodeline
 msgid "LINE"
-msgstr ""
+msgstr "LINE"
 
 #: ulng.rseditstatselmodenorm
 msgid "NORM"
-msgstr ""
+msgstr "NORM"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
@@ -10812,11 +10806,11 @@ msgstr "Podľa názvu príkazu;Podľa kláv. skratky (zoskupené);Podľa kláv. 
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "Odporúča sa najskôr stiahnuť súbory. V opačnom prípade sa nekopíruje obsah súborov, ale príslušné zástupné súbory, čo bude mať za následok skryté súbory s príponou .iCloud."
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "Operácia môže obsahovať súbory, ktoré neboli stiahnuté, pokračovať aj tak?"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10850,7 +10844,7 @@ msgstr "Zoznam okien \"Nájsť súbory\""
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "Priradiť štítky k %d položkám"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10888,7 +10882,7 @@ msgstr "Pridať \"%s\""
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr "Upraviť Finder štítky..."
+msgstr "Upraviť štítky Finder..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
@@ -10901,7 +10895,7 @@ msgstr "Odstrániť \"%s\""
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr "Zbaliť sem..."
+msgstr "Zdieľať..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
@@ -10944,7 +10938,7 @@ msgstr "Porovnať"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr "Upraviť Finder štítky..."
+msgstr "Upraviť štítky Finder..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
@@ -10961,7 +10955,7 @@ msgstr "Upraviť"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr "Zobraziť vo vyhľadávači"
+msgstr "Zobraziť v aplikácii Finder"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
@@ -10988,22 +10982,22 @@ msgstr "Horizontálne rozdelenie"
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Drive"
-msgstr ""
+msgstr "iCloud Disk"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Drive"
-msgstr ""
+msgstr "iCloud Disk"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "sieť"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "sieť"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11143,11 +11137,11 @@ msgstr "Rozbaliť sem..."
 
 #: ulng.rsmnuiclouddriverdownloadnow
 msgid "Download Now"
-msgstr ""
+msgstr "Stiahnuť teraz"
 
 #: ulng.rsmnuiclouddriverremovedownload
 msgid "Remove Download"
-msgstr ""
+msgstr "Odstrániť stiahnutie"
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -11211,10 +11205,15 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"Niektoré virtuálne súborové systémy obsahujú špecifické štruktúry priečinkov. Pri kopírovaní z nich do komprimovaného archívu je možné vybrať vždy len jeden priečinok, pokiaľ sa skutočné umiestnenia vybraných priečinkov nenachádzajú všetky v rovnakom nadradenom priečinku.\n"
+"\n"
+"Napríklad v prípade iCloud Disku by sa pri kopírovaní priečinka z koreňového priečinka do komprimovaného archívu, by sa mal vybrať len jeden priečinok.\n"
+"\n"
+"Odporúčame postupovať podľa bežnej praxe a pri zobrazení tejto výzvy sa pokúsiť vybrať len jeden priečinok."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "Operácia nie je podporovaná"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
@@ -11256,7 +11255,7 @@ msgstr "Ste si istí, že chcete túto operáciu zrušiť?"
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "Nemôžete zmeniť cieľovú polohu!"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11299,7 +11298,7 @@ msgstr "Potvrdenie parametra"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr "%s nebol nájdený!"
+msgstr "Príkaz nebol nájdený! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -11946,12 +11945,12 @@ msgstr "Neplatný výber."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "Transformácia kľúča zlyhala (kód chyby %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "Transformácia kľúča trvala %f sekúnd."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -13463,23 +13462,23 @@ msgstr "Zásuvné moduly"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "Zásuvné moduly vyhľadávania"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "Zásuvné moduly komprimácie"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "Zásuvné moduly pre obsah"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "Zásuvné moduly súborového systému"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "Zásuvné moduly pre zobrazenie"
 
 #: ulng.rsoptionseditorquicksearch
 msgid "Quick search/filter"
@@ -13603,10 +13602,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "Súbory;Priečinky;Súbory a Priečinky"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Skryť filter panelu, keď nie je aktívny;Ponechať zmeny uloženia nastavení pre ďalšiu reláciu"
+msgstr "Ignorovať &diakritiku a ligatúry;&Skryť panel filtrov, ak nie je aktívny;Ukladať zmeny nastavení pre ďalšiu reláciu"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -14375,4 +14372,3 @@ msgstr "Žiadne nahradenie nebolo vykonané."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Žiadne nastavenie s názvom \"%s\""
-
