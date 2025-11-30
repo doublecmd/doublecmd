@@ -529,25 +529,27 @@ var
 
   procedure drawTagColor;
   var
+    color: NSColor;
     finderTag: TFinderTag;
     rect: NSRect;
     path: NSBezierPath;
   begin
+    finderTag:= TFinderTags.getTagOfName( tagName );
+    color:= uDarwinFinderModelUtil.menuFinderTagNSColors[finderTag.colorIndex];
     rect:= cellRect;
     rect.size.width:= rect.size.height;
     rect:= NSInsetRect( rect, 5, 5 );
     if NOT newStyle then
       rect.origin.x:= rect.origin.x + 10;
-    finderTag:= TFinderTags.getTagOfName( tagName );
-    uDarwinFinderModelUtil.dotFinderTagNSColors[finderTag.colorIndex].set_;
+    rect:= NSInsetRect( rect, 0.5, 0.5 );
+    color.set_;
+    path:= NSBezierPath.bezierPathWithOvalInRect( rect );
     if finderTag.colorIndex <> 0 then begin
-      path:= NSBezierPath.bezierPathWithOvalInRect( rect );
       path.fill;
-    end else begin
-      rect:= NSInsetRect( rect, 0.5, 0.5 );
-      path:= NSBezierPath.bezierPathWithOvalInRect( rect );
-      path.stroke;
+      color:= color.blendedColorWithFraction_ofColor( 0.1, NSColor.textColor );
+      color.set_;
     end;
+    path.stroke;
   end;
 
   procedure drawTagName;
