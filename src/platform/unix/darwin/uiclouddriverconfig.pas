@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, fpjson, Dialogs,
-  uGlobsPaths, uLng, DCJsonConfig, DCOSUtils;
+  uGlobsPaths, DCJsonConfig, DCOSUtils;
 
 
 type
