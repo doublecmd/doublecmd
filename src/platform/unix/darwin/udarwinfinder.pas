@@ -1071,6 +1071,7 @@ end;
 procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
   procedure drawCircle;
   var
+    color: NSColor;
     rect: NSRect;
     path: NSBezierPath;
   begin
@@ -1078,13 +1079,22 @@ procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
     if NOT _hover then
       rect:= NSInsetRect( rect, 2, 2 );
 
-    _finderTag.color.set_;
+    rect:= NSInsetRect( rect, 1, 1 );
     path:= NSBezierPath.bezierPathWithOvalInRect( rect );
-    path.fill;
+    color:= _finderTag.menuColor;
+    if _finderTag.colorIndex <> 0 then begin
+      color.set_;
+      path.fill;
+      color:= color.blendedColorWithFraction_ofColor( 0.1, NSColor.textColor );
+    end;
+
+    color.set_;
+    path.stroke;
   end;
 
   procedure drawState;
   var
+    color: NSColor;
     stateString: NSString;
     stateRect: NSRect;
     stateFontSize: CGFloat;
@@ -1111,9 +1121,13 @@ procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
     if stateString = nil then
       Exit;
 
+    if _finderTag.colorIndex <> 0 then
+      color:= NSColor.whiteColor
+    else
+      color:= _finderTag.menuColor;
     attributes:= NSMutableDictionary.new;
     attributes.setValue_forKey( NSFont.systemFontOfSize(stateFontSize), NSFontAttributeName );
-    attributes.setValue_forKey( NSColor.whiteColor, NSForegroundColorAttributeName );
+    attributes.setValue_forKey( color, NSForegroundColorAttributeName );
 
     stateString.drawWithRect_options_attributes( stateRect, 0, attributes );
 
