@@ -32,6 +32,7 @@ type
     function isShowingInSidebar: Boolean; message 'tag_isShowingInSidebar';
     function isUserDefined: Boolean; message 'tag_isUserDefined';
     function color: NSColor; message 'tag_color';
+    function menuColor: NSColor; message 'tag_menuColor';
   end;
 
   { TFinderTags }
@@ -62,6 +63,7 @@ type
   strict private class var
     _rectFinderTagNSColors: TFinderTagNSColors;
     _dotFinderTagNSColors: TFinderTagNSColors;
+    _menuFinderTagNSColors: TFinderTagNSColors;
     _favoriteTags: NSArray;
   private
     class function getAllTags: NSDictionary;
@@ -90,6 +92,7 @@ type
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
+    class property menuFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
     class property favoriteTags: NSArray read getFavoriteTags;
   end;
 
@@ -150,6 +153,11 @@ end;
 function TFinderTag.color: NSColor;
 begin
   Result:= uDarwinFinderModelUtil.rectFinderTagNSColors[ _colorIndex ];
+end;
+
+function TFinderTag.menuColor: NSColor;
+begin
+  Result:= uDarwinFinderModelUtil.menuFinderTagNSColors[ _colorIndex ];
 end;
 
 { TFinderTags }
@@ -669,6 +677,17 @@ begin
     NSColor.yellowColor,
     NSColor.redColor,
     NSColor.orangeColor
+  ];
+
+  _menuFinderTagNSColors:= [
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.400, 0.400, 0.400, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.612, 0.612, 0.627, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.451, 0.800, 0.427, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.663, 0.451, 0.804, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.306, 0.541, 0.937, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.941, 0.812, 0.337, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.400, 0.349, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.922, 0.651, 0.302, 1 ).retain
   ];
 end;
 
