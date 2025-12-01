@@ -63,6 +63,7 @@ type
   strict private class var
     _editorFinderTagNSColors: TFinderTagNSColors;
     _menuFinderTagNSColors: TFinderTagNSColors;
+    _decorationFinderTagNSColors: TFinderTagNSColors;
     _favoriteTags: NSArray;
   private
     class function getAllTags: NSDictionary;
@@ -91,7 +92,7 @@ type
   public
     class property editorFinderTagNSColors: TFinderTagNSColors read _editorFinderTagNSColors;
     class property menuFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
-    class property decorationFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
+    class property decorationFinderTagNSColors: TFinderTagNSColors read _decorationFinderTagNSColors;
     class property favoriteTags: NSArray read getFavoriteTags;
   end;
 
@@ -676,6 +677,16 @@ begin
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.941, 0.812, 0.337, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.400, 0.349, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.922, 0.651, 0.302, 1 ).retain
+
+  _decorationFinderTagNSColors:= [
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.000, 0.000, 0.000, 0 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.580, 0.576, 0.596, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.341, 0.827, 0.349, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.694, 0.349, 0.875, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.231, 0.494, 0.996, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.812, 0.263, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.306, 0.294, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.604, 0.243, 1 ).retain
   ];
 end;
 
