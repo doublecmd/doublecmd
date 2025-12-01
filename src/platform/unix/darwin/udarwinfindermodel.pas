@@ -659,13 +659,13 @@ class procedure uDarwinFinderModelUtil.initFinderTagNSColors;
 begin
   _editorFinderTagNSColors:= [
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 0.5 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.699, 0.836, 0.266, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.746, 0.547, 0.844, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.340, 0.629, 0.996, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.934, 0.852, 0.266, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.980, 0.383, 0.348, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.961, 0.660, 0.254, 1 ).retain
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.588, 0.588, 0.612, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.427, 0.800, 0.431, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.698, 0.424, 0.835, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.329, 0.533, 0.941, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.925, 0.784, 0.373, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.902, 0.384, 0.373, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.925, 0.627, 0.345, 1 ).retain
   ];
 
   _menuFinderTagNSColors:= [
