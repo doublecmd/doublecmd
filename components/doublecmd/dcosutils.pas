@@ -182,6 +182,8 @@ function MapFile(const sFileName : String; out FileMapRec : TFileMapRec) : Boole
 }
 procedure UnMapFile(var FileMapRec : TFileMapRec);
 
+function NormalizeFileName(const Source: String): String;
+
 {en
    Convert from console to UTF8 encoding.
 }
@@ -335,6 +337,9 @@ uses
 {$ENDIF}
 {$IF DEFINED(UNIX)}
   Unix, dl,
+{$ENDIF}
+{$IF DEFINED(DARWIN)}
+  LazFileUtils,
 {$ENDIF}
   DCStrUtils, LazUTF8;
 
@@ -844,6 +849,17 @@ begin
     end;
 end;
 {$ENDIF}  
+
+function NormalizeFileName(const Source: String): String; inline;
+{$IF DEFINED(DARWIN)}
+begin
+  Result:= GetDarwinNormalizedFileName(Source);
+end;
+{$ELSE}
+begin
+  Result:= Source;
+end;
+{$ENDIF}
 
 function ConsoleToUTF8(const Source: String): RawByteString;
 {$IFDEF MSWINDOWS}
@@ -1606,7 +1622,11 @@ begin
 end;
 
 function mbCompareFileNames(const FileName1, FileName2: String): Boolean; inline;
-{$IF DEFINED(WINDOWS) OR DEFINED(DARWIN)}
+{$IF DEFINED(DARWIN)}
+begin
+  Result:= CompareFilenamesIgnoreCase(FileName1, FileName2) = 0;
+end;
+{$ELSEIF DEFINED(MSWINDOWS)}
 begin
   Result:= (UnicodeCompareText(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
 end;
