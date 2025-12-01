@@ -893,25 +893,37 @@ var
 
   function toPrimaryColors(const tagNames: NSArray): TFileFinderTagPrimaryColors;
   var
+    visualTagNames: NSMutableArray;
     tagName: NSString;
     tag: TFinderTag;
     iSource: NSUInteger;
     iDest: Integer;
     colorIndex: Integer;
   begin
+    visualTagNames:= NSMutableArray.new;
+    for iSource:= 0 to tagNames.count-1 do begin
+      tagName:= NSString( tagNames.objectAtIndex(iSource) );
+      tag:= TFinderTags.getTagOfName( tagName );
+      if tag.colorIndex <= 0 then
+        continue;
+      visualTagNames.addObject( tagName );
+    end;
+
     iSource:= 0;
-    if tagNames.count > 3 then
-      iSource:= tagNames.count - 3;
+    if visualTagNames.count > 3 then
+      iSource:= visualTagNames.count - 3;
     for iDest:=0 to 2 do begin
       colorIndex:= -1;
-      if iSource < tagNames.count then begin
-        tagName:= NSString( tagNames.objectAtIndex(iSource) );
+      if iSource < visualTagNames.count then begin
+        tagName:= NSString( visualTagNames.objectAtIndex(iSource) );
         tag:= TFinderTags.getTagOfName( tagName );
         colorIndex:= tag.colorIndex;
       end;
       Result.indexes[iDest]:= colorIndex;
       inc( iSource );
     end;
+
+    visualTagNames.release;
   end;
 
   function getTagPrimaryColors: TFileFinderTagPrimaryColors;
