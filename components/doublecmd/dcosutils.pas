@@ -1621,10 +1621,14 @@ begin
   Result := mbFileGetAttr(Path) <> faInvalidAttributes;
 end;
 
-function mbCompareFileNames(const FileName1, FileName2: String): Boolean; inline;
+function mbCompareFileNames(const FileName1, FileName2: String): Boolean;
 {$IF DEFINED(DARWIN)}
 begin
-  Result:= CompareFilenamesIgnoreCase(FileName1, FileName2) = 0;
+  if (Length(FileName1) = 0) or (Length(FileName2) = 0) then
+    Result:= (FileName1 = FileName2)
+  else begin
+    Result:= CompareFilenamesIgnoreCase(FileName1, FileName2) = 0;
+  end;
 end;
 {$ELSEIF DEFINED(MSWINDOWS)}
 begin
