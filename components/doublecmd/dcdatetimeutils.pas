@@ -22,7 +22,8 @@
 
 unit DCDateTimeUtils;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}
+{$H+}{$R-}{$Q-}
 
 interface
 
@@ -327,8 +328,20 @@ begin
 end;
 {$ELSEIF DEFINED(UNIX)}
 begin
-  Result.Sec:= Int64((FileTime - UnixWinEpoch) div 10000000);
-  Result.NanoSec:= Int64((FileTime - UnixWinEpoch) mod 10000000) * 100;
+  if (FileTime >= UnixWinEpoch) then
+  begin
+    Result.Sec:= Int64((FileTime - UnixWinEpoch) div 10000000);
+    Result.NanoSec:= Int64((FileTime - UnixWinEpoch) mod 10000000) * 100;
+  end
+  else begin
+    Result.Sec:= (Int64(FileTime) - Int64(UnixWinEpoch)) div 10000000;
+    if (Result.Sec = 0) then
+      Result.NanoSec:= 0
+    else begin
+      Result.NanoSec:= (Int64(UnixWinEpoch - FileTime) mod 10000000) * 100;
+      if (Result.NanoSec > 0) then Result.NanoSec:= 1000000000 - Result.NanoSec;
+    end;
+  end;
 end;
 {$ENDIF}
 
