@@ -42,12 +42,14 @@ type
   private
     FList: PStringHashItemList;
     FCount: Integer;
+    fNormalize: Boolean;
     fCaseSensitive: Boolean;
     function BinarySearch(HashValue: Cardinal): Integer;
     function CompareString(const Low, Key: String): Boolean;
     function CompareValue(const Value1, Value2: Cardinal): Integer;
     procedure FindHashBoundaries(HashValue: Cardinal; StartFrom: Integer; out First, Last: Integer);
     function GetData(const S: String): Pointer;
+    procedure SetNormalize(AValue: Boolean);
     procedure SetCaseSensitive(const Value: Boolean);
     procedure Delete(Index: Integer);
     procedure SetData(const S: String; const AValue: Pointer);
@@ -66,6 +68,7 @@ type
     function Remove(const S: String): Integer;
     function Remove(const S: String; Data: Pointer): Integer;
     procedure FindBoundaries(StartFrom: Integer; out First, Last: Integer);
+    property Normalize: Boolean read fNormalize write SetNormalize;
     property CaseSensitive: Boolean read fCaseSensitive write SetCaseSensitive;
     property Count: Integer read FCount;
     property Data[const S: String]: Pointer read GetData write SetData; default;
@@ -75,7 +78,7 @@ type
 implementation
 
 uses
-  LazUTF8;
+  LazUTF8, DCOSUtils;
 
 { TStringHashListUtf8 }
 
@@ -96,6 +99,10 @@ begin
     Text := S
   else begin
     Text:= UTF8LowerCase(S);
+  end;
+  if fNormalize then
+  begin
+    Text:= NormalizeFileName(Text);
   end;
   New(Item);
   Val:= HashOf(Text);
@@ -180,13 +187,20 @@ var
 begin
   P:= Pointer(Low);
   Len:= Length(Low);
-  if fCaseSensitive then
+  if not fNormalize then
   begin
-    Result:= (Len = Length(Key));
-    if Result then Result:= (CompareByte(P^, Pointer(Key)^, Len) = 0);
+    LKey:= Key;
   end
   else begin
-    LKey:= UTF8LowerCase(Key);
+    LKey:= NormalizeFileName(Key);
+  end;
+  if fCaseSensitive then
+  begin
+    Result:= (Len = Length(LKey));
+    if Result then Result:= (CompareByte(P^, Pointer(LKey)^, Len) = 0);
+  end
+  else begin
+    LKey:= UTF8LowerCase(LKey);
     Result:= (Len = Length(LKey));
     if Result then Result:= (CompareByte(P^, Pointer(LKey)^, Len) = 0);
   end;
@@ -232,6 +246,18 @@ begin
     Add(S,AValue);
 end;
 
+procedure TStringHashListUtf8.SetNormalize(AValue: Boolean);
+begin
+  if fNormalize <> AValue then
+  begin
+    if Count > 0 then
+    begin
+      raise EListError.Create(lrsListMustBeEmpty);
+    end;
+    fNormalize := AValue;
+  end;
+end;
+
 destructor TStringHashListUtf8.Destroy;
 begin
   Clear;
@@ -248,6 +274,10 @@ begin
     Text := S
   else begin
     Text:= UTF8LowerCase(S);
+  end;
+  if fNormalize then
+  begin
+    Text:= NormalizeFileName(Text);
   end;
   Value:= HashOf(Text);
   Result:= BinarySearch(Value);
@@ -274,6 +304,10 @@ begin
     Text := S
   else begin
     Text:= UTF8LowerCase(S);
+  end;
+  if fNormalize then
+  begin
+    Text:= NormalizeFileName(Text);
   end;
   Value:= HashOf(Text);
   Result:= BinarySearch(Value);
@@ -335,7 +369,8 @@ end;
 
 constructor TStringHashListUtf8.Create(CaseSensitivity: boolean);
 begin
-  fCaseSensitive:=CaseSensitivity;
+  fNormalize:= True;
+  fCaseSensitive:= CaseSensitivity;
   inherited Create;
 end;
 
