@@ -670,13 +670,14 @@ begin
 
   _menuFinderTagNSColors:= [
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.400, 0.400, 0.400, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.612, 0.612, 0.627, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.451, 0.800, 0.427, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.663, 0.451, 0.804, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.306, 0.541, 0.937, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.941, 0.812, 0.337, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 1.000, 0.400, 0.349, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.922, 0.651, 0.302, 1 ).retain
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.541, 0.541, 0.561, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.263, 0.788, 0.306, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.631, 0.333, 0.784, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.169, 0.455, 0.957, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.957, 0.773, 0.165, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.949, 0.263, 0.255, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.953, 0.569, 0.161, 1 ).retain
+  ];
 
   _decorationFinderTagNSColors:= [
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.000, 0.000, 0.000, 0 ).retain,
