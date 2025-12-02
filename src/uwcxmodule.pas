@@ -405,6 +405,7 @@ var
   StartupInfo: TExtensionStartupInfo;
   PackDefaultParamStruct : TPackDefaultParamStruct;
 begin
+  if FModuleHandle <> 0 then Exit(True);
   FModuleName := ExtractFileName(sName);
   FModulePath := mbExpandFileName(sName);
   FModuleHandle := mbLoadLibrary(FModulePath);
