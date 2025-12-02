@@ -705,6 +705,7 @@ begin
             begin
               Result:= FindInFile(TargetFileName, CaseSensitive, TextRegExp);
               if NotContainingText then Result:= not Result;
+              mbFileSetReadOnly(TargetFileName, False);
               mbDeleteFile(TargetFileName);
             end;
           end;
