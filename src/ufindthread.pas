@@ -661,7 +661,7 @@ begin
       begin
         if FSearchTemplate.IsFindText and (gWCXPlugins.Flags[Index] and PK_CAPS_SEARCHTEXT = 0) then
           Continue;
-        WcxModule:= gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(gWCXPlugins.FileName[Index]));
+        WcxModule:= gWCXPlugins.LoadModule(gWCXPlugins.FileName[Index]);
         Break;
       end;
     end;
