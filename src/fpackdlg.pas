@@ -45,6 +45,7 @@ type
     cbPackerList: TComboBox;
     cbOtherPlugins: TCheckBox;
     cbPutInTarFirst: TCheckBox;
+    cbSetNewestFileTime: TCheckBox;
     DividerBevel: TDividerBevel;
     edtPackCmd: TDirectoryEdit;
     lblPrompt: TLabel;
@@ -218,6 +219,9 @@ begin
       end
     else
       btnConfig.AnchorToCompanion(akTop, 6, rgPacker);
+
+    cbSetNewestFileTime.Enabled:= not gSetNewestFileTime;
+    cbSetNewestFileTime.Checked:= gSetNewestFileTime;
 end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
@@ -538,6 +542,7 @@ var
                   CreateNew:= True;
                   PackingFlags:= aFlags;
                   TarBefore:= cbPutInTarFirst.Checked;
+                  NewestFileTime:= cbSetNewestFileTime.Checked;
                 end;
               end
             else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
@@ -552,6 +557,7 @@ var
                     Password:= FPassword;
                   if cbMultivolume.Checked then
                     VolumeSize:= FVolumeSize;
+                  NewestFileTime:= cbSetNewestFileTime.Checked;
                 end;
               end;
 

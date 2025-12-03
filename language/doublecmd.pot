@@ -4186,6 +4186,10 @@ msgstr ""
 msgid "A&llow only one copy of DC at a time"
 msgstr ""
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr ""
@@ -8219,6 +8223,10 @@ msgstr ""
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
+msgstr ""
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
 msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
