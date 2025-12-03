@@ -102,6 +102,20 @@
 #define FILE_ATTRIBUTE_REPARSE_POINT 0x00000400
 #define FILE_ATTRIBUTE_UNIX_MODE 0x80000000
 
+// custom icons
+#define FS_ICON_FORMAT_HICON  0 // Load icon from HICON (Windows only)
+#define FS_ICON_FORMAT_FILE   1 // Load icon from file name returned by plugin in the RemoteName
+#define FS_ICON_FORMAT_BINARY 2 // Load icon from Data byte array (PNG or ICO), destroy data using Free if FS_ICON_EXTRACTED_DESTROY returned
+
+typedef void (DCPCALL *tFreeProc)(void* Pointer);
+
+typedef struct {
+    void* Pointer;
+    uintptr_t Size;
+    uintptr_t Format;
+    tFreeProc Free;
+} TWfxIcon,*PWfxIcon;
+
 typedef struct {
     DWORD SizeLow,SizeHigh;
     FILETIME LastWriteTime;
@@ -176,8 +190,8 @@ BOOL DCPCALL FsSetTimeW(WCHAR* RemoteName,FILETIME *CreationTime,
 void DCPCALL FsStatusInfo(char* RemoteDir,int InfoStartEnd,int InfoOperation);
 void DCPCALL FsStatusInfoW(WCHAR* RemoteDir,int InfoStartEnd,int InfoOperation);
 void DCPCALL FsGetDefRootName(char* DefRootName,int maxlen);
-int DCPCALL FsExtractCustomIcon(char* RemoteName,int ExtractFlags,HICON* TheIcon);
-int DCPCALL FsExtractCustomIconW(WCHAR* RemoteName,int ExtractFlags,HICON* TheIcon);
+int DCPCALL FsExtractCustomIcon(char* RemoteName,int ExtractFlags,PWfxIcon TheIcon);
+int DCPCALL FsExtractCustomIconW(WCHAR* RemoteName,int ExtractFlags,PWfxIcon TheIcon);
 void DCPCALL FsSetDefaultParams(FsDefaultParamStruct* dps);
 
 int DCPCALL FsGetPreviewBitmap(char* RemoteName,int width,int height,HBITMAP* ReturnedBitmap);
