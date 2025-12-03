@@ -1746,7 +1746,10 @@ end;
 
 procedure TMainCommands.cm_RenameTab(const Params: array of string);
 begin
-  DoRenameTab(frmMain.ActiveNotebook.ActivePage);
+  if Length(Params) > 0 then
+    frmMain.ActiveNotebook.ActivePage.PermanentTitle := Params[0]
+  else
+    DoRenameTab(frmMain.ActiveNotebook.ActivePage);
 end;
 
 procedure TMainCommands.cm_CloseTab(const Params: array of string);
