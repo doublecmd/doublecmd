@@ -49,6 +49,7 @@ const
   fmOpenSync    = $10000;
   fmOpenDirect  = $20000;
   fmOpenNoATime = $40000;
+  fmOpenSpecial = $80000;
 
 {$IF DEFINED(UNIX)}
   ERROR_NOT_SAME_DEVICE = ESysEXDEV;
@@ -890,6 +891,8 @@ begin
   end;
 end;
 {$ELSE}
+var
+  Info: BaseUnix.Stat;
 begin
   repeat
     Result:= fpOpen(UTF8ToSys(FileName), AccessModes[Mode and 3] or
@@ -898,6 +901,18 @@ begin
   if Result <> feInvalidHandle then
   begin
     FileCloseOnExec(Result);
+    if (Mode and fmOpenSpecial = 0) then
+    begin
+      if fpFStat(Result, Info) = 0 then
+      begin
+        if FPS_ISFIFO(Info.st_mode) then
+        begin
+          FileClose(Result);
+          errno:= ESysEINVAL;
+          Exit(feInvalidHandle);
+        end;
+      end;
+    end;
 {$IF DEFINED(DARWIN)}
     if (Mode and (fmOpenSync or fmOpenDirect) <> 0) then
     begin
