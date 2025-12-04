@@ -178,7 +178,7 @@ begin
   if aFileView.FileSource.IsClass(TVfsFileSource) then
   begin
     // Check if there is a registered WFX plugin by file system root name.
-    FileSource := FileSourceManager.Find(TWfxPluginFileSource, 'wfx://' + aFile.Name);
+    FileSource := FileSourceManager_Find(TWfxPluginFileSource, 'wfx://' + aFile.Name);
     if not Assigned(FileSource) then
       FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
 
@@ -188,7 +188,7 @@ begin
       VfsModule:= gVfsModuleList.VfsModule[aFile.Name];
       if Assigned(VfsModule) then
       begin
-        FileSource := FileSourceManager.Find(VfsModule.FileSourceClass, aFile.Name);
+        FileSource := FileSourceManager_Find(VfsModule.FileSourceClass, aFile.Name);
         if not Assigned(FileSource) then
           FileSource := VfsModule.FileSourceClass.Create;
       end;
@@ -217,7 +217,7 @@ begin
           URI:= ParseURI(aPath);
           aPath:= NormalizePathDelimiters(URI.Path + URI.Document);
           aPath:= IncludeTrailingPathDelimiter(aPath);
-          Result:= FileSourceManager.Find(aFileSourceClass,
+          Result:= FileSourceManager_Find(aFileSourceClass,
                                               URI.Protocol + '://' + URI.Host,
                                               not SameText(URI.Protocol, 'smb')
                                               );

@@ -212,7 +212,11 @@ type
 
   { TFileSource }
 
-  TFileSource = class(TInterfacedObject, IFileSource)
+  TFileSource = class(TObject, IFileSource)
+    RefCount: Integer;
+    function QueryInterface(constref iid: TGuid; out obj): Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
+    function _AddRef: Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
+    function _Release: Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
 
   private
     FEventListeners: TMethodList;
@@ -296,6 +300,8 @@ type
   public
     constructor Create; virtual; overload;
     constructor Create(const URI: TURI); virtual; overload;
+    procedure AfterConstruction; override;
+    procedure BeforeDestruction; override;
     destructor Destroy; override;
 
     function GetWatcher: TFileSourceWatcher; virtual;
@@ -445,19 +451,6 @@ type
     property AssignedOperation: TFileSourceOperation read GetAssignedOperation;
   end;
 
-  { TFileSources }
-
-  TFileSources = class(TInterfaceList)
-  private
-    function Get(I: Integer): IFileSource;
-    procedure Put(i : Integer;item : IFileSource);
-
-  public
-    procedure Assign(otherFileSources: TFileSources);
-
-    property Items[I: Integer]: IFileSource read Get write Put; default;
-  end;
-
   EFileSourceException = class(Exception);
   EFileNotFound = class(EFileSourceException)
   private
@@ -488,15 +481,6 @@ begin
 
   FEventListeners := TMethodList.Create;
 
-  FileSourceManager.Add(Self); // Increases RefCount
-
-  // We don't want to count the reference in Manager, because we want to detect
-  // when there are no more references other than this single one in the Manager.
-  // So, we remove this reference here.
-  // When RefCount reaches 0 Destroy gets called and the last remaining reference
-  // (in the Manager) is removed there.
-  InterLockedDecrement(frefcount);
-
   DCDebug('Creating ', ClassName);
 end;
 
@@ -515,43 +499,83 @@ begin
   FCurrentAddress:= EncodeURI(AddressURI);
 end;
 
+procedure TFileSource.AfterConstruction;
+begin
+  inherited AfterConstruction;
+
+  if RefCount <> 0 then
+    DCDebug('Error: AfterConstruction ', ClassName, ' when refcount=', DbgS(refcount));
+
+  EnterCriticalSection(AllFileSourceObjectsCriticalSection);
+  try
+    AllFileSourceObjects.Add(Self);
+  finally
+    LeaveCriticalSection(AllFileSourceObjectsCriticalSection);
+  end;
+end;
+
+procedure TFileSource.BeforeDestruction;
+begin
+  if RefCount <> 0 then
+    DCDebug('Error: BeforeDestruction ', ClassName, ' when refcount=', DbgS(refcount));
+
+  EnterCriticalSection(AllFileSourceObjectsCriticalSection);
+  try
+    AllFileSourceObjects.Remove(Self);
+  finally
+    LeaveCriticalSection(AllFileSourceObjectsCriticalSection);
+  end;
+
+  inherited BeforeDestruction;
+end;
+
 destructor TFileSource.Destroy;
 begin
   DCDebug('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
 
   if RefCount <> 0 then
-  begin
-    // There could have been an exception raised in the constructor
-    // in which case RefCount will be 1, so only issue warning if there was no exception.
-    // This will check for any exception, but it's enough for a warning.
-    if not Assigned(ExceptObject) then
-      DCDebug('Error: RefCount <> 0 for ', Self.ClassName);
-  end;
-
-  if Assigned(FileSourceManager) then
-  begin
-    // Restore reference removed in Create and
-    // remove the instance remaining in Manager.
-
-    // Increase refcount by 2, because we don't want removing the last instance
-    // from Manager to trigger another Destroy.
-
-    // RefCount = 0
-    InterLockedIncrement(frefcount);
-    InterLockedIncrement(frefcount);
-    // RefCount = 2
-    FileSourceManager.Remove(Self);
-    // RefCount = 1
-    InterLockedDecrement(frefcount);
-    // RefCount = 0 (back at the final value)
-  end
-  else
-    DCDebug('Error: Cannot remove file source - manager already destroyed!');
+    DCDebug('Error: RefCount <> 0 for ', ClassName);
 
   FreeAndNil(FChildrenFileSource);
   FreeAndNil(FEventListeners);
 
   inherited Destroy;
+end;
+
+function TFileSource.QueryInterface(constref iid: TGuid; out obj): Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
+begin
+  if GetInterface(iid, obj) then
+    Result:= S_OK
+  else
+    Result:= E_NOINTERFACE;
+end;
+
+function TFileSource._AddRef: Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
+begin
+  EnterCriticalSection(AllFileSourceObjectsCriticalSection);
+  try
+    Result:= RefCount+1;
+    RefCount:= Result;
+  finally
+    LeaveCriticalSection(AllFileSourceObjectsCriticalSection);
+  end;
+end;
+
+function TFileSource._Release: Integer;{$IFNDEF WINDOWS}cdecl{$ELSE}stdcall{$ENDIF};
+begin
+  EnterCriticalSection(AllFileSourceObjectsCriticalSection);
+  try
+    Result:= RefCount-1;
+    RefCount:= Result;
+    // don't destroy if ...
+    if// there are still references or ...
+      (Result<>0) or
+      // during construction or destruction (self is not in AllFileSourceObjects)
+      (AllFileSourceObjects.IndexOf(Self)<0) then Exit;
+  finally
+    LeaveCriticalSection(AllFileSourceObjectsCriticalSection);
+  end;
+  Destroy;
 end;
 
 function TFileSource.GetWatcher: TFileSourceWatcher;
@@ -577,11 +601,9 @@ end;
 
 function TFileSource.IsInterface(InterfaceGuid: TGuid): Boolean;
 var
-  t: TObject;
+  t: Pointer;
 begin
-  Result := (Self.QueryInterface(InterfaceGuid, t) = S_OK);
-  if Result then
-    _Release;  // QueryInterface increases refcount.
+  Result := GetInterfaceWeak(InterfaceGuid, t);
 end;
 
 function TFileSource.IsClass(aClassType: TClass): Boolean;
@@ -1092,30 +1114,6 @@ begin
   finally
     FOperationLock.Release;
   end;
-end;
-
-{ TFileSources }
-
-function TFileSources.Get(I: Integer): IFileSource;
-begin
-  if (I >= 0) and (I < Count) then
-    Result := inherited Items[I] as IFileSource
-  else
-    Result := nil;
-end;
-
-procedure TFileSources.Put(i: Integer; item: IFileSource);
-begin
-  inherited Put(i, item);
-end;
-
-procedure TFileSources.Assign(otherFileSources: TFileSources);
-var
-  i: Integer;
-begin
-  Clear;
-  for i := 0 to otherFileSources.Count - 1 do
-    Add(otherFileSources.Items[i]);
 end;
 
 constructor EFileNotFound.Create(const AFilePath: string);
