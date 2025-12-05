@@ -348,15 +348,14 @@ var
   queryHandler: TMacOSQueryHandler;
   query: NSMetadataQuery;
   predicate: NSPredicate;
-  rawQuery: NSString;
+  rawQuery: NSString = nil;
+  searchScopes: NSArray = nil;
 
   procedure analyseSavedSearch;
   var
     plistData: NSData;
     plistProperties: id;
   begin
-    rawQuery:= nil;
-
     plistData:= NSData.dataWithContentsOfFile( path );
     if plistData = nil then
       raise EInOutError.Create( 'savedSearch File Read Error: ' + path.UTF8String );
@@ -366,9 +365,15 @@ var
     if plistProperties = nil then
       raise EFormatError.Create( 'savedSearch File Content Error: ' + path.UTF8String );
 
+    plistProperties:= plistProperties.valueForKeyPath( NSSTR('RawQueryDict') );
+    if plistProperties = nil then
+      raise EFormatError.Create( 'savedSearch File Content Error: ' + path.UTF8String );
+
     rawQuery:= plistProperties.valueForKeyPath( NSSTR('RawQuery') );
     if rawQuery = nil then
       raise EFormatError.Create( 'savedSearch File Raw Query Not Found: ' + path.UTF8String );
+
+    searchScopes:= plistProperties.valueForKeyPath( NSSTR('SearchScopes') );
   end;
 
 begin
@@ -389,6 +394,8 @@ begin
 
   predicate:= NSPredicate.predicateFromMetadataQueryString( rawQuery );
   query.setPredicate( predicate );
+  if searchScopes <> nil then
+    query.setSearchScopes( searchScopes );
   query.startQuery;
 end;
 
