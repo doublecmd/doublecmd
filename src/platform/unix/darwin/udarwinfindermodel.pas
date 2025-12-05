@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn, syncobjs,
   uLog, uDebug,
-  MacOSAll, CocoaAll, CocoaConst, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra;
 
 type
 
@@ -89,6 +89,8 @@ type
   public
     class procedure searchFilesForTagName( const tagName: NSString; const handler: TMacOSSearchResultHandler );
     class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
+    class procedure searchFilesBySavedSearch( const path: NSString; const handler: TMacOSSearchResultHandler );
+    class procedure searchFilesBySavedSearch( const path: String; const handler: TMacOSSearchResultHandler );
   public
     class property editorFinderTagNSColors: TFinderTagNSColors read _editorFinderTagNSColors;
     class property menuFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
@@ -337,6 +339,63 @@ begin
   for url in urls do begin
     removeTagForFile( url, tagName );
   end;
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
+  const path: NSString; const handler: TMacOSSearchResultHandler);
+var
+  name: NSString;
+  queryHandler: TMacOSQueryHandler;
+  query: NSMetadataQuery;
+  predicate: NSPredicate;
+  rawQuery: NSString;
+
+  procedure analyseSavedSearch;
+  var
+    plistData: NSData;
+    plistProperties: id;
+  begin
+    rawQuery:= nil;
+
+    plistData:= NSData.dataWithContentsOfFile( path );
+    if plistData = nil then
+      raise EInOutError.Create( 'savedSearch File Read Error: ' + path.UTF8String );
+
+    plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+      plistData, NSPropertyListImmutable, nil, nil );
+    if plistProperties = nil then
+      raise EFormatError.Create( 'savedSearch File Content Error: ' + path.UTF8String );
+
+    rawQuery:= plistProperties.valueForKeyPath( NSSTR('RawQuery') );
+    if rawQuery = nil then
+      raise EFormatError.Create( 'savedSearch File Raw Query Not Found: ' + path.UTF8String );
+  end;
+
+begin
+  name:= path.lastPathComponent.stringByDeletingPathExtension;
+  analyseSavedSearch;
+
+  // release in initalGatherComplete()
+  query:= NSMetadataQuery.new;
+  // release in initalGatherComplete()
+  queryHandler:= TMacOSQueryHandler.alloc.initWithName( name );
+  queryHandler._query:= query;
+  queryHandler._handler:= handler;
+  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
+    queryHandler,
+    objcselector('initalGatherComplete:'),
+    NSMetadataQueryDidFinishGatheringNotification,
+    query );
+
+  predicate:= NSPredicate.predicateFromMetadataQueryString( rawQuery );
+  query.setPredicate( predicate );
+  query.startQuery;
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
+  const path: String; const handler: TMacOSSearchResultHandler);
+begin
+  uDarwinFinderModelUtil.searchFilesBySavedSearch( StrToNSString(path), handler );
 end;
 
 class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
