@@ -30,6 +30,8 @@ function ChooseFileSource(aFileView: TFileView; const aPath: String; bLocal: Boo
 
 function ChooseArchive(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile; bForce: Boolean = False): Boolean;
 
+function ChooseSpecialFile(aFile: TFile): Boolean;
+
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 
 procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
@@ -58,7 +60,11 @@ uses
   uArchiveFileSourceUtil,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty, URIParser,
-  WcxPlugin, uWcxModule, uHash, uSuperUser;
+  WcxPlugin, uWcxModule, uHash, uSuperUser
+{$IFDEF DARWIN}
+  , uDarwinFinderModel, uDarwinFileView
+{$ENDIF}
+  ;
 
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
   aFile: TFile);
@@ -172,6 +178,9 @@ begin
   Result := False;
 
   if ChooseArchive(aFileView, aFileSource, aFile) then
+    Exit(True);
+
+  if ChooseSpecialFile(aFile) then
     Exit(True);
 
   // Work only for TVfsFileSource.
@@ -306,6 +315,20 @@ begin
   end;
 
   Result := False;
+end;
+
+// todo:
+// currently, there's only one special use case, which is simply hardcoded.
+// if the number increases, it will be refactored into a registration-based model.
+function ChooseSpecialFile(aFile: TFile): Boolean;
+begin
+  Result:= False;
+{$IFDEF DARWIN}
+  if aFile.Extension = 'savedSearch' then begin
+    uDarwinFinderModelUtil.searchFilesBySavedSearch( aFile.FullPath, @darwinSearchResultHandler.onSearchFinderTagComplete );
+    Result:= True;
+  end;
+{$ENDIF}
 end;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);

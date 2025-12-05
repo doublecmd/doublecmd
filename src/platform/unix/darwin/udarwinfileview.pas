@@ -15,6 +15,13 @@ type
     class procedure addiCloudDriverPage;
   end;
 
+  TDarwinSearchResultHandler = class
+    procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
+  end;
+
+var
+  darwinSearchResultHandler: TDarwinSearchResultHandler;
+
 implementation
 
 type
@@ -40,6 +47,14 @@ end;
 function TFinderTagSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _tagName + PathDelim;
+end;
+
+{ TDarwinSearchResultHandler }
+
+procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(const searchName: String;
+  const files: TStringArray);
+begin
+  uDarwinFileViewUtil.addSearchTagResultPage( searchName, files );
 end;
 
 { uDarwinFileViewUtil }
@@ -85,6 +100,12 @@ begin
   frmMain.ActiveFrame.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
   frmMain.ActiveFrame.SetFocus;
 end;
+
+initialization
+  darwinSearchResultHandler:= TDarwinSearchResultHandler.Create;
+
+finalization
+  FreeAndNil( darwinSearchResultHandler );
 
 end.
 
