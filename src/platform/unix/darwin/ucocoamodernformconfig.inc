@@ -120,6 +120,8 @@ const
     '~/Library',
     '/Applications',
 
+    '~/Library/Saved Searches',
+
     '~/.Trash'
   );
 
@@ -245,6 +247,8 @@ begin
   newItem('wrench.and.screwdriver.fill');
   newItem('l.circle');
   newItem('a.circle');
+  items.AddSeparator;
+  newItem('folder.fill.badge.gearshape');
   items.AddSeparator;
   newItem('trash');
 end;
