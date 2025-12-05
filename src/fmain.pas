@@ -231,6 +231,7 @@ type
     actConfigToolbars: TAction;
     actDebugShowCommandParameters: TAction;
     actOpenDriveByIndex: TAction;
+    actSetSortMode: TAction;
     btnF10: TSpeedButton;
     btnF3: TSpeedButton;
     btnF4: TSpeedButton;

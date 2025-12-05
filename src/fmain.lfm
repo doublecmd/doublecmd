@@ -2871,6 +2871,13 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
+    object actSetSortMode: TAction
+      Tag = 7
+      Category = 'Configuration'
+      Caption = 'Set Sort Mode'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
