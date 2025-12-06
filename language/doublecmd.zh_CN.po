@@ -354,7 +354,7 @@ msgstr ""
 
 #: tfrmchecksumcalc.rghashalgorithm.caption
 msgid "Algorithm"
-msgstr ""
+msgstr "算法"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -3332,57 +3332,56 @@ msgstr "或选择预定义的选择类型(&R)："
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "创建密钥"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "密钥变换"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
 msgstr "主密码"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "迭代次数越多，字典攻击和猜测攻击就越难，但密码存储的加载/保存也需要更多时间。"
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "密钥变换函数(&K)："
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "密钥通过密钥变换函数进行转换。这增加了工作量，使字典攻击和猜测攻击更加困难。"
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "迭代次数(&I)："
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "内存(&M)："
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "并行(&P)："
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "密码(&W)："
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "重复密码(&R)："
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "指定一个新密钥，该密钥将用于加密密码存储。"
 
 #: tfrmmasterkey.lblunit.caption
 msgctxt "tfrmmasterkey.lblunit.caption"
@@ -3569,7 +3568,7 @@ msgstr "加载上次预设"
 
 #: tfrmmultirename.actloadnamesfromclipboard.caption
 msgid "Load Names from Clipboard"
-msgstr ""
+msgstr "从剪贴板加载名称"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3722,7 +3721,7 @@ msgstr ""
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
-msgstr ""
+msgstr "也在文件扩展名中替换"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
