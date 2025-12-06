@@ -140,7 +140,6 @@ type
     procedure showFinderTagSelectorPanel( Sender: TObject );
     procedure onFinderTagSelectorPanelClose( const cancel: Boolean; const tagNames: NSArray );
     procedure searchOneFinderTagAction( Sender: TObject );
-    procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
   end;
 
 var
@@ -190,7 +189,7 @@ begin
     Exit;
   if tagNames.count = 0 then
     Exit;
-  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @self.onSearchFinderTagComplete );
+  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @darwinSearchResultHandler.onSearchFinderTagComplete );
 end;
 
 procedure TToolBarMenuHandler.searchOneFinderTagAction( Sender: TObject );
@@ -199,13 +198,7 @@ var
   tagName: NSString;
 begin
   tagName:= StringToNSString( menuItem.Caption );
-  uDarwinFinderModelUtil.searchFilesForTagName( tagName, @self.onSearchFinderTagComplete );
-end;
-
-procedure TToolBarMenuHandler.onSearchFinderTagComplete(
-  const searchName: String; const files: TStringArray);
-begin
-  uDarwinFileViewUtil.addFinderSearchResultPage( searchName, files );
+  uDarwinFinderModelUtil.searchFilesForTagName( tagName, @darwinSearchResultHandler.onSearchFinderTagComplete );
 end;
 
 procedure onGetFolderMenu( const menu: TMenu );
