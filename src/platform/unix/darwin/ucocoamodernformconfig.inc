@@ -205,7 +205,7 @@ end;
 procedure TToolBarMenuHandler.onSearchFinderTagComplete(
   const searchName: String; const files: TStringArray);
 begin
-  uDarwinFileViewUtil.addSearchTagResultPage( searchName, files );
+  uDarwinFileViewUtil.addFinderSearchResultPage( searchName, files );
 end;
 
 procedure onGetFolderMenu( const menu: TMenu );
