@@ -73,6 +73,11 @@ type
     class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
     class function getTagsDataFromDatabase: TBytes;
     class procedure initFinderTagNSColors;
+    class procedure doSearchFiles(
+      const searchName: NSString;
+      const handler: TMacOSSearchResultHandler;
+      const predicate: NSPredicate;
+      const scopes: NSArray );
   public
     class function getFavoriteTagNames: NSArray;
     class function getSidebarTagNames: NSArray;
@@ -341,12 +346,37 @@ begin
   end;
 end;
 
+class procedure uDarwinFinderModelUtil.doSearchFiles(
+  const searchName: NSString;
+  const handler: TMacOSSearchResultHandler;
+  const predicate: NSPredicate;
+  const scopes: NSArray);
+var
+  queryHandler: TMacOSQueryHandler;
+  query: NSMetadataQuery;
+begin
+  // release in initalGatherComplete()
+  query:= NSMetadataQuery.new;
+  // release in initalGatherComplete()
+  queryHandler:= TMacOSQueryHandler.alloc.initWithName( searchName );
+  queryHandler._query:= query;
+  queryHandler._handler:= handler;
+  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
+    queryHandler,
+    objcselector('initalGatherComplete:'),
+    NSMetadataQueryDidFinishGatheringNotification,
+    query );
+
+  query.setPredicate( predicate );
+  if scopes <> nil then
+    query.setSearchScopes( scopes );
+  query.startQuery;
+end;
+
 class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
   const path: NSString; const handler: TMacOSSearchResultHandler);
 var
-  name: NSString;
-  queryHandler: TMacOSQueryHandler;
-  query: NSMetadataQuery;
+  searchName: NSString;
   predicate: NSPredicate;
   rawQuery: NSString = nil;
   searchScopes: NSArray = nil;
@@ -377,26 +407,10 @@ var
   end;
 
 begin
-  name:= path.lastPathComponent.stringByDeletingPathExtension;
+  searchName:= path.lastPathComponent.stringByDeletingPathExtension;
   analyseSavedSearch;
-
-  // release in initalGatherComplete()
-  query:= NSMetadataQuery.new;
-  // release in initalGatherComplete()
-  queryHandler:= TMacOSQueryHandler.alloc.initWithName( name );
-  queryHandler._query:= query;
-  queryHandler._handler:= handler;
-  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
-    queryHandler,
-    objcselector('initalGatherComplete:'),
-    NSMetadataQueryDidFinishGatheringNotification,
-    query );
-
   predicate:= NSPredicate.predicateFromMetadataQueryString( rawQuery );
-  query.setPredicate( predicate );
-  if searchScopes <> nil then
-    query.setSearchScopes( searchScopes );
-  query.startQuery;
+  self.doSearchFiles( searchName, handler, predicate, searchScopes );
 end;
 
 class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
@@ -406,7 +420,7 @@ begin
 end;
 
 class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
-  const tagNames: NSArray; const handler: TMacOSSearchResultHandler);
+  const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
 
   function toString: NSString;
   var
@@ -438,28 +452,15 @@ class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
   end;
 
 var
-  queryHandler: TMacOSQueryHandler;
-  query: NSMetadataQuery;
+  searchName: NSString;
   predicate: NSPredicate;
 begin
   if tagNames.count = 0 then
     Exit;
 
-  // release in initalGatherComplete()
-  query:= NSMetadataQuery.new;
-  // release in initalGatherComplete()
-  queryHandler:= TMacOSQueryHandler.alloc.initWithName( toString() );
-  queryHandler._query:= query;
-  queryHandler._handler:= handler;
-  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
-    queryHandler,
-    objcselector('initalGatherComplete:'),
-    NSMetadataQueryDidFinishGatheringNotification,
-    query );
-
+  searchName:= toString();
   predicate:= NSPredicate.predicateWithFormat_argumentArray( formatString(), tagNames );
-  query.setPredicate( predicate );
-  query.startQuery;
+  self.doSearchFiles( searchName, handler, predicate, nil );
 end;
 
 class procedure uDarwinFinderModelUtil.searchFilesForTagName(
