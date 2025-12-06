@@ -11,7 +11,7 @@ uses
 
 type
   uDarwinFileViewUtil = class
-    class procedure addSearchTagResultPage( const searchName: String; const files: TStringArray );
+    class procedure addFinderSearchResultPage( const searchName: String; const files: TStringArray );
     class procedure addiCloudDriverPage;
   end;
 
@@ -26,27 +26,27 @@ implementation
 
 type
   
-  { TFinderTagSearchResultFileSource }
+  { TFinderSearchResultFileSource }
 
-  TFinderTagSearchResultFileSource = class( TSearchResultFileSource )
+  TFinderSearchResultFileSource = class( TSearchResultFileSource )
   private
-    _tagName: String;
+    _searchName: String;
   public
-    constructor Create( tagName: String );
+    constructor Create( searchName: String );
     function GetRootDir(sPath: String): String; override;
   end;
 
 { TFinderTagSearchResultFileSource }
 
-constructor TFinderTagSearchResultFileSource.Create(tagName: String);
+constructor TFinderSearchResultFileSource.Create(searchName: String);
 begin
   Inherited Create;
-  _tagName:= tagName;
+  _searchName:= searchName;
 end;
 
-function TFinderTagSearchResultFileSource.GetRootDir(sPath: String): String;
+function TFinderSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _tagName + PathDelim;
+  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _searchName + PathDelim;
 end;
 
 { TDarwinSearchResultHandler }
@@ -54,12 +54,12 @@ end;
 procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(const searchName: String;
   const files: TStringArray);
 begin
-  uDarwinFileViewUtil.addSearchTagResultPage( searchName, files );
+  uDarwinFileViewUtil.addFinderSearchResultPage( searchName, files );
 end;
 
 { uDarwinFileViewUtil }
 
-class procedure uDarwinFileViewUtil.addSearchTagResultPage( const searchName: String; const files: TStringArray);
+class procedure uDarwinFileViewUtil.addFinderSearchResultPage( const searchName: String; const files: TStringArray);
 var
   i: integer;
   count: Integer;
@@ -84,7 +84,7 @@ begin
 
   // Create search result file source.
   // Currently only searching FileSystem is supported.
-  SearchResultFS := TFinderTagSearchResultFileSource.Create( searchName );
+  SearchResultFS := TFinderSearchResultFileSource.Create( searchName );
   SearchResultFS.AddList(FileList, Notebook.ActiveView.FileSource);
 
   NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
