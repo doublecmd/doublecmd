@@ -188,6 +188,7 @@ begin
   begin
     LocalVisualFontElements[iFontIndex].FontEdit.Text := gFonts[TDCFont(iFontIndex)].Name;
     FontOptionsToFont(gFonts[TDCFont(iFontIndex)], LocalVisualFontElements[iFontIndex].FontEdit.Font);
+    LocalVisualFontElements[iFontIndex].FontSpindEdit.HandleNeeded;
     LocalVisualFontElements[iFontIndex].FontSpindEdit.Value := gFonts[TDCFont(iFontIndex)].Size;
   end;
 end;
