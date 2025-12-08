@@ -1258,8 +1258,8 @@ begin
   ThemeServices.OnThemeChange:= @AppThemeChange;
 
 {$IF DEFINED(DARWIN)}
-  InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
-  InitNSThemeChangedObserver( @NSThemeChangedHandler );
+  TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
+  TDarwinApplicationUtil.initThemeChangedObserver( @NSThemeChangedHandler );
 {$ENDIF}
 end;
 

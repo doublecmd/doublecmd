@@ -10,17 +10,17 @@ uses
   CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils,
   uDarwinUtil;
 
-// MacOS Service Integration
 type
-  TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
-  TNSServiceMenuIsReady = Function(): Boolean of object;
-  TNSServiceMenuGetFilenames = Function(): TStringArray of object;
+  // MacOS Service Integration
+  TDarwinServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
+  TDarwinServiceMenuIsReadyFunc = Function(): Boolean of object;
+  TDarwinServiceMenuGetFilenamesFunc = Function(): TStringArray of object;
 
-  TNSThemeChangedHandler = Procedure() of object;
+  TDarwinThemeChangedHandler = Procedure() of object;
 
-  TNSServiceProvider = objcclass(NSObject)
+  TDarwinServiceProvider = objcclass(NSObject)
   public
-    onOpenWithNewTab: TNSServiceProviderCallBack;
+    onOpenWithNewTab: TDarwinServiceProviderCallBack;
   public
     procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
   end;
@@ -30,21 +30,23 @@ type
     function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
     procedure observeValueForKeyPath_ofObject_change_context(keyPath: NSString;
       object_: id; change: NSDictionary; context: pointer); override;
+  private
+    _serviceProvider: TDarwinServiceProvider;
+    _themeChangedHandler: TDarwinThemeChangedHandler;
   public
-    serviceMenuIsReady: TNSServiceMenuIsReady;
-    serviceMenuGetFilenames: TNSServiceMenuGetFilenames;
+    serviceMenuIsReady: TDarwinServiceMenuIsReadyFunc;
+    serviceMenuGetFilenames: TDarwinServiceMenuGetFilenamesFunc;
   end;
 
-procedure InitNSServiceProvider(
-  serveCallback: TNSServiceProviderCallBack;
-  isReadyFunc: TNSServiceMenuIsReady;
-  getFilenamesFunc: TNSServiceMenuGetFilenames );
+  TDarwinApplicationUtil = class
+  public
+    class procedure initServiceProvider(
+      serveCallback: TDarwinServiceProviderCallBack;
+      isReadyFunc: TDarwinServiceMenuIsReadyFunc;
+      getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
 
-procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
-
-var
-  NSServiceProvider: TNSServiceProvider;
-  NSThemeChangedHandler: TNSThemeChangedHandler;
+    class procedure initThemeChangedObserver( handler: TDarwinThemeChangedHandler );
+  end;
 
 implementation
 
@@ -78,11 +80,11 @@ begin
   if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
   begin
     NSAppearance.setCurrentAppearance( self.appearance );
-    if Assigned(NSThemeChangedHandler) then NSThemeChangedHandler;
+    if Assigned(_themeChangedHandler) then _themeChangedHandler;
   end;
 end;
 
-procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
+procedure TDarwinServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
 var
   filenameArray: NSArray;
   filenameList: TStringList;
@@ -99,10 +101,10 @@ begin
   end;
 end;
 
-procedure InitNSServiceProvider(
-  serveCallback: TNSServiceProviderCallBack;
-  isReadyFunc: TNSServiceMenuIsReady;
-  getFilenamesFunc: TNSServiceMenuGetFilenames );
+class procedure TDarwinApplicationUtil.initServiceProvider(
+  serveCallback: TDarwinServiceProviderCallBack;
+  isReadyFunc: TDarwinServiceMenuIsReadyFunc;
+  getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
 var
   DCApp: TDCCocoaApplication;
   sendTypes: NSArray;
@@ -111,13 +113,13 @@ begin
   DCApp:= TDCCocoaApplication( NSApp );
 
   // MacOS Service menu incoming setup
-  if not Assigned(NSServiceProvider) then
+  if not Assigned(DCApp._serviceProvider) then
   begin
-    NSServiceProvider:= TNSServiceProvider.alloc.init;
-    DCApp.setServicesProvider( NSServiceProvider );
+    DCApp._serviceProvider:= TDarwinServiceProvider.alloc.init;
+    DCApp.setServicesProvider( DCApp._serviceProvider );
     NSUpdateDynamicServices;
   end;
-  NSServiceProvider.onOpenWithNewTab:= serveCallback;
+  DCApp._serviceProvider.onOpenWithNewTab:= serveCallback;
 
   // MacOS Service menu outgoing setup
   sendTypes:= NSArray.arrayWithObject(NSFilenamesPboardType);
@@ -127,14 +129,17 @@ begin
   DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
 end;
 
-procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
+class procedure TDarwinApplicationUtil.initThemeChangedObserver( handler: TDarwinThemeChangedHandler );
+var
+  DCApp: TDCCocoaApplication Absolute NSApp;
 begin
-  if Assigned(NSThemeChangedHandler) then exit;
+  DCApp:= TDCCocoaApplication( NSApp );
+  if Assigned(DCApp._themeChangedHandler) then exit;
 
   NSApp.addObserver_forKeyPath_options_context(
     NSApp, NSSTR('effectiveAppearance'), 0, nil );
 
-  NSThemeChangedHandler:= handler;
+  DCApp._themeChangedHandler:= handler;
 end;
 
 end.
