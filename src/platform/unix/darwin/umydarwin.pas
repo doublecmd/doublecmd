@@ -29,7 +29,6 @@ unit uMyDarwin;
 
 {$mode delphi}
 {$modeswitch objectivec2}
-{$modeswitch cblocks}
 
 interface
 
@@ -37,8 +36,8 @@ uses
   Classes, SysUtils, UnixType,
   InterfaceBase, Menus, Controls, Forms,
   uFileProperty, uDisplayFile, uFileView, uColumnsFileView,
-  uLng, uLog, uDebug,
-  Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
+  uLng,
+  MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinApplication, uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel, uDarwinUtil;
 
@@ -58,13 +57,10 @@ function NSGetTempPath: String;
 function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
-function MountNetworkDrive(const serverAddress: String): Boolean;
 
 function ResolveAliasFile(const FileName: String): String;
 
 procedure openSystemSecurityPreferences_PrivacyAllFiles;
-
-function unmountAndEject(const path: String): Boolean;
 
 procedure openNewInstance();
 
@@ -155,7 +151,6 @@ procedure showMacOSSharingServiceMenu;
 procedure showMacOSAirDropDialog;
 
 var
-  HasMountURL: Boolean = False;
   MacosServiceMenuHelper: TMacosServiceMenuHelper;
 
 type
@@ -507,54 +502,6 @@ begin
   NSWorkspace.sharedWorkspace.openURL( url );
 end;
 
-type
-  TUnmountManager = class
-  public
-    class function unmount( const path: String; const allPartitions: Boolean ): Boolean;
-  private
-    function doUnmount( const path: String; const allPartitions: Boolean ): Boolean;
-    procedure onComplete( error: NSError ); cdecl;
-  end;
-
-class function TUnmountManager.unmount( const path: String; const allPartitions: Boolean ): Boolean;
-var
-  manager: TUnmountManager;
-begin
-  manager:= TUnmountManager.Create;
-  Result:= manager.doUnmount( path, allPartitions );
-  // free in TUnmountManager.onComplete();
-end;
-
-function TUnmountManager.doUnmount(const path: String; const allPartitions: Boolean): Boolean;
-var
-  url: NSURL;
-  options: NSFileManagerUnmountOptions = 0;
-begin
-  url:= NSURL.fileURLWithPath( StringToNSString(path) );
-  if allPartitions then
-    options:= NSFileManagerUnmountAllPartitionsAndEjectDisk;
-  NSFileManager.defaultManager.unmountVolumeAtURL_options_completionHandler( url, options, self.onComplete );
-  sleep( 1000 );
-  Result:= True;
-end;
-
-procedure TUnmountManager.onComplete( error: NSError ); cdecl;
-var
-  msg: String;
-begin
-  if Assigned(error) then begin
-    msg:= 'there is an error in TUnmountManager when unmount: ' + error.localizedDescription.UTF8String;
-    DCDebug( msg );
-    LogWrite( msg , lmtError );
-  end;
-  self.Free;
-end;
-
-function unmountAndEject(const path: String): Boolean;
-begin
-  Result:= TUnmountManager.unmount( path, True );
-end;
-
 procedure openNewInstance();
 begin
   NSWorkspace.sharedWorkspace.launchApplicationAtURL_options_configuration_error(
@@ -565,42 +512,8 @@ begin
 end;
 
 
-var
-  NetFS: TLibHandle = NilHandle;
-  CoreServices: TLibHandle = NilHandle;
-
-var
-  FSMountServerVolumeSync: function(url: CFURLRef; mountDir: CFURLRef; user: CFStringRef; password: CFStringRef;
-    mountedVolumeRefNum: FSVolumeRefNumPtr; flags: OptionBits): OSStatus; stdcall;
-  NetFSMountURLSync: function(_url: CFURLRef; _mountpath: CFURLRef; _user: CFStringRef; _passwd: CFStringRef;
-    _open_options: CFMutableDictionaryRef; _mount_options: CFMutableDictionaryRef; _mountpoints: CFArrayRefPtr): Int32; cdecl;
-
-function MountNetworkDrive(const serverAddress: String): Boolean;
-var
-  sharePath: NSURL;
-  mountPoints: CFArrayRef = nil;
-begin
-  sharePath:= NSURL.URLWithString(StringToNSString(serverAddress));
-  if Assigned(NetFSMountURLSync) then
-    Result:= NetFSMountURLSync(CFURLRef(sharePath), nil, nil, nil, nil, nil, @mountPoints) = 0
-  else begin
-    Result:= FSMountServerVolumeSync(CFURLRef(sharePath), nil, nil, nil, nil, 0) = noErr;
-  end;
-end;
-
 procedure Initialize;
 begin
-  NetFS:= LoadLibrary('/System/Library/Frameworks/NetFS.framework/NetFS');
-  if (NetFS <> NilHandle) then
-  begin
-    @NetFSMountURLSync:= GetProcAddress(NetFS, 'NetFSMountURLSync');
-  end;
-  CoreServices:= LoadLibrary('/System/Library/Frameworks/CoreServices.framework/CoreServices');
-  if (CoreServices <> NilHandle) then
-  begin
-    @FSMountServerVolumeSync:= GetProcAddress(CoreServices, 'FSMountServerVolumeSync');
-  end;
-  HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
   DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
   ICON_SPECIAL_FOLDER_EXT:= StringToNSString( ICON_SPECIAL_FOLDER_EXT_STRING );
@@ -612,8 +525,6 @@ end;
 
 procedure Finalize;
 begin
-  if (NetFS <> NilHandle) then FreeLibrary(NetFS);
-  if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
   FreeAndNil( MacosServiceMenuHelper );
 end;
 
