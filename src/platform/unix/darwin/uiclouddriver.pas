@@ -13,7 +13,7 @@ uses
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
-  uMyDarwin, uDarwinFSWatch,
+  uMyDarwin, uDarwinFSWatch, uDarwinImageUtil,
   CocoaAll, CocoaUtils;
 
 type
@@ -557,13 +557,21 @@ var
   procedure drawDownloadIcon;
   var
     destRect: NSRect;
+    tempImage: NSImage;
   begin
     if NOT TSeedFileUtil.isSeedFile(params.displayFile.FSFile) then
       Exit;
 
     if iCloudArrowDownImage = nil then begin
-      iCloudArrowDownImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriverConfig.icon.download)) );
-      iCloudArrowDownImage.setSize( NSMakeSize(16,16) );
+      tempImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriverConfig.icon.download)) );
+      tempImage.setSize( NSMakeSize(16,16) );
+      if IsAppDark then begin
+        iCloudArrowDownImage:= TDarwinImageUtil.invertColor( tempImage );
+      end else begin
+        iCloudArrowDownImage:= tempImage;
+      end;
+      iCloudArrowDownImage.retain;
+      tempImage.release;
     end;
 
     destRect.size:= iCloudArrowDownImage.size;
