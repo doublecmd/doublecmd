@@ -11,25 +11,25 @@ uses
   uDebug, uLog,
   MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils;
 
-function MountNetworkDrive(const serverAddress: String): Boolean;
-function unmountAndEject(const path: String): Boolean;
-
-var
-  HasMountURL: Boolean = False;
+type
+  TDarwinFileUtil = class
+  private class var
+    NetFS: TLibHandle;
+    CoreServices: TLibHandle;
+    FSMountServerVolumeSync: function(url: CFURLRef; mountDir: CFURLRef; user: CFStringRef; password: CFStringRef;
+      mountedVolumeRefNum: FSVolumeRefNumPtr; flags: OptionBits): OSStatus; stdcall;
+    NetFSMountURLSync: function(_url: CFURLRef; _mountpath: CFURLRef; _user: CFStringRef; _passwd: CFStringRef;
+      _open_options: CFMutableDictionaryRef; _mount_options: CFMutableDictionaryRef; _mountpoints: CFArrayRefPtr): Int32; cdecl;
+  public class var
+    isMountSupported: Boolean;
+  public
+    class function mount(const serverAddress: String): Boolean;
+    class function unmountAndEject(const path: String): Boolean;
+  end;
 
 implementation
 
-var
-  NetFS: TLibHandle = NilHandle;
-  CoreServices: TLibHandle = NilHandle;
-
-var
-  FSMountServerVolumeSync: function(url: CFURLRef; mountDir: CFURLRef; user: CFStringRef; password: CFStringRef;
-    mountedVolumeRefNum: FSVolumeRefNumPtr; flags: OptionBits): OSStatus; stdcall;
-  NetFSMountURLSync: function(_url: CFURLRef; _mountpath: CFURLRef; _user: CFStringRef; _passwd: CFStringRef;
-    _open_options: CFMutableDictionaryRef; _mount_options: CFMutableDictionaryRef; _mountpoints: CFArrayRefPtr): Int32; cdecl;
-
-function MountNetworkDrive(const serverAddress: String): Boolean;
+class function TDarwinFileUtil.mount(const serverAddress: String): Boolean;
 var
   sharePath: NSURL;
   mountPoints: CFArrayRef = nil;
@@ -85,30 +85,30 @@ begin
   self.Free;
 end;
 
-function unmountAndEject(const path: String): Boolean;
+class function TDarwinFileUtil.unmountAndEject(const path: String): Boolean;
 begin
   Result:= TUnmountManager.unmount( path, True );
 end;
 
 procedure Initialize;
 begin
-  NetFS:= LoadLibrary('/System/Library/Frameworks/NetFS.framework/NetFS');
-  if (NetFS <> NilHandle) then
+  TDarwinFileUtil.NetFS:= LoadLibrary('/System/Library/Frameworks/NetFS.framework/NetFS');
+  if (TDarwinFileUtil.NetFS <> NilHandle) then
   begin
-    @NetFSMountURLSync:= GetProcAddress(NetFS, 'NetFSMountURLSync');
+    @TDarwinFileUtil.NetFSMountURLSync:= GetProcAddress(TDarwinFileUtil.NetFS, 'NetFSMountURLSync');
   end;
-  CoreServices:= LoadLibrary('/System/Library/Frameworks/CoreServices.framework/CoreServices');
-  if (CoreServices <> NilHandle) then
+  TDarwinFileUtil.CoreServices:= LoadLibrary('/System/Library/Frameworks/CoreServices.framework/CoreServices');
+  if (TDarwinFileUtil.CoreServices <> NilHandle) then
   begin
-    @FSMountServerVolumeSync:= GetProcAddress(CoreServices, 'FSMountServerVolumeSync');
+    @TDarwinFileUtil.FSMountServerVolumeSync:= GetProcAddress(TDarwinFileUtil.CoreServices, 'FSMountServerVolumeSync');
   end;
-  HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
+  TDarwinFileUtil.isMountSupported:= Assigned(TDarwinFileUtil.NetFSMountURLSync) or Assigned(TDarwinFileUtil.FSMountServerVolumeSync);
 end;
 
 procedure Finalize;
 begin
-  if (NetFS <> NilHandle) then FreeLibrary(NetFS);
-  if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
+  if (TDarwinFileUtil.NetFS <> NilHandle) then FreeLibrary(TDarwinFileUtil.NetFS);
+  if (TDarwinFileUtil.CoreServices <> NilHandle) then FreeLibrary(TDarwinFileUtil.CoreServices);
 end;
 
 initialization

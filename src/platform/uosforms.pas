@@ -720,7 +720,7 @@ begin
   {$ENDIF}
 
   {$IF DEFINED(DARWIN)}
-  if HasMountURL then
+  if TDarwinFileUtil.isMountSupported then
   begin
     with frmMain do
     begin
@@ -1071,7 +1071,7 @@ begin
   if ShowInputQuery(Application.Title, rsMsgURL, False, Address) then
   begin
   {$IF DEFINED(DARWIN)}
-    MountNetworkDrive(Address);
+    TDarwinFileUtil.mount(Address);
   {$ELSE}
     ChooseFileSource(frmMain.ActiveFrame, Address);
   {$ENDIF}
