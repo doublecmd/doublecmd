@@ -58,6 +58,7 @@ uses
   {$ELSEIF DEFINED(DARWIN)}
   , CocoaConfig
   , uMyDarwin
+  , uDarwinApplication
   {$ENDIF}
   , Types, LMessages;
 
