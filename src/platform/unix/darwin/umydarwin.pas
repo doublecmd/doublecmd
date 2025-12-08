@@ -315,6 +315,7 @@ begin
   begin
     subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
+    subMenu.release;
     NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
 end;
