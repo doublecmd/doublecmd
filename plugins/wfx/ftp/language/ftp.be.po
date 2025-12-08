@@ -43,7 +43,7 @@ msgstr "FTP"
 
 #: tdialogbox.chkagentssh.caption
 msgid "Use SSH-agent authentication"
-msgstr ""
+msgstr "Выкарыстоўваць SSH-агент"
 
 #: tdialogbox.chkcopyscp.caption
 msgid "Copy using SCP protocol (faster)"
@@ -161,5 +161,12 @@ msgstr "Проксі"
 
 #: tfrmfileproperties.caption
 msgid "Properties"
-msgstr ""
+msgstr "Уласцівасці"
 
+#: ftpfunc.addconnection
+msgid "Add connection"
+msgstr "Дадаць падключэнне"
+
+#: ftpfunc.quickconnection
+msgid "Quick connection"
+msgstr "Хуткае падключэнне"

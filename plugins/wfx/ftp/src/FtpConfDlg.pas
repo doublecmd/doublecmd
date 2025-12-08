@@ -311,7 +311,7 @@ begin
           Data:= PtrInt(PAnsiChar(gConnection.PrivateKey));
           SendDlgMsg(pDlg, 'fnePrivateKey', DM_SETTEXT, Data, 0);
 
-          if SameText(gConnection.ConnectionName, cQuickConnection) then
+          if SameText(gConnection.ConnectionName, GetSpecialName(cQuickConnection)) then
           begin
             SendDlgMsg(pDlg, 'edtName', DM_ENABLE, 0, 0);
             SendDlgMsg(pDlg, 'chkMasterPassword', DM_SHOWITEM, 0, 0);

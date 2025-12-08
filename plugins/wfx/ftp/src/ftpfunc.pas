@@ -32,8 +32,8 @@ uses
   WfxPlugin, Extension;
 
 const
-  cAddConnection = '<Add connection>';
-  cQuickConnection = '<Quick connection>';
+  cAddConnection = 'Add connection';
+  cQuickConnection = 'Quick connection';
 
 type
 
@@ -96,6 +96,7 @@ procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall; ex
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall; export;
 procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall; export;
 function FsGetBackgroundFlags: Integer; dcpcall; export;
+function FsExtractCustomIconW(RemoteName: PWideChar; ExtractFlags: Integer; TheIcon: PWfxIcon): Integer; dcpcall; export;
 { Network API }
 {
 procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall; export;
@@ -108,6 +109,7 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; expo
 
 function ReadPassword(ConnectionName: AnsiString; out Password: AnsiString): Boolean;
 function DeletePassword(ConnectionName: AnsiString): Boolean;
+function GetSpecialName(Name: AnsiString): String;
 
 var
   gStartupInfo: TExtensionStartupInfo;
@@ -312,6 +314,18 @@ begin
   end;
 end;
 
+function GetSpecialName(Name: AnsiString): String;
+var
+  ID: String;
+  Output: array[0..(MAX_PATH)-1] of Char;
+begin
+  Result:= '<' + Name + '>';
+  ID:= '#: ftpfunc.' + LowerCase(StringReplace(Name, ' ', '', [rfReplaceAll]));
+  if (gStartupInfo.Translation <> nil) and
+     (gStartupInfo.TranslateString(gStartupInfo.Translation, PChar(ID), PChar(Name), Output, MAX_PATH) > 0) then
+    Result:= '<' + Output + '>';
+end;
+
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
 var
   I: Integer;
@@ -410,7 +424,7 @@ begin
           Connection.CachedPassword:= APassword;
           LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + CeUtf8ToUtf16(ConnectionName)));
           ActiveConnectionList.AddObject(ConnectionName, FtpSend);
-          if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
+          if Connection.OpenSSH and (ConnectionName <> GetSpecialName(cQuickConnection)) then
           begin
             // Save connection server fingerprint
             if Connection.Fingerprint <> TScpSend(FtpSend).Fingerprint then
@@ -429,17 +443,19 @@ function QuickConnection(out FtpSend: TFTPSendEx): Boolean;
 var
   Index: Integer;
   Connection: TConnection;
+  FileName: String;
 begin
-  Index:= ActiveConnectionList.IndexOf(cQuickConnection);
+  FileName:= GetSpecialName(cQuickConnection);
+  Index:= ActiveConnectionList.IndexOf(FileName);
   Result:= (Index >= 0);
   if Result then
     FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[Index])
   else begin
     Connection := TConnection.Create;
-    Connection.ConnectionName:= cQuickConnection;
+    Connection.ConnectionName:= FileName;
     if ShowFtpConfDlg(Connection) then
     begin
-      Connection.ConnectionName:= cQuickConnection;
+      Connection.ConnectionName:= FileName;
       Index:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
       Result:= FtpConnect(Connection.ConnectionName, FtpSend);
       ConnectionList.Delete(Index);
@@ -619,7 +635,7 @@ begin
   FillChar(FindData, SizeOf(FindData), 0);
   if I < RootCount then
   begin
-    StrPCopy(FindData.cFileName, CeUtf8ToUtf16(RootList[I]));
+    StrPCopy(FindData.cFileName, CeUtf8ToUtf16(GetSpecialName(RootList[I])));
     FindData.dwFileAttributes := 0;
     Inc(ListRec^.Index);
     Result := True;
@@ -741,12 +757,12 @@ begin
           end
         else  // special item
           begin
-            if asFileName = cAddConnection then
+            if asFileName = GetSpecialName(cAddConnection) then
               begin
                 AddConnection;
                 Result:= FS_EXEC_OK;
               end
-            else if asFileName = cQuickConnection then
+            else if asFileName = GetSpecialName(cQuickConnection) then
               begin
                 if not QuickConnection(FtpSend) then
                   Result := FS_EXEC_OK
@@ -1085,6 +1101,25 @@ end;
 function FsGetBackgroundFlags: Integer; dcpcall; export;
 begin
   Result:= BG_DOWNLOAD or BG_UPLOAD or BG_ASK_USER;
+end;
+
+function FsExtractCustomIconW(RemoteName: PWideChar; ExtractFlags: Integer; TheIcon: PWfxIcon): Integer; dcpcall; export;
+begin
+  Result:= FS_ICON_USEDEFAULT;
+  if (ExtractFileDir(RemoteName) = PathDelim) then
+  begin
+    Result:= FS_ICON_EXTRACTED;
+    TheIcon^.Format:= FS_ICON_FORMAT_FILE;
+    if RemoteName[1] <> '<' then
+      StrPLCopy(RemoteName, CeUtf8ToUtf16(gStartupInfo.PluginDir + 'ftp.ico'), MAX_PATH - 1)
+    else
+    begin
+      if RemoteName + 1 = GetSpecialName(cAddConnection) then
+        StrPCopy(RemoteName, 'list-add')
+      else if RemoteName + 1 = GetSpecialName(cQuickConnection) then
+        StrPCopy(RemoteName, 'view-file');
+    end;
+  end;
 end;
 
 {

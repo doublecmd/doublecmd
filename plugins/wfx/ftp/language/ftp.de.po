@@ -163,3 +163,10 @@ msgstr "Proxy"
 msgid "Properties"
 msgstr "Eigenschaften"
 
+#: ftpfunc.addconnection
+msgid "Add connection"
+msgstr ""
+
+#: ftpfunc.quickconnection
+msgid "Quick connection"
+msgstr ""
