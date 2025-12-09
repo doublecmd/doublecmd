@@ -141,7 +141,8 @@ typedef struct {
   tSetProperty SetProperty;
   tGetProperty GetProperty;
   tCreateComponent CreateComponent;
-  unsigned char Reserved[4088 * sizeof(void *)];
+  char LanguageID[16];
+  unsigned char Reserved[4086 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 
