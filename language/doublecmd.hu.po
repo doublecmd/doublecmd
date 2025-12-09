@@ -10806,11 +10806,13 @@ msgstr "Nincs \"ENTER\" gyorsbillentyű"
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "Parancsnév szerint;Gyorsbillentyű szerint (csoportosítva);Gyorsbillentyű szerint (soronként egy)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "Javasolt először letölteni a fájlokat. Ellenkező esetben nem a fájlok tartalma, hanem a megfelelő helykitöltő fájlok másolódnak, amely .iCloud kiterjesztésű rejtett fájlokat eredményez."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "A művelet tartalmazhat letöltetlen fájlokat, mindenképp folytatja?"
 
@@ -10981,13 +10983,13 @@ msgstr "Vízszintes felosztás mód váltása"
 msgid "HorzSplit"
 msgstr "VízszFeloszt"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud meghajtó"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud meghajtó"
 
@@ -11137,11 +11139,13 @@ msgstr "Kiadás"
 msgid "Extract here..."
 msgstr "Kibontás ide..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "Letöltés most"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "Letöltés eltávolítása"
 

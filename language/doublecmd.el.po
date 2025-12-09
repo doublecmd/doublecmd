@@ -11033,11 +11033,13 @@ msgstr "Δεν υπάρχει συντόμευση για \"ENTER\""
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "Βάσει ονόματος εντολής;Βάσει κουμπιού συντόμευσης (ομαδοποιημένα);Βάσει κουμπιού συντόμευσης (ένα σε κάθε σειρά)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "Προτείνεται να κατεβάσετε τα αρχεία πρώτα. Αλλιώς, ότι αντιγράφεται δεν είναι το περιεχόμενο των αρχείων, αλλά τα αντίστοιχα αρχεία κράτησης χώρου, τα οποία θα έχουν σαν αποτέλεσμα κρυφά αρχεία με την κατάληξη .iCloud."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "Η λειτουργία μπορεί να περιέχει αρχεία που δεν έχουν ληφθεί, συνέχιση έτσι κι αλλιώς;"
 
@@ -11208,13 +11210,13 @@ msgstr "Εναλλαγή σε Λειτουργία Οριζοντίου Διαχ
 msgid "HorzSplit"
 msgstr "HorzSplit"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "Οδηγός iCloud"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "Οδηγός iCloud"
 
@@ -11364,11 +11366,13 @@ msgstr "Εξαγωγή"
 msgid "Extract here..."
 msgstr "Εξαγωγή εδώ..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "Λήψη τώρα"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "Αφαίρεση Ληφθέντος"
 
