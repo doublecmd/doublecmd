@@ -2053,9 +2053,9 @@ end;"/>
         <UnitName Value="uMountedListOperation"/>
       </Unit278>
       <Unit279>
-        <Filename Value="platform\unix\darwin\uiclouddriver.pas"/>
+        <Filename Value="platform\unix\darwin\uiclouddrive.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uiCloudDriver"/>
+        <UnitName Value="uiCloudDrive"/>
       </Unit279>
       <Unit280>
         <Filename Value="filesources\ufilesourcemanager.pas"/>
@@ -2078,9 +2078,9 @@ end;"/>
         <UnitName Value="uDarwinUtil"/>
       </Unit283>
       <Unit284>
-        <Filename Value="platform\unix\darwin\uiclouddriverconfig.pas"/>
+        <Filename Value="platform\unix\darwin\uiclouddriveconfig.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uiCloudDriverConfig"/>
+        <UnitName Value="uiCloudDriveConfig"/>
       </Unit284>
       <Unit285>
         <Filename Value="platform\unix\darwin\udarwinfileview.pas"/>
@@ -2096,10 +2096,10 @@ end;"/>
         <UnitName Value="fOptionsiCloud"/>
       </Unit286>
       <Unit287>
-        <Filename Value="platform\unix\darwin\uiclouddriverutil.pas"/>
+        <Filename Value="platform\unix\darwin\uiclouddriveutil.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="uiCloudDriverUtil"/>
+        <UnitName Value="uiCloudDriveUtil"/>
       </Unit287>
       <Unit288>
         <Filename Value="fileviews\usmoothscrollinggrid.pas"/>

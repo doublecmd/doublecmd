@@ -103,9 +103,9 @@ const
 
 type
   
-  { TDarwinDriverWatcher }
+  { TDarwinDriveWatcher }
 
-  TDarwinDriverWatcher = class( IDarwinVolumnHandler )
+  TDarwinDriveWatcher = class( IDarwinVolumnHandler )
   private
     _drivePath: String;
     _timer: TTimer;
@@ -176,7 +176,7 @@ var
   OldWProc: WNDPROC;
   {$ENDIF}
   {$IFDEF DARWIN}
-  DarwinDriverWatcher: TDarwinDriverWatcher;
+  DarwinDriveWatcher: TDarwinDriveWatcher;
   {$ENDIF}
   {$IFDEF BSD_not_DARWIN}
   KQueueDriveWatcher: TKQueueDriveEventWatcher;
@@ -217,9 +217,9 @@ end;
 
 {$IFDEF DARWIN}
 
-{ TDarwinDriverWatcher }
+{ TDarwinDriveWatcher }
 
-procedure TDarwinDriverWatcher.handleAdded(const fullpath: String);
+procedure TDarwinDriveWatcher.handleAdded(const fullpath: String);
 var
   drive: TDrive;
 begin
@@ -229,7 +229,7 @@ begin
   _timer.Enabled:= True;
 end;
 
-procedure TDarwinDriverWatcher.handleRemoved(const fullpath: String);
+procedure TDarwinDriveWatcher.handleRemoved(const fullpath: String);
 var
   drive: TDrive;
 begin
@@ -237,7 +237,7 @@ begin
   DoDriveRemoved( @drive );
 end;
 
-procedure TDarwinDriverWatcher.handleRenamed(const fullpath: String);
+procedure TDarwinDriveWatcher.handleRenamed(const fullpath: String);
 var
   drive: TDrive;
 begin
@@ -245,14 +245,14 @@ begin
   DoDriveChanged( @drive );
 end;
 
-procedure TDarwinDriverWatcher.createTimer;
+procedure TDarwinDriveWatcher.createTimer;
 begin
   _timer:= TTimer.Create( nil );
   _timer.Enabled:= False;
   _timer.OnTimer:= @tryAddDrive;
 end;
 
-procedure TDarwinDriverWatcher.tryAddDrive( Sender: TObject );
+procedure TDarwinDriveWatcher.tryAddDrive( Sender: TObject );
   function driveReady: Boolean;
   var
     fsPtr: ^TFixedStatfs;
@@ -290,14 +290,14 @@ begin
   end;
 end;
 
-constructor TDarwinDriverWatcher.Create;
+constructor TDarwinDriveWatcher.Create;
 begin
   Inherited;
   TDarwinVolumnUtil.setHandler( self );
   self.createTimer;
 end;
 
-destructor TDarwinDriverWatcher.Destroy;
+destructor TDarwinDriveWatcher.Destroy;
 begin
   TDarwinVolumnUtil.removeHandler;
   FreeAndNil( _timer );
@@ -461,7 +461,7 @@ begin
   {$ENDIF}
 
   {$IFDEF DARWIN}
-  DarwinDriverWatcher := TDarwinDriverWatcher.Create;
+  DarwinDriveWatcher := TDarwinDriveWatcher.Create;
   {$ENDIF}
 
   {$IFDEF BSD_not_DARWIN}
@@ -492,7 +492,7 @@ begin
   {$ENDIF}
 
   {$IFDEF DARWIN}
-  FreeAndNil( DarwinDriverWatcher );
+  FreeAndNil( DarwinDriveWatcher );
   {$ENDIF}
 
   {$IFDEF BSD_not_DARWIN}
