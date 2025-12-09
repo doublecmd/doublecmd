@@ -10805,11 +10805,13 @@ msgstr "Keine Kombination mit [Eingabetaste]"
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "Nach Befehlsname;Nach Tastaturkürzel (gruppiert);Nach Tastaturkürzel (einer pro Zeile)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "Die Dateien sollten zuerst heruntergeladen werden. Andernfalls wird nicht der Inhalt der Dateien kopiert, sondern nur die jeweiligen Platzhalter-Dateien, was dann versteckte Dateien mit der Erweiterung ».iCloud« ergibt."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "Der Vorgang könnte Dateien enthalten, die noch nicht heruntergeladen wurden, trotzdem fortfahren?"
 
@@ -10980,13 +10982,13 @@ msgstr "Horizontal geteilt ein- und ausschalten"
 msgid "HorzSplit"
 msgstr "Horizontal geteilt"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud Drive ist der Cloud-Speicher von Apple. Vergleichbar mit z.B. Dropbox, OneDrive oder Google Drive"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud Drive"
 
@@ -11136,11 +11138,13 @@ msgstr "Auswerfen"
 msgid "Extract here..."
 msgstr "Archiv hier entpacken …"
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "Jetzt downloaden"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "Download entfernen"
 

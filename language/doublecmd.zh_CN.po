@@ -10802,11 +10802,13 @@ msgstr "没有带回车键的快捷键"
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "按命令名称;按快捷键（分组）;按快捷键（每行一个）"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "建议先完成文件下载后再操作。否则，复制的不是文件本身的内容，而是对应的占位符文件，这只会复制以.iCloud为扩展名的隐藏文件。"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "操作可能包含未下载的文件，仍然继续吗？"
 
@@ -10982,13 +10984,13 @@ msgctxt "ulng.rsmfstbihorzsplittitle"
 msgid "HorzSplit"
 msgstr "水平分隔"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
@@ -11156,11 +11158,13 @@ msgstr "弹出"
 msgid "Extract here..."
 msgstr "解压缩到此处..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "现在下载"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "移除下载项"
 

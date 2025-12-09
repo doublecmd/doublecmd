@@ -11064,11 +11064,13 @@ msgstr "Не использовать \"Enter\""
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "По имени команды;По горячим клавишам (группир.);По горячим клавишам (по одной)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "Рекомендуется сначала загрузить файлы. В противном случае будет скопировано не содержимое файлов, а соответствующие файлы-заполнители, что приведет к появлению скрытых файлов с расширением .iCloud."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "Операция может содержать файлы, которые не были загружены. Продолжить в любом случае?"
 
@@ -11239,13 +11241,13 @@ msgstr "Переключить режим расположения панеле�
 msgid "HorzSplit"
 msgstr "Горизонтальное разделение"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "Диск iCloud"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "Диск iCloud"
 
@@ -11395,11 +11397,13 @@ msgstr "Извлечь"
 msgid "Extract here..."
 msgstr "Распаковать здесь..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "Загрузить сейчас"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "Удалить загрузку"
 

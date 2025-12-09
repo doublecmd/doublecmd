@@ -442,8 +442,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'cloud';
-    title: rsMFSTBIiCloudDriverTitle;
-    tips: rsMFSTBIiCloudDriverTips;
+    title: rsMFSTBIiCloudDriveTitle;
+    tips: rsMFSTBIiCloudDriveTips;
     bordered: True;
     onAction: @iCloudAction;
   );

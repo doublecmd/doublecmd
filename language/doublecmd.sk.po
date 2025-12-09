@@ -10804,11 +10804,13 @@ msgstr "Žiadna skratka pomocou \"ENTER\""
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "Podľa názvu príkazu;Podľa kláv. skratky (zoskupené);Podľa kláv. skratky (po riadkoch)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "Odporúča sa najskôr stiahnuť súbory. V opačnom prípade sa nekopíruje obsah súborov, ale príslušné zástupné súbory, čo bude mať za následok skryté súbory s príponou .iCloud."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "Operácia môže obsahovať súbory, ktoré neboli stiahnuté, pokračovať aj tak?"
 
@@ -10979,13 +10981,13 @@ msgstr "Prepnúť režim s horizontálnymi panelmi"
 msgid "HorzSplit"
 msgstr "Horizontálne rozdelenie"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud Disk"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud Disk"
 
@@ -11135,11 +11137,13 @@ msgstr "Vysunúť"
 msgid "Extract here..."
 msgstr "Rozbaliť sem..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "Stiahnuť teraz"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "Odstrániť stiahnutie"
 

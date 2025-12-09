@@ -10804,11 +10804,13 @@ msgstr "\"ENTER\"로 바로가기 없음"
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "명령 이름별;바로가기 키별 (그룹화);바로가기 키별 (행당 1개)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
 msgstr "먼저 파일을 다운로드하는 것이 좋습니다. 그렇지 않으면 복사되는 것은 파일의 콘텐츠가 아니라 해당 자리 표시자 파일로, 확장자가 .iCloud인 숨겨진 파일이 됩니다."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
 msgstr "다운로드하지 않은 파일이 포함되어 있을 수 있는데 계속 진행하시겠습니까?"
 
@@ -10979,13 +10981,13 @@ msgstr "수평 분할 모드 전환"
 msgid "HorzSplit"
 msgstr "수평 분할"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
 
@@ -11135,11 +11137,13 @@ msgstr "꺼내기"
 msgid "Extract here..."
 msgstr "여기에 추출..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "지금 다운로드"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
 msgstr "다운로드 제거"
 

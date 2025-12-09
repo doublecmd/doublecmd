@@ -153,8 +153,8 @@ procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsult
     if NOT TSeedFileUtil.isSeedFiles(params.files) then
       Exit;
     dlgResult:= MessageDlg(
-      rsiCloudDriverCopySeedFileConfirmDlgTitle,
-      rsiCloudDriverCopySeedFileConfirmDlgMessage,
+      rsiCloudDriveCopySeedFileConfirmDlgTitle,
+      rsiCloudDriveCopySeedFileConfirmDlgMessage,
       mtConfirmation,
       [mbCancel, mbYes],
       0 );
@@ -813,9 +813,9 @@ begin
   menuItem:= TMenuItem.Create( AMenu );
 
   if TSeedFileUtil.isSeedFiles(AFiles) then
-    menuItem.Caption:= rsMnuiCloudDriverDownloadNow
+    menuItem.Caption:= rsMnuiCloudDriveDownloadNow
   else
-    menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
+    menuItem.Caption:= rsMnuiCloudDriveRemoveDownload;
   menuItem.OnClick:= @self.downloadAction;
   menuItem.Tag:= PtrInt( AFiles );
   AMenu.Items.Insert(0, menuItem);
