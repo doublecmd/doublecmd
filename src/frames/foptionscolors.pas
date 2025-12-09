@@ -102,7 +102,7 @@ uses
   {$IF not DEFINED(darwin)}
   , uDarkStyle
   {$ELSE}
-  , uMyDarwin
+  , uDarwinApplication
   {$ENDIF}
 {$ENDIF}
   ;
@@ -269,7 +269,7 @@ begin
     if g_darkModeSupported then
       Result:= [oesfNeedsRestart];
     {$ELSE}
-    setMacOSAppearance( gAppMode );
+    TDarwinApplicationUtil.setTheme( gAppMode );
     {$ENDIF}
     SaveEarlyConfig;
   except

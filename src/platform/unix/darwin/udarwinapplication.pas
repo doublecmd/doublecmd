@@ -59,6 +59,7 @@ type
 
     class procedure addThemeObserver( const observer: TDarwinThemeObserver );
 
+    class procedure setTheme( const mode: Integer );
     class function isDarkTheme: Boolean;
   end;
 
@@ -93,9 +94,7 @@ procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
   keyPath: NSString; object_: id; change: NSDictionary; context_: pointer);
 begin
   Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context_ );
-  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
-  begin
-    NSAppearance.setCurrentAppearance( self.appearance );
+  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then begin
     TDarwinApplicationUtil.themeNotify;
   end;
 end;
@@ -145,6 +144,25 @@ begin
   _themeObservers.Add( observer );
 end;
 
+class procedure TDarwinApplicationUtil.setTheme(const mode: Integer);
+var
+  appearance: NSAppearance;
+begin
+  if not NSApp.respondsToSelector( ObjCSelector('appearance') ) then
+    exit;
+
+  case mode of
+    0, 1:
+      appearance:= nil;
+    2:
+      appearance:= NSAppearance.appearanceNamed( NSSTR_DARK_NAME );
+    3:
+      appearance:= NSAppearance.appearanceNamed( NSAppearanceNameAqua );
+  end;
+  NSApp.setAppearance( appearance );
+  TDarwinApplicationUtil.themeNotify;
+end;
+
 class function TDarwinApplicationUtil.isDarkTheme: Boolean;
 var
   appearanceName: NSString;
@@ -153,7 +171,6 @@ begin
   if not NSApp.respondsToSelector( ObjCSelector('effectiveAppearance') ) then
     exit;
   appearanceName:= NSApp.effectiveAppearance.Name;
-  Writeln( appearanceName.UTF8String );
   Result:= appearanceName.isEqualToString(NSSTR_DARK_NAME) or appearanceName.isEqualToString(NSSTR_DARK_NAME_VIBRANT);
 end;
 
