@@ -13,7 +13,7 @@ uses
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
-  uMyDarwin, uDarwinFSWatch, uDarwinImageUtil,
+  uMyDarwin, uDarwinApplication, uDarwinFSWatch, uDarwinImageUtil,
   CocoaAll, CocoaUtils;
 
 type
@@ -105,6 +105,14 @@ type
   { TiCloudDriverUIHandler }
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
+  private
+    _downloadImage: NSImage;
+  private
+    procedure createImages;
+    procedure releaseImages;
+  public
+    constructor Create;
+    destructor Destroy; override;
     procedure draw( var params: TFileSourceUIParams ); override;
     function click( var params: TFileSourceUIParams): Boolean; override;
   end;
@@ -131,7 +139,6 @@ var
   iCloudDriverWatcher: TiCloudDriverWatcher;
   iCloudDriverProcessor: TiCloudDriverProcessor;
   iCloudDriverUIProcessor: TiCloudDriverUIHandler;
-  iCloudArrowDownImage: NSImage;
 
 { TiCloudDriverProcessor }
 
@@ -526,6 +533,40 @@ end;
 
 { TiCloudDriverUIHandler }
 
+procedure TiCloudDriverUIHandler.createImages;
+var
+  tempImage: NSImage;
+begin
+  _downloadImage.release;
+  tempImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriverConfig.icon.download)) );
+  tempImage.setSize( NSMakeSize(16,16) );
+  if TDarwinApplicationUtil.isDarkTheme then begin
+    _downloadImage:= TDarwinImageUtil.invertColor( tempImage );
+  end else begin
+    _downloadImage:= tempImage;
+  end;
+  _downloadImage.retain;
+  tempImage.release;
+end;
+
+procedure TiCloudDriverUIHandler.releaseImages;
+begin
+  _downloadImage.release;
+  _downloadImage:= nil;
+end;
+
+constructor TiCloudDriverUIHandler.Create;
+begin
+  Inherited;
+  TDarwinApplicationUtil.addThemeObserver( @self.releaseImages );
+end;
+
+destructor TiCloudDriverUIHandler.Destroy;
+begin
+  self.releaseImages;
+  Inherited;
+end;
+
 procedure TiCloudDriverUIHandler.draw( var params: TFileSourceUIParams );
 var
   graphicsContext: NSGraphicsContext;
@@ -557,29 +598,19 @@ var
   procedure drawDownloadIcon;
   var
     destRect: NSRect;
-    tempImage: NSImage;
   begin
     if NOT TSeedFileUtil.isSeedFile(params.displayFile.FSFile) then
       Exit;
 
-    if iCloudArrowDownImage = nil then begin
-      tempImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriverConfig.icon.download)) );
-      tempImage.setSize( NSMakeSize(16,16) );
-      if IsAppDark then begin
-        iCloudArrowDownImage:= TDarwinImageUtil.invertColor( tempImage );
-      end else begin
-        iCloudArrowDownImage:= tempImage;
-      end;
-      iCloudArrowDownImage.retain;
-      tempImage.release;
-    end;
+    if _downloadImage = nil then
+      createImages;
 
-    destRect.size:= iCloudArrowDownImage.size;
-    destRect.origin.x:= params.drawingRect.Right - Round(iCloudArrowDownImage.size.width) - 8;
-    destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(iCloudArrowDownImage.size.height))/2;
+    destRect.size:= _downloadImage.size;
+    destRect.origin.x:= params.drawingRect.Right - Round(_downloadImage.size.width) - 8;
+    destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(_downloadImage.size.height))/2;
     params.drawingRect.Right:= Round(destRect.origin.x) - 4;
 
-    iCloudArrowDownImage.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
+    _downloadImage.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
       destRect,
       NSZeroRect,
       NSCompositeSourceOver,
@@ -806,7 +837,6 @@ finalization
   FreeAndNil( iCloudDriverWatcher );
   FreeAndNil( iCloudDriverProcessor );
   FreeAndNil( iCloudDriverUIProcessor );
-  iCloudArrowDownImage.release;
 
 end.
 
