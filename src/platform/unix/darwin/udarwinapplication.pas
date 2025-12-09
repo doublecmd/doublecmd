@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, fgl,
-  CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils,
+  CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils, CocoaConst,
   uDarwinUtil;
 
 type
@@ -58,6 +58,8 @@ type
       getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
 
     class procedure addThemeObserver( const observer: TDarwinThemeObserver );
+
+    class function isDarkTheme: Boolean;
   end;
 
 implementation
@@ -141,6 +143,18 @@ end;
 class procedure TDarwinApplicationUtil.addThemeObserver( const observer: TDarwinThemeObserver );
 begin
   _themeObservers.Add( observer );
+end;
+
+class function TDarwinApplicationUtil.isDarkTheme: Boolean;
+var
+  appearanceName: NSString;
+begin
+  Result:= False;
+  if not NSApp.respondsToSelector( ObjCSelector('effectiveAppearance') ) then
+    exit;
+  appearanceName:= NSApp.effectiveAppearance.Name;
+  Writeln( appearanceName.UTF8String );
+  Result:= appearanceName.isEqualToString(NSSTR_DARK_NAME) or appearanceName.isEqualToString(NSSTR_DARK_NAME_VIBRANT);
 end;
 
 class procedure TDarwinApplicationUtil.initServiceProvider(
