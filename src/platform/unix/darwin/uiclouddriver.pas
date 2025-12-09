@@ -13,7 +13,7 @@ uses
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
-  uMyDarwin, uDarwinApplication, uDarwinFSWatch, uDarwinImageUtil,
+  uMyDarwin, uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinImageUtil,
   CocoaAll, CocoaUtils;
 
 type
