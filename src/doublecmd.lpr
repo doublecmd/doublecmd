@@ -53,6 +53,7 @@ uses
   {$IFDEF darwin}
   uAppleMagnifiedModeFix,
   uMyDarwin,
+  uDarwinApplication,
   uiCloudDriverConfig,
   {$ENDIF}
   {$IFDEF LCLWIN32}
@@ -163,7 +164,7 @@ begin
 
 {$IF DEFINED(darwin)}
   FixMacFormatSettings;
-  setMacOSAppearance( gAppMode );
+  TDarwinApplicationUtil.setTheme( gAppMode );
 {$ENDIF}
 
   // Use only current directory separator

@@ -38,15 +38,13 @@ uses
   uFileProperty, uDisplayFile, uFileView, uColumnsFileView,
   uLng,
   MacOSAll, CocoaAll, QuickLookUI,
-  CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
+  CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus, Cocoa_Extra,
   uDarwinApplication, uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel, uDarwinUtil;
 
 const
   FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
 
 procedure onMainMenuCreate( menu: NSMenu );
-
-procedure setMacOSAppearance( mode:Integer );
 
 function getMacOSDefaultTerminal(): String;
 
@@ -234,25 +232,6 @@ begin
   inherited;
 end;
 
-
-procedure setMacOSAppearance( mode:Integer );
-var
-  appearance: NSAppearance;
-begin
-  if not NSApp.respondsToSelector( ObjCSelector('appearance') ) then
-    exit;
-
-  case mode of
-    0,1:
-      appearance:= nil;
-    2:
-      appearance:= NSAppearance.appearanceNamed( NSSTR_DARK_NAME );
-    3:
-      appearance:= NSAppearance.appearanceNamed( NSAppearanceNameAqua );
-  end;
-  NSApp.setAppearance( appearance );
-  NSAppearance.setCurrentAppearance( appearance );
-end;
 
 procedure TMacosServiceMenuHelper.attachSystemMenu(Sender: TObject);
 begin
