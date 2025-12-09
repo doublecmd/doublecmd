@@ -5702,7 +5702,7 @@ begin
       gSortNatural:= State
     else if GetParamBoolValue(Param, 'special', State) then
       gSortSpecial:= State
-    else if GetParamValue(Param, 'foldermode', Value) then
+    else if GetParamValue(Param, 'newfiles', Value) then
     begin
       if Value = 'top' then
         gNewFilesPosition:= nfpTop
