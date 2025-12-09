@@ -92,9 +92,14 @@ end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
   keyPath: NSString; object_: id; change: NSDictionary; context_: pointer);
+var
+  prior: NSNumber;
 begin
   Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context_ );
   if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then begin
+    prior:= NSNumber( change.valueForKey( NSSTR('notificationIsPrior') ) );
+    if prior.intValue > 0 then
+      Exit;
     TDarwinApplicationUtil.themeNotify;
   end;
 end;
