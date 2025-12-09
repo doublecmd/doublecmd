@@ -1,12 +1,12 @@
 unit uDarwinApplication;
 
-{$mode delphi}
+{$mode objfpc}{$H+}
 {$modeswitch objectivec2}
 
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, fgl,
   CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils,
   uDarwinUtil;
 
@@ -16,7 +16,10 @@ type
   TDarwinServiceMenuIsReadyFunc = Function(): Boolean of object;
   TDarwinServiceMenuGetFilenamesFunc = Function(): TStringArray of object;
 
-  TDarwinThemeChangedHandler = Procedure() of object;
+  TDarwinThemeObserver = Procedure() of object;
+  TDarwinThemeObservers = specialize TFPGList<TDarwinThemeObserver>;
+
+  { TDarwinServiceProvider }
 
   TDarwinServiceProvider = objcclass(NSObject)
   public
@@ -25,30 +28,41 @@ type
     procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
   end;
 
+  { TDCCocoaApplication }
+
   TDCCocoaApplication = objcclass(TCocoaApplication)
     function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
     function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
     procedure observeValueForKeyPath_ofObject_change_context(keyPath: NSString;
-      object_: id; change: NSDictionary; context: pointer); override;
+      object_: id; change: NSDictionary; context_: pointer); override;
   private
     _serviceProvider: TDarwinServiceProvider;
-    _themeChangedHandler: TDarwinThemeChangedHandler;
   public
     serviceMenuIsReady: TDarwinServiceMenuIsReadyFunc;
     serviceMenuGetFilenames: TDarwinServiceMenuGetFilenamesFunc;
   end;
 
+  { TDarwinApplicationUtil }
+
   TDarwinApplicationUtil = class
+  private
+    class var _themeObservers: TDarwinThemeObservers;
+  private
+    class procedure init;
+    class procedure deinit;
+    class procedure themeNotify;
   public
     class procedure initServiceProvider(
       serveCallback: TDarwinServiceProviderCallBack;
       isReadyFunc: TDarwinServiceMenuIsReadyFunc;
       getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
 
-    class procedure initThemeChangedObserver( handler: TDarwinThemeChangedHandler );
+    class procedure addThemeObserver( const observer: TDarwinThemeObserver );
   end;
 
 implementation
+
+{ TDCCocoaApplication }
 
 function TDCCocoaApplication.validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id;
 begin
@@ -74,13 +88,13 @@ begin
 end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
-  keyPath: NSString; object_: id; change: NSDictionary; context: pointer);
+  keyPath: NSString; object_: id; change: NSDictionary; context_: pointer);
 begin
-  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context );
+  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context_ );
   if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
   begin
     NSAppearance.setCurrentAppearance( self.appearance );
-    if Assigned(_themeChangedHandler) then _themeChangedHandler;
+    TDarwinApplicationUtil.themeNotify;
   end;
 end;
 
@@ -101,17 +115,43 @@ begin
   end;
 end;
 
+{ TDarwinApplicationUtil }
+
+class procedure TDarwinApplicationUtil.init;
+begin
+  _themeObservers:= TDarwinThemeObservers.Create;
+end;
+
+class procedure TDarwinApplicationUtil.deinit;
+begin
+  FreeAndNil( _themeObservers );
+end;
+
+class procedure TDarwinApplicationUtil.themeNotify;
+var
+  i: Integer;
+begin
+  if _themeObservers = nil then
+    Exit;
+  for i:= 0 to _themeObservers.Count-1 do begin
+    _themeObservers[i]();
+  end;
+end;
+
+class procedure TDarwinApplicationUtil.addThemeObserver( const observer: TDarwinThemeObserver );
+begin
+  _themeObservers.Add( observer );
+end;
+
 class procedure TDarwinApplicationUtil.initServiceProvider(
   serveCallback: TDarwinServiceProviderCallBack;
   isReadyFunc: TDarwinServiceMenuIsReadyFunc;
   getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
 var
-  DCApp: TDCCocoaApplication;
+  DCApp: TDCCocoaApplication Absolute NSApp;
   sendTypes: NSArray;
   returnTypes: NSArray;
 begin
-  DCApp:= TDCCocoaApplication( NSApp );
-
   // MacOS Service menu incoming setup
   if not Assigned(DCApp._serviceProvider) then
   begin
@@ -129,18 +169,11 @@ begin
   DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
 end;
 
-class procedure TDarwinApplicationUtil.initThemeChangedObserver( handler: TDarwinThemeChangedHandler );
-var
-  DCApp: TDCCocoaApplication Absolute NSApp;
-begin
-  DCApp:= TDCCocoaApplication( NSApp );
-  if Assigned(DCApp._themeChangedHandler) then exit;
+initialization
+  TDarwinApplicationUtil.init;
 
-  NSApp.addObserver_forKeyPath_options_context(
-    NSApp, NSSTR('effectiveAppearance'), 0, nil );
-
-  DCApp._themeChangedHandler:= handler;
-end;
+finalization
+  TDarwinApplicationUtil.deinit;
 
 end.
 
