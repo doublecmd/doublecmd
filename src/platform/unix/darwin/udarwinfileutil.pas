@@ -9,9 +9,14 @@ interface
 uses
   Classes, SysUtils,
   uDebug, uLog,
-  MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils;
+  uFileProperty, uDisplayFile,
+  MacOSAll, CocoaAll, Cocoa_Extra,
+  uDarwinUtil, uDarwinFinderModel;
 
 type
+  
+  { TDarwinFileUtil }
+
   TDarwinFileUtil = class
   private class var
     NetFS: TLibHandle;
@@ -23,18 +28,29 @@ type
   public class var
     isMountSupported: Boolean;
   public
-    class function mount(const serverAddress: String): Boolean;
-    class function unmountAndEject(const path: String): Boolean;
+    class function mount( const serverAddress: String ): Boolean;
+    class function unmountAndEject( const path: String ): Boolean;
+    class function getSpecificProperty( const path: String ): TFileMacOSSpecificProperty;
+    class function getDisplayName( const path: String ): String;
+    class function getUniqueIcon( const path: String ): NSImage;
   end;
 
 implementation
+
+const
+  ICON_SPECIAL_FOLDER_EXT_STRING = '.app;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;.saver;.xcode;.xcodeproj;.xcworkspace;.playground;.scptd;.action;.workflow;.prefpane;.appex;.kext;.xpc;.bundle;.qlgenerator;.mdimporter;.systemextension;.fcpbundle;.fcpxmld;';
+  ICON_SPECIAL_PARENT_FOLDER_STRING = '/;/System;/Applications;/Volumes;/Users;~;~/Music;~/Pictures;~/Movies;';
+
+var
+  ICON_SPECIAL_FOLDER_EXT: NSString;
+  ICON_SPECIAL_PARENT_FOLDER: NSString;
 
 class function TDarwinFileUtil.mount(const serverAddress: String): Boolean;
 var
   sharePath: NSURL;
   mountPoints: CFArrayRef = nil;
 begin
-  sharePath:= NSURL.URLWithString(StrToNSString(serverAddress));
+  sharePath:= NSURL.URLWithString(StringToNSString(serverAddress));
   if Assigned(NetFSMountURLSync) then
     Result:= NetFSMountURLSync(CFURLRef(sharePath), nil, nil, nil, nil, nil, @mountPoints) = 0
   else begin
@@ -65,7 +81,7 @@ var
   url: NSURL;
   options: NSFileManagerUnmountOptions = 0;
 begin
-  url:= NSURL.fileURLWithPath( StrToNSString(path) );
+  url:= NSURL.fileURLWithPath( StringToNSString(path) );
   if allPartitions then
     options:= NSFileManagerUnmountAllPartitionsAndEjectDisk;
   NSFileManager.defaultManager.unmountVolumeAtURL_options_completionHandler( url, options, self.onComplete );
@@ -90,6 +106,129 @@ begin
   Result:= TUnmountManager.unmount( path, True );
 end;
 
+class function TDarwinFileUtil.getSpecificProperty(const path: String
+  ): TFileMacOSSpecificProperty;
+var
+  url: NSURL;
+
+  function toPrimaryColors(const tagNames: NSArray): TFileFinderTagPrimaryColors;
+  var
+    visualTagNames: NSMutableArray;
+    tagName: NSString;
+    tag: TFinderTag;
+    iSource: NSUInteger;
+    iDest: Integer;
+    colorIndex: Integer;
+  begin
+    visualTagNames:= NSMutableArray.new;
+    for iSource:= 0 to tagNames.count-1 do begin
+      tagName:= NSString( tagNames.objectAtIndex(iSource) );
+      tag:= TFinderTags.getTagOfName( tagName );
+      if tag.colorIndex <= 0 then
+        continue;
+      visualTagNames.addObject( tagName );
+    end;
+
+    iSource:= 0;
+    if visualTagNames.count > 3 then
+      iSource:= visualTagNames.count - 3;
+    for iDest:=0 to 2 do begin
+      colorIndex:= -1;
+      if iSource < visualTagNames.count then begin
+        tagName:= NSString( visualTagNames.objectAtIndex(iSource) );
+        tag:= TFinderTags.getTagOfName( tagName );
+        colorIndex:= tag.colorIndex;
+      end;
+      Result.indexes[iDest]:= colorIndex;
+      inc( iSource );
+    end;
+
+    visualTagNames.release;
+  end;
+
+  function getTagPrimaryColors: TFileFinderTagPrimaryColors;
+  var
+    tagNames: NSArray;
+  begin
+    Result.intValue:= -1;
+    tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+    if tagNames = nil then
+      Exit;
+    Result:= toPrimaryColors( tagNames );
+  end;
+
+  function isSeedFile: Boolean;
+  var
+    name: NSString;
+    status: NSString;
+  begin
+    name:= url.lastPathComponent;
+    if name.isEqualToString(NSSTR('..')) then
+      Exit( False );
+    if name.hasPrefix(NSSTR('.')) and name.hasSuffix(NSSTR('.icloud')) then
+      Exit( True );
+
+    url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
+    if status = nil then
+      Exit( False );
+
+    Result:= NOT status.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent );
+  end;
+
+begin
+  Result:= TFileMacOSSpecificProperty.Create;
+  url:= NSURL.fileURLWithPath( StringToNSString(path) );
+  Result.FinderTagPrimaryColors:= getTagPrimaryColors;
+  Result.IsiCloudSeedFile:= isSeedFile;
+end;
+
+class function TDarwinFileUtil.getDisplayName(const path: String): String;
+var
+  cocoaPath: NSString;
+  displayName: NSString;
+begin
+  cocoaPath:= StringToNSString(path).stringByStandardizingPath;
+  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
+  Result:= displayName.UTF8String;
+end;
+
+class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
+  function hasUniqueIcon( const path: String ): Boolean;
+  var
+    pathRef: FSRef;
+    catalogInfo: FSCatalogInfo;
+    pFinderInfo: FileInfoPtr;
+  begin
+    FSPathMakeRef( pchar(path), pathRef, nil );
+    FSGetCatalogInfo( pathRef, kFSCatInfoFinderInfo, @catalogInfo, nil, nil, nil );
+    pFinderInfo:= FileInfoPtr( @catalogInfo.finderInfo );
+    Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
+  end;
+
+  function hasSpecialFolderExt( const path: String ): Boolean;
+  var
+    ext: NSString;
+  begin
+    ext:= StringToNSString(path).pathExtension.lowercaseString;
+    ext:= NSSTR('.').stringByAppendingString(ext).stringByAppendingString(NSSTR(';'));
+    Result:= ICON_SPECIAL_FOLDER_EXT.containsString( ext );
+  end;
+
+  function inSpecialParentFolder( const path: String ): Boolean;
+  var
+    parentPath: NSString;
+  begin
+    parentPath:= StringToNSString(path).stringByDeletingLastPathComponent;
+    parentPath:= parentPath.stringByAppendingString(NSSTR(';'));
+    Result:= ICON_SPECIAL_PARENT_FOLDER.containsString( parentPath );
+  end;
+
+begin
+  Result:= nil;
+  if hasUniqueIcon(path) or hasSpecialFolderExt(path) or inSpecialParentFolder(path) then
+    Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
+end;
+
 procedure Initialize;
 begin
   TDarwinFileUtil.NetFS:= LoadLibrary('/System/Library/Frameworks/NetFS.framework/NetFS');
@@ -103,6 +242,12 @@ begin
     @TDarwinFileUtil.FSMountServerVolumeSync:= GetProcAddress(TDarwinFileUtil.CoreServices, 'FSMountServerVolumeSync');
   end;
   TDarwinFileUtil.isMountSupported:= Assigned(TDarwinFileUtil.NetFSMountURLSync) or Assigned(TDarwinFileUtil.FSMountServerVolumeSync);
+
+  ICON_SPECIAL_FOLDER_EXT:= StringToNSString( ICON_SPECIAL_FOLDER_EXT_STRING );
+  ICON_SPECIAL_FOLDER_EXT.retain;
+  ICON_SPECIAL_PARENT_FOLDER:= StringToNSString( ICON_SPECIAL_PARENT_FOLDER_STRING );
+  ICON_SPECIAL_PARENT_FOLDER:= ICON_SPECIAL_PARENT_FOLDER.stringByReplacingOccurrencesOfString_withString( NSSTR('~'), NSHomeDirectory );
+  ICON_SPECIAL_PARENT_FOLDER.retain;
 end;
 
 procedure Finalize;

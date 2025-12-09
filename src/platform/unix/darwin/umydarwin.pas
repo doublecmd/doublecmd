@@ -62,10 +62,6 @@ procedure openSystemSecurityPreferences_PrivacyAllFiles;
 
 procedure openNewInstance();
 
-function getMacOSDisplayNameFromPath(const path: String): String;
-
-function getMacOSFileUniqueIcon(const path: String ): NSImage;
-
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
@@ -121,7 +117,6 @@ procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
 procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
-function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -148,14 +143,6 @@ implementation
 
 uses
   DynLibs;
-
-const
-  ICON_SPECIAL_FOLDER_EXT_STRING = '.app;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;.saver;.xcode;.xcodeproj;.xcworkspace;.playground;.scptd;.action;.workflow;.prefpane;.appex;.kext;.xpc;.bundle;.qlgenerator;.mdimporter;.systemextension;.fcpbundle;.fcpxmld;';
-  ICON_SPECIAL_PARENT_FOLDER_STRING = '/;/System;/Applications;/Volumes;/Users;~;~/Music;~/Pictures;~/Movies;';
-
-var
-  ICON_SPECIAL_FOLDER_EXT: NSString;
-  ICON_SPECIAL_PARENT_FOLDER: NSString;
 
 procedure onMainMenuCreate( menu: NSMenu );
 var
@@ -432,11 +419,6 @@ procedure Initialize;
 begin
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
   DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
-  ICON_SPECIAL_FOLDER_EXT:= StringToNSString( ICON_SPECIAL_FOLDER_EXT_STRING );
-  ICON_SPECIAL_FOLDER_EXT.retain;
-  ICON_SPECIAL_PARENT_FOLDER:= StringToNSString( ICON_SPECIAL_PARENT_FOLDER_STRING );
-  ICON_SPECIAL_PARENT_FOLDER:= ICON_SPECIAL_PARENT_FOLDER.stringByReplacingOccurrencesOfString_withString( NSSTR('~'), NSHomeDirectory );
-  ICON_SPECIAL_PARENT_FOLDER.retain;
 end;
 
 procedure Finalize;
@@ -586,128 +568,6 @@ begin
 
   handler:= TFinderTagsEditorPanelHandler.Create( filenames );
   uDarwinFinderUtil.popoverFileTagsEditor( filenames, handler.onClose, view , NSMaxYEdge );
-end;
-
-function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;
-var
-  url: NSURL;
-
-  function toPrimaryColors(const tagNames: NSArray): TFileFinderTagPrimaryColors;
-  var
-    visualTagNames: NSMutableArray;
-    tagName: NSString;
-    tag: TFinderTag;
-    iSource: NSUInteger;
-    iDest: Integer;
-    colorIndex: Integer;
-  begin
-    visualTagNames:= NSMutableArray.new;
-    for iSource:= 0 to tagNames.count-1 do begin
-      tagName:= NSString( tagNames.objectAtIndex(iSource) );
-      tag:= TFinderTags.getTagOfName( tagName );
-      if tag.colorIndex <= 0 then
-        continue;
-      visualTagNames.addObject( tagName );
-    end;
-
-    iSource:= 0;
-    if visualTagNames.count > 3 then
-      iSource:= visualTagNames.count - 3;
-    for iDest:=0 to 2 do begin
-      colorIndex:= -1;
-      if iSource < visualTagNames.count then begin
-        tagName:= NSString( visualTagNames.objectAtIndex(iSource) );
-        tag:= TFinderTags.getTagOfName( tagName );
-        colorIndex:= tag.colorIndex;
-      end;
-      Result.indexes[iDest]:= colorIndex;
-      inc( iSource );
-    end;
-
-    visualTagNames.release;
-  end;
-
-  function getTagPrimaryColors: TFileFinderTagPrimaryColors;
-  var
-    tagNames: NSArray;
-  begin
-    Result.intValue:= -1;
-    tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
-    if tagNames = nil then
-      Exit;
-    Result:= toPrimaryColors( tagNames );
-  end;
-
-  function isSeedFile: Boolean;
-  var
-    name: NSString;
-    status: NSString;
-  begin
-    name:= url.lastPathComponent;
-    if name.isEqualToString(NSSTR('..')) then
-      Exit( False );
-    if name.hasPrefix(NSSTR('.')) and name.hasSuffix(NSSTR('.icloud')) then
-      Exit( True );
-
-    url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
-    if status = nil then
-      Exit( False );
-
-    Result:= NOT status.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent );
-  end;
-
-begin
-  Result:= TFileMacOSSpecificProperty.Create;
-  url:= NSURL.fileURLWithPath( StrToNSString(path) );
-  Result.FinderTagPrimaryColors:= getTagPrimaryColors;
-  Result.IsiCloudSeedFile:= isSeedFile;
-end;
-
-function getMacOSDisplayNameFromPath(const path: String): String;
-var
-  cocoaPath: NSString;
-  displayName: NSString;
-begin
-  cocoaPath:= StringToNSString(path).stringByStandardizingPath;
-  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
-  Result:= displayName.UTF8String;
-end;
-
-function hasUniqueIcon( const path: String ): Boolean;
-var
-  pathRef: FSRef;
-  catalogInfo: FSCatalogInfo;
-  pFinderInfo: FileInfoPtr;
-begin
-  FSPathMakeRef( pchar(path), pathRef, nil );
-  FSGetCatalogInfo( pathRef, kFSCatInfoFinderInfo, @catalogInfo, nil, nil, nil );
-  pFinderInfo:= FileInfoPtr( @catalogInfo.finderInfo );
-  Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
-end;
-
-function hasSpecialFolderExt( const path: String ): Boolean;
-var
-  ext: NSString;
-begin
-  ext:= StringToNSString(path).pathExtension.lowercaseString;
-  ext:= NSSTR('.').stringByAppendingString(ext).stringByAppendingString(NSSTR(';'));
-  Result:= ICON_SPECIAL_FOLDER_EXT.containsString( ext );
-end;
-
-function inSpecialParentFolder( const path: String ): Boolean;
-var
-  parentPath: NSString;
-begin
-  parentPath:= StringToNSString(path).stringByDeletingLastPathComponent;
-  parentPath:= parentPath.stringByAppendingString(NSSTR(';'));
-  Result:= ICON_SPECIAL_PARENT_FOLDER.containsString( parentPath );
-end;
-
-function getMacOSFileUniqueIcon( const path: String ): NSImage;
-begin
-  Result:= nil;
-  if hasUniqueIcon(path) or hasSpecialFolderExt(path) or inSpecialParentFolder(path) then
-    Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
 end;
 
 initialization

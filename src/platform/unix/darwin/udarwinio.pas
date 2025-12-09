@@ -18,7 +18,7 @@ interface
 uses
   Classes, SysUtils,
   MacOSAll, CocoaAll, CocoaUtils,
-  uMyDarwin, uLog;
+  uMyDarwin, uDarwinFileUtil, uLog;
 
 type
   io_object_t = mach_port_t;
@@ -335,7 +335,7 @@ end;
 function TDarwinIOVolumns.getDisplayName(const fs: PDarwinStatfs): String;
 begin
   if fs^.mountpoint = PathDelim then begin
-    Result:= getMacOSDisplayNameFromPath( PathDelim );
+    Result:= TDarwinFileUtil.getDisplayName( PathDelim );
     if Result = EmptyStr then
       Result:= 'System';
   end else begin

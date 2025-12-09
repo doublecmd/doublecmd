@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, fgl, Graphics,
   CocoaAll, CocoaUtils,
-  uDCUtils, uMyDarwin,
+  uDCUtils, uMyDarwin, uDarwinFileUtil,
   uiCloudDriveConfig;
 
 type
@@ -142,7 +142,7 @@ begin
     appPath:= appBasePath.stringByAppendingString( appName );
     app:= TiCloudApp.Create;
     app.appName:= appName.UTF8String;
-    app.displayName:= getMacOSDisplayNameFromPath( appPath.UTF8String );
+    app.displayName:= TDarwinFileUtil.getDisplayName( appPath.UTF8String );
     app.contentCount:= contentCountOfApp( appPath );
     app.icon:= createAppImage( app.appName );
     Result.Add( app );

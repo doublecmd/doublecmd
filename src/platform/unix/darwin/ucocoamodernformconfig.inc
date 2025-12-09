@@ -10,7 +10,7 @@ uses
   LCLType, Forms, Menus,
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  uMyDarwin, uDarwinUtil, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
+  uMyDarwin, uDarwinUtil, uDarwinFileUtil, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;
@@ -213,7 +213,7 @@ var
     cocoaItem: NSMenuItem;
     cocoaImage: NSImage;
   begin
-    folderName:= getMacOSDisplayNameFromPath( COMMON_FOLDERS[tag] );
+    folderName:= TDarwinFileUtil.getDisplayName( COMMON_FOLDERS[tag] );
     lclItem:= TMenuItem.Create( menu );
     lclItem.Caption:= folderName;
     lclItem.onClick:= @toolBarMenuHandler.goToFolder;
