@@ -1259,7 +1259,7 @@ begin
 
 {$IF DEFINED(DARWIN)}
   TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
-  TDarwinApplicationUtil.initThemeChangedObserver( @NSThemeChangedHandler );
+  TDarwinApplicationUtil.addThemeObserver( @NSThemeChangedHandler );
 {$ENDIF}
 end;
 
