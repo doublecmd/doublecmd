@@ -13,7 +13,8 @@ uses
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
-  uMyDarwin, uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinImageUtil,
+  uMyDarwin, uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch,
+  uDarwinFileUtil, uDarwinImageUtil,
   CocoaAll, CocoaUtils;
 
 type
@@ -740,7 +741,7 @@ end;
 
 function TiCloudDriveFileSource.getDefaultPointForPath(const path: String): String;
 begin
-  Result:= getMacOSDisplayNameFromPath( path );
+  Result:= TDarwinFileUtil.getDisplayName( path );
 end;
 
 class function TiCloudDriveFileSource.GetFileSource: TiCloudDriveFileSource;
@@ -770,7 +771,7 @@ var
   displayName: String;
 begin
   path:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.drive );
-  displayName:= getMacOSDisplayNameFromPath( path );
+  displayName:= TDarwinFileUtil.getDisplayName( path );
   Result:= PathDelim + displayName + PathDelim;
 end;
 
@@ -799,7 +800,7 @@ begin
   if aFile.Name = '..' then
     Result:= Inherited
   else
-    Result:= getMacOSDisplayNameFromPath( aFile.FullPath );
+    Result:= TDarwinFileUtil.getDisplayName( aFile.FullPath );
 end;
 
 function TiCloudDriveFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
