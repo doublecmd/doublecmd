@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, Forms, Controls, ComCtrls, Graphics,
   fOptionsFrame, uPixMapManager,
   fMain, uFileSystemFileSource, uFileViewNotebook,
-  uiCloudDriver, uiCloudDriverConfig, uiCloudDriverUtil;
+  uiCloudDrive, uiCloudDriveConfig, uiCloudDriveUtil;
 
 type
 
@@ -48,7 +48,7 @@ begin
   newPage:= notebook.NewPage(Notebook.ActiveView);
 
   fs:= TFileSystemFileSource.GetFileSource;
-  path:= iCloudDriverUtil.getAppFullPath( String(appsListView.Selected.Data) );
+  path:= iCloudDriveUtil.getAppFullPath( String(appsListView.Selected.Data) );
   newPage.FileView.AddFileSource( fs, path );
   notebook.PageIndex:= NewPage.PageIndex;
 end;
@@ -67,8 +67,8 @@ function TfrmOptionsiCloud.isEnabledApp(const appName: String): Boolean;
 var
   i: Integer;
 begin
-  for i:= 0 to Length(iCloudDriverConfig.apps)-1 do begin
-    if iCloudDriverConfig.apps[i].app = appName then
+  for i:= 0 to Length(iCloudDriveConfig.apps)-1 do begin
+    if iCloudDriveConfig.apps[i].app = appName then
       Exit( True );
   end;
   Result:= False;
@@ -81,7 +81,7 @@ var
   icon: TBitmap;
 begin
   inherited Load;
-  self.apps:= iCloudDriverUtil.createAllApps;
+  self.apps:= iCloudDriveUtil.createAllApps;
   for app in self.apps do begin
     item:= self.appsListView.Items.Add;
     item.Caption:= app.displayName;
@@ -108,9 +108,9 @@ function TfrmOptionsiCloud.Save: TOptionsEditorSaveFlags;
 var
   iAllApps: Integer;
   iEnabledApps: Integer;
-  item: TiCloudDriverConfigAppItem;
+  item: TiCloudDriveConfigAppItem;
 begin
-  SetLength( iCloudDriverConfig.apps, appsListView.Items.Count );
+  SetLength( iCloudDriveConfig.apps, appsListView.Items.Count );
   iEnabledApps:= 0;
   for iAllApps:=0 to appsListView.Items.Count-1 do begin
     if NOT appsListView.Items[iAllApps].Checked then
@@ -118,11 +118,11 @@ begin
 
     item.name:= appsListView.Items[iAllApps].Caption;
     item.app:= String( appsListView.Items[iAllApps].Data );
-    iCloudDriverConfig.apps[iEnabledApps]:= item;
+    iCloudDriveConfig.apps[iEnabledApps]:= item;
     inc( iEnabledApps );
   end;
-  SetLength( iCloudDriverConfig.apps, iEnabledApps );
-  iCloudDriverConfigUtil.save;
+  SetLength( iCloudDriveConfig.apps, iEnabledApps );
+  iCloudDriveConfigUtil.save;
 
   Result:= [oesfNeedsRestart];
   FreeAndNil( self.apps );

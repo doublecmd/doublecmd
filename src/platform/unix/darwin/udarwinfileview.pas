@@ -6,13 +6,13 @@ interface
 
 uses
   SysUtils, Classes,
-  uiCloudDriver, uSearchResultFileSource, uFile, uFileSystemFileSource, uFileSource,
+  uiCloudDrive, uSearchResultFileSource, uFile, uFileSystemFileSource, uFileSource,
   fMain, uFileViewNotebook, ulng;
 
 type
   uDarwinFileViewUtil = class
     class procedure addFinderSearchResultPage( const searchName: String; const files: TStringArray );
-    class procedure addiCloudDriverPage;
+    class procedure addiCloudDrivePage;
   end;
 
   TDarwinSearchResultHandler = class
@@ -92,11 +92,11 @@ begin
   NewPage.MakeActive;
 end;
 
-class procedure uDarwinFileViewUtil.addiCloudDriverPage;
+class procedure uDarwinFileViewUtil.addiCloudDrivePage;
 var
-  iCloudFS: TiCloudDriverFileSource;
+  iCloudFS: TiCloudDriveFileSource;
 begin
-  iCloudFS := TiCloudDriverFileSource.GetFileSource;
+  iCloudFS := TiCloudDriveFileSource.GetFileSource;
   frmMain.ActiveFrame.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
   frmMain.ActiveFrame.SetFocus;
 end;

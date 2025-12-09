@@ -54,7 +54,7 @@ uses
   uAppleMagnifiedModeFix,
   uMyDarwin,
   uDarwinApplication,
-  uiCloudDriverConfig,
+  uiCloudDriveConfig,
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,
@@ -219,7 +219,7 @@ begin
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
       initCocoaModernFormConfig;
-      iCloudDriverConfigUtil.load;
+      iCloudDriveConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
       Application.CreateForm(TdmComData, dmComData); // common data

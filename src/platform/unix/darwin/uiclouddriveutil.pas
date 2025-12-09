@@ -1,4 +1,4 @@
-unit uiCloudDriverUtil;
+unit uiCloudDriveUtil;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, fgl, Graphics,
   CocoaAll, CocoaUtils,
   uDCUtils, uMyDarwin,
-  uiCloudDriverConfig;
+  uiCloudDriveConfig;
 
 type
 
@@ -27,9 +27,9 @@ type
 
   TiCloudApps = specialize TFPGObjectList<TiCloudApp>;
 
-  { iCloudDriverUtil }
+  { iCloudDriveUtil }
 
-  iCloudDriverUtil = class
+  iCloudDriveUtil = class
   private
     class function getPlistAppIconNames( const path: String ): NSArray;
   public
@@ -47,9 +47,9 @@ begin
   icon.release;
 end;
 
-{ iCloudDriverUtil }
+{ iCloudDriveUtil }
 
-class function iCloudDriverUtil.getPlistAppIconNames(const path: String ): NSArray;
+class function iCloudDriveUtil.getPlistAppIconNames(const path: String ): NSArray;
 var
   plistPath: NSString;
   plistData: NSData;
@@ -70,7 +70,7 @@ begin
   Result:= plistProperties.valueForKeyPath( NSSTR('BRContainerIcons') );
 end;
 
-class function iCloudDriverUtil.createAppImage(const appName: String): NSImage;
+class function iCloudDriveUtil.createAppImage(const appName: String): NSImage;
 var
   appImage: NSImage;
   appFileName: String;
@@ -83,12 +83,12 @@ begin
   Result:= nil;
 
   appFileName:= appName.Replace( '~', '.' );
-  appPlistPath:= iCloudDriverConfig.path.container + '/' + appFileName + '.plist';
+  appPlistPath:= iCloudDriveConfig.path.container + '/' + appFileName + '.plist';
   appIconNames:= getPlistAppIconNames( appPlistPath );
   if appIconNames = nil then
     Exit;
 
-  appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCloudDriverConfig.path.container) + '/' + appFileName + '/' );
+  appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.container) + '/' + appFileName + '/' );
 
   appImage:= NSImage.new;
   for appIconName in appIconNames do begin
@@ -99,7 +99,7 @@ begin
   Result:= appImage;
 end;
 
-class function iCloudDriverUtil.createAllApps: TiCloudApps;
+class function iCloudDriveUtil.createAllApps: TiCloudApps;
 var
   manager: NSFileManager;
   filesInBasePath: NSArray;
@@ -110,14 +110,14 @@ var
 
   function pass( appName: NSString ): Boolean;
   var
-    driverName: NSString;
+    driveName: NSString;
   begin
     Result:= True;
     if appName.hasPrefix( NSSTR('.') ) then
       Exit;
-    driverName:= NSSTR(iCloudDriverConfig.path.driver);
-    driverName:= driverName.lastPathComponent;
-    if appName.isEqualToString(driverName) then
+    driveName:= NSSTR(iCloudDriveConfig.path.drive);
+    driveName:= driveName.lastPathComponent;
+    if appName.isEqualToString(driveName) then
       Exit;
     Result:= False;
   end;
@@ -133,7 +133,7 @@ var
 
 begin
   Result:= TiCloudApps.Create;
-  appBasePath:= NSSTR( IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriverConfig.path.base)) );
+  appBasePath:= NSSTR( IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriveConfig.path.base)) );
   manager:= NSFileManager.defaultManager;
   filesInBasePath:= manager.contentsOfDirectoryAtPath_error( appBasePath, nil );
   for appName in filesInBasePath do begin
@@ -149,9 +149,9 @@ begin
   end;
 end;
 
-class function iCloudDriverUtil.getAppFullPath(const appName: String): String;
+class function iCloudDriveUtil.getAppFullPath(const appName: String): String;
 begin
-  Result:= IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriverConfig.path.base))
+  Result:= IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriveConfig.path.base))
          + appName + '/Documents';
 end;
 

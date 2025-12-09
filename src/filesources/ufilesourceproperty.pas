@@ -59,7 +59,7 @@ type
     fspListFlatView,
     {en
        Set, if the file source supports mounted/mixed file struct.
-       eg. TMountedFileSource / TiCloudDriverFileSource
+       eg. TMountedFileSource / TiCloudDriveFileSource
     }
     fspMounted,
     {en

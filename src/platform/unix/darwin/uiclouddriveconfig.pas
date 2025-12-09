@@ -1,4 +1,4 @@
-unit uiCloudDriverConfig;
+unit uiCloudDriveConfig;
 
 {$mode ObjFPC}{$H+}
 
@@ -10,32 +10,32 @@ uses
 
 
 type
-  TiCloudDriverConfigPath = record
+  TiCloudDriveConfigPath = record
     base: String;
-    driver: String;
+    drive: String;
     container: String;
   end;
 
-  TiCloudDriverConfigIcon = record
+  TiCloudDriveConfigIcon = record
     main: String;
     download: String;
   end;
 
-  TiCloudDriverConfigAppItem = record
+  TiCloudDriveConfigAppItem = record
     name: String;
     app: String;
   end;
 
-  TiCloudDriverConfig = record
+  TiCloudDriveConfig = record
     scheme: String;
-    path: TiCloudDriverConfigPath;
-    icon: TiCloudDriverConfigIcon;
-    apps: Array of TiCloudDriverConfigAppItem;
+    path: TiCloudDriveConfigPath;
+    icon: TiCloudDriveConfigIcon;
+    apps: Array of TiCloudDriveConfigAppItem;
   end;
 
-  { iCloudDriverConfigUtil }
+  { iCloudDriveConfigUtil }
 
-  iCloudDriverConfigUtil = class
+  iCloudDriveConfigUtil = class
   public
     class procedure load;
     class procedure save;
@@ -43,16 +43,16 @@ type
 
 
 var
-  iCloudDriverConfig: TiCloudDriverConfig;
+  iCloudDriveConfig: TiCloudDriveConfig;
 
 implementation
 
 const
-  defaultiCloudDriverConfig: TiCloudDriverConfig = (
+  defaultiCloudDriveConfig: TiCloudDriveConfig = (
     scheme: 'iCloud://';
     path: (
       base: '~/Library/Mobile Documents';
-      driver: '~/Library/Mobile Documents/com~apple~CloudDocs';
+      drive: '~/Library/Mobile Documents/com~apple~CloudDocs';
       container: '~/Library/Application Support/CloudDocs/session/containers'
     );
     icon: (
@@ -87,28 +87,28 @@ var
   jsonApp: TJSONObject;
   i: Integer;
 begin
-  iCloudDriverConfig.scheme:= json.Get( 'scheme', iCloudDriverConfig.scheme );
+  iCloudDriveConfig.scheme:= json.Get( 'scheme', iCloudDriveConfig.scheme );
 
   jsonPath:= json.Get( 'path', TJSONObject(nil) );
   if jsonPath <> nil then begin
-    iCloudDriverConfig.path.base:= jsonPath.Get( 'base', iCloudDriverConfig.path.base );
-    iCloudDriverConfig.path.driver:= jsonPath.Get( 'driver', iCloudDriverConfig.path.driver );
-    iCloudDriverConfig.path.container:= jsonPath.Get( 'container', iCloudDriverConfig.path.container );
+    iCloudDriveConfig.path.base:= jsonPath.Get( 'base', iCloudDriveConfig.path.base );
+    iCloudDriveConfig.path.drive:= jsonPath.Get( 'drive', iCloudDriveConfig.path.drive );
+    iCloudDriveConfig.path.container:= jsonPath.Get( 'container', iCloudDriveConfig.path.container );
   end;
 
   jsonIcon:= json.Get( 'icon', TJSONObject(nil) );
   if jsonIcon <> nil then begin
-    iCloudDriverConfig.icon.main:= jsonIcon.Get( 'main', iCloudDriverConfig.icon.main );
-    iCloudDriverConfig.icon.download:= jsonIcon.Get( 'download', iCloudDriverConfig.icon.download );
+    iCloudDriveConfig.icon.main:= jsonIcon.Get( 'main', iCloudDriveConfig.icon.main );
+    iCloudDriveConfig.icon.download:= jsonIcon.Get( 'download', iCloudDriveConfig.icon.download );
   end;
 
   jsonApps:= json.Get( 'apps', TJSONArray(nil) );
   if jsonApps <> nil then begin
-    SetLength( iCloudDriverConfig.apps, jsonApps.Count );
+    SetLength( iCloudDriveConfig.apps, jsonApps.Count );
     for i:=0 to jsonApps.Count -1 do begin
       jsonApp:= TJSONObject( jsonApps[i] );
-      iCloudDriverConfig.apps[i].name:= jsonApp.Get( 'name', '' );
-      iCloudDriverConfig.apps[i].app:= jsonApp.Get( 'app', '' );
+      iCloudDriveConfig.apps[i].name:= jsonApp.Get( 'name', '' );
+      iCloudDriveConfig.apps[i].app:= jsonApp.Get( 'app', '' );
     end;
   end;
 end;
@@ -121,24 +121,24 @@ var
   jsonApp: TJSONObject;
   i: Integer;
 begin
-  json.Add( 'scheme', iCloudDriverConfig.scheme );
+  json.Add( 'scheme', iCloudDriveConfig.scheme );
 
   jsonPath:= TJSONObject.Create;
-  jsonPath.Add( 'base', iCloudDriverConfig.path.base );
-  jsonPath.Add( 'driver', iCloudDriverConfig.path.driver );
-  jsonPath.Add( 'container', iCloudDriverConfig.path.container );
+  jsonPath.Add( 'base', iCloudDriveConfig.path.base );
+  jsonPath.Add( 'drive', iCloudDriveConfig.path.drive );
+  jsonPath.Add( 'container', iCloudDriveConfig.path.container );
   json.Add( 'path', jsonPath );
 
   jsonIcon:= TJSONObject.Create;
-  jsonIcon.Add( 'main', iCloudDriverConfig.icon.main );
-  jsonIcon.Add( 'download', iCloudDriverConfig.icon.download );
+  jsonIcon.Add( 'main', iCloudDriveConfig.icon.main );
+  jsonIcon.Add( 'download', iCloudDriveConfig.icon.download );
   json.Add( 'icon', jsonIcon );
 
   jsonApps:= TJSONArray.Create;
-  for i:=0 to Length(iCloudDriverConfig.apps) - 1 do begin
+  for i:=0 to Length(iCloudDriveConfig.apps) - 1 do begin
     jsonApp:= TJSONObject.Create;
-    jsonApp.Add( 'name', iCloudDriverConfig.apps[i].name );
-    jsonApp.Add( 'app', iCloudDriverConfig.apps[i].app );
+    jsonApp.Add( 'name', iCloudDriveConfig.apps[i].name );
+    jsonApp.Add( 'app', iCloudDriveConfig.apps[i].app );
     jsonApps.Add( jsonApp );
   end;
   json.Add( 'apps', jsonApps );
@@ -163,16 +163,16 @@ begin
   end;
 end;
 
-{ iCloudDriverConfigUtil }
+{ iCloudDriveConfigUtil }
 
-class procedure iCloudDriverConfigUtil.load;
+class procedure iCloudDriveConfigUtil.load;
 begin
-  iCloudDriverConfig:= defaultiCloudDriverConfig;
+  iCloudDriveConfig:= defaultiCloudDriveConfig;
   if mbFileExists(getJsonPath) then
     loadiCloudConfig
 end;
 
-class procedure iCloudDriverConfigUtil.save;
+class procedure iCloudDriveConfigUtil.save;
 var
   config: TJsonConfig;
 begin
