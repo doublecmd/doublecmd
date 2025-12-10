@@ -375,7 +375,7 @@ end;
 
 procedure iCloudAction( const Sender: id );
 begin
-  uDarwinFileViewUtil.addiCloudDrivePage;
+  TDarwinFileViewUtil.addiCloudDrivePage;
 end;
 
 procedure networkAction( const Sender: id );
