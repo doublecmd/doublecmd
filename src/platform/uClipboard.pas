@@ -770,9 +770,9 @@ begin
     filenames := uOleDragDrop.TFileDropTarget.GetDropFilenames(hGlobalBuffer);
     if Assigned(filenames) and (filenames.Count > 0) then
     begin
-      // Check if first file exists - if not, likely lazy materialization
+      // Check if first entry exists - if not, likely lazy materialization
       // Use shell paste which handles this properly
-      if not mbFileExists(filenames[0]) then
+      if not mbFileSystemEntryExists(filenames[0]) then
       begin
         with frmMain do
         begin
