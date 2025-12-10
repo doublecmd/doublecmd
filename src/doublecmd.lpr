@@ -163,7 +163,7 @@ begin
 {$ENDIF}
 
 {$IF DEFINED(darwin)}
-  FixMacFormatSettings;
+  TDarwinApplicationUtil.fixFormatSettings;
   TDarwinApplicationUtil.setTheme( gAppMode );
 {$ENDIF}
 

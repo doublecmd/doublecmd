@@ -46,12 +46,6 @@ const
 
 procedure onMainMenuCreate( menu: NSMenu );
 
-procedure FixMacFormatSettings;
-
-procedure openSystemSecurityPreferences_PrivacyAllFiles;
-
-procedure openNewInstance();
-
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
@@ -102,8 +96,6 @@ type
   public
     procedure PopUp( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
   end;
-
-procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
 procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
@@ -197,7 +189,7 @@ end;
 
 procedure TMacosServiceMenuHelper.privilegeAction(Sender: TObject);
 begin
-  openSystemSecurityPreferences_PrivacyAllFiles;
+  TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
 end;
 
 procedure TMacosServiceMenuHelper.PopUp( const menu: TPopupMenu;
@@ -304,55 +296,6 @@ begin
   service:= NSSharingService.sharingServiceNamed( NSSharingServiceNameSendViaAirDrop );
   service.performWithItems( cocoaArray );
 end;
-
-procedure performMacOSService( serviceName: String );
-var
-  pboard: NSPasteboard;
-  ok: Boolean;
-begin
-  pboard:= NSPasteboard.pasteboardWithUniqueName;
-  ok:= TDCCocoaApplication(NSApp).writeSelectionToPasteboard_types(
-    pboard , nil );
-  if ok then
-    NSPerformService( NSSTR(serviceName), pboard );
-end;
-
-procedure FixMacFormatSettings;
-var
-  S: String;
-  ALocale: CFLocaleRef;
-begin
-  ALocale:= CFLocaleCopyCurrent;
-  if Assigned(ALocale) then
-  begin
-    S:= CFStringToStr(CFLocaleGetValue(ALocale, kCFLocaleGroupingSeparator));
-    if Length(S) = 0 then
-    begin
-      DefaultFormatSettings.ThousandSeparator:= #0;
-    end;
-    CFRelease(ALocale);
-  end;
-end;
-
-procedure openSystemSecurityPreferences_PrivacyAllFiles;
-const
-  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
-var
-  url: NSURL;
-begin
-  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
-  NSWorkspace.sharedWorkspace.openURL( url );
-end;
-
-procedure openNewInstance();
-begin
-  NSWorkspace.sharedWorkspace.launchApplicationAtURL_options_configuration_error(
-    NSBundle.mainBundle.bundleURL,
-    NSWorkspaceLaunchNewInstance,
-    nil,
-    nil);
-end;
-
 
 procedure Initialize;
 begin

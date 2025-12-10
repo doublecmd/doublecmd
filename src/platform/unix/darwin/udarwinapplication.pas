@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, fgl,
-  CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils, CocoaConst,
+  MacOSAll, CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils, CocoaConst,
   uDarwinUtil;
 
 type
@@ -53,14 +53,18 @@ type
     class procedure themeNotify;
   public
     class procedure initServiceProvider(
-      serveCallback: TDarwinServiceProviderCallBack;
-      isReadyFunc: TDarwinServiceMenuIsReadyFunc;
-      getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
-
+      const serveCallback: TDarwinServiceProviderCallBack;
+      const isReadyFunc: TDarwinServiceMenuIsReadyFunc;
+      const getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
+    class procedure performService( const serviceName: String );
+    class procedure openSystemSecurityPreferences_PrivacyAllFiles;
+  public
     class procedure addThemeObserver( const observer: TDarwinThemeObserver );
-
     class procedure setTheme( const mode: Integer );
     class function isDarkTheme: Boolean;
+  public
+    class procedure fixFormatSettings;
+    class procedure openNewInstance;
   end;
 
 implementation
@@ -179,10 +183,36 @@ begin
   Result:= appearanceName.isEqualToString(NSSTR_DARK_NAME) or appearanceName.isEqualToString(NSSTR_DARK_NAME_VIBRANT);
 end;
 
+class procedure TDarwinApplicationUtil.fixFormatSettings;
+var
+  S: String;
+  ALocale: CFLocaleRef;
+begin
+  ALocale:= CFLocaleCopyCurrent;
+  if Assigned(ALocale) then
+  begin
+    S:= CFStringToStr(CFLocaleGetValue(ALocale, kCFLocaleGroupingSeparator));
+    if Length(S) = 0 then
+    begin
+      DefaultFormatSettings.ThousandSeparator:= #0;
+    end;
+    CFRelease(ALocale);
+  end;
+end;
+
+class procedure TDarwinApplicationUtil.openNewInstance;
+begin
+  NSWorkspace.sharedWorkspace.launchApplicationAtURL_options_configuration_error(
+    NSBundle.mainBundle.bundleURL,
+    NSWorkspaceLaunchNewInstance,
+    nil,
+    nil);
+end;
+
 class procedure TDarwinApplicationUtil.initServiceProvider(
-  serveCallback: TDarwinServiceProviderCallBack;
-  isReadyFunc: TDarwinServiceMenuIsReadyFunc;
-  getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
+  const serveCallback: TDarwinServiceProviderCallBack;
+  const isReadyFunc: TDarwinServiceMenuIsReadyFunc;
+  const getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc);
 var
   DCApp: TDCCocoaApplication Absolute NSApp;
   sendTypes: NSArray;
@@ -203,6 +233,29 @@ begin
   DCApp.serviceMenuIsReady:= isReadyFunc;
   DCApp.serviceMenuGetFilenames:= getFilenamesFunc;
   DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
+end;
+
+class procedure TDarwinApplicationUtil.performService(const serviceName: String
+  );
+var
+  pboard: NSPasteboard;
+  ok: Boolean;
+begin
+  pboard:= NSPasteboard.pasteboardWithUniqueName;
+  ok:= TDCCocoaApplication(NSApp).writeSelectionToPasteboard_types(
+    pboard , nil );
+  if ok then
+    NSPerformService( NSSTR(serviceName), pboard );
+end;
+
+class procedure TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
+const
+  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
+var
+  url: NSURL;
+begin
+  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
+  NSWorkspace.sharedWorkspace.openURL( url );
 end;
 
 initialization

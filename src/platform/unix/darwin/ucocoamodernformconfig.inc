@@ -10,7 +10,8 @@ uses
   LCLType, Forms, Menus,
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  uMyDarwin, uDarwinUtil, uDarwinFileUtil, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
+  uMyDarwin, uDarwinUtil, uDarwinApplication, uDarwinFileUtil,
+  uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;
@@ -83,12 +84,12 @@ end;
 
 procedure finderRevealAction( const Sender: id );
 begin
-  performMacOSService( 'Finder/Reveal' );
+  TDarwinApplicationUtil.performService( 'Finder/Reveal' );
 end;
 
 procedure finderInfoAction( const Sender: id );
 begin
-  performMacOSService( 'Finder/Show Info' );
+  TDarwinApplicationUtil.performService( 'Finder/Show Info' );
 end;
 
 procedure compareAction( const Sender: id );
@@ -399,7 +400,7 @@ end;
 
 procedure privilegeAction( const Sender: id );
 begin
-  openSystemSecurityPreferences_PrivacyAllFiles;
+  TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
 end;
 
 const
