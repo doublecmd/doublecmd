@@ -20,7 +20,10 @@ uses
   MacOSAll, CocoaAll, CocoaUtils,
   uDarwinFileUtil, uLog;
 
-// Workarounds for FPC RTL Bug
+// TDarwinAarch64Statfs is the workaround for the bug of FPC.
+// TDarwinAarch64Statfs and the related codes can be removed after FPC 3.3.1
+// see also: https://gitlab.com/freepascal.org/fpc/source/-/issues/39873
+
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
      { structure used on iPhoneOS and available on Mac OS X 10.6 and later }
