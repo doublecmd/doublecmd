@@ -46,17 +46,7 @@ const
 
 procedure onMainMenuCreate( menu: NSMenu );
 
-function getMacOSDefaultTerminal(): String;
-
 procedure FixMacFormatSettings;
-
-function NSGetTempPath: String;
-
-function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
-
-function GetFileDescription(const FileName: String): String;
-
-function ResolveAliasFile(const FileName: String): String;
 
 procedure openSystemSecurityPreferences_PrivacyAllFiles;
 
@@ -342,57 +332,6 @@ begin
     end;
     CFRelease(ALocale);
   end;
-end;
-
-function NSGetTempPath: String;
-begin
-  Result:= IncludeTrailingBackslash(NSTemporaryDirectory.UTF8String);
-end;
-
-function getMacOSDefaultTerminal(): String;
-begin
-  Result:= NSStringToString( NSWorkspace.sharedWorkspace.fullPathForApplication( NSStr('terminal') ) );
-end;
-
-function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
-var
-  Path: NSArray;
-begin
-  Path:= NSFileManager.defaultManager.URLsForDirectory_inDomains(Folder, NSUserDomainMask);
-  if Path.count > 0 then
-  begin
-    Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path.UTF8String) + ApplicationName;
-  end;
-end;
-
-function GetFileDescription(const FileName: String): String;
-var
-  Error: NSError;
-  WS: NSWorkspace;
-  FileType: NSString;
-  FileNameRef: CFStringRef;
-begin
-  WS:= NSWorkspace.sharedWorkspace;
-  FileNameRef:= StringToCFStringRef(FileName);
-  if (FileNameRef = nil) then Exit(EmptyStr);
-  FileType:= WS.typeOfFile_error(NSString(FileNameRef), @Error);
-  if (FileType = nil) then
-    Result:= Error.localizedDescription.UTF8String
-  else begin
-    Result:= WS.localizedDescriptionForType(FileType).UTF8String;
-  end;
-  CFRelease(FileNameRef);
-end;
-
-function ResolveAliasFile(const FileName: String): String;
-var
-  ASource: NSURL;
-  ATarget: NSURL;
-begin
-  Result:= EmptyStr;
-  ASource:= NSURL.fileURLWithPath(StringToNSString(FileName));
-  ATarget:= NSURL(NSURL.URLByResolvingAliasFileAtURL_options_error(ASource, NSURLBookmarkResolutionWithoutUI, nil));
-  if Assigned(ATarget) then Result:= ATarget.fileSystemRepresentation;
 end;
 
 procedure openSystemSecurityPreferences_PrivacyAllFiles;

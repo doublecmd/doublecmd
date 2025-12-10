@@ -9,8 +9,8 @@ interface
 uses
   Classes, SysUtils,
   uDebug, uLog,
-  uFileProperty, uDisplayFile,
-  MacOSAll, CocoaAll, Cocoa_Extra,
+  uFileProperty,
+  MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils,
   uDarwinUtil, uDarwinFinderModel;
 
 type
@@ -30,9 +30,16 @@ type
   public
     class function mount( const serverAddress: String ): Boolean;
     class function unmountAndEject( const path: String ): Boolean;
+    class function resolveAlias( const path: String ): String;
+  public
     class function getSpecificProperty( const path: String ): TFileMacOSSpecificProperty;
     class function getDisplayName( const path: String ): String;
     class function getUniqueIcon( const path: String ): NSImage;
+    class function getDescription( const path: String ): String;
+  public
+    class function getTempPath: String;
+    class function getTerminalPath: String;
+    class function getSpecifiedFolderPath( folder: NSSearchPathDirectory ): String;
   end;
 
 implementation
@@ -227,6 +234,59 @@ begin
   Result:= nil;
   if hasUniqueIcon(path) or hasSpecialFolderExt(path) or inSpecialParentFolder(path) then
     Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
+end;
+
+class function TDarwinFileUtil.getTempPath: String;
+begin
+  Result:= IncludeTrailingBackslash(NSTemporaryDirectory.UTF8String);
+end;
+
+class function TDarwinFileUtil.getTerminalPath(): String;
+begin
+  Result:= NSStringToString( NSWorkspace.sharedWorkspace.fullPathForApplication( NSStr('terminal') ) );
+end;
+
+class function TDarwinFileUtil.getSpecifiedFolderPath(folder: NSSearchPathDirectory
+  ): String;
+var
+  Path: NSArray;
+begin
+  Path:= NSFileManager.defaultManager.URLsForDirectory_inDomains(folder, NSUserDomainMask);
+  if Path.count > 0 then
+  begin
+    Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path.UTF8String) + ApplicationName;
+  end;
+end;
+
+class function TDarwinFileUtil.getDescription(const path: String): String;
+var
+  Error: NSError;
+  WS: NSWorkspace;
+  FileType: NSString;
+  FileNameRef: CFStringRef;
+begin
+  WS:= NSWorkspace.sharedWorkspace;
+  FileNameRef:= StringToCFStringRef(path);
+  if (FileNameRef = nil) then Exit(EmptyStr);
+  FileType:= WS.typeOfFile_error(NSString(FileNameRef), @Error);
+  if (FileType = nil) then
+    Result:= Error.localizedDescription.UTF8String
+  else begin
+    Result:= WS.localizedDescriptionForType(FileType).UTF8String;
+  end;
+  CFRelease(FileNameRef);
+end;
+
+class function TDarwinFileUtil.resolveAlias(const path: String): String;
+var
+  ASource: NSURL;
+  ATarget: NSURL;
+begin
+  Result:= EmptyStr;
+  ASource:= NSURL.fileURLWithPath(StringToNSString(path));
+  ATarget:= NSURL.URLByResolvingAliasFileAtURL_options_error(ASource, NSURLBookmarkResolutionWithoutUI, nil);
+  if Assigned(ATarget) then
+    Result:= ATarget.fileSystemRepresentation;
 end;
 
 procedure Initialize;
