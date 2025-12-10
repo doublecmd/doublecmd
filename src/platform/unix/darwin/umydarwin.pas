@@ -66,20 +66,6 @@ type
 var
   MacosServiceMenuHelper: TMacosServiceMenuHelper;
 
-type
-  
-  { TDarwinFileViewDrawHelper }
-
-  TDarwinFileViewDrawHelper = class
-    procedure onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-      aRect: TRect; focused: Boolean; aFile: TDisplayFile);
-    procedure drawTagsAsDecoration(
-      const colors: TFileFinderTagPrimaryColors; const drawRect: TRect; const focused: Boolean );
-  end;
-
-var
-  DarwinFileViewDrawHelper: TDarwinFileViewDrawHelper;
-
 implementation
 
 uses
@@ -163,59 +149,9 @@ begin
   menu.PopUp();
 end;
 
-{ TDarwinFileViewDrawHelper }
-
-procedure TDarwinFileViewDrawHelper.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-  aRect: TRect; focused: Boolean; aFile: TDisplayFile);
-var
-  macOSProperty: TFileMacOSSpecificProperty;
-begin
-  if (Sender is TColumnsFileView) and (aCol<>0) then
-    Exit;
-
-  macOSProperty:= aFile.FSFile.MacOSSpecificProperty;
-  if macOSProperty = nil then
-    Exit;
-
-  drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, aRect, focused );
-end;
-
-procedure TDarwinFileViewDrawHelper.drawTagsAsDecoration(
-  const colors: TFileFinderTagPrimaryColors; const drawRect: TRect;
-  const focused: Boolean);
-var
-  i: Integer;
-  colorIndex: Integer;
-  color: NSColor;
-  tagRect: NSRect;
-  path: NSBezierPath;
-begin
-  tagRect.size.width:= 11;
-  tagRect.size.height:= 11;
-  tagRect.origin.x:= drawRect.Right - 17;
-  tagRect.origin.y:= drawRect.Top + (drawRect.Height-tagRect.size.height)/2;
-
-  for i:=0 to 2 do begin
-    colorIndex:= colors.indexes[i];
-    if colorIndex < 0 then
-      break;
-    color:= uDarwinFinderModelUtil.decorationFinderTagNSColors[colorIndex];
-    color.set_;
-    path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
-    path.fill;
-    if focused then
-      NSColor.alternateSelectedControlTextColor.set_
-    else
-      NSColor.textBackgroundColor.set_;
-    path.stroke;
-    tagRect.origin.x:= tagRect.origin.x - 5;
-  end;
-end;
-
 procedure Initialize;
 begin
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
-  DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
 end;
 
 procedure Finalize;
