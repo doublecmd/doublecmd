@@ -385,6 +385,7 @@ type
    procedure cm_OpenDriveByIndex(const Params: array of string);
    procedure cm_AddPlugin(const Params: array of string);
    procedure cm_LoadList(const Params: array of string);
+   procedure cm_SetSortMode(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -413,7 +414,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
-     uColumnsFileView
+     uColumnsFileView, uTypes
      ;
 
 resourcestring
@@ -5670,6 +5671,60 @@ begin
     end;
     StringList.Free;
   end;
+end;
+
+procedure TMainCommands.cm_SetSortMode(const Params: array of string);
+var
+  Param, Value: String;
+  State: Boolean;
+begin
+  for Param in Params do
+  begin
+    if GetParamValue(Param, 'casesensitivity', Value) then
+    begin
+      if Value = 'notsensitive' then
+        gSortCaseSensitivity:= cstNotSensitive
+      else if Value = 'locale' then
+        gSortCaseSensitivity:= cstLocale
+      else if Value = 'charvalue' then
+        gSortCaseSensitivity:= cstCharValue;
+    end
+    else if GetParamValue(Param, 'foldermode', Value) then
+    begin
+      if Value = 'nameshowfirst' then
+        gSortFolderMode:= sfmSortNameShowFirst
+      else if Value = 'likefileshowfirst' then
+        gSortFolderMode:= sfmSortLikeFileShowFirst
+      else if Value = 'likefile' then
+        gSortFolderMode:= sfmSortLikeFile;
+    end
+    else if GetParamBoolValue(Param, 'natural', State) then
+      gSortNatural:= State
+    else if GetParamBoolValue(Param, 'special', State) then
+      gSortSpecial:= State
+    else if GetParamValue(Param, 'newfiles', Value) then
+    begin
+      if Value = 'top' then
+        gNewFilesPosition:= nfpTop
+      else if Value = 'topafterdirectories' then
+        gNewFilesPosition:= nfpTopAfterDirectories
+      else if Value = 'sortedposition' then
+        gNewFilesPosition:= nfpSortedPosition
+      else if Value = 'bottom' then
+        gNewFilesPosition:= nfpBottom;
+    end
+    else if GetParamValue(Param, 'updatedfiles', Value) then
+    begin
+      if Value = 'nochange' then
+        gUpdatedFilesPosition:= ufpNoChange
+      else if Value = 'sameasnewfiles' then
+        gUpdatedFilesPosition:= ufpSameAsNewFiles
+      else if Value = 'sortedposition' then
+        gUpdatedFilesPosition:= ufpSortedPosition;
+    end
+  end;
+  frmMain.ActiveFrame.Reload(True);
+  frmMain.NotActiveFrame.Reload(True);
 end;
 
 end.
