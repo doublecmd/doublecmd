@@ -11,7 +11,7 @@ uses
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uMyDarwin, uDarwinUtil, uDarwinApplication, uDarwinFileUtil,
-  uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
+  uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;
@@ -69,17 +69,17 @@ end;
 
 procedure airdropAction( const Sender: id );
 begin
-  showMacOSAirDropDialog;
+  TDarwinPanelUtil.showAirDrop;
 end;
 
 procedure quickLookAction( const Sender: id );
 begin
-  showQuickLookPanel;
+  TDarwinPanelUtil.showQuickLook;
 end;
 
 procedure editTagAction( const Sender: id );
 begin
-  showEditFinderTagsPanel( Sender, frmMain );
+  TDarwinPanelUtil.showEditFinderTags( Sender, frmMain );
 end;
 
 procedure finderRevealAction( const Sender: id );
