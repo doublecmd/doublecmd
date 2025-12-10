@@ -32,13 +32,13 @@ implementation
 
 {$IF DEFINED(DARWIN)}
 uses
-  uOSUtils, uMyDarwin;
+  uOSUtils, uMyDarwin, uDarwinFileUtil;
 
 procedure Initialize;
 var
   Cmd: String;
 begin
-  Cmd:= getMacOSDefaultTerminal;
+  Cmd:= TDarwinFileUtil.getTerminalPath;
   if Length(Cmd) > 0 then
   begin
     RunTermCmd:= Cmd;

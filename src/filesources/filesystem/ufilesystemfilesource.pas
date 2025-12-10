@@ -710,7 +710,7 @@ begin
     begin
       TypeProperty := TFileTypeProperty.Create;
       {$IF DEFINED(DARWIN)}
-      TypeProperty.Value:= GetFileDescription(sFullPath);
+      TypeProperty.Value:= TDarwinFileUtil.getDescription(sFullPath);
       {$ELSE}
       TypeProperty.Value:= GetFileMimeType(sFullPath);
       {$ENDIF}

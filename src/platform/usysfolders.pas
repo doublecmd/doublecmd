@@ -62,7 +62,7 @@ uses
 {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, DCUnix
   {$IF DEFINED(DARWIN)}
-  , CocoaAll, uMyDarwin
+  , CocoaAll, uMyDarwin, uDarwinFileUtil
   {$ELSEIF DEFINED(HAIKU)}
   , DCHaiku
   {$ELSE}
@@ -152,7 +152,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= NSGetFolderPath(NSCachesDirectory);
+  Result:= TDarwinFileUtil.getSpecifiedFolderPath(NSCachesDirectory);
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
@@ -181,7 +181,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= NSGetFolderPath(NSApplicationSupportDirectory);
+  Result:= TDarwinFileUtil.getSpecifiedFolderPath(NSApplicationSupportDirectory);
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin

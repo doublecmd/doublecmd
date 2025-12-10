@@ -34,7 +34,7 @@ uses
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
-      , MacOSAll
+      , MacOSAll, uDarwinFileUtil
       {$ENDIF}
     {$ENDIF}
     ;
@@ -217,7 +217,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  LinkTarget:= ResolveAliasFile(FileName);
+  LinkTarget:= TDarwinFileUtil.resolveAlias(FileName);
   if mbCompareFileNames(FileName, LinkTarget) then
     Result:= False
   else begin

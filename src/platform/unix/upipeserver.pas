@@ -33,7 +33,7 @@ implementation
 uses
   SimpleIPC, BaseUnix, uPollThread
 {$IF DEFINED(DARWIN)}
-  , uMyDarwin
+  , uMyDarwin, uDarwinFileUtil
 {$ELSE}
   , uXdg
 {$ENDIF}
@@ -68,7 +68,7 @@ Type
 function GetPipeFileName(const FileName: String; Global : Boolean): String;
 begin
 {$IF DEFINED(DARWIN)}
-  Result:= NSGetTempPath + FileName;
+  Result:= TDarwinFileUtil.getTempPath + FileName;
 {$ELSEIF DEFINED(HAIKU)}
   Result:= IncludeTrailingBackslash(GetTempDir) + FileName;
 {$ELSE}
