@@ -7372,7 +7372,7 @@ end;
 
 procedure TfrmMain.OpenNewWindow(Sender: TObject);
 begin
-  uMyDarwin.openNewInstance;
+  TDarwinApplicationUtil.openNewInstance;
 end;
 {$ENDIF}
 
