@@ -39,8 +39,6 @@ uses
 const
   FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
 
-procedure onMainMenuCreate( menu: NSMenu );
-
 type
 
   { TMacosServiceMenuHelper }
@@ -65,19 +63,6 @@ implementation
 
 uses
   DynLibs;
-
-procedure onMainMenuCreate( menu: NSMenu );
-var
-  lclForm: TObject;
-  keyWindow: NSWindow;
-begin
-  lclForm:= nil;
-  keyWindow:= NSApplication(NSApp).keyWindow;
-  if keyWindow <> nil then
-    lclForm:= keyWindow.lclGetTarget;
-  if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
-    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
-end;
 
 procedure TMacosServiceMenuHelper.attachSystemMenu(Sender: TObject);
 begin

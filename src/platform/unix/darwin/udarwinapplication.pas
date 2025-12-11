@@ -7,7 +7,8 @@ interface
 
 uses
   Classes, SysUtils, fgl,
-  MacOSAll, CocoaAll, CocoaInt, Cocoa_Extra, CocoaUtils, CocoaConst,
+  MacOSAll, CocoaAll,
+  CocoaInt, CocoaPrivate, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
   uDarwinUtil;
 
 type
@@ -66,6 +67,8 @@ type
     class procedure fixFormatSettings;
     class procedure openNewInstance;
   end;
+
+procedure darwinOnMainMenuCreate( menu: NSMenu );
 
 implementation
 
@@ -256,6 +259,19 @@ var
 begin
   url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
   NSWorkspace.sharedWorkspace.openURL( url );
+end;
+
+procedure darwinOnMainMenuCreate( menu: NSMenu );
+var
+  lclForm: TObject;
+  keyWindow: NSWindow;
+begin
+  lclForm:= nil;
+  keyWindow:= NSApplication(NSApp).keyWindow;
+  if keyWindow <> nil then
+    lclForm:= keyWindow.lclGetTarget;
+  if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
+    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
 end;
 
 initialization
