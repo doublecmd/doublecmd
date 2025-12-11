@@ -14,7 +14,7 @@ uses
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
   uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch,
-  uDarwinFileUtil, uDarwinImageUtil,
+  uDarwinFile, uDarwinImage,
   CocoaAll, CocoaUtils;
 
 type

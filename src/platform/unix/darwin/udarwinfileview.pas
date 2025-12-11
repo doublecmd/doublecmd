@@ -109,7 +109,7 @@ begin
     colorIndex:= colors.indexes[i];
     if colorIndex < 0 then
       break;
-    color:= uDarwinFinderModelUtil.decorationFinderTagNSColors[colorIndex];
+    color:= TDarwinFinderModelUtil.decorationFinderTagNSColors[colorIndex];
     color.set_;
     path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
     path.fill;

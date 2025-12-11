@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, fgl, Graphics,
   CocoaAll, CocoaUtils,
-  uDCUtils, uDarwinFileUtil, uiCloudDriveConfig;
+  uDCUtils, uDarwinFile, uiCloudDriveConfig;
 
 type
 

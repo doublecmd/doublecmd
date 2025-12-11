@@ -325,7 +325,7 @@ begin
   Result:= False;
 {$IFDEF DARWIN}
   if aFile.Extension = 'savedSearch' then begin
-    uDarwinFinderModelUtil.searchFilesBySavedSearch( aFile.FullPath, @darwinSearchResultHandler.onSearchFinderTagComplete );
+    TDarwinFinderModelUtil.searchFilesBySavedSearch( aFile.FullPath, @darwinSearchResultHandler.onSearchFinderTagComplete );
     Result:= True;
   end;
 {$ENDIF}

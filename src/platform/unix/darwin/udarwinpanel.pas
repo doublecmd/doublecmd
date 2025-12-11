@@ -100,7 +100,7 @@ constructor TFinderTagsEditorPanelHandler.Create( const paths: TStringArray );
 begin
   _urls:= UrlArrayFromLCLToNS( paths );
   _urls.retain;
-  _oldTagNames:= uDarwinFinderModelUtil.getTagNamesOfFiles( _urls );
+  _oldTagNames:= TDarwinFinderModelUtil.getTagNamesOfFiles( _urls );
   _oldTagNames.retain;
 end;
 
@@ -120,7 +120,7 @@ procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const ne
     removedTagNames:= NSMutableSet.setWithArray( _oldTagNames );
     removedTagNames.minusSet( NSSet.setWithArray(newTagNames) );
     for tagName in removedTagNames do begin
-      uDarwinFinderModelUtil.removeTagForFiles( _urls, tagName );
+      TDarwinFinderModelUtil.removeTagForFiles( _urls, tagName );
     end;
   end;
 
@@ -132,7 +132,7 @@ procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const ne
     addedTagNames:= NSMutableSet.setWithArray( newTagNames );
     addedTagNames.minusSet( NSSet.setWithArray(_oldTagNames) );
     for tagName in addedTagNames do begin
-      uDarwinFinderModelUtil.addTagForFiles( _urls, tagName );
+      TDarwinFinderModelUtil.addTagForFiles( _urls, tagName );
     end;
   end;
 
@@ -140,7 +140,7 @@ begin
   if cancel then
     Exit;
   if _urls.count = 1 then begin
-    uDarwinFinderModelUtil.setTagNamesOfFile( NSURL(_urls.objectAtIndex(0)), newTagNames );
+    TDarwinFinderModelUtil.setTagNamesOfFile( NSURL(_urls.objectAtIndex(0)), newTagNames );
   end else begin
     processRemovedTags;
     processAddedTags;
@@ -166,7 +166,7 @@ begin
     view:= NSView( control.Handle );
 
   handler:= TFinderTagsEditorPanelHandler.Create( filenames );
-  uDarwinFinderUtil.popoverFileTagsEditor( filenames, handler.onClose, view , NSMaxYEdge );
+  TDarwinFinderUtil.popoverFileTagsEditor( filenames, handler.onClose, view , NSMaxYEdge );
 end;
 
 // Sharing Service

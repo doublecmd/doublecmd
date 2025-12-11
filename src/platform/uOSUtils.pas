@@ -34,7 +34,7 @@ uses
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
-      , MacOSAll, uDarwinFileUtil
+      , MacOSAll, uDarwinFile
       {$ENDIF}
     {$ENDIF}
     ;

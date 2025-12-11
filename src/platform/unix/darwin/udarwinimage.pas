@@ -1,4 +1,4 @@
-unit uDarwinImageUtil;
+unit uDarwinImage;
 
 {$mode delphi}
 {$modeswitch objectivec2}

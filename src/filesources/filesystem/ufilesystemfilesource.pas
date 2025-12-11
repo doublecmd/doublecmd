@@ -148,7 +148,7 @@ uses
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, LazUTF8, DCUnix, uMyUnix,
   {$IFDEF DARWIN}
-  uDarwinFileUtil,
+  uDarwinFile,
   {$ENDIF}
   {$IFDEF LINUX}
   statx,

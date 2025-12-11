@@ -18,7 +18,7 @@ interface
 uses
   Classes, SysUtils, UnixType,
   MacOSAll, CocoaAll, CocoaUtils,
-  uDarwinFileUtil, uLog;
+  uDarwinFile, uLog;
 
 // TDarwinAarch64Statfs is the workaround for the bug of FPC.
 // TDarwinAarch64Statfs and the related codes can be removed after FPC 3.3.1

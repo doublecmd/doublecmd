@@ -174,7 +174,7 @@ uses
   , uFontConfig, uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF DARWIN}
-  , uDarwinFileUtil
+  , uDarwinFile
 {$ENDIF}
 {$IFDEF LINUX}
   , uUDisks2
