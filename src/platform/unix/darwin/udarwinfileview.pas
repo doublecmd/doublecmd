@@ -15,7 +15,20 @@ uses
   MacOSAll, CocoaAll;
 
 type
+
+  TActvieNoteBookFunc = function (): TFileViewNotebook of object;
+  TActiveFrameFunc = function (): TFileView of object;
+
+  { TDarwinFileViewUtil }
+
   TDarwinFileViewUtil = class
+  private
+    class var _activeNoteBookFunc: TActvieNoteBookFunc;
+    class var _activeFrameFunc: TActiveFrameFunc;
+  public
+    class procedure init(
+      const activeNoteBookFunc: TActvieNoteBookFunc;
+      const activeFrameFunc: TActiveFrameFunc );
     class procedure addFinderSearchResultPage( const searchName: String; const files: TStringArray );
     class procedure addiCloudDrivePage;
   end;
@@ -36,9 +49,6 @@ var
   darwinFileViewDrawHandler: TDarwinFileViewDrawHandler;
 
 implementation
-
-uses
-  fMain;
 
 type
   
@@ -124,6 +134,14 @@ end;
 
 { TDarwinFileViewUtil }
 
+class procedure TDarwinFileViewUtil.init(
+  const activeNoteBookFunc: TActvieNoteBookFunc;
+  const activeFrameFunc: TActiveFrameFunc);
+begin
+  _activeNoteBookFunc:= activeNoteBookFunc;
+  _activeFrameFunc:= activeFrameFunc;
+end;
+
 class procedure TDarwinFileViewUtil.addFinderSearchResultPage( const searchName: String; const files: TStringArray);
 var
   i: integer;
@@ -144,7 +162,7 @@ begin
   end;
 
   // Add new tab for search results.
-  Notebook := frmMain.ActiveNotebook;
+  Notebook := _activeNoteBookFunc();
   NewPage := Notebook.NewPage(Notebook.ActiveView);
 
   // Create search result file source.
@@ -162,8 +180,8 @@ var
   iCloudFS: TiCloudDriveFileSource;
 begin
   iCloudFS := TiCloudDriveFileSource.GetFileSource;
-  frmMain.ActiveFrame.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
-  frmMain.ActiveFrame.SetFocus;
+  _activeFrameFunc().AddFileSource(iCloudFS, iCloudFS.GetRootDir);
+  _activeFrameFunc().SetFocus;
 end;
 
 initialization

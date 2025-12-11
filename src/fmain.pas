@@ -1261,6 +1261,7 @@ begin
 {$IF DEFINED(DARWIN)}
   TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   TDarwinApplicationUtil.addThemeObserver( @NSThemeChangedHandler );
+  TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
 {$ENDIF}
 end;
 
