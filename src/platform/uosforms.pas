@@ -147,7 +147,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , LCLStrConsts
   , BaseUnix, Errors, fFileProperties
-  , uQuickLook, uOpenDocThumb, uMyDarwin, uDarwinFileUtil, uDefaultTerminal
+  , uQuickLook, uOpenDocThumb, uMyDarwin, uDarwinApplication, uDarwinFileUtil, uDefaultTerminal
   {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(HAIKU)}
@@ -787,7 +787,7 @@ begin
     ShellContextMenu.OnClose := CloseEvent;
     frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
     // Show context menu
-    MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, getFilepaths(contextFiles) );
+    TDarwinApplicationUtil.popUpMenuWithServiceSubmenu( ShellContextMenu, rsMacOSMenuServices, getFilepaths(contextFiles) );
   finally
     // Free created menu
     FreeAndNil(ShellContextMenu);

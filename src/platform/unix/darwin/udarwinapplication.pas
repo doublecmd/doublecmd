@@ -6,10 +6,13 @@ unit uDarwinApplication;
 interface
 
 uses
-  Classes, SysUtils, fgl,
+  Classes, SysUtils, fgl, Menus, uLng,
   MacOSAll, CocoaAll,
   CocoaInt, CocoaPrivate, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
-  uDarwinUtil;
+  uDarwinUtil, uDarwinFinder;
+
+const
+  FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
 
 type
   // MacOS Service Integration
@@ -57,6 +60,7 @@ type
       const serveCallback: TDarwinServiceProviderCallBack;
       const isReadyFunc: TDarwinServiceMenuIsReadyFunc;
       const getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
+    class procedure popUpMenuWithServiceSubmenu( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
   public
@@ -110,6 +114,8 @@ begin
     TDarwinApplicationUtil.themeNotify;
   end;
 end;
+
+{ TDarwinServiceProvider }
 
 procedure TDarwinServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
 var
@@ -238,6 +244,36 @@ begin
   DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
 end;
 
+type
+  TDarwinServiceMenuManager = class
+  private
+    oldMenuPopupHandler: TNotifyEvent;
+    serviceSubMenuCaption: String;
+    tagFilePaths: TStringArray;
+    procedure attachSystemMenu( Sender: TObject );
+    procedure attachServicesMenu( Sender: TObject );
+    procedure attachFinderTagsMenu( Sender: TObject );
+    procedure privilegeAction( Sender: TObject );
+  end;
+
+class procedure TDarwinApplicationUtil.popUpMenuWithServiceSubmenu(const menu: TPopupMenu;
+  const caption: String; const paths: TStringArray);
+var
+  menuManager: TDarwinServiceMenuManager;
+begin
+  menuManager:= TDarwinServiceMenuManager.Create;
+
+  // because the menu item handle will be destroyed in TPopupMenu.PopUp()
+  // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
+  menuManager.oldMenuPopupHandler:= OnMenuPopupHandler;
+  OnMenuPopupHandler:= @menuManager.attachSystemMenu;
+  menuManager.serviceSubMenuCaption:= caption;
+  menuManager.tagFilePaths:= paths;
+  menu.PopUp();
+
+  menuManager.Free;
+end;
+
 class procedure TDarwinApplicationUtil.performService(const serviceName: String
   );
 var
@@ -259,6 +295,59 @@ var
 begin
   url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
   NSWorkspace.sharedWorkspace.openURL( url );
+end;
+
+procedure TDarwinServiceMenuManager.attachSystemMenu(Sender: TObject);
+begin
+  self.attachServicesMenu( Sender );
+  self.attachFinderTagsMenu( Sender );
+end;
+
+procedure TDarwinServiceMenuManager.attachServicesMenu( Sender: TObject );
+var
+  menu: TPopupMenu Absolute Sender;
+  servicesItem: TMenuItem;
+  subMenu: TCocoaMenu;
+begin
+  // call the previous OnMenuPopupHandler and restore it
+  if Assigned(oldMenuPopupHandler) then oldMenuPopupHandler( Sender );
+  OnMenuPopupHandler:= oldMenuPopupHandler;
+  oldMenuPopupHandler:= nil;
+
+  // attach the Services Sub Menu by calling NSApplication.setServicesMenu()
+  servicesItem:= menu.Items.Find(serviceSubMenuCaption);
+  if servicesItem<>nil then
+  begin
+    subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
+    TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
+    subMenu.release;
+    NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
+  end;
+end;
+
+procedure TDarwinServiceMenuManager.attachFinderTagsMenu( Sender: TObject );
+var
+  menu: TPopupMenu Absolute Sender;
+  menuItem: TMenuItem;
+  menuIndex: Integer;
+  success: Boolean;
+begin
+  menuIndex:= menu.Items.IndexOfCaption( FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION );
+  if menuIndex < 0 then
+    Exit;
+
+  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePaths, menu, menuIndex );
+  if success then
+    Exit;
+
+  menuItem:= menu.Items[menuIndex];
+  menuItem.Caption:= rsMenuMacOSGrantPermissionToSupportFinderTags;
+  menuItem.OnClick:= @self.privilegeAction;
+end;
+
+procedure TDarwinServiceMenuManager.privilegeAction(Sender: TObject);
+begin
+  TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
 end;
 
 procedure darwinOnMainMenuCreate( menu: NSMenu );
