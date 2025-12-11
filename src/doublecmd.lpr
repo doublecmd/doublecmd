@@ -52,7 +52,6 @@ uses
   {$ENDIF}
   {$IFDEF darwin}
   uAppleMagnifiedModeFix,
-  uMyDarwin,
   uDarwinApplication,
   uiCloudDriveConfig,
   {$ENDIF}

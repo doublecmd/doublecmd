@@ -33,7 +33,7 @@ implementation
 uses
   SimpleIPC, BaseUnix, uPollThread
 {$IF DEFINED(DARWIN)}
-  , uMyDarwin, uDarwinFileUtil
+  , uDarwinFileUtil
 {$ELSE}
   , uXdg
 {$ENDIF}

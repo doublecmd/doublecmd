@@ -147,7 +147,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , LCLStrConsts
   , BaseUnix, Errors, fFileProperties
-  , uQuickLook, uOpenDocThumb, uMyDarwin, uDarwinApplication, uDarwinFileUtil, uDefaultTerminal
+  , uQuickLook, uOpenDocThumb, uDarwinApplication, uDarwinFileUtil, uDefaultTerminal
   {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(HAIKU)}
