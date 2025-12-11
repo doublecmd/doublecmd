@@ -33,7 +33,7 @@ uses
 implementation
 
 uses
-  DynLibs, FileUtil, Types, Graphics, MacOSAll, CocoaAll, uThumbnails, uDebug,
+  DynLibs, FileUtil, Types, Graphics, MacOSAll, uThumbnails, uDebug,
   uClassesEx, uGraphics;
 
 const

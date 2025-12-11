@@ -8,7 +8,7 @@ uses
   Classes, SysUtils,
   uFileSourceListOperation,
   uFileSource, uMountedFileSource, uFileSystemListOperation,
-  uDCUtils, DCOSUtils, DCStrUtils;
+  DCOSUtils, DCStrUtils;
 
 type
 
