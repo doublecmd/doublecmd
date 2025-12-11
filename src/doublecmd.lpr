@@ -51,7 +51,6 @@ uses
   uGtk2FixCursorPos,
   {$ENDIF}
   {$IFDEF darwin}
-  uAppleMagnifiedModeFix,
   uDarwinApplication,
   uiCloudDriveConfig,
   {$ENDIF}
