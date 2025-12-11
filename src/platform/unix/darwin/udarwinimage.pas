@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils,
-  CocoaAll, CocoaUtils;
+  CocoaAll;
 
 type
   

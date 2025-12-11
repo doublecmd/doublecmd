@@ -196,9 +196,7 @@ uses
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
-    {$IF DEFINED(DARWIN)}
-  , CocoaAll
-    {$ELSEIF NOT DEFINED(HAIKU)}
+    {$IF NOT DEFINED(DARWIN) and NOT DEFINED(HAIKU)}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
     {$IF DEFINED(LINUX)}
