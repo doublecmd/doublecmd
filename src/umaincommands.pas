@@ -414,8 +414,11 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
-     uColumnsFileView, uTypes
+     uColumnsFileView, uTypes, fgl
      ;
+
+type
+  TStrFlagDict = specialize TFPGMap<String, Integer>;
 
 resourcestring
   rsFavoriteTabs_SetupNotExist = 'No setup named "%s"';
@@ -5673,55 +5676,128 @@ begin
   end;
 end;
 
+function GetOrToggleParam(const OptName: String; Param: String; Dict: TStrFlagDict; var Value: Integer): Boolean;
+var
+  sValue: String;
+  Pills: Array of String;
+  I, Last: Integer;
+begin
+  Result:= False;
+  try
+    if GetParamValue(Param, 'toggle_' + OptName, sValue) then
+    begin
+      Pills:= sValue.Split(';');
+      Last:= High(Pills);
+      if Last < 1 then
+        Exit;
+      for I:= 0 to Last do
+      begin
+        if Dict[Pills[I]] = Value then
+        begin
+          if i < Last then
+            Value:= Dict[Pills[I + 1]]
+          else
+            Value:= Dict[Pills[0]];
+
+          Result:= True;
+          break;
+        end;
+      end;
+      if not Result then
+      begin
+        Value:= Dict[Pills[0]];
+        Result:= True;
+      end;
+    end
+    else if GetParamValue(Param, OptName, sValue) then
+    begin
+      Value:= Dict[sValue];
+      Result:= True;
+    end;
+  except
+  end;
+end;
+
+function GetOrToggleParam(const OptName: String; Param: String; var Value: Boolean): Boolean;
+var
+  bValue: Boolean;
+  sValue: String;
+begin
+  Result:= False;
+  if (Param = 'toggle_' + OptName) or GetParamValue(Param, 'toggle_' + OptName, sValue) then
+  begin
+    Value:= not Value;
+    Result:= True;
+  end
+  else
+  begin
+    Result:= GetParamBoolValue(Param, OptName, bValue);
+    if Result then
+      Value:= bValue;
+  end;
+end;
+
 procedure TMainCommands.cm_SetSortMode(const Params: array of string);
 var
-  Param, Value: String;
-  State: Boolean;
+  Param: String;
+  iValue: Integer;
+  CaseDict: TStrFlagDict;
+  DirDict:  TStrFlagDict;
+  NewDict:  TStrFlagDict;
+  UpdDict:  TStrFlagDict;
 begin
-  for Param in Params do
-  begin
-    if GetParamValue(Param, 'casesensitivity', Value) then
+  CaseDict:= TStrFlagDict.Create;
+  DirDict:= TStrFlagDict.Create;
+  NewDict:= TStrFlagDict.Create;
+  UpdDict:= TStrFlagDict.Create;
+  try
+    CaseDict.Add('notsensitive', Integer(cstNotSensitive));
+    CaseDict.Add('locale', Integer(cstLocale));
+    CaseDict.Add('charvalue', Integer(cstCharValue));
+
+    DirDict.Add('nameshowfirst', Integer(sfmSortNameShowFirst));
+    DirDict.Add('likefileshowfirst', Integer(sfmSortLikeFileShowFirst));
+    DirDict.Add('likefile', Integer(sfmSortLikeFile));
+
+    NewDict.Add('top', Integer(nfpTop));
+    NewDict.Add('topafterdirectories', Integer(nfpTopAfterDirectories));
+    NewDict.Add('sortedposition', Integer(nfpSortedPosition));
+    NewDict.Add('bottom', Integer(nfpBottom));
+
+    UpdDict.Add('nochange', Integer(ufpNoChange));
+    UpdDict.Add('sameasnewfiles', Integer(ufpSameAsNewFiles));
+    UpdDict.Add('sortedposition', Integer(ufpSortedPosition));
+
+    for Param in Params do
     begin
-      if Value = 'notsensitive' then
-        gSortCaseSensitivity:= cstNotSensitive
-      else if Value = 'locale' then
-        gSortCaseSensitivity:= cstLocale
-      else if Value = 'charvalue' then
-        gSortCaseSensitivity:= cstCharValue;
-    end
-    else if GetParamValue(Param, 'foldermode', Value) then
-    begin
-      if Value = 'nameshowfirst' then
-        gSortFolderMode:= sfmSortNameShowFirst
-      else if Value = 'likefileshowfirst' then
-        gSortFolderMode:= sfmSortLikeFileShowFirst
-      else if Value = 'likefile' then
-        gSortFolderMode:= sfmSortLikeFile;
-    end
-    else if GetParamBoolValue(Param, 'natural', State) then
-      gSortNatural:= State
-    else if GetParamBoolValue(Param, 'special', State) then
-      gSortSpecial:= State
-    else if GetParamValue(Param, 'newfiles', Value) then
-    begin
-      if Value = 'top' then
-        gNewFilesPosition:= nfpTop
-      else if Value = 'topafterdirectories' then
-        gNewFilesPosition:= nfpTopAfterDirectories
-      else if Value = 'sortedposition' then
-        gNewFilesPosition:= nfpSortedPosition
-      else if Value = 'bottom' then
-        gNewFilesPosition:= nfpBottom;
-    end
-    else if GetParamValue(Param, 'updatedfiles', Value) then
-    begin
-      if Value = 'nochange' then
-        gUpdatedFilesPosition:= ufpNoChange
-      else if Value = 'sameasnewfiles' then
-        gUpdatedFilesPosition:= ufpSameAsNewFiles
-      else if Value = 'sortedposition' then
-        gUpdatedFilesPosition:= ufpSortedPosition;
-    end
+      iValue:= Integer(gSortCaseSensitivity);
+      if GetOrToggleParam('casesensitivity', Param, CaseDict, iValue) then
+        gSortCaseSensitivity:= TCaseSensitivity(iValue)
+      else
+      begin
+        iValue:= Integer(gSortFolderMode);
+        if GetOrToggleParam('foldermode', Param, DirDict, iValue) then
+          gSortFolderMode:= TSortFolderMode(iValue)
+        else if not GetOrToggleParam('natural', Param, gSortNatural) then
+          if not GetOrToggleParam('special', Param, gSortSpecial) then
+          begin
+            iValue:= Integer(gNewFilesPosition);
+            if GetOrToggleParam('newfiles', Param, NewDict, iValue) then
+              gNewFilesPosition:= TNewFilesPosition(iValue)
+            else
+            begin
+              iValue:= Integer(gUpdatedFilesPosition);
+              if GetOrToggleParam('updatedfiles', Param, UpdDict, iValue) then
+                gUpdatedFilesPosition:= TUpdatedFilesPosition(iValue);
+            end;
+          end;
+      end;
+    end;
+  finally
+    CaseDict.Free;
+    DirDict.Free;
+    NewDict.Free;
+    UpdDict.Free;
   end;
   frmMain.ActiveFrame.Reload(True);
   frmMain.NotActiveFrame.Reload(True);
