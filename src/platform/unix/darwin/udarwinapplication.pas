@@ -336,7 +336,7 @@ begin
   if menuIndex < 0 then
     Exit;
 
-  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePaths, menu, menuIndex );
+  success:= TDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePaths, menu, menuIndex );
   if success then
     Exit;
 

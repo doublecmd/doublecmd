@@ -62,7 +62,7 @@ uses
 {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, DCUnix
   {$IF DEFINED(DARWIN)}
-  , CocoaAll, uDarwinFileUtil
+  , CocoaAll, uDarwinFile
   {$ELSEIF DEFINED(HAIKU)}
   , DCHaiku
   {$ELSE}

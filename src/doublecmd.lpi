@@ -2125,14 +2125,14 @@ end;"/>
         <UnitName Value="uDarwinApplication"/>
       </Unit291>
       <Unit292>
-        <Filename Value="platform\unix\darwin\udarwinfileutil.pas"/>
+        <Filename Value="platform\unix\darwin\udarwinfile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uDarwinFileUtil"/>
+        <UnitName Value="uDarwinFile"/>
       </Unit292>
       <Unit293>
-        <Filename Value="platform\unix\darwin\udarwinimageutil.pas"/>
+        <Filename Value="platform\unix\darwin\udarwinimage.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uDarwinImageUtil"/>
+        <UnitName Value="uDarwinImage"/>
       </Unit293>
       <Unit294>
         <Filename Value="platform\unix\darwin\udarwinsimplefswatch.pas"/>

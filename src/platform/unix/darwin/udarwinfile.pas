@@ -1,4 +1,4 @@
-unit uDarwinFileUtil;
+unit uDarwinFile;
 
 {$mode delphi}
 {$modeswitch objectivec2}
@@ -158,7 +158,7 @@ var
     tagNames: NSArray;
   begin
     Result.intValue:= -1;
-    tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+    tagNames:= TDarwinFinderModelUtil.getTagNamesOfFile( url );
     if tagNames = nil then
       Exit;
     Result:= toPrimaryColors( tagNames );

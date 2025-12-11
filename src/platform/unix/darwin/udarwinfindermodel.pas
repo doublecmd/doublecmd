@@ -57,9 +57,9 @@ type
 
   TFinderFavoriteTagMenuItemState = ( selectionAll, selectionNone, selectionMixed );
 
-  { uDarwinFinderModelUtil }
+  { TDarwinFinderModelUtil }
 
-  uDarwinFinderModelUtil = class
+  TDarwinFinderModelUtil = class
   strict private class var
     _editorFinderTagNSColors: TFinderTagNSColors;
     _menuFinderTagNSColors: TFinderTagNSColors;
@@ -124,7 +124,7 @@ class function TFinderTag.tagWithParams( const name: NSString; const colorIndex:
 begin
   Result:= TFinderTag.new;
   Result._name:= name.retain;
-  if (colorIndex>=0) and (colorIndex<length(uDarwinFinderModelUtil.editorFinderTagNSColors)) then
+  if (colorIndex>=0) and (colorIndex<length(TDarwinFinderModelUtil.editorFinderTagNSColors)) then
     Result._colorIndex:= colorIndex;
   Result._isShowingInSidebar:= isShowingInSidebar;
   Result._isUserDefined:= isUserDefined;
@@ -159,12 +159,12 @@ end;
 
 function TFinderTag.editorColor: NSColor;
 begin
-  Result:= uDarwinFinderModelUtil.editorFinderTagNSColors[ _colorIndex ];
+  Result:= TDarwinFinderModelUtil.editorFinderTagNSColors[ _colorIndex ];
 end;
 
 function TFinderTag.menuColor: NSColor;
 begin
-  Result:= uDarwinFinderModelUtil.menuFinderTagNSColors[ _colorIndex ];
+  Result:= TDarwinFinderModelUtil.menuFinderTagNSColors[ _colorIndex ];
 end;
 
 { TFinderTags }
@@ -183,7 +183,7 @@ class procedure TFinderTags.update;
 var
   newTags: NSDictionary;
 begin
-  newTags:= uDarwinFinderModelUtil.getAllTags;
+  newTags:= TDarwinFinderModelUtil.getAllTags;
   if newTags = nil then
     Exit;
   if _tags <> nil then
@@ -266,9 +266,9 @@ begin
   _query.release;
 end;
 
-{ uDarwinFinderModelUtil }
+{ TDarwinFinderModelUtil }
 
-class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
+class function TDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
   ): NSArray;
 var
   ret: Boolean;
@@ -280,7 +280,7 @@ begin
     Result:= tagNames;
 end;
 
-class function uDarwinFinderModelUtil.getTagNamesOfFiles(const urls: NSArray
+class function TDarwinFinderModelUtil.getTagNamesOfFiles(const urls: NSArray
   ): NSArray;
 var
   url: NSURL;
@@ -294,27 +294,27 @@ begin
   tagNames.release;
 end;
 
-class procedure uDarwinFinderModelUtil.setTagNamesOfFile(const url: NSURL;
+class procedure TDarwinFinderModelUtil.setTagNamesOfFile(const url: NSURL;
   const tagNames: NSArray);
 begin
   url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
 end;
 
-class procedure uDarwinFinderModelUtil.addTagForFile(const url: NSURL;
+class procedure TDarwinFinderModelUtil.addTagForFile(const url: NSURL;
   const tagName: NSString );
 var
   tagNames: NSArray;
   newTagNames: NSMutableArray;
 begin
-  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+  tagNames:= TDarwinFinderModelUtil.getTagNamesOfFile( url );
   if tagNames.containsObject(tagName) then
     Exit;
   newTagNames:= NSMutableArray.arrayWithArray( tagNames );
   newTagNames.addObject( tagName );
-  uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
+  TDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
 end;
 
-class procedure uDarwinFinderModelUtil.addTagForFiles(const urls: NSArray;
+class procedure TDarwinFinderModelUtil.addTagForFiles(const urls: NSArray;
   const tagName: NSString);
 var
   url: NSURL;
@@ -324,19 +324,19 @@ begin
   end;
 end;
 
-class procedure uDarwinFinderModelUtil.removeTagForFile(const url: NSURL;
+class procedure TDarwinFinderModelUtil.removeTagForFile(const url: NSURL;
   const tagName: NSString);
 var
   tagNames: NSArray;
   newTagNames: NSMutableArray;
 begin
-  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+  tagNames:= TDarwinFinderModelUtil.getTagNamesOfFile( url );
   newTagNames:= NSMutableArray.arrayWithArray( tagNames );
   newTagNames.removeObject( tagName );
-  uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
+  TDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
 end;
 
-class procedure uDarwinFinderModelUtil.removeTagForFiles(const urls: NSArray;
+class procedure TDarwinFinderModelUtil.removeTagForFiles(const urls: NSArray;
   const tagName: NSString);
 var
   url: NSURL;
@@ -346,7 +346,7 @@ begin
   end;
 end;
 
-class procedure uDarwinFinderModelUtil.doSearchFiles(
+class procedure TDarwinFinderModelUtil.doSearchFiles(
   const searchName: NSString;
   const handler: TMacOSSearchResultHandler;
   const predicate: NSPredicate;
@@ -373,7 +373,7 @@ begin
   query.startQuery;
 end;
 
-class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
+class procedure TDarwinFinderModelUtil.searchFilesBySavedSearch(
   const path: NSString; const handler: TMacOSSearchResultHandler);
 var
   searchName: NSString;
@@ -413,13 +413,13 @@ begin
   self.doSearchFiles( searchName, handler, predicate, searchScopes );
 end;
 
-class procedure uDarwinFinderModelUtil.searchFilesBySavedSearch(
+class procedure TDarwinFinderModelUtil.searchFilesBySavedSearch(
   const path: String; const handler: TMacOSSearchResultHandler);
 begin
-  uDarwinFinderModelUtil.searchFilesBySavedSearch( StrToNSString(path), handler );
+  TDarwinFinderModelUtil.searchFilesBySavedSearch( StrToNSString(path), handler );
 end;
 
-class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
+class procedure TDarwinFinderModelUtil.searchFilesForTagNames(
   const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
 
   function toString: NSString;
@@ -463,16 +463,16 @@ begin
   self.doSearchFiles( searchName, handler, predicate, nil );
 end;
 
-class procedure uDarwinFinderModelUtil.searchFilesForTagName(
+class procedure TDarwinFinderModelUtil.searchFilesForTagName(
   const tagName: NSString; const handler: TMacOSSearchResultHandler);
 var
   tagNames: NSArray;
 begin
   tagNames:= NSArray.arrayWithObject( tagName );
-  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, handler );
+  TDarwinFinderModelUtil.searchFilesForTagNames( tagNames, handler );
 end;
 
-class function uDarwinFinderModelUtil.getAllTags: NSDictionary;
+class function TDarwinFinderModelUtil.getAllTags: NSDictionary;
 var
   tagDictionary: NSDictionary;
 begin
@@ -494,7 +494,7 @@ begin
   end;
 end;
 
-class function uDarwinFinderModelUtil.getFavoriteTagNames: NSArray;
+class function TDarwinFinderModelUtil.getFavoriteTagNames: NSArray;
 var
   path: NSString;
   plistData: NSData;
@@ -515,7 +515,7 @@ begin
   Result:= plistProperties.valueForKeyPath( NSSTR('FavoriteTagNames') );
 end;
 
-class function uDarwinFinderModelUtil.getSidebarTagNames: NSArray;
+class function TDarwinFinderModelUtil.getSidebarTagNames: NSArray;
 var
   tagNames: NSMutableArray;
   tag: TFinderTag;
@@ -529,7 +529,7 @@ begin
   Result:= tagNames;
 end;
 
-class function uDarwinFinderModelUtil.getTagStateForFiles(
+class function TDarwinFinderModelUtil.getTagStateForFiles(
   const tagName: NSString ; const urls: NSArray ): TFinderFavoriteTagMenuItemState;
 var
   tagNames: NSArray;
@@ -550,14 +550,14 @@ begin
     Result:= selectionMixed;
 end;
 
-class function uDarwinFinderModelUtil.getFavoriteTags: NSArray;
+class function TDarwinFinderModelUtil.getFavoriteTags: NSArray;
 var
   tagNames: NSArray;
   tagName: NSString;
   tags: NSMutableArray;
   tag: TFinderTag;
 begin
-  tagNames:= uDarwinFinderModelUtil.getFavoriteTagNames;
+  tagNames:= TDarwinFinderModelUtil.getFavoriteTagNames;
   tags:= NSMutableArray.alloc.initWithCapacity( tagNames.count );
   for tagName in tagNames do begin
     if tagName.length = 0 then
@@ -576,13 +576,13 @@ begin
   Result:= _favoriteTags;
 end;
 
-class function uDarwinFinderModelUtil.getTagsData_macOS12: NSDictionary;
+class function TDarwinFinderModelUtil.getTagsData_macOS12: NSDictionary;
 var
   plistBytes: TBytes;
   plistData: NSData;
 begin
   Result:= nil;
-  plistBytes:= uDarwinFinderModelUtil.getTagsDataFromDatabase;
+  plistBytes:= TDarwinFinderModelUtil.getTagsDataFromDatabase;
   if plistBytes = nil then
     Exit;
 
@@ -594,7 +594,7 @@ begin
     plistData, NSPropertyListImmutable, nil, nil );
 end;
 
-class function uDarwinFinderModelUtil.getTagsData_macOS11: NSDictionary;
+class function TDarwinFinderModelUtil.getTagsData_macOS11: NSDictionary;
 var
   path: NSString;
   plistData: NSData;
@@ -615,7 +615,7 @@ begin
   Result:= plistProperties.valueForKeyPath( NSSTR('values.FinderTagDict.value') );
 end;
 
-class function uDarwinFinderModelUtil.getTagsDataFromDatabase: TBytes;
+class function TDarwinFinderModelUtil.getTagsDataFromDatabase: TBytes;
   function getDatabaseUUIDPath: String;
   var
     manager: NSFileManager;
@@ -677,7 +677,7 @@ begin
   end;
 end;
 
-class function uDarwinFinderModelUtil.doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
+class function TDarwinFinderModelUtil.doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
 var
   plistTagArray: NSArray;
 
@@ -722,7 +722,7 @@ begin
   Result:= allFinderTagDict;
 end;
 
-class procedure uDarwinFinderModelUtil.initFinderTagNSColors;
+class procedure TDarwinFinderModelUtil.initFinderTagNSColors;
 begin
   _editorFinderTagNSColors:= [
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 0.5 ).retain,
@@ -767,7 +767,7 @@ end;
 
 initialization
   initNSSTR;
-  uDarwinFinderModelUtil.initFinderTagNSColors;
+  TDarwinFinderModelUtil.initFinderTagNSColors;
 
 end.
 

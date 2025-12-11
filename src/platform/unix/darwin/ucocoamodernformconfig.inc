@@ -10,7 +10,7 @@ uses
   LCLType, Forms, Menus,
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  uDarwinUtil, uDarwinApplication, uDarwinFileUtil,
+  uDarwinUtil, uDarwinApplication, uDarwinFile,
   uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -177,7 +177,7 @@ end;
 
 procedure TToolBarMenuHandler.showFinderTagSelectorPanel(Sender: TObject);
 begin
-  uDarwinFinderUtil.popoverTagsSelector(
+  TDarwinFinderUtil.popoverTagsSelector(
     rsMFSTBISearchCombinedTags,
     @self.onFinderTagSelectorPanelClose,
     NSView(frmMain.Handle) , NSMaxYEdge );
@@ -190,7 +190,7 @@ begin
     Exit;
   if tagNames.count = 0 then
     Exit;
-  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @darwinSearchResultHandler.onSearchFinderTagComplete );
+  TDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @darwinSearchResultHandler.onSearchFinderTagComplete );
 end;
 
 procedure TToolBarMenuHandler.searchOneFinderTagAction( Sender: TObject );
@@ -199,7 +199,7 @@ var
   tagName: NSString;
 begin
   tagName:= StringToNSString( menuItem.Caption );
-  uDarwinFinderModelUtil.searchFilesForTagName( tagName, @darwinSearchResultHandler.onSearchFinderTagComplete );
+  TDarwinFinderModelUtil.searchFilesForTagName( tagName, @darwinSearchResultHandler.onSearchFinderTagComplete );
 end;
 
 procedure onGetFolderMenu( const menu: TMenu );
@@ -336,14 +336,14 @@ var
     tagName: NSString;
     menuItem: TMenuItem;
   begin
-    tagNames:= uDarwinFinderModelUtil.getSidebarTagNames;
+    tagNames:= TDarwinFinderModelUtil.getSidebarTagNames;
     for tagName in tagNames do begin
       menuItem:= TMenuItem.Create( menu );
       menuItem.Caption:= tagName.UTF8String;
       menuItem.OnClick:= @toolBarMenuHandler.searchOneFinderTagAction;
       items.Add( menuItem );
     end;
-    uDarwinFinderUtil.attachSearchForTagsMenu( menu );
+    TDarwinFinderUtil.attachSearchForTagsMenu( menu );
   end;
 
   procedure createCombinedTagMenuItem;
