@@ -65,7 +65,7 @@ uses
    , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
-   , StrUtils, uMyDarwin, uDarwinFSWatch, uDarwinIO, ExtCtrls
+   , StrUtils, uDarwinFSWatch, uDarwinIO, ExtCtrls
    {$ENDIF}
    {$IFDEF HAIKU}
    , BaseUnix, DCHaiku

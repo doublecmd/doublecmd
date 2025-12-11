@@ -57,7 +57,6 @@ uses
   , Glib2, Gtk2
   {$ELSEIF DEFINED(DARWIN)}
   , CocoaConfig
-  , uMyDarwin
   , uDarwinApplication
   , uDarwinFileView
   {$ENDIF}

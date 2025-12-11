@@ -197,7 +197,7 @@ uses
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
     {$IF DEFINED(DARWIN)}
-  , CocoaAll, uMyDarwin
+  , CocoaAll
     {$ELSEIF NOT DEFINED(HAIKU)}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}

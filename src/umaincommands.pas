@@ -30,7 +30,7 @@ uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
   uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile
 {$IFDEF DARWIN}
-  , uMyDarwin, uDarwinFileView
+  , uDarwinFileView
 {$ENDIF}
   ;
 

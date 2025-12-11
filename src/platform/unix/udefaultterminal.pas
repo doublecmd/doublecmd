@@ -32,7 +32,7 @@ implementation
 
 {$IF DEFINED(DARWIN)}
 uses
-  uOSUtils, uMyDarwin, uDarwinFileUtil;
+  uOSUtils, uDarwinFileUtil;
 
 procedure Initialize;
 var
