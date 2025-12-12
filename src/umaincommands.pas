@@ -1755,8 +1755,7 @@ end;
 
 procedure TMainCommands.cm_CloseTab(const Params: array of string);
 begin
-  with frmMain do
-    DoCloseTab(ActiveNotebook, ActiveNotebook.PageIndex);
+  frmMain.CloseActiveTab;
 end;
 
 { TMainCommands.cm_CloseAllTabs }

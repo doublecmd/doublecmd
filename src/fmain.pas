@@ -685,6 +685,9 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
+    procedure CloseActiveTabAsync(Data: PtrInt);
+    procedure CloseActiveTab;
+
     procedure FileViewFreeAsync(Data: PtrInt);
     function FileViewAutoSwitch(FileSource: IFileSource; var FileView: TFileView; Reason: TChangePathReason; const NewPath: String): Boolean;
     function FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; Reason: TChangePathReason; const NewPath : String): Boolean;
@@ -4542,6 +4545,20 @@ begin
       FG := clWindowText;
     end;
   end;
+end;
+
+procedure TfrmMain.CloseActiveTabAsync(Data: PtrInt);
+begin
+  commands.DoCloseTab(ActiveNotebook, ActiveNotebook.PageIndex);
+end;
+
+procedure TfrmMain.CloseActiveTab;
+begin
+  // neither LCL nor WidgetSet prefers the App to destroy components during event handling.
+  // if DC closes the tab during event handling, LCL will output the following warning:
+  // WARNING: TDrawGridEx.Destroy with LCLRefCount>0. Hint: Maybe the component is processing an event?
+  // some WidgetSets may even cause unpredictable issues due to dangling references.
+  Application.QueueAsyncCall(@CloseActiveTabAsync, 0);
 end;
 
 procedure TfrmMain.FileViewFreeAsync(Data: PtrInt);
