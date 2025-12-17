@@ -6,9 +6,9 @@ unit uDarwinApplication;
 interface
 
 uses
-  Classes, SysUtils, fgl, Menus, uLng,
+  Classes, SysUtils, Menus, uLng,
   MacOSAll, CocoaAll,
-  CocoaInt, CocoaPrivate, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
+  CocoaInt, CocoaPrivate, CocoaThemes, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
   uDarwinUtil, uDarwinFinder;
 
 const
@@ -19,9 +19,6 @@ type
   TDarwinServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
   TDarwinServiceMenuIsReadyFunc = Function(): Boolean of object;
   TDarwinServiceMenuGetFilenamesFunc = Function(): TStringArray of object;
-
-  TDarwinThemeObserver = Procedure() of object;
-  TDarwinThemeObservers = specialize TFPGList<TDarwinThemeObserver>;
 
   { TDarwinServiceProvider }
 
@@ -37,8 +34,6 @@ type
   TDCCocoaApplication = objcclass(TCocoaApplication)
     function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
     function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
-    procedure observeValueForKeyPath_ofObject_change_context(keyPath: NSString;
-      object_: id; change: NSDictionary; context_: pointer); override;
   private
     _serviceProvider: TDarwinServiceProvider;
   public
@@ -49,12 +44,6 @@ type
   { TDarwinApplicationUtil }
 
   TDarwinApplicationUtil = class
-  private
-    class var _themeObservers: TDarwinThemeObservers;
-  private
-    class procedure init;
-    class procedure deinit;
-    class procedure themeNotify;
   public
     class procedure initServiceProvider(
       const serveCallback: TDarwinServiceProviderCallBack;
@@ -64,7 +53,6 @@ type
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
   public
-    class procedure addThemeObserver( const observer: TDarwinThemeObserver );
     class procedure setTheme( const mode: Integer );
     class function isDarkTheme: Boolean;
   public
@@ -101,20 +89,6 @@ begin
   Result:= true;
 end;
 
-procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
-  keyPath: NSString; object_: id; change: NSDictionary; context_: pointer);
-var
-  prior: NSNumber;
-begin
-  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context_ );
-  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then begin
-    prior:= NSNumber( change.valueForKey( NSSTR('notificationIsPrior') ) );
-    if prior.intValue > 0 then
-      Exit;
-    TDarwinApplicationUtil.themeNotify;
-  end;
-end;
-
 { TDarwinServiceProvider }
 
 procedure TDarwinServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
@@ -136,32 +110,6 @@ end;
 
 { TDarwinApplicationUtil }
 
-class procedure TDarwinApplicationUtil.init;
-begin
-  _themeObservers:= TDarwinThemeObservers.Create;
-end;
-
-class procedure TDarwinApplicationUtil.deinit;
-begin
-  FreeAndNil( _themeObservers );
-end;
-
-class procedure TDarwinApplicationUtil.themeNotify;
-var
-  i: Integer;
-begin
-  if _themeObservers = nil then
-    Exit;
-  for i:= 0 to _themeObservers.Count-1 do begin
-    _themeObservers[i]();
-  end;
-end;
-
-class procedure TDarwinApplicationUtil.addThemeObserver( const observer: TDarwinThemeObserver );
-begin
-  _themeObservers.Add( observer );
-end;
-
 class procedure TDarwinApplicationUtil.setTheme(const mode: Integer);
 var
   appearance: NSAppearance;
@@ -178,7 +126,11 @@ begin
       appearance:= NSAppearance.appearanceNamed( NSAppearanceNameAqua );
   end;
   NSApp.setAppearance( appearance );
-  TDarwinApplicationUtil.themeNotify;
+
+  if appearance = nil then
+    appearance:= NSApp.effectiveAppearance;
+  NSAppearance.setCurrentAppearance( appearance );
+  TCocoaThemeServices.darwinThemeChangedNotify;
 end;
 
 class function TDarwinApplicationUtil.isDarkTheme: Boolean;
@@ -362,12 +314,6 @@ begin
   if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
     AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
 end;
-
-initialization
-  TDarwinApplicationUtil.init;
-
-finalization
-  TDarwinApplicationUtil.deinit;
 
 end.
 

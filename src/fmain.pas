@@ -901,7 +901,6 @@ type
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
     function NSServiceMenuGetFilenames(): TStringArray;
-    procedure NSThemeChangedHandler();
     {$ENDIF}
     procedure LoadWindowState;
     procedure SaveWindowState;
@@ -1263,7 +1262,6 @@ begin
 
 {$IF DEFINED(DARWIN)}
   TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
-  TDarwinApplicationUtil.addThemeObserver( @NSThemeChangedHandler );
   TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
 {$ENDIF}
 end;
@@ -6423,11 +6421,6 @@ begin
 
   FreeAndNil( files );
   Result:= filenames;
-end;
-
-procedure TfrmMain.NSThemeChangedHandler;
-begin
-  ThemeServices.IntfDoOnThemeChange;
 end;
 {$ENDIF}
 
