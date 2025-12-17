@@ -15,7 +15,7 @@ uses
   uDCUtils, uLng, uGlobs,
   uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch,
   uDarwinFile, uDarwinImage,
-  CocoaAll, CocoaUtils;
+  CocoaAll, CocoaUtils, CocoaThemes;
 
 type
 
@@ -105,12 +105,13 @@ type
 
   { TiCloudDriveUIHandler }
 
-  TiCloudDriveUIHandler = class( TFileSourceUIHandler )
+  TiCloudDriveUIHandler = class( TFileSourceUIHandler, ICocoaThemeObserver )
   private
     _downloadImage: NSImage;
   private
     procedure createImages;
     procedure releaseImages;
+    procedure onThemeChanged;
   public
     constructor Create;
     destructor Destroy; override;
@@ -556,14 +557,20 @@ begin
   _downloadImage:= nil;
 end;
 
+procedure TiCloudDriveUIHandler.onThemeChanged;
+begin
+  self.releaseImages;
+end;
+
 constructor TiCloudDriveUIHandler.Create;
 begin
   Inherited;
-  TDarwinApplicationUtil.addThemeObserver( @self.releaseImages );
+  TCocoaThemeServices.addObserver( self );
 end;
 
 destructor TiCloudDriveUIHandler.Destroy;
 begin
+  TCocoaThemeServices.removeObserver( self );
   self.releaseImages;
   Inherited;
 end;
