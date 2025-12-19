@@ -54,7 +54,6 @@ type
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
   public
     class procedure setTheme( const mode: Integer );
-    class function isDarkTheme: Boolean;
   public
     class procedure fixFormatSettings;
     class procedure openNewInstance;
@@ -131,17 +130,6 @@ begin
     appearance:= NSApp.effectiveAppearance;
   NSAppearance.setCurrentAppearance( appearance );
   TCocoaThemeServices.darwinThemeChangedNotify;
-end;
-
-class function TDarwinApplicationUtil.isDarkTheme: Boolean;
-var
-  appearanceName: NSString;
-begin
-  Result:= False;
-  if not NSApp.respondsToSelector( ObjCSelector('effectiveAppearance') ) then
-    exit;
-  appearanceName:= NSApp.effectiveAppearance.Name;
-  Result:= appearanceName.isEqualToString(NSSTR_DARK_NAME) or appearanceName.isEqualToString(NSSTR_DARK_NAME_VIBRANT);
 end;
 
 class procedure TDarwinApplicationUtil.fixFormatSettings;

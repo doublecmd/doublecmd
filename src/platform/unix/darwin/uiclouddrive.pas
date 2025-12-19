@@ -13,7 +13,7 @@ uses
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
-  uDarwinApplication, uDarwinFSWatch, uDarwinSimpleFSWatch,
+  uDarwinFSWatch, uDarwinSimpleFSWatch,
   uDarwinFile, uDarwinImage,
   CocoaAll, CocoaUtils, CocoaThemes;
 
@@ -542,7 +542,7 @@ begin
   _downloadImage.release;
   tempImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriveConfig.icon.download)) );
   tempImage.setSize( NSMakeSize(16,16) );
-  if TDarwinApplicationUtil.isDarkTheme then begin
+  if TCocoaThemeServices.isDark then begin
     _downloadImage:= TDarwinImageUtil.invertColor( tempImage );
   end else begin
     _downloadImage:= tempImage;
