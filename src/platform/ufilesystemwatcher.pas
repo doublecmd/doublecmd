@@ -74,7 +74,7 @@ uses
   {$ELSEIF DEFINED(LINUX)}
   , inotify, BaseUnix, FileUtil, DCConvertEncoding, DCUnix
   {$ELSEIF DEFINED(DARWIN)}
-  , uFileView, uGlobs
+  , uFileView, uGlobs, uDarwinDC
   {$ELSEIF DEFINED(BSD)}
   , BSD, Unix, BaseUnix, UnixType, FileUtil, DCOSUtils
   {$ELSEIF DEFINED(HAIKU)}
@@ -904,48 +904,15 @@ begin
 end;
 
 procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
+var
+  ok: Boolean;
 begin
-  if [watch_file_name_change, watch_attributes_change] * gWatchDirs = [] then exit;
-  if event.isDropabled then exit;
-  if (ecChildChanged in event.categories) and (not isWatchSubdir(event.watchPath) ) then exit;
+  if (ecChildChanged in event.categories) and (not isWatchSubdir(event.watchPath) ) then
+    Exit;
 
-  FCurrentEventData.Path := event.watchPath;
-  FCurrentEventData.FileName := EmptyStr;
-  FCurrentEventData.NewFileName := EmptyStr;
-  FCurrentEventData.OriginalEvent := event;
-  FCurrentEventData.EventType := fswUnknownChange;
-
-  if TDarwinFSWatchEventCategory.ecRootChanged in event.categories then begin
-    FCurrentEventData.EventType := fswSelfDeleted;
-  end else if event.fullPath.Length >= event.watchPath.Length+2 then begin
-    // 1. file-level update only valid if there is a FileName,
-    //    otherwise keep directory-level update
-    // 2. the order of the following judgment conditions must be preserved
-    if (not (watch_file_name_change in gWatchDirs)) and
-       ([ecStructChanged, ecAttribChanged] * event.categories = [ecStructChanged])
-         then exit;
-    if (not (watch_attributes_change in gWatchDirs)) and
-       ([ecStructChanged, ecAttribChanged] * event.categories = [ecAttribChanged])
-         then exit;
-
-    FCurrentEventData.FileName := ExtractFileName( event.fullPath );
-
-    if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
-      FCurrentEventData.EventType := fswFileDeleted
-    else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then begin
-      if ExtractFilePath(event.fullPath)=ExtractFilePath(event.renamedPath) then begin
-        // fswFileRenamed only when FileName and NewFileName in the same dir
-        // otherwise keep fswUnknownChange
-        FCurrentEventData.EventType := fswFileRenamed;
-        FCurrentEventData.NewFileName := ExtractFileName( event.renamedPath );
-      end;
-    end else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
-      FCurrentEventData.EventType := fswFileCreated
-    else if TDarwinFSWatchEventCategory.ecAttribChanged in event.categories then
-      FCurrentEventData.EventType := fswFileChanged
-    else
-      exit;
-  end;
+  ok:= TDarwinFSWatcherUtil.convertToFileSourceEvent( event, FCurrentEventData );
+  if NOT ok then
+    Exit;
 
   {$IFDEF DEBUG_WATCHER}
   DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
