@@ -1063,7 +1063,7 @@ end;
 function TFileView.calcFileHashKey(const FileName, APath: String): String;
 begin
   if FFlatView then begin
-    Result := ExcludeTrailingPathDelimiter( APath + FileName );
+    Result := ExcludeTrailingPathDelimiter( IncludeTrailingPathDelimiter(APath) + FileName );
   end else begin
     Result := FileName;
   end;
