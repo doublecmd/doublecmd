@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   build-mac:
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
     - name: Install Free Pascal
       uses: doublecmd/lazarus-install@mac
@@ -25,7 +25,9 @@ jobs:
             ref: 'fixes_4'
 
     - name: Build and install Lazarus
-      run: make all install
+      run: |
+           make all
+           sudo make install
 
     - name: Create Lazarus config
       run: |
@@ -39,7 +41,7 @@ jobs:
         fetch-depth: 0
 
     - name: Download unrar source code
-      run: wget https://www.rarlab.com/rar/unrarsrc-7.0.9.tar.gz -O /tmp/unrarsrc.tar.gz
+      run: wget https://www.rarlab.com/rar/unrarsrc-7.2.3.tar.gz -O /tmp/unrarsrc.tar.gz
       
     - name: Extract unrar source code
       run: cd /tmp && tar xzf unrarsrc.tar.gz

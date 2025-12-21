@@ -106,7 +106,7 @@ build_doublecmd
 export CPU_TARGET=x86_64
 export TARGET=x86_64-apple-darwin
 # Set minimal Mac OS X target version
-export MACOSX_DEPLOYMENT_TARGET=10.11
+export MACOSX_DEPLOYMENT_TARGET=11.0
 
 build_unrar
 build_doublecmd
