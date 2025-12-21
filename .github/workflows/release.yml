@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   build-mac:
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
     - name: Install Free Pascal
       uses: doublecmd/lazarus-install@mac
@@ -25,7 +25,9 @@ jobs:
             ref: 'fixes_4'
 
     - name: Build and install Lazarus
-      run: make all install
+      run: |
+           make all
+           sudo make install
 
     - name: Create Lazarus config
       run: |
