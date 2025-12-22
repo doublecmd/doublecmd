@@ -596,31 +596,10 @@ end;
 function DateTimeToUnixFileTime(DateTime : TDateTime): TUnixFileTime;
 {$IF DEFINED(UNIX)}
 var
-  AUnixTime: TTime;
-  ATime: TTimeStruct;
-  Year, Month, Day: Word;
-  Hour, Minute, Second, MilliSecond: Word;
+  AUnixTime: TFileTimeEx;
 begin
-  DecodeDate(DateTime, Year, Month, Day);
-  DecodeTime(DateTime, Hour, Minute, Second, MilliSecond);
-
-  ATime.tm_isdst:= -1;
-
-  ATime.tm_year:= Year - 1900;
-  ATime.tm_mon:=  Month - 1;
-  ATime.tm_mday:= Day;
-
-  ATime.tm_hour:= Hour;
-  ATime.tm_min:= Minute;
-  ATime.tm_sec:= Second;
-
-  AUnixTime:= fpMkTime(@ATime);
-
-  if (AUnixTime = -1) then
-    Result:= 0
-  else begin
-    Result:= TUnixFileTime(AUnixTime);
-  end;
+  AUnixTime:= DateTimeToUnixFileTimeEx(DateTime);
+  Result:= TUnixFileTime(AUnixTime.Sec);
 end;
 {$ELSE}
 var
@@ -639,9 +618,6 @@ var
   Year, Month, Day: Word;
   Hour, Minute, Second, MilliSecond: Word;
 begin
-  if DateTime < UnixEpoch then
-    raise EDateOutOfRange.Create(DateTime);
-
   DecodeDate(DateTime, Year, Month, Day);
   DecodeTime(DateTime, Hour, Minute, Second, MilliSecond);
 
@@ -660,6 +636,7 @@ begin
   if (AUnixTime = -1) then
     Result:= TFileTimeExNull
   else begin
+    if (AUnixTime < 0) then MilliSecond:= 0;
     Result:= TFileTimeEx.Create(AUnixTime, MilliSecond * 1000 * 1000);
   end;
 end;
