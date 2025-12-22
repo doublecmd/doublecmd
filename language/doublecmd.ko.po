@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-10-23 02:54+0900\n"
+"PO-Revision-Date: 2025-12-22 21:45+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -30,7 +30,9 @@ msgstr "오른쪽: %d개 파일 삭제"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
-msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgid ""
+"Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: "
+"%d)"
 msgstr "찾은 파일: %d  (동일: %d, 다름: %d, 고유 왼쪽: %d, 고유 오른쪽: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
@@ -1217,7 +1219,7 @@ msgstr "파일 마스크와 일치하는 파일 추출(&E):"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
-msgstr "암호화된 파일의 암호:(&P):"
+msgstr "암호화된 파일의 비밀번호(&P):"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1618,8 +1620,12 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "\"디렉터리에서 시작\"으로 저장(&V)"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "저장하면 템플릿을 불러올 때 \"디렉터리에서 시작\"이 복원됩니다. 특정 디렉터리에 대한 검색을 수정하려면 이를 사용하세요"
+msgid ""
+"If saved then \"Start in directory\" will be restored when loading template. "
+"Use it if you want to fix searching to a certain directory"
+msgstr ""
+"저장하면 템플릿을 불러올 때 \"디렉터리에서 시작\"이 복원됩니다. 특정 디렉터리"
+"에 대한 검색을 수정하려면 이를 사용하세요"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -1736,11 +1742,14 @@ msgid "Hexadeci&mal"
 msgstr "16진수(&M)"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
-msgid "Enter directories names that should be excluded from search separated with \";\""
+msgid ""
+"Enter directories names that should be excluded from search separated with \";"
+"\""
 msgstr "검색에서 제외할 디렉터리 이름을 \";\"으로 구분하여 입력"
 
 #: tfrmfinddlg.cmbexcludefiles.hint
-msgid "Enter files names that should be excluded from search separated with \";\""
+msgid ""
+"Enter files names that should be excluded from search separated with \";\""
 msgstr "검색에서 제외할 파일 이름을 \";\"으로 구분하여 입력"
 
 #: tfrmfinddlg.cmbfindfilemask.hint
@@ -1897,7 +1906,7 @@ msgstr "도메인:"
 #: tfrmgioauthdialog.lblpassword.caption
 msgctxt "tfrmgioauthdialog.lblpassword.caption"
 msgid "Password:"
-msgstr "암호:"
+msgstr "비밀번호:"
 
 #: tfrmgioauthdialog.lblusername.caption
 msgctxt "tfrmgioauthdialog.lblusername.caption"
@@ -3333,60 +3342,66 @@ msgstr "또는 미리 정의된 선택 유형을 선택(&R):"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "테스트"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "키 만들기"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "키 변환"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
-msgstr "마스터 암호"
+msgstr "주 비밀번호"
 
 #: tfrmmasterkey.lblfooter.caption
-msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
+msgid ""
+"The more iterations, the harder are dictionary and guessing attacks, but also "
+"password store loading/saving takes more time."
 msgstr ""
+"반복 횟수가 많을수록 사전 및 추측 공격이 더 어려워지지만, 비밀번호 저장소 로딩/"
+"저장에도 더 많은 시간이 소요됩니다."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "키 유도 함수(&K):"
 
 #: tfrmmasterkey.lblheader.caption
-msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgid ""
+"The key is transformed using a key derivation function. This adds a work "
+"factor and makes dictionary and guessing attacks harder."
 msgstr ""
+"키는 키 유도 함수를 사용하여 변환됩니다. 이는 작업량을 증가시키고 사전 공격 및 "
+"추측 공격을 더욱 어렵게 만듭니다."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "반복 횟수(&I):"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "메모리(&M):"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "병행(&P):"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "비밀번호(&W):"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "비밀번호 반복(&R):"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "비밀번호 저장소를 암호화하는 데 사용할 새 키를 지정합니다."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -3903,7 +3918,8 @@ msgid "Options"
 msgstr "옵션"
 
 #: tfrmoptions.lblemptyeditor.caption
-msgid "Please select one of the subpages, this page does not contain any settings."
+msgid ""
+"Please select one of the subpages, this page does not contain any settings."
 msgstr "하위 페이지 중 하나를 선택하세요. 이 페이지에는 설정이 없습니다."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
@@ -3978,8 +3994,12 @@ msgstr "가변 알림 도우미"
 
 #: tfrmoptionsarchivers.bvlarchiverids.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
-msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
-msgstr "ID는 파일 확장자가 아닌 내용을 감지하여 압축파일를 인식하기 위해 cm_OpenArchive와 함께 사용됩니다:"
+msgid ""
+"ID's used with cm_OpenArchive to recognize archive by detecting its content "
+"and not via file extension:"
+msgstr ""
+"ID는 파일 확장자가 아닌 내용을 감지하여 압축파일를 인식하기 위해 cm_OpenArchive"
+"와 함께 사용됩니다:"
 
 #: tfrmoptionsarchivers.bvlarchiveroptions.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
@@ -4100,7 +4120,7 @@ msgstr "목록화 시작 (선택사항)(&G):"
 
 #: tfrmoptionsarchivers.lblarchiverpasswordquery.caption
 msgid "Password &query string:"
-msgstr "암호 쿼리 문자열(&Q):"
+msgstr "비밀번호 쿼리 문자열(&Q):"
 
 #: tfrmoptionsarchivers.lblarchiverselfextract.caption
 msgid "Create self extractin&g archive:"
@@ -4191,8 +4211,11 @@ msgid "A&llow only one copy of DC at a time"
 msgstr "한 번에 DC 사본 하나만 허용(&L)"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr "여기서 \";\"로 구분된 하나 이상의 드라이브 또는 마운트 지점을 입력할 수 있습니다."
+msgid ""
+"Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr ""
+"여기서 \";\"로 구분된 하나 이상의 드라이브 또는 마운트 지점을 입력할 수 있습니"
+"다."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4845,8 +4868,12 @@ msgstr "마크 색상:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
-msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양과 느낌을 바로 확인할 수 있습니다."
+msgid ""
+"Below is a preview. You may move cursor and select files to get immediately an "
+"actual look and feel of the various settings."
+msgstr ""
+"아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양"
+"과 느낌을 바로 확인할 수 있습니다."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
@@ -5127,7 +5154,8 @@ msgid "Scan all &hotdir's path to validate the ones that actually exist"
 msgstr "모든 주요 디렉터리 경로를 검색하여 실제로 존재하는 경로 검증(&H)"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
-msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
+msgid ""
+"&Scan all hotdir's path && target to validate the ones that actually exist"
 msgstr "모든 주요 디렉터리 경로 및 대상을 검색하여 실제로 존재하는 경로 검증(&S)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
@@ -5256,12 +5284,18 @@ msgid "From all the supported formats, ask which one to use every time"
 msgstr "지원되는 모든 형식 중에서 매번 사용할 형식 묻기"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
-msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "유니코드 텍스트를 저장할 때 UTF8 형식으로 저장 (그렇지 않으면 UTF16이 됨)"
+msgid ""
+"When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
+msgstr ""
+"유니코드 텍스트를 저장할 때 UTF8 형식으로 저장 (그렇지 않으면 UTF16이 됨)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
-msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "텍스트를 삭제할 때 파일 이름을 자동으로 생성 (그렇지 않으면 사용자에게 알림이 표시됨)"
+msgid ""
+"When dropping text, generate filename automatically (otherwise will prompt the "
+"user)"
+msgstr ""
+"텍스트를 삭제할 때 파일 이름을 자동으로 생성 (그렇지 않으면 사용자에게 알림이 "
+"표시됨)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -5280,8 +5314,10 @@ msgid "(if the most desired is not present, we'll take second one and so on)"
 msgstr "(가장 원하는 항목이 없는 경우, 두 번째 항목으로 변경)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
-msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr "(일부 원본 응용 프로그램에서는 작동하지 않으므로 문제가 있는 경우 선택 취소.)"
+msgid ""
+"(will not work with some source application, so try to uncheck if problem)"
+msgstr ""
+"(일부 원본 응용 프로그램에서는 작동하지 않으므로 문제가 있는 경우 선택 취소.)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -5304,16 +5340,24 @@ msgid "Auto Indent"
 msgstr "자동 들여쓰기"
 
 #: tfrmoptionseditor.chkautoindent.hint
-msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
-msgstr "<Enter>로 새 줄을 만들 때 이전 줄과 같은 양의 선행 공백을 사용하여 캐럿을 들여쓰기할 수 있습니다"
+msgid ""
+"Allows to indent the caret, when new line is created with <Enter>, with the "
+"same amount of leading white space as the preceding line"
+msgstr ""
+"<Enter>로 새 줄을 만들 때 이전 줄과 같은 양의 선행 공백을 사용하여 캐럿을 들여"
+"쓰기할 수 있습니다"
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
 msgstr "그룹 실행 취소"
 
 #: tfrmoptionseditor.chkgroupundo.hint
-msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr "동일한 유형의 모든 연속 변경 사항은 각각 실행 취소/재실행하지 않고 한 번의 호출로 처리됩니다"
+msgid ""
+"All continuous changes of the same type will be processed in one call instead "
+"of undoing/redoing each one"
+msgstr ""
+"동일한 유형의 모든 연속 변경 사항은 각각 실행 취소/재실행하지 않고 한 번의 호출"
+"로 처리됩니다"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5340,7 +5384,9 @@ msgid "Smart Tabs"
 msgstr "스마트 탭"
 
 #: tfrmoptionseditor.chksmarttabs.hint
-msgid "When using <Tab> key, caret will go to the next non-space character of the previous line"
+msgid ""
+"When using <Tab> key, caret will go to the next non-space character of the "
+"previous line"
 msgstr "<Tab> 키를 사용할 경우 캐럿은 이전 줄의 공백이 아닌 다음 문자로 가기"
 
 #: tfrmoptionseditor.chktabindent.caption
@@ -5348,15 +5394,21 @@ msgid "Tab indents blocks"
 msgstr "탭 들여쓰기 블록"
 
 #: tfrmoptionseditor.chktabindent.hint
-msgid "When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected"
-msgstr "활성 <Tab> 상태일 때 <Shift+Tab>은 블록 들여쓰기 역할을 하고 텍스트를 선택하면 들여쓰기를 취소합니다"
+msgid ""
+"When active <Tab> and <Shift+Tab> act as block indent, unindent when text is "
+"selected"
+msgstr ""
+"활성 <Tab> 상태일 때 <Shift+Tab>은 블록 들여쓰기 역할을 하고 텍스트를 선택하면 "
+"들여쓰기를 취소합니다"
 
 #: tfrmoptionseditor.chktabstospaces.caption
 msgid "Use spaces instead tab characters"
 msgstr "탭 문자 대신 공백 사용"
 
 #: tfrmoptionseditor.chktabstospaces.hint
-msgid "Converts tab characters to a specified number of space characters (when entering)"
+msgid ""
+"Converts tab characters to a specified number of space characters (when "
+"entering)"
 msgstr "탭 문자를 지정된 수의 공백 문자로 변환합니다 (입력 시)"
 
 #: tfrmoptionseditor.chktrimtrailingspaces.caption
@@ -5369,7 +5421,9 @@ msgstr "후행 공백 자동 삭제는 편집한 줄에만 적용됩니다"
 
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
-msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
+msgid ""
+"Please note that the \"Smart Tabs\" option takes precedence over the "
+"tabulation to be performed"
 msgstr "\"스마트 탭\" 옵션이 수행될 표보다 우선한다는 점에 유의하세요"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
@@ -5386,7 +5440,9 @@ msgstr "탭 너비:"
 
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
-msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
+msgid ""
+"Please note that the \"Smart Tabs\" option takes precedence over the "
+"tabulation to be performed"
 msgstr "\"스마트 탭\" 옵션이 수행될 표보다 우선한다는 점에 유의하세요"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
@@ -5818,12 +5874,20 @@ msgid "Starting path of the command. Never quote this string."
 msgstr "명령의 시작 경로입니다. 이 문자열을 인용하지 마세요."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
-msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr "작업의 이름입니다. 이 이름은 시스템으로 전달되지 않으며, 사용자가 직접 선택한 니모닉 이름일 뿐입니다"
+msgid ""
+"Name of the action. It is never passed to the system, it's just a mnemonic "
+"name chosen by you, for you"
+msgstr ""
+"작업의 이름입니다. 이 이름은 시스템으로 전달되지 않으며, 사용자가 직접 선택한 "
+"니모닉 이름일 뿐입니다"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgstr "명령에 전달할 매개 변수입니다. 공백이 있는 긴 파일 이름을 따옴표로 나타내야 합니다 (수동으로 입력)."
+msgid ""
+"Parameter to pass to the command. Long filename with spaces should be quoted "
+"(manually entering)."
+msgstr ""
+"명령에 전달할 매개 변수입니다. 공백이 있는 긴 파일 이름을 따옴표로 나타내야 합"
+"니다 (수동으로 입력)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Never quote this string."
@@ -5976,8 +6040,12 @@ msgstr "아직 포함되지 않은 경우 파일 연결에 선택 항목 추가 
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "파일 연결에 액세스할 때 구성된 파일 유형에 아직 포함되지 않은 경우 현재 선택한 파일을 추가하겠다고 제안합니다"
+msgid ""
+"When accessing file association, offer to add current selected file if not "
+"already included in a configured file type"
+msgstr ""
+"파일 연결에 액세스할 때 구성된 파일 유형에 아직 포함되지 않은 경우 현재 선택한 "
+"파일을 추가하겠다고 제안합니다"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -6015,7 +6083,8 @@ msgstr "경로"
 
 #: tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption
 msgctxt "tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption"
-msgid "Way to set paths when adding elements for icons, commands and starting paths:"
+msgid ""
+"Way to set paths when adding elements for icons, commands and starting paths:"
 msgstr "아이콘, 명령 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
@@ -6191,8 +6260,12 @@ msgid "Inactive Text Color:"
 msgstr "비활성 텍스트 색상:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
-msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr "아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양과 느낌을 바로 확인할 수 있습니다."
+msgid ""
+"Below is a preview. You may move cursor, select file and get immediately an "
+"actual look and feel of the various settings."
+msgstr ""
+"아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양"
+"과 느낌을 바로 확인할 수 있습니다."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
@@ -6327,7 +6400,9 @@ msgid "&Help"
 msgstr "도움말(&H)"
 
 #: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgid ""
+"Enable changing to &parent folder when double-clicking on empty part of file "
+"view"
 msgstr "파일 보기의 빈 부분을 두 번 클릭할 때 상위 폴더로 변경 사용(&P)"
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
@@ -6359,12 +6434,18 @@ msgid "Show s&ystem and hidden files"
 msgstr "시스템, 숨김 파일 표시(&Y)"
 
 #: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgid ""
+"&When selecting files with <SPACEBAR>, move down to next file (as with "
+"<INSERT>)"
 msgstr "<SPACEBAR>로 파일을 선택할 때는 다음 파일로 이동 (<INSERT>처럼)(&W)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "파일을 표시할 때 Windows 스타일 필터 (\"*.*\"는 확장자가 없는 파일도 선택 가능 등)"
+msgid ""
+"Windows style filter when marking files (\"*.*\" also select files without "
+"extension, etc.)"
+msgstr ""
+"파일을 표시할 때 Windows 스타일 필터 (\"*.*\"는 확장자가 없는 파일도 선택 가능 "
+"등)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgid "Use an independent attribute filter in mask input dialog each time"
@@ -7087,8 +7168,12 @@ msgstr "파일 이름"
 
 #: tfrmoptionspluginsdsx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
-msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "검색 플러그인을 사용하면 대체 검색 알고리즘이나 외부 도구 (예: \"locate\" 등)를 사용할 수 있습니다(&H)"
+msgid ""
+"Searc&h plugins allow one to use alternative search algorithms or external "
+"tools (like \"locate\", etc.)"
+msgstr ""
+"검색 플러그인을 사용하면 대체 검색 알고리즘이나 외부 도구 (예: \"locate\" 등)"
+"를 사용할 수 있습니다(&H)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
@@ -7162,8 +7247,12 @@ msgstr "파일 이름"
 
 #: tfrmoptionspluginswdx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
-msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "컨텐츠 플러그인을 사용하면 파일 목록에 mp3 태그 또는 이미지 속성과 같은 확장 파일 세부 정보를 표시하거나 검색 및 다중 이름 지정 도구에 사용할 수 있습니다(&G)"
+msgid ""
+"Content plu&gins allow one to display extended file details like mp3 tags or "
+"image attributes in file lists, or use them in search and multi-rename tool"
+msgstr ""
+"컨텐츠 플러그인을 사용하면 파일 목록에 mp3 태그 또는 이미지 속성과 같은 확장 파"
+"일 세부 정보를 표시하거나 검색 및 다중 이름 지정 도구에 사용할 수 있습니다(&G)"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
@@ -7187,8 +7276,12 @@ msgstr "파일 이름"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
-msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "파일 시스템 플러그인을 사용하면 운영 체제에서 액세스할 수 없는 디스크나 스마트폰과 같은 외부 장치에 액세스할 수 있습니다(&L)."
+msgid ""
+"Fi&le system plugins allow access to disks inaccessible by operating system or "
+"to external devices like smartphones."
+msgstr ""
+"파일 시스템 플러그인을 사용하면 운영 체제에서 액세스할 수 없는 디스크나 스마트"
+"폰과 같은 외부 장치에 액세스할 수 있습니다(&L)."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -7212,8 +7305,12 @@ msgstr "파일 이름"
 
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
-msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "뷰어 플러그인을 사용하면 이미지, 스프레드시트, 데이터베이스 등의 파일 형식을 뷰어에서 표시할 수 있습니다 (F3, Ctrl+Q)(&W)"
+msgid ""
+"Vie&wer plugins allow one to display file formats like images, spreadsheets, "
+"databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
+"뷰어 플러그인을 사용하면 이미지, 스프레드시트, 데이터베이스 등의 파일 형식을 뷰"
+"어에서 표시할 수 있습니다 (F3, Ctrl+Q)(&W)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
@@ -7361,7 +7458,8 @@ msgid "Goto to Favorite Tabs Configuration after saving a new one"
 msgstr "새 탭을 저장한 후 즐겨찾기 탭 구성으로 가기"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
-msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgid ""
+"Enable Favorite Tabs extra options (select target side when restore, etc.)"
 msgstr "즐겨찾기 탭 추가 옵션 사용 (복원 시 대상 측 선택 등)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
@@ -7395,13 +7493,19 @@ msgstr "새 즐겨찾기 탭을 저장할 때 메뉴의 기본 위치:"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMCLOSEPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "터미널에서 실행할 명령을 반영하려면 일반적으로 {command}이(가) 있어야 합니다"
+msgid ""
+"{command} should normally be present here to reflect the command to be run in "
+"terminal"
+msgstr ""
+"터미널에서 실행할 명령을 반영하려면 일반적으로 {command}이(가) 있어야 합니다"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "터미널에서 실행할 명령을 반영하려면 일반적으로 {command}이(가) 있어야 합니다"
+msgid ""
+"{command} should normally be present here to reflect the command to be run in "
+"terminal"
+msgstr ""
+"터미널에서 실행할 명령을 반영하려면 일반적으로 {command}이(가) 있어야 합니다"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7497,8 +7601,12 @@ msgid "Sho&w captions"
 msgstr "제목 표시(&W)"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
-msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "명령 매개변수를 각각 별도의 줄에 입력합니다. 매개변수에 대한 도움말을 보려면 F1 키를 누릅니다."
+msgid ""
+"Enter command parameters, each in a separate line. Press F1 to see help on "
+"parameters."
+msgstr ""
+"명령 매개변수를 각각 별도의 줄에 입력합니다. 매개변수에 대한 도움말을 보려면 "
+"F1 키를 누릅니다."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
@@ -7926,7 +8034,8 @@ msgstr "상대 경로:"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
-msgid "Way to set paths when adding elements for icons, commands and starting paths:"
+msgid ""
+"Way to set paths when adding elements for icons, commands and starting paths:"
 msgstr "아이콘, 명령 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
@@ -8063,7 +8172,9 @@ msgid "With double-click on a tab (if configured for it)"
 msgstr "탭을 두 번 클릭 (구성된 경우)"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
-msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
+msgid ""
+"When using the keyboard shortcut, it will exit the window returning the "
+"current choice"
 msgstr "키보드 단축키를 사용하면 현재 선택 항목을 반환하는 창을 종료"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
@@ -8095,8 +8206,13 @@ msgid "Where to use Tree View Menus:"
 msgstr "트리 보기 메뉴 사용 위치:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
-msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr "*참고: 대소문자 구분, 억양 무시 또는 무시와 같은 옵션과 관련하여, 이러한 옵션은 사용 및 세션에서 다른 컨텍스트마다 개별적으로 저장 및 복원됩니다."
+msgid ""
+"*NOTE: Regarding the options like the case sensitivity, ignoring accents or "
+"not, these are saved and restored individually for each context from a usage "
+"and session to another."
+msgstr ""
+"*참고: 대소문자 구분, 억양 무시 또는 무시와 같은 옵션과 관련하여, 이러한 옵션"
+"은 사용 및 세션에서 다른 컨텍스트마다 개별적으로 저장 및 복원됩니다."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -8180,8 +8296,12 @@ msgid "Unselectable under cursor:"
 msgstr "커서 아래 선택할 수 없는 텍스트:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
-msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr "왼쪽의 색상을 변경하면 이 샘플을 사용하여 트리 보기 메뉴가 어떻게 표시되는지 미리 볼 수 있습니다."
+msgid ""
+"Change color on left and you'll see here a preview of what your Tree View "
+"Menus will look likes with this sample."
+msgstr ""
+"왼쪽의 색상을 변경하면 이 샘플을 사용하여 트리 보기 메뉴가 어떻게 표시되는지 미"
+"리 볼 수 있습니다."
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
@@ -8337,7 +8457,7 @@ msgstr "대소문자 구분"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
@@ -9097,12 +9217,18 @@ msgid "Search is strict regarding accents and ligatures"
 msgstr "억양 및 합자에 대한 검색은 엄격함"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
-msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
+msgid ""
+"Don't show the branch content \"just\" because the searched string is found in "
+"the branche name"
 msgstr "검색된 문자열이 분기 이름에 있으므로 분기 내용을 \"그냥\" 표시하지 않음"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
-msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "검색된 문자열이 분기 이름에서 발견되면 요소가 일치하지 않더라도 분기 전체를 표시"
+msgid ""
+"If searched string is found in a branch name, show the whole branch even if "
+"elements don't match"
+msgstr ""
+"검색된 문자열이 분기 이름에서 발견되면 요소가 일치하지 않더라도 분기 전체를 표"
+"시"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -9876,13 +10002,15 @@ msgstr "방향"
 #: ulng.msgtrytolocatecrcfile
 #, object-pascal-format
 msgid ""
-"This file cannot be found and could help to validate final combination of files:\n"
+"This file cannot be found and could help to validate final combination of "
+"files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"이 파일을 찾을 수 없으며 최종 파일 조합의 유효성을 검사하는 데 도움이 될 수 있습니다:\n"
+"이 파일을 찾을 수 없으며 최종 파일 조합의 유효성을 검사하는 데 도움이 될 수 있"
+"습니다:\n"
 "%s\n"
 "\n"
 "가능하게 해주시고 준비되면 \"확인\"를 눌러주시고,\n"
@@ -9954,8 +10082,15 @@ msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "클립보드에 유효한 도구 모음 데이터가 없습니다."
 
 #: ulng.rscmdcategorylistinorder
-msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr "전체;활성 패널;왼쪽 패널;오른쪽 패널;파일 작업;구성;네트워크;기타 사항;병렬 포트;인쇄;마크;보안;클립보드;FTP;탐색;도움말;창;명령줄;도구;보기;사용자;탭;정렬;로그"
+msgid ""
+"All;Active Panel;Left Panel;Right Panel;File "
+"Operations;Configuration;Network;Miscellaneous;Parallel "
+"Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command "
+"Line;Tools;View;User;Tabs;Sorting;Log"
+msgstr ""
+"전체;활성 패널;왼쪽 패널;오른쪽 패널;파일 작업;구성;네트워크;기타 사항;병렬 포"
+"트;인쇄;마크;보안;클립보드;FTP;탐색;도움말;창;명령줄;도구;보기;사용자;탭;정렬;"
+"로그"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
@@ -10701,16 +10836,21 @@ msgid "Error creating hardlink."
 msgstr "하드 링크 만들기 오류입니다."
 
 #: ulng.rshotdirforcesortingorderchoices
-msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr "없음;파일, a-z;파일, z-a;확장자, a-z;확장자, z-a;크기 9-0;크기 0-9;날짜 9-0;날짜 0-9"
+msgid ""
+"none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
+msgstr ""
+"없음;파일, a-z;파일, z-a;확장자, a-z;확장자, z-a;크기 9-0;크기 0-9;날짜 9-0;날"
+"짜 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
-"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"Warning! When restoring a .hotlist backup file, this will erase existing list "
+"to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?"
 msgstr ""
-"경고! .hotlist 백업 파일을 복원할 때 가져온 파일로 대체할 기존 목록이 지워집니다.\n"
+"경고! .hotlist 백업 파일을 복원할 때 가져온 파일로 대체할 기존 목록이 지워집니"
+"다.\n"
 "\n"
 "계속하시겠습니까?"
 
@@ -10806,12 +10946,20 @@ msgstr "\"ENTER\"로 바로가기 없음"
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
 msgstr "명령 이름별;바로가기 키별 (그룹화);바로가기 키별 (행당 1개)"
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
-msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr "먼저 파일을 다운로드하는 것이 좋습니다. 그렇지 않으면 복사되는 것은 파일의 콘텐츠가 아니라 해당 자리 표시자 파일로, 확장자가 .iCloud인 숨겨진 파일이 됩니다."
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
+msgid ""
+"It is recommended to download the files first. Otherwise, what is copied is "
+"not the content of the files, but the corresponding placeholder files, which "
+"will result in hidden files with the .iCloud extension."
+msgstr ""
+"먼저 파일을 다운로드하는 것이 좋습니다. 그렇지 않으면 복사되는 것은 파일의 콘텐"
+"츠가 아니라 해당 자리 표시자 파일로, 확장자가 .iCloud인 숨겨진 파일이 됩니다."
 
-#: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
-msgid "The operation may contain files that were not downloaded, continue anyway?"
+#: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
+msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
+msgid ""
+"The operation may contain files that were not downloaded, continue anyway?"
 msgstr "다운로드하지 않은 파일이 포함되어 있을 수 있는데 계속 진행하시겠습니까?"
 
 #: ulng.rsimporttoolbarproblem
@@ -10865,8 +11013,11 @@ msgid "A columns view with that name already exists."
 msgstr "해당 이름의 열 보기가 이미 존재합니다."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
-msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr "현재 편집 열 보기를 변경하려면 현재 편집 열 보기를 저장, 복사 또는 삭제합니다"
+msgid ""
+"To change current editing colmuns view, either SAVE, COPY or DELETE current "
+"editing one"
+msgstr ""
+"현재 편집 열 보기를 변경하려면 현재 편집 열 보기를 저장, 복사 또는 삭제합니다"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -10981,13 +11132,13 @@ msgstr "수평 분할 모드 전환"
 msgid "HorzSplit"
 msgstr "수평 분할"
 
-#: ulng.rsmfstbiiclouddrivertips
-msgctxt "ulng.rsmfstbiiclouddrivertips"
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
 
-#: ulng.rsmfstbiiclouddrivertitle
-msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
 
@@ -11002,8 +11153,15 @@ msgid "network"
 msgstr "네트워크"
 
 #: ulng.rsmfstbiprivilegetips
-msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr "파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 ‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
+msgid ""
+"As a file manager, Double Command requires full disk access permissions. "
+"Clicking this button will pop up the macOS system settings page. Please add "
+"\"Double Commander.app\" to the \"Full Disk Access\" list to complete the "
+"authorization."
+msgstr ""
+"파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼"
+"을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 "
+"‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -11137,13 +11295,15 @@ msgstr "꺼내기"
 msgid "Extract here..."
 msgstr "여기에 추출..."
 
-#: ulng.rsmnuiclouddriverdownloadnow
+#: ulng.rsmnuiclouddrivedownloadnow
+msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
 msgstr "지금 다운로드"
 
-#: ulng.rsmnuiclouddriverremovedownload
+#: ulng.rsmnuiclouddriveremovedownload
+msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
-msgstr "다운로드 제거"
+msgstr "지금 다운로드"
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -11201,16 +11361,24 @@ msgstr "보기"
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgmessage
 msgid ""
-"Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.\n"
+"Some virtual filesystem contain specific directory structures. When copying "
+"from it to a compressed archive, only one directory can be selected at a time, "
+"unless the actual locations of the selected directories are all located under "
+"the same parent directory.\n"
 "\n"
-"For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.\n"
+"For example, for iCloud Drive, when copying directory from the root to a "
+"compressed archive, maybe only one directory should be selected.\n"
 "\n"
-"It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
+"It is recommended that you follow your usual practice and try to select only "
+"one directory when you receive this prompt."
 msgstr ""
-"일부 가상 파일시스템에는 특정 디렉터리 구조가 포함되어 있습니다. 이 시스템에서 압축 파일로 복사할 때는 선택한 디렉터리의 실제 위치가 모두 동일한 상위 디렉터리 아래에 있지 않는 한 한 번에 하나의 디렉터리만 선택할 수 있습니다.\n"
+"일부 가상 파일시스템에는 특정 디렉터리 구조가 포함되어 있습니다. 이 시스템에서 "
+"압축 파일로 복사할 때는 선택한 디렉터리의 실제 위치가 모두 동일한 상위 디렉터"
+"리 아래에 있지 않는 한 한 번에 하나의 디렉터리만 선택할 수 있습니다.\n"
 "\n"
 "\n"
-"예를 들어, iCloud 드라이브의 경우 루트에서 압축 보관함으로 디렉터리를 복사할 때 하나의 디렉터리만 선택해야 할 수 있습니다.\n"
+"예를 들어, iCloud 드라이브의 경우 루트에서 압축 보관함으로 디렉터리를 복사할 "
+"때 하나의 디렉터리만 선택해야 할 수 있습니다.\n"
 "\n"
 "이 메시지가 표시되면 평소 관행에 따라 하나의 디렉터리만 선택하는 것이 좋습니다."
 
@@ -11553,8 +11721,12 @@ msgid "Exit status:"
 msgstr "종료 상태:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
-msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "즐겨찾기 탭의 모든 항목을 제거하시겠습니까? (이 작업에는 '실행 취소'가 없습니다!)"
+msgid ""
+"Are you sure you want to remove all entries of your Favorite Tabs? (There is "
+"no \"undo\" to this action!)"
+msgstr ""
+"즐겨찾기 탭의 모든 항목을 제거하시겠습니까? (이 작업에는 '실행 취소'가 없습니"
+"다!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11591,8 +11763,11 @@ msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr "가져올 .tab 파일을 선택합니다 (한 번에 둘 이상일 수 있습니다!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
-msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr "마지막 즐겨찾기 탭 수정이 저장되었습니다. 계속하기 전에 저장하시겠습니까?"
+msgid ""
+"Last Favorite Tabs modification have been saved yet. Do you want to save them "
+"prior to continue?"
+msgstr ""
+"마지막 즐겨찾기 탭 수정이 저장되었습니다. 계속하기 전에 저장하시겠습니까?"
 
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
@@ -11646,15 +11821,20 @@ msgid "File operations active"
 msgstr "파일 작업 활성화"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr "일부 파일 작업이 아직 완료되지 않았습니다. Double Command를 닫으면 데이터가 손실될 수 있습니다."
+msgid ""
+"Some file operations have not yet finished. Closing Double Commander may "
+"result in data loss."
+msgstr ""
+"일부 파일 작업이 아직 완료되지 않았습니다. Double Command를 닫으면 데이터가 손"
+"실될 수 있습니다."
 
 #: ulng.rsmsgfilepathovermaxpath
 #, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!"
+"Most programs will not be able to access a file/directory with such a long "
+"name!"
 msgstr ""
 "대상 이름 길이(%d)가 %d자를 초과합니다!\n"
 "%s\n"
@@ -11715,8 +11895,12 @@ msgid "Configuration of Directory Hotlist"
 msgstr "디렉터리 주요 목록 구성"
 
 #: ulng.rsmsghotdirdeleteallentries
-msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "디렉터리 주요 목록의 모든 항목을 제거하시겠습니까? (이 작업에는 \"실행 취소\"가 없습니다!)"
+msgid ""
+"Are you sure you want to remove all entries of your Directory Hotlist? (There "
+"is no \"undo\" to this action!)"
+msgstr ""
+"디렉터리 주요 목록의 모든 항목을 제거하시겠습니까? (이 작업에는 \"실행 취소"
+"\"가 없습니다!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11841,16 +12025,24 @@ msgid "Hotdir target"
 msgstr "주요 디렉터리 대상"
 
 #: ulng.rsmsghotdirtiporderpath
-msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
+msgid ""
+"Determine if you want the active frame to be sorted in a specified order after "
+"changing directory"
 msgstr "디렉터리 변경 후 활성 프레임을 지정된 순서로 정렬할지 여부 결정"
 
 #: ulng.rsmsghotdirtipordertarget
-msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr "디렉터리 변경 후 활성화되지 않은 프레임을 지정된 순서로 정렬할지 여부 결정"
+msgid ""
+"Determine if you want the not active frame to be sorted in a specified order "
+"after changing directory"
+msgstr ""
+"디렉터리 변경 후 활성화되지 않은 프레임을 지정된 순서로 정렬할지 여부 결정"
 
 #: ulng.rsmsghotdirtipspecialdirbut
-msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr "상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하는 일부 기능"
+msgid ""
+"Some functions to select appropriate path relative, absolute, windows special "
+"folders, etc."
+msgstr ""
+"상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하는 일부 기능"
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
@@ -11871,7 +12063,8 @@ msgstr "내보낸 전체 항목: "
 #, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+"Answering NO will delete only menu delimiters but will keep element inside sub-"
+"menu."
 msgstr ""
 "하위 메뉴 [%s]의 모든 요소를 삭제하시겠습니까?\n"
 "아니요로 응답하면 메뉴 구분 기호만 삭제되지만 요소는 하위 메뉴 내에 유지됩니다."
@@ -11934,8 +12127,12 @@ msgstr "유효한 플러그인이 아닙니다!"
 
 #: ulng.rsmsginvalidpluginarchitecture
 #, object-pascal-format
-msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "이 플러그인은 %s.%s용 Double Commander용으로 제작되었습니다. %s용 Double Commander에서는 작동할 수 없습니다!"
+msgid ""
+"This plugin is built for Double Commander for %s.%sIt can not work with Double "
+"Commander for %s!"
+msgstr ""
+"이 플러그인은 %s.%s용 Double Commander용으로 제작되었습니다. %s용 Double "
+"Commander에서는 작동할 수 없습니다!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -11948,12 +12145,12 @@ msgstr "잘못된 선택입니다."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "키 변환에 실패했습니다 (오류 코드 %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "키 변환에 %f초가 걸렸습니다."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -12058,11 +12255,11 @@ msgstr "%s 폴더 영구 삭제"
 #: ulng.rsmsgmasterpassword
 msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
-msgstr "마스터 암호"
+msgstr "주 비밀번호"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the main password:"
-msgstr "마스터 암호를 입력하세요:"
+msgstr "주 비밀번호를 입력하세요:"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -12102,34 +12299,39 @@ msgid "Object does not exist!"
 msgstr "개체가 존재하지 않습니다!"
 
 #: ulng.rsmsgopeninanotherprogram
-msgid "The action cannot be completed because the file is open in another program:"
+msgid ""
+"The action cannot be completed because the file is open in another program:"
 msgstr "파일이 다른 프로그램에 열려 있으므로 작업을 완료할 수 없습니다:"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
-msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양과 느낌을 바로 확인할 수 있습니다."
+msgid ""
+"Below is a preview. You may move cursor and select files to get immediately an "
+"actual look and feel of the various settings."
+msgstr ""
+"아래는 미리보기입니다. 커서를 이동하고 파일을 선택하면 다양한 설정의 실제 모양"
+"과 느낌을 바로 확인할 수 있습니다."
 
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
 msgid "Password:"
-msgstr "암호:"
+msgstr "비밀번호:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr "암호가 다릅니다!"
+msgstr "비밀번호가 다릅니다!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "암호를 입력하세요:"
+msgstr "비밀번호를 입력하세요:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
-msgstr "암호 (방화벽):"
+msgstr "비밀번호 (방화벽):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "검증을 위해 암호를 다시 입력하세요:"
+msgstr "검증을 위해 비밀번호를 다시 입력하세요:"
 
 #: ulng.rsmsgpopuphotdelete
 #, object-pascal-format
@@ -12358,8 +12560,15 @@ msgid "Built-in terminal window disabled. Do you want to enable it?"
 msgstr "내장 터미널 창이 비활성화되었습니다. 활성화하시겠습니까?"
 
 #: ulng.rsmsgterminateprocess
-msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
-msgstr "경고: 프로세스를 종료하면 데이터 손실 및 시스템 불안정을 포함한 원하지 않는 결과가 발생할 수 있습니다. 프로세스가 종료되기 전에 상태 또는 데이터를 저장할 수 있는 기회가 주어지지 않습니다. 프로세스를 종료하시겠습니까?"
+msgid ""
+"WARNING: Terminating a process can cause undesired results including loss of "
+"data and system instability. The process will not be given the chance to save "
+"its state or data before it is terminated. Are you sure you want to terminate "
+"the process?"
+msgstr ""
+"경고: 프로세스를 종료하면 데이터 손실 및 시스템 불안정을 포함한 원하지 않는 결"
+"과가 발생할 수 있습니다. 프로세스가 종료되기 전에 상태 또는 데이터를 저장할 수 "
+"있는 기회가 주어지지 않습니다. 프로세스를 종료하시겠습니까?"
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
@@ -12471,7 +12680,7 @@ msgid ""
 "Wrong password!\n"
 "Please try again!"
 msgstr ""
-"암호가 잘못되었습니다!\n"
+"비밀번호가 잘못되었습니다!\n"
 "다시 시도해 주세요!"
 
 #: ulng.rsmulrenautorename
@@ -12510,8 +12719,12 @@ msgid "Enter value for variable \"%s\""
 msgstr "변수 \"%s\" 값 입력"
 
 #: ulng.rsmulrenexitmodifiedpresetoptions
-msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
-msgstr "무시하고 [마지막 한 개]로 저장;저장 여부 확인을 위해 사용자 프롬프트;자동으로 저장"
+msgid ""
+"Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save "
+"automatically"
+msgstr ""
+"무시하고 [마지막 한 개]로 저장;저장 여부 확인을 위해 사용자 프롬프트;자동으로 "
+"저장"
 
 #: ulng.rsmulrenextension
 msgctxt "ulng.rsmulrenextension"
@@ -12524,8 +12737,11 @@ msgid "Name"
 msgstr "이름"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "변경 없음;대문자;소문자;첫 번째 문자 대문자;모든 단어의 첫 번째는 대문자;"
+msgid ""
+"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
+"Uppercase;"
+msgstr ""
+"변경 없음;대문자;소문자;첫 번째 문자 대문자;모든 단어의 첫 번째는 대문자;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
@@ -12533,7 +12749,8 @@ msgstr "[마지막 사용]"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
-msgstr "[마지막 한 개] 사전 설정 아래의 마지막 마스크;마지막 사전 설정;새로운 새 마스크"
+msgstr ""
+"[마지막 한 개] 사전 설정 아래의 마지막 마스크;마지막 사전 설정;새로운 새 마스크"
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
@@ -13017,7 +13234,9 @@ msgid "Adding new tooltip file type"
 msgstr "새 도구 설명 파일 유형 추가"
 
 #: ulng.rsoptarchiveconfiguresavetochange
-msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
+msgid ""
+"To change current editing archive configuration, either APPLY or DELETE "
+"current editing one"
 msgstr "현재 편집 압축파일 구성을 변경하려면 현재 편집을 적용하거나 삭제하세요"
 
 #: ulng.rsoptarchiveradditonalcmd
@@ -13166,8 +13385,12 @@ msgid "Full expand;Full collapse"
 msgstr "전체 확장;전체 축소"
 
 #: ulng.rsoptdifferframeposition
-msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr "왼쪽은 활성 프레임 패널, 오른쪽은 비활성 (레거시), 왼쪽은 왼쪽 프레임 패널, 오른쪽은 오른쪽 프레임 패널"
+msgid ""
+"Active frame panel on left, inactive on right (legacy);Left frame panel on "
+"left, right on right"
+msgstr ""
+"왼쪽은 활성 프레임 패널, 오른쪽은 비활성 (레거시), 왼쪽은 왼쪽 프레임 패널, 오"
+"른쪽은 오른쪽 프레임 패널"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
@@ -13187,8 +13410,12 @@ msgstr "부동"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "cm_Delete의 바로가기 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
+msgid ""
+"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
+"this setting."
+msgstr ""
+"cm_Delete의 바로가기 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니"
+"다."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13214,13 +13441,21 @@ msgstr "명령"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "cm_Delete의 바로가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정을 사용하려면 이 매개 변수를 변경하시겠습니까?"
+msgid ""
+"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you "
+"want to change this parameter to use the global setting?"
+msgstr ""
+"cm_Delete의 바로가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정"
+"을 사용하려면 이 매개 변수를 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "cm_Delete의 바로가기 %s에 대해 바로가기 %s와 일치하도록 매개 변수를 변경해야 합니다. 변경하시겠습니까?"
+msgid ""
+"Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut "
+"%s. Do you want to change it?"
+msgstr ""
+"cm_Delete의 바로가기 %s에 대해 바로가기 %s와 일치하도록 매개 변수를 변경해야 합"
+"니다. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13261,13 +13496,21 @@ msgstr "파일 삭제 바로가기 설정"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
-msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "이 설정이 %s 단축키로 작동하려면 단축키 %s을(를) cm_Delete에 할당해야 하지만 이미 %s에 할당되어 있습니다. 변경하시겠습니까?"
+msgid ""
+"For this setting to work with shortcut %s, shortcut %s must be assigned to "
+"cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr ""
+"이 설정이 %s 단축키로 작동하려면 단축키 %s을(를) cm_Delete에 할당해야 하지만 이"
+"미 %s에 할당되어 있습니다. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "cm_Delete의 바로가기 %s은 Shift가 반대인 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
+msgid ""
+"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with "
+"reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
+"cm_Delete의 바로가기 %s은 Shift가 반대인 단축키를 할당할 수 없는 시퀀스 단축키"
+"입니다. 이 설정이 작동하지 않을 수 있습니다."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -13530,12 +13773,20 @@ msgid "Left button;Right button;"
 msgstr "왼쪽 버튼;오른쪽 버튼;"
 
 #: ulng.rsoptnewfilesposition
-msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr "파일 목록의 맨 위에;디렉터리 뒤에 (파일 앞에 디렉터리가 정렬된 경우);정렬된 위치에;파일 목록의 맨 아래에"
+msgid ""
+"at the top of the file list;after directories (if directories are sorted "
+"before files);at sorted position;at the bottom of the file list"
+msgstr ""
+"파일 목록의 맨 위에;디렉터리 뒤에 (파일 앞에 디렉터리가 정렬된 경우);정렬된 위"
+"치에;파일 목록의 맨 아래에"
 
 #: ulng.rsoptpersonalizedfilesizeformat
-msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
-msgstr "맞춤형 부동;맞춤형 바이트;맞춤형 킬로바이트;맞춤형 메가바이트;맞춤형 기가바이트;맞춤형 테라바이트"
+msgid ""
+"Personalized float;Personalized byte;Personalized kilobyte;Personalized "
+"megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
+"맞춤형 부동;맞춤형 바이트;맞춤형 킬로바이트;맞춤형 메가바이트;맞춤형 기가바이"
+"트;맞춤형 테라바이트"
 
 #: ulng.rsoptpluginalreadyassigned
 #, object-pascal-format
@@ -13605,20 +13856,34 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "파일(&F);디렉터리(&R);파일 및 디렉터리(&N)"
 
 #: ulng.rsoptsearchopt
-msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "음운 기호 및 결합 문자 무시(&D);초점이 맞지 않을 때는 필터 패널 숨기기(&H);다음 세션의 설정 수정사항 저장"
+msgid ""
+"Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep "
+"saving setting modifications for next session"
+msgstr ""
+"음운 기호 및 결합 문자 무시(&D);초점이 맞지 않을 때는 필터 패널 숨기기(&H);다"
+"음 세션의 설정 수정사항 저장"
 
 #: ulng.rsoptsortcasesens
-msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "대소문자를 구분하지 않음;로컬 설정에 따라 (aAbBcC);처음에는 대문자와 소문자 (Abcabc)"
+msgid ""
+"not case sensitive;according to locale settings (aAbBcC);first upper then "
+"lower case (ABCabc)"
+msgstr ""
+"대소문자를 구분하지 않음;로컬 설정에 따라 (aAbBcC);처음에는 대문자와 소문자 "
+"(Abcabc)"
 
 #: ulng.rsoptsortfoldermode
-msgid "sort by name and show first;sort like files and show first;sort like files"
+msgid ""
+"sort by name and show first;sort like files and show first;sort like files"
 msgstr "이름으로 정렬하고 먼저 표시;파일처럼 정렬하고 먼저 표시;파일처럼 정렬"
 
 #: ulng.rsoptsortmethod
-msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "억양을 고려한 알파벳순;특수문자 포함 알파벳순;자연 정렬: 알파벳 및 숫자;특수문자 포함 자연 정렬"
+msgid ""
+"Alphabetical, considering accents;Alphabetical with special characters "
+"sort;Natural sorting: alphabetical and numbers;Natural with special characters "
+"sort"
+msgstr ""
+"억양을 고려한 알파벳순;특수문자 포함 알파벳순;자연 정렬: 알파벳 및 숫자;특수문"
+"자 포함 자연 정렬"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13629,8 +13894,11 @@ msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "구분자(&E);내부 명령(&R);외부 명령(&X);메뉴(&U)"
 
 #: ulng.rsopttooltipconfiguresavetochange
-msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
-msgstr "파일 형식 도구 설명 구성을 변경하려면 현재 편집 중 하나를 적용하거나 삭제합니다"
+msgid ""
+"To change file type tooltip configuration, either APPLY or DELETE current "
+"editing one"
+msgstr ""
+"파일 형식 도구 설명 구성을 변경하려면 현재 편집 중 하나를 적용하거나 삭제합니다"
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
@@ -13694,15 +13962,22 @@ msgid "Tooltip file type name"
 msgstr "도구 설명 파일 유형 이름"
 
 #: ulng.rsopttypeofduplicatedrename
-msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "DC 레거시 - 복사 (x) 파일 이름.확장자;Windows - 파일 이름 (x).확장자;기타 - 파일 이름(x).확장자"
+msgid ""
+"DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - "
+"filename(x).ext"
+msgstr ""
+"DC 레거시 - 복사 (x) 파일 이름.확장자;Windows - 파일 이름 (x).확장자;기타 - 파"
+"일 이름(x).확장자"
 
 #: ulng.rsoptupdatedfilesposition
-msgid "don't change position;use the same setting as for new files;to sorted position"
+msgid ""
+"don't change position;use the same setting as for new files;to sorted position"
 msgstr "위치 변경 안 함;새 파일과 동일한 설정 사용;정렬된 위치로"
 
 #: ulng.rspluginfilenamestylelist
-msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
+msgid ""
+"With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the "
+"following"
 msgstr "완전한 절대 경로;%COMMANDER_PATH%에 대한 경로;다음에 대한 상대 경로"
 
 #: ulng.rspluginsearchcontainscasesenstive
@@ -13970,8 +14245,14 @@ msgid "The number of parts is more than 100! Continue?"
 msgstr "부분 수가 100개가 넘습니다! 계속하시겠습니까?"
 
 #: ulng.rssplitpredefinedsizes
-msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
-msgstr "자동;1457664B - 3.5\" 고밀도 1.44M;1213952B - 5.25\" 고밀도 1.2M;730112B - 3.5\" 2배 밀도 720K;362496B - 5.25\" 2배 밀도 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgid ""
+"Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density "
+"1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density "
+"360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
+"자동;1457664B - 3.5\" 고밀도 1.44M;1213952B - 5.25\" 고밀도 1.2M;730112B - "
+"3.5\" 2배 밀도 720K;362496B - 5.25\" 2배 밀도 360K;98078KB - ZIP 100MB;650MB - "
+"CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -14137,8 +14418,14 @@ msgid "System default;1 sec;2 sec;3 sec;5 sec;10 sec;30 sec;1 min;Never hide"
 msgstr "시스템 기본값;1초;2초;3초;5초;10초;30초;1분;숨기지 않음"
 
 #: ulng.rstooltipmodelist
-msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
-msgstr "DC와 시스템 도구 설명 결합;DC 먼저 (레거시);DC와 시스템 도구 설명 결합;시스템 우선;가능하면 DC 도구 설명 표시, 가능하지 않으면 시스템 표시;DC 도구 설명만 표시;시스템 도구 설명만 표시"
+msgid ""
+"Combine DC and system tooltip, DC first (legacy);Combine DC and system "
+"tooltip, system first;Show DC tooltip when possible and system when not;Show "
+"DC tooltip only;Show system tooltip only"
+msgstr ""
+"DC와 시스템 도구 설명 결합;DC 먼저 (레거시);DC와 시스템 도구 설명 결합;시스템 "
+"우선;가능하면 DC 도구 설명 표시, 가능하지 않으면 시스템 표시;DC 도구 설명만 표"
+"시;시스템 도구 설명만 표시"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -14147,8 +14434,13 @@ msgstr "뷰어"
 
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
-msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "수행한 작업에 대한 설명과 다음 파일을 첨부하여 버그 추적기에 이 오류를 보고해 주세요:%s계속하려면 %s를 프로그램을 중단하려면 %s을 누르세요."
+msgid ""
+"Please report this error to the bug tracker with a description of what you "
+"were doing and the following file:%sPress %s to continue or %s to abort the "
+"program."
+msgstr ""
+"수행한 작업에 대한 설명과 다음 파일을 첨부하여 버그 추적기에 이 오류를 보고해 "
+"주세요:%s계속하려면 %s를 프로그램을 중단하려면 %s을 누르세요."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -14179,7 +14471,8 @@ msgid "Help with \"%\" variables"
 msgstr "\"%\" 변수에 대한 도움말"
 
 #: ulng.rsvarinputparam
-msgid "Will request request user to enter a parameter with a default suggested value"
+msgid ""
+"Will request request user to enter a parameter with a default suggested value"
 msgstr "사용자에게 기본 제안 값으로 매개 변수 입력을 요청합니다"
 
 #: ulng.rsvarlastdircurrentpath
@@ -14239,7 +14532,9 @@ msgid "Path, without ending delimiter"
 msgstr "경로, 종료 구분 기호 없음"
 
 #: ulng.rsvarpercentchangetopound
-msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
+msgid ""
+"From here to the end of the line, the percent-variable indicator is the \"#\" "
+"sign"
 msgstr "여기서부터 줄 끝까지의 퍼센트 변수 표시기는 \"#\" 기호입니다"
 
 #: ulng.rsvarpercentsign
@@ -14247,7 +14542,9 @@ msgid "Return the percent sign"
 msgstr "퍼센트 기호로 돌아가기"
 
 #: ulng.rsvarpoundchangetopercent
-msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
+msgid ""
+"From here to the end of the line, the percent-variable indicator is back the "
+"\"%\" sign"
 msgstr "여기에서 줄 끝까지 퍼센트 변수 표시기는 다시 \"%\" 기호로 되돌아 갑니다"
 
 #: ulng.rsvarprependelement
@@ -14376,3 +14673,6 @@ msgstr "교체가 이루어지지 않았습니다."
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
 
+#~ msgctxt "ulng.rsmfstbiiclouddrivertitle"
+#~ msgid "iCloud Drive"
+#~ msgstr "iCloud 드라이버"
