@@ -9,7 +9,8 @@ uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn, syncobjs,
   uLog, uDebug,
-  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra,
+  uDarwinUtil;
 
 type
 
@@ -273,11 +274,14 @@ class function TDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
 var
   ret: Boolean;
   tagNames: NSArray;
+  error: NSError = nil;
 begin
   Result:= nil;
-  ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
+  ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, @error );
   if ret then
-    Result:= tagNames;
+    Result:= tagNames
+  else
+    logDarwinError( 'TDarwinFinderModelUtil.getTagNamesOfFile', error );
 end;
 
 class function TDarwinFinderModelUtil.getTagNamesOfFiles(const urls: NSArray
@@ -296,8 +300,13 @@ end;
 
 class procedure TDarwinFinderModelUtil.setTagNamesOfFile(const url: NSURL;
   const tagNames: NSArray);
+var
+  error: NSError = nil;
+  ok: Boolean;
 begin
-  url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
+  ok:= url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, @error );
+  if NOT ok then
+    logDarwinError( 'TDarwinFinderModelUtil.setTagNamesOfFile', error );
 end;
 
 class procedure TDarwinFinderModelUtil.addTagForFile(const url: NSURL;
@@ -385,15 +394,18 @@ var
   var
     plistData: NSData;
     plistProperties: id;
+    error: NSError = nil;
   begin
     plistData:= NSData.dataWithContentsOfFile( path );
     if plistData = nil then
       raise EInOutError.Create( 'savedSearch File Read Error: ' + path.UTF8String );
 
     plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-      plistData, NSPropertyListImmutable, nil, nil );
-    if plistProperties = nil then
+      plistData, NSPropertyListImmutable, nil, @error );
+    if plistProperties = nil then begin
+      logDarwinError( 'TDarwinFinderModelUtil.analyseSavedSearch', error );
       raise EFormatError.Create( 'savedSearch File Content Error: ' + path.UTF8String );
+    end;
 
     plistProperties:= plistProperties.valueForKeyPath( NSSTR('RawQueryDict') );
     if plistProperties = nil then
@@ -499,6 +511,7 @@ var
   path: NSString;
   plistData: NSData;
   plistProperties: id;
+  error: NSError = nil;
 begin
   Result:= nil;
   path:= NSHomeDirectory.stringByAppendingString( NSSTR(FAVORITE_FINDER_TAGS_FILE_PATH) );
@@ -508,9 +521,11 @@ begin
     Exit;
 
   plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-  if plistProperties = nil then
+    plistData, NSPropertyListImmutable, nil, @error );
+  if plistProperties = nil then begin
+    logDarwinError( 'TDarwinFinderModelUtil.getFavoriteTagNames', error );
     Exit;
+  end;
 
   Result:= plistProperties.valueForKeyPath( NSSTR('FavoriteTagNames') );
 end;
@@ -580,6 +595,7 @@ class function TDarwinFinderModelUtil.getTagsData_macOS12: NSDictionary;
 var
   plistBytes: TBytes;
   plistData: NSData;
+  error: NSError = nil;
 begin
   Result:= nil;
   plistBytes:= TDarwinFinderModelUtil.getTagsDataFromDatabase;
@@ -591,7 +607,9 @@ begin
     Exit;
 
   Result:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
+    plistData, NSPropertyListImmutable, nil, @error );
+  if Result = nil then
+    logDarwinError( 'TDarwinFinderModelUtil.getTagsData_macOS12', error );
 end;
 
 class function TDarwinFinderModelUtil.getTagsData_macOS11: NSDictionary;
@@ -599,6 +617,7 @@ var
   path: NSString;
   plistData: NSData;
   plistProperties: id;
+  error: NSError = nil;
 begin
   Result:= nil;
   path:= NSHomeDirectory.stringByAppendingString( NSSTR(FINDER_TAGS_FILE_PATH_11minus) );
@@ -608,9 +627,11 @@ begin
     Exit;
 
   plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-  if plistProperties = nil then
+    plistData, NSPropertyListImmutable, nil, @error );
+  if plistProperties = nil then begin
+    logDarwinError( 'TDarwinFinderModelUtil.getTagsData_macOS11', error );
     Exit;
+  end;
 
   Result:= plistProperties.valueForKeyPath( NSSTR('values.FinderTagDict.value') );
 end;
@@ -622,9 +643,15 @@ class function TDarwinFinderModelUtil.getTagsDataFromDatabase: TBytes;
     subPaths: NSArray;
     uuid: NSString;
     databasePath: NSString;
+    error: NSError = nil;
   begin
     manager:= NSFileManager.defaultManager;
-    subPaths:= manager.contentsOfDirectoryAtPath_error( NSSTR_FINDER_TAGS_DATABASE_UUID_PATH, nil );
+    subPaths:= manager.contentsOfDirectoryAtPath_error( NSSTR_FINDER_TAGS_DATABASE_UUID_PATH, @error );
+    if subPaths = nil then begin
+      logDarwinError( 'TDarwinFinderModelUtil.getTagsDataFromDatabase', error );
+      Exit;
+    end;
+
     for uuid in subPaths do begin
       databasePath:= NSSTR_FINDER_TAGS_DATABASE_UUID_PATH.stringByAppendingPathComponent(uuid).stringByAppendingPathComponent(NSSTR_FINDER_TAGS_DATABASE_NAME);
       if manager.fileExistsAtPath(databasePath) then begin

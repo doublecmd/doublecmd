@@ -168,6 +168,8 @@ var
   var
     name: NSString;
     status: NSString;
+    error: NSError = nil;
+    ok: Boolean;
   begin
     name:= url.lastPathComponent;
     if name.isEqualToString(NSSTR('..')) then
@@ -175,7 +177,9 @@ var
     if name.hasPrefix(NSSTR('.')) and name.hasSuffix(NSSTR('.icloud')) then
       Exit( True );
 
-    url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
+    ok:= url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, @error );
+    if NOT ok then
+      logDarwinError( 'TDarwinFileUtil.getSpecificProperty.isSeedFile()', error );
     if status = nil then
       Exit( False );
 
@@ -260,7 +264,7 @@ end;
 
 class function TDarwinFileUtil.getDescription(const path: String): String;
 var
-  Error: NSError;
+  error: NSError = nil;
   WS: NSWorkspace;
   FileType: NSString;
   FileNameRef: CFStringRef;
@@ -268,9 +272,9 @@ begin
   WS:= NSWorkspace.sharedWorkspace;
   FileNameRef:= StringToCFStringRef(path);
   if (FileNameRef = nil) then Exit(EmptyStr);
-  FileType:= WS.typeOfFile_error(NSString(FileNameRef), @Error);
+  FileType:= WS.typeOfFile_error(NSString(FileNameRef), @error);
   if (FileType = nil) then
-    Result:= Error.localizedDescription.UTF8String
+    Result:= error.localizedDescription.UTF8String
   else begin
     Result:= WS.localizedDescriptionForType(FileType).UTF8String;
   end;
@@ -281,12 +285,16 @@ class function TDarwinFileUtil.resolveAlias(const path: String): String;
 var
   ASource: NSURL;
   ATarget: NSURL;
+  error: NSError = nil;
 begin
   Result:= EmptyStr;
   ASource:= NSURL.fileURLWithPath(StringToNSString(path));
-  ATarget:= NSURL.URLByResolvingAliasFileAtURL_options_error(ASource, NSURLBookmarkResolutionWithoutUI, nil);
+  ATarget:= NSURL.URLByResolvingAliasFileAtURL_options_error(
+    ASource, NSURLBookmarkResolutionWithoutUI, @error );
   if Assigned(ATarget) then
-    Result:= ATarget.fileSystemRepresentation;
+    Result:= ATarget.fileSystemRepresentation
+  else
+    logDarwinError( 'TDarwinFileUtil.resolveAlias', error );
 end;
 
 procedure Initialize;

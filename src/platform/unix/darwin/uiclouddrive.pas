@@ -12,9 +12,9 @@ uses
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
-  uDCUtils, uLng, uGlobs,
+  uDCUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
-  uDarwinFile, uDarwinImage,
+  uDarwinFile, uDarwinImage, uDarwinUtil,
   CocoaAll, CocoaUtils, CocoaThemes;
 
 type
@@ -337,10 +337,16 @@ var
   manager: NSFileManager;
   files: NSArray;
   name: NSString;
+  error: NSError = nil;
 begin
   manager:= NSFileManager.defaultManager;
   files:= manager.contentsOfDirectoryAtPath_error(
-    path, nil );
+    path, @error );
+  if files = nil then begin
+    logDarwinError( 'TSeedFileUtil.doDownloadDirectory', error );
+    Exit;
+  end;
+
   for name in files do begin
     doDownload( path.stringByAppendingPathComponent(name) );
   end;
@@ -351,6 +357,8 @@ var
   manager: NSFileManager;
   isDirectory: ObjCBOOL;
   url: NSURL;
+  error: NSError = nil;
+  ok: Boolean;
 begin
   manager:= NSFileManager.defaultManager;
   manager.fileExistsAtPath_isDirectory( path, @isDirectory );
@@ -358,7 +366,9 @@ begin
     doDownloadDirectory( path );
   end else begin
     url:= NSUrl.fileURLWithPath( path );
-    manager.startDownloadingUbiquitousItemAtURL_error( url, nil );
+    ok:= manager.startDownloadingUbiquitousItemAtURL_error( url, @error );
+    if NOT ok then
+      logDarwinError( 'TSeedFileUtil.doDownload', error );
   end;
 end;
 
@@ -374,10 +384,14 @@ class procedure TSeedFileUtil.evict(const aFile: TFile);
 var
   url: NSUrl;
   manager: NSFileManager;
+  error: NSError = nil;
+  ok: Boolean;
 begin
   url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
   manager:= NSFileManager.defaultManager;
-  manager.evictUbiquitousItemAtURL_error( url, nil );
+  ok:= manager.evictUbiquitousItemAtURL_error( url, @error );
+  if NOT ok then
+    logDarwinError( 'TSeedFileUtil.evict', error );
 end;
 
 class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
