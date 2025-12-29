@@ -6,7 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Controls, Grids, Types, DCXmlConfig, uFileSource, uOrderedFileView,
-  uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid,
+  uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes,
+  uFileViewWithMainCtrl, uFileViewWithGrid,
+{$IFDEF DARWIN}
+  uDarwinFileView,
+{$ENDIF}
   uFileProperty, uFile;
 
 type
@@ -56,6 +60,7 @@ type
     FMouseDownY: Integer;
     FThumbView: TThumbFileView;
     FUpdateColCount: Integer;
+    FOnDrawCell: TFileViewOnDrawCell;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -71,6 +76,8 @@ type
     function  CellToIndex(ACol, ARow: Integer): Integer; override;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
+
+    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
 
@@ -462,6 +469,7 @@ var
   //shared variables
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
+  params: TFileSourceUIParams;
 
   //------------------------------------------------------
   //begin subprocedures
@@ -526,6 +534,23 @@ var
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
 
+  procedure callFileSourceDrawCell;
+  var
+    handler: TFileSourceUIHandler;
+  begin
+    handler:= FThumbView.FileSource.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    handler.draw( params );
+  end;
+
+  procedure callOnDrawCell;
+  begin
+    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
+      OnDrawCell( params );
+  end;
+
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -536,16 +561,33 @@ begin
     begin
       AFile:= FThumbView.FFiles[Idx];
       FileSourceDirectAccess:= fspDirectAccess in FFileView.FileSource.Properties;
+
+      params:= Default( TFileSourceUIParams );
+      params.sender:= FThumbView;
+      params.fs:= FThumbView.FileSource;
+      params.multiColumns:= False;
+      params.col:= aCol;
+      params.row:= aRow;
+      params.displayFile:= aFile;
+
       if AFile.DisplayStrings.Count = 0 then
         FThumbView.MakeColumnsStrings(AFile);
 
       PrepareColors(AFile, aCol, aRow, aRect, aState);
 
-      if gUseFrameCursor then
-        DrawIconCell(Rect(aRect.Left + gBorderFrameWidth - 1, aRect.Top + gBorderFrameWidth - 1,
-                          aRect.Right - gBorderFrameWidth + 1, aRect.Bottom - gBorderFrameWidth + 1))
-      else
-        DrawIconCell(aRect);
+      if gUseFrameCursor then begin
+        params.drawingRect:=
+           Rect(aRect.Left + gBorderFrameWidth - 1, aRect.Top + gBorderFrameWidth - 1,
+                aRect.Right - gBorderFrameWidth + 1, aRect.Bottom - gBorderFrameWidth + 1);
+      end else begin
+        params.drawingRect:= aRect;
+      end;
+
+      DrawIconCell( params.drawingRect );
+
+      params.focused:= (gdSelected in aState) and FThumbView.Active;
+      callFileSourceDrawCell;
+      callOnDrawCell;
     end
   else
     begin
@@ -610,6 +652,10 @@ begin
   tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
   FThumbnailManager:= TThumbnailManager.Create(self, gColors.FilePanel^.BackColor);
+
+  {$IFDEF DARWIN}
+  TThumbDrawGrid(dgPanel).OnDrawCell:= @darwinFileViewDrawHandler.onDrawCell;
+  {$ENDIF}
 end;
 
 procedure TThumbFileView.AfterChangePath;
