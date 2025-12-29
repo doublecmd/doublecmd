@@ -548,7 +548,7 @@ var
   procedure callOnDrawCell;
   begin
     if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell(FBriefView,aCol,aRow,params.drawingRect,params.focused,AFile);
+      OnDrawCell( params );
   end;
 
   //------------------------------------------------------
@@ -606,7 +606,7 @@ begin
   quickSearch.LimitedAutoHide := True;
 
   {$IFDEF DARWIN}
-  TBriefDrawGrid(dgPanel).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
+  TBriefDrawGrid(dgPanel).OnDrawCell:= @darwinFileViewDrawHandler.onDrawCell;
   {$ENDIF}
 end;
 
