@@ -38,8 +38,7 @@ type
   end;
 
   TDarwinFileViewDrawHandler = class
-    procedure onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-      aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+    procedure onDrawCell( var params: TFileSourceUIParams );
     procedure drawTagsAsDecoration(
       const colors: TFileFinderTagPrimaryColors; const drawRect: TRect; const focused: Boolean );
   end;
@@ -85,19 +84,18 @@ end;
 
 { TDarwinFileViewDrawHandler }
 
-procedure TDarwinFileViewDrawHandler.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-  aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+procedure TDarwinFileViewDrawHandler.onDrawCell( var params: TFileSourceUIParams );
 var
   macOSProperty: TFileMacOSSpecificProperty;
 begin
-  if (Sender.ClassName = 'TColumnsFileView') and (aCol<>0) then
+  if params.multiColumns AND (params.col<>0) then
     Exit;
 
-  macOSProperty:= aFile.FSFile.MacOSSpecificProperty;
+  macOSProperty:= params.displayFile.FSFile.MacOSSpecificProperty;
   if macOSProperty = nil then
     Exit;
 
-  drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, aRect, focused );
+  drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, params.drawingRect, params.focused );
 end;
 
 procedure TDarwinFileViewDrawHandler.drawTagsAsDecoration(

@@ -33,6 +33,7 @@ uses
   uFile, uDisplayFile,
   uFileViewWorker,
   uOrderedFileView,
+  uFileSource,
   uFileView,
   uDragDropEx,
   uFileViewNotebook,
@@ -40,8 +41,7 @@ uses
 
 type
 
-  TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
-    aRect: TRect; focused: Boolean; aFile: TDisplayFile) of object;
+  TFileViewOnDrawCell = procedure( var params: TFileSourceUIParams ) of object;
 
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 
@@ -239,7 +239,7 @@ uses
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
-  fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
+  fMain, uShowMsg, uLng, uFileProperty, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation,
   uFileSystemWatcher;

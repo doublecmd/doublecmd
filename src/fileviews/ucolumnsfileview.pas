@@ -932,7 +932,7 @@ begin
   dgpanel.OnResize:= @dgPanelResize;
   dgPanel.OnHeaderSized:= @dgPanelHeaderSized;
   {$IFDEF DARWIN}
-  dgPanel.OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
+  dgPanel.OnDrawCell:= @darwinFileViewDrawHandler.onDrawCell;
   {$ENDIF}
 
   pmColumnsMenu := TPopupMenu.Create(Self);
@@ -1957,7 +1957,7 @@ var
   procedure callOnDrawCell;
   begin
     if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell(Self.ColumnsView,aCol,aRow,params.drawingRect,params.focused,AFile);
+      OnDrawCell( params );
   end;
 
   //------------------------------------------------------
