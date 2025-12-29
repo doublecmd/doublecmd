@@ -111,9 +111,6 @@ type
     dgPanel: TDrawGridEx;
     FOnColumnResized: TColumnResized;
 
-    function GetOnDrawCell: TFileViewOnDrawCell;
-    procedure SetOnDrawCell( OnDrawCell: TFileViewOnDrawCell );
-
     function GetColumnsClass: TPanelColumnsClass;
 
     procedure SetRowCount(Count: Integer);
@@ -217,7 +214,6 @@ type
     procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
 
     property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
-    property OnDrawCell: TFileViewOnDrawCell read GetOnDrawCell write SetOnDrawCell;
   published
     procedure cm_SaveFileDetailsToFile(const Params: array of string);
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
@@ -968,7 +964,6 @@ begin
     with TColumnsFileView(FileView) do
     begin
       FColumnsSortDirections := Self.FColumnsSortDirections;
-      OnDrawCell := Self.OnDrawCell;
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;
@@ -1125,16 +1120,6 @@ begin
   Result := dgPanel.GetVisibleRows;
   Dec(Result.First, dgPanel.FixedRows);
   Dec(Result.Last, dgPanel.FixedRows);
-end;
-
-function TColumnsFileView.GetOnDrawCell: TFileViewOnDrawCell;
-begin
-  Result:= dgPanel.OnDrawCell;
-end;
-
-procedure TColumnsFileView.SetOnDrawCell(OnDrawCell: TFileViewOnDrawCell);
-begin
-  dgPanel.OnDrawCell:= OnDrawCell;
 end;
 
 function TColumnsFileView.GetColumnsClass: TPanelColumnsClass;

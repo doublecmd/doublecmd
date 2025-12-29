@@ -48,9 +48,6 @@ type
 
   TBriefFileView = class (TFileViewWithGrid)
   protected
-    function GetOnDrawCell: TFileViewOnDrawCell;
-    procedure SetOnDrawCell( OnDrawCell: TFileViewOnDrawCell );
-  protected
     procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
     procedure ShowRenameFileEdit(var aFile: TFile); override;
@@ -62,9 +59,7 @@ type
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
-    procedure CloneTo(FileView: TFileView); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
-    property OnDrawCell: TFileViewOnDrawCell read GetOnDrawCell write SetOnDrawCell;
   end;
 
 implementation
@@ -602,16 +597,6 @@ end;
 
 { TBriefFileView }
 
-function TBriefFileView.GetOnDrawCell: TFileViewOnDrawCell;
-begin
-  Result:= TBriefDrawGrid(dgPanel).OnDrawCell;
-end;
-
-procedure TBriefFileView.SetOnDrawCell(OnDrawCell: TFileViewOnDrawCell);
-begin
-  TBriefDrawGrid(dgPanel).OnDrawCell:= OnDrawCell;
-end;
-
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
@@ -723,13 +708,6 @@ end;
 function TBriefFileView.Clone(NewParent: TWinControl): TBriefFileView;
 begin
   Result := TBriefFileView.Create(NewParent, Self);
-end;
-
-procedure TBriefFileView.CloneTo(FileView: TFileView);
-begin
-  inherited CloneTo(FileView);
-  if FileView is TBriefFileView then
-    TBriefFileView(FileView).OnDrawCell:= self.OnDrawCell;
 end;
 
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean);
