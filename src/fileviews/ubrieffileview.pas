@@ -8,6 +8,9 @@ uses
   Classes, SysUtils, Controls, LMessages, Grids, Graphics,
   uDisplayFile, DCXmlConfig, uTypes,
   uFileView, uFileViewWithMainCtrl, uFileViewWithGrid,
+{$IFDEF DARWIN}
+  uDarwinFileView,
+{$ENDIF}
   uFile, uFileSource, uFileProperty;
 
 type
@@ -616,6 +619,10 @@ begin
 
   // Changing height of a FileView with horizontal scrolling when hiding quick search causes file jumps under mouse
   quickSearch.LimitedAutoHide := True;
+
+  {$IFDEF DARWIN}
+  TBriefDrawGrid(dgPanel).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
+  {$ENDIF}
 end;
 
 function TBriefFileView.GetFileViewGridClass: TFileViewGridClass;

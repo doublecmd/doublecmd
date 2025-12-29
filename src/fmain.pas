@@ -5167,14 +5167,8 @@ begin
     FileViewFlags := [fvfDelayLoadingFiles];
   if sType = 'columns' then begin
     Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags);
-    {$IFDEF DARWIN}
-    TColumnsFileView(Result).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-    {$ENDIF}
   end else if sType = 'brief' then begin
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags);
-    {$IFDEF DARWIN}
-    TBriefFileView(Result).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-    {$ENDIF}
   end else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else begin

@@ -9,7 +9,7 @@ uses
   SysUtils, Classes,
   uiCloudDrive, uSearchResultFileSource, uFileSystemFileSource, uFileSource,
   uFile, uDisplayFile, uFileProperty,
-  uFileView, uColumnsFileView, uFileViewNotebook,
+  uFileView, uFileViewNotebook,
   uDarwinFinderModel,
   ulng,
   MacOSAll, CocoaAll;
@@ -90,7 +90,7 @@ procedure TDarwinFileViewDrawHandler.onDrawCell(Sender: TFileView; aCol, aRow: I
 var
   macOSProperty: TFileMacOSSpecificProperty;
 begin
-  if (Sender is TColumnsFileView) and (aCol<>0) then
+  if (Sender.ClassName = 'TColumnsFileView') and (aCol<>0) then
     Exit;
 
   macOSProperty:= aFile.FSFile.MacOSSpecificProperty;
