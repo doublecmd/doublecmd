@@ -28,11 +28,7 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile
-{$IFDEF DARWIN}
-  , uDarwinFileView
-{$ENDIF}
-  ;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile;
 
 type
 
@@ -2228,9 +2224,6 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    {$IFDEF DARWIN}
-    TBriefFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-    {$ENDIF}
     ActiveNotebook.ActivePage.FileView:= aFileView;
     ActiveFrame.SetFocus;
   end;
@@ -2243,9 +2236,6 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(LeftTabs.ActivePage, FrameLeft);
-    {$IFDEF DARWIN}
-    TBriefFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-    {$ENDIF}
     LeftTabs.ActivePage.FileView:= aFileView;
   end;
 end;
@@ -2257,9 +2247,6 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(RightTabs.ActivePage, FrameRight);
-    {$IFDEF DARWIN}
-    TBriefFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-    {$ENDIF}
     RightTabs.ActivePage.FileView:= aFileView;
   end;
 end;
@@ -2276,9 +2263,6 @@ begin
       TColumnsFileView(ActiveFrame).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame, AParam);
-      {$IFDEF DARWIN}
-      TColumnsFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-      {$ENDIF}
       ActiveNotebook.ActivePage.FileView:= aFileView;
       ActiveFrame.SetFocus;
     end;
@@ -2297,9 +2281,6 @@ begin
       TColumnsFileView(FrameLeft).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft, AParam);
-      {$IFDEF DARWIN}
-      TColumnsFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-      {$ENDIF}
       LeftTabs.ActivePage.FileView:= aFileView;
     end;
   end;
@@ -2317,9 +2298,6 @@ begin
       TColumnsFileView(FrameRight).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight, AParam);
-      {$IFDEF DARWIN}
-      TColumnsFileView(aFileView).OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
-      {$ENDIF}
       RightTabs.ActivePage.FileView:= aFileView;
     end;
   end;

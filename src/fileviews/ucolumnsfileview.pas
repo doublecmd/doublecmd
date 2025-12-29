@@ -18,6 +18,9 @@ uses
   DCXmlConfig,
   DCBasicTypes,
   uTypes,
+{$IFDEF DARWIN}
+  uDarwinFileView,
+{$ENDIF}
   uSmoothScrollingGrid,
   uFileViewWithGrid;
 
@@ -932,6 +935,9 @@ begin
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
   dgPanel.OnHeaderSized:= @dgPanelHeaderSized;
+  {$IFDEF DARWIN}
+  dgPanel.OnDrawCell:= @darwinFileViewDrawHandler.OnDrawCell;
+  {$ENDIF}
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
