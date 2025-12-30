@@ -547,6 +547,9 @@ var
     destRect: NSRect;
     fs: TiCloudDriveFileSource;
   begin
+    if params.iconRect.IsEmpty then
+      Exit;
+
     fs:= params.fs as TiCloudDriveFileSource;
     image:= fs.getAppIconByPath( params.displayFile.FSFile.FullPath );
     if image = nil then

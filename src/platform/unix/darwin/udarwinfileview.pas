@@ -121,10 +121,7 @@ begin
     color.set_;
     path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
     path.fill;
-    if focused then
-      NSColor.alternateSelectedControlTextColor.set_
-    else
-      NSColor.textBackgroundColor.set_;
+    NSColor.alternateSelectedControlTextColor.set_;
     path.stroke;
     tagRect.origin.x:= tagRect.origin.x - 5;
   end;
