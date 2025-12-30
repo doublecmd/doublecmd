@@ -56,6 +56,7 @@ type
     col: Integer;
     row: Integer;
     drawingRect: TRect;
+    decorationRect: TRect;
 
     case Byte of
       0: (
