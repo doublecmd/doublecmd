@@ -2007,6 +2007,7 @@ begin
     end;
 
     params.drawingRect:= aRect;
+    params.decorationRect:= aRect;
     params.focused:= (gdSelected in aState) and ColumnsView.Active;
     callFileSourceDrawCell;
     callOnDrawCell;

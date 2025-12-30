@@ -580,6 +580,7 @@ begin
       DrawIconCell;
 
       params.drawingRect:= aRect;
+      params.decorationRect:= aRect;
       params.focused:= (gdSelected in aState) and FBriefView.Active;
       callFileSourceDrawCell;
       callOnDrawCell;

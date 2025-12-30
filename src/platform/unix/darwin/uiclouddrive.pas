@@ -576,9 +576,9 @@ var
       createImages;
 
     destRect.size:= _downloadImage.size;
-    destRect.origin.x:= params.drawingRect.Right - Round(_downloadImage.size.width) - 8;
-    destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(_downloadImage.size.height))/2;
-    params.drawingRect.Right:= Round(destRect.origin.x) - 4;
+    destRect.origin.x:= params.decorationRect.Right - Round(_downloadImage.size.width) - 8;
+    destRect.origin.y:= params.decorationRect.Top + (params.decorationRect.Height-Round(_downloadImage.size.height))/2;
+    params.decorationRect.Right:= Round(destRect.origin.x) - 4;
 
     _downloadImage.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
       destRect,

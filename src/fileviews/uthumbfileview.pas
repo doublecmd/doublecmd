@@ -475,7 +475,7 @@ var
   //begin subprocedures
   //------------------------------------------------------
 
-  procedure DrawIconCell(aRect: TRect);
+  procedure DrawIconCell;
   var
     factor: Double;
     IconRect: TRect;
@@ -486,9 +486,13 @@ var
     s: string;
     IconID: PtrInt;
     Bitmap: TBitmap;
+    aRect: TRect;
   begin
     factor:= self.GetCanvasScaleFactor;
-    iTextTop := aRect.Bottom - Canvas.TextHeight('Wg');
+    aRect:= params.drawingRect;
+    iTextTop:= aRect.Bottom - Canvas.TextHeight('Wg');
+    params.decorationRect.Bottom:= iTextTop - 1;
+    params.decorationRect.Top:= iTextTop - 24;
 
     IconID := AFile.Tag;
 
@@ -582,8 +586,9 @@ begin
       end else begin
         params.drawingRect:= aRect;
       end;
+      params.decorationRect:= params.drawingRect;
 
-      DrawIconCell( params.drawingRect );
+      DrawIconCell;
 
       params.focused:= (gdSelected in aState) and FThumbView.Active;
       callFileSourceDrawCell;
