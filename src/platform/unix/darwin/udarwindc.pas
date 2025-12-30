@@ -31,7 +31,6 @@ begin
   Result:= False;
   if [watch_file_name_change, watch_attributes_change] * gWatchDirs = [] then exit;
   if event.isDropabled then exit;
-///  if (ecChildChanged in event.categories) and (not isWatchSubdir(event.watchPath) ) then exit;
 
   fileSourceEvent.Path := event.watchPath;
   fileSourceEvent.FileName := EmptyStr;
