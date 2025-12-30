@@ -2067,11 +2067,12 @@ var
     if NOT self.IsRowIndexValid(params.row) then
       Exit;
 
-    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
-    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-
     if params.row <= FixedRows then
       Exit;
+
+    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
+    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
+    params.decorationRect:= params.drawingRect;
 
     params.displayFile:= ColumnsView.FFiles[params.row - FixedRows];
     handler.click( params );
