@@ -79,6 +79,7 @@ type
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
 
+    function ConvertToDecorationRect(const drawingRect: TRect): TRect; override;
     property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
@@ -271,7 +272,6 @@ procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
     handler: TFileSourceUIHandler;
     params: TFileSourceUIParams;
     index: Integer;
-    iTextTop: Integer;
   begin
     Result:= False;
 
@@ -294,11 +294,7 @@ procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
 
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-    params.decorationRect:= params.drawingRect;
-
-    iTextTop:= params.decorationRect.Bottom - self.calcTextHeight;
-    params.decorationRect.Bottom:= iTextTop - 1;
-    params.decorationRect.Top:= iTextTop - 24;
+    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
 
     params.displayFile:= FThumbView.FFiles[index];
     Result:= handler.click( params );
@@ -545,8 +541,6 @@ var
     factor:= self.GetCanvasScaleFactor;
     aRect:= params.drawingRect;
     iTextTop:= aRect.Bottom - self.calcTextHeight;
-    params.decorationRect.Bottom:= iTextTop - 1;
-    params.decorationRect.Top:= iTextTop - 24;
 
     IconID := AFile.Tag;
 
@@ -640,7 +634,7 @@ begin
       end else begin
         params.drawingRect:= aRect;
       end;
-      params.decorationRect:= params.drawingRect;
+      params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
 
       DrawIconCell;
 
@@ -657,6 +651,16 @@ begin
 
   DrawCellGrid(aCol, aRow, aRect, aState);
   DrawLines(Idx, aCol, aRow, aRect, aState);
+end;
+
+function TThumbDrawGrid.ConvertToDecorationRect(const drawingRect: TRect): TRect;
+var
+  iTextTop: Integer;
+begin
+  iTextTop:= drawingRect.Bottom - self.calcTextHeight;
+  Result:= drawingRect;
+  Result.Bottom:= iTextTop - 1;
+  Result.Top:= iTextTop - 24;
 end;
 
 { TThumbFileView }

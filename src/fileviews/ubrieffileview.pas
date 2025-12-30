@@ -382,7 +382,7 @@ procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y:
 
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-    params.decorationRect:= params.drawingRect;
+    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
 
     params.displayFile:= FBriefView.FFiles[index];
     Result:= handler.click( params );
@@ -578,7 +578,7 @@ begin
       DrawIconCell;
 
       params.drawingRect:= aRect;
-      params.decorationRect:= aRect;
+      params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
       params.focused:= (gdSelected in aState) and FBriefView.Active;
       callFileSourceDrawCell;
       callOnDrawCell;
