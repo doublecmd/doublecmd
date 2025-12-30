@@ -71,6 +71,7 @@ type
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
+    function calcTextHeight: Integer; inline;
     procedure DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); override;
@@ -298,7 +299,7 @@ procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
     params.decorationRect:= params.drawingRect;
 
-    iTextTop:= params.decorationRect.Bottom - Canvas.TextHeight('Wg');
+    iTextTop:= params.decorationRect.Bottom - self.calcTextHeight;
     params.decorationRect.Bottom:= iTextTop - 1;
     params.decorationRect.Top:= iTextTop - 24;
 
@@ -438,6 +439,11 @@ begin
     DefaultColWidth := gThumbSize.cx + 4;
 end;
 
+function TThumbDrawGrid.calcTextHeight: Integer; inline;
+begin
+  Result:= Canvas.TextHeight('Wg');
+end;
+
 procedure TThumbDrawGrid.DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
 const
   LastPos: Integer = 0;
@@ -541,7 +547,7 @@ var
   begin
     factor:= self.GetCanvasScaleFactor;
     aRect:= params.drawingRect;
-    iTextTop:= aRect.Bottom - Canvas.TextHeight('Wg');
+    iTextTop:= aRect.Bottom - self.calcTextHeight;
     params.decorationRect.Bottom:= iTextTop - 1;
     params.decorationRect.Top:= iTextTop - 24;
 
@@ -837,7 +843,7 @@ begin
   inherited UpdateRenameFileEditPosition;
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
-  ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
+  ARect.Top := ARect.Bottom - TThumbDrawGrid(dgPanel).calcTextHeight - 4;
 
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);
