@@ -287,10 +287,7 @@ procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
     params.shift:= Shift;
     params.x:= X;
     params.y:= Y;
-    MouseToCell( X, Y, params.col, params.row );
-    if NOT self.IsRowIndexValid(params.row) then
-      Exit;
-
+    MouseToCellWithoutOutbound( X, Y, params.col, params.row );
     index:= CellToIndex( params.col, params.row );
     if index < 0 then
       Exit;
