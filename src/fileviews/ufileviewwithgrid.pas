@@ -22,6 +22,7 @@ type
     FLastMouseScrollTime: QWord;
     FFileView: TFileViewWithGrid;
   protected
+    function getFileView: TFileView; override;
     procedure Scroll(Message: Cardinal; ScrollCode: SmallInt);
     {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
@@ -205,6 +206,11 @@ begin
   end;
 {$ENDIF}
   inherited KeyDown(Key, Shift);
+end;
+
+function TFileViewGrid.getFileView: TFileView;
+begin
+  Result:= self.FFileView;
 end;
 
 procedure TFileViewGrid.Scroll(Message: Cardinal; ScrollCode: SmallInt);

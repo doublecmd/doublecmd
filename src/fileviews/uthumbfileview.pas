@@ -266,43 +266,9 @@ end;
 
 procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
-
-  function handleMBLeft: Boolean;
-  var
-    handler: TFileSourceUIHandler;
-    params: TFileSourceUIParams;
-    index: Integer;
-  begin
-    Result:= False;
-
-    params:= Default( TFileSourceUIParams );
-    params.sender:= FThumbView;
-    params.fs:= FThumbView.FileSource;
-    params.multiColumns:= False;
-
-    handler:= params.fs.GetUIHandler;
-    if handler = nil then
-      Exit;
-
-    params.shift:= Shift;
-    params.x:= X;
-    params.y:= Y;
-    MouseToCellWithoutOutbound( X, Y, params.col, params.row );
-    index:= CellToIndex( params.col, params.row );
-    if index < 0 then
-      Exit;
-
-    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
-    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
-
-    params.displayFile:= FThumbView.FFiles[index];
-    Result:= handler.click( params );
-  end;
-
 begin
   if Button = mbLeft then
-    handleMBLeft;
+    self.doCellClick( Shift, X, Y );
   inherited MouseUp(Button, Shift, X, Y);
 end;
 

@@ -47,6 +47,8 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
+    function getFileView: TFileView; override;
+
     procedure DragCanceled; override;
     procedure DoMouseMoveScroll(X, Y: Integer);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -2041,37 +2043,6 @@ var
   FileSystem: String;
   Background: Boolean;
 
-  procedure handleMBLeft;
-  var
-    handler: TFileSourceUIHandler;
-    params: TFileSourceUIParams;
-    index: Integer;
-  begin
-    params:= Default( TFileSourceUIParams );
-    params.sender:= self.ColumnsView;
-    params.fs:= self.ColumnsView.FileSource;
-    params.multiColumns:= True;
-
-    handler:= params.fs.GetUIHandler;
-    if handler = nil then
-      Exit;
-
-    params.shift:= Shift;
-    params.x:= X;
-    params.y:= Y;
-    MouseToCellWithoutOutbound( X, Y, params.col, params.row );
-    index:= CellToIndex( params.col, params.row );
-    if index < 0 then
-      Exit;
-
-    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
-    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
-
-    params.displayFile:= ColumnsView.FFiles[index];
-    handler.click( params );
-  end;
-
 begin
   if ColumnsView.IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
@@ -2093,7 +2064,7 @@ begin
 
   if Button = mbLeft then
   begin
-    handleMBLeft;
+    self.doCellClick( Shift, X, Y );
   end else if Button = mbRight then
     begin
       { If right click on header }
@@ -2260,6 +2231,11 @@ begin
     Options := Options + [goVertLine]
   else
     Options := Options - [goVertLine];
+end;
+
+function TDrawGridEx.getFileView: TFileView;
+begin
+  Result:= self.ColumnsView;
 end;
 
 function TDrawGridEx.GetVisibleRows: TRange;
