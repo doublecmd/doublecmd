@@ -63,6 +63,7 @@ type
     FOnDrawCell: TFileViewOnDrawCell;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean); override;
@@ -259,6 +260,56 @@ begin
     if FileIndex <> InvalidFileIndex then
       FThumbView.Selection(SavedKey, FileIndex);
   end;
+end;
+
+procedure TThumbDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+
+  function handleMBLeft: Boolean;
+  var
+    handler: TFileSourceUIHandler;
+    params: TFileSourceUIParams;
+    index: Integer;
+    iTextTop: Integer;
+  begin
+    Result:= False;
+
+    params:= Default( TFileSourceUIParams );
+    params.sender:= FThumbView;
+    params.fs:= FThumbView.FileSource;
+    params.multiColumns:= False;
+
+    handler:= params.fs.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    params.shift:= Shift;
+    params.x:= X;
+    params.y:= Y;
+    MouseToCell( X, Y, params.col, params.row );
+    if NOT self.IsRowIndexValid(params.row) then
+      Exit;
+
+    index:= CellToIndex( params.col, params.row );
+    if index < 0 then
+      Exit;
+
+    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
+    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
+    params.decorationRect:= params.drawingRect;
+
+    iTextTop:= params.decorationRect.Bottom - Canvas.TextHeight('Wg');
+    params.decorationRect.Bottom:= iTextTop - 1;
+    params.decorationRect.Top:= iTextTop - 24;
+
+    params.displayFile:= FThumbView.FFiles[index];
+    Result:= handler.click( params );
+  end;
+
+begin
+  if Button = mbLeft then
+    handleMBLeft;
+  inherited MouseUp(Button, Shift, X, Y);
 end;
 
 procedure TThumbDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);

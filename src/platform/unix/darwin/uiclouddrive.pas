@@ -620,7 +620,11 @@ begin
   if NOT TSeedFileUtil.isSeedFile(aFile) then
     Exit;
 
-  if params.x < params.drawingRect.Right - 28 then
+  if params.x < params.decorationRect.Right - 28 then
+    Exit;
+  if params.y < params.decorationRect.Top then
+    Exit;
+  if params.y > params.decorationRect.Bottom then
     Exit;
 
   TSeedFileUtil.downloadOrEvict( params.fs, aFile );

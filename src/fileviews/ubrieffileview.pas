@@ -385,6 +385,7 @@ procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y:
 
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
+    params.decorationRect:= params.drawingRect;
 
     params.displayFile:= FBriefView.FFiles[index];
     Result:= handler.click( params );
