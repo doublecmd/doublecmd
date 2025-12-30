@@ -21,7 +21,7 @@ uses
 {$IFDEF DARWIN}
   uDarwinFileView,
 {$ENDIF}
-  uSmoothScrollingGrid,
+  uFileViewBaseGrid,
   uFileViewWithGrid;
 
 type
@@ -32,7 +32,7 @@ type
 
   { TDrawGridEx }
 
-  TDrawGridEx = class(TSmoothScrollingGrid)
+  TDrawGridEx = class(TFileViewBaseGrid)
   private
     FMouseDownY: Integer;
     FLastMouseMoveTime: QWord;
@@ -74,8 +74,6 @@ type
 
     procedure UpdateView;
 
-    function MouseOnGrid(X, Y: LongInt): Boolean;
-
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
 
@@ -92,6 +90,7 @@ type
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
+    function CellToIndex(ACol, ARow: Integer): Integer; override;
     property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
@@ -1132,17 +1131,13 @@ end;
 
 function TColumnsFileView.GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt;
 var
-  bTemp: Boolean;
   iRow, iCol: LongInt;
 begin
   with dgPanel do
   begin
-    bTemp:= AllowOutboundEvents;
-    AllowOutboundEvents:= False;
-    MouseToCell(X, Y, iCol, iRow);
-    AllowOutboundEvents:= bTemp;
-    Result:= IfThen(iRow < 0, InvalidFileIndex, iRow - FixedRows);
-    AtFileList := Y >= GetHeaderHeight;
+    MouseToCellWithoutOutbound(X, Y, iCol, iRow);
+    Result:= CellToIndex(iCol, iRow);
+    AtFileList:= (Result >= 0);
   end;
 end;
 
@@ -2050,6 +2045,7 @@ var
   var
     handler: TFileSourceUIHandler;
     params: TFileSourceUIParams;
+    index: Integer;
   begin
     params:= Default( TFileSourceUIParams );
     params.sender:= self.ColumnsView;
@@ -2063,18 +2059,16 @@ var
     params.shift:= Shift;
     params.x:= X;
     params.y:= Y;
-    MouseToCell( X, Y, params.col, params.row );
-    if NOT self.IsRowIndexValid(params.row) then
-      Exit;
-
-    if params.row <= FixedRows then
+    MouseToCellWithoutOutbound( X, Y, params.col, params.row );
+    index:= CellToIndex( params.col, params.row );
+    if index < 0 then
       Exit;
 
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
     params.decorationRect:= params.drawingRect;
 
-    params.displayFile:= ColumnsView.FFiles[params.row - FixedRows];
+    params.displayFile:= ColumnsView.FFiles[index];
     handler.click( params );
   end;
 
@@ -2229,18 +2223,6 @@ begin
   inherited MouseMove(Shift, X, Y);
   AllowOutboundEvents := True;
   if ColumnsView.IsMouseSelecting then DoMouseMoveScroll(X, Y);
-end;
-
-function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;
-var
-  bTemp: Boolean;
-  iRow, iCol: LongInt;
-begin
-  bTemp:= AllowOutboundEvents;
-  AllowOutboundEvents:= False;
-  MouseToCell(X, Y, iCol, iRow);
-  AllowOutboundEvents:= bTemp;
-  Result:= not ((iCol < 0) and (iRow < 0));
 end;
 
 function TDrawGridEx.GetHeaderHeight: Integer;
@@ -2428,6 +2410,14 @@ begin
       if TryMove(i) then
         Break;
   end;
+end;
+
+function TDrawGridEx.CellToIndex(ACol, ARow: Integer): Integer;
+begin
+  Result:= -1;
+  if (ARow < 0) or (ARow >= RowCount) then
+    Exit;
+  Result:= ARow - FixedRows;
 end;
 
 end.
