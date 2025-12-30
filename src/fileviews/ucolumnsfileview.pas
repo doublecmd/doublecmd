@@ -2002,7 +2002,7 @@ begin
     end;
 
     params.drawingRect:= aRect;
-    params.decorationRect:= aRect;
+    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
     params.focused:= (gdSelected in aState) and ColumnsView.Active;
     callFileSourceDrawCell;
     callOnDrawCell;
@@ -2066,7 +2066,7 @@ var
 
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
-    params.decorationRect:= params.drawingRect;
+    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
 
     params.displayFile:= ColumnsView.FFiles[index];
     handler.click( params );

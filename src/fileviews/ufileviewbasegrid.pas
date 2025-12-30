@@ -16,6 +16,7 @@ type
   public
     function MouseOnGrid(X, Y: LongInt): Boolean;
     procedure MouseToCellWithoutOutbound(X, Y: Integer; out ACol, ARow: Longint);
+    function ConvertToDecorationRect(const drawingRect: TRect): TRect; virtual;
     function CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
   end;
 
@@ -44,6 +45,11 @@ begin
   AllowOutboundEvents:= False;
   MouseToCell(X, Y, ACol, ARow);
   AllowOutboundEvents:= bTemp;
+end;
+
+function TFileViewBaseGrid.ConvertToDecorationRect(const drawingRect: TRect ): TRect;
+begin
+  Result:= drawingRect;
 end;
 
 end.
