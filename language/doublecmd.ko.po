@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-10-23 02:54+0900\n"
+"PO-Revision-Date: 2025-12-22 21:38+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -1217,7 +1217,7 @@ msgstr "파일 마스크와 일치하는 파일 추출(&E):"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
-msgstr "암호화된 파일의 암호:(&P):"
+msgstr "암호화된 파일의 비밀번호:(&P):"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1897,7 +1897,7 @@ msgstr "도메인:"
 #: tfrmgioauthdialog.lblpassword.caption
 msgctxt "tfrmgioauthdialog.lblpassword.caption"
 msgid "Password:"
-msgstr "암호:"
+msgstr "비밀번호:"
 
 #: tfrmgioauthdialog.lblusername.caption
 msgctxt "tfrmgioauthdialog.lblusername.caption"
@@ -3333,60 +3333,58 @@ msgstr "또는 미리 정의된 선택 유형을 선택(&R):"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "테스트"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "키 만들기"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "키 변환"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
-msgstr "마스터 암호"
+msgstr "주 비밀번호"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "반복 횟수가 많을수록 사전 및 추측 공격이 더 어려워지지만, 비밀번호 저장소 로딩/저장에도 더 많은 시간이 소요됩니다."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "키 유도 함수(&K):"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "키는 키 유도 함수를 사용하여 변환됩니다. 이는 작업량을 증가시키고 사전 공격 및 추측 공격을 더욱 어렵게 만듭니다."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "반복 횟수(&I):"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "메모리(&M):"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "병행(&P):"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "비밀번호(&W):"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "비밀번호 반복(&R):"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "비밀번호 저장소를 암호화하는 데 사용할 새 키를 지정합니다."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -4100,7 +4098,7 @@ msgstr "목록화 시작 (선택사항)(&G):"
 
 #: tfrmoptionsarchivers.lblarchiverpasswordquery.caption
 msgid "Password &query string:"
-msgstr "암호 쿼리 문자열(&Q):"
+msgstr "비밀번호 쿼리 문자열(&Q):"
 
 #: tfrmoptionsarchivers.lblarchiverselfextract.caption
 msgid "Create self extractin&g archive:"
@@ -8337,7 +8335,7 @@ msgstr "대소문자 구분"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
@@ -11952,12 +11950,12 @@ msgstr "잘못된 선택입니다."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "키 변환에 실패했습니다 (오류 코드 %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "키 변환에 %f초가 걸렸습니다."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -12062,11 +12060,11 @@ msgstr "%s 폴더 영구 삭제"
 #: ulng.rsmsgmasterpassword
 msgctxt "ulng.rsmsgmasterpassword"
 msgid "Main Password"
-msgstr "마스터 암호"
+msgstr "주 비밀번호"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the main password:"
-msgstr "마스터 암호를 입력하세요:"
+msgstr "주 비밀번호를 입력하세요:"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -12117,23 +12115,23 @@ msgstr "아래는 미리보기입니다. 커서를 이동하고 파일을 선택
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
 msgid "Password:"
-msgstr "암호:"
+msgstr "비밀번호:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr "암호가 다릅니다!"
+msgstr "비밀번호가 다릅니다!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "암호를 입력하세요:"
+msgstr "비밀번호를 입력하세요:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
-msgstr "암호 (방화벽):"
+msgstr "비밀번호 (방화벽):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "검증을 위해 암호를 다시 입력하세요:"
+msgstr "검증을 위해 비밀번호를 다시 입력하세요:"
 
 #: ulng.rsmsgpopuphotdelete
 #, object-pascal-format
@@ -12475,7 +12473,7 @@ msgid ""
 "Wrong password!\n"
 "Please try again!"
 msgstr ""
-"암호가 잘못되었습니다!\n"
+"비밀번호가 잘못되었습니다!\n"
 "다시 시도해 주세요!"
 
 #: ulng.rsmulrenautorename
