@@ -18,9 +18,8 @@ type
     _onDrawCell: TFileViewOnDrawCell;
     property OnDrawCell: TFileViewOnDrawCell read _onDrawCell write _onDrawCell;
   protected
+    procedure doCellEnhancedDraw( var params: TFileSourceUIParams );
     function doCellClick( const Shift: TShiftState; const X, Y: Integer ): Boolean;
-    procedure doFileSourceDrawCell( var params: TFileSourceUIParams );
-    procedure doOnDrawCell( var params: TFileSourceUIParams );
   protected
     function getFileView: TFileView; virtual; abstract;
     function isMultiColumns: Boolean; virtual;
@@ -71,21 +70,35 @@ begin
   Result:= handler.click( params );
 end;
 
-procedure TFileViewBaseGrid.doFileSourceDrawCell( var params: TFileSourceUIParams );
+procedure TFileViewBaseGrid.doCellEnhancedDraw( var params: TFileSourceUIParams );
+
+  procedure doFileSourceDrawCell( var params: TFileSourceUIParams );
+  var
+    handler: TFileSourceUIHandler;
+  begin
+    handler:= params.fs.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    handler.draw( params );
+  end;
+
+  procedure doOnDrawCell( var params: TFileSourceUIParams );
+  begin
+    if Assigned(_onDrawCell) and not(CsDesigning in self.ComponentState) then
+      _onDrawCell( params );
+  end;
+
 var
-  handler: TFileSourceUIHandler;
+  fileView: TFileView;
 begin
-  handler:= params.fs.GetUIHandler;
-  if handler = nil then
-    Exit;
-
-  handler.draw( params );
-end;
-
-procedure TFileViewBaseGrid.doOnDrawCell( var params: TFileSourceUIParams );
-begin
-  if Assigned(_onDrawCell) and not(CsDesigning in self.ComponentState) then
-    _onDrawCell( params );
+  fileView:= self.getFileView;
+  params.sender:= fileView;
+  params.fs:= fileView.FileSource;
+  params.multiColumns:= self.isMultiColumns;
+  params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
+  doFileSourceDrawCell( params );
+  doOnDrawCell( params );
 end;
 
 function TFileViewBaseGrid.MouseOnGrid(X, Y: LongInt): Boolean;

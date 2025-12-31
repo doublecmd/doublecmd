@@ -556,12 +556,10 @@ begin
       FileSourceDirectAccess:= fspDirectAccess in FFileView.FileSource.Properties;
 
       params:= Default( TFileSourceUIParams );
-      params.sender:= FThumbView;
-      params.fs:= FThumbView.FileSource;
-      params.multiColumns:= False;
       params.col:= aCol;
       params.row:= aRow;
       params.displayFile:= aFile;
+      params.focused:= (gdSelected in aState) and FThumbView.Active;
 
       if AFile.DisplayStrings.Count = 0 then
         FThumbView.MakeColumnsStrings(AFile);
@@ -575,13 +573,9 @@ begin
       end else begin
         params.drawingRect:= aRect;
       end;
-      params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
 
       DrawIconCell;
-
-      params.focused:= (gdSelected in aState) and FThumbView.Active;
-      self.doFileSourceDrawCell( params );
-      self.doOnDrawCell( params );
+      self.doCellEnhancedDraw( params );
     end
   else
     begin

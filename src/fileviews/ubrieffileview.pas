@@ -507,12 +507,11 @@ begin
       FileSourceDirectAccess:= fspDirectAccess in FBriefView.FileSource.Properties;
 
       params:= Default( TFileSourceUIParams );
-      params.sender:= FBriefView;
-      params.fs:= FBriefView.FileSource;
-      params.multiColumns:= False;
       params.col:= aCol;
       params.row:= aRow;
       params.displayFile:= aFile;
+      params.drawingRect:= aRect;
+      params.focused:= (gdSelected in aState) and FBriefView.Active;
 
       if AFile.DisplayStrings.Count = 0 then
         FBriefView.MakeColumnsStrings(AFile);
@@ -522,12 +521,7 @@ begin
       iTextTop := aRect.Top + (RowHeights[aRow] - self.calcTextHeight) div 2;
 
       DrawIconCell;
-
-      params.drawingRect:= aRect;
-      params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
-      params.focused:= (gdSelected in aState) and FBriefView.Active;
-      self.doFileSourceDrawCell( params );
-      self.doOnDrawCell( params );
+      self.doCellEnhancedDraw( params );
     end
   else
     begin
