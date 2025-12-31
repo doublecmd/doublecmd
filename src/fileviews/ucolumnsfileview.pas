@@ -93,6 +93,7 @@ type
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
     function CellToIndex(ACol, ARow: Integer): Integer; override;
+    function isMultiColumns: Boolean; override;
     property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
@@ -2394,6 +2395,11 @@ begin
   if (ARow < 0) or (ARow >= RowCount) then
     Exit;
   Result:= ARow - FixedRows;
+end;
+
+function TDrawGridEx.isMultiColumns: Boolean;
+begin
+  Result:= True;
 end;
 
 end.
