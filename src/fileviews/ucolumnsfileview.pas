@@ -39,8 +39,6 @@ type
     FLastMouseScrollTime: QWord;
     ColumnsView: TColumnsFileView;
 
-    FOnDrawCell: TFileViewOnDrawCell;
-
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
@@ -94,7 +92,6 @@ type
 
     function CellToIndex(ACol, ARow: Integer): Integer; override;
     function isMultiColumns: Boolean; override;
-    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
   TColumnResized = procedure (Sender: TObject; ColumnIndex: Integer; ColumnNewsize: integer) of object;
@@ -1952,12 +1949,6 @@ var
     handler.draw( params );
   end;
 
-  procedure callOnDrawCell;
-  begin
-    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell( params );
-  end;
-
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -2008,7 +1999,7 @@ begin
     params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
     params.focused:= (gdSelected in aState) and ColumnsView.Active;
     callFileSourceDrawCell;
-    callOnDrawCell;
+    self.doOnDrawCell( params );
 
     DrawCellGrid(aCol,aRow,aRect,aState);
     DrawLines;
