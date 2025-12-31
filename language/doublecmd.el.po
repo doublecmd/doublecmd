@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-09-06 07:04+0300\n"
+"PO-Revision-Date: 2025-12-24 01:37+0200\n"
 "Last-Translator: Anastasios Kazakis <anastasios.kazakis@gmail.com>\n"
 "Language-Team: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
 "Language: el_GR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Native-Language: ελληνικά\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 "X-Language: el_GR\n"
 "X-Source-Language: el\n"
 "X-Poedit-SourceCharset: ISO-8859-7\n"
@@ -368,7 +368,7 @@ msgstr "Windows"
 
 #: tfrmchecksumcalc.rghashalgorithm.caption
 msgid "Algorithm"
-msgstr ""
+msgstr "Αλγόριθμος"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -2804,7 +2804,7 @@ msgstr "Ορισμός όλων των καρτελών σε Κλειδωμέν�
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr "Όλες οι καρτέλες Κλειδωμένες με ελέυθερες τις Αλλαγές Καταλόγου"
+msgstr "Όλες οι καρτέλες Κλειδωμένες με ελεύθερες τις Αλλαγές Καταλόγου"
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -2817,7 +2817,7 @@ msgstr "Κλειδωμένο με Καταλόγους Ανοικτούς σε �
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
-msgstr "Normal"
+msgstr "Κανονικό"
 
 #: tfrmmain.actsettaboptionpathlocked.caption
 msgid "&Locked"
@@ -3396,60 +3396,58 @@ msgstr "Ή επιλέξτε τον προκαθορισμένο τύπο επι�
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "Δοκιμή"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "Δημιουργία Κλειδιού"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Μετατροπή κλειδιού"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
 msgstr "Κύριο Συνθηματικό"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Όσες πιο πολλές επαναλήψεις, τόσο πιο δύσκολες είναι οι επιθέσεις λεξικού και εικασίας, αλλά ταυτόχρονα η φόρτωση/αποθήκευση συνθηματικού απαιτεί περισσότερο χρόνο."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "Λειτουργία παραγωγής κλειδιού:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "Το κλειδί μετατρέπεται χρησιμοποιώντας μία συνάρτηση παραγωγής κλειδιού. Αυτό προσθέτει ένα επιπλέον φόρτο εργασίας και κάνει τις επιθέσεις λεξικού και εικασίας πιο δύσκολες."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "Επαναλήψεις:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "Μνήμη:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "Παραλληλισμός:"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "Συνθηματικό:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "Επανάληψη συνθηματικού:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Καθορίστε ένα νέο κλειδί, το οποίο θα χρησιμοποιηθεί για να κρυπτογραφήσει τον χώρο αποθήκευσης συνθηματικών."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -3636,7 +3634,7 @@ msgstr "Φόρτωση Τελευταίου Ορίσματος"
 
 #: tfrmmultirename.actloadnamesfromclipboard.caption
 msgid "Load Names from Clipboard"
-msgstr ""
+msgstr "Φόρτωμα ονομάτων από το Πρόχειρο"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3787,11 +3785,11 @@ msgstr "Συνήθεις φράσεις"
 
 #: tfrmmultirename.cbrepext.caption
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
-msgstr ""
+msgstr "Αντικατάσταση επίσης στις επεκτάσεις αρχείου"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
@@ -11240,7 +11238,7 @@ msgstr "Προνόμιο"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr "Καρτέλα σύντομης προβολής macOS"
+msgstr "Καρτέλα Σύντομης Προβολής macOS"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
@@ -12178,12 +12176,12 @@ msgstr "Μη Έγκυρη επιλογή."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "Αποτυχία μετατροπής κλειδιού (error code %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "Η μετατροπή κλειδιού διήρκησε %f δευτερόλεπτα."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -14632,4 +14630,3 @@ msgstr "Δεν πραγματοποιήθηκε καμία αντικατάστ�
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Δεν υπάρχει διαμόρφωση με το όνομα \"%s\""
-
