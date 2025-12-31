@@ -1960,12 +1960,11 @@ begin
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
     params:= Default( TFileSourceUIParams );
-    params.sender:= Self.ColumnsView;
-    params.fs:= Self.ColumnsView.FileSource;
-    params.multiColumns:= True;
     params.col:= aCol;
     params.row:= aRow;
     params.displayFile:= aFile;
+    params.drawingRect:= aRect;
+    params.focused:= (gdSelected in aState) and ColumnsView.Active;
 
     if AFile.DisplayStrings.Count = 0 then
       ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
@@ -1984,11 +1983,7 @@ begin
         DrawOtherCell;
     end;
 
-    params.drawingRect:= aRect;
-    params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
-    params.focused:= (gdSelected in aState) and ColumnsView.Active;
-    self.doFileSourceDrawCell( params );
-    self.doOnDrawCell( params );
+    self.doCellEnhancedDraw( params );
 
     DrawCellGrid(aCol,aRow,aRect,aState);
     DrawLines;
