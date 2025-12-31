@@ -22,7 +22,6 @@ type
   TBriefDrawGrid = class(TFileViewGrid)
   protected
     FBriefView: TBriefFileView;
-    FOnDrawCell: TFileViewOnDrawCell;
   protected
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
@@ -40,8 +39,6 @@ type
     function  CellToIndex(ACol, ARow: Integer): Integer; override;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
-
-    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
   { TBriefFileView }
@@ -509,12 +506,6 @@ var
     handler.draw( params );
   end;
 
-  procedure callOnDrawCell;
-  begin
-    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell( params );
-  end;
-
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -547,7 +538,7 @@ begin
       params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
       params.focused:= (gdSelected in aState) and FBriefView.Active;
       callFileSourceDrawCell;
-      callOnDrawCell;
+      self.doOnDrawCell( params );
     end
   else
     begin

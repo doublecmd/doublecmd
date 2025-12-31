@@ -60,7 +60,6 @@ type
     FMouseDownY: Integer;
     FThumbView: TThumbFileView;
     FUpdateColCount: Integer;
-    FOnDrawCell: TFileViewOnDrawCell;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -80,7 +79,6 @@ type
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
 
     function ConvertToDecorationRect(const drawingRect: TRect): TRect; override;
-    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
 
@@ -563,12 +561,6 @@ var
     handler.draw( params );
   end;
 
-  procedure callOnDrawCell;
-  begin
-    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell( params );
-  end;
-
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -606,7 +598,7 @@ begin
 
       params.focused:= (gdSelected in aState) and FThumbView.Active;
       callFileSourceDrawCell;
-      callOnDrawCell;
+      self.doOnDrawCell( params );
     end
   else
     begin

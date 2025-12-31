@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource, uFileView,
+  uFileSource, uFileView, uFileViewWithMainCtrl,
   uSmoothScrollingGrid;
 
 type
@@ -15,7 +15,11 @@ type
 
   TFileViewBaseGrid = class( TSmoothScrollingGrid )
   protected
+    _onDrawCell: TFileViewOnDrawCell;
+    property OnDrawCell: TFileViewOnDrawCell read _onDrawCell write _onDrawCell;
+  protected
     function doCellClick( const Shift: TShiftState; const X, Y: Integer ): Boolean;
+    procedure doOnDrawCell( var params: TFileSourceUIParams );
     function getFileView: TFileView; virtual; abstract;
   public
     function MouseOnGrid(X, Y: LongInt): Boolean;
@@ -62,6 +66,12 @@ begin
 
   params.displayFile:= fileView.DisplayFiles[index];
   Result:= handler.click( params );
+end;
+
+procedure TFileViewBaseGrid.doOnDrawCell( var params: TFileSourceUIParams );
+begin
+  if Assigned(_onDrawCell) and not(CsDesigning in self.ComponentState) then
+    _onDrawCell( params );
 end;
 
 function TFileViewBaseGrid.MouseOnGrid(X, Y: LongInt): Boolean;
