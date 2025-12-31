@@ -70,7 +70,6 @@ type
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
-    function calcTextHeight: Integer; inline;
     procedure DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); override;
@@ -394,11 +393,6 @@ begin
     DefaultColWidth := gThumbSize.cx + gBorderFrameWidth*2 + 2
   else
     DefaultColWidth := gThumbSize.cx + 4;
-end;
-
-function TThumbDrawGrid.calcTextHeight: Integer; inline;
-begin
-  Result:= Canvas.TextHeight('Wg');
 end;
 
 procedure TThumbDrawGrid.DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
@@ -791,7 +785,7 @@ begin
   inherited UpdateRenameFileEditPosition;
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
-  ARect.Top := ARect.Bottom - TThumbDrawGrid(dgPanel).calcTextHeight - 4;
+  ARect.Top := ARect.Bottom - dgPanel.calcTextHeight - 4;
 
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);

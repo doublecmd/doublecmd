@@ -519,7 +519,7 @@ begin
 
       PrepareColors(aFile, aCol, aRow, aRect, aState);
 
-      iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
+      iTextTop := aRect.Top + (RowHeights[aRow] - self.calcTextHeight) div 2;
 
       DrawIconCell;
 
