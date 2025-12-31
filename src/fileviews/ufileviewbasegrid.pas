@@ -21,6 +21,7 @@ type
     function MouseOnGrid(X, Y: LongInt): Boolean;
     procedure MouseToCellWithoutOutbound(X, Y: Integer; out ACol, ARow: Longint);
     function ConvertToDecorationRect(const drawingRect: TRect): TRect; virtual;
+    function isMultiColumns: Boolean; virtual;
     function CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
   end;
 
@@ -41,7 +42,7 @@ begin
   params:= Default( TFileSourceUIParams );
   params.sender:= fileView;
   params.fs:= fileView.FileSource;
-  params.multiColumns:= False;
+  params.multiColumns:= self.isMultiColumns;
 
   handler:= params.fs.GetUIHandler;
   if handler = nil then
@@ -89,6 +90,11 @@ end;
 function TFileViewBaseGrid.ConvertToDecorationRect(const drawingRect: TRect ): TRect;
 begin
   Result:= drawingRect;
+end;
+
+function TFileViewBaseGrid.isMultiColumns: Boolean;
+begin
+  Result:= False;
 end;
 
 end.
