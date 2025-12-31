@@ -21,13 +21,15 @@ type
     function doCellClick( const Shift: TShiftState; const X, Y: Integer ): Boolean;
     procedure doFileSourceDrawCell( var params: TFileSourceUIParams );
     procedure doOnDrawCell( var params: TFileSourceUIParams );
+  protected
     function getFileView: TFileView; virtual; abstract;
-  public
+    function isMultiColumns: Boolean; virtual;
     function MouseOnGrid(X, Y: LongInt): Boolean;
     procedure MouseToCellWithoutOutbound(X, Y: Integer; out ACol, ARow: Longint);
     function ConvertToDecorationRect(const drawingRect: TRect): TRect; virtual;
-    function isMultiColumns: Boolean; virtual;
     function CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
+  public
+    function calcTextHeight: Integer; inline;
   end;
 
 implementation
@@ -112,6 +114,11 @@ end;
 function TFileViewBaseGrid.ConvertToDecorationRect(const drawingRect: TRect ): TRect;
 begin
   Result:= drawingRect;
+end;
+
+function TFileViewBaseGrid.calcTextHeight: Integer;
+begin
+  Result:= self.Canvas.TextHeight('Wg');
 end;
 
 function TFileViewBaseGrid.isMultiColumns: Boolean;

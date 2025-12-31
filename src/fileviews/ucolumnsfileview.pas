@@ -1410,7 +1410,7 @@ procedure TDrawGridEx.UpdateView;
     OldFont     := Canvas.Font;
     Canvas.Font := Font;
     SetCanvasFont(GetColumnFont(0, True));
-    Result      := Canvas.TextHeight('Wg');
+    Result      := self.calcTextHeight;
     Canvas.Font := OldFont;
   end;
 
@@ -1972,7 +1972,7 @@ begin
 
     PrepareColors;
 
-    iTextTop := aRect.Top + (aRect.Height - Canvas.TextHeight('Wg')) div 2;
+    iTextTop := aRect.Top + (aRect.Height - self.calcTextHeight) div 2;
 
     if gExtendCellWidth then
       DrawExtendedCells
