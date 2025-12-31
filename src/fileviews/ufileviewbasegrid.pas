@@ -19,6 +19,7 @@ type
     property OnDrawCell: TFileViewOnDrawCell read _onDrawCell write _onDrawCell;
   protected
     function doCellClick( const Shift: TShiftState; const X, Y: Integer ): Boolean;
+    procedure doFileSourceDrawCell( var params: TFileSourceUIParams );
     procedure doOnDrawCell( var params: TFileSourceUIParams );
     function getFileView: TFileView; virtual; abstract;
   public
@@ -66,6 +67,17 @@ begin
 
   params.displayFile:= fileView.DisplayFiles[index];
   Result:= handler.click( params );
+end;
+
+procedure TFileViewBaseGrid.doFileSourceDrawCell( var params: TFileSourceUIParams );
+var
+  handler: TFileSourceUIHandler;
+begin
+  handler:= params.fs.GetUIHandler;
+  if handler = nil then
+    Exit;
+
+  handler.draw( params );
 end;
 
 procedure TFileViewBaseGrid.doOnDrawCell( var params: TFileSourceUIParams );

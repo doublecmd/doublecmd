@@ -1938,17 +1938,6 @@ var
     aRect := CCell.Rect;
   end;
 
-  procedure callFileSourceDrawCell;
-  var
-    handler: TFileSourceUIHandler;
-  begin
-    handler:= ColumnsView.FileSource.GetUIHandler;
-    if handler = nil then
-      Exit;
-
-    handler.draw( params );
-  end;
-
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -1998,7 +1987,7 @@ begin
     params.drawingRect:= aRect;
     params.decorationRect:= self.ConvertToDecorationRect( params.drawingRect );
     params.focused:= (gdSelected in aState) and ColumnsView.Active;
-    callFileSourceDrawCell;
+    self.doFileSourceDrawCell( params );
     self.doOnDrawCell( params );
 
     DrawCellGrid(aCol,aRow,aRect,aState);
