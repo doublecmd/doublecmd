@@ -550,17 +550,6 @@ var
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
 
-  procedure callFileSourceDrawCell;
-  var
-    handler: TFileSourceUIHandler;
-  begin
-    handler:= FThumbView.FileSource.GetUIHandler;
-    if handler = nil then
-      Exit;
-
-    handler.draw( params );
-  end;
-
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -597,7 +586,7 @@ begin
       DrawIconCell;
 
       params.focused:= (gdSelected in aState) and FThumbView.Active;
-      callFileSourceDrawCell;
+      self.doFileSourceDrawCell( params );
       self.doOnDrawCell( params );
     end
   else
