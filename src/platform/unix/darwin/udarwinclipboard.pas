@@ -8,10 +8,13 @@ interface
 uses
   Classes, SysUtils,
   CocoaAll, CocoaUtils,
-  DCStrUtils, uClipboard,
+  DCStrUtils,
   uDarwinUtil;
 
 type
+
+  {$scopedEnums on}
+  TDarwinClipboardOperation = ( copy, cut );
 
   { TDarwinClipboardUtil }
 
@@ -19,9 +22,9 @@ type
   public
     class function writeToClipboard(
       const filenames: TStringList;
-      const clipboardOp: TClipboardOperation ): Boolean;
+      const clipboardOp: TDarwinClipboardOperation ): Boolean;
     class function readFromClipboard(
-      out ClipboardOp: TClipboardOperation;
+      out clipboardOp: TDarwinClipboardOperation;
       out filenames:TStringList):Boolean;
     class procedure clear;
     class procedure setText( const s: String );
@@ -31,9 +34,8 @@ implementation
 
 const
 
-  TClipboardOperationName : array[TClipboardOperation] of string = (
-      'copy', 'cut'
-    );
+  OperationName : array[TDarwinClipboardOperation] of String =
+    ( 'copy', 'cut' );
 
   darwinPasteboardOpMime = 'application/x-darwin-doublecmd-PbOp';
 
@@ -77,13 +79,14 @@ begin
   Result := NSStringToString( pb.stringForType( pbType ) );
 end;
 
-function getOpFromPasteboard() : TClipboardOperation;
+function getOpFromPasteboard() : TDarwinClipboardOperation;
 var
   opString : String;
 begin
-  Result := ClipboardCopy;
+  Result := TDarwinClipboardOperation.copy;
   opString := getStringFromPasteboard( StringToNSString(darwinPasteboardOpMime) );
-  if TClipboardOperationName[ClipboardCut].CompareTo(opString) = 0 then Result := ClipboardCut;
+  if OperationName[TDarwinClipboardOperation.cut].CompareTo(opString) = 0 then
+    Result := TDarwinClipboardOperation.cut;
 end;
 
 function getFilenamesFromPasteboard() : TStringList;
@@ -117,7 +120,7 @@ end;
 
 class function TDarwinClipboardUtil.writeToClipboard(
   const filenames: TStringList;
-  const clipboardOp: TClipboardOperation ): Boolean;
+  const clipboardOp: TDarwinClipboardOperation ): Boolean;
 begin
   Result:= False;
   if filenames.Count = 0 then Exit;
@@ -125,16 +128,17 @@ begin
   ClearClipboard;
   NSPasteboardAddFiles( filenames );
   NSPasteboardAddString( FilenamesToString(filenames) );
-  NSPasteboardAddString( TClipboardOperationName[ClipboardOp] , StringToNSString(darwinPasteboardOpMime) );
+  NSPasteboardAddString( OperationName[ClipboardOp] , StringToNSString(darwinPasteboardOpMime) );
 
   Result:= True;
 end;
 
-class function TDarwinClipboardUtil.readFromClipboard(out
-  ClipboardOp: TClipboardOperation; out filenames: TStringList): Boolean;
+class function TDarwinClipboardUtil.readFromClipboard(
+  out clipboardOp: TDarwinClipboardOperation;
+  out filenames: TStringList ): Boolean;
 begin
   Result := False;
-  clipboardOp := ClipboardCopy;
+  clipboardOp := TDarwinClipboardOperation.copy;
   filenames := getFilenamesFromPasteboard();
   if filenames <> nil then begin
     clipboardOp := getOpFromPasteboard();

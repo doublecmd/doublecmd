@@ -542,13 +542,25 @@ end;
 
 {$IFDEF DARWIN}
 function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
+const
+  OperationToDarwin: Array[TClipboardOperation] of TDarwinClipboardOperation =
+    ( TDarwinClipboardOperation.copy, TDarwinClipboardOperation.cut );
+var
+  darwinOp: TDarwinClipboardOperation;
 begin
-  Result:= TDarwinClipboardUtil.writeToClipboard( filenames, ClipboardOp );
+  darwinOp:= OperationToDarwin[ClipboardOp];
+  Result:= TDarwinClipboardUtil.writeToClipboard( filenames, darwinOp );
 end;
 
 function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+const
+  OperationFromDarwin: Array[TDarwinClipboardOperation] of TClipboardOperation =
+    ( ClipboardCopy, ClipboardCut );
+var
+  darwinOp: TDarwinClipboardOperation;
 begin
-  Result:= TDarwinClipboardUtil.readFromClipboard( ClipboardOp, filenames );
+  Result:= TDarwinClipboardUtil.readFromClipboard( darwinOp, filenames );
+  ClipboardOp:= OperationFromDarwin[darwinOp];
 end;
 
 procedure ClipboardSetText(AText: String);
