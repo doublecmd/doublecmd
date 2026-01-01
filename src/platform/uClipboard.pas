@@ -549,7 +549,7 @@ var
   darwinOp: TDarwinClipboardOperation;
 begin
   darwinOp:= OperationToDarwin[ClipboardOp];
-  Result:= TDarwinClipboardUtil.writeToClipboard( filenames, darwinOp );
+  Result:= TDarwinClipboardUtil.setFiles( darwinOp, filenames );
 end;
 
 function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
@@ -559,7 +559,7 @@ const
 var
   darwinOp: TDarwinClipboardOperation;
 begin
-  Result:= TDarwinClipboardUtil.readFromClipboard( darwinOp, filenames );
+  Result:= TDarwinClipboardUtil.getFiles( darwinOp, filenames );
   ClipboardOp:= OperationFromDarwin[darwinOp];
 end;
 
