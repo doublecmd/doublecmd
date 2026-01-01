@@ -1,9 +1,6 @@
 unit uClipboard;
 
 {$mode objfpc}{$H+}
-{$IFDEF DARWIN}
-{$modeswitch objectivec1}
-{$ENDIF}
 
 {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
   {$Define UNIX_not_DARWIN}
@@ -67,14 +64,6 @@ const
   // Kde
   kdeClipboardMime = 'application/x-kde-cutselection';
 
-{$ELSEIF DEFINED(DARWIN)}
-
-  TClipboardOperationName : array[TClipboardOperation] of string = (
-      'copy', 'cut'
-    );
-
-  darwinPasteboardOpMime = 'application/x-darwin-doublecmd-PbOp';
-
 {$ENDIF}
 
 
@@ -112,7 +101,7 @@ uses
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
   Clipbrd, LCLIntf
 {$ELSEIF DEFINED(DARWIN)}
-  DCStrUtils, CocoaAll, CocoaUtils, uDarwinUtil
+  uDarwinClipboard
 {$ENDIF}
   ;
 
@@ -551,51 +540,25 @@ begin
 end;
 {$ENDIF}
 
-// MacOs 10.5 compatibility
 {$IFDEF DARWIN}
-function FilenamesToString(const filenames:TStringList): String;
-begin
-  Result := TrimRightLineEnding( filenames.Text, filenames.TextLineBreakStyle);
-end;
-
-procedure NSPasteboardAddFiles(const filenames:TStringList; pb:NSPasteboard);
-begin
-  pb.addTypes_owner(NSArray.arrayWithObject(NSFileNamesPboardType), nil);
-  pb.setPropertyList_forType(ListToNSArray(filenames), NSFileNamesPboardType);
-end;
-
-procedure NSPasteboardAddFiles(const filenames:TStringList);
-begin
-  NSPasteboardAddFiles( filenames, NSPasteboard.generalPasteboard );
-end;
-
-procedure NSPasteboardAddString(const value:String; const pbType:NSString );
-var
-  pb: NSPasteboard;
-begin
-  pb:= NSPasteboard.generalPasteboard;
-  pb.addTypes_owner(NSArray.arrayWithObject(pbType), nil);
-  pb.setString_forType(StringToNSString(value), pbType);
-end;
-
-procedure NSPasteboardAddString(const value:String);
-begin
-  NSPasteboardAddString( value , NSStringPboardType );
-end;
-
 function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
-var
-   s : string;
 begin
-  Result := false;
-  if filenames.Count = 0 then Exit;
+  Result:= TDarwinClipboardUtil.writeToClipboard( filenames, ClipboardOp );
+end;
 
-  ClearClipboard;
-  NSPasteboardAddFiles( filenames );
-  NSPasteboardAddString( FilenamesToString(filenames) );
-  NSPasteboardAddString( TClipboardOperationName[ClipboardOp] , StringToNSString(darwinPasteboardOpMime) );
+function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+begin
+  Result:= TDarwinClipboardUtil.readFromClipboard( ClipboardOp, filenames );
+end;
 
-  Result := true;
+procedure ClipboardSetText(AText: String);
+begin
+  TDarwinClipboardUtil.setText( AText );
+end;
+
+procedure ClearClipboard;
+begin
+  TDarwinClipboardUtil.clear;
 end;
 {$ENDIF}
 
@@ -917,52 +880,6 @@ begin
 end;
 {$ENDIF}
 
-// MacOs 10.5 compatibility
-{$IFDEF DARWIN}
-function getStringFromPasteboard( pbType : NSString ) : String;
-var
-  pb : NSPasteboard;
-begin
-  pb := NSPasteboard.generalPasteboard;
-  Result := NSStringToString( pb.stringForType( pbType ) );
-end;
-
-function getOpFromPasteboard() : TClipboardOperation;
-var
-  opString : String;
-begin
-  Result := ClipboardCopy;
-  opString := getStringFromPasteboard( StringToNSString(darwinPasteboardOpMime) );
-  if TClipboardOperationName[ClipboardCut].CompareTo(opString) = 0 then Result := ClipboardCut;
-end;
-
-function getFilenamesFromPasteboard() : TStringList;
-var
-  pb : NSPasteboard;
-  filenameArray{, lClasses}: NSArray;
-begin
-  Result := nil;
-  pb := NSPasteboard.generalPasteboard;
-  filenameArray := pb.propertyListForType(NSFilenamesPboardType);
-  if filenameArray <> nil then Result := NSArrayToList( filenameArray );
-end;
-
-function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
-begin
-  Result := false;
-  ClipboardOp := ClipboardCopy;
-  filenames := getFilenamesFromPasteboard();
-  if filenames <> nil then
-  begin
-    ClipboardOp := getOpFromPasteboard();
-    Result := true;
-  end;
-end;
-{$ENDIF}
-
-
-
-
 {$IFDEF MSWINDOWS}
 procedure ClearClipboard;
 begin
@@ -980,19 +897,6 @@ begin
   Clipboard.Open;
   Clipboard.AsText := '';
   Clipboard.Close;
-end;
-{$ENDIF}
-
-// MacOs 10.5 compatibility
-{$IFDEF DARWIN}
-procedure ClearClipboard( pb:NSPasteboard );
-begin
-  pb.clearContents;
-end;
-
-procedure ClearClipboard;
-begin
-  ClearClipboard( NSPasteboard.generalPasteboard );
 end;
 {$ENDIF}
 
@@ -1017,15 +921,6 @@ begin
     Clipboard.AddFormat(PredefinedClipboardFormat(pcfText), AText[1], Length(AText));
   end;
 {$ENDIF}
-end;
-{$ENDIF}
-
-// MacOs 10.5 compatibility
-{$IFDEF DARWIN}
-procedure ClipboardSetText(AText: String);
-begin
-  ClearClipboard;
-  NSPasteboardAddString(AText);
 end;
 {$ENDIF}
 
