@@ -400,12 +400,14 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil, uOfficeXML,
-  uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
-  uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
+  uLng, uGlobs, uShowForm, uDCUtils, uOfficeXML,
+   uFile, uFileProperty, uColumnsFileView,
+  uFileViewNotebook, uKeyboard, uOSUtils,
   DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
-  uColumns, uFileFunctions, uFileSorting, uWcxArchiveFileSource,
-  DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData
+  uColumns, uFileFunctions, uFileSorting,
+  DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData,
+  uLocalFileSource, uWcxArchiveFileSource, uSearchResultFileSource,
+  uFileSourceUtil, uArchiveFileSourceUtil
 {$IFDEF DARKWIN}
   , uDarkStyle
 {$ENDIF}
@@ -540,6 +542,8 @@ begin
         finally
           FreeAndNil(ASelectedFiles);
         end;
+
+      (FileView.FileSource as ILocalFileSource).AddSearchPath( FSelectedFiles );
 
       FindInArchive(FileView);
 
