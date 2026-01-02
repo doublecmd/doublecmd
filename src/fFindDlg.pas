@@ -543,7 +543,8 @@ begin
           FreeAndNil(ASelectedFiles);
         end;
 
-      (FileView.FileSource as ILocalFileSource).AddSearchPath( FSelectedFiles );
+      (FileView.FileSource as ILocalFileSource).AddSearchPath(
+        FileView.CurrentRealPath, FSelectedFiles );
 
       FindInArchive(FileView);
 
