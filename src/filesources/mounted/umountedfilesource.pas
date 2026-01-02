@@ -15,7 +15,7 @@ uses
 type
   { IMountedFileSource }
 
-  IMountedFileSource = interface(IFileSource)
+  IMountedFileSource = interface(IFileSystemFileSource)
     ['{47A3B4E6-5C40-A86A-E325-E4ABDC069B42}']
 
     procedure mount( const path: String; const mountPoint: String );

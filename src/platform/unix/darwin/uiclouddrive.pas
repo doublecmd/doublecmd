@@ -49,6 +49,8 @@ type
     function IsPathAtRoot(Path: String): Boolean; override;
     function GetDisplayFileName(aFile: TFile): String; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
+
+    procedure AddSearchPath( paths: TStringList); override;
   end;
 
 implementation
@@ -802,6 +804,13 @@ begin
   AMenu.Items.Insert(1, menuItem);
 
   Result:= True;
+end;
+
+procedure TiCloudDriveFileSource.AddSearchPath( paths: TStringList );
+begin
+  if paths.Count > 0 then
+    Exit;
+  paths.Add( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.base) );
 end;
 
 initialization
