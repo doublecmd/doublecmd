@@ -50,7 +50,7 @@ type
     function GetDisplayFileName(aFile: TFile): String; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
 
-    procedure AddSearchPath( paths: TStringList); override;
+    procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
 
 implementation
@@ -806,11 +806,20 @@ begin
   Result:= True;
 end;
 
-procedure TiCloudDriveFileSource.AddSearchPath( paths: TStringList );
+procedure TiCloudDriveFileSource.AddSearchPath( const startPath: String; paths: TStringList );
+var
+  iCloudDrivePath: String;
+  iCloudBasePath: String;
 begin
   if paths.Count > 0 then
     Exit;
-  paths.Add( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.base) );
+
+  iCloudDrivePath:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.drive );
+  if ExcludeTrailingPathDelimiter(startPath) <> iCloudDrivePath then
+    Exit;
+
+  iCloudBasePath:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.base );
+  paths.Add( iCloudBasePath );
 end;
 
 initialization

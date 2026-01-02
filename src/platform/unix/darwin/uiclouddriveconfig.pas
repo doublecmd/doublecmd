@@ -8,8 +8,8 @@ uses
   Classes, SysUtils, fpjson, Dialogs,
   uGlobsPaths, DCJsonConfig, DCOSUtils;
 
-
 type
+
   TiCloudDriveConfigPath = record
     base: String;
     drive: String;
