@@ -525,7 +525,7 @@ begin
       LoadPlugins;
       ClearFilter;
       // SetWindowCaption(wcs_NewSearch);
-      cmbFindPathStart.Text := FileView.CurrentPath;
+      cmbFindPathStart.Text := FileView.CurrentRealPath;
 
       // Get paths of selected files, if any.
       FSelectedFiles.Clear;
