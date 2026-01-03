@@ -50,15 +50,15 @@ end;
 
 class function iCloudDriveUtil.getPlistAppIconNames(const path: String ): NSArray;
 var
-  plistPath: NSString;
+  plistPath: String;
   plistData: NSData;
   plistProperties: id;
   error: NSError = nil;
 begin
   Result:= nil;
-  plistPath:= StrToNSString( uDCUtils.ReplaceTilde(path) );
+  plistPath:= uDCUtils.ReplaceTilde( path );
 
-  plistData:= NSData.dataWithContentsOfFile( plistPath );
+  plistData:= TDarwinFileUtil.dataWithContentsOfFile( plistPath, 'iCloudDriveUtil.getPlistAppIconNames()' );
   if plistData = nil then
     Exit;
 
