@@ -17,8 +17,9 @@ interface
 
 uses
   Classes, SysUtils, UnixType,
-  MacOSAll, CocoaAll, CocoaUtils,
-  uDarwinFile, uLog;
+  uLog,
+  MacOSAll, CocoaAll,
+  uDarwinFile, uDarwinUtil;
 
 // TDarwinAarch64Statfs is the workaround for the bug of FPC.
 // TDarwinAarch64Statfs and the related codes can be removed after FPC 3.3.1
@@ -253,7 +254,7 @@ var
   deviceID: String;
 begin
   deviceID:= ExtractFileName( fs^.mntfromname );
-  Result:= StrToNSString( deviceID );
+  Result:= StringToNSString( deviceID );
 end;
 
 function TDarwinIOVolumns.getVolumnByDeviceID(const deviceID: NSString

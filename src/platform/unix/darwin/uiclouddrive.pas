@@ -378,7 +378,7 @@ class procedure TSeedFileUtil.download(const aFile: TFile);
 var
   path: NSString;
 begin
-  path:= StrToNSString( aFile.FullPath );
+  path:= StringToNSString( aFile.FullPath );
   doDownload( path );
 end;
 
