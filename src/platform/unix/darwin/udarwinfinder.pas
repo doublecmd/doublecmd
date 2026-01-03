@@ -8,8 +8,8 @@ interface
 uses
   Classes, SysUtils, LCLType, Menus,
   uLng,
-  uDarwinFinderModel,
-  MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra,
+  uDarwinFinderModel, uDarwinUtil;
 
 const
   FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE = 20.0;
@@ -617,7 +617,7 @@ begin
     titleString:= NSURL( urls.objectAtIndex(0) ).lastPathComponent;
   end else begin
     formatString:= Format( rsMacOSAssignFinderTagsToMultiItems, [urls.count] );
-    titleString:= StrToNSString( formatString );
+    titleString:= StringToNSString( formatString );
   end;
   panel.setTitle( titleString );
   panel.setTagNames( TDarwinFinderModelUtil.getTagNamesOfFiles(urls) );
@@ -890,7 +890,7 @@ class procedure TDarwinFinderUtil.popoverTagsSelector(
 var
   panel: TFinderTagsEditorPanel;
 begin
-  panel:= TFinderTagsEditorPanel.selectorWithTitle( StrToNSString(title) );
+  panel:= TFinderTagsEditorPanel.selectorWithTitle( StringToNSString(title) );
   panel._onClose:= onClose;
   panel.showPopover( positioningView, edge );
 end;
@@ -1109,11 +1109,11 @@ procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
     stateFontSize:= 11;
     if _hover then begin
       if _state = selectionAll then begin
-        stateString:= StrToNSString( 'x' );
+        stateString:= NSSTR( 'x' );
         stateRect.origin.x:= stateRect.origin.x + 1;
         stateFontSize:= 14;
       end else begin
-        stateString:= StrToNSString( '+' );
+        stateString:= NSSTR( '+' );
         stateFontSize:= 15;
       end;
     end else begin

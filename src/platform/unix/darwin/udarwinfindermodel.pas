@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn, syncobjs,
-  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra,
+  MacOSAll, CocoaAll, CocoaConst, Cocoa_Extra,
   uDarwinFile, uDarwinUtil;
 
 type
@@ -427,7 +427,7 @@ end;
 class procedure TDarwinFinderModelUtil.searchFilesBySavedSearch(
   const path: String; const handler: TMacOSSearchResultHandler);
 begin
-  TDarwinFinderModelUtil.searchFilesBySavedSearch( StrToNSString(path), handler );
+  TDarwinFinderModelUtil.searchFilesBySavedSearch( StringToNSString(path), handler );
 end;
 
 class procedure TDarwinFinderModelUtil.searchFilesForTagNames(

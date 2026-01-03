@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, fgl, Graphics,
-  CocoaAll, CocoaUtils,
+  CocoaAll,
   uDCUtils, uDarwinFile, uDarwinUtil, uiCloudDriveConfig;
 
 type
@@ -90,7 +90,7 @@ begin
   if appIconNames = nil then
     Exit;
 
-  appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.container) + '/' + appFileName + '/' );
+  appResourcePath:= StringToNSString( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.container) + '/' + appFileName + '/' );
 
   appImage:= NSImage.new;
   for appIconName in appIconNames do begin
