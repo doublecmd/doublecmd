@@ -11,7 +11,7 @@ uses
   uDebug, uLog,
   uFileProperty,
   MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils,
-  uDarwinUtil, uDarwinFinderModel;
+  uDarwinUtil;
 
 type
   
@@ -40,9 +40,15 @@ type
     class function getTempPath: String;
     class function getTerminalPath: String;
     class function getSpecifiedFolderPath( folder: NSSearchPathDirectory ): String;
+  public
+    class function dataWithContentsOfFile( const path: NSString; const tag: String ): NSData; overload;
+    class function dataWithContentsOfFile( const path: String; const tag: String ): NSData; overload;
   end;
 
 implementation
+
+uses
+  uDarwinFinderModel;
 
 const
   ICON_SPECIAL_FOLDER_EXT_STRING = '.app;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;.saver;.xcode;.xcodeproj;.xcworkspace;.playground;.scptd;.action;.workflow;.prefpane;.appex;.kext;.xpc;.bundle;.qlgenerator;.mdimporter;.systemextension;.fcpbundle;.fcpxmld;';
@@ -260,6 +266,22 @@ begin
   begin
     Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path.UTF8String) + ApplicationName;
   end;
+end;
+
+class function TDarwinFileUtil.dataWithContentsOfFile
+  ( const path: NSString; const tag: String ): NSData;
+var
+  error: NSError = nil;
+begin
+  Result:= NSData.dataWithContentsOfFile_options_error( path, 0, @error );
+  if error <> nil then
+    logDarwinError( tag, error );
+end;
+
+class function TDarwinFileUtil.dataWithContentsOfFile(
+  const path: String; const tag: String ): NSData;
+begin
+  Result:= TDarwinFileUtil.dataWithContentsOfFile( StringToNSString(path), tag );
 end;
 
 class function TDarwinFileUtil.getDescription(const path: String): String;

@@ -10,7 +10,7 @@ uses
   sqldb, SQLite3Conn, syncobjs,
   uLog, uDebug,
   MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra,
-  uDarwinUtil;
+  uDarwinFile, uDarwinUtil;
 
 type
 
@@ -396,7 +396,7 @@ var
     plistProperties: id;
     error: NSError = nil;
   begin
-    plistData:= NSData.dataWithContentsOfFile( path );
+    plistData:= TDarwinFileUtil.dataWithContentsOfFile( path, 'TDarwinFinderModelUtil.searchFilesBySavedSearch.analyseSavedSearch()' );
     if plistData = nil then
       raise EInOutError.Create( 'savedSearch File Read Error: ' + path.UTF8String );
 
@@ -516,7 +516,7 @@ begin
   Result:= nil;
   path:= NSHomeDirectory.stringByAppendingString( NSSTR(FAVORITE_FINDER_TAGS_FILE_PATH) );
 
-  plistData:= NSData.dataWithContentsOfFile( path );
+  plistData:= TDarwinFileUtil.dataWithContentsOfFile( path, 'TDarwinFinderModelUtil.getFavoriteTagNames()' );
   if plistData = nil then
     Exit;
 
@@ -622,7 +622,7 @@ begin
   Result:= nil;
   path:= NSHomeDirectory.stringByAppendingString( NSSTR(FINDER_TAGS_FILE_PATH_11minus) );
 
-  plistData:= NSData.dataWithContentsOfFile( path );
+  plistData:= TDarwinFileUtil.dataWithContentsOfFile( path, 'TDarwinFinderModelUtil.getTagsData_macOS11()' );
   if plistData = nil then
     Exit;
 
