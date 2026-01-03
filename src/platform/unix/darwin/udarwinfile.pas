@@ -8,7 +8,6 @@ interface
 
 uses
   Classes, SysUtils,
-  uDebug, uLog,
   MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils,
   uDarwinUtil;
 
@@ -98,14 +97,9 @@ begin
 end;
 
 procedure TUnmountManager.onComplete( error: NSError ); cdecl;
-var
-  msg: String;
 begin
-  if Assigned(error) then begin
-    msg:= 'there is an error in TUnmountManager when unmount: ' + error.localizedDescription.UTF8String;
-    DCDebug( msg );
-    LogWrite( msg , lmtError );
-  end;
+  if Assigned(error) then
+    logDarwinError( 'TUnmountManager error when unmount', error );
   self.Free;
 end;
 

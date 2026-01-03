@@ -8,7 +8,6 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn, syncobjs,
-  uLog, uDebug,
   MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra,
   uDarwinFile, uDarwinUtil;
 
@@ -500,8 +499,7 @@ begin
   except
     // it is suitable for just recording exception and handling it silently
     on e: Exception do begin
-      DCDebug( 'Exception in uDarwinFinderUtil.getAllTags(): ', e.ToString );
-      LogWrite( 'Exception in uDarwinFinderUtil.getAllTags(): ' + e.ToString, lmtError );
+      logDarwinException( 'uDarwinFinderUtil.getAllTags()', e );
     end;
   end;
 end;
