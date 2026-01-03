@@ -148,7 +148,7 @@ uses
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, LazUTF8, DCUnix, uMyUnix,
   {$IFDEF DARWIN}
-  uDarwinFile,
+  uDarwinFile, uDarwinFileProperty,
   {$ENDIF}
   {$IFDEF LINUX}
   statx,
@@ -431,7 +431,7 @@ begin
     end;
     {$IFDEF DARWIN}
     if pSearchRecord^.Name<>'..' then
-      MacOSSpecificProperty := TDarwinFileUtil.getSpecificProperty(AFilePath);
+      MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(AFilePath);
     {$ENDIF}
   end;
 
@@ -489,7 +489,7 @@ begin
 {$ENDIF}
 
   {$IFDEF DARWIN}
-  Result.MacOSSpecificProperty := TDarwinFileUtil.getSpecificProperty(AFilePath);
+  Result.MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(AFilePath);
   {$ENDIF}
 
   // Set name after assigning Attributes property, because it is used to get extension.
@@ -764,7 +764,7 @@ begin
 
 {$IFDEF DARWIN}
    if (AFile.Name<>'..') and (fpMacOSSpecific in PropertiesToSet) then
-     MacOSSpecificProperty := TDarwinFileUtil.getSpecificProperty(sFullPath);
+     MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(sFullPath);
 {$ENDIF}
 
     PropertiesToSet:= PropertiesToSet * fpVariantAll;
