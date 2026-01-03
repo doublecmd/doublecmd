@@ -17,6 +17,7 @@ function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 function ListToNSUrlArray(const list:TStrings): NSArray;
 procedure logDarwinError(const tag: String; const error: NSError);
+procedure logDarwinException(const tag: String; const e: Exception);
 
 implementation
 
@@ -73,6 +74,11 @@ procedure logDarwinError(const tag: String; const error: NSError);
 begin
   if error <> nil then
     LogWrite( tag + ': ' + error.description.utf8String, lmtError );
+end;
+
+procedure logDarwinException(const tag: String; const e: Exception);
+begin
+  LogWrite( tag + ': ' + e.ToString, lmtError );
 end;
 
 function CFStringToStr(AString: CFStringRef): String;
