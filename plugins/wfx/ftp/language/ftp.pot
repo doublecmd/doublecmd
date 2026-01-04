@@ -151,3 +151,12 @@ msgstr ""
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr ""
+
+#: ftplng.rsaddconnection
+msgid "Add connection"
+msgstr ""
+
+#: ftplng.rsquickconnection
+msgid "Quick connection"
+msgstr ""
+
