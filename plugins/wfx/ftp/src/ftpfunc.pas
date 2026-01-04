@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2026 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,10 +30,6 @@ interface
 uses
   SysUtils, Classes,
   WfxPlugin, Extension;
-
-const
-  cAddConnection = '<Add connection>';
-  cQuickConnection = '<Quick connection>';
 
 type
 
@@ -125,7 +121,7 @@ implementation
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
   LazUTF8, DCClassesUtf8, DCConvertEncoding, SftpSend, ScpSend, FtpProxy,
-  FtpPropDlg, DCFileAttributes;
+  FtpPropDlg, FtpLng, DCFileAttributes;
 
 var
   DefaultIniName: String;
@@ -139,7 +135,6 @@ threadvar
 
 const
   FS_COPYFLAGS_FORCE = FS_COPYFLAGS_OVERWRITE or FS_COPYFLAGS_RESUME;
-  RootList: array [0 .. 1] of AnsiString = (cAddConnection, cQuickConnection);
 
 type
   TListRec = record
@@ -609,12 +604,15 @@ end;
 
 function LocalFindNext(Hdl: THandle; var FindData: TWin32FindDataW): Boolean;
 var
-  ListRec: PListRec absolute Hdl;
   I, RootCount: Integer;
   Connection: TConnection;
+  ListRec: PListRec absolute Hdl;
+  RootList: array [0..1] of String;
 begin
   Result := False;
   I := ListRec^.Index;
+  RootList[0]:= cAddConnection;
+  RootList[1]:= cQuickConnection;
   RootCount := High(RootList) + 1;
   FillChar(FindData, SizeOf(FindData), 0);
   if I < RootCount then
@@ -1177,6 +1175,7 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo);
 begin
   gStartupInfo:= StartupInfo^;
   DefaultIniName:= gStartupInfo.PluginConfDir + DefaultIniName;
+  TranslateResourceStrings;
 
   try
     IniFile := TIniFileEx.Create(DefaultIniName, fmOpenReadWrite);
