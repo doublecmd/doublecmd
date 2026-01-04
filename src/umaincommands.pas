@@ -411,6 +411,9 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
      uColumnsFileView, uTypes
+{$IFDEF DARWIN}
+     , uDarwinClipboard
+{$ENDIF}
      ;
 
 resourcestring
@@ -4420,110 +4423,137 @@ begin
 end;
 
 procedure TMainCommands.cm_PasteFromClipboard(const Params: array of string);
-var
-  ClipboardOp: TClipboardOperation;
-  filenamesList: TStringList;
-  Files: TFiles = nil;
-  Operation: TFileSourceOperation = nil;
-  SourceFileSource: IFileSource = nil;
-begin
-  with frmMain do
+
+  function pasteFiles: Boolean;
+  var
+    ClipboardOp: TClipboardOperation;
+    filenamesList: TStringList;
+    Files: TFiles = nil;
+    Operation: TFileSourceOperation = nil;
+    SourceFileSource: IFileSource = nil;
   begin
-    if PasteFromClipboard(ClipboardOp, filenamesList) = True then
-    try
-      // Create file list from filenames
-      Files := TFileSystemFileSource.CreateFilesFromFileList(
-          ExtractFilePath(filenamesList[0]), fileNamesList, True);
+    Result:= PasteFromClipboard(ClipboardOp, filenamesList);
+    if NOT Result then
+      Exit;
 
-      if Files.Count > 0 then
-      begin
-        case ClipboardOp of
+    with frmMain do
+    begin
+      try
+        // Create file list from filenames
+        Files := TFileSystemFileSource.CreateFilesFromFileList(
+            ExtractFilePath(filenamesList[0]), fileNamesList, True);
 
-          uClipboard.ClipboardCut:
-          begin
-            SourceFileSource := TFileSystemFileSource.GetFileSource;
+        if Files.Count > 0 then
+        begin
+          case ClipboardOp of
 
-            if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+            uClipboard.ClipboardCut:
             begin
-              if not (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) then
-              begin
-                msgWarning(rsMsgErrNotSupported);
-                Exit;
-              end;
+              SourceFileSource := TFileSystemFileSource.GetFileSource;
 
-              Operation := SourceFileSource.CreateMoveOperation(
-                             Files, ActiveFrame.CurrentRealPath);
-            end
-            else
-            begin
-              if (not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes)) or
-                 (not (fsoDelete in SourceFileSource.GetOperationsTypes)) then
+              if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
               begin
-                msgWarning(rsMsgErrNotSupported);
-                Exit;
-              end;
-  {
-              // Meta-operation: CopyIn + Delete
+                if not (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) then
+                begin
+                  msgWarning(rsMsgErrNotSupported);
+                  Exit;
+                end;
 
-              Operation := ActiveFrame.FileSource.CreateCopyInOperation(
-                             SourceFileSource, Files,
-                             ActiveFrame.CurrentPath);
-  }
+                Operation := SourceFileSource.CreateMoveOperation(
+                               Files, ActiveFrame.CurrentRealPath);
+              end
+              else
+              begin
+                if (not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes)) or
+                   (not (fsoDelete in SourceFileSource.GetOperationsTypes)) then
+                begin
+                  msgWarning(rsMsgErrNotSupported);
+                  Exit;
+                end;
+    {
+                // Meta-operation: CopyIn + Delete
+
+                Operation := ActiveFrame.FileSource.CreateCopyInOperation(
+                               SourceFileSource, Files,
+                               ActiveFrame.CurrentPath);
+    }
+              end;
             end;
-          end;
 
-          uClipboard.ClipboardCopy:
-          begin
-            if not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
+            uClipboard.ClipboardCopy:
             begin
-              msgWarning(rsMsgErrNotSupported);
+              if not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
+              begin
+                msgWarning(rsMsgErrNotSupported);
+                Exit;
+              end;
+
+              SourceFileSource := TFileSystemFileSource.GetFileSource;
+
+              if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+              begin
+                Operation := SourceFileSource.CreateCopyOutOperation(
+                               ActiveFrame.FileSource, Files,
+                               ActiveFrame.CurrentRealPath);
+              end
+              else
+              begin
+                Operation := ActiveFrame.FileSource.CreateCopyInOperation(
+                               SourceFileSource, Files,
+                               ActiveFrame.CurrentRealPath);
+              end;
+            end;
+
+            else
+              // Invalid clipboard operation.
               Exit;
-            end;
 
-            SourceFileSource := TFileSystemFileSource.GetFileSource;
-
-            if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
-            begin
-              Operation := SourceFileSource.CreateCopyOutOperation(
-                             ActiveFrame.FileSource, Files,
-                             ActiveFrame.CurrentRealPath);
-            end
-            else
-            begin
-              Operation := ActiveFrame.FileSource.CreateCopyInOperation(
-                             SourceFileSource, Files,
-                             ActiveFrame.CurrentRealPath);
-            end;
           end;
 
-          else
-            // Invalid clipboard operation.
-            Exit;
+          if Assigned(Operation) then
+          begin
+            // Don't access Files after creating operation - it may have taken ownership
+            if Operation is TFileSystemCopyOperation then
+              (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
+            OperationsManager.AddOperation(Operation);
 
+            // Files have been moved so clear the clipboard because
+            // the files location in the clipboard is invalid now.
+            if ClipboardOp = uClipboard.ClipboardCut then
+              uClipboard.ClearClipboard;
+          end
+          else
+            msgWarning(rsMsgNotImplemented);
         end;
 
-        if Assigned(Operation) then
-        begin
-          // Don't access Files after creating operation - it may have taken ownership
-          if Operation is TFileSystemCopyOperation then
-            (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
-          OperationsManager.AddOperation(Operation);
-
-          // Files have been moved so clear the clipboard because
-          // the files location in the clipboard is invalid now.
-          if ClipboardOp = uClipboard.ClipboardCut then
-            uClipboard.ClearClipboard;
-        end
-        else
-          msgWarning(rsMsgNotImplemented);
+      finally
+        FreeAndNil(fileNamesList);
+        if Assigned(Files) then
+          FreeAndNil(Files);
       end;
-
-    finally
-      FreeAndNil(fileNamesList);
-      if Assigned(Files) then
-        FreeAndNil(Files);
     end;
   end;
+
+{$IFDEF DARWIN}
+  procedure pasteImageToFile;
+  var
+    imageFilename: String;
+  begin
+    if NOT frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+      Exit;
+    imageFilename:= frmMain.ActiveFrame.CurrentRealPath + 'PasteImage.png';
+    imageFilename:= GetNextCopyName( imageFilename, false );
+    TDarwinClipboardUtil.pasteImageToFile( imageFilename );
+  end;
+{$ENDIF}
+
+begin
+  if pasteFiles then
+    Exit;
+{$IFDEF DARWIN}
+  if TDarwinClipboardUtil.hasImage then
+    pasteImageToFile;
+{$ENDIF}
 end;
 
 procedure TMainCommands.cm_SyncChangeDir(const Params: array of string);

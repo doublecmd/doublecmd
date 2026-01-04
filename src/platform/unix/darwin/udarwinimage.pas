@@ -17,6 +17,7 @@ type
   public
     class function filt( const filterName: NSString; const sourceImage: NSImage ): NSImage;
     class function invertColor( const sourceImage: NSImage ): NSImage;
+    class function toPNGData( const data: NSData ): NSData;
   end;
 
 implementation
@@ -45,6 +46,14 @@ end;
 class function TDarwinImageUtil.invertColor( const sourceImage: NSImage ): NSImage;
 begin
   Result:= filt( NSSTR('CIColorInvert'), sourceImage );
+end;
+
+class function TDarwinImageUtil.toPNGData(const data: NSData): NSData;
+var
+  bitmapRep: NSBitmapImageRep;
+begin
+  bitmapRep:= NSBitmapImageRep.imageRepWithData( data );
+  Result:= bitmapRep.representationUsingType_properties( NSPNGFileType, nil );
 end;
 
 end.

@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   CocoaAll,
   DCStrUtils,
-  uDarwinUtil;
+  uDarwinUtil, uDarwinImage;
 
 type
 
@@ -24,6 +24,7 @@ type
     class procedure addText( const value: String );
     class procedure addFiles( const filenames: TStringList; const pb: NSPasteboard );
     class procedure addFiles( const filenames:TStringList );
+    class function getImageData: NSData;
   private
     class function filenamesToString( const filenames:TStringList ): String;
   public
@@ -35,6 +36,8 @@ type
     class function getFiles(
       out clipboardOp: TDarwinClipboardOperation;
       out filenames:TStringList ): Boolean;
+    class function hasImage: Boolean;
+    class procedure pasteImageToFile( const path: String );
     class procedure clear;
   end;
 
@@ -46,6 +49,10 @@ const
     ( 'copy', 'cut' );
 
   PASTEBOARD_OP_MIME = 'application/x-darwin-doublecmd-PbOp';
+
+var
+
+  PASTEBOARD_IMAGE_TYPES: NSMutableArray;
 
 // macOS 10.5 compatibility
 
@@ -146,10 +153,57 @@ begin
   end;
 end;
 
+class function TDarwinClipboardUtil.hasImage: Boolean;
+var
+  pb: NSPasteboard;
+  imageType: NSString;
+begin
+  pb:= NSPasteboard.generalPasteboard;
+  imageType:= pb.availableTypeFromArray( PASTEBOARD_IMAGE_TYPES );
+  Result:= Assigned( imageType );
+end;
+
+class procedure TDarwinClipboardUtil.pasteImageToFile(const path: String);
+var
+  data: NSData;
+begin
+  data:= TDarwinClipboardUtil.getImageData;
+  if data = nil then
+    Exit;
+  NSFileManager.defaultManager.createFileAtPath_contents_attributes(
+    StringToNSString(path),
+    data,
+    nil );
+end;
+
+class function TDarwinClipboardUtil.getImageData: NSData;
+var
+  pb: NSPasteboard;
+  imageType: NSString;
+begin
+  Result:= nil;
+  pb:= NSPasteboard.generalPasteboard;
+  imageType:= pb.availableTypeFromArray( PASTEBOARD_IMAGE_TYPES );
+  if imageType.isEqualToString(NSPasteboardTypePNG) then begin
+    Result:= pb.dataForType( NSPasteboardTypePNG );
+  end else if imageType.isEqualToString(NSPasteboardTypeTIFF) then begin
+    Result:= pb.dataForType( NSPasteboardTypeTIFF );
+    Result:= TDarwinImageUtil.toPNGData( Result );
+  end;
+end;
+
 class procedure TDarwinClipboardUtil.clear;
 begin
   NSPasteboard.generalPasteboard.clearContents;
 end;
+
+initialization
+  PASTEBOARD_IMAGE_TYPES:= NSMutableArray.new;
+  PASTEBOARD_IMAGE_TYPES.addObject( NSPasteboardTypePNG );
+  PASTEBOARD_IMAGE_TYPES.addObject( NSPasteboardTypeTIFF );
+
+finalization
+  PASTEBOARD_IMAGE_TYPES.release;
 
 end.
 
