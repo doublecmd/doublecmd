@@ -38,7 +38,7 @@ implementation
 
 uses
   LazUTF8, DynLibs, FtpUtils, blcksock, synaip, ssl_openssl_lib, libssh,
-  FtpProxy, TypInfo;
+  FtpProxy, FtpLng, TypInfo;
 
 var
   Protocol: PtrInt;

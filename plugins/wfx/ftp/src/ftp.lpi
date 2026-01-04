@@ -22,8 +22,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="3"/>
-      <RevisionNr Value="5"/>
-      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2024 Alexander Koblov"/>
+      <RevisionNr Value="6"/>
+      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -98,7 +98,7 @@ end;"/>
         <PackageName Value="LazUtils"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="ftp.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -130,6 +130,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SftpSend"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="ftplng.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FtpLng"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
