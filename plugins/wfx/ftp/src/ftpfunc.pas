@@ -96,6 +96,7 @@ procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall; ex
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall; export;
 procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall; export;
 function FsGetBackgroundFlags: Integer; dcpcall; export;
+function FsExtractCustomIconW(RemoteName: PWideChar; ExtractFlags: Integer; TheIcon: PWfxIcon): Integer; dcpcall; export;
 { Network API }
 {
 procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall; export;
@@ -1085,6 +1086,26 @@ end;
 function FsGetBackgroundFlags: Integer; dcpcall; export;
 begin
   Result:= BG_DOWNLOAD or BG_UPLOAD or BG_ASK_USER;
+end;
+
+function FsExtractCustomIconW(RemoteName: PWideChar; ExtractFlags: Integer; TheIcon: PWfxIcon): Integer; dcpcall; export;
+var
+  asRemoteName: String;
+begin
+  Result:= FS_ICON_USEDEFAULT;
+  if (ExtractFileDir(RemoteName) = PathDelim) then
+  begin
+    if RemoteName[1] = '<' then
+    begin
+      Result:= FS_ICON_EXTRACTED;
+      TheIcon^.Format:= FS_ICON_FORMAT_FILE;
+      asRemoteName:= CeUtf16ToUtf8(RemoteName + 1);
+      if asRemoteName = cAddConnection then
+        StrPCopy(RemoteName, 'list-add')
+      else if asRemoteName = cQuickConnection then
+        StrPCopy(RemoteName, 'view-file');
+    end;
+  end;
 end;
 
 {
