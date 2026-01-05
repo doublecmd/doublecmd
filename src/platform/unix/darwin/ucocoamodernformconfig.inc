@@ -33,6 +33,16 @@ begin
   frmMain.Commands.cm_Exchange([]);
 end;
 
+procedure goBackwardAction( const Sender: id );
+begin
+  frmMain.Commands.cm_ViewHistoryPrev([]);
+end;
+
+procedure goForwardAction( const Sender: id );
+begin
+  frmMain.Commands.cm_ViewHistoryNext([]);
+end;
+
 procedure showModeAction( const Sender: id );
 var
   showModeItem: NSToolBarItemGroup absolute Sender;
@@ -438,6 +448,28 @@ const
   );
 
 
+  goBackwardItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.GoBackward';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'chevron.backward';
+    title: 'Backward';
+    tips: 'Backward';
+    bordered: True;
+    onAction: @goBackwardAction;
+  );
+
+  goForwardItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.GoForward';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'chevron.forward';
+    title: 'Forward';
+    tips: 'Forward';
+    bordered: True;
+    onAction: @goForwardAction;
+  );
+
   iCloudItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.iCloud';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -706,6 +738,10 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
+        'MainForm.GoBackward',
+        'MainForm.GoForward',
+        'NSToolbarFlexibleSpaceItem',
+
         'MainForm.iCloud',
         'MainForm.network',
         'NSToolbarFlexibleSpaceItem',
@@ -733,6 +769,8 @@ const
         'MainForm.TreeView',
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
+        'MainForm.GoBackward',
+        'MainForm.GoForward',
 
         'MainForm.iCloud',
         'MainForm.network',
@@ -771,6 +809,8 @@ begin
     TCocoaToolBarUtils.toClass(treeViewItemConfig),
     TCocoaToolBarUtils.toClass(horzSplitItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
+    TCocoaToolBarUtils.toClass(goBackwardItemConfig),
+    TCocoaToolBarUtils.toClass(goForwardItemConfig),
 
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
