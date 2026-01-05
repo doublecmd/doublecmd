@@ -369,7 +369,7 @@ end;
 
 constructor TStringHashListUtf8.Create(CaseSensitivity: boolean);
 begin
-  fNormalize:= True;
+  fNormalize:= FileNameNormalized;
   fCaseSensitive:= CaseSensitivity;
   inherited Create;
 end;
