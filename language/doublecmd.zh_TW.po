@@ -3866,10 +3866,9 @@ msgid "File Path"
 msgstr "檔案路徑"
 
 #: tfrmmultirenamewait.caption
-#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
-msgstr "Double Commander"
+msgstr ""
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
@@ -9813,7 +9812,6 @@ msgid "Paint"
 msgstr "繪圖"
 
 #: tfrmviewer.btnpenwidth.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnpenwidth.caption"
 msgid "1"
 msgstr "1"
@@ -11212,22 +11210,22 @@ msgstr "訪達"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "向後"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "向後"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "前進"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "前進"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -14140,7 +14138,6 @@ msgid "False"
 msgstr ""
 
 #: ulng.rssimplewordfilename
-#, fuzzy
 msgctxt "ulng.rssimplewordfilename"
 msgid "Filename"
 msgstr "檔案名稱"
