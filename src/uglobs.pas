@@ -173,7 +173,10 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 68;
+  hkVersion = 69;
+  // 69 - In "Main" context, for macOS, added:
+  //      "Cmd+[" for "cm_ViewHistoryPrev"
+  //      "Cmd+]" for "cm_ViewHistoryNext"
   // 68 - In "Main" context, for macOS, added:
   //      "Shift+Cmd+." for "cm_ShowSysFiles"
   //      "Cmd+," for "cm_Options"
@@ -1213,6 +1216,8 @@ begin
       AddIfNotExists(['Cmd+,'],[],'cm_Options');
       AddIfNotExists(['Cmd+Down'],[],'cm_Open');
       AddIfNotExists(['Cmd+Up'],'cm_ChangeDirToParent',['Ctrl+PgUp'],[]);
+      AddIfNotExists(['Cmd+['],'cm_ViewHistoryPrev',['Alt+Left'],[]);
+      AddIfNotExists(['Cmd+]'],'cm_ViewHistoryNext',['Alt+Right'],[]);
       {$ENDIF}
 
       if HotMan.Version < 38 then
