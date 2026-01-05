@@ -37,6 +37,7 @@ exports
   FsSetDefaultParams,
   FsStatusInfoW,
   FsGetBackgroundFlags,
+  FsExtractCustomIconW,
   {
   FsNetworkGetSupportedProtocols,
   FsNetworkGetConnection,
