@@ -57,6 +57,8 @@ const
   ERROR_NOT_SAME_DEVICE = Windows.ERROR_NOT_SAME_DEVICE;
 {$ENDIF}
 
+  FileNameNormalized = {$IFDEF DARWIN}True{$ELSE}False{$ENDIF};
+
 type
   TFileMapRec = record
     FileHandle : System.THandle;

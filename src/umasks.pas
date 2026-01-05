@@ -47,6 +47,7 @@ type
     FTemplate: String;
     FOriginal: String;
     FMask: TMaskString;
+    FNormalize: Boolean;
     FUsePinyin: Boolean;
     FCaseSensitive: Boolean;
     fIgnoreAccents: Boolean;
@@ -97,7 +98,7 @@ uses
   LazUTF8,
 
   //DC
-  DCConvertEncoding, DCStrUtils, uPinyin, uAccentsUtils;
+  DCConvertEncoding, DCOSUtils, DCStrUtils, uPinyin, uAccentsUtils;
 
 { MatchesMask }
 function MatchesMask(const FileName, Mask: String; const AOptions: TMaskOptions): Boolean;
@@ -143,6 +144,7 @@ constructor TMask.Create(const AValue: string; const AOptions: TMaskOptions);
 begin
   FOriginal:= AValue;
   FTemplate:= AValue;
+  FNormalize:= FileNameNormalized;
   FUsePinyin:= moPinyin in AOptions;
   FCaseSensitive := moCaseSensitive in AOptions;
   fIgnoreAccents := moIgnoreAccents in AOptions;
@@ -172,6 +174,7 @@ begin
   if FIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate);
   // Let's set the mask early in lowercase if match attempt has to be case insensitive.
   if not FCaseSensitive then FTemplate := UTF8LowerCase(FTemplate);
+  if FNormalize then FTemplate := NormalizeFileName(FTemplate);
 
   // Treat mask differently for special cases:
   // 1. foo*.* -> foo*
@@ -281,6 +284,9 @@ begin
   //Let's set our AFileName is lowercase early if not case-sensitive
   if not FCaseSensitive then
     sFilename := UTF8LowerCase(sFilename);
+
+  if FNormalize then
+    sFilename := NormalizeFileName(sFilename);
 
   if not fWindowsInterpretation then
     Result := RegularMatches(sFileName)
