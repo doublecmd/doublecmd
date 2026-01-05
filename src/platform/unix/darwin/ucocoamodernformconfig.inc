@@ -453,8 +453,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'chevron.backward';
-    title: 'Backward';
-    tips: 'Backward';
+    title: rsMFSTBIGoBackwardTitle;
+    tips: rsMFSTBIGoBackwardTips;
     bordered: True;
     onAction: @goBackwardAction;
   );
@@ -464,8 +464,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'chevron.forward';
-    title: 'Forward';
-    tips: 'Forward';
+    title: rsMFSTBIGoForwardTitle;
+    tips: rsMFSTBIGoForwardTips;
     bordered: True;
     onAction: @goForwardAction;
   );

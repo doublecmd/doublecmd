@@ -11212,6 +11212,26 @@ msgstr ""
 msgid "Finder"
 msgstr ""
 
+#: ulng.rsmfstbigobackwardtips
+msgctxt "ulng.rsmfstbigobackwardtips"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigobackwardtitle
+msgctxt "ulng.rsmfstbigobackwardtitle"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtips
+msgctxt "ulng.rsmfstbigoforwardtips"
+msgid "Forward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtitle
+msgctxt "ulng.rsmfstbigoforwardtitle"
+msgid "Forward"
+msgstr ""
+
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"

@@ -10963,6 +10963,26 @@ msgstr "Zobraziť v aplikácii Finder"
 msgid "Finder"
 msgstr "Vyhľadávač"
 
+#: ulng.rsmfstbigobackwardtips
+msgctxt "ulng.rsmfstbigobackwardtips"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigobackwardtitle
+msgctxt "ulng.rsmfstbigobackwardtitle"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtips
+msgctxt "ulng.rsmfstbigoforwardtips"
+msgid "Forward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtitle
+msgctxt "ulng.rsmfstbigoforwardtitle"
+msgid "Forward"
+msgstr ""
+
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
@@ -14376,3 +14396,4 @@ msgstr "Žiadne nahradenie nebolo vykonané."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Žiadne nastavenie s názvom \"%s\""
+
