@@ -1026,6 +1026,10 @@ resourcestring
   rsMFSTBIHorzSplitTips = 'Toggle Horizontal Split Mode';
   rsMFSTBISwapPanelsTitle = 'SwapPanels';
   rsMFSTBISwapPanelsTips = 'Swap Panels';
+  rsMFSTBIGoBackwardTitle = 'Backward';
+  rsMFSTBIGoBackwardTips = 'Backward';
+  rsMFSTBIGoForwardTitle = 'Forward';
+  rsMFSTBIGoForwardTips = 'Forward';
 
   rsMFSTBIiCloudDriveTitle = 'iCloud Drive';
   rsMFSTBIiCloudDriveTips = 'iCloud Drive';

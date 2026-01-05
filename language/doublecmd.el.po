@@ -11190,6 +11190,26 @@ msgstr "Αποκάλυψη στην Εφαρμογή Εύρεσης"
 msgid "Finder"
 msgstr "Εφαρμογής Εύρεσης"
 
+#: ulng.rsmfstbigobackwardtips
+msgctxt "ulng.rsmfstbigobackwardtips"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigobackwardtitle
+msgctxt "ulng.rsmfstbigobackwardtitle"
+msgid "Backward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtips
+msgctxt "ulng.rsmfstbigoforwardtips"
+msgid "Forward"
+msgstr ""
+
+#: ulng.rsmfstbigoforwardtitle
+msgctxt "ulng.rsmfstbigoforwardtitle"
+msgid "Forward"
+msgstr ""
+
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
@@ -14630,3 +14650,4 @@ msgstr "Δεν πραγματοποιήθηκε καμία αντικατάστ�
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Δεν υπάρχει διαμόρφωση με το όνομα \"%s\""
+
