@@ -101,7 +101,7 @@ uses
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
   Clipbrd, LCLIntf
 {$ELSEIF DEFINED(DARWIN)}
-  uDarwinClipboard
+  uDarwinClipboard, uFileSystemFileSource, uFileProcs, fMain
 {$ENDIF}
   ;
 
@@ -553,14 +553,36 @@ begin
 end;
 
 function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
-const
-  OperationFromDarwin: Array[TDarwinClipboardOperation] of TClipboardOperation =
-    ( ClipboardCopy, ClipboardCut );
-var
-  darwinOp: TDarwinClipboardOperation;
+
+  function pasteFiles: Boolean;
+  const
+    OperationFromDarwin: Array[TDarwinClipboardOperation] of TClipboardOperation =
+      ( ClipboardCopy, ClipboardCut );
+  var
+    darwinOp: TDarwinClipboardOperation;
+  begin
+    Result:= TDarwinClipboardUtil.getFiles( darwinOp, filenames );
+    ClipboardOp:= OperationFromDarwin[darwinOp];
+  end;
+
+  procedure pasteImageToFile;
+  var
+    imageFilename: String;
+  begin
+    if NOT frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+      Exit;
+    imageFilename:= frmMain.ActiveFrame.CurrentRealPath + 'PasteImage.png';
+    imageFilename:= GetNextCopyName( imageFilename, false );
+    TDarwinClipboardUtil.pasteImageToFile( imageFilename );
+  end;
+
 begin
-  Result:= TDarwinClipboardUtil.getFiles( darwinOp, filenames );
-  ClipboardOp:= OperationFromDarwin[darwinOp];
+  Result:= pasteFiles;
+  if Result then
+    Exit;
+
+  if TDarwinClipboardUtil.hasImage then
+    pasteImageToFile;
 end;
 
 procedure ClipboardSetText(AText: String);
