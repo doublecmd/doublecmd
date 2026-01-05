@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uDCUtils, uLng,
+  fMain, uHotkeyManager, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uDarwinUtil, uDarwinApplication, uDarwinFile,
   uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
@@ -797,8 +797,27 @@ const
     );
   );
 
+procedure addShortCutString( var item: TCocoaConfigToolBarItemWithAction; const command: String );
+var
+  form: THMForm;
+  hotkey: THotKey;
+begin
+  form:= HotMan.Forms.Find('Main');
+  if form = nil then
+    Exit;
+
+  hotkey:= form.Hotkeys.FindByCommand( command );
+  if hotkey = nil then
+    Exit;
+
+  item.tips:= item.tips + ' ( ' + hotkey.Shortcuts[0] + ' )';
+end;
+
 procedure doInitConfig;
 begin
+  addShortCutString( goBackwardItemConfig, 'cm_ViewHistoryPrev' );
+  addShortCutString( goForwardItemConfig, 'cm_ViewHistoryNext' );
+
   showModeItemConfig.subitems:= [
     TCocoaToolBarUtils.toClass(showBriefItemConfig),
     TCocoaToolBarUtils.toClass(showFullItemConfig),
