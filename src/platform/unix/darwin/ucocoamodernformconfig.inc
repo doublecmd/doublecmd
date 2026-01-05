@@ -10,6 +10,7 @@ uses
   LCLType, Forms, Menus,
   fMain, uHotkeyManager, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
+  uFileSystemFileSource,
   uDarwinUtil, uDarwinApplication, uDarwinFile,
   uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
@@ -94,10 +95,33 @@ procedure onFileViewUpdated( const fileView: TFileView );
     item.setEnabled( fileView.hasNextHistory );
   end;
 
+  procedure updateRelyOnFileSystem;
+  var
+    enabled: Boolean;
+    item: NSToolbarItem;
+  begin
+    enabled:= fileView.FileSource.IsClass( TFileSystemFileSource );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.Share' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.AirDrop' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.QuickLook' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.Tag' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.FinderReveal' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.FinderInfo' );
+    item.setEnabled( enabled );
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.Terminal' );
+    item.setEnabled( enabled );
+  end;
+
 begin
   updateShowMode;
   updateBackward;
   updateForward;
+  updateRelyOnFileSystem;
 end;
 
 function onGetSharingItems( item: NSToolBarItem ): TStringArray;
@@ -570,6 +594,7 @@ const
   shareItemConfig: TCocoaConfigToolBarItemSharing = (
     identifier: 'MainForm.Share';
     priority: NSToolbarItemVisibilityPriorityUser;
+    appValidates: True;
     iconName: '';
     title: rsMFSTBIShareTitle;
     tips: '';
@@ -582,6 +607,7 @@ const
     identifier: 'MainForm.AirDrop';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'airplayaudio';
     title: rsMFSTBIAirDropTitle;
     tips: rsMFSTBIAirDropTips;
@@ -594,6 +620,7 @@ const
     identifier: 'MainForm.QuickLook';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'eye';
     title: rsMFSTBIQuickLookTitle;
     tips: rsMFSTBIQuickLookTips;
@@ -605,6 +632,7 @@ const
     identifier: 'MainForm.Tag';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'tag';
     title: rsMFSTBIEditFinderTagTitle;
     tips: rsMFSTBIEditFinderTagTips;
@@ -629,6 +657,7 @@ const
      identifier: 'MainForm.FinderReveal';
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
+     appValidates: True;
      iconName: 'faceid';
      title: rsMFSTBIFinderRevealTitle;
      tips: rsMFSTBIFinderRevealTips;
@@ -640,6 +669,7 @@ const
      identifier: 'MainForm.FinderInfo';
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
+     appValidates: True;
      iconName: 'info.circle';
      title: rsMFSTBIShowInfoTitle;
      tips: rsMFSTBIShowInfoTips;
@@ -666,6 +696,7 @@ const
     identifier: 'MainForm.Terminal';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'terminal';
     title: rsMFSTBITerminalTitle;
     tips: rsMFSTBITerminalTips;
