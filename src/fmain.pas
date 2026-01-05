@@ -4822,6 +4822,9 @@ begin
         ANoteBook.Hint := FileView.CurrentPath;
       end;
 
+      if Assigned(onFileViewUpdated) then
+        onFileViewUpdated(FileView);
+
       {if (fspDirectAccess in FileView.FileSource.GetProperties) then
         begin
           if gTermWindow and Assigned(Cons) then

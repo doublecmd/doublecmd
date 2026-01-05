@@ -55,21 +55,49 @@ begin
 end;
 
 procedure onFileViewUpdated( const fileView: TFileView );
-var
-  itemGroup: NSToolbarItemGroup;
-  itemGroupWrapper: TCocoaToolBarItemGroupWrapper;
-begin
-  itemGroup:= NSToolbarItemGroup( TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.ShowMode' ) );
-  if NOT Assigned(itemGroup) then
-    Exit;
-  itemGroupWrapper:= TCocoaToolBarItemGroupWrapper( itemGroup.target );
 
-  if fileView is TColumnsFileView then
-    itemGroupWrapper.lclSetSelectedIndex( 1 )
-  else if fileView is TBriefFileView then
-    itemGroupWrapper.lclSetSelectedIndex( 0 )
-  else if fileView is TThumbFileView then
-    itemGroupWrapper.lclSetSelectedIndex( 2 );
+  procedure updateShowMode;
+  var
+    itemGroup: NSToolbarItemGroup;
+    itemGroupWrapper: TCocoaToolBarItemGroupWrapper;
+  begin
+    itemGroup:= NSToolbarItemGroup( TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.ShowMode' ) );
+    if NOT Assigned(itemGroup) then
+      Exit;
+    itemGroupWrapper:= TCocoaToolBarItemGroupWrapper( itemGroup.target );
+
+    if fileView is TColumnsFileView then
+      itemGroupWrapper.lclSetSelectedIndex( 1 )
+    else if fileView is TBriefFileView then
+      itemGroupWrapper.lclSetSelectedIndex( 0 )
+    else if fileView is TThumbFileView then
+      itemGroupWrapper.lclSetSelectedIndex( 2 );
+  end;
+
+  procedure updateBackward;
+  var
+    item: NSToolbarItem;
+  begin
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoBackward' );
+    if NOT Assigned(item) then
+      Exit;
+    item.setEnabled( fileView.hasPrevHistory );
+  end;
+
+  procedure updateForward;
+  var
+    item: NSToolbarItem;
+  begin
+    item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoForward' );
+    if NOT Assigned(item) then
+      Exit;
+    item.setEnabled( fileView.hasNextHistory );
+  end;
+
+begin
+  updateShowMode;
+  updateBackward;
+  updateForward;
 end;
 
 function onGetSharingItems( item: NSToolBarItem ): TStringArray;
@@ -452,6 +480,7 @@ const
     identifier: 'MainForm.GoBackward';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'chevron.backward';
     title: rsMFSTBIGoBackwardTitle;
     tips: rsMFSTBIGoBackwardTips;
@@ -463,6 +492,7 @@ const
     identifier: 'MainForm.GoForward';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'chevron.forward';
     title: rsMFSTBIGoForwardTitle;
     tips: rsMFSTBIGoForwardTips;

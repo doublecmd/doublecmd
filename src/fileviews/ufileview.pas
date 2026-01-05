@@ -518,7 +518,9 @@ type
                                   var DropParams: TDropParams); virtual abstract;
 
     procedure GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
+    function hasPrevHistory: Boolean;
     procedure GoToPrevHistory;
+    function hasNextHistory: Boolean;
     procedure GoToNextHistory;
 
     procedure SetDragCursor(Shift: TShiftState); virtual; abstract;
@@ -3589,6 +3591,15 @@ begin
   end;
 end;
 
+function TFileView.hasPrevHistory: Boolean;
+begin
+  Result:= False;
+  if FHistory.CurrentPathIndex > 0 then
+    Result:= True
+  else if FHistory.CurrentFileSourceIndex > 0 then
+    Result:= True;
+end;
+
 procedure TFileView.GoToPrevHistory;
 var
   aFileSourceIndex, aPathIndex: Integer;
@@ -3607,6 +3618,17 @@ begin
     Exit;
 
   GoToHistoryIndex(aFileSourceIndex, aPathIndex);
+end;
+
+function TFileView.hasNextHistory: Boolean;
+begin
+  Result:= False;
+  if FHistory.CurrentFileSourceIndex >= 0 then begin
+    if FHistory.CurrentPathIndex < FHistory.PathsCount[FHistory.CurrentFileSourceIndex] - 1 then
+      Result:= True
+    else if FHistory.CurrentFileSourceIndex < FHistory.Count - 1 then
+      Result:= True;
+  end;
 end;
 
 procedure TFileView.GoToNextHistory;
