@@ -2171,8 +2171,8 @@ begin
   end
   else
   begin
-    edFind.Color := clWindow;
-    edFind.Font.Color := clWindowText;
+    edFind.Color := clDefault;
+    edFind.Font.Color := clDefault;
   end;
 end;
 
