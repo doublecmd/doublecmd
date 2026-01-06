@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Verify checksum dialog
 
-   Copyright (C) 2009-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2026 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit fCheckSumVerify;
 interface
 
 uses
-  Classes, SysUtils, Forms, Buttons, SynEdit, LMessages, uOSForms,
+  LCLType, Classes, SysUtils, Forms, Buttons, SynEdit, LMessages, uOSForms,
   Graphics, uFileSourceCalcChecksumOperation, DCBasicTypes, Controls;
 
 type
@@ -105,11 +105,16 @@ end;
 procedure TfrmCheckSumVerify.FormCreate(Sender: TObject);
 begin
   seCheckSumVerify.FixDefaultKeystrokes;
+  FontOptionsToFont(gFonts[dcfLog], seCheckSumVerify.Font);
 end;
 
 procedure TfrmCheckSumVerify.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if Key = 27 then Close;
+  if Key in [VK_RETURN, VK_ESCAPE] then
+  begin
+    Key:= 0;
+    Close;
+  end;
 end;
 
 procedure TfrmCheckSumVerify.seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
