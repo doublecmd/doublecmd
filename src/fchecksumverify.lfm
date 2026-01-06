@@ -37,6 +37,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     Gutter.Visible = False
     Gutter.Width = 0
     Gutter.MouseActions = <>
+    RightGutter.Visible = False
     RightGutter.Width = 0
     RightGutter.MouseActions = <>
     Keystrokes = <    
@@ -343,6 +344,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     MouseActions = <>
     MouseTextActions = <>
     MouseSelActions = <>
+    Options = [eoBracketHighlight, eoHideRightMargin, eoTabsToSpaces, eoTrimTrailingSpaces]
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     ScrollBars = ssAutoBoth
