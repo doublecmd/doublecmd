@@ -10,6 +10,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Constraints.MinWidth = 300
   KeyPreview = True
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
   ShowInTaskBar = stAlways
