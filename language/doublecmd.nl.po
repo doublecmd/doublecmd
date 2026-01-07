@@ -2495,7 +2495,7 @@ msgstr "Maak map"
 
 #: tfrmmain.actmapnetworkdrive.caption
 msgid "Map Network Drive..."
-msgstr "Breng netwerkschijf in kaart..."
+msgstr "Netwerkschijf koppelen..."
 
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
