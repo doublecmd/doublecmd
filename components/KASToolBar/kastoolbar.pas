@@ -769,7 +769,7 @@ var
 begin
   try
     if Assigned(FOnLoadButtonGlyph) then
-      Bitmap := FOnLoadButtonGlyph(ToolButton.ToolItem, GlyphBitmapSize, clBtnFace);
+      Bitmap := FOnLoadButtonGlyph(ToolButton.ToolItem, FGlyphSize, clBtnFace);
 
     if not Assigned(Bitmap) and (ToolButton.ToolItem is TKASNormalItem) then
       Bitmap := LoadBtnIcon(TKASNormalItem(ToolButton.ToolItem).Icon);

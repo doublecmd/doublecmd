@@ -321,7 +321,7 @@ begin
     Result:= nil;
   end;
   if not Assigned(Result) then
-    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize*2, True, FBackColor);
+    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
 end;
 
 function TThumbnailManager.CreatePreview(const FullPathToFile: String): TBitmap;
