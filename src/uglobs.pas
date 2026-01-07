@@ -173,7 +173,9 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 69;
+  hkVersion = 70;
+  // 70 - In "Main" context, for macOS, added:
+  //      "Cmd+W" for "cm_CloseTab"
   // 69 - In "Main" context, for macOS, added:
   //      "Cmd+[" for "cm_ViewHistoryPrev"
   //      "Cmd+]" for "cm_ViewHistoryNext"
@@ -1218,6 +1220,7 @@ begin
       AddIfNotExists(['Cmd+Up'],'cm_ChangeDirToParent',['Ctrl+PgUp'],[]);
       AddIfNotExists(['Cmd+['],'cm_ViewHistoryPrev',['Alt+Left'],[]);
       AddIfNotExists(['Cmd+]'],'cm_ViewHistoryNext',['Alt+Right'],[]);
+      AddIfNotExists(['Cmd+W'],'cm_CloseTab',['Ctrl+W'],[]);
       {$ENDIF}
 
       if HotMan.Version < 38 then
