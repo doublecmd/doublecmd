@@ -376,9 +376,6 @@ procedure LoadPixMapManager;
 
 function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 
-function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
-                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
-
 procedure AssignRetinaBitmapForControl(
   const button: TCustomSpeedButton;
   const imageSize: Integer;
@@ -469,6 +466,15 @@ begin
       raise;
     end;
   end;
+end;
+
+function StretchRetinaBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
+var
+  bitmapSize: Integer;
+begin
+  bitmapSize := Round(iIconSize * findScaleFactorByFirstForm());
+  StretchBitmap( bmBitmap, bitmapSize, clBackColor, bFreeAtEnd );
 end;
 
 procedure AssignRetinaBitmapForControl(
@@ -686,7 +692,7 @@ begin
   end;
 
   if Stretch and Assigned(bmStandartBitmap) then
-    Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
+    Result := StretchRetinaBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
   else
     Result := bmStandartBitmap;
 end;
@@ -2869,7 +2875,7 @@ begin
   //  if need stretch icon
   if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
     begin
-      Result := StretchBitmap(ABitmap, IconSize, clBackColor, False);
+      Result := StretchRetinaBitmap(ABitmap, IconSize, clBackColor, False);
     end
   else
     begin
@@ -2940,7 +2946,7 @@ begin
     //  if need stretch icon
     if (IconSize <> gIconsSize) then
       begin
-        Result := StretchBitmap(Result, IconSize, clBackColor, True);
+        Result := StretchRetinaBitmap(Result, IconSize, clBackColor, True);
       end;
   end;
 end;
@@ -2953,7 +2959,7 @@ begin
     //  if need stretch icon
     if (IconSize <> gIconsSize) then
       begin
-        Result := StretchBitmap(Result, IconSize, clBackColor, True);
+        Result := StretchRetinaBitmap(Result, IconSize, clBackColor, True);
       end;
   end;
 end;
