@@ -6575,7 +6575,8 @@ begin
         if Pos(Address, DrivesList[I]^.Path) = 1 then
           Exit(I);
       end
-      else begin
+      else if (DrivesList[I]^.DriveType <> dtSpecial) and Address.IsEmpty then
+      begin
         DrivePath := UTF8UpperCase(DrivesList[I]^.Path);
         DrivePathLen := UTF8Length(DrivePath);
         if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True, True) then
