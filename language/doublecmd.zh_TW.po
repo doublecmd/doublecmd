@@ -11092,6 +11092,20 @@ msgstr ""
 msgid "Assign tags to %d items"
 msgstr "將標籤分配給%d個項目"
 
+#: ulng.rsmacosconnectserverprompt
+msgid ""
+"URL:\n"
+"(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
+msgstr ""
+"URL:\n"
+"(範例：smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
+
+#: ulng.rsmacosconnectservertitle
+msgid "SMB / Samba / WebDAV / NFS ..."
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "取消選擇遮罩"

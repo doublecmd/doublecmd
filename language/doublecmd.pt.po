@@ -11090,6 +11090,17 @@ msgstr "Lista de janelas \"Localizar ficheiros\""
 msgid "Assign tags to %d items"
 msgstr ""
 
+#: ulng.rsmacosconnectserverprompt
+msgid ""
+"URL:\n"
+"(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
+msgstr ""
+
+#: ulng.rsmacosconnectservertitle
+msgid "SMB / Samba / WebDAV / NFS ..."
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Desseleccionar máscara"
