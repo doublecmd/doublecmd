@@ -1068,7 +1068,7 @@ end;
 var
   Address: String = '';
 begin
-  if ShowInputQuery(Application.Title, rsMsgURL, False, Address) then
+  if ShowInputQuery(rsMacOSConnectServerTitle, rsMacOSConnectServerPrompt, False, Address) then
   begin
   {$IF DEFINED(DARWIN)}
     TDarwinFileUtil.mount(Address);

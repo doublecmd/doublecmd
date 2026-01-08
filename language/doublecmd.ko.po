@@ -10848,6 +10848,17 @@ msgstr "\"파일 찾기\" 창 목록"
 msgid "Assign tags to %d items"
 msgstr "%d 항목에 태그 할당"
 
+#: ulng.rsmacosconnectserverprompt
+msgid ""
+"URL:\n"
+"(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
+msgstr ""
+
+#: ulng.rsmacosconnectservertitle
+msgid "SMB / Samba / WebDAV / NFS ..."
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "마스크 선택 취소"

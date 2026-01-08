@@ -11108,6 +11108,17 @@ msgstr "Список окон \"Поиск файлов\""
 msgid "Assign tags to %d items"
 msgstr "Добавить теги выделенному (%d)"
 
+#: ulng.rsmacosconnectserverprompt
+msgid ""
+"URL:\n"
+"(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
+msgstr ""
+
+#: ulng.rsmacosconnectservertitle
+msgid "SMB / Samba / WebDAV / NFS ..."
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Снять выделение по маске"
