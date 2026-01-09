@@ -1054,22 +1054,6 @@ const
   );
 
 
-procedure addShortCutString( var item: TCocoaConfigToolBarItemWithAction; const command: String );
-var
-  form: THMForm;
-  hotkey: THotKey;
-begin
-  form:= HotMan.Forms.Find('Main');
-  if form = nil then
-    Exit;
-
-  hotkey:= form.Hotkeys.FindByCommand( command );
-  if hotkey = nil then
-    Exit;
-
-  item.tips:= item.tips + ' ( ' + hotkey.Shortcuts[0] + ' )';
-end;
-
 procedure translateItemConfig(
   const poFile: TPOFile;
   const identifier: String;
@@ -1098,12 +1082,41 @@ begin
   translateItemConfig( poFile, 'tfrmeditor.actconfhigh.hint', editorConfigurationItemConfig );
 end;
 
+procedure addShortCutTipsToItemConfig(
+  const formName: String;
+  const command: String;
+  var item: TCocoaConfigToolBarItemWithAction );
+var
+  form: THMForm;
+  hotkey: THotKey;
+begin
+  form:= HotMan.Forms.Find( formName );
+  if form = nil then
+    Exit;
+
+  hotkey:= form.Hotkeys.FindByCommand( command );
+  if hotkey = nil then
+    Exit;
+
+  item.tips:= item.tips + ' (' + hotkey.Shortcuts[0] + ')';
+end;
+
+procedure addShortCutTips;
+begin
+  addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_FileNew', editorNewItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_FileOpen', editorOpenItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_FileSave', editorSaveItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_EditFind', editorFindItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_EditRplc', editorReplaceItemConfig );
+  addShortCutTipsToItemConfig( 'Editor', 'cm_ConfHigh', editorConfigurationItemConfig );
+end;
+
 procedure doInitConfig;
 begin
   translateEditorFormToolbarItem;
-
-  addShortCutString( goBackwardItemConfig, 'cm_ViewHistoryPrev' );
-  addShortCutString( goForwardItemConfig, 'cm_ViewHistoryNext' );
+  addShortCutTips;
 
   showModeItemConfig.subitems:= [
     TCocoaToolBarUtils.toClass(showBriefItemConfig),
