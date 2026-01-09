@@ -251,7 +251,11 @@ uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator, uHighlighters,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles,
-  DCOSUtils;
+  DCOSUtils
+{$IFDEF DARWIN}
+  ,uDarwinApplication
+{$ENDIF}
+  ;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 var
@@ -642,6 +646,10 @@ begin
   tbToolBar.ImagesWidth:= gToolIconsSize;
   tbToolBar.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                           gToolIconsSize + ScaleY(6, 96));
+{$IFDEF DARWIN}
+  if TDarwinApplicationUtil.supportsModernForm then
+    tbToolBar.Hide;
+{$ENDIF}
 end;
 
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,

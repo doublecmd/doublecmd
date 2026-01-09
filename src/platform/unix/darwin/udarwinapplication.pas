@@ -58,6 +58,8 @@ type
   public
     class procedure fixFormatSettings;
     class procedure openNewInstance;
+  public
+    class function supportsModernForm: Boolean;
   end;
 
 procedure darwinOnMainMenuCreate( menu: NSMenu );
@@ -157,6 +159,11 @@ begin
     NSWorkspaceLaunchNewInstance,
     nil,
     nil);
+end;
+
+class function TDarwinApplicationUtil.supportsModernForm: Boolean;
+begin
+  Result:= (NSAppKitVersionNumber >= NSAppKitVersionNumber11_0);
 end;
 
 class procedure TDarwinApplicationUtil.initServiceProvider(
