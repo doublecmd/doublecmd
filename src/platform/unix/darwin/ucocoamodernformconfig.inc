@@ -1082,6 +1082,12 @@ begin
   translateItemConfig( poFile, 'tfrmeditor.actconfhigh.hint', editorConfigurationItemConfig );
 end;
 
+function shortCutToMacOSName( const shortCutString: String ): String;
+begin
+  Result:= shortCutString.Replace( 'Cmd+', 'Command+' );
+  Result:= Result.Replace( 'Alt+', 'Option+' );
+end;
+
 procedure addShortCutTipsToItemConfig(
   const formName: String;
   const command: String;
@@ -1098,7 +1104,10 @@ begin
   if hotkey = nil then
     Exit;
 
-  item.tips:= item.tips + ' (' + hotkey.Shortcuts[0] + ')';
+  if Length(hotkey.Shortcuts) = 0 then
+    Exit;
+
+  item.tips:= item.tips + ' (' + shortCutToMacOSName(hotkey.Shortcuts[0]) + ')';
 end;
 
 procedure addShortCutTips;
