@@ -740,6 +740,9 @@ end;
 
 procedure TfrmDiffer.FormCreate(Sender: TObject);
 begin
+  if gIconsInMenus then
+    Menu.Images:= dmComData.ilEditorImages;
+
   ScrollLock:= 0;
   Diff:= TDiff.Create(Self);
   SynDiffEditLeft:= TSynDiffEdit.Create(Self);

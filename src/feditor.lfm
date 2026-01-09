@@ -761,7 +761,6 @@ object frmEditor: TfrmEditor
     end
   end
   object MainMenu1: TMainMenu
-    Images = dmComData.ilEditorImages
     Left = 48
     Top = 32
     object miFile: TMenuItem
