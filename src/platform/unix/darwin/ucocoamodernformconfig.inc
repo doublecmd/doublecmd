@@ -13,7 +13,8 @@ uses
   uFileSystemFileSource,
   uDarwinUtil, uDarwinApplication, uDarwinFile,
   uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
-  CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
+  CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra,
+  LResources, uTranslator, Translations;
 
 procedure initCocoaModernFormConfig;
 
@@ -1069,8 +1070,38 @@ begin
   item.tips:= item.tips + ' ( ' + hotkey.Shortcuts[0] + ' )';
 end;
 
+procedure translateItemConfig(
+  const poFile: TPOFile;
+  const identifier: String;
+  var item: TCocoaConfigToolBarItemWithUI );
+var
+  s: String;
+begin
+  s:= poFile.Translate( identifier, item.tips );
+  item.title:= s;
+  item.tips:= s;
+end;
+
+procedure translateEditorFormToolbarItem;
+var
+  poFile: TPOFile;
+begin
+  if NOT (LRSTranslator is TTranslator) then
+    Exit;
+
+  poFile:= TTranslator(LRSTranslator).POFile;
+  translateItemConfig( poFile, 'tfrmeditor.actfilenew.hint', editorNewItemConfig );
+  translateItemConfig( poFile, 'tfrmeditor.actfileopen.hint', editorOpenItemConfig );
+  translateItemConfig( poFile, 'tfrmeditor.actfilesave.hint', editorSaveItemConfig );
+  translateItemConfig( poFile, 'tfrmeditor.acteditfind.hint', editorFindItemConfig );
+  translateItemConfig( poFile, 'tfrmeditor.acteditrplc.hint', editorReplaceItemConfig );
+  translateItemConfig( poFile, 'tfrmeditor.actconfhigh.hint', editorConfigurationItemConfig );
+end;
+
 procedure doInitConfig;
 begin
+  translateEditorFormToolbarItem;
+
   addShortCutString( goBackwardItemConfig, 'cm_ViewHistoryPrev' );
   addShortCutString( goForwardItemConfig, 'cm_ViewHistoryNext' );
 
