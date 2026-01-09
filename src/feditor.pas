@@ -290,7 +290,8 @@ var
 begin
   InitPropStorage(Self);
 
-  Menu.Images:= dmComData.ilEditorImages;
+  if gIconsInMenus then
+    Menu.Images:= dmComData.ilEditorImages;
   StatusBar.OnShowHint:= @StatusBarShowHint;
 
   LoadGlobalOptions;

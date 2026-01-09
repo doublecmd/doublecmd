@@ -332,7 +332,6 @@ object frmDiffer: TfrmDiffer
     SimplePanel = False
   end
   object MainMenu: TMainMenu
-    Images = dmComData.ilEditorImages
     Left = 88
     Top = 136
     object mnuFile: TMenuItem
