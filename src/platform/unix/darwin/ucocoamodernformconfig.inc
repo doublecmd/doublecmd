@@ -858,6 +858,29 @@ const
     );
   );
 
+  transparentTitleFormConfig: TCocoaConfigForm = (
+    name: 'frmFindDlg;frmMultiRename;frmSyncDirsDlg;frmOptions';
+    className: '';
+    isMainForm: False;
+
+    titleBar: (
+      transparent: True;
+      separatorStyle: NSTitlebarSeparatorStyleNone;
+    );
+  );
+
+  separateTitleFormConfig: TCocoaConfigForm = (
+    name: '*';
+    className: '';
+    isMainForm: False;
+
+    titleBar: (
+      transparent: False;
+      separatorStyle: NSTitlebarSeparatorStyleLine;
+    );
+  );
+
+
 procedure addShortCutString( var item: TCocoaConfigToolBarItemWithAction; const command: String );
 var
   form: THMForm;
@@ -914,7 +937,11 @@ begin
     TCocoaToolBarUtils.toClass(networkItemConfig)
   ];
 
-  CocoaConfigForms:= [ mainFormConfig ];
+  CocoaConfigForms:= [
+    mainFormConfig,
+    transparentTitleFormConfig,
+    separateTitleFormConfig
+  ];
 end;
 
 procedure initCocoaModernFormConfig;
