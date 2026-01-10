@@ -24,6 +24,7 @@ type
     FProperties: TFileProperties;
     FVariantProperties: TFileVariantProperties;
     FSupportedProperties: TFilePropertiesTypes;
+    FPropertyLazyLoader: TFilePropertyLazyLoader;
 
     procedure UpdateNameAndExtension(const FileName: string);
 
@@ -94,6 +95,8 @@ type
     constructor Create(const APath: String);
     constructor CreateForCloning;
     destructor Destroy; override;
+
+    procedure SetPropertyLazyLoader( const loader: TFilePropertyLazyLoader );
 
     {en
        Creates an identical copy of the object (as far as object data is concerned).
@@ -330,6 +333,11 @@ begin
     FVariantProperties[AIndex].Free;
 end;
 
+procedure TFile.SetPropertyLazyLoader(const loader: TFilePropertyLazyLoader);
+begin
+  FPropertyLazyLoader := loader;
+end;
+
 function TFile.Clone: TFile;
 begin
   Result := TFile.CreateForCloning;
@@ -347,6 +355,7 @@ begin
     AFile.FNameNoExt := FNameNoExt;
     AFile.FPath      := FPath;
     AFile.FSupportedProperties := FSupportedProperties;
+    AFile.FPropertyLazyLoader:= FPropertyLazyLoader;
 
     for PropertyType := Low(FProperties) to High(FProperties) do
     begin
@@ -770,6 +779,10 @@ end;
 {$IFDEF DARWIN}
 function TFile.GetMacOSSpecificProperty: TFileMacOSSpecificProperty;
 begin
+  if FProperties[fpMacOSSpecific] = nil then begin
+    if FPropertyLazyLoader <> nil then
+      FProperties[fpMacOSSpecific] := FPropertyLazyLoader(self.FullPath, fpMacOSSpecific);
+  end;
   Result := TFileMacOSSpecificProperty(FProperties[fpMacOSSpecific]);
 end;
 

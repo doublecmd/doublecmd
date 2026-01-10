@@ -257,6 +257,16 @@ end;
 
 {$ELSEIF DEFINED(UNIX)}
 
+{$IFDEF DARWIN}
+function PropertyLazyLoader(const path: String; const propertyType: TFilePropertyType): TFileProperty;
+begin
+  if propertyType = fpMacOSSpecific then
+    Result := TDarwinFilePropertyUtil.getSpecificProperty(path)
+  else
+    Result := nil;
+end;
+{$ENDIF}
+
 procedure FillFromStat(
   AFile: TFile;
   AFilePath: String;
@@ -391,6 +401,7 @@ var
   LinkAttrs: TFileAttrs;
 begin
   Result := TFile.Create(APath);
+  Result.SetPropertyLazyLoader(@PropertyLazyLoader);
 
   with Result do
   begin
@@ -429,10 +440,6 @@ begin
       end;
 {$ENDIF}
     end;
-    {$IFDEF DARWIN}
-    if pSearchRecord^.Name<>'..' then
-      MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(AFilePath);
-    {$ENDIF}
   end;
 
   // Set name after assigning Attributes property, because it is used to get extension.
@@ -470,6 +477,7 @@ begin
     raise EFileNotFound.Create(aFilePath);
 
   Result := TFile.Create(ExtractFilePath(aFilePath));
+  Result.SetPropertyLazyLoader(@PropertyLazyLoader);
   FillFromStat(Result, aFilePath, @StatInfo);
 
 {$ELSE}
@@ -487,10 +495,6 @@ begin
   end;
 
 {$ENDIF}
-
-  {$IFDEF DARWIN}
-  Result.MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(AFilePath);
-  {$ENDIF}
 
   // Set name after assigning Attributes property, because it is used to get extension.
   Result.FullPath := aFilePath;
@@ -761,11 +765,6 @@ begin
       CommentProperty := TFileCommentProperty.Create;
       CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
-
-{$IFDEF DARWIN}
-   if (AFile.Name<>'..') and (fpMacOSSpecific in PropertiesToSet) then
-     MacOSSpecificProperty := TDarwinFilePropertyUtil.getSpecificProperty(sFullPath);
-{$ENDIF}
 
     PropertiesToSet:= PropertiesToSet * fpVariantAll;
     for AProp in PropertiesToSet do

@@ -86,6 +86,9 @@ type
   //end
   ;
 
+  // only used by fpMacOSSpecific now
+  TFilePropertyLazyLoader = function (const path: String; const propertyType: TFilePropertyType): TFileProperty;
+
   // -- Concrete properties ---------------------------------------------------
 
   TFileNameProperty = class(TFileProperty)
