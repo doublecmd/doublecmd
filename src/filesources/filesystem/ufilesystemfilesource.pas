@@ -401,7 +401,9 @@ var
   LinkAttrs: TFileAttrs;
 begin
   Result := TFile.Create(APath);
+{$IF DEFINED(DARWIN)}
   Result.SetPropertyLazyLoader(@PropertyLazyLoader);
+{$ENDIF}
 
   with Result do
   begin
@@ -477,7 +479,9 @@ begin
     raise EFileNotFound.Create(aFilePath);
 
   Result := TFile.Create(ExtractFilePath(aFilePath));
+{$IF DEFINED(DARWIN)}
   Result.SetPropertyLazyLoader(@PropertyLazyLoader);
+{$ENDIF}
   FillFromStat(Result, aFilePath, @StatInfo);
 
 {$ELSE}
