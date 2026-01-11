@@ -297,7 +297,11 @@ implementation
 uses
   Math, LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
   uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator,
-  LCLStrConsts, uFileProcs;
+  LCLStrConsts, uFileProcs
+{$IFDEF DARWIN}
+  ,uDarwinApplication
+{$ENDIF}
+  ;
 
 const
   HotkeysCategory = 'Differ';
@@ -1429,6 +1433,10 @@ begin
   ToolBar.ImagesWidth:= gToolIconsSize;
   ToolBar.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                         gToolIconsSize + ScaleY(6, 96));
+{$IFDEF DARWIN}
+  if TDarwinApplicationUtil.supportsModernForm then
+    ToolBar.Hide;
+{$ENDIF}
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);
