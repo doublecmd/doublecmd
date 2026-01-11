@@ -173,7 +173,9 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 70;
+  hkVersion = 71;
+  // 71 - In "Differ" context, for macOS, added:
+  //      Base ShortCut for Edit
   // 70 - In "Main" context, for macOS, added:
   //      "Cmd+W" for "cm_CloseTab"
   // 69 - In "Main" context, for macOS, added:
@@ -1363,12 +1365,11 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Differ');
   with HMForm.Hotkeys do
     begin
-      AddIfNotExists(['Ctrl+R'],[],'cm_Reload');
+      AddIfNotExists(VK_R, [ssModifier], 'cm_Reload');
       AddIfNotExists([SmkcSuper + 'F' ,'','',
                       'F7'            ,'',''],'cm_Find');
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
-      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
       AddIfNotExists(['Alt+Down'],[],'cm_NextDifference');
       AddIfNotExists(['Alt+Up'],[],'cm_PrevDifference');
       AddIfNotExists(['Alt+Home'],[],'cm_FirstDifference');
@@ -1376,6 +1377,18 @@ begin
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
       AddIfNotExists(['Alt+Left'],[],'cm_CopyRightToLeft');
       AddIfNotExists(['Alt+Right'],[],'cm_CopyLeftToRight');
+
+      AddIfNotExists(VK_X, [ssModifier], 'cm_EditCut');
+      AddIfNotExists(VK_C, [ssModifier], 'cm_EditCopy');
+      AddIfNotExists(VK_Z, [ssModifier], 'cm_EditUndo');
+      AddIfNotExists(VK_V, [ssModifier], 'cm_EditPaste');
+      AddIfNotExists(VK_A, [ssModifier], 'cm_EditSelectAll');
+      AddIfNotExists(VK_Z, [ssModifier, ssShift], 'cm_EditRedo');
+      AddIfNotExists(VK_L, [ssModifier], 'cm_GotoLine');
+
+      {$IFDEF DARWIN}
+      AddIfNotExists(['Cmd+G'],'cm_FindNext',['F3'],[]);
+      {$ENDIF}
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Confirmation');
