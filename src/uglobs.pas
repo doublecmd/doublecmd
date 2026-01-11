@@ -1934,7 +1934,7 @@ begin
 
   { Layout page }
   gMainMenu := True;
-  gButtonBar := True;
+  gButtonBar := {$IFnDEF DARWIN}True{$ELSE}False{$ENDIF};
   gToolBarFlat := True;
   gMiddleToolBar := False;
   gToolBarButtonSize := 24;
