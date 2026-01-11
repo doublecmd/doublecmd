@@ -376,6 +376,7 @@ var
   glsDirHistory:TStringListEx;
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
+  glsSyncMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsSearchPathHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
@@ -976,6 +977,7 @@ begin
       LoadHistory('CommandLine', glsCmdLineHistory);
       LoadHistory('VolumeSize', glsVolumeSizeHistory);
       LoadHistory('FileMask', glsMaskHistory);
+      LoadHistory('SyncDirsMask', glsSyncMaskHistory);
       LoadHistory('SearchText', glsSearchHistory, True);
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
@@ -1023,6 +1025,7 @@ begin
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
     if gSaveCmdLineHistory then SaveHistory('CommandLine', glsCmdLineHistory);
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
+    if gSaveFileMaskHistory then SaveHistory('SyncDirsMask', glsSyncMaskHistory);
     if gSaveVolumeSizeHistory then SaveHistory('VolumeSize', glsVolumeSizeHistory);
     if gSaveCreateDirectoriesHistory then begin
       SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
@@ -1668,6 +1671,7 @@ begin
   glsCmdLineHistory := TStringListEx.Create;
   glsVolumeSizeHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
+  glsSyncMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsSearchPathHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
@@ -1703,6 +1707,7 @@ begin
   FreeAndNil(gDirectoryHotlist);
   FreeAndNil(gFavoriteTabsList);
   FreeAndNil(glsMaskHistory);
+  FreeAndNil(glsSyncMaskHistory);
   FreeAndNil(glsSearchHistory);
   FreeAndNil(glsSearchPathHistory);
   FreeAndNil(glsReplaceHistory);
@@ -2310,6 +2315,7 @@ begin
   gFavoriteTabsList.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
+  glsSyncMaskHistory.Clear;
   glsSearchHistory.Clear;
   glsSearchPathHistory.Clear;
   glsReplaceHistory.Clear;

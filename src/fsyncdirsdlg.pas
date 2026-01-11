@@ -591,7 +591,7 @@ var
   bTemplate: Boolean;
 begin
   sMask:= cbExtFilter.Text;
-  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
+  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsSyncMaskHistory, sMask) then
   begin
     bTemplate:= IsMaskSearchTemplate(sMask);
     cbExtFilter.Enabled:= not bTemplate;
@@ -894,7 +894,7 @@ begin
   end;
   if chkByContent.Enabled then
     gSyncDirsByContent          := chkByContent.Checked;
-  glsMaskHistory.Assign(cbExtFilter.Items);
+  glsSyncMaskHistory.Assign(cbExtFilter.Items);
 
   with HeaderDG.Columns do
   begin
@@ -955,13 +955,13 @@ begin
   sbSingles.Down         := gSyncDirsShowFilterSingles;
   if gSyncDirsFileMaskSave = False then
   begin
-    Index := glsMaskHistory.IndexOf(gSyncDirsFileMask);
+    Index := glsSyncMaskHistory.IndexOf(gSyncDirsFileMask);
     if Index <> -1 then
-      glsMaskHistory.Move(Index, 0)
+      glsSyncMaskHistory.Move(Index, 0)
     else
-      glsMaskHistory.Insert(0, gSyncDirsFileMask);
+      glsSyncMaskHistory.Insert(0, gSyncDirsFileMask);
   end;
-  cbExtFilter.Items.Assign(glsMaskHistory);
+  cbExtFilter.Items.Assign(glsSyncMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
 
   HMSync := HotMan.Register(Self, HotkeysCategory);
