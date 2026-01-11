@@ -90,7 +90,7 @@ const
     identifier: 'EditorForm.Save';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
-    iconName: 'arrow.down.circle';
+    iconName: 'square.and.arrow.down';
     title: 'Save';
     tips: 'Save';
     bordered: True;
