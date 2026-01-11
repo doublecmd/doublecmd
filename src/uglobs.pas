@@ -173,7 +173,10 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 71;
+  hkVersion = 72;
+  // 72 - In "Viewer" and "Editor" context, for macOS, added:
+  //      "Cmd+G" for Find Next
+  //      "Cmd+L" for Goto Line
   // 71 - In "Differ" context, for macOS, added:
   //      Base ShortCut for Edit
   // 70 - In "Main" context, for macOS, added:
@@ -1339,7 +1342,11 @@ begin
 
       AddIfNotExists(['Num+'],[],'cm_ZoomIn');
       AddIfNotExists(['Num-'],[],'cm_ZoomOut');
-      {$IFDEF DARWIN}
+      {$IFnDEF DARWIN}
+      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
+      {$ELSE}
+      AddIfNotExists(['Cmd+L'],[],'cm_GotoLine');
+      AddIfNotExists(['Cmd+G'],'cm_FindNext',['F3'],[]);
       AddIfNotExists(['Cmd+='],'cm_ZoomIn',['Num+'],[]);
       AddIfNotExists(['Cmd+-'],'cm_ZoomOut',['Num-'],[]);
       {$ENDIF}
@@ -1350,7 +1357,6 @@ begin
       //AddIfNotExists(['Down'],[],'cm_Rotate90');
 
       AddIfNotExists(VK_P, [ssModifier], 'cm_Print');
-      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
       AddIfNotExists(VK_A, [ssModifier], 'cm_SelectAll');
       AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
       AddIfNotExists(VK_Z, [ssModifier], 'cm_Undo');
@@ -1455,9 +1461,12 @@ begin
       AddIfNotExists(VK_V, [ssModifier], 'cm_EditPaste');
       AddIfNotExists(VK_A, [ssModifier], 'cm_EditSelectAll');
       AddIfNotExists(VK_Z, [ssModifier, ssShift], 'cm_EditRedo');
-      AddIfNotExists(VK_G, [ssModifier], 'cm_EditGotoLine');
 
-      {$IFDEF DARWIN}
+      {$IFnDEF DARWIN}
+      AddIfNotExists(VK_G, [ssModifier], 'cm_EditGotoLine');
+      {$ELSE}
+      AddIfNotExists(['Cmd+L'],[],'cm_EditGotoLine');
+      AddIfNotExists(['Cmd+G'],'cm_EditFindNext',['F3'],[]);
       AddIfNotExists(['Cmd+='],[],'cm_ZoomIn');
       AddIfNotExists(['Cmd+-'],[],'cm_ZoomOut');
       {$ENDIF}
