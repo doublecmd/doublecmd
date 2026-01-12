@@ -37,6 +37,10 @@ type
 
   TStatusBar = class(TKASStatusBar);
 
+  { state update notify }
+
+  TDifferFormOnUpdateHandler = procedure ( const form: TCustomForm );
+
   { TfrmDiffer }
 
   TfrmDiffer = class(TAloneForm, IFormCommands)
@@ -239,7 +243,8 @@ type
     FCommands: TFormCommands;
     FLeftLen, FRightLen: Integer;
     FSearchOptions: TEditSearchOptions;
-private
+    FOnUpdate: TDifferFormOnUpdateHandler;
+  private
     procedure ShowDialog;
     procedure ShowIdentical;
     procedure ShowTextIdentical;
@@ -262,6 +267,7 @@ private
     procedure ShowFirstDifference(Data: PtrInt);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
+    procedure DoOnUpdate;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
   protected
@@ -270,6 +276,8 @@ private
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure AfterConstruction; override;
+
+    property OnUpdate: TDifferFormOnUpdateHandler write FOnUpdate;
   published
     procedure cm_CopyLeftToRight(const Params: array of string);
     procedure cm_CopyRightToLeft(const Params: array of string);
@@ -376,6 +384,7 @@ begin
 
         BinaryCompare.OnFinish:= @BinaryCompareFinish;
         BinaryCompare.Start;
+        DoOnUpdate;
       end;
     end
     else begin
@@ -394,6 +403,7 @@ begin
 
         actStartCompare.Enabled := False;
         actCancelCompare.Enabled := True;
+        DoOnUpdate;
 
         Diff.Execute(
                      PInteger(@HashListLeft[0]),
@@ -438,6 +448,7 @@ begin
         actCancelCompare.Enabled := False;
         Screen.EndWaitCursor;
         Dec(ScrollLock);
+        DoOnUpdate;
       end;
       if actLineDifferences.Checked then
       begin
@@ -636,6 +647,7 @@ begin
       BinaryCompare:= nil;
     end;
   end;
+  DoOnUpdate;
 end;
 
 procedure TfrmDiffer.actAboutExecute(Sender: TObject);
@@ -878,6 +890,7 @@ begin
   actStartCompare.Enabled := True;
   actCancelCompare.Enabled := False;
   actBinaryCompare.Enabled := True;
+  DoOnUpdate;
   if FShowIdentical then
   begin
     CloseProgressDialog;
@@ -1723,6 +1736,12 @@ begin
     finally
       Dec(ScrollLock);
     end;
+end;
+
+procedure TfrmDiffer.doOnUpdate;
+begin
+  if FOnUpdate <> nil then
+    FOnUpdate(self);
 end;
 
 procedure TfrmDiffer.CMThemeChanged(var Message: TLMessage);

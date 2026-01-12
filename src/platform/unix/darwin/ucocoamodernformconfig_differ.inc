@@ -1,3 +1,38 @@
+procedure differFormOnUpdate( const form: TCustomForm );
+var
+  differForm: TfrmDiffer absolute form;
+  item: NSToolbarItem;
+  isText: Boolean;
+begin
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.Compare' );
+  item.setEnabled( differForm.actStartCompare.Enabled );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.Cancel' );
+  item.setEnabled( differForm.actCancelCompare.Enabled );
+
+  isText:= NOT differForm.actBinaryCompare.Checked;
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.Save' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.SaveAs' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.NextDifference' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.PrevDifference' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.LastDifference' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.FirstDifference' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.CopyRightToLeft' );
+  item.setEnabled( isText );
+  item:= TCocoaToolBarUtils.findItemByIdentifier( form, 'DifferForm.CopyLeftToRight' );
+  item.setEnabled( isText );
+end;
+
+procedure differFormOnCreate( const form: TCustomForm );
+begin
+  TfrmDiffer(form).OnUpdate:= @differFormOnUpdate;
+end;
+
 function getCurrentDifferForm: TfrmDiffer;
 var
   form: TCustomForm;
@@ -123,6 +158,7 @@ const
     identifier: 'DifferForm.Save';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'square.and.arrow.down';
     title: 'Save';
     tips: 'Save';
@@ -134,6 +170,7 @@ const
     identifier: 'DifferForm.SaveAs';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'square.and.arrow.down.on.square';
     title: 'Save as';
     tips: 'Save as...';
@@ -145,6 +182,7 @@ const
     identifier: 'DifferForm.Compare';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'play.fill';
     title: 'Compare';
     tips: 'Compare';
@@ -156,6 +194,7 @@ const
     identifier: 'DifferForm.Cancel';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'stop.circle.fill';
     title: 'Cancel';
     tips: 'Cancel';
@@ -167,6 +206,7 @@ const
     identifier: 'DifferForm.NextDifference';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrow.down';
     title: 'Next Difference';
     tips: 'Next Difference';
@@ -178,6 +218,7 @@ const
     identifier: 'DifferForm.PrevDifference';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrow.up';
     title: 'Previous Difference';
     tips: 'Previous Difference';
@@ -189,6 +230,7 @@ const
     identifier: 'DifferForm.LastDifference';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrow.down.to.line';
     title: 'Last Difference';
     tips: 'Last Difference';
@@ -200,6 +242,7 @@ const
     identifier: 'DifferForm.FirstDifference';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrow.up.to.line';
     title: 'First Difference';
     tips: 'First Difference';
@@ -211,6 +254,7 @@ const
     identifier: 'DifferForm.CopyRightToLeft';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrowshape.turn.up.left';
     title: 'Copy Block Left';
     tips: 'Copy Block Left';
@@ -222,6 +266,7 @@ const
     identifier: 'DifferForm.CopyLeftToRight';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
+    appValidates: True;
     iconName: 'arrowshape.turn.up.right';
     title: 'Copy Block Right';
     tips: 'Copy Block Right';
@@ -281,6 +326,8 @@ const
       );
       itemCreator: nil;      // default item Creator
     );
+
+    onCreate: @differFormOnCreate;
   );
 
 
