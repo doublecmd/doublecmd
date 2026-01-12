@@ -123,7 +123,7 @@ const
     identifier: 'EditorForm.Configuration';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
-    iconName: 'paperplane';
+    iconName: 'gearshape';
     title: 'Configuration';
     tips: 'Configuration';
     bordered: True;
