@@ -669,7 +669,7 @@ begin
   begin
     MouseToCellWithoutOutbound(X, Y, iCol, iRow);
     Result:= CellToIndex(iCol, iRow);
-    AtFileList:= (Result >= 0);
+    AtFileList:= True; // Always at file list because header in dgPanel not used
   end;
 end;
 
