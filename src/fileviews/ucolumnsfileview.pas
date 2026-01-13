@@ -1137,7 +1137,7 @@ begin
   begin
     MouseToCellWithoutOutbound(X, Y, iCol, iRow);
     Result:= CellToIndex(iCol, iRow);
-    AtFileList:= (Result >= 0);
+    AtFileList:= Y >= GetHeaderHeight;
   end;
 end;
 
