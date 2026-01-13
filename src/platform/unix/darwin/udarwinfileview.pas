@@ -29,12 +29,18 @@ type
     class procedure init(
       const activeNoteBookFunc: TActvieNoteBookFunc;
       const activeFrameFunc: TActiveFrameFunc );
-    class procedure addFinderSearchResultPage( const searchName: String; const files: TStringArray );
+    class procedure addFinderSearchResult(
+      const searchName: String;
+      const files: TStringArray;
+      const newPage: Boolean );
     class procedure addiCloudDrivePage;
   end;
 
+  { TDarwinSearchResultHandler }
+
   TDarwinSearchResultHandler = class
     procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
+    procedure onSearchSavedSearchComplete( const searchName: String; const files: TStringArray );
   end;
 
   TDarwinFileViewDrawHandler = class
@@ -79,7 +85,13 @@ end;
 procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(const searchName: String;
   const files: TStringArray);
 begin
-  TDarwinFileViewUtil.addFinderSearchResultPage( searchName, files );
+  TDarwinFileViewUtil.addFinderSearchResult( searchName, files, True );
+end;
+
+procedure TDarwinSearchResultHandler.onSearchSavedSearchComplete(
+  const searchName: String; const files: TStringArray);
+begin
+  TDarwinFileViewUtil.addFinderSearchResult( searchName, files, False );
 end;
 
 { TDarwinFileViewDrawHandler }
@@ -137,7 +149,10 @@ begin
   _activeFrameFunc:= activeFrameFunc;
 end;
 
-class procedure TDarwinFileViewUtil.addFinderSearchResultPage( const searchName: String; const files: TStringArray);
+class procedure TDarwinFileViewUtil.addFinderSearchResult(
+  const searchName: String;
+  const files: TStringArray;
+  const newPage: Boolean );
 var
   i: integer;
   count: Integer;
@@ -146,7 +161,8 @@ var
   FileList: TFileTree;
   aFile: TFile;
   Notebook: TFileViewNotebook;
-  NewPage: TFileViewPage;
+  fileView: TFileView;
+  page: TFileViewPage;
 begin
   count:= Length(files);
   FileList := TFileTree.Create;
@@ -156,18 +172,22 @@ begin
     FileList.AddSubNode(aFile);
   end;
 
-  // Add new tab for search results.
   Notebook := _activeNoteBookFunc();
-  NewPage := Notebook.NewPage(Notebook.ActiveView);
+  fileView:= Notebook.ActiveView;
 
   // Create search result file source.
   // Currently only searching FileSystem is supported.
   SearchResultFS := TFinderSearchResultFileSource.Create( searchName );
-  SearchResultFS.AddList(FileList, Notebook.ActiveView.FileSource);
+  SearchResultFS.AddList(FileList, fileView.FileSource );
 
-  NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
-  NewPage.FileView.FlatView := True;
-  NewPage.MakeActive;
+  if newPage then begin
+    page:= Notebook.NewPage(fileView);
+    page.MakeActive;
+    fileView:= page.FileView;
+  end;
+
+  fileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+  fileView.FlatView := True;
 end;
 
 class procedure TDarwinFileViewUtil.addiCloudDrivePage;
