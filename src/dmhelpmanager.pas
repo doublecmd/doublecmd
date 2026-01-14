@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Help manager
 
-    Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2026 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -101,20 +101,35 @@ var
 {$ENDIF}
 var
   ATranslations: TStringList;
+
+  function CheckHelp(const HelpLang: String): Boolean;
+  begin
+    Result:= mbDirectoryExists(gpExePath + 'doc' + PathDelim + HelpLang);
+    if not Result then Result:= ATranslations.IndexOf(HelpLang) >= 0;
+  end;
+
 begin
   if NumCountChars('.', gPOFileName) < 2 then
     gHelpLang:= 'en'
   else begin
-    gHelpLang:= ExtractDelimited(2, gPOFileName, ['.']);
-    if not mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
-    begin
-      ATranslations:= TStringListEx.Create;
+    ATranslations:= TStringListEx.Create;
+    try
+      gHelpLang:= ExtractDelimited(2, gPOFileName, ['.']);
       try
         ATranslations.LoadFromFile(gpExePath + 'doublecmd.help');
-        if ATranslations.IndexOf(gHelpLang) < 0 then gHelpLang:= 'en';
       except
-        gHelpLang:= 'en';
+        // Ignore
       end;
+      if not CheckHelp(gHelpLang) then
+      begin
+        if Pos('_', gHelpLang) = 0 then
+          gHelpLang:= 'en'
+        else begin
+          gHelpLang:= ExtractDelimited(1, gHelpLang, ['_']);
+          if not CheckHelp(gHelpLang) then gHelpLang:= 'en';
+        end;
+      end;
+    finally
       ATranslations.Free;
     end;
   end;
