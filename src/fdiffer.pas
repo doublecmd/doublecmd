@@ -491,7 +491,7 @@ end;
 procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
 begin
   dmComData.OpenDialog.FileName:= edtFileNameLeft.Text;
-  dmComData.OpenDialog.Filter:= AllFilesMask;
+  dmComData.OpenDialog.Filter:= EmptyStr;
   if dmComData.OpenDialog.Execute then
   begin
     edtFileNameLeft.Text:= dmComData.OpenDialog.FileName;
@@ -502,7 +502,7 @@ end;
 procedure TfrmDiffer.actOpenRightExecute(Sender: TObject);
 begin
   dmComData.OpenDialog.FileName:= edtFileNameRight.Text;
-  dmComData.OpenDialog.Filter:= AllFilesMask;
+  dmComData.OpenDialog.Filter:= EmptyStr;
   if dmComData.OpenDialog.Execute then
   begin
     edtFileNameRight.Text:= dmComData.OpenDialog.FileName;

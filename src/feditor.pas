@@ -1040,7 +1040,7 @@ var
 begin
   FormCloseQuery(Self, CanClose);
   if not CanClose then Exit;
-  dmComData.OpenDialog.Filter:= AllFilesMask;
+  dmComData.OpenDialog.Filter:= EmptyStr;
   if not dmComData.OpenDialog.Execute then Exit;
   if OpenFile(dmComData.OpenDialog.FileName) then
     UpdateStatus;
@@ -1068,7 +1068,7 @@ var
   Highlighter: TSynCustomHighlighter;
 begin
   dmComData.SaveDialog.FileName := FileName;
-  dmComData.SaveDialog.Filter:= AllFilesMask; // rewrite for highlighter
+  dmComData.SaveDialog.Filter:= EmptyStr; // rewrite for highlighter
   if not dmComData.SaveDialog.Execute then
     Exit;
 
