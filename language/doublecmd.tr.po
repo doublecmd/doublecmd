@@ -586,23 +586,31 @@ msgid "Cancel"
 msgstr "İptal"
 
 #: tfrmdiffer.actcopylefttoright.caption
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr "Bloğu sağa kopyala"
 
 #: tfrmdiffer.actcopylefttoright.hint
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr "Bloğu sağa kopyala"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr "Bloğu sola kopyala"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr "Bloğu sola kopyala"
 
 #: tfrmdiffer.acteditcopy.caption

@@ -518,23 +518,31 @@ msgid "Cancel"
 msgstr "Скасаваць"
 
 #: tfrmdiffer.actcopylefttoright.caption
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr "Скапіяваць блок управа"
 
 #: tfrmdiffer.actcopylefttoright.hint
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr "Скапіяваць блок управа"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr "Скапіяваць блок улева"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr "Скапіяваць блок улева"
 
 #: tfrmdiffer.acteditcopy.caption

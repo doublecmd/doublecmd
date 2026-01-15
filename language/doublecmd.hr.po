@@ -559,23 +559,31 @@ msgid "Cancel"
 msgstr "Otkaži"
 
 #: tfrmdiffer.actcopylefttoright.caption
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr "Kopiraj skup desno"
 
 #: tfrmdiffer.actcopylefttoright.hint
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr "Kopiraj skup desno"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr "Kopiraj skup lijevo"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr "Kopiraj skup lijevo"
 
 #: tfrmdiffer.acteditcopy.caption

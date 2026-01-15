@@ -256,8 +256,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'arrowshape.turn.up.left';
-    title: 'Copy Block Left';
-    tips: 'Copy Block Left';
+    title: 'Copy Block To Left';
+    tips: 'Copy Block From Right To Left';
     bordered: True;
     onAction: @differCopyRightToLeftAction;
   );
@@ -268,8 +268,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'arrowshape.turn.up.right';
-    title: 'Copy Block Right';
-    tips: 'Copy Block Right';
+    title: 'Copy Block To Right';
+    tips: 'Copy Block From Left To Right';
     bordered: True;
     onAction: @differCopyLeftToRightAction;
   );

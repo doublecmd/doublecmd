@@ -602,14 +602,14 @@ object frmDiffer: TfrmDiffer
       OnExecute = actPaintBackgroundExecute
     end
     object actCopyLeftToRight: TAction
-      Caption = 'Copy Block Right'
-      Hint = 'Copy Block Right'
+      Caption = 'Copy Block To Right'
+      Hint = 'Copy Block From Left To Right'
       ImageIndex = 43
       OnExecute = actExecute
     end
     object actCopyRightToLeft: TAction
-      Caption = 'Copy Block Left'
-      Hint = 'Copy Block Left'
+      Caption = 'Copy Block To Left'
+      Hint = 'Copy Block From Right To Left'
       ImageIndex = 42
       OnExecute = actExecute
     end

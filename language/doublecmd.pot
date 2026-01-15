@@ -511,22 +511,22 @@ msgstr ""
 
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr ""
 
 #: tfrmdiffer.actcopylefttoright.hint
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr ""
 
 #: tfrmdiffer.actcopyrighttoleft.caption
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr ""
 
 #: tfrmdiffer.actcopyrighttoleft.hint
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr ""
 
 #: tfrmdiffer.acteditcopy.caption

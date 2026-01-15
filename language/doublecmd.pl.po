@@ -510,23 +510,31 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 #: tfrmdiffer.actcopylefttoright.caption
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr "Kopiuj blok na prawo"
 
 #: tfrmdiffer.actcopylefttoright.hint
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.hint"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr "Kopiuj blok na prawo"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr "Kopiuj blok na lewo"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.hint"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr "Kopiuj blok na lewo"
 
 #: tfrmdiffer.acteditcopy.caption

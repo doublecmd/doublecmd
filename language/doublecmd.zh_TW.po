@@ -519,23 +519,31 @@ msgid "Cancel"
 msgstr "取消"
 
 #: tfrmdiffer.actcopylefttoright.caption
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
-msgid "Copy Block Right"
+msgid "Copy Block To Right"
 msgstr "複製區塊至右邊"
 
 #: tfrmdiffer.actcopylefttoright.hint
+#, fuzzy
+#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
-msgid "Copy Block Right"
+msgid "Copy Block From Left To Right"
 msgstr "複製區塊至右邊"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
-msgid "Copy Block Left"
+msgid "Copy Block To Left"
 msgstr "複製區塊至左邊"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
+#, fuzzy
+#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
-msgid "Copy Block Left"
+msgid "Copy Block From Right To Left"
 msgstr "複製區塊至左邊"
 
 #: tfrmdiffer.acteditcopy.caption
@@ -3866,9 +3874,10 @@ msgid "File Path"
 msgstr "檔案路徑"
 
 #: tfrmmultirenamewait.caption
+#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
