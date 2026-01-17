@@ -1148,7 +1148,7 @@ begin
   begin
     mnuMain.Items[I].Hint:= mnuMain.Items[I].Caption;
   end;
-  mnuMain.Tag:= PtrInt(gKeyTyping[ktmAlt]);
+  mnuMain.Tag:= PtrInt(ktaNone);
   {$ENDIF}
 
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
