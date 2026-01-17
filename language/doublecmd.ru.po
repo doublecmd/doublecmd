@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.3.0 alpha\n"
-"POT-Creation-Date: 2026-01-05 19:30+0300\n"
-"PO-Revision-Date: 2026-01-06 14:29+0300\n"
+"POT-Creation-Date: 2026-01-15 09:30+0300\n"
+"PO-Revision-Date: 2026-01-15 19:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -519,32 +519,24 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: tfrmdiffer.actcopylefttoright.caption
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block To Right"
 msgstr "Копировать блок направо"
 
 #: tfrmdiffer.actcopylefttoright.hint
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block From Left To Right"
-msgstr "Копировать блок направо"
+msgstr "Копировать блок слева направо"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
 msgid "Copy Block To Left"
 msgstr "Копировать блок налево"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block From Right To Left"
-msgstr "Копировать блок налево"
+msgstr "Копировать блок справа налево"
 
 #: tfrmdiffer.acteditcopy.caption
 msgctxt "TFRMDIFFER.ACTEDITCOPY.CAPTION"
@@ -11122,10 +11114,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(например, smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS ..."
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
