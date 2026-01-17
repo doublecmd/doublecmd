@@ -39,6 +39,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
   DCWindows,
+  DCNtfsLinks,
   DCConvertEncoding,
 {$ENDIF}
 {$IFDEF LibcAPI}
@@ -64,6 +65,7 @@ uses
   DCClassesUtf8,
 {$ENDIF}
   DCBasicTypes,
+  DCOSUtils,
   DateUtils,
   SysUtils,
   Classes;
@@ -208,6 +210,9 @@ type
     {creates the requested directory tree.  CreateDir is insufficient,
      because if you have a path x:\dir, and request x:\dir\sub1\sub2,
      (/dir and /dir/sub1/sub2 on Unix) it fails.}
+
+  function AbCreateSymLinkUnix(const Path, LinkName: string;
+                               Attr: UInt32 = faInvalidAttributes): Boolean;
 
   function AbCreateTempFile(const Dir : string) : string;
 
@@ -377,7 +382,6 @@ uses
   LazUTF8,
   AbConst,
   AbExcept,
-  DCOSUtils,
   DCStrUtils,
   DCDateTimeUtils;
 
@@ -486,6 +490,17 @@ begin
     inc( iStartSlash );
   until ( Length( TempPath ) = Length( Path ) );
 end;
+{ -------------------------------------------------------------------------- }
+function AbCreateSymLinkUnix(const Path, LinkName: string; Attr: UInt32): Boolean;
+{$IF DEFINED(UNIX)}
+begin
+  Result:= CreateSymLink(Path, LinkName, Attr);
+end;
+{$ELSE}
+begin
+  Result:= CreateSymLinkUnix(Path, UTF16LongName(LinkName));
+end;
+{$ENDIF}
 { -------------------------------------------------------------------------- }
 function AbCreateTempFile(const Dir : string) : string;
 begin

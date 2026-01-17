@@ -1252,8 +1252,15 @@ begin
               ZipArchive.SuspiciousLinks.Add(NormalizePathDelimiters(Item.FileName));
           end;
 
-          if not CreateSymLink(LinkTarget, UseName, UInt32(Item.NativeFileAttributes)) then
-            RaiseLastOSError;
+          if (Item.HostOS = hosUnix) then
+          begin
+            if not AbCreateSymLinkUnix(LinkTarget, UseName) then
+              RaiseLastOSError;
+          end
+          else begin
+            if not CreateSymLink(LinkTarget, UseName, UInt32(Item.NativeFileAttributes)) then
+              RaiseLastOSError;
+          end;
         except
           if ExceptObject is EAbUserAbort then
             ZipArchive.FStatus := asInvalid;
