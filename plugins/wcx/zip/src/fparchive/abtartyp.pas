@@ -2294,7 +2294,7 @@ begin
             FSuspiciousLinks.Add(NormalizePathDelimiters(CurItem.FileName));
         end;
 
-        if not CreateSymLink(LinkTarget, UseName) then
+        if not AbCreateSymLinkUnix(LinkTarget, UseName) then
           raise EOSError.Create(mbSysErrorMessage(GetLastOSError));
       end;
     end;
