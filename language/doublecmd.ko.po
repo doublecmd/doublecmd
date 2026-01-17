@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-12-22 21:38+0900\n"
+"PO-Revision-Date: 2026-01-17 01:45+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -512,32 +512,24 @@ msgid "Cancel"
 msgstr "취소"
 
 #: tfrmdiffer.actcopylefttoright.caption
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
 msgid "Copy Block To Right"
-msgstr "블럭 오른쪽 복사"
+msgstr "오른쪽으로 블록 복사"
 
 #: tfrmdiffer.actcopylefttoright.hint
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block From Left To Right"
-msgstr "블럭 오른쪽 복사"
+msgstr "왼쪽에서 오른쪽으로 블록 복사"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
 msgid "Copy Block To Left"
-msgstr "블럭 왼쪽 복사"
+msgstr "왼쪽으로 복사 블록"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block From Right To Left"
-msgstr "블럭 왼쪽 복사"
+msgstr "오른쪽에서 왼쪽으로 블록 복사"
 
 #: tfrmdiffer.acteditcopy.caption
 msgctxt "tfrmdiffer.acteditcopy.caption"
@@ -832,7 +824,7 @@ msgstr "옵션(&O)"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr "시퀀스에 새 바로가기 추가"
+msgstr "시퀀스에 새 단축키 추가"
 
 #: tfrmedithotkey.btncancel.caption
 msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
@@ -846,11 +838,11 @@ msgstr "확인(&O)"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr "시퀀스에서 마지막 바로가기 제거"
+msgstr "시퀀스에서 마지막 단축키 제거"
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
-msgstr "사용 가능한 나머지 키 목록에서 바로가기 선택"
+msgstr "사용 가능한 나머지 키 목록에서 단축키 선택"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
@@ -862,7 +854,7 @@ msgstr "매개변수 (각각 별도의 행에 있음)(&P):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr "바로가기:"
+msgstr "단축키:"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1937,7 +1929,7 @@ msgstr "하드 링크 만들기"
 #: tfrmhardlink.lblexistingfile.caption
 msgctxt "tfrmhardlink.lblexistingfile.caption"
 msgid "&Destination that the link will point to"
-msgstr "링크가 가리키는 대상(&D)"
+msgstr "링크가 가리킬 대상(&D)"
 
 #: tfrmhardlink.lbllinktocreate.caption
 msgctxt "tfrmhardlink.lbllinktocreate.caption"
@@ -1947,7 +1939,7 @@ msgstr "링크 이름(&L)"
 #: tfrmhotdirexportimport.btnselectall.caption
 msgctxt "tfrmhotdirexportimport.btnselectall.caption"
 msgid "Import all!"
-msgstr "모두 가져옵니다!"
+msgstr "모두 가져오기!"
 
 #: tfrmhotdirexportimport.btnselectiondone.caption
 msgctxt "tfrmhotdirexportimport.btnselectiondone.caption"
@@ -2148,7 +2140,7 @@ msgstr "압축기 구성"
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
-msgstr "디렉터리 주요 목록 구성"
+msgstr "자주 찾는 디렉터리 목록 구성"
 
 #: tfrmmain.actconfigfavoritetabs.caption
 msgid "Configuration of Favorite Tabs"
@@ -2273,7 +2265,7 @@ msgstr "디렉터리 이력"
 
 #: tfrmmain.actdirhotlist.caption
 msgid "Directory &Hotlist"
-msgstr "디렉터리 주요 목록(&H)"
+msgstr "자주 찾는 디렉터리 목록(&H)"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
@@ -2947,7 +2939,7 @@ msgstr "영구 삭제"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
 msgid "Work with Directory Hotlist and parameters"
-msgstr "디렉터리 주요 목록 및 매개변수로 작업"
+msgstr "자주 찾는 디렉터리 목록 및 매개변수로 작업"
 
 #: tfrmmain.btnf10.caption
 msgctxt "TFRMMAIN.BTNF10.CAPTION"
@@ -2977,7 +2969,7 @@ msgstr "*"
 #: tfrmmain.btnleftdirectoryhotlist.hint
 msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
-msgstr "디렉터리 주요 목록"
+msgstr "자주 찾는 디렉터리 목록"
 
 #: tfrmmain.btnleftequalright.caption
 msgctxt "tfrmmain.btnleftequalright.caption"
@@ -3018,7 +3010,7 @@ msgstr "*"
 #: tfrmmain.btnrightdirectoryhotlist.hint
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.HINT"
 msgid "Directory Hotlist"
-msgstr "디렉터리 주요 목록"
+msgstr "자주 찾는 디렉터리 목록"
 
 #: tfrmmain.btnrightequalleft.caption
 msgctxt "tfrmmain.btnrightequalleft.caption"
@@ -4162,7 +4154,7 @@ msgstr "크기, 날짜 또는 속성이 변경될 때(&S)"
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
 msgid "For the following &paths and their subdirectories:"
-msgstr "다음 경로 및 해당 하위 디렉터리에 대해:(&P):"
+msgstr "다음 경로와 그 하위 디렉터리에 대해:(&P):"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
@@ -4876,7 +4868,7 @@ msgstr "활성 및 비활성 프레임의 디렉터리 추가(&D)"
 
 #: tfrmoptionsdirectoryhotlist.actaddbrowseddir.caption
 msgid "Add directory I will bro&wse to"
-msgstr "찾아볼 디렉터리 추가(&W)"
+msgstr "찾아서 디렉터리 추가(&W)"
 
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption"
@@ -4899,7 +4891,7 @@ msgstr "하위 메뉴 추가"
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddtypeddir.caption"
 msgid "Add directory I will type"
-msgstr "입력할 디렉터리 추가"
+msgstr "입력해서 디렉터리 추가"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseall.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actcollapseall.caption"
@@ -5088,7 +5080,7 @@ msgstr "유효한 환경 변수만 표시(&V)"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In pop&up, show [path also]"
-msgstr "팝업에서 [경로] 보이기(&U)"
+msgstr "팝업에서 [경로] 표시(&U)"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
@@ -5102,7 +5094,7 @@ msgstr "이름, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr "디렉터리 주요 목록 (끌어서 놓기로 재정렬)"
+msgstr "자주 찾는 디렉터리 목록 (끌어서 놓기로 재정렬)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -5130,15 +5122,15 @@ msgstr ".....선택된 항목의 현재 수준만(&V)"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgid "Scan all &hotdir's path to validate the ones that actually exist"
-msgstr "모든 주요 디렉터리 경로를 검색하여 실제로 존재하는 경로 검증(&H)"
+msgstr "모든 자주 찾는 디렉터리 경로를 검색하여 실제로 존재하는 경로 검증(&H)"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr "모든 주요 디렉터리 경로 및 대상을 검색하여 실제로 존재하는 경로 검증(&S)"
+msgstr "모든 자주 찾는 디렉터리 경로 및 대상을 검색하여 실제로 존재하는 경로 검증(&S)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory &Hotlist file (.hotlist)"
-msgstr "디렉터리 주요 목록 파일 (.hotlist)로(&H)"
+msgstr "자주 찾는 디렉터리 목록 파일 (.hotlist)로(&H)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
@@ -5166,7 +5158,7 @@ msgstr "HotDirTestMenu"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory &Hotlist file (.hotlist)"
-msgstr "디렉터리 주요 목록 파일 (.hotlist)에서(&H)"
+msgstr "자주 찾는 디렉터리 목록 파일 (.hotlist)에서(&H)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"&wincmd.ini\" of TC"
@@ -5178,11 +5170,11 @@ msgstr "탐색(&N)..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "디렉터리 주요 목록 백업 복원(&R)"
+msgstr "자주 찾는 디렉터리 목록 백업 복원(&R)"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "현재 디렉터리 주요 목록 백업 저장(&S)"
+msgstr "현재 자주 찾는 디렉터리 목록 백업 저장(&S)"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
@@ -5228,7 +5220,7 @@ msgstr "기본 패널에서 추가"
 
 #: tfrmoptionsdirectoryhotlistextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to directory hotlist"
-msgstr "디렉터리 주요 목록에 현재 설정 적용"
+msgstr "자주 찾는 디렉터리 목록에 현재 설정 적용"
 
 #: tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlistsource.caption
 msgid "Source"
@@ -5829,7 +5821,7 @@ msgstr "작업의 이름입니다. 이 이름은 시스템으로 전달되지 �
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgstr "명령에 전달할 매개 변수입니다. 공백이 있는 긴 파일 이름을 따옴표로 나타내야 합니다 (수동으로 입력)."
+msgstr "명령에 전달할 매개변수입니다. 공백이 있는 긴 파일 이름을 따옴표로 나타내야 합니다 (수동으로 입력)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Never quote this string."
@@ -6502,7 +6494,7 @@ msgstr "명령(&M):"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgid "&Shortcut files:"
-msgstr "바로가기 파일(&S):"
+msgstr "단축키 파일(&S):"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
@@ -6863,7 +6855,7 @@ msgstr "구성 파일 내용 보기"
 #: tfrmoptionsmisc.chkdesccreateunicode.caption
 msgctxt "TFRMOPTIONSMISC.CHKDESCCREATEUNICODE.CAPTION"
 msgid "Create new with the encoding:"
-msgstr "인코딩을 사용하여 새로 만들기:"
+msgstr "다음 인코딩으로 새로 만들기:"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -7487,7 +7479,7 @@ msgstr "제안"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr "버튼 유형, 명령 및 매개 변수에 따라 DC에서 도구 설명을 제안하도록 합니다"
+msgstr "버튼 유형, 명령 및 매개변수에 따라 DC에서 도구 설명을 제안하도록 합니다"
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbarbase.CBFLATBUTTONS.CAPTION"
@@ -7954,7 +7946,7 @@ msgstr "외부 프로그램 사용(&U)"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
 msgid "A&dditional parameters"
-msgstr "추가 매개 변수(&D)"
+msgstr "추가 매개변수(&D)"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
@@ -8106,7 +8098,7 @@ msgstr "*참고: 대소문자 구분, 억양 무시 또는 무시와 같은 옵�
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
-msgstr "디렉터리 주요 목록 사용:"
+msgstr "자주 찾는 디렉터리 목록 사용:"
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
@@ -8123,7 +8115,7 @@ msgstr "..."
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr "항목 선택을 위한 키보드 바로가기 사용 및 표시"
+msgstr "항목 선택을 위한 키보드 단축키 사용 및 표시"
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
@@ -8171,11 +8163,11 @@ msgstr "커서 아래 보조 텍스트:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
 msgid "Shortcut color:"
-msgstr "바로가기 색상:"
+msgstr "단축키 색상:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
 msgid "Shortcut under cursor:"
-msgstr "커서 아래 바로가기:"
+msgstr "커서 아래 단축키:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
@@ -9076,7 +9068,7 @@ msgstr "트리 보기 메뉴"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
-msgstr "주요 디렉터리 선택:"
+msgstr "자주 찾는 디렉터리 선택:"
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
@@ -10473,7 +10465,7 @@ msgstr "DC 도구 설명 파일"
 
 #: ulng.rsfilterdirectoryhotlistfiles
 msgid "Directory Hotlist files"
-msgstr "디렉터리 주요 목록 파일"
+msgstr "자주 찾는 디렉터리 목록 파일"
 
 #: ulng.rsfilterexecutablefiles
 msgid "Executables files"
@@ -10789,7 +10781,7 @@ msgstr "새 이름 입력"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
-msgstr "하나 이상의 바로가기 파일을 유지해야 합니다."
+msgstr "하나 이상의 단축키 파일을 유지해야 합니다."
 
 #: ulng.rshotkeyfilenewname
 msgid "New name"
@@ -10806,11 +10798,11 @@ msgstr ""
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
-msgstr "\"ENTER\"로 바로가기 없음"
+msgstr "\"ENTER\"로 단축키 없음"
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr "명령 이름별;바로가기 키별 (그룹화);바로가기 키별 (행당 1개)"
+msgstr "명령 이름별;단축키 키별 (그룹화);단축키 키별 (행당 1개)"
 
 #: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
 msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
@@ -10862,10 +10854,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(예: smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS ..."
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10931,7 +10926,7 @@ msgstr "AirDrop"
 #: ulng.rsmfstbicommandmenudirectoryhotlist
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
 msgid "Directory Hotlist"
-msgstr "디렉터리 주요 목록"
+msgstr "자주 찾는 디렉터리 목록"
 
 #: ulng.rsmfstbicommandmenufavoritetabs
 msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
@@ -10985,22 +10980,22 @@ msgstr "파인더"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "뒤로"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "뒤로"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "앞으로"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "앞으로"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -11157,7 +11152,7 @@ msgstr "8진수"
 
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
-msgstr "바로가기 만들기..."
+msgstr "단축키 만들기..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
@@ -11753,11 +11748,11 @@ msgstr "cm_somthing"
 #: ulng.rsmsghotdirconfighotlist
 msgctxt "ulng.rsmsghotdirconfighotlist"
 msgid "Configuration of Directory Hotlist"
-msgstr "디렉터리 주요 목록 구성"
+msgstr "자주 찾는 디렉터리 목록 구성"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "디렉터리 주요 목록의 모든 항목을 제거하시겠습니까? (이 작업에는 \"실행 취소\"가 없습니다!)"
+msgstr "자주 찾는 디렉터리 목록의 모든 항목을 제거하시겠습니까? (이 작업에는 \"실행 취소\"가 없습니다!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11765,7 +11760,7 @@ msgstr "그러면 다음 명령이 실행됩니다:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr "이것은 주요 디렉터리 이름입니다 "
+msgstr "이것은 자주 찾는 디렉터리 이름입니다 "
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
@@ -11789,7 +11784,7 @@ msgstr "모두 내보내기!"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr "디렉터리 주요 목록 내보내기 - 내보낼 항목 선택"
+msgstr "자주 찾는 디렉터리 목록 내보내기 - 내보낼 항목 선택"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
@@ -11802,7 +11797,7 @@ msgstr "모두 가져오기!"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr "디렉터리 주요 목록 가져오기 - 가져올 항목 선택"
+msgstr "자주 찾는 디렉터리 목록 가져오기 - 가져올 항목 선택"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
@@ -11820,7 +11815,7 @@ msgstr "가져올 \".hotlist\" 파일 찾기"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
-msgstr "주요 디렉터리 이름"
+msgstr "자주 찾는 디렉터리 이름"
 
 #: ulng.rsmsghotdirnbnewentries
 #, object-pascal-format
@@ -11833,7 +11828,7 @@ msgstr "내보낼 항목이 선택되지 않았습니다!"
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
-msgstr "주요 디렉터리 경로"
+msgstr "자주 찾는 디렉터리 경로"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
@@ -11845,7 +11840,7 @@ msgstr "현재 디렉터리 다시 추가: "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr "복원할 디렉터리 주요 목록의 위치 및 파일 이름 입력"
+msgstr "복원할 자주 찾는 디렉터리 목록의 위치 및 파일 이름 입력"
 
 #: ulng.rsmsghotdirsimplecommand
 msgctxt "ulng.rsmsghotdirsimplecommand"
@@ -11879,7 +11874,7 @@ msgstr "하위 메뉴 이름"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr "주요 디렉터리 대상"
+msgstr "자주 찾는 디렉터리 대상"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
@@ -11891,7 +11886,7 @@ msgstr "디렉터리 변경 후 활성화되지 않은 프레임을 지정된 �
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr "상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하는 일부 기능"
+msgstr "상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하는 몇 가지 기능"
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
@@ -11919,7 +11914,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr "디렉터리 주요 목록 파일을 저장할 위치 및 파일 이름 입력"
+msgstr "자주 찾는 디렉터리 목록 파일을 저장할 위치 및 파일 이름 입력"
 
 #: ulng.rsmsgincorrectfilelength
 #, object-pascal-format
@@ -12300,7 +12295,7 @@ msgstr "Windows 특수 폴더 (TC)로 가기..."
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr "주요 디렉터리 경로를 상대 경로로 만들기"
+msgstr "자주 찾는 디렉터리 경로를 상대 경로로 만들기"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -12328,7 +12323,7 @@ msgstr "Double Commander 특수 경로 사용..."
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
-msgstr "주요 디렉터리 경로 사용"
+msgstr "자주 찾는 디렉터리 경로 사용"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -13229,7 +13224,7 @@ msgstr "부동"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "cm_Delete의 바로가기 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
+msgstr "cm_Delete의 단축키 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13238,15 +13233,15 @@ msgstr "%s에 대한 단축키 추가"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr "바로가기 추가"
+msgstr "단축키 추가"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr "바로가기를 설정할 수 없음"
+msgstr "단축키를 설정할 수 없음"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr "바로가기 변경"
+msgstr "단축키 변경"
 
 #: ulng.rsopthotkeyscommand
 msgctxt "ulng.rsopthotkeyscommand"
@@ -13256,12 +13251,12 @@ msgstr "명령"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "cm_Delete의 바로가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정을 사용하려면 이 매개 변수를 변경하시겠습니까?"
+msgstr "cm_Delete 단축키 %s에는 이 설정을 재정의하는 매개변수가 있습니다. 이 매개변수를 전역 설정으로 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "cm_Delete의 바로가기 %s에 대해 바로가기 %s와 일치하도록 매개 변수를 변경해야 합니다. 변경하시겠습니까?"
+msgstr "cm_Delete 단축키 %s의 매개변수를 단축키 %s와 일치하도록 변경해야 합니다. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13298,7 +13293,7 @@ msgstr "매개변수"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "파일 삭제 바로가기 설정"
+msgstr "파일 삭제 단축키 설정"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
@@ -13308,16 +13303,16 @@ msgstr "이 설정이 %s 단축키로 작동하려면 단축키 %s을(를) cm_De
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "cm_Delete의 바로가기 %s은 Shift가 반대인 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
+msgstr "cm_Delete 단축키 %s는 Shift 키를 반전시킨 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr "사용 중인 바로가기"
+msgstr "사용 중인 단축키"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 #, object-pascal-format
 msgid "Shortcut %s is already used."
-msgstr "바로가기 %s이(가) 이미 사용되고 있습니다."
+msgstr "단축키 %s이(가) 이미 사용되고 있습니다."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 #, object-pascal-format
@@ -13331,7 +13326,7 @@ msgstr "%s가 %s에 사용됨"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
-msgstr "이 명령에 사용되지만 매개 변수가 다른 경우"
+msgstr "이 명령에 사용되지만 매개변수가 다른 경우"
 
 #: ulng.rsoptionseditorarchivers
 msgid "Archivers"
@@ -13369,11 +13364,11 @@ msgstr "사용자 지정 열"
 #: ulng.rsoptionseditordirectoryhotlist
 msgctxt "ulng.rsoptionseditordirectoryhotlist"
 msgid "Directory Hotlist"
-msgstr "디렉터리 주요 목록"
+msgstr "자주 찾는 디렉터리 목록"
 
 #: ulng.rsoptionseditordirectoryhotlistextra
 msgid "Directory Hotlist Extra"
-msgstr "디렉터리 주요 목록 추가 기능"
+msgstr "자주 찾는 디렉터리 목록 추가 기능"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
@@ -14080,7 +14075,7 @@ msgstr "기본 도구 모음에서 작업 선택"
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr "주요 디렉터리에서 디렉터리 선택:"
+msgstr "자주 찾는 디렉터리에서 디렉터리 선택:"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
@@ -14221,7 +14216,7 @@ msgstr "\"%\" 변수에 대한 도움말"
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr "사용자에게 기본 제안 값으로 매개 변수 입력을 요청합니다"
+msgstr "사용자에게 기본 제안 값으로 매개변수 입력을 요청합니다"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
@@ -14297,7 +14292,7 @@ msgstr "각 이름 앞에 \"-a\" 또는 원하는 이름을 붙입니다"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr "%[매개 변수에 대한 사용자 알림 표시, 기본값 제안]"
+msgstr "%[매개변수에 대한 사용자 알림 표시, 기본값 제안]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
