@@ -43,6 +43,7 @@ const
   IO_REPARSE_TAG_LX_SYMLINK    = $A000001D;
 
 const
+  LX_SYMLINK_HEADER_SIZE = 4;
   REPARSE_DATA_HEADER_SIZE = 8;
   MOUNT_POINT_HEADER_SIZE  = 8;
   FILE_DOES_NOT_EXIST = DWORD(-1);
@@ -119,6 +120,13 @@ function CreateHardLink(const AFileName, ALinkName: UnicodeString): Boolean;
    @returns(The function returns @true if successful, @false otherwise)
 }
 function ReadSymLink(const aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
+{en
+   Creates a WSL/Cygwin symbolic link.
+   @param(aTargetFileName  The name of the existing file)
+   @param(aSymlinkFileName The name of the symbolic link)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function CreateSymLinkUnix(const aTargetFileName: String; const aSymlinkFileName: UnicodeString): Boolean;
 
 implementation
 
@@ -354,6 +362,55 @@ begin
         Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_DIRECTORY);
       end;
     end;
+  end;
+end;
+
+function CreateSymLinkUnix(const aTargetFileName: String; const aSymlinkFileName: UnicodeString): Boolean;
+var
+  hDevice: THandle;
+  dwLastError: DWORD;
+  nInBufferSize: DWORD;
+  dwPathBufferSize: DWORD;
+  lpBytesReturned: DWORD = 0;
+  lpInBuffer: PReparseDataBuffer;
+begin
+  hDevice:= CreateFileW(PWideChar(aSymlinkFileName),
+                        GENERIC_WRITE, 0, nil, CREATE_NEW,
+                        FILE_FLAG_OPEN_REPARSE_POINT, 0);
+  if hDevice = INVALID_HANDLE_VALUE then Exit(False);
+  dwPathBufferSize:= Length(aTargetFileName);
+  nInBufferSize:= REPARSE_DATA_HEADER_SIZE + LX_SYMLINK_HEADER_SIZE + dwPathBufferSize;
+  lpInBuffer:= GetMem(nInBufferSize);
+  ZeroMemory(lpInBuffer, nInBufferSize);
+  with lpInBuffer^, lpInBuffer^.LxSymlinkReparseBuffer do
+  begin
+    FileType:= 2; // symbolic link
+    ReparseTag:= IO_REPARSE_TAG_LX_SYMLINK;
+    ReparseDataLength:= LX_SYMLINK_HEADER_SIZE + dwPathBufferSize;
+    CopyMemory(@PathBuffer[0], @aTargetFileName[1], Length(aTargetFileName));
+  end;
+  Result:= DeviceIoControl(hDevice,                  // handle to file or directory
+                           FSCTL_SET_REPARSE_POINT,  // dwIoControlCode
+                           lpInBuffer,               // input buffer
+                           nInBufferSize,            // size of input buffer
+                           nil,                      // lpOutBuffer
+                           0,                        // nOutBufferSize
+                           lpBytesReturned,          // lpBytesReturned
+                           nil);                     // OVERLAPPED structure
+  // File system does not support reparse points
+  // Create a normal file with the link target inside
+  if (not Result) and (GetLastError = ERROR_INVALID_FUNCTION) then
+  begin
+    Result:= (FileWrite(hDevice, aTargetFileName[1], dwPathBufferSize) = dwPathBufferSize);
+    if Result then SetFileAttributesW(PWideChar(aSymlinkFileName), FILE_ATTRIBUTE_SYSTEM);
+  end;
+  if not Result then dwLastError:= GetLastError;
+  FreeMem(lpInBuffer);
+  CloseHandle(hDevice);
+  if not Result then
+  begin
+    DeleteFileW(PWideChar(aSymlinkFileName));
+    SetLastError(dwLastError);
   end;
 end;
 
