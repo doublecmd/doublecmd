@@ -1138,6 +1138,15 @@ begin
   Application.AddOnKeyDownBeforeHandler( @GlobalMacOSKeyDownHandler );
   {$ENDIF}
 
+  {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  // Save original captions
+  for I:= 0 to mnuMain.Items.Count - 1 do
+  begin
+    mnuMain.Items[I].Hint:= mnuMain.Items[I].Caption;
+  end;
+  mnuMain.Tag:= PtrInt(ktaNone);
+  {$ENDIF}
+
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
   CreateDefaultToolbar;
   sStaticTitleBarString := GenerateTitle();
@@ -5805,6 +5814,29 @@ begin
       UpdateFreeSpace(fpLeft, True);
       UpdateFreeSpace(fpRight, True);
     end;
+
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+    // https://github.com/doublecmd/doublecmd/issues/1327
+    if mnuMain.Tag <> PtrInt(gKeyTyping[ktmAlt]) then
+    begin
+      if gKeyTyping[ktmAlt] = ktaNone then
+      begin
+        // Enable menu shortcuts
+        for I:= 0 to mnuMain.Items.Count - 1 do
+        begin
+          mnuMain.Items[I].Caption:= mnuMain.Items[I].Hint;
+        end;
+      end
+      else begin
+        // Disable menu shortcuts
+        for I:= 0 to mnuMain.Items.Count - 1 do
+        begin
+          mnuMain.Items[I].Caption:= StripHotkey(mnuMain.Items[I].Hint);
+        end;
+      end;
+      mnuMain.Tag:= PtrInt(gKeyTyping[ktmAlt])
+    end;
+{$ENDIF}
 
     UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
     ShowTrayIcon(gAlwaysShowTrayIcon);
