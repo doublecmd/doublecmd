@@ -1,8 +1,15 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
@@ -25,7 +32,7 @@ msgstr ""
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 #, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -165,7 +172,7 @@ msgid "Cancel"
 msgstr ""
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+msgid "Cannot focus"
 msgstr ""
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -245,12 +252,12 @@ msgstr ""
 #: lclstrconsts.rsdocopy
 msgctxt "lclstrconsts.rsdocopy"
 msgid "Copy"
-msgstr ""
+msgstr "複製"
 
 #: lclstrconsts.rsdopaste
 msgctxt "lclstrconsts.rsdopaste"
 msgid "Paste"
-msgstr ""
+msgstr "貼上"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -259,7 +266,7 @@ msgstr ""
 #: lclstrconsts.rseditrecordhint
 msgctxt "lclstrconsts.rseditrecordhint"
 msgid "Edit"
-msgstr ""
+msgstr "編輯"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
@@ -457,10 +464,6 @@ msgstr ""
 msgid "Grid index out of range."
 msgstr ""
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr ""
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr ""
@@ -512,7 +515,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpalreadyregistered
 #, object-pascal-format
-msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr ""
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -539,12 +542,12 @@ msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 #, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 #, object-pascal-format
-msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -569,7 +572,7 @@ msgstr ""
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 #, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr ""
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -578,7 +581,7 @@ msgid "No help found for line %d, column %d of %s."
 msgstr ""
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr ""
 
 #: lclstrconsts.rshelpnotfound
@@ -587,7 +590,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpnotregistered
 #, object-pascal-format
-msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr ""
 
 #: lclstrconsts.rshelpselectorerror
@@ -596,7 +599,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 #, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelpviewererror
@@ -741,6 +744,10 @@ msgstr ""
 msgid "List index exceeds bounds (%d)"
 msgstr ""
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr "采集"
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -772,9 +779,21 @@ msgstr "全選"
 msgid "Undo"
 msgstr "復原"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr "將檔案包（例如 *.app 檔案）視為資料夾，以便存取其內部檔案"
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr "顯示包內容"
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
-msgstr ""
+msgstr "文件格式"
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
+msgstr "選擇"
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
@@ -795,6 +814,7 @@ msgid "Preferences..."
 msgstr "偏好設定..."
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr "結束 %s"
 
@@ -812,64 +832,64 @@ msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
-msgstr ""
+msgstr "中止"
 
 #: lclstrconsts.rsmball
 msgid "&All"
-msgstr ""
+msgstr "全部(&A)"
 
 #: lclstrconsts.rsmbcancel
 msgctxt "lclstrconsts.rsmbcancel"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: lclstrconsts.rsmbclose
 msgid "&Close"
-msgstr ""
+msgstr "關閉(&C)"
 
 #: lclstrconsts.rsmbhelp
 msgid "&Help"
-msgstr ""
+msgstr "幫助(&H)"
 
 #: lclstrconsts.rsmbignore
 msgid "&Ignore"
-msgstr ""
+msgstr "忽略(&I)"
 
 #: lclstrconsts.rsmbno
 msgid "&No"
-msgstr ""
+msgstr "否(&N)"
 
 #: lclstrconsts.rsmbnotoall
 msgid "No to all"
-msgstr ""
+msgstr "全否"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
-msgstr ""
+msgstr "確定(&O)"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "打開(&O)"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
-msgstr ""
+msgstr "重試(&R)"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "儲存(&S)"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "解鎖(&U)"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
-msgstr ""
+msgstr "是(&Y)"
 
 #: lclstrconsts.rsmbyestoall
 msgid "Yes to &All"
-msgstr ""
+msgstr "全是(&A)"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
@@ -890,10 +910,6 @@ msgstr ""
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
-msgstr ""
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
 msgstr ""
 
 #: lclstrconsts.rsmoneygreencolorcaption
@@ -1143,10 +1159,6 @@ msgstr ""
 msgid "Silver"
 msgstr ""
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr ""
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr ""
@@ -1273,7 +1285,8 @@ msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr ""
 
 #: lclstrconsts.sduplicatemenus
@@ -1450,9 +1463,22 @@ msgstr ""
 msgid "Wrong token type: %s expected but %s found"
 msgstr ""
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
@@ -1488,6 +1514,10 @@ msgstr ""
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsname

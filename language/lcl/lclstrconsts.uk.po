@@ -34,8 +34,9 @@ msgid "Unable to find a HTML browser."
 msgstr "Не вдається знайти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-#, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+#, object-pascal-format, fuzzy
+#| msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr "Оглядач HTML не знайдено.%sЗадайте його в меню Засоби -> Параметри -> Довідка -> Параметри довідки"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -175,7 +176,9 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+#, fuzzy
+#| msgid "Can not focus"
+msgid "Cannot focus"
 msgstr "Не можу сфокусуватися"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -473,10 +476,6 @@ msgstr "Неможливо вставити в сітку стовпчики, я
 msgid "Grid index out of range."
 msgstr "Індекс сітки поза межею допустимих значень."
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex не може бути менше GroupIndex для попереднього елемента меню"
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr "Фільтр:"
@@ -545,8 +544,9 @@ msgid "Help"
 msgstr "Довідка"
 
 #: lclstrconsts.rshelpalreadyregistered
-#, object-pascal-format
-msgid "%s: Already registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr "%s: Вже зареєстрований"
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -572,13 +572,15 @@ msgid "Help context %s not found in Database \"%s\"."
 msgstr "Контекст довідки %s не знайдено в базі \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-#, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr "База даних довідки \"%s\" не знайшла програму перегляду для сторінки довідки типу %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, object-pascal-format
-msgid "Help Database \"%s\" not found"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr "Базу даних довідки \"%s\" не знайдено"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -602,8 +604,9 @@ msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Ключове слово довідки \"%s\" не знайдено в базі даних \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
+#, object-pascal-format, fuzzy
+#| msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr "Вузол довідки \"%s\" не має відповідної бази даних"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -612,7 +615,9 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Не знайдено довідки для рядка %d, колонки %d з %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
+#, fuzzy
+#| msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr "Відсутні записи довідки на цю тему"
 
 #: lclstrconsts.rshelpnotfound
@@ -620,8 +625,9 @@ msgid "No help found for this topic"
 msgstr "Для цієї теми не знайдено довідки"
 
 #: lclstrconsts.rshelpnotregistered
-#, object-pascal-format
-msgid "%s: Not registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr "%s: Не зареєстрований"
 
 #: lclstrconsts.rshelpselectorerror
@@ -629,8 +635,9 @@ msgid "Help Selector Error"
 msgstr "Помилка відбірника довідки"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+#, object-pascal-format, fuzzy
+#| msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr "Відсутня програма для перегляду типу довідки типу \"%s\""
 
 #: lclstrconsts.rshelpviewererror
@@ -775,6 +782,10 @@ msgstr "Зелений"
 msgid "List index exceeds bounds (%d)"
 msgstr "Індекс списку поза діапазоном (%d)"
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -806,9 +817,21 @@ msgstr "Виділити &усе"
 msgid "Undo"
 msgstr "Вернути"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
 msgstr "Формат файла:"
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
+msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
@@ -926,10 +949,6 @@ msgstr "Підсічене меню"
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
 msgstr "Текст меню"
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr "  змінений "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1224,10 +1243,6 @@ msgstr ""
 msgid "Silver"
 msgstr "Срібний"
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr "  розмір "
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr "Небесно-синій"
@@ -1354,7 +1369,9 @@ msgid "Yellow"
 msgstr "Жовтий"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format, fuzzy, badformat
+#| msgid "Cannot focus a disabled or invisible window"
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr "Не можна дати фокус вимкненому або невидимому вікну"
 
 #: lclstrconsts.sduplicatemenus
@@ -1531,10 +1548,23 @@ msgstr "Хибний символ маркера: очікувався %s, ал�
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Хибний тип маркера: очікувався %s, але знайдено %s"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
 msgstr "%s байтів"
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format
@@ -1578,6 +1608,10 @@ msgstr "%s кБ"
 #, object-pascal-format
 msgid "%s MB"
 msgstr "%s МБ"
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
+msgstr ""
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"

@@ -25,7 +25,7 @@ msgstr ""
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 #, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -165,7 +165,7 @@ msgid "Cancel"
 msgstr ""
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+msgid "Cannot focus"
 msgstr ""
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -243,23 +243,26 @@ msgid "&Directory"
 msgstr ""
 
 #: lclstrconsts.rsdocopy
+#, fuzzy
 msgctxt "lclstrconsts.rsdocopy"
 msgid "Copy"
-msgstr ""
+msgstr "Αντιγραφή"
 
 #: lclstrconsts.rsdopaste
+#, fuzzy
 msgctxt "lclstrconsts.rsdopaste"
 msgid "Paste"
-msgstr ""
+msgstr "Επικόλληση"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
 msgstr ""
 
 #: lclstrconsts.rseditrecordhint
+#, fuzzy
 msgctxt "lclstrconsts.rseditrecordhint"
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
@@ -457,10 +460,6 @@ msgstr ""
 msgid "Grid index out of range."
 msgstr ""
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr ""
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr ""
@@ -512,7 +511,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpalreadyregistered
 #, object-pascal-format
-msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr ""
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -539,12 +538,12 @@ msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 #, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 #, object-pascal-format
-msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -569,7 +568,7 @@ msgstr ""
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 #, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr ""
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -578,7 +577,7 @@ msgid "No help found for line %d, column %d of %s."
 msgstr ""
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr ""
 
 #: lclstrconsts.rshelpnotfound
@@ -587,7 +586,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpnotregistered
 #, object-pascal-format
-msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr ""
 
 #: lclstrconsts.rshelpselectorerror
@@ -596,7 +595,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 #, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelpviewererror
@@ -741,6 +740,10 @@ msgstr ""
 msgid "List index exceeds bounds (%d)"
 msgstr ""
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -772,12 +775,24 @@ msgstr "Επιλογή Όλων"
 msgid "Undo"
 msgstr "Αναίρεση"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
 msgstr ""
 
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuabout
-#, object-pascal-format
+#, object-pascal-format, fuzzy, badformat
 msgid "About %s"
 msgstr "Πληροφορίες για το ^s"
 
@@ -891,10 +906,6 @@ msgstr ""
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
-msgstr ""
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
 msgstr ""
 
 #: lclstrconsts.rsmoneygreencolorcaption
@@ -1144,10 +1155,6 @@ msgstr ""
 msgid "Silver"
 msgstr ""
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr ""
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr ""
@@ -1274,7 +1281,8 @@ msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr ""
 
 #: lclstrconsts.sduplicatemenus
@@ -1451,9 +1459,22 @@ msgstr ""
 msgid "Wrong token type: %s expected but %s found"
 msgstr ""
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
@@ -1489,6 +1510,10 @@ msgstr ""
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsname

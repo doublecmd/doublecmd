@@ -29,8 +29,9 @@ msgid "Unable to find a HTML browser."
 msgstr "HTML selainta ei löydy."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-#, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+#, object-pascal-format, fuzzy
+#| msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr "HTML selainta ei löydy.%sMäärittele se kohdassa Työkalut -> Asetukset -> Ohje -> Ohjeen asetukset"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -172,7 +173,9 @@ msgid "Cancel"
 msgstr "Peruuta"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+#, fuzzy
+#| msgid "Can not focus"
+msgid "Cannot focus"
 msgstr "Ei voi fokusoida"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -472,10 +475,6 @@ msgstr "Taulukon sarakkeen lisäys ei onnistu, koska siinä ei ole rivejä"
 msgid "Grid index out of range."
 msgstr "Taulukon osoitin sallitun alueen ulkopuolella."
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex ei voi olla pienempi kuin edellisen valikon GroupIndex"
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr "Suodatus:"
@@ -544,8 +543,9 @@ msgid "Help"
 msgstr "Apu"
 
 #: lclstrconsts.rshelpalreadyregistered
-#, object-pascal-format
-msgid "%s: Already registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr "%s: Jo rekisteröity"
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -571,13 +571,15 @@ msgid "Help context %s not found in Database \"%s\"."
 msgstr "Ohjeen viittausta %s ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-#, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr "Ohjetietokanta \"%s\" ei löytänyt katseluohjelmaa %s tyyppiselle ohjesivulle"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, object-pascal-format
-msgid "Help Database \"%s\" not found"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr "Ohjetietokantaa \"%s\" ei löydy"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -601,8 +603,9 @@ msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Ohjeen avainsanaa \"%s\" ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
+#, object-pascal-format, fuzzy
+#| msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr "Ohjeen solmulla \"%s\" ei ole tietokantaa"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -611,7 +614,9 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Riville %d, sarakkeelle %d %s:ssa ei löydy ohjetta."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
+#, fuzzy
+#| msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr "Tälle aiheelle ei ole ohjeita"
 
 #: lclstrconsts.rshelpnotfound
@@ -619,8 +624,9 @@ msgid "No help found for this topic"
 msgstr "Tälle aiheelle ei löydy ohjetta"
 
 #: lclstrconsts.rshelpnotregistered
-#, object-pascal-format
-msgid "%s: Not registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr "%s: Ei rekisteröity"
 
 #: lclstrconsts.rshelpselectorerror
@@ -628,8 +634,9 @@ msgid "Help Selector Error"
 msgstr "Ohjeen valitsijan virhe"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+#, object-pascal-format, fuzzy
+#| msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr "Ohjeen tyypille \"%s\" ei ole katseluohjelmaa"
 
 #: lclstrconsts.rshelpviewererror
@@ -778,6 +785,10 @@ msgstr "Limetti"
 msgid "List index exceeds bounds (%d)"
 msgstr "Luettelon osoitin ylittää rajat (%d)"
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -809,8 +820,20 @@ msgstr "Valitse kaikki"
 msgid "Undo"
 msgstr "Kumoa"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
+msgstr ""
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
@@ -929,10 +952,6 @@ msgstr "Valikon korostus"
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
 msgstr "Valikon teksti"
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr "  muokattu "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1229,10 +1248,6 @@ msgstr ""
 msgid "Silver"
 msgstr "Hopea"
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr "  koko "
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr "Taivaan sininen"
@@ -1359,7 +1374,9 @@ msgid "Yellow"
 msgstr "Keltainen"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format, fuzzy, badformat
+#| msgid "Cannot focus a disabled or invisible window"
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr "Ei voi fokusoida estettyä tai näkymätöntä ikkunaa"
 
 #: lclstrconsts.sduplicatemenus
@@ -1536,10 +1553,23 @@ msgstr "Väärä token symboli: odotettiin %s mutta saatiin %s"
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Väärä token tyyppi: odotettiin %s mutta saatiin %s"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
 msgstr "%s tavua"
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format, fuzzy
@@ -1593,6 +1623,10 @@ msgstr ""
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsname

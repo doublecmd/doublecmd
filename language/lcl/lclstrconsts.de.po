@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-07-30 13:15+0200\n"
+"PO-Revision-Date: 2025-11-27 15:45+0100\n"
 "Last-Translator: Swen Heinig <swen@heinig.email>\n"
 "Language-Team: Deutsch <lazarus@miraclec.com>\n"
-"MIME-Version: 1.0\n"
-"X-Poedit-SourceCharset: utf-8\n"
 "Language: de_DE\n"
-"X-Generator: Poedit 2.1.1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.7\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
@@ -32,8 +32,9 @@ msgid "Unable to find a HTML browser."
 msgstr "Kann den HTML-Browser nicht finden."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-#, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+#, object-pascal-format, fuzzy
+#| msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr "Kein HTML-Browser gefunden.%sBitte legen Sie einen fest unter Werkzeuge -> Einstellungen -> Hilfe -> Hilfeeinstellungen"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -132,10 +133,8 @@ msgid "Backward"
 msgstr "Rückwärts"
 
 #: lclstrconsts.rsbitmaps
-#, fuzzy
-#| msgid "Bitmaps"
 msgid "Bitmap Files"
-msgstr "Bitmaps"
+msgstr "Bitmap-Dateien"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
@@ -175,7 +174,7 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+msgid "Cannot focus"
 msgstr "Kann nicht fokussieren"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -266,7 +265,7 @@ msgstr "Einfügen"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr "Doppeltes Icon-Format"
+msgstr "Doppeltes Icon-Format."
 
 #: lclstrconsts.rseditrecordhint
 msgctxt "lclstrconsts.rseditrecordhint"
@@ -467,7 +466,7 @@ msgstr ""
 
 #: lclstrconsts.rsgridhasnocols
 msgid "Cannot insert rows into a grid when it has no columns"
-msgstr "Kann keine Zeilen in ein Grid einfügen, wenn es keine Spalten hat."
+msgstr "Kann keine Zeilen in ein Grid einfügen, wenn es keine Spalten hat"
 
 #: lclstrconsts.rsgridhasnorows
 msgid "Cannot insert columns into a grid when it has no rows"
@@ -476,10 +475,6 @@ msgstr "Kann keine Spalten in ein Grid einfügen, wenn es keine Zeilen hat"
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
 msgstr "Gitterindex außerhalb des Bereichs."
-
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex darf nicht kleiner als der GroupIndex eines vorherigen Menüeintrags sein"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
@@ -544,15 +539,14 @@ msgid "Call XSynchronize (display, True) after the Xserver connection has been e
 msgstr "--sync                Aufruf von XSynchronize (Display, True) nachdem die XServer-Verbindung zustandegekommen ist. Dies erleichtert das Debugging des X-Protokolls, weil die X-Anfragepufferung abgeschaltet ist und X-Fehler sofort ankommen, nachdem die Anfrage, die den Fehler erzeugt hat, beim X-Server angekommen ist."
 
 #: lclstrconsts.rshelp
-#, fuzzy
 msgctxt "lclstrconsts.rshelp"
 msgid "Help"
 msgstr "Hilfe"
 
 #: lclstrconsts.rshelpalreadyregistered
 #, object-pascal-format
-msgid "%s: Already registered"
-msgstr "%s: Bereits registriert"
+msgid "%s: already registered."
+msgstr "%s: Bereits registriert,"
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
@@ -578,13 +572,13 @@ msgstr "Hilfekontext %s nicht in der Datenbank \"%s\" gefunden."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 #, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
-msgstr "Die Hilfedatenbank \"%s\" fand keinen Betrachter für eine Hilfeseite des Typs %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
+msgstr "Die Hilfedatenbank \"%s\" fand keinen Betrachter für eine Hilfeseite des Typs %s."
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 #, object-pascal-format
-msgid "Help Database \"%s\" not found"
-msgstr "Hilfedatenbank \"%s\" nicht gefunden"
+msgid "Help Database \"%s\" not found."
+msgstr "Hilfedatenbank \"%s\" nicht gefunden."
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
 #, object-pascal-format
@@ -608,8 +602,8 @@ msgstr "Hilfeschlüsselwort \"%s\" nicht in der Datenbank \"%s\" gefunden."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 #, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
-msgstr "Hilfeknoten \"%s\" besitzt keine Hilfedatenbank"
+msgid "Help node \"%s\" has no Help Database."
+msgstr "Hilfeknoten \"%s\" besitzt keine Hilfedatenbank."
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 #, object-pascal-format
@@ -617,8 +611,8 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Keine Hilfe für Zeile %d, Spalte %d von %s gefunden."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
-msgstr "Keine Hilfeeinträge verfügbar"
+msgid "No help entries available for this topic."
+msgstr "Keine Hilfeeinträge verfügbar."
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
@@ -626,8 +620,8 @@ msgstr "Hilfe für dieses Thema nicht gefunden"
 
 #: lclstrconsts.rshelpnotregistered
 #, object-pascal-format
-msgid "%s: Not registered"
-msgstr "%s: Nicht registriert"
+msgid "%s: not registered."
+msgstr "%s: Nicht registriert."
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
@@ -635,7 +629,7 @@ msgstr "Hilfeauswahlfehler"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 #, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr "Es gibt keinen Viewer für den Hilfetyp \"%s\"."
 
 #: lclstrconsts.rshelpviewererror
@@ -663,16 +657,12 @@ msgid "Hot Light"
 msgstr "Kräftig hervorgehoben"
 
 #: lclstrconsts.rsicns
-#, fuzzy
-#| msgid "Mac OS X Icon"
 msgid "macOS Icon Files"
-msgstr "OSX-Icon-Ressource"
+msgstr "macOS-Icon-Dateien"
 
 #: lclstrconsts.rsicon
-#, fuzzy
-#| msgid "Icon"
 msgid "Icon Files"
-msgstr "Symbol"
+msgstr "Symbol-Dateien"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
@@ -768,10 +758,8 @@ msgid "%s is already associated with %s"
 msgstr "%s ist bereits mit %s verbunden"
 
 #: lclstrconsts.rsjpeg
-#, fuzzy
-#| msgid "Joint Picture Expert Group"
 msgid "JPEG Files"
-msgstr "Jpint Picture Expert Group"
+msgstr "Joint Picture Expert Group"
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
@@ -785,6 +773,10 @@ msgstr "Hellgrün"
 #, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "Listenindex überschreitet Grenzen (%d)"
+
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
 
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
@@ -817,8 +809,20 @@ msgstr "Alle wählen"
 msgid "Undo"
 msgstr "Rückgängig"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
+msgstr ""
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
@@ -850,7 +854,7 @@ msgstr "Dienste"
 
 #: lclstrconsts.rsmacosmenushowall
 msgid "Show All"
-msgstr "alle anzeigen"
+msgstr "Alle anzeigen"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -938,10 +942,6 @@ msgstr "Menühervorhebung"
 msgid "Menu Text"
 msgstr "Menütext"
 
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr " geändert "
-
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
 msgstr "\"Geldgrün\""
@@ -1001,22 +1001,16 @@ msgid "Select a date"
 msgstr "Datum auswählen"
 
 #: lclstrconsts.rspixmap
-#, fuzzy
-#| msgid "Pixmap"
 msgid "Pixmap Files"
-msgstr "Pixmap"
+msgstr "Pixmap-Dateien"
 
 #: lclstrconsts.rsportablenetworkgraphic
-#, fuzzy
-#| msgid "Portable Network Graphic"
 msgid "PNG Files"
-msgstr "PNG-Grafik"
+msgstr "PNG-Dateien"
 
 #: lclstrconsts.rsportablepixmap
-#, fuzzy
-#| msgid "Portable PixMap"
 msgid "Portable Pixmap Files"
-msgstr "Portable Pixmap"
+msgstr "Portable Pixmap-Dateien"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
@@ -1201,15 +1195,11 @@ msgstr "Schriftart auswählen"
 
 #: lclstrconsts.rsshowdetails
 msgid "Show details"
-msgstr ""
+msgstr "Details anzeigen"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
 msgstr "Silber"
-
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr "  Größe "
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
@@ -1229,7 +1219,7 @@ msgstr "Text"
 
 #: lclstrconsts.rstga
 msgid "TGA Image Files"
-msgstr ""
+msgstr "TGA-Bilddateien"
 
 #: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
 msgid "The built-in URL is read only. Change the BaseURL instead."
@@ -1262,7 +1252,7 @@ msgstr "Kann Default-Schriftart nicht laden"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
-msgstr "Unbekannter Fehler, bitte melden Sie diesen Bug."
+msgstr "Unbekannter Fehler, bitte melden Sie diesen Bug"
 
 #: lclstrconsts.rsunknownpictureextension
 msgid "Unknown picture extension"
@@ -1274,7 +1264,7 @@ msgstr "Unbekanntes Bildformat"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
-msgstr "Nicht unterstütztes Bitmap-Format"
+msgstr "Nicht unterstütztes Bitmap-Format."
 
 #: lclstrconsts.rsunsupportedclipboardformat
 #, object-pascal-format
@@ -1284,27 +1274,27 @@ msgstr "Nicht unterstütztes Clipboard-Format: %s"
 #: lclstrconsts.rswarningunreleaseddcsdump
 #, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
-msgstr "WARNUNG: Es gibt %d nicht freigegebene DCs. Es folgt ein detaillierter Dump:"
+msgstr " WARNUNG: Es gibt %d nicht freigegebene DCs. Es folgt ein detaillierter Dump:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
 #, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
-msgstr "WARNUNG: Es gibt %d nicht freigegebene GDI-Objekte. Es folgt ein detaillierter Dump:"
+msgstr " WARNUNG: Es gibt %d nicht freigegebene GDI-Objekte. Es folgt ein detaillierter Dump:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 #, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
-msgstr "WARNUNG: Es sind %d Meldungen in der Queue übrig. Sie werden freigegeben"
+msgstr " WARNUNG: Es sind %d Meldungen in der Queue übrig. Sie werden freigegeben"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
 #, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr "WARNUNG: Es sind %d Timerinfo-Strukturen übrig, sie werden freigegeben"
+msgstr " WARNUNG: Es sind %d Timerinfo-Strukturen übrig, sie werden freigegeben"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
 #, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr "WARNUNG: Es sind %s nicht entfernte LM_PAINT/LM_GtkPAINT-Meldungs-Links übrig."
+msgstr " WARNUNG: Es sind %s nicht entfernte LM_PAINT/LM_GtkPAINT-Meldungs-Links übrig."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1339,8 +1329,9 @@ msgid "Yellow"
 msgstr "Gelb"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
-msgstr "Kann abgeschaltetes oder unsichtbares Fenster nicht fokussieren"
+#, object-pascal-format
+msgid "Cannot focus a disabled or invisible window \"%s\""
+msgstr "Kann abgeschaltetes oder unsichtbares Fenster \"%s\" nicht fokussieren"
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1476,7 +1467,7 @@ msgstr "Keine Timer verfügbar"
 #: lclstrconsts.sparentrequired
 #, object-pascal-format
 msgid "Control \"%s\" has no parent window."
-msgstr ""
+msgstr "Steuerelement \"%s\" hat kein übergeordnetes Fenster."
 
 #: lclstrconsts.sparexpected
 #, object-pascal-format
@@ -1504,7 +1495,7 @@ msgstr "Nicht abgeschlossener Byte-Wert"
 
 #: lclstrconsts.sparunterminatedstring
 msgid "Unterminated string"
-msgstr "Nicht abgeschlossene Zeichenkette "
+msgstr "Nicht abgeschlossene Zeichenkette"
 
 #: lclstrconsts.sparwrongtokensymbol
 #, object-pascal-format
@@ -1516,23 +1507,33 @@ msgstr "Falscher Token: %s erwartet, %s gefunden"
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Falscher Token-Typ: %s erwartet, %s gefunden"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr "Attribute"
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
 msgstr "%s Bytes"
 
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr "Ordner"
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsinvalidpath
-#, object-pascal-format, fuzzy
-#| msgid ""
-#| "Invalid pathname:\n"
-#| "\"%s\"\n"
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
 msgstr ""
 "Ungültiger Pfadname:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
 #, object-pascal-format
@@ -1544,17 +1545,14 @@ msgid ""
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidroot
-#, object-pascal-format, fuzzy
-#| msgid ""
-#| "Invalid pathname:\n"
-#| "\"%s\"\n"
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
 msgstr ""
 "Ungültiger Pfadname:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlskb
 #, object-pascal-format
@@ -1565,6 +1563,12 @@ msgstr ""
 #, object-pascal-format
 msgid "%s MB"
 msgstr ""
+
+#: lclstrconsts.sshellctrlsmodificationdate
+#, fuzzy
+#| msgid "Modif.Date"
+msgid "Date modified"
+msgstr "Änderungsdatum"
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"

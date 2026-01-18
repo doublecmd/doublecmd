@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
-"Last-Translator: Maxim Ganetsky <maxkill@mail.ru>\n"
 "Project-Id-Version: lazaruside\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2025-11-28 02:12+0300\n"
+"Last-Translator: Maxim Ganetsky <maxkill@mail.ru>\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-02-19 16:55+0300\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Language: ru\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
@@ -32,8 +32,8 @@ msgstr "Невозможно найти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 #, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr "Браузер HTML не найден.%sЗадайте его в меню Сервис -> Параметры -> Параметры справки"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
+msgstr "Браузер HTML не найден.%sЗадайте его в меню Сервис -> Параметры -> Параметры справки."
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 #, object-pascal-format
@@ -172,8 +172,8 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
-msgstr "Не могу принять фокус"
+msgid "Cannot focus"
+msgstr "Невозможно получить фокус"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
 msgid "Canvas does not allow drawing"
@@ -464,10 +464,6 @@ msgstr "Невозможно вставить столбцы, если отсу�
 msgid "Grid index out of range."
 msgstr "Индекс Grid вне диапазона допустимых значений."
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex не может быть меньше GroupIndex для предыдущего элемента меню"
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr "Фильтр:"
@@ -519,8 +515,8 @@ msgstr "Справка"
 
 #: lclstrconsts.rshelpalreadyregistered
 #, object-pascal-format
-msgid "%s: Already registered"
-msgstr "%s: уже зарегистрирован"
+msgid "%s: already registered."
+msgstr "%s: уже зарегистрирован."
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
@@ -546,13 +542,13 @@ msgstr "Контекст справки %s не найден в базе дан�
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 #, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
-msgstr "База данных справки \"%s\" не нашла программу просмотра для страницы справки типа %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
+msgstr "База данных справки \"%s\" не нашла программу просмотра для страницы справки типа %s."
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 #, object-pascal-format
-msgid "Help Database \"%s\" not found"
-msgstr "База данных справки \"%s\" не найдена"
+msgid "Help Database \"%s\" not found."
+msgstr "База данных справки \"%s\" не найдена."
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
 #, object-pascal-format
@@ -576,8 +572,8 @@ msgstr "Ключевое слово справки \"%s\" не найдено в
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 #, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
-msgstr "Элемент справки \"%s\" не имеет соответствующей базы данных"
+msgid "Help node \"%s\" has no Help Database."
+msgstr "Элемент справки \"%s\" не имеет соответствующей базы данных."
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 #, object-pascal-format
@@ -585,8 +581,8 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Не найдено справки для строки %d, столбца %d из %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
-msgstr "Доступные элементы справки для данной темы отсутствуют"
+msgid "No help entries available for this topic."
+msgstr "Доступные элементы справки для данной темы отсутствуют."
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
@@ -594,8 +590,8 @@ msgstr "Справка для данной темы не найдена"
 
 #: lclstrconsts.rshelpnotregistered
 #, object-pascal-format
-msgid "%s: Not registered"
-msgstr "%s: Не зарегистрирован"
+msgid "%s: not registered."
+msgstr "%s: не зарегистрирован."
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
@@ -603,8 +599,8 @@ msgstr "Ошибка переключателя справки"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 #, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
-msgstr "Отсутствует программа просмотра для типа справки \"%s\""
+msgid "There is no viewer for help type \"%s\"."
+msgstr "Отсутствует программа просмотра для типа справки \"%s\"."
 
 #: lclstrconsts.rshelpviewererror
 msgid "Help Viewer Error"
@@ -748,6 +744,10 @@ msgstr "Зелёный"
 msgid "List index exceeds bounds (%d)"
 msgstr "Индекс списка вне диапазона (%d)"
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -779,9 +779,21 @@ msgstr "Выделить все"
 msgid "Undo"
 msgstr "Отменить"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
 msgstr "Формат файла:"
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
+msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
@@ -899,10 +911,6 @@ msgstr "Выделенный пункт меню"
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
 msgstr "Текст меню"
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr "  изменён "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1151,10 +1159,6 @@ msgstr "Показать подробности"
 msgid "Silver"
 msgstr "Серебристый"
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr "  размер "
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr "Голубой"
@@ -1281,8 +1285,9 @@ msgid "Yellow"
 msgstr "Жёлтый"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
-msgstr "Невозможно перевести фокус в отключённое или невидимое окно"
+#, object-pascal-format
+msgid "Cannot focus a disabled or invisible window \"%s\""
+msgstr "Невозможно перевести фокус в отключённое или невидимое окно \"%s\""
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1458,10 +1463,23 @@ msgstr "Неверный символ лексемы: ожидался %s, но 
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Неверный тип лексемы: ожидался %s, но найден %s"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr "Атрибуты"
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
 msgstr "%s байт"
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr "Каталог"
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr "%s ГБ"
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format
@@ -1505,6 +1523,10 @@ msgstr "%s кБ"
 #, object-pascal-format
 msgid "%s MB"
 msgstr "%s МБ"
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
+msgstr "Дата изменения"
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"

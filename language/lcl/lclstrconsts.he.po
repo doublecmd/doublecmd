@@ -33,7 +33,7 @@ msgstr "לא יכול למצוא דפדפן HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 #, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -176,7 +176,9 @@ msgid "Cancel"
 msgstr "ביטול"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+#, fuzzy
+#| msgid "Can not focus"
+msgid "Cannot focus"
 msgstr "לא יכול להתמקד"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -256,14 +258,16 @@ msgid "&Directory"
 msgstr "תיקייה"
 
 #: lclstrconsts.rsdocopy
+#, fuzzy
 msgctxt "lclstrconsts.rsdocopy"
 msgid "Copy"
-msgstr ""
+msgstr "העתק את הבחירה ללוח הזמני"
 
 #: lclstrconsts.rsdopaste
+#, fuzzy
 msgctxt "lclstrconsts.rsdopaste"
 msgid "Paste"
-msgstr ""
+msgstr "הדבק מלוח הגזירים למיקום הנוכחי"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -482,10 +486,6 @@ msgstr ""
 msgid "Grid index out of range."
 msgstr "אינדקס הרשת מחוץ לתחום"
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "אינדקס הקבוצה לא יכול להיות קטן מאינדקס הקבוצה של פריט התפריט הקודם"
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr "מסנן:"
@@ -555,8 +555,9 @@ msgid "Help"
 msgstr "עזרה"
 
 #: lclstrconsts.rshelpalreadyregistered
-#, object-pascal-format
-msgid "%s: Already registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr "כבר רשום %s:"
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -589,13 +590,13 @@ msgstr "עזרה תלויית הקשר %s לא נמצאה בבסיס הנתונ�
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 #, object-pascal-format, fuzzy, badformat
 #| msgid "Help Database \"%s\" did not found a viewer for a help page of type %s"
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr "בסיס הנתונים של העזרה %s%s%s  לא מצא תוכנה להצגת דף עזרה מסוג %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 #, object-pascal-format, fuzzy, badformat
 #| msgid "Help Database %s%s%s not found"
-msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr "בסיס הנתונים של העזרה %s%s%s  לא נמצא "
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -623,7 +624,7 @@ msgstr "מלת מפתח לעזרה %s%s%s  לא נמצאה בבסיס הנתונ
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 #, object-pascal-format, fuzzy, badformat
 #| msgid "Help node %s%s%s has no Help Database"
-msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr "לצומת  העזרה %s%s% אין בסיס נתונים"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -634,7 +635,7 @@ msgstr "לא נמצאה עזרה לשורה %d, עמודה %d,  של %s."
 #: lclstrconsts.rshelpnohelpnodesavailable
 #, fuzzy
 #| msgid "No help nodes available"
-msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr "אין צומת עזרה זמינה"
 
 #: lclstrconsts.rshelpnotfound
@@ -644,8 +645,9 @@ msgid "No help found for this topic"
 msgstr "עזרה לא נמצאה"
 
 #: lclstrconsts.rshelpnotregistered
-#, object-pascal-format
-msgid "%s: Not registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr "לא רשום %s:"
 
 #: lclstrconsts.rshelpselectorerror
@@ -655,7 +657,7 @@ msgstr "שגיאת בורר העזרה"
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 #, object-pascal-format, fuzzy, badformat
 #| msgid "There is no viewer for help type %s%s%s"
-msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr "אין תוכנה להצגת עזרה מסוג  %s%s%s"
 
 #: lclstrconsts.rshelpviewererror
@@ -806,6 +808,10 @@ msgstr "לימוני"
 msgid "List index exceeds bounds (%d)"
 msgstr "אינדקס הרשימה עובר את הגבול"
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -837,8 +843,20 @@ msgstr "בחר הכל"
 msgid "Undo"
 msgstr "בטל פעולה"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
+msgstr ""
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
@@ -957,10 +975,6 @@ msgstr "הדגשת תפריט"
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
 msgstr "טקסט התפריט"
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr "השתנה"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1259,10 +1273,6 @@ msgstr ""
 msgid "Silver"
 msgstr "כסף"
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr "גודל"
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr "כחול שמיים"
@@ -1391,7 +1401,9 @@ msgid "Yellow"
 msgstr "צהוב"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format, fuzzy, badformat
+#| msgid "Cannot focus a disabled or invisible window"
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr "לא יכול להתמקד בחלון מנוטרל או בלתי נראה"
 
 #: lclstrconsts.sduplicatemenus
@@ -1568,9 +1580,22 @@ msgstr "סוג token שגוי: %s צפוי אבל %s נמצא"
 msgid "Wrong token type: %s expected but %s found"
 msgstr "סוג token שגוי: %s צפוי אבל %s נמצא"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
@@ -1606,6 +1631,10 @@ msgstr ""
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsname

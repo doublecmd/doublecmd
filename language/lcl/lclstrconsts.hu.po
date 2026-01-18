@@ -31,8 +31,9 @@ msgid "Unable to find a HTML browser."
 msgstr "Nem található HTML böngésző."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-#, object-pascal-format
-msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+#, object-pascal-format, fuzzy
+#| msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
 msgstr "Nincs HTML böngésző. %s Meg kell adni egyet: Eszközök -> Beállítások -> Súgó -> Súgó beállítások"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
@@ -174,7 +175,9 @@ msgid "Cancel"
 msgstr "Mégsem"
 
 #: lclstrconsts.rscannotfocus
-msgid "Can not focus"
+#, fuzzy
+#| msgid "Can not focus"
+msgid "Cannot focus"
 msgstr "Nem lehet fókuszálni"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
@@ -476,10 +479,6 @@ msgstr "Nem szúrhatók be oszlopok a rácsba ha nincsenek sorok"
 msgid "Grid index out of range."
 msgstr "A táblaindex kilóg a lehetséges tartományból"
 
-#: lclstrconsts.rsgroupindexcannotbelessthanprevious
-msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex nem lehet kisebb, mint egy előző menü elem GroupIndex-e"
-
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
 msgstr "Szűrő:"
@@ -548,8 +547,9 @@ msgid "Help"
 msgstr "Súgó"
 
 #: lclstrconsts.rshelpalreadyregistered
-#, object-pascal-format
-msgid "%s: Already registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Already registered"
+msgid "%s: already registered."
 msgstr "%s: Már regisztrálva van"
 
 #: lclstrconsts.rshelpcontextnotfound
@@ -575,13 +575,15 @@ msgid "Help context %s not found in Database \"%s\"."
 msgstr "A(z) %s súgó témakör nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-#, object-pascal-format
-msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
 msgstr "A(z) \"%s\" súgó adatbázis nem talált megjelenítőt a(z) %s típusú súgó oldalhoz"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, object-pascal-format
-msgid "Help Database \"%s\" not found"
+#, object-pascal-format, fuzzy
+#| msgid "Help Database \"%s\" not found"
+msgid "Help Database \"%s\" not found."
 msgstr "A(z) \"%s\" súgó adatbázis nem található"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
@@ -605,8 +607,9 @@ msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "A(z) \"%s\" súgó kulcsszó nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, object-pascal-format
-msgid "Help node \"%s\" has no Help Database"
+#, object-pascal-format, fuzzy
+#| msgid "Help node \"%s\" has no Help Database"
+msgid "Help node \"%s\" has no Help Database."
 msgstr "A(z) \"%s\" elemhez nincs súgó adatbázis"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -615,7 +618,9 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Nem található súgó a %d. sorhoz, %d. oszlophoz ebben: %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help entries available for this topic"
+#, fuzzy
+#| msgid "No help entries available for this topic"
+msgid "No help entries available for this topic."
 msgstr "Nincs elérhető súgóbejegyzés ehhez a témához"
 
 #: lclstrconsts.rshelpnotfound
@@ -623,8 +628,9 @@ msgid "No help found for this topic"
 msgstr "Nincs súgó ehhez a témához"
 
 #: lclstrconsts.rshelpnotregistered
-#, object-pascal-format
-msgid "%s: Not registered"
+#, object-pascal-format, fuzzy
+#| msgid "%s: Not registered"
+msgid "%s: not registered."
 msgstr "%s: Nincs regisztrálva"
 
 #: lclstrconsts.rshelpselectorerror
@@ -632,8 +638,9 @@ msgid "Help Selector Error"
 msgstr "Súgó kiválasztó hiba"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#, object-pascal-format
-msgid "There is no viewer for help type \"%s\""
+#, object-pascal-format, fuzzy
+#| msgid "There is no viewer for help type \"%s\""
+msgid "There is no viewer for help type \"%s\"."
 msgstr "Nincs megjelenítő a(z) \"%s\" típusú súgóhoz."
 
 #: lclstrconsts.rshelpviewererror
@@ -784,6 +791,10 @@ msgstr "Élénkzöld"
 msgid "List index exceeds bounds (%d)"
 msgstr "A lista indexe a határon kívül esik (%d)"
 
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr ""
+
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
 msgid "Edit"
@@ -815,8 +826,20 @@ msgstr "Összes kijelölése"
 msgid "Undo"
 msgstr "Visszavonás"
 
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr ""
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr ""
+
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
+msgstr ""
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuabout
@@ -935,10 +958,6 @@ msgstr "Menü kiemelése"
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
 msgstr "Menü szövege"
-
-#: lclstrconsts.rsmodified
-msgid "  modified "
-msgstr " módosítva"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1237,10 +1256,6 @@ msgstr ""
 msgid "Silver"
 msgstr "Ezüst"
 
-#: lclstrconsts.rssize
-msgid "  size "
-msgstr " méret "
-
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
 msgstr "Égszín kék"
@@ -1369,7 +1384,9 @@ msgid "Yellow"
 msgstr "Sárga"
 
 #: lclstrconsts.scannotfocus
-msgid "Cannot focus a disabled or invisible window"
+#, object-pascal-format, fuzzy, badformat
+#| msgid "Cannot focus a disabled or invisible window"
+msgid "Cannot focus a disabled or invisible window \"%s\""
 msgstr "Nem lehet letiltott vagy láthatatlan ablakot előtérbe hozni"
 
 #: lclstrconsts.sduplicatemenus
@@ -1546,10 +1563,23 @@ msgstr "Rossz vezérjel szimbólum: %s az elvárt, de %s található"
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Rossz vezérjel típus: %s az elvárt, de %s található"
 
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr ""
+
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
 msgstr "%s bájt"
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format
@@ -1593,6 +1623,10 @@ msgstr "%s kB"
 #, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
+msgstr ""
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"
