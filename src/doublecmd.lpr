@@ -148,6 +148,7 @@ begin
 {$IF DEFINED(DARWIN)}
   GetMacFormatSettings(DefaultFormatSettings);
   CocoaConfigGlobal.useIcon:= True;
+  CocoaConfigFileDialog.accessoryView.showsFilePackagesSwitch:= True;
   Application.Icon:= nil;
 {$ENDIF}
 
