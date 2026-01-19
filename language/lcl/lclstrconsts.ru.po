@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lazaruside\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-11-28 02:12+0300\n"
+"PO-Revision-Date: 2026-01-18 22:45+0300\n"
 "Last-Translator: Maxim Ganetsky <maxkill@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -746,7 +746,7 @@ msgstr "Индекс списка вне диапазона (%d)"
 
 #: lclstrconsts.rsmacoscolordialogmbpick
 msgid "Pick"
-msgstr ""
+msgstr "Выбрать"
 
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
@@ -781,11 +781,11 @@ msgstr "Отменить"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtips
 msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
-msgstr ""
+msgstr "Представлять файлы пакетов (например, *.app) в качестве каталогов для доступа к их содержимому"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtitle
 msgid "Show File Package Contents"
-msgstr ""
+msgstr "Показывать содержимое файлов пакетов"
 
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
@@ -793,7 +793,7 @@ msgstr "Формат файла:"
 
 #: lclstrconsts.rsmacosfontdialogmbselect
 msgid "Select"
-msgstr ""
+msgstr "Выбрать"
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
