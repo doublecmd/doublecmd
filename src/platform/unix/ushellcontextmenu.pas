@@ -449,6 +449,7 @@ begin
   appDialog.DefaultExt:= 'app';
   appDialog.InitialDir:= '/Applications';
   appDialog.Filter:= rsOpenWithMacOSFilter;
+  appDialog.OptionsEx:= [ofShowsFilePackagesSwitch];
   if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
     Result:= appDialog.FileName;
   end;
