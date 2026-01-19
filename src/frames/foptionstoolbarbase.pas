@@ -1044,6 +1044,7 @@ procedure TfrmOptionsToolbarBase.btnOpenFileClick(Sender: TObject);
 begin
   OpenDialog.DefaultExt:= EmptyStr;
   OpenDialog.Filter:= EmptyStr;
+  OpenDialog.OptionsEx:= [ofShowsFilePackagesSwitch];
   if edtExternalCommand.Text<>'' then OpenDialog.InitialDir:=ExtractFilePath(edtExternalCommand.Text);
   if OpenDialog.Execute then
   begin

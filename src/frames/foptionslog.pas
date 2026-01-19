@@ -73,7 +73,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, uGlobs, uLng, uSpecialDir;
+  Dialogs, fMain, uGlobs, uLng, uSpecialDir;
 
 { TfrmOptionsLog }
 
@@ -127,6 +127,7 @@ begin
   cbLogFile.Checked := gLogFile;
   cbLogFileChange(cbLogFile);
   fneLogFileName.FileName := gLogFileName;
+  fneLogFileName.DialogOptionsEx := [ofAllowsFilePackagesContents];
 
   cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
   cbLogDelete.Checked := (log_delete in gLogOptions);

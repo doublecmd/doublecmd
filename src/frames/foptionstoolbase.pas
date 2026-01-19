@@ -70,7 +70,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uSpecialDir;
+  uDCUtils, uSpecialDir, Dialogs;
 
 { TfrmOptionsToolBase }
 
@@ -140,6 +140,7 @@ begin
 
   cbToolsUseExternalProgram.Checked := FExternalToolOptions.Enabled;
   fneToolsPath.FileName             := FExternalToolOptions.Path;
+  fneToolsPath.DialogOptionsEx      := [ofShowsFilePackagesSwitch] ;
   edtToolsParameters.Text           := FExternalToolOptions.Parameters;
   cbToolsRunInTerminal.Checked      := FExternalToolOptions.RunInTerminal;
   cbToolsKeepTerminalOpen.Checked   := FExternalToolOptions.KeepTerminalOpen;

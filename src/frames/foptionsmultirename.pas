@@ -68,7 +68,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Controls,
+  Controls, Dialogs,
 
   //DC
   uShowMsg, uShowForm, uDCUtils, uSpecialDir, DCStrUtils, uGlobs, uLng;
@@ -110,6 +110,7 @@ begin
     mrsrlAppendSameLog: rbRenamingLogAppendSameFile.Checked := True;
   end;
   fneMulRenLogFilename.FileName := gMulRenLogFilename;
+  fneMulRenLogFilename.DialogOptionsEx := [ofAllowsFilePackagesContents];
   ckbDailyIndividualDirMultRenLog.Checked := gMultRenDailyIndividualDirLog;
   ckbFilenameWithFullPathInLog.Checked := gMulRenFilenameWithFullPathInLog;
 

@@ -492,6 +492,7 @@ procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
 begin
   dmComData.OpenDialog.FileName:= edtFileNameLeft.Text;
   dmComData.OpenDialog.Filter:= EmptyStr;
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
   if dmComData.OpenDialog.Execute then
   begin
     edtFileNameLeft.Text:= dmComData.OpenDialog.FileName;
@@ -503,6 +504,7 @@ procedure TfrmDiffer.actOpenRightExecute(Sender: TObject);
 begin
   dmComData.OpenDialog.FileName:= edtFileNameRight.Text;
   dmComData.OpenDialog.Filter:= EmptyStr;
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
   if dmComData.OpenDialog.Execute then
   begin
     edtFileNameRight.Text:= dmComData.OpenDialog.FileName;
@@ -545,6 +547,8 @@ end;
 procedure TfrmDiffer.actSaveLeftAsExecute(Sender: TObject);
 begin
   dmComData.SaveDialog.FileName:= edtFileNameLeft.FileName;
+  dmComData.SaveDialog.Filter:= EmptyStr;
+  dmComData.SaveDialog.OptionsEx:= [ofAllowsFilePackagesContents];
   if dmComData.SaveDialog.Execute then
   begin
     PushPop(FElevate);
@@ -560,6 +564,8 @@ end;
 procedure TfrmDiffer.actSaveRightAsExecute(Sender: TObject);
 begin
   dmComData.SaveDialog.FileName:= edtFileNameRight.FileName;
+  dmComData.SaveDialog.Filter:= EmptyStr;
+  dmComData.SaveDialog.OptionsEx:= [ofAllowsFilePackagesContents];
   if dmComData.SaveDialog.Execute then
   begin
     PushPop(FElevate);

@@ -325,6 +325,8 @@ begin
   nbTweakAll.ShowTabs := False;
   nbTweakAll.TabStop := True;
   {$endif}
+  fnePlugin1.DialogOptionsEx:= [ofAllowsFilePackagesContents];
+  fnePlugin2.DialogOptionsEx:= [ofAllowsFilePackagesContents];
 end;
 
 procedure TfrmTweakPlugin.btnDefaultClick(Sender: TObject);
