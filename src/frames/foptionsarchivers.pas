@@ -830,6 +830,7 @@ procedure TfrmOptionsArchivers.btnArchiverSelectFileArchiverClick(Sender: TObjec
 begin
   OpenArchiverDialog.DefaultExt := '*.*';
   OpenArchiverDialog.FilterIndex := 2;
+  OpenArchiverDialog.OptionsEx := [ofShowsFilePackagesSwitch];
   OpenArchiverDialog.Title := rsOptArchiverArchiver;
   if OpenArchiverDialog.Execute then
   begin

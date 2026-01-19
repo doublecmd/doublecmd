@@ -211,6 +211,8 @@ begin
   FUpdatingControls := False;
   btnIconSelectFilename.Hint := sbtnIcon.Hint;
   OpenDialog.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe;*.com;*.bat', rsFilterAnyFiles, AllFilesMask]);
+  fneCommand.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+  deStartPath.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
 
   // The following section is to help to speed up the the user with keyboard to pass to a section to another.
   // Each TGroupBox has their caption with 1, 2, 3... with underscore under each digit.
