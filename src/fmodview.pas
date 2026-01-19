@@ -98,6 +98,7 @@ end;
 procedure TfrmModView.FormCreate(Sender: TObject);
 begin
   ImageList.GetBitmap(0, btnProportion.Glyph);
+  sddCopyMoveFile.OptionsEx:= [ofAllowsFilePackagesContents];
 end;
 
 procedure TfrmModView.FormKeyPress(Sender: TObject; var Key: char);

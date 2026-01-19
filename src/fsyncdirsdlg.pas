@@ -2046,10 +2046,14 @@ begin
   FFileSourceR := FileView2.FileSource;
   FAddressL := FileView1.CurrentAddress;
   FAddressR := FileView2.CurrentAddress;
-  with FileView1 do
+  with FileView1 do begin
     edPath1.Text := FAddressL + CurrentPath;
-  with FileView2 do
+    edPath1.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+  end;
+  with FileView2 do begin
     edPath2.Text := FAddressR + CurrentPath;
+    edPath2.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+  end;
   RecalcHeaderCols;
   MainDrawGrid.DoubleBuffered := True;
   MainDrawGrid.Font.Bold := True;

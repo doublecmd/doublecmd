@@ -408,8 +408,11 @@ uses
   DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData,
   uLocalFileSource, uWcxArchiveFileSource, uSearchResultFileSource,
   uFileSourceUtil, uArchiveFileSourceUtil
-{$IFDEF DARKWIN}
+{$IFDEF DARkWIN}
   , uDarkStyle
+{$ENDIF}
+{$IFDEF DARWIN}
+  , CocoaConfig
 {$ENDIF}
   ;
 
@@ -1169,8 +1172,14 @@ begin
   S := cmbFindPathStart.Text;
   AFolder:= ExtractFilePath(ExcludeTrailingBackslash(S));
   if not mbDirectoryExists(AFolder) then AFolder := EmptyStr;
+  {$IFDEF DARWIN}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
+  {$ENDIF}
   if SelectDirectory(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
     cmbFindPathStart.Text := S;
+  {$IFDEF DARWIN}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
+  {$ENDIF}
 end;
 
 { TfrmFindDlg.btnNewSearchKeyDown }

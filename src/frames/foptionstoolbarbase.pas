@@ -283,6 +283,9 @@ uses
   {$IFDEF MSWINDOWS}
   uTotalCommander,
   {$ENDIF}
+  {$IFDEF DARWIN}
+  CocoaConfig,
+  {$ENDIF}
   uVariableMenuSupport, uComponentsSignature, fEditSearch, fMainCommandsDlg,
   uFileProcs, uDebug, DCOSUtils, uShowMsg, DCStrUtils, uLng, uOSForms, uDCUtils,
   uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager,
@@ -1057,8 +1060,14 @@ var
 begin
   MaybeResultingOutputPath := edtStartPath.Text;
   if MaybeResultingOutputPath = '' then MaybeResultingOutputPath := frmMain.ActiveFrame.CurrentPath;
+  {$IFDEF DARWIN}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
+  {$ENDIF}
   if SelectDirectory(rsSelectDir, MaybeResultingOutputPath, MaybeResultingOutputPath, False) then
     edtStartPath.Text := GetToolbarFilenameToSave(tpmeStartingPath, MaybeResultingOutputPath);
+  {$IFDEF DARWIN}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
+  {$ENDIF}
 end;
 
 { TfrmOptionsToolbarBase.btnSuggestionTooltipClick }
