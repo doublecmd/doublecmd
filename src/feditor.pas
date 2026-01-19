@@ -1041,7 +1041,9 @@ begin
   FormCloseQuery(Self, CanClose);
   if not CanClose then Exit;
   dmComData.OpenDialog.Filter:= EmptyStr;
+{$if lcl_fullversion >= 4990000}
   dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if not dmComData.OpenDialog.Execute then Exit;
   if OpenFile(dmComData.OpenDialog.FileName) then
     UpdateStatus;
@@ -1070,7 +1072,9 @@ var
 begin
   dmComData.SaveDialog.FileName := FileName;
   dmComData.SaveDialog.Filter:= EmptyStr; // rewrite for highlighter
+{$if lcl_fullversion >= 4990000}
   dmComData.SaveDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if not dmComData.SaveDialog.Execute then
     Exit;
 

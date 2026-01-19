@@ -239,7 +239,7 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  SysConst, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
+  LCLVersion, SysConst, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
 
 {$R *.lfm}
 
@@ -2048,11 +2048,15 @@ begin
   FAddressR := FileView2.CurrentAddress;
   with FileView1 do begin
     edPath1.Text := FAddressL + CurrentPath;
+{$if lcl_fullversion >= 4990000}
     edPath1.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+{$endif}
   end;
   with FileView2 do begin
     edPath2.Text := FAddressR + CurrentPath;
+{$if lcl_fullversion >= 4990000}
     edPath2.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+{$endif}
   end;
   RecalcHeaderCols;
   MainDrawGrid.DoubleBuffered := True;

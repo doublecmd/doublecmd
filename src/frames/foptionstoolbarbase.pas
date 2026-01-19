@@ -1044,7 +1044,9 @@ procedure TfrmOptionsToolbarBase.btnOpenFileClick(Sender: TObject);
 begin
   OpenDialog.DefaultExt:= EmptyStr;
   OpenDialog.Filter:= EmptyStr;
+{$if lcl_fullversion >= 4990000}
   OpenDialog.OptionsEx:= [ofShowsFilePackagesSwitch];
+{$endif}
   if edtExternalCommand.Text<>'' then OpenDialog.InitialDir:=ExtractFilePath(edtExternalCommand.Text);
   if OpenDialog.Execute then
   begin

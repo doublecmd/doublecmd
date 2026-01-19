@@ -321,12 +321,10 @@ end;
 
 procedure TfrmTweakPlugin.FormCreate(Sender: TObject);
 begin
-  {$if not declared(lcl_fullversion) or (lcl_fullversion < 093100)}
-  nbTweakAll.ShowTabs := False;
-  nbTweakAll.TabStop := True;
-  {$endif}
+{$if lcl_fullversion >= 4990000}
   fnePlugin1.DialogOptionsEx:= [ofAllowsFilePackagesContents];
   fnePlugin2.DialogOptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
 end;
 
 procedure TfrmTweakPlugin.btnDefaultClick(Sender: TObject);

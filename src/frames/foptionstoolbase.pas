@@ -70,6 +70,7 @@ implementation
 {$R *.lfm}
 
 uses
+  LCLVersion,
   uDCUtils, uSpecialDir, Dialogs;
 
 { TfrmOptionsToolBase }
@@ -140,7 +141,9 @@ begin
 
   cbToolsUseExternalProgram.Checked := FExternalToolOptions.Enabled;
   fneToolsPath.FileName             := FExternalToolOptions.Path;
+{$if lcl_fullversion >= 4990000}
   fneToolsPath.DialogOptionsEx      := [ofShowsFilePackagesSwitch] ;
+{$endif}
   edtToolsParameters.Text           := FExternalToolOptions.Parameters;
   cbToolsRunInTerminal.Checked      := FExternalToolOptions.RunInTerminal;
   cbToolsKeepTerminalOpen.Checked   := FExternalToolOptions.KeepTerminalOpen;

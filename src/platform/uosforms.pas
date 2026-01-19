@@ -129,7 +129,7 @@ implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Dialogs, Graphics, InterfaceBase, WSForms, LCLIntf,
-  fMain, uConnectionManager, uShowMsg, uLng, uDCUtils, uDebug
+  LCLVersion, fMain, uConnectionManager, uShowMsg, uLng, uDCUtils, uDebug
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
@@ -965,7 +965,9 @@ begin
     begin
       opdDialog := TOpenPictureDialog.Create(Owner);
       opdDialog.InitialDir:=ExtractFileDir(sFileName);
+{$if lcl_fullversion >= 4990000}
       opdDialog.OptionsEx:= [ofShowsFilePackagesSwitch];
+{$endif}
 {$IFDEF MSWINDOWS}
       opdDialog.Filter:= sFilter;
 {$ENDIF}

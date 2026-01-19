@@ -75,7 +75,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  LCLVersion, uGlobs;
 
 procedure TfrmModView.btnProportionClick(Sender: TObject);
 begin
@@ -98,7 +98,9 @@ end;
 procedure TfrmModView.FormCreate(Sender: TObject);
 begin
   ImageList.GetBitmap(0, btnProportion.Glyph);
+{$if lcl_fullversion >= 4990000}
   sddCopyMoveFile.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
 end;
 
 procedure TfrmModView.FormKeyPress(Sender: TObject; var Key: char);

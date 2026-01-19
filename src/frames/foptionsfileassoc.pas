@@ -191,7 +191,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, Math, LCLType, LazUTF8,
+  LCLProc, Math, LCLType, LazUTF8, LCLVersion,
 
   //DC
   uVariableMenuSupport, DCStrUtils, uOSForms, fMain, uFile, uPixMapManager,
@@ -211,8 +211,10 @@ begin
   FUpdatingControls := False;
   btnIconSelectFilename.Hint := sbtnIcon.Hint;
   OpenDialog.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe;*.com;*.bat', rsFilterAnyFiles, AllFilesMask]);
+{$if lcl_fullversion >= 4990000}
   fneCommand.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
   deStartPath.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
+{$endif}
 
   // The following section is to help to speed up the the user with keyboard to pass to a section to another.
   // Each TGroupBox has their caption with 1, 2, 3... with underscore under each digit.

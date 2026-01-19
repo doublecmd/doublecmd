@@ -71,7 +71,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Controls, Forms, Dialogs,
+  Controls, Forms, Dialogs, LCLVersion,
 
   //DC
   uShowMsg, fOptionsPluginsBase, uDebug, lua, uWDXModule,
@@ -85,7 +85,9 @@ uses
 procedure TfrmOptionsPluginsGroup.Init;
 begin
   fneLuaLibraryFilename.DialogTitle := rsOptPluginsSelectLuaLibrary;
+{$if lcl_fullversion >= 4990000}
   fneLuaLibraryFilename.DialogOptionsEx := [ofAllowsFilePackagesContents];
+{$endif}
   ParseLineToList(rsPluginFilenameStyleList, cbPluginFilenameStyle.Items);
   {$IF DEFINED(MSWINDOWS)}
   fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll', rsFilterAnyFiles, AllFilesMask]);
@@ -106,7 +108,9 @@ begin
   cbPluginFilenameStyle.ItemIndex := integer(gPluginFilenameStyle);
   cbPluginFilenameStyleChange(cbPluginFilenameStyle);
   dePathToBeRelativeTo.Text := gPluginPathToBeRelativeTo;
+{$if lcl_fullversion >= 4990000}
   dePathToBeRelativeTo.DialogOptionsEx := [ofAllowsFilePackagesContents];
+{$endif}
   fneLuaLibraryFilename.FileName := gLuaLib;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathToBeRelativeToHelper, mp_PATHHELPER, nil);
 end;

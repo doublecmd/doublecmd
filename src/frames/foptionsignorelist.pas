@@ -60,6 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
+  LCLVersion,
   Controls, Dialogs, uGlobs, uFile, uLng, fMain, uSpecialDir;
 
 { TfrmOptionsIgnoreList }
@@ -123,7 +124,9 @@ procedure TfrmOptionsIgnoreList.Load;
 begin
   chkIgnoreEnable.Checked:= gIgnoreListFileEnabled;
   fneSaveIn.FileName:= gIgnoreListFile;
+{$if lcl_fullversion >= 4990000}
   fneSaveIn.DialogOptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   memIgnoreList.Lines.Assign(glsIgnoreList);
   chkIgnoreEnableChange(chkIgnoreEnable);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
