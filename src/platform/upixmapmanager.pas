@@ -1174,7 +1174,6 @@ begin
   image:= TDarwinImageUtil.getBestFromFileWithSize( filename, size );
   if Assigned(image) then
     Result:= TDarwinImageUtil.toBitmap( image );
-  image.release;
 end;
 
 function TPixMapManager.CheckAddFileUniqueIcon(AFullPath: String;
@@ -1201,7 +1200,6 @@ begin
 
     image:= TDarwinImageUtil.getBestWithSize( image, AIconSize );
     bmpBitmap:= TDarwinImageUtil.toBitmap(image);
-    image.release;
 
     fileIndex := FPixmapsFileNames.Find(key);
     if fileIndex >= 0 then begin

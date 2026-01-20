@@ -99,7 +99,6 @@ begin
 
     image:= TDarwinImageUtil.getBestWithSize( app.icon, self.appsImageList.Width );
     icon:= TDarwinImageUtil.toBitmap( image );
-    image.release;
     item.ImageIndex:= self.appsImageList.Count;
     self.appsImageList.Add( icon, nil );
   end;

@@ -111,6 +111,7 @@ begin
   bestImageRep:= srcImage.bestRepresentationForRect_context_hints( bestRect, nil, nil );
 
   bestImage:= NSImage.Alloc.InitWithSize( bestImageRep.size );
+  bestImage.autorelease;
   bestImage.AddRepresentation( bestImageRep );
 
   Result := bestImage;
