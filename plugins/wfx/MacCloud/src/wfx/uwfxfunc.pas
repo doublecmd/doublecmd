@@ -472,6 +472,11 @@ var
   begin
     Result:= EmptyStr;
     utf8Path:= TStringUtil.widecharsToString( RemoteName );
+    if utf8Path = PathDelim then begin
+      Result:= WFXMacCloudPlugin.pluginPath + 'MacCloud.ico';
+      Exit;
+    end;
+
     parser:= TWFXPathParser.Create( utf8Path );
     if parser.driverPath = EmptyStr then begin
       if parser.connectionName = rsAddNewConnection then
