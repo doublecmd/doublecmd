@@ -27,7 +27,10 @@ type
       const size:Integer ): NSImage;
     class function getBestFromFileWithSize(
       const path: String;
-      const size:Integer ): NSImage;
+      const size: Integer ): NSImage;
+    class function getBitmapForExt(
+      const ext: String;
+      const size: Integer ): TBitmap;
   end;
 
 implementation
@@ -75,7 +78,8 @@ var
   bitmap: TBitmap;
 begin
   Result:= nil;
-  if image=nil then exit;
+  if image = nil then
+    Exit;
 
   try
     nsbitmap:= NSBitmapImageRep.imageRepWithData( image.TIFFRepresentation );
@@ -126,6 +130,19 @@ begin
   srcImage:= NSImage.Alloc.initByReferencingFile( StringToNSString(path) );
   Result:= TDarwinImageUtil.getBestWithSize( srcImage, size );
   srcImage.release;
+end;
+
+class function TDarwinImageUtil.getBitmapForExt(
+  const ext: String;
+  const size: Integer ): TBitmap;
+var
+  fileType: NSString;
+  image: NSImage;
+begin
+  fileType:= StringToNSString( ext );
+  image:= NSWorkspace.sharedWorkspace.iconForFileType( fileType );
+  image:= TDarwinImageUtil.getBestWithSize( image, size );
+  Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 end.

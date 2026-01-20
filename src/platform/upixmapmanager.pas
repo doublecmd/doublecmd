@@ -1170,8 +1170,7 @@ var
 begin
   Result:= nil;
   image:= TDarwinImageUtil.getBestFromFileWithSize( filename, size );
-  if Assigned(image) then
-    Result:= TDarwinImageUtil.toBitmap( image );
+  Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 function TPixMapManager.CheckAddFileUniqueIcon(AFullPath: String;
@@ -1445,14 +1444,12 @@ end;
 
 function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
 var
-  image: NSImage;
-  bmBitmap: TBitmap;
+  bitmap: TBitmap;
 begin
   Result:= -1;
-  image:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
-  image:= TDarwinImageUtil.getBestWithSize( image, AIconSize );
-  bmBitmap:= TDarwinImageUtil.toBitmap( image );
-  Result:= FPixmapList.Add(bmBitmap);
+  bitmap:= TDarwinImageUtil.getBitmapForExt( AFileExt, AIconSize );
+  if Assigned(bitmap) then
+    Result:= FPixmapList.Add( bitmap );
 end;
 {$ENDIF}
 
