@@ -22,6 +22,7 @@ type
     class function invertColor( const sourceImage: NSImage ): NSImage;
     class function toPNGData( const data: NSData ): NSData;
     class function toBitmap( const image: NSImage ): TBitmap;
+    class function toNSImage( const bitmap: TBitmap ): NSImage;
     class function getBestWithSize(
       const srcImage: NSImage;
       const size:Integer ): NSImage;
@@ -90,6 +91,30 @@ begin
     bitmap:= TBitmap.Create;
     bitmap.Assign( tempBitmap );
     Result:= bitmap;
+  finally
+    FreeAndNil(tempBitmap);
+    FreeAndNil(tempStream);
+  end;
+end;
+
+class function TDarwinImageUtil.toNSImage(const bitmap: TBitmap): NSImage;
+var
+  tempBitmap: TPortableNetworkGraphic;
+  tempStream: TMemoryStream;
+  tempData: NSData;
+begin
+  Result:= nil;
+  if bitmap = nil then
+    Exit;
+
+  try
+    tempBitmap:= TPortableNetworkGraphic.Create;
+    tempBitmap.Assign( bitmap );
+    tempStream:= TMemoryStream.Create;
+    tempBitmap.SaveToStream( tempStream );
+    tempData:= NSData.dataWithBytes_length( tempStream.Memory, tempStream.Size );
+    Result:= NSImage.alloc.initWithData( tempData );
+    Result.autorelease;
   finally
     FreeAndNil(tempBitmap);
     FreeAndNil(tempStream);
