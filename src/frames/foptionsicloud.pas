@@ -7,9 +7,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ComCtrls, Graphics,
-  fOptionsFrame, uPixMapManager,
-  fMain, uFileSystemFileSource, uFileViewNotebook,
-  uiCloudDrive, uiCloudDriveConfig, uiCloudDriveUtil;
+  fOptionsFrame,
+  fMain, uFileSource, uFileSystemFileSource, uFileViewNotebook,
+  uiCloudDrive, uiCloudDriveConfig, uiCloudDriveUtil,
+  uDarwinImage,
+  CocoaAll;
 
 type
 
@@ -39,7 +41,7 @@ implementation
 
 procedure TfrmOptionsiCloud.appsListViewDblClick(Sender: TObject);
 var
-  fs: IFileSystemFileSource;
+  fs: IFileSource;
   path: String;
   notebook: TFileViewNotebook;
   newPage: TFileViewPage;
@@ -79,6 +81,7 @@ var
   app: TiCloudApp;
   item: TListItem;
   icon: TBitmap;
+  image: NSImage;
 begin
   inherited Load;
   self.apps:= iCloudDriveUtil.createAllApps;
@@ -94,8 +97,8 @@ begin
     if app.icon = nil then
       continue;
 
-    icon:= uPixMapManager.NSImageToTBitmap(
-      getBestNSImageWithSize(app.icon, self.appsImageList.Width) );
+    image:= TDarwinImageUtil.getBestWithSize( app.icon, self.appsImageList.Width );
+    icon:= TDarwinImageUtil.toBitmap( image );
     item.ImageIndex:= self.appsImageList.Count;
     self.appsImageList.Add( icon, nil );
   end;
