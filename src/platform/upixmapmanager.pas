@@ -56,7 +56,8 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF DEFINED(DARWIN)}
-    , CocoaAll, MacOSAll, CocoaUtils, uDarwinUtil, uDarwinFile
+    , CocoaAll, MacOSAll
+    , uDarwinImage, uDarwinUtil, uDarwinFile
     {$ELSEIF NOT DEFINED(HAIKU)}
     , Math, Contnrs, uGio, uXdg
       {$IFDEF GTK2_FIX}
@@ -385,11 +386,6 @@ procedure AssignRetinaBitmapForControl(
   const imageControl: TCustomImage;
   const imageSize: Integer;
   bitmap: Graphics.TBitmap);
-
-{$IF DEFINED(DARWIN)}
-function NSImageToTBitmap( const image:NSImage ): TBitmap;
-function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
-{$ENDIF}
 
 implementation
 
@@ -1170,78 +1166,15 @@ end;
 
 {$ELSEIF DEFINED(DARWIN)}
 
-function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
-var
-  bestRect: NSRect;
-  bestImageRep: NSImageRep;
-  bestImage: NSImage;
-begin
-  Result := nil;
-  if srcImage=nil then exit;
-
-  bestRect.origin.x := 0;
-  bestRect.origin.y := 0;
-  bestRect.size.width := size;
-  bestRect.size.height := size;
-  bestImageRep:= srcImage.bestRepresentationForRect_context_hints( bestRect, nil, nil );
-
-  bestImage:= NSImage.Alloc.InitWithSize( bestImageRep.size );
-  bestImage.AddRepresentation( bestImageRep );
-
-  Result := bestImage;
-end;
-
-function getImageFileBestNSImage( const filename:NSString; const size:Integer ): NSImage;
-var
-  srcImage: NSImage;
-begin
-  Result:= nil;
-  try
-    srcImage:= NSImage.Alloc.initByReferencingFile( filename );
-    Result:= getBestNSImageWithSize( srcImage, size );
-  finally
-    if Assigned(srcImage) then srcImage.release;
-  end;
-end;
-
-function NSImageToTBitmap( const image:NSImage ): TBitmap;
-var
-  nsbitmap: NSBitmapImageRep;
-  tempData: NSData;
-  tempStream: TBlobStream = nil;
-  tempBitmap: TPortableNetworkGraphic = nil;
-  bitmap: TBitmap;
-begin
-  Result:= nil;
-  if image=nil then exit;
-
-  try
-    nsbitmap:= NSBitmapImageRep.imageRepWithData( image.TIFFRepresentation );
-    tempData:= nsbitmap.representationUsingType_properties( NSPNGFileType, nil );
-    tempStream:= TBlobStream.Create( tempData.Bytes, tempData.Length );
-    tempBitmap:= TPortableNetworkGraphic.Create;
-    tempBitmap.LoadFromStream( tempStream );
-    bitmap:= TBitmap.Create;
-    bitmap.Assign( tempBitmap );
-    Result:= bitmap;
-  finally
-    FreeAndNil(tempBitmap);
-    FreeAndNil(tempStream);
-  end;
-end;
-
 function TPixMapManager.LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
 var
   image: NSImage;
 begin
   Result:= nil;
-  image:= nil;
-  try
-    image:= getImageFileBestNSImage( StringToNSString(filename), size );
-    if Assigned(image) then Result:= NSImageToTBitmap( image );
-  finally
-    if Assigned(image) then image.release;
-  end;
+  image:= TDarwinImageUtil.getBestFromFileWithSize( filename, size );
+  if Assigned(image) then
+    Result:= TDarwinImageUtil.toBitmap( image );
+  image.release;
 end;
 
 function TPixMapManager.CheckAddFileUniqueIcon(AFullPath: String;
@@ -1266,8 +1199,8 @@ begin
     if image = nil then
       Exit;
 
-    image:= getBestNSImageWithSize(image, AIconSize);
-    bmpBitmap:= NSImageToTBitmap(image);
+    image:= TDarwinImageUtil.getBestWithSize( image, AIconSize );
+    bmpBitmap:= TDarwinImageUtil.toBitmap(image);
     image.release;
 
     fileIndex := FPixmapsFileNames.Find(key);
