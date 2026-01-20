@@ -128,9 +128,7 @@ type
     FiEmblemOffline: PtrInt;
     FiShortcutIconID: PtrInt;
     FOneDrivePath: TStringList;
-    {$ELSEIF DEFINED(DARWIN)}
-    FUseSystemTheme: Boolean;
-    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
+    {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     {en
        Maps file extension to MIME icon name(s).
     }
@@ -1447,58 +1445,14 @@ end;
 
 function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
 var
-  I: Integer;
-  nData: NSData;
-  nImage: NSImage;
-  bestRect: NSRect;
-  nRepresentations: NSArray;
-  nImageRep: NSImageRep;
-  WorkStream: TBlobStream;
-  tfBitmap: TTiffImage;
+  image: NSImage;
   bmBitmap: TBitmap;
 begin
   Result:= -1;
-  if not FUseSystemTheme then Exit;
-  nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
-  // Try to find best representation for requested icon size
-  bestRect.origin.x:= 0;
-  bestRect.origin.y:= 0;
-  bestRect.size.width:= AIconSize;
-  bestRect.size.height:= AIconSize;
-  nImageRep:= nImage.bestRepresentationForRect_context_hints(bestRect, nil, nil);
-  if Assigned(nImageRep) then
-  begin
-    nImage:= NSImage.Alloc.InitWithSize(nImageRep.Size);
-    nImage.AddRepresentation(nImageRep);
-  end
-  // Try old method
-  else begin
-    nRepresentations:= nImage.Representations;
-    for I:= nRepresentations.Count - 1 downto 0 do
-    begin
-      nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
-      if (AIconSize <> nImageRep.Size.Width) then
-        nImage.removeRepresentation(nImageRep);
-    end;
-    if nImage.Representations.Count = 0 then Exit;
-  end;
-  nData:= nImage.TIFFRepresentation;
-  tfBitmap:= TTiffImage.Create;
-  WorkStream:= TBlobStream.Create(nData.Bytes, nData.Length);
-  try
-    tfBitmap.LoadFromStream(WorkStream);
-    bmBitmap:= TBitmap.Create;
-    try
-      bmBitmap.Assign(tfBitmap);
-      Result:= FPixmapList.Add(bmBitmap);
-    except
-      bmBitmap.Free;
-    end;
-  finally
-    tfBitmap.Free;
-    nImage.Release;
-    WorkStream.Free;
-  end;
+  image:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
+  image:= TDarwinImageUtil.getBestWithSize( image, AIconSize );
+  bmBitmap:= TDarwinImageUtil.toBitmap( image );
+  Result:= FPixmapList.Add(bmBitmap);
 end;
 {$ENDIF}
 
@@ -1654,9 +1608,7 @@ begin
   FPixmapsFileNames := TStringHashListUtf8.Create(True);
   FPixmapList := TFPList.Create;
 
-  {$IF DEFINED(DARWIN)}
-  FUseSystemTheme:= NSAppKitVersionNumber >= 1038;
-  {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
+  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   FExtToMimeIconName := TFPDataHashTable.Create;
   FHomeFolder := IncludeTrailingBackslash(GetHomeDir);
   {$ENDIF}
