@@ -1268,6 +1268,7 @@ begin
 
     image:= getBestNSImageWithSize(image, AIconSize);
     bmpBitmap:= NSImageToTBitmap(image);
+    image.release;
 
     fileIndex := FPixmapsFileNames.Find(key);
     if fileIndex >= 0 then begin
