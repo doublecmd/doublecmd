@@ -120,7 +120,7 @@ begin
     _connectionName:= path.Substring( 1 );
   end else begin
     _connectionName:= path.Substring( 1, i-1 );
-    _driverPath:= path.Substring( i );
+    _driverPath:= ExcludeTrailingPathDelimiter( path.Substring(i) );
   end;
 end;
 
