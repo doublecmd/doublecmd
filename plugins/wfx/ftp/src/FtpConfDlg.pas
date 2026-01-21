@@ -442,7 +442,6 @@ begin
             end;
             gConnection.Host:= ExtractConnectionHost(Text);
             gConnection.Port:= ExtractConnectionPort(Text);
-            gConnection.FullSSL:= ExtractConnectionProt(Text) = 'ftps';
             Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
             gConnection.UserName:= Text;
