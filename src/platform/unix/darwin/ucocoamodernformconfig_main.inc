@@ -299,7 +299,7 @@ begin
   newItem('l.circle');
   newItem('a.circle');
   items.AddSeparator;
-  newItem('folder.fill.badge.gearshape');
+  newItem('gearshape');
   items.AddSeparator;
   newItem('trash');
 end;
