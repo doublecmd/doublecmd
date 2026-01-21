@@ -1468,9 +1468,6 @@ begin
     end;
     inherited SetFocus;
     MainControl.SetFocus;
-    {$IFDEF LCLCOCOA}
-    Active := true;
-    {$ENDIF}
   end;
 end;
 
