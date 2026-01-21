@@ -779,6 +779,9 @@ end;
 {$IFDEF DARWIN}
 function TFile.GetMacOSSpecificProperty: TFileMacOSSpecificProperty;
 begin
+  if self.Name = '..' then
+    Exit( nil );
+
   if FProperties[fpMacOSSpecific] = nil then begin
     if FPropertyLazyLoader <> nil then
       FProperties[fpMacOSSpecific] := FPropertyLazyLoader(self.FullPath, fpMacOSSpecific);
