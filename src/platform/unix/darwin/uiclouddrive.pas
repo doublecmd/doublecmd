@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs, fgl, LazMethodList,
-  Menus, Forms, Dialogs, System.UITypes,
+  Graphics, Menus, Forms, Dialogs, System.UITypes,
   uiCloudDriveConfig, uiCloudDriveUtil,
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
@@ -42,6 +42,7 @@ type
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
     function GetUIHandler: TFileSourceUIHandler; override;
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
     class function GetMainIcon(out Path: String): Boolean; override;
 
     function GetRootDir(sPath : String): String; override;
@@ -698,6 +699,19 @@ end;
 function TiCloudDriveFileSource.GetUIHandler: TFileSourceUIHandler;
 begin
   Result:= iCloudDriveUIProcessor;
+end;
+
+function TiCloudDriveFileSource.GetCustomIcon(const path: String;
+  const iconSize: Integer): TBitmap;
+var
+  realPath: String;
+  image: NSImage;
+begin
+  Result:= nil;
+  realPath:= self.GetRealPath( path );
+  image:= getAppIconByPath( realPath );
+  if Assigned(image) then
+    Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 class function TiCloudDriveFileSource.GetMainIcon(out Path: String): Boolean;
