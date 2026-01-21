@@ -9,6 +9,7 @@ uses
   SysUtils, Classes, Graphics,
   uFile, uFileSource, uFileSystemFileSource, uiCloudDrive,
   uFileView, uPixMapManager,
+  uGlobs,
   uDarwinUtil, uDarwinImage, uDarwinFile,
   CocoaAll;
 
@@ -81,21 +82,21 @@ class function TDarwinFileViewHistoryUtil.getIcon(
 var
   bitmap: TBitmap = nil;
 begin
-  bitmap:= fs.GetCustomIcon( path, 16 );
+  bitmap:= fs.GetCustomIcon( path, gIconsInMenusSize );
 
   if Assigned(bitmap) then begin
     Result:= TDarwinImageUtil.toNSImage( bitmap );
-    Result.setSize( NSMakeSize(16,16) );
+    Result.setSize( NSMakeSize(gIconsInMenusSize,gIconsInMenusSize) );
     bitmap.Free;
     Exit;
   end;
 
   if fs.IsClass(TFileSystemFileSource) then begin
-    Result:= TDarwinImageUtil.getFileIconWithSize( fs.GetRealPath(path), 16 );
+    Result:= TDarwinImageUtil.getFileIconWithSize( fs.GetRealPath(path), gIconsInMenusSize );
     Exit;
   end;
 
-  Result:= TDarwinImageUtil.getFileIconWithSize( '/usr', 16 );
+  Result:= TDarwinImageUtil.getFileIconWithSize( '/usr', gIconsInMenusSize );
 end;
 
 class function TDarwinFileViewHistoryUtil.getDisplayName(
