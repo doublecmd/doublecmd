@@ -705,18 +705,23 @@ function TiCloudDriveFileSource.GetCustomIcon(const path: String;
   const iconSize: Integer): TBitmap;
 var
   realPath: String;
+  iconPath: String;
   image: NSImage;
 begin
-  Result:= nil;
-  realPath:= self.GetRealPath( path );
-  image:= getAppIconByPath( realPath );
-  if Assigned(image) then
-    Result:= TDarwinImageUtil.toBitmap( image );
+  if path = GetRootDir(path) then begin
+    TiCloudDriveFileSource.GetMainIcon( iconPath );
+    image:= TDarwinImageUtil.getBestFromFileContentWithSize( iconPath, iconSize );
+  end else begin
+    realPath:= self.GetRealPath( path );
+    image:= getAppIconByPath( realPath );
+  end;
+
+  Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 class function TiCloudDriveFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= iCloudDriveConfig.icon.main;
+  Path:= mbExpandFileName( iCloudDriveConfig.icon.main );
   Result:= True;
 end;
 
