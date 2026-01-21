@@ -11,7 +11,11 @@ uses
   uMultiListFileSource,
   uFileSourceOperationTypes,
   uFileSourceOperation,
-  uFileSourceProperty;
+  uFileSourceProperty
+  {$IFDEF DARWIN}
+  ,Graphics, uPixMapManager, uDCUtils
+  {$ENDIF}
+  ;
 
 type
 
@@ -38,6 +42,8 @@ type
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
+
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
   end;
 
 implementation
@@ -118,6 +124,24 @@ begin
   else
     Result:= True;
 end;
+
+function TSearchResultFileSource.GetCustomIcon(
+  const path: String;
+  const iconSize: Integer ): TBitmap;
+{$IFDEF DARWIN}
+const
+  ICON_PATH = '$COMMANDER_PATH/pixmaps/macOS/magnifyingglass.png';
+var
+  iconPath: String;
+begin
+  iconPath:= mbExpandFileName( ICON_PATH );
+  PixMapManager.LoadBitmapFromFile( iconPath, Result );
+end;
+{$ELSE}
+begin
+  Result:= nil;
+end;
+{$ENDIF}
 
 initialization
   searchResultFileSourceProcessor:= TSearchResultFileSourceProcessor.Create;
