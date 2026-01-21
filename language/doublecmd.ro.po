@@ -4300,6 +4300,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Permite o singură copie DC &la un moment dat"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Aici puteți introduce unul sau mai multe dispozitive sau puncte de montare, separate prin \";\"."
@@ -8487,6 +8491,10 @@ msgstr "Arhivă &multi disc"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "P&une mai întâi în arhiva TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

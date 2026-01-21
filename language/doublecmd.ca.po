@@ -4574,6 +4574,10 @@ msgctxt "tfrmoptionsbehavior.cbonlyonce.caption"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Només una còpia de Double Commander oberta"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Aquí podeu introduir una o més unitats o punts de muntatge, separats per \";\"."
@@ -9036,6 +9040,10 @@ msgstr "Fitxer de disc &múltiple"
 #| msgid "Put in the TAR archive first"
 msgid "P&ut in the TAR archive first"
 msgstr "Insereix primer en un fitxer TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

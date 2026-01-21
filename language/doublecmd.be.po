@@ -4205,6 +4205,10 @@ msgstr "Перамя&шчаць значок на прастору апавяш�
 msgid "A&llow only one copy of DC at a time"
 msgstr "Дазв&оліць запуск толькі адной копіі DC"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Тут вы можаце ўвесці адзін альбо некалькі дыскаў, альбо пунктаў мантавання, падзяляючы іх \";\"."
@@ -8250,6 +8254,10 @@ msgstr "&Складаны архіў"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "С&пачатку пакаваць у архіў TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

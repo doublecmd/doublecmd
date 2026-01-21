@@ -4276,6 +4276,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Επιτρέψτε μόνο ένα αντίγραφο του DC κάθε φορά"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Εδώ μπορείτε να εισάγετε έναν ή περισσότερους οδηγούς ή σημεία προσάρτησης, διαχωρισμένα με \";\"."
@@ -8416,6 +8420,10 @@ msgstr "Πολλαπλή αρχειοθήκη δίσκου"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Τοποθέτηση πρώτο στην TAR αρχειοθήκη"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
