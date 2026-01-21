@@ -23,6 +23,11 @@ begin
   frmMain.Commands.cm_ViewHistoryNext([]);
 end;
 
+procedure goToHistoryAction( const fsIndex: Integer; const pathIndex: Integer );
+begin
+  frmMain.ActiveFrame.GoToHistoryIndex( fsIndex, pathIndex );
+end;
+
 procedure showModeAction( const Sender: id );
 var
   showModeItem: NSToolBarItemGroup absolute Sender;
@@ -57,21 +62,33 @@ procedure onFileViewUpdated( const fileView: TFileView );
   procedure updateBackward;
   var
     item: NSToolbarItem;
+    menu: NSMenu;
   begin
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoBackward' );
     if NOT Assigned(item) then
       Exit;
     item.setEnabled( fileView.hasPrevHistory );
+    menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
+      frmMain.ActiveFrame,
+      @goToHistoryAction );
+    NSMenuToolbarItem(item).setMenu( menu );
+    menu.release;
   end;
 
   procedure updateForward;
   var
     item: NSToolbarItem;
+    menu: NSMenu;
   begin
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoForward' );
     if NOT Assigned(item) then
       Exit;
     item.setEnabled( fileView.hasNextHistory );
+    menu:= TDarwinFileViewHistoryUtil.createForwardMenu(
+      frmMain.ActiveFrame,
+      @goToHistoryAction );
+    NSMenuToolbarItem(item).setMenu( menu );
+    menu.release;
   end;
 
   procedure updateRelyOnFileSystem;
@@ -478,28 +495,28 @@ const
   );
 
 
-  goBackwardItemConfig: TCocoaConfigToolBarItem = (
+  goBackwardItemConfig: TCocoaConfigToolBarItemMenu = (
     identifier: 'MainForm.GoBackward';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: False;
     appValidates: True;
     iconName: 'chevron.backward';
     title: rsMFSTBIGoBackwardTitle;
     tips: rsMFSTBIGoBackwardTips;
     bordered: True;
     onAction: @goBackwardAction;
+
+    showsIndicator: False;
   );
 
-  goForwardItemConfig: TCocoaConfigToolBarItem = (
+  goForwardItemConfig: TCocoaConfigToolBarItemMenu = (
     identifier: 'MainForm.GoForward';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: False;
     appValidates: True;
     iconName: 'chevron.forward';
     title: rsMFSTBIGoForwardTitle;
     tips: rsMFSTBIGoForwardTips;
     bordered: True;
     onAction: @goForwardAction;
+
+    showsIndicator: False;
   );
 
   iCloudItemConfig: TCocoaConfigToolBarItem = (

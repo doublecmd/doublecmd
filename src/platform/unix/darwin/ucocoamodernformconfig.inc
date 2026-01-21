@@ -12,8 +12,9 @@ uses
   uHotkeyManager, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSystemFileSource,
-  uDarwinUtil, uDarwinApplication, uDarwinFile,
-  uDarwinFinder, uDarwinFinderModel, uDarwinFileView, uDarwinPanel,
+  uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
+  uDarwinFinder, uDarwinFinderModel,
+  uDarwinFileView, uDarwinFileViewHistory,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra,
   LResources, uTranslator, Translations;
 
