@@ -129,7 +129,9 @@ type
     function GetLocalName(var aFile: TFile): Boolean; override;
     function CreateDirectory(const Path: String): Boolean; override;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
+
     function GetCustomIcon(aFile: TFile; AIconSize: Integer; out AIcon: TBitmap): PtrInt; override;
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -988,6 +990,20 @@ begin
     Result:= -1;
     AIcon:= nil;
   end;
+end;
+
+function TWfxPluginFileSource.GetCustomIcon(const path: String; const iconSize: Integer): TBitmap;
+var
+  aFile: TFile;
+  index: Integer;
+begin
+  aFile:= TFile.Create( path );
+  index:= self.GetCustomIcon( aFile, iconSize, Result );
+  aFile.Free;
+  if Assigned(result) then
+    Exit;
+  if index >= 0 then
+    Result:= PixMapManager.GetBitmap( index );
 end;
 
 class function TWfxPluginFileSource.IsSupportedPath(const Path: String): Boolean;
