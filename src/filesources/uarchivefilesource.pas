@@ -10,7 +10,12 @@ uses
   uLocalFileSource,
   uFileSource,
   uFile,
-  uFileProperty;
+  uFileProperty
+  {$IFDEF DARWIN}
+  ,Graphics
+  ,uDarwinImage
+  {$ENDIF}
+  ;
 
 type
 
@@ -54,6 +59,8 @@ type
 
     class function CreateFile(const APath: String): TFile; override;
 
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
+
     function Changed: Boolean;
 
     property ArchiveFileName: String read GetCurrentAddress;
@@ -81,6 +88,18 @@ begin
     AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
   end;
+end;
+
+
+function TArchiveFileSource.GetCustomIcon(const path: String;
+  const iconSize: Integer): TBitmap;
+begin
+  {$IFDEF DARWIN}
+  Result:= TDarwinImageUtil.toBitmap(
+    TDarwinImageUtil.getFileIconWithSize( FCurrentAddress, iconSize ) );
+  {$ELSE}
+  Result:= nil;
+  {$ENDIF}
 end;
 
 function TArchiveFileSource.Changed: Boolean;
