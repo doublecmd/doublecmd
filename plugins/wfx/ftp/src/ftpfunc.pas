@@ -1093,12 +1093,14 @@ begin
   Result:= FS_ICON_USEDEFAULT;
   if (ExtractFileDir(RemoteName) = PathDelim) then
   begin
-    if RemoteName[1] = '<' then
+    asRemoteName:= CeUtf16ToUtf8(RemoteName + 1);
+    if (asRemoteName='') or (RemoteName[1]='<') then
     begin
       Result:= FS_ICON_EXTRACTED;
       TheIcon^.Format:= FS_ICON_FORMAT_FILE;
-      asRemoteName:= CeUtf16ToUtf8(RemoteName + 1);
-      if asRemoteName = cAddConnection then
+      if asRemoteName = '' then
+        StrPCopy(RemoteName, gStartupInfo.PluginDir+'ftp.ico')
+      else if asRemoteName = cAddConnection then
         StrPCopy(RemoteName, 'list-add')
       else if asRemoteName = cQuickConnection then
         StrPCopy(RemoteName, 'view-file');
