@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, uWFXModule,
   uFileSourceProperty, uFileSourceOperationTypes,
   uVirtualFileSource, uFileProperty, uFileSource,
-  uFileSourceOperation, uFile;
+  uFileSourceOperation, uFile,
+  Graphics, uPixMapManager;
 
 type
 
@@ -48,6 +49,8 @@ type
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
+
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
 
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
@@ -122,6 +125,14 @@ var
 begin
   TargetFileSource := Self;
   Result:=  TVfsExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
+end;
+
+function TVfsFileSource.GetCustomIcon(const path: String;
+  const iconSize: Integer): TBitmap;
+begin
+  Result:= nil;
+  if path = GetRootDir(path) then
+    Result:= PixmapManager.LoadIconThemeBitmap( 'drive-virtual', 0 );
 end;
 
 end.

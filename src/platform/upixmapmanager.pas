@@ -693,6 +693,8 @@ end;
 
 function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 begin
+  if AIconSize = 0 then AIconSize := gIconsSize;
+
   FPixmapsLock.Acquire;
   try
     Result := LoadIconThemeBitmapLocked(AIconName, AIconSize);
