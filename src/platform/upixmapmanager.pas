@@ -1169,7 +1169,7 @@ var
   image: NSImage;
 begin
   Result:= nil;
-  image:= TDarwinImageUtil.getBestFromFileWithSize( filename, size );
+  image:= TDarwinImageUtil.getBestFromFileContentWithSize( filename, size );
   Result:= TDarwinImageUtil.toBitmap( image );
 end;
 

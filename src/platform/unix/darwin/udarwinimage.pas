@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   Graphics,
   uClassesEx,
-  uDarwinUtil,
+  uDarwinUtil, uDarwinFile,
   CocoaAll;
 
 type
@@ -26,12 +26,15 @@ type
     class function getBestWithSize(
       const srcImage: NSImage;
       const size:Integer ): NSImage;
-    class function getBestFromFileWithSize(
+    class function getBestFromFileContentWithSize(
       const path: String;
       const size: Integer ): NSImage;
     class function getBitmapForExt(
       const ext: String;
       const size: Integer ): TBitmap;
+    class function getFileIconWithSize(
+      const path: String;
+      const size: Integer ): NSImage;
   end;
 
 implementation
@@ -146,28 +149,34 @@ begin
   Result := bestImage;
 end;
 
-class function TDarwinImageUtil.getBestFromFileWithSize(
+class function TDarwinImageUtil.getBestFromFileContentWithSize(
   const path: String;
   const size: Integer ): NSImage;
 var
-  srcImage: NSImage;
+  image: NSImage;
 begin
-  srcImage:= NSImage.Alloc.initByReferencingFile( StringToNSString(path) );
-  Result:= TDarwinImageUtil.getBestWithSize( srcImage, size );
-  srcImage.release;
+  image:= NSImage.alloc.initByReferencingFile( StringToNSString(path) );
+  Result:= TDarwinImageUtil.getBestWithSize( image, size );
+  image.release;
 end;
 
 class function TDarwinImageUtil.getBitmapForExt(
   const ext: String;
   const size: Integer ): TBitmap;
 var
-  fileType: NSString;
   image: NSImage;
 begin
-  fileType:= StringToNSString( ext );
-  image:= NSWorkspace.sharedWorkspace.iconForFileType( fileType );
+  image:= TDarwinFileUtil.getIconForExt( ext );
   image:= TDarwinImageUtil.getBestWithSize( image, size );
   Result:= TDarwinImageUtil.toBitmap( image );
+end;
+
+class function TDarwinImageUtil.getFileIconWithSize(
+  const path: String;
+  const size: Integer ): NSImage;
+begin
+  Result:= TDarwinFileUtil.getIconForFile( path );
+  Result.setSize( NSMakeSize(size,size) );
 end;
 
 end.

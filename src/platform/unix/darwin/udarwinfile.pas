@@ -31,6 +31,8 @@ type
     class function resolveAlias( const path: String ): String;
   public
     class function getDisplayName( const path: String ): String;
+    class function getIconForFile( const path: String ): NSImage;
+    class function getIconForExt( const ext: String ): NSImage;
     class function getUniqueIcon( const path: String ): NSImage;
     class function getDescription( const path: String ): String;
   public
@@ -118,6 +120,19 @@ begin
   Result:= displayName.UTF8String;
 end;
 
+class function TDarwinFileUtil.getIconForFile(const path: String): NSImage;
+begin
+  Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
+end;
+
+class function TDarwinFileUtil.getIconForExt(const ext: String): NSImage;
+var
+  fileType: NSString;
+begin
+  fileType:= StringToNSString( ext );
+  Result:= NSWorkspace.sharedWorkspace.iconForFileType( fileType );
+end;
+
 class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
   function hasUniqueIcon( const path: String ): Boolean;
   var
@@ -152,7 +167,7 @@ class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
 begin
   Result:= nil;
   if hasUniqueIcon(path) or hasSpecialFolderExt(path) or inSpecialParentFolder(path) then
-    Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
+    Result:= TDarwinFileUtil.getIconForFile( path );
 end;
 
 class function TDarwinFileUtil.getTempPath: String;
