@@ -528,8 +528,8 @@ var
         Bitmap:= FThumbView.FBitmapList[IconID];
         IconWidth:= Round(Bitmap.Width / factor);
         IconHeight:= Round(Bitmap.Height / factor);
-        IconRect.Left:= aRect.Left + (aRect.Right - aRect.Left - IconWidth) div 2;
         zoomInSmallPreview(IconWidth, IconHeight);
+        IconRect.Left:= aRect.Left + (aRect.Right - aRect.Left - IconWidth) div 2;
         IconRect.Top:= aRect.Top + (iTextTop - aRect.Top - IconHeight) div 2;
         IconRect.Width:= IconWidth;
         IconRect.Height:= IconHeight;
