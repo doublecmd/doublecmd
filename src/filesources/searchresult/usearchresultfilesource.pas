@@ -13,7 +13,7 @@ uses
   uFileSourceOperation,
   uFileSourceProperty
   {$IFDEF DARWIN}
-  ,Graphics, uPixMapManager, uDCUtils
+  , uPixMapManager, uDCUtils
   {$ENDIF}
   ;
 
