@@ -5,14 +5,13 @@ unit uArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Graphics,
   DCOSUtils,
   uLocalFileSource,
   uFileSource,
   uFile,
   uFileProperty
   {$IFDEF DARWIN}
-  ,Graphics
   ,uDarwinImage
   {$ENDIF}
   ;
