@@ -499,7 +499,7 @@ var
     procedure zoomInSmallPreview( var width: Integer; var height: Integer );
     begin
       // if the thumbnail grid cell is already small, don't zoom in
-      if (aRect.Width<gIconsSize) or (aRect.Height<gIconsSize) then
+      if (gThumbSize.Width<gIconsSize) or (gThumbSize.Height<gIconsSize) then
         Exit;
 
       // if the generated preview is large enough, don't zoom in
