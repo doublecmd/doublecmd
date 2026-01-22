@@ -495,6 +495,26 @@ var
     IconID: PtrInt;
     Bitmap: TBitmap;
     aRect: TRect;
+
+    procedure zoomInSmallPreview( var width: Integer; var height: Integer );
+    begin
+      // if the thumbnail grid cell is already small, don't zoom in
+      if (aRect.Width<gIconsSize) or (aRect.Height<gIconsSize) then
+        Exit;
+
+      // if the generated preview is large enough, don't zoom in
+      if (width>=gIconsSize) or (height>=gIconsSize) then
+        Exit;
+
+      if width >= height then begin
+        height:= Round( Double(height) / Double(width) * Double(gIconsSize) );
+        width:= gIconsSize;
+      end else begin
+        width:= Round( Double(width) / Double(height) * Double(gIconsSize) );
+        height:= gIconsSize;
+      end;
+    end;
+
   begin
     factor:= self.GetCanvasScaleFactor;
     aRect:= params.drawingRect;
@@ -509,6 +529,7 @@ var
         IconWidth:= Round(Bitmap.Width / factor);
         IconHeight:= Round(Bitmap.Height / factor);
         IconRect.Left:= aRect.Left + (aRect.Right - aRect.Left - IconWidth) div 2;
+        zoomInSmallPreview(IconWidth, IconHeight);
         IconRect.Top:= aRect.Top + (iTextTop - aRect.Top - IconHeight) div 2;
         IconRect.Width:= IconWidth;
         IconRect.Height:= IconHeight;
