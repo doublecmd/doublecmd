@@ -5,7 +5,7 @@ unit uSearchResultFileSource;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Graphics,
   uFile,
   uFileSource, uFileSourceManager,
   uMultiListFileSource,
