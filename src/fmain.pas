@@ -6593,6 +6593,14 @@ var
   DrivePath: String;
   DrivePathLen: PtrInt;
   LongestPathLen: Integer = 0;
+
+  function sameAddress( const drive: PDrive ): Boolean; inline;
+  begin
+    if (drive^.DriveType=dtVirtual) and (drive^.DeviceId=Address) then
+      Exit( True );
+    Result:= Address.IsEmpty;
+  end;
+
 begin
   Result := -1;
 
@@ -6607,7 +6615,7 @@ begin
         if Pos(Address, DrivesList[I]^.Path) = 1 then
           Exit(I);
       end
-      else if (DrivesList[I]^.DriveType <> dtSpecial) and Address.IsEmpty then
+      else if sameAddress(DrivesList[I]) then
       begin
         DrivePath := UTF8UpperCase(DrivesList[I]^.Path);
         DrivePathLen := UTF8Length(DrivePath);
