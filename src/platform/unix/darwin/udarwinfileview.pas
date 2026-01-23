@@ -30,6 +30,7 @@ type
       const activeNoteBookFunc: TActvieNoteBookFunc;
       const activeFrameFunc: TActiveFrameFunc );
     class procedure addFinderSearchResult(
+      const fs: ISearchResultFileSource;
       const searchName: String;
       const files: TStringArray;
       const newPage: Boolean );
@@ -57,9 +58,9 @@ implementation
 
 type
   
-  { TFinderSearchResultFileSource }
+  { TFinderTagSearchResultFileSource }
 
-  TFinderSearchResultFileSource = class( TSearchResultFileSource )
+  TFinderTagSearchResultFileSource = class( TSearchResultFileSource )
   private
     _searchName: String;
     _icon: TBitmap;
@@ -71,9 +72,21 @@ type
       ): TBitmap; override; overload;
   end;
 
+  { TSmartFolderSearchResultFileSource }
+
+  TSmartFolderSearchResultFileSource = class( TSearchResultFileSource )
+  private
+    _savedSearchName: String;
+  public
+    constructor Create( savedSearchName: String );
+    function GetRootDir(sPath: String): String; override;
+    function GetCustomIcon(const path: String; const iconSize: Integer
+      ): TBitmap; override; overload;
+  end;
+
 { TFinderTagSearchResultFileSource }
 
-constructor TFinderSearchResultFileSource.Create(searchName: String);
+constructor TFinderTagSearchResultFileSource.Create(searchName: String);
 var
   tag: TFinderTag;
   image: NSImage;
@@ -94,18 +107,18 @@ begin
   image.release;
 end;
 
-destructor TFinderSearchResultFileSource.Destroy;
+destructor TFinderTagSearchResultFileSource.Destroy;
 begin
   FreeAndNil( _icon );
   inherited Destroy;
 end;
 
-function TFinderSearchResultFileSource.GetRootDir(sPath: String): String;
+function TFinderTagSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _searchName + PathDelim;
 end;
 
-function TFinderSearchResultFileSource.GetCustomIcon(
+function TFinderTagSearchResultFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
 begin
@@ -117,18 +130,46 @@ begin
   end;
 end;
 
+{ TSmartFolderSearchResultFileSource }
+
+constructor TSmartFolderSearchResultFileSource.Create(savedSearchName: String);
+begin
+  Inherited Create;
+  _savedSearchName:= savedSearchName;
+end;
+
+function TSmartFolderSearchResultFileSource.GetRootDir(sPath: String): String;
+begin
+  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _savedSearchName + PathDelim;
+end;
+
+function TSmartFolderSearchResultFileSource.GetCustomIcon(
+  const path: String;
+  const iconSize: Integer ): TBitmap;
+begin
+  Result:= inherited;
+end;
+
 { TDarwinSearchResultHandler }
 
-procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(const searchName: String;
-  const files: TStringArray);
+procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(
+  const searchName: String;
+  const files: TStringArray );
+var
+  fs: ISearchResultFileSource;
 begin
-  TDarwinFileViewUtil.addFinderSearchResult( searchName, files, True );
+  fs:= TFinderTagSearchResultFileSource.Create( searchName );
+  TDarwinFileViewUtil.addFinderSearchResult( fs, searchName, files, True );
 end;
 
 procedure TDarwinSearchResultHandler.onSearchSavedSearchComplete(
-  const searchName: String; const files: TStringArray);
+  const searchName: String;
+  const files: TStringArray );
+var
+  fs: ISearchResultFileSource;
 begin
-  TDarwinFileViewUtil.addFinderSearchResult( searchName, files, False );
+  fs:= TSmartFolderSearchResultFileSource.Create( searchName );
+  TDarwinFileViewUtil.addFinderSearchResult( fs, searchName, files, False );
 end;
 
 { TDarwinFileViewDrawHandler }
@@ -187,6 +228,7 @@ begin
 end;
 
 class procedure TDarwinFileViewUtil.addFinderSearchResult(
+  const fs: ISearchResultFileSource;
   const searchName: String;
   const files: TStringArray;
   const newPage: Boolean );
@@ -194,7 +236,6 @@ var
   i: integer;
   count: Integer;
   sFileName: string;
-  SearchResultFS: ISearchResultFileSource;
   FileList: TFileTree;
   aFile: TFile;
   Notebook: TFileViewNotebook;
@@ -212,10 +253,7 @@ begin
   Notebook := _activeNoteBookFunc();
   fileView:= Notebook.ActiveView;
 
-  // Create search result file source.
-  // Currently only searching FileSystem is supported.
-  SearchResultFS := TFinderSearchResultFileSource.Create( searchName );
-  SearchResultFS.AddList(FileList, fileView.FileSource );
+  fs.AddList(FileList, fileView.FileSource );
 
   if newPage then begin
     page:= Notebook.NewPage(fileView);
@@ -223,7 +261,7 @@ begin
     fileView:= page.FileView;
   end;
 
-  fileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+  fileView.AddFileSource(fs, fs.GetRootDir);
   fileView.FlatView := True;
 end;
 
