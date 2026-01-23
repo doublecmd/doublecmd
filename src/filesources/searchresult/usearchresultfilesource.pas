@@ -5,7 +5,7 @@ unit uSearchResultFileSource;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Graphics,
   uFile,
   uFileSource, uFileSourceManager,
   uMultiListFileSource,
@@ -13,7 +13,7 @@ uses
   uFileSourceOperation,
   uFileSourceProperty
   {$IFDEF DARWIN}
-  ,Graphics, uPixMapManager, uDCUtils
+  , uPixMapManager, uDCUtils
   {$ENDIF}
   ;
 
