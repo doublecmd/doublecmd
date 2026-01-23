@@ -10,7 +10,7 @@ uses
   uiCloudDrive, uSearchResultFileSource, uFileSystemFileSource, uFileSource,
   uFile, uDisplayFile, uFileProperty,
   uFileView, uFileViewNotebook,
-  uDarwinFinderModel, uDarwinFinder, uDarwinImage, uDarwinUtil,
+  uDarwinFinderModel, uDarwinFinder, uDarwinImage, uDarwinFile, uDarwinUtil,
   ulng, uGlobs,
   MacOSAll, CocoaAll;
 
@@ -146,8 +146,11 @@ end;
 function TSmartFolderSearchResultFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
+var
+  image: NSImage;
 begin
-  Result:= inherited;
+  image:= TDarwinFileUtil.getIconForExt( 'savedSearch' );
+  Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 { TDarwinSearchResultHandler }
