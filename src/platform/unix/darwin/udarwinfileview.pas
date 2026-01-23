@@ -31,7 +31,6 @@ type
       const activeFrameFunc: TActiveFrameFunc );
     class procedure addFinderSearchResult(
       const fs: ISearchResultFileSource;
-      const searchName: String;
       const files: TStringArray;
       const newPage: Boolean );
     class procedure addiCloudDrivePage;
@@ -40,8 +39,8 @@ type
   { TDarwinSearchResultHandler }
 
   TDarwinSearchResultHandler = class
-    procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
-    procedure onSearchSavedSearchComplete( const searchName: String; const files: TStringArray );
+    procedure onSearchFinderTagComplete( const info: NSObject; const files: TStringArray );
+    procedure onSearchSavedSearchComplete( const info: NSObject; const files: TStringArray );
   end;
 
   TDarwinFileViewDrawHandler = class
@@ -65,7 +64,7 @@ type
     _searchName: String;
     _icon: TBitmap;
   public
-    constructor Create( searchName: String );
+    constructor Create( tagNames: NSArray );
     destructor Destroy; override;
     function GetRootDir(sPath: String): String; override;
     function GetCustomIcon(const path: String; const iconSize: Integer
@@ -86,14 +85,29 @@ type
 
 { TFinderTagSearchResultFileSource }
 
-constructor TFinderTagSearchResultFileSource.Create(searchName: String);
+constructor TFinderTagSearchResultFileSource.Create(tagNames: NSArray);
+
+  function toString: NSString;
+  var
+    tagName: NSString;
+    name: NSMutableString;
+  begin
+    name:= NSMutableString.new;
+    for tagName in tagNames do begin
+      name.appendString( tagName );
+      name.appendString( NSSTR('|') );
+    end;
+    Result:= name.substringToIndex( name.length-1 );
+    name.release;
+  end;
+
 var
   tag: TFinderTag;
   image: NSImage;
 begin
   Inherited Create;
-  _searchName:= searchName;
-  tag:= TFinderTags.getTagOfName( StringToNSString(_searchName) );
+  _searchName:= toString.UTF8String;
+  tag:= TFinderTags.getTagOfName( NSString(tagNames.firstObject) );
   if NOT Assigned(tag) then
     Exit;
 
@@ -156,23 +170,23 @@ end;
 { TDarwinSearchResultHandler }
 
 procedure TDarwinSearchResultHandler.onSearchFinderTagComplete(
-  const searchName: String;
+  const info: NSObject;
   const files: TStringArray );
 var
   fs: ISearchResultFileSource;
 begin
-  fs:= TFinderTagSearchResultFileSource.Create( searchName );
-  TDarwinFileViewUtil.addFinderSearchResult( fs, searchName, files, True );
+  fs:= TFinderTagSearchResultFileSource.Create( NSArray(info) );
+  TDarwinFileViewUtil.addFinderSearchResult( fs, files, True );
 end;
 
 procedure TDarwinSearchResultHandler.onSearchSavedSearchComplete(
-  const searchName: String;
+  const info: NSObject;
   const files: TStringArray );
 var
   fs: ISearchResultFileSource;
 begin
-  fs:= TSmartFolderSearchResultFileSource.Create( searchName );
-  TDarwinFileViewUtil.addFinderSearchResult( fs, searchName, files, False );
+  fs:= TSmartFolderSearchResultFileSource.Create( NSString(info).UTF8String );
+  TDarwinFileViewUtil.addFinderSearchResult( fs, files, False );
 end;
 
 { TDarwinFileViewDrawHandler }
@@ -232,7 +246,6 @@ end;
 
 class procedure TDarwinFileViewUtil.addFinderSearchResult(
   const fs: ISearchResultFileSource;
-  const searchName: String;
   const files: TStringArray;
   const newPage: Boolean );
 var

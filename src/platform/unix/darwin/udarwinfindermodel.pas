@@ -53,7 +53,7 @@ type
 
   TFinderTagNSColors = Array of NSColor;
 
-  TMacOSSearchResultHandler = procedure ( const searchName: String; const files: TStringArray ) of object;
+  TDarwinSearchResultHandler = procedure ( const info: NSObject; const files: TStringArray ) of object;
 
   TFinderFavoriteTagMenuItemState = ( selectionAll, selectionNone, selectionMixed );
 
@@ -74,8 +74,8 @@ type
     class function getTagsDataFromDatabase: TBytes;
     class procedure initFinderTagNSColors;
     class procedure doSearchFiles(
-      const searchName: NSString;
-      const handler: TMacOSSearchResultHandler;
+      const info: NSObject;
+      const handler: TDarwinSearchResultHandler;
       const predicate: NSPredicate;
       const scopes: NSArray );
   public
@@ -92,10 +92,10 @@ type
     class procedure removeTagForFile( const url: NSURL; const tagName: NSString );
     class procedure removeTagForFiles( const urls: NSArray; const tagName: NSString );
   public
-    class procedure searchFilesForTagName( const tagName: NSString; const handler: TMacOSSearchResultHandler );
-    class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
-    class procedure searchFilesBySavedSearch( const path: NSString; const handler: TMacOSSearchResultHandler );
-    class procedure searchFilesBySavedSearch( const path: String; const handler: TMacOSSearchResultHandler );
+    class procedure searchFilesForTagName( const tagName: NSString; const handler: TDarwinSearchResultHandler );
+    class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TDarwinSearchResultHandler );
+    class procedure searchFilesBySavedSearch( const path: NSString; const handler: TDarwinSearchResultHandler );
+    class procedure searchFilesBySavedSearch( const path: String; const handler: TDarwinSearchResultHandler );
   public
     class property editorFinderTagNSColors: TFinderTagNSColors read _editorFinderTagNSColors;
     class property menuFinderTagNSColors: TFinderTagNSColors read _menuFinderTagNSColors;
@@ -209,21 +209,21 @@ begin
   end;
 end;
 
-{ TMacOSQueryHandler }
+{ TDarwinQueryHandler }
 
 type
-  TMacOSQueryHandler = objcclass( NSObject )
+  TDarwinQueryHandler = objcclass( NSObject )
   private
-    _queryName: NSString;
+    _queryInfo: NSObject;
     _query: NSMetadataQuery;
-    _handler: TMacOSSearchResultHandler;
+    _handler: TDarwinSearchResultHandler;
     procedure initalGatherComplete( sender: id ); message 'initalGatherComplete:';
   public
-    function initWithName( name: NSString ): id; message 'doublecmd_initWithName:';
+    function initWithInfo( info: NSObject ): id; message 'doublecmd_initWithInfo:';
     procedure dealloc; override;
   end;
 
-procedure TMacOSQueryHandler.initalGatherComplete(sender: id);
+procedure TDarwinQueryHandler.initalGatherComplete(sender: id);
 var
   item: NSMetadataItem;
   path: NSString;
@@ -248,21 +248,21 @@ begin
     end;
   end;
 
-  _handler( _queryName.UTF8String, files );
+  _handler( _queryInfo, files );
 
   self.release;
 end;
 
-function TMacOSQueryHandler.initWithName(name: NSString): id;
+function TDarwinQueryHandler.initWithInfo(info: NSObject): id;
 begin
-  _queryName:= name;
-  _queryName.retain;
+  _queryInfo:= info;
+  _queryInfo.retain;
   Result:= self;
 end;
 
-procedure TMacOSQueryHandler.dealloc;
+procedure TDarwinQueryHandler.dealloc;
 begin
-  _queryName.release;
+  _queryInfo.release;
   _query.release;
 end;
 
@@ -355,18 +355,18 @@ begin
 end;
 
 class procedure TDarwinFinderModelUtil.doSearchFiles(
-  const searchName: NSString;
-  const handler: TMacOSSearchResultHandler;
+  const info: NSObject;
+  const handler: TDarwinSearchResultHandler;
   const predicate: NSPredicate;
   const scopes: NSArray);
 var
-  queryHandler: TMacOSQueryHandler;
+  queryHandler: TDarwinQueryHandler;
   query: NSMetadataQuery;
 begin
   // release in initalGatherComplete()
   query:= NSMetadataQuery.new;
   // release in initalGatherComplete()
-  queryHandler:= TMacOSQueryHandler.alloc.initWithName( searchName );
+  queryHandler:= TDarwinQueryHandler.alloc.initWithInfo( info );
   queryHandler._query:= query;
   queryHandler._handler:= handler;
   NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
@@ -382,7 +382,7 @@ begin
 end;
 
 class procedure TDarwinFinderModelUtil.searchFilesBySavedSearch(
-  const path: NSString; const handler: TMacOSSearchResultHandler);
+  const path: NSString; const handler: TDarwinSearchResultHandler);
 var
   searchName: NSString;
   predicate: NSPredicate;
@@ -425,27 +425,13 @@ begin
 end;
 
 class procedure TDarwinFinderModelUtil.searchFilesBySavedSearch(
-  const path: String; const handler: TMacOSSearchResultHandler);
+  const path: String; const handler: TDarwinSearchResultHandler);
 begin
   TDarwinFinderModelUtil.searchFilesBySavedSearch( StringToNSString(path), handler );
 end;
 
 class procedure TDarwinFinderModelUtil.searchFilesForTagNames(
-  const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
-
-  function toString: NSString;
-  var
-    tagName: NSString;
-    name: NSMutableString;
-  begin
-    name:= NSMutableString.new;
-    for tagName in tagNames do begin
-      name.appendString( tagName );
-      name.appendString( NSSTR('|') );
-    end;
-    Result:= name.substringToIndex( name.length-1 );
-    name.release;
-  end;
+  const tagNames: NSArray; const handler: TDarwinSearchResultHandler );
 
   function formatString: NSString;
   var
@@ -463,19 +449,17 @@ class procedure TDarwinFinderModelUtil.searchFilesForTagNames(
   end;
 
 var
-  searchName: NSString;
   predicate: NSPredicate;
 begin
   if tagNames.count = 0 then
     Exit;
 
-  searchName:= toString();
   predicate:= NSPredicate.predicateWithFormat_argumentArray( formatString(), tagNames );
-  self.doSearchFiles( searchName, handler, predicate, nil );
+  self.doSearchFiles( tagNames, handler, predicate, nil );
 end;
 
 class procedure TDarwinFinderModelUtil.searchFilesForTagName(
-  const tagName: NSString; const handler: TMacOSSearchResultHandler);
+  const tagName: NSString; const handler: TDarwinSearchResultHandler);
 var
   tagNames: NSArray;
 begin
