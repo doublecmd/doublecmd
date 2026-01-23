@@ -6,12 +6,12 @@ unit uDarwinFileView;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils, Classes, Graphics,
   uiCloudDrive, uSearchResultFileSource, uFileSystemFileSource, uFileSource,
   uFile, uDisplayFile, uFileProperty,
   uFileView, uFileViewNotebook,
-  uDarwinFinderModel,
-  ulng,
+  uDarwinFinderModel, uDarwinFinder, uDarwinImage, uDarwinUtil,
+  ulng, uGlobs,
   MacOSAll, CocoaAll;
 
 type
@@ -62,22 +62,59 @@ type
   TFinderSearchResultFileSource = class( TSearchResultFileSource )
   private
     _searchName: String;
+    _icon: TBitmap;
   public
     constructor Create( searchName: String );
+    destructor Destroy; override;
     function GetRootDir(sPath: String): String; override;
+    function GetCustomIcon(const path: String; const iconSize: Integer
+      ): TBitmap; override; overload;
   end;
 
 { TFinderTagSearchResultFileSource }
 
 constructor TFinderSearchResultFileSource.Create(searchName: String);
+var
+  tag: TFinderTag;
+  image: NSImage;
 begin
   Inherited Create;
   _searchName:= searchName;
+  tag:= TFinderTags.getTagOfName( StringToNSString(_searchName) );
+  if NOT Assigned(tag) then
+    Exit;
+
+  image:= TDarwinFinderUtil.createMenuRoundImage(
+    tag.colorIndex,
+    gIconsInMenusSize,
+    gIconsInMenusSize div 2 + 4 );
+
+  _icon:= TDarwinImageUtil.toBitmap(image);
+
+  image.release;
+end;
+
+destructor TFinderSearchResultFileSource.Destroy;
+begin
+  FreeAndNil( _icon );
+  inherited Destroy;
 end;
 
 function TFinderSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _searchName + PathDelim;
+end;
+
+function TFinderSearchResultFileSource.GetCustomIcon(
+  const path: String;
+  const iconSize: Integer ): TBitmap;
+begin
+  if Assigned(_icon) then begin
+    Result:= TBitmap.Create;
+    Result.Assign( _icon );
+  end else begin
+    Result:= Inherited;
+  end;
 end;
 
 { TDarwinSearchResultHandler }
