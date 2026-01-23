@@ -148,6 +148,11 @@ begin
   iconPath:= mbExpandFileName( ICON_PATH );
   PixMapManager.LoadBitmapFromFile( iconPath, Result );
 end;
+{$ELSE}
+begin
+  Result:= nil;
+end;
+{$ENDIF}
 
 function TSearchResultFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
@@ -156,12 +161,6 @@ begin
   else
     Result:= aFile.Name;
 end;
-
-{$ELSE}
-begin
-  Result:= nil;
-end;
-{$ENDIF}
 
 initialization
   searchResultFileSourceProcessor:= TSearchResultFileSourceProcessor.Create;
