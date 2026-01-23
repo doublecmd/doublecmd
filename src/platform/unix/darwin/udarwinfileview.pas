@@ -74,10 +74,7 @@ type
   { TSmartFolderSearchResultFileSource }
 
   TSmartFolderSearchResultFileSource = class( TSearchResultFileSource )
-  private
-    _savedSearchName: String;
   public
-    constructor Create( savedSearchName: String );
     function GetRootDir(sPath: String): String; override;
     function GetCustomIcon(const path: String; const iconSize: Integer
       ): TBitmap; override; overload;
@@ -146,15 +143,9 @@ end;
 
 { TSmartFolderSearchResultFileSource }
 
-constructor TSmartFolderSearchResultFileSource.Create(savedSearchName: String);
-begin
-  Inherited Create( savedSearchName );
-  _savedSearchName:= savedSearchName;
-end;
-
 function TSmartFolderSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _savedSearchName + PathDelim;
+  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _displayName + PathDelim;
 end;
 
 function TSmartFolderSearchResultFileSource.GetCustomIcon(
