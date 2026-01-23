@@ -24,11 +24,11 @@ type
     class function calcTag(const fsIndex: Integer; const pathIndex: Integer): Integer; inline;
     class function getIcon(const fs: IFileSource; const path: String): NSImage;
     class function getDisplayName(const fs: IFileSource; const path: String): String;
-    class function addMenuItem(
+    class procedure addMenuItem(
       const menu: NSMenu;
       const fileView: TFileView;
       const fsIndex: Integer;
-      const pathIndex: Integer ): NSMenuItem;
+      const pathIndex: Integer );
   public
     class function createBackwardMenu(
       const fileView: TFileView;
@@ -120,11 +120,11 @@ begin
   Result:= path;
 end;
 
-class function TDarwinFileViewHistoryUtil.addMenuItem(
+class procedure TDarwinFileViewHistoryUtil.addMenuItem(
   const menu: NSMenu;
   const fileView: TFileView;
   const fsIndex: Integer;
-  const pathIndex: Integer ): NSMenuItem;
+  const pathIndex: Integer );
 var
   fs: IFileSource;
   menuItem: NSMenuItem;
@@ -149,7 +149,6 @@ begin
 
   menu.addItem( menuItem );
   menuItem.release;
-  Result:= menuItem;
 end;
 
 class function TDarwinFileViewHistoryUtil.createBackwardMenu(
@@ -159,19 +158,18 @@ var
   fsIndex: Integer;
   pathIndex: Integer;
   menu: THistoryMenu;
-  menuItem: NSMenuItem;
 begin
   menu:= THistoryMenu.new;
   menu.onAction:= onAction;
 
   fsIndex:= fileView.CurrentFileSourceIndex;
   for pathIndex:= fileView.CurrentPathIndex-1 downto 0 do
-    menuItem:= addMenuItem( menu, fileView, fsIndex, pathIndex );
+    addMenuItem( menu, fileView, fsIndex, pathIndex );
 
   Dec( fsIndex );
   while fsIndex >= 0 do begin
     for pathIndex:= fileView.PathsCount[fsIndex]-1 downto 0 do
-      menuItem:= addMenuItem( menu, fileView, fsIndex, pathIndex );
+      addMenuItem( menu, fileView, fsIndex, pathIndex );
     Dec( fsIndex );
   end;
 
@@ -190,19 +188,18 @@ var
   fsIndex: Integer;
   pathIndex: Integer;
   menu: THistoryMenu;
-  menuItem: NSMenuItem;
 begin
   menu:= THistoryMenu.new;
   menu.onAction:= onAction;
 
   fsIndex:= fileView.CurrentFileSourceIndex;
   for pathIndex:= fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do
-    menuItem:= addMenuItem( menu, fileView, fsIndex, pathIndex );
+    addMenuItem( menu, fileView, fsIndex, pathIndex );
 
   Inc( fsIndex );
   while fsIndex < fileView.FileSourcesCount do begin
     for pathIndex:= 0 to fileView.PathsCount[fsIndex]-1 do
-      menuItem:= addMenuItem( menu, fileView, fsIndex, pathIndex );
+      addMenuItem( menu, fileView, fsIndex, pathIndex );
     Inc( fsIndex );
   end;
 
