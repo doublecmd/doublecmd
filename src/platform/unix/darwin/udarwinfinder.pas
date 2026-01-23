@@ -51,6 +51,11 @@ type
     class function attachFinderTagsMenu( const paths: TStringArray;
       const lclMenu: TPopupMenu; const menuIndex: Integer ): Boolean;
     class procedure attachSearchForTagsMenu( const lclMenu: TMenu );
+
+    class function createMenuRoundImage(
+      const colorIndex: Integer;
+      const imageSize: Integer;
+      const tagSize: Integer ): NSImage;
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
@@ -946,6 +951,58 @@ begin
   end;
 end;
 
+class function TDarwinFinderUtil.createMenuRoundImage(
+  const colorIndex: Integer;
+  const imageSize: Integer;
+  const tagSize: Integer ): NSImage;
+
+  procedure drawImageContent( const color: NSColor );
+  var
+    rect: NSRect;
+    path: NSBezierPath;
+  begin
+    color.set_;
+    rect.origin.x:= (imageSize-tagSize) / 2;
+    rect.origin.y:= rect.origin.x;
+    rect.size.width:= tagSize;
+    rect.size.height:= tagSize;
+    rect:= NSInsetRect( rect, 1, 1 );
+    path:= NSBezierPath.bezierPathWithOvalInRect( rect );
+    path.fill;
+    color.blendedColorWithFraction_ofColor( 0.1, NSColor.textColor ).set_;
+    path.stroke;
+  end;
+
+  function createOneColorImage( const color: NSColor ): NSImage;
+  var
+    image: NSImage;
+    imageRep: NSBitmapImageRep;
+    context: NSGraphicsContext;
+  begin
+    imageRep:= NSBitmapImageRep.alloc.initWithBitmapDataPlanes_pixelsWide_pixelsHigh__colorSpaceName_bytesPerRow_bitsPerPixel(
+      nil,
+      imageSize, imageSize,
+      8, 4,
+      True, False,
+      NSCalibratedRGBColorSpace,
+      0, 0 );
+    context:= NSGraphicsContext.graphicsContextWithBitmapImageRep( imageRep );
+    NSGraphicsContext.classSaveGraphicsState;
+    NSGraphicsContext.setCurrentContext( context );
+    drawImageContent( color );
+    image:= NSImage.alloc.initWithSize( NSMakeSize(imageSize,imageSize) );
+    image.addRepresentation( imageRep );
+    Result:= image;
+    NSGraphicsContext.classRestoreGraphicsState;
+  end;
+
+var
+  color: NSColor;
+begin
+  color:= TDarwinFinderModelUtil.menuFinderTagNSColors[colorIndex];
+  Result:= createOneColorImage( color );
+end;
+
 class procedure TDarwinFinderUtil.drawTagName( const tagName: NSString;
   const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
 var
@@ -971,56 +1028,18 @@ end;
 
 class procedure TDarwinFinderUtil.initMenuRoundNSImages;
 var
-  imageSize: NSSize;
-  colors: TFinderTagNSColors;
   count: Integer;
   i: Integer;
-
-  procedure drawImageContent( const color: NSColor );
-  var
-    rect: NSRect;
-    path: NSBezierPath;
-  begin
-    color.set_;
-    rect.origin:= NSZeroPoint;
-    rect.size:= imageSize;
-    rect:= NSInsetRect( rect, 1, 1 );
-    path:= NSBezierPath.bezierPathWithOvalInRect( rect );
-    path.fill;
-    color.blendedColorWithFraction_ofColor( 0.1, NSColor.textColor ).set_;
-    path.stroke;
-  end;
-
-  function createOneColorImage( const color: NSColor ): NSImage;
-  var
-    image: NSImage;
-    imageRep: NSBitmapImageRep;
-    context: NSGraphicsContext;
-  begin
-    imageRep:= NSBitmapImageRep.alloc.initWithBitmapDataPlanes_pixelsWide_pixelsHigh__colorSpaceName_bytesPerRow_bitsPerPixel(
-      nil,
-      FINDER_TAGS_MENU_ROUND_SIZE, FINDER_TAGS_MENU_ROUND_SIZE,
-      8, 4,
-      True, False,
-      NSCalibratedRGBColorSpace,
-      0, 0 );
-    context:= NSGraphicsContext.graphicsContextWithBitmapImageRep( imageRep );
-    NSGraphicsContext.classSaveGraphicsState;
-    NSGraphicsContext.setCurrentContext( context );
-    drawImageContent( color );
-    image:= NSImage.alloc.initWithSize( imageSize );
-    image.addRepresentation( imageRep );
-    Result:= image;
-    NSGraphicsContext.classRestoreGraphicsState;
-  end;
-
+  image: NSImage;
 begin
-  imageSize:= NSMakeSize( FINDER_TAGS_MENU_ROUND_SIZE, FINDER_TAGS_MENU_ROUND_SIZE );
-  colors:= TDarwinFinderModelUtil.menuFinderTagNSColors;
-  count:= Length( colors );
+  count:= Length( TDarwinFinderModelUtil.menuFinderTagNSColors );
   SetLength( _menuTagRoundImages, count );
   for i:= 0 to count-1 do begin
-    _menuTagRoundImages[i]:= createOneColorImage( colors[i] );
+    image:= TDarwinFinderUtil.createMenuRoundImage(
+       i,
+       FINDER_TAGS_MENU_ROUND_SIZE,
+       FINDER_TAGS_MENU_ROUND_SIZE );
+    _menuTagRoundImages[i]:= image;
   end;
 end;
 
