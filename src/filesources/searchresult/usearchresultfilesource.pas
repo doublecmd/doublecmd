@@ -30,7 +30,11 @@ type
   { TSearchResultFileSource }
 
   TSearchResultFileSource = class(TMultiListFileSource, ISearchResultFileSource)
+  protected
+    _displayName: String;
   public
+    constructor Create( const displayName: String );
+
     function GetProcessor: TFileSourceProcessor; override;
 
     function GetRootDir(sPath : String): String; override;
@@ -44,6 +48,7 @@ type
     function GetLocalName(var aFile: TFile): Boolean; override;
 
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
+    function GetDisplayFileName(aFile: TFile): String; override;
   end;
 
 implementation
@@ -83,6 +88,12 @@ begin
       self.consultMoveOperation( params );
   end;
   Inherited;
+end;
+
+constructor TSearchResultFileSource.Create(const displayName: String);
+begin
+  inherited Create;
+  _displayName:= displayName;
 end;
 
 function TSearchResultFileSource.GetProcessor: TFileSourceProcessor;
@@ -137,6 +148,15 @@ begin
   iconPath:= mbExpandFileName( ICON_PATH );
   PixMapManager.LoadBitmapFromFile( iconPath, Result );
 end;
+
+function TSearchResultFileSource.GetDisplayFileName(aFile: TFile): String;
+begin
+  if aFile.FullPath = self.GetRootDir() then
+    Result:= _displayName
+  else
+    Result:= aFile.Name;
+end;
+
 {$ELSE}
 begin
   Result:= nil;

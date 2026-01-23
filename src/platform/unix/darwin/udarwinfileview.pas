@@ -105,8 +105,8 @@ var
   tag: TFinderTag;
   image: NSImage;
 begin
-  Inherited Create;
   _searchName:= toString.UTF8String;
+  Inherited Create( _searchName );
   tag:= TFinderTags.getTagOfName( NSString(tagNames.firstObject) );
   if NOT Assigned(tag) then
     Exit;
@@ -148,7 +148,7 @@ end;
 
 constructor TSmartFolderSearchResultFileSource.Create(savedSearchName: String);
 begin
-  Inherited Create;
+  Inherited Create( savedSearchName );
   _savedSearchName:= savedSearchName;
 end;
 

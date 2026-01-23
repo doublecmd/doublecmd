@@ -2052,7 +2052,7 @@ begin
 
   // Create search result file source.
   // Currently only searching FileSystem is supported.
-  SearchResultFS := TSearchResultFileSource.Create;
+  SearchResultFS := TSearchResultFileSource.Create( rsSearchResult );
   SearchResultFS.AddList(FileList, FFileSource);
 
   // Add new tab for search results.
