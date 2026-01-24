@@ -962,7 +962,7 @@ begin
   if not AtFileList then
     Exit;
 
-{$IF DEFINED(LCLWIN32) OR DEFINED(LCLCOCOA)}
+{$IF DEFINED(LCLWIN32)}
   FMouseFocus:= MainControl.Focused;
   SetFocus;
 {$ELSE}
