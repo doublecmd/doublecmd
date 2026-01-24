@@ -502,18 +502,13 @@ end;
 
 procedure TiCloudDriveUIHandler.createImages;
 var
-  tempImage: NSImage;
+  path: String;
 begin
   _downloadImage.release;
-  tempImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriveConfig.icon.download)) );
-  tempImage.setSize( NSMakeSize(16,16) );
-  if TCocoaThemeServices.isDark then begin
-    _downloadImage:= TDarwinImageUtil.invertColor( tempImage );
-  end else begin
-    _downloadImage:= tempImage;
-  end;
+  path:= mbExpandFileName(iCloudDriveConfig.icon.download);
+  _downloadImage:= TDarwinImageUtil.getBestFromFileContentWithSize( path, 16, True );
+  _downloadImage.setSize( NSMakeSize(16,16) );
   _downloadImage.retain;
-  tempImage.release;
 end;
 
 procedure TiCloudDriveUIHandler.releaseImages;
