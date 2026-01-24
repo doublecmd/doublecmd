@@ -38,7 +38,11 @@ type
   TSynDiffSynEx = class(TSynDiffSyn)
   protected
     function GetSampleSource: string; override;
+{$IF DEFINED(LCL_VER_499)}
+    function GetInitialDefaultFileFilterMask: string; override;
+{$ELSE}
     function GetDefaultFilter: string; override;
+{$ENDIF}
   end;
 
   { TSynHTMLSynEx }
@@ -60,7 +64,11 @@ type
   TSynPasSynEx = class(TSynPasSyn)
   protected
     function GetSampleSource: string; override;
+{$IF DEFINED(LCL_VER_499)}
+    function GetInitialDefaultFileFilterMask: string; override;
+{$ELSE}
     function GetDefaultFilter: string; override;
+{$ENDIF}
   end;
 
   { TSynPerlSynEx }
@@ -74,7 +82,9 @@ type
 
   TSynPoSynEx = class(TSynPoSyn)
   protected
+{$IF NOT DEFINED(LCL_VER_499)}
     function GetDefaultFilter: string; override;
+{$ENDIF}
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -194,7 +204,11 @@ begin
     '  context'#13#10;
 end;
 
+{$IF DEFINED(LCL_VER_499)}
+function TSynDiffSynEx.GetInitialDefaultFileFilterMask: string;
+{$ELSE}
 function TSynDiffSynEx.GetDefaultFilter: string;
+{$ENDIF}
 begin
   Result:= 'Difference Files (*.diff,*.patch)|*.diff;*.patch';
 end;
@@ -218,9 +232,7 @@ end;
 constructor TSynIniSynEx.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-{$IF (LCL_FULLVERSION > 3000002)}
   CommentTypes := [ictSemicolon, ictHash];
-{$ENDIF}
   CommentAttri.StoredName := SYNS_XML_AttrComment;
   TextAttri.StoredName    := SYNS_XML_AttrText;
   SectionAttri.StoredName := SYNS_XML_AttrSection;
@@ -255,7 +267,11 @@ begin
     'end;'#13 + #13;
 end;
 
+{$IF DEFINED(LCL_VER_499)}
+function TSynPasSynEx.GetInitialDefaultFileFilterMask: string;
+{$ELSE}
 function TSynPasSynEx.GetDefaultFilter: string;
+{$ENDIF}
 begin
   Result:= 'Pascal Files (*.pas,*.dpr,*.dpk,*.inc,*.pp,*.lpr)|*.pas;*.dpr;*.dpk;*.inc;*.pp;*.lpr';
 end;
@@ -273,10 +289,12 @@ end;
 
 { TSynPoSynEx }
 
+{$IF NOT DEFINED(LCL_VER_499)}
 function TSynPoSynEx.GetDefaultFilter: string;
 begin
   Result:= 'Po Files (*.po,*.pot)|*.po;*.pot';
 end;
+{$ENDIF}
 
 constructor TSynPoSynEx.Create(AOwner: TComponent);
 begin
