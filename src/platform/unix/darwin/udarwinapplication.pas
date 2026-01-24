@@ -327,7 +327,10 @@ var
   responder: NSResponder;
 begin
   form:= Screen.ActiveForm;
-  control:= form.ActiveControl;
+  if form <> nil then
+    control:= form.ActiveControl
+  else
+    control:= nil;
   LogWrite( '>>> ' + TimeToStr(now) );
   LogWrite( 'LCL:' );
   LogWrite( '  ' + DbgsName(form) );
