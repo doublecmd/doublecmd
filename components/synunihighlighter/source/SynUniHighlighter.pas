@@ -143,7 +143,6 @@ uses
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
 begin
-  inherited Create(AOwner);
   Info := TSynInfo.Create;
   Info.History := TStringList.Create;
   Info.Sample := TStringList.Create;
@@ -157,6 +156,8 @@ begin
   fEol := False;
   fPrEol := False;
   fCurrentRule := MainRules;
+
+  inherited Create(AOwner);
 end;
 
 destructor TSynUniSyn.Destroy;
