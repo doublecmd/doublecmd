@@ -138,7 +138,7 @@ type
 implementation
 
 uses
-  CRC, Laz2_XMLRead;
+  CRC, Laz2_XMLRead, LCLVersion;
 
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
@@ -703,6 +703,9 @@ begin
       ReadXMLFile(Xml, TargetStream, [xrfPreserveWhiteSpace]);
       try
         LoadFromXml(Xml);
+{$if lcl_fullversion >= 4990000}
+        DefaultFilter:= GetDefaultFilter;
+{$endif}
       finally
         Xml.Free;
       end;
