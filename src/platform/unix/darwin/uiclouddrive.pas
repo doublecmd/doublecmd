@@ -507,7 +507,6 @@ begin
   _downloadImage.release;
   path:= mbExpandFileName(iCloudDriveConfig.icon.download);
   _downloadImage:= TDarwinImageUtil.getBestFromFileContentWithSize( path, 16, True );
-  _downloadImage.setSize( NSMakeSize(16,16) );
   _downloadImage.retain;
 end;
 

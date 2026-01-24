@@ -143,7 +143,7 @@ begin
   bestRect.size.height := size;
   bestImageRep:= srcImage.bestRepresentationForRect_context_hints( bestRect, nil, nil );
 
-  bestImage:= NSImage.Alloc.InitWithSize( bestImageRep.size );
+  bestImage:= NSImage.Alloc.InitWithSize( bestRect.size );
   bestImage.autorelease;
   bestImage.AddRepresentation( bestImageRep );
 
