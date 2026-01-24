@@ -13,7 +13,7 @@ uses
   uFileSourceOperation,
   uFileSourceProperty
   {$IFDEF DARWIN}
-  , uPixMapManager, uDCUtils
+  , uDarwinFile, uDarwinImage, uDCUtils
   {$ENDIF}
   ;
 
@@ -146,7 +146,8 @@ var
   iconPath: String;
 begin
   iconPath:= mbExpandFileName( ICON_PATH );
-  PixMapManager.LoadBitmapFromFile( iconPath, Result );
+  Result:= TDarwinImageUtil.toBitmap(
+    TDarwinImageUtil.getBestFromFileContentWithSize( iconPath, iconSize, True ) );
 end;
 {$ELSE}
 begin
