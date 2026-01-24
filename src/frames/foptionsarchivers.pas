@@ -28,19 +28,20 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   DividerBevel, Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn,
-  Buttons, Menus, Dialogs,
+  Buttons, Menus, Dialogs, CheckLst, Controls, Grids, Forms,
   //DC
-  uMultiArc, fOptionsFrame, Controls;
+  uMultiArc, fOptionsFrame;
 type
 
   { TfrmOptionsArchivers }
   TfrmOptionsArchivers = class(TOptionsEditor)
     chkHide: TCheckBox;
     chkFileNameOnlyList: TCheckBox;
-    pnlFileNameOnlyList: TPanel;
+    edtArchiverSizeStripChars: TEdit;
+    lblArchiverSizeStripChars: TLabel;
     pnlArchiverListbox: TPanel;
     lblArchiverListBox: TLabel;
-    lbxArchiver: TListBox;
+    lbxArchiver: TCheckListBox;
     splArchiver: TSplitter;
     pnlArchiverCommands: TPanel;
     pnlArchiverButtons: TPanel;
@@ -120,8 +121,53 @@ type
     pmArchiverParamHelper: TPopupMenu;
     SaveArchiverDialog: TSaveDialog;
     OpenArchiverDialog: TOpenDialog;
+    btnTestParser: TButton;
+    bvlArchiverCommands: TDividerBevel;
+    bvlArchiverOther: TDividerBevel;
+    edtArchiverFallBack: TEdit;
+    edtTestArchive: TFileNameEdit;
+    lblIgnoreString: TLabel;
+    lblArchiverFallBack: TLabel;
+    lblArchiverAskHistory: TLabel;
+    memArchiverOutput: TMemo;
+    memIgnoreString: TMemo;
+    memArchiverAskHistory: TMemo;
+    pnlParser: TPanel;
+    pnlParserHelpers: TPanel;
+    pnlTester: TPanel;
+    btnStaticFileName: TSpeedButton;
+    btnStaticDay: TSpeedButton;
+    btnStaticHour: TSpeedButton;
+    btnStaticMinute: TSpeedButton;
+    btnStaticSecond: TSpeedButton;
+    btnDynamicFileName: TSpeedButton;
+    btnDynamicSize: TSpeedButton;
+    btnDynamicPkSize: TSpeedButton;
+    btnSkipChar: TSpeedButton;
+    btnSkipToFirstSpace: TSpeedButton;
+    btnSkipSpaces: TSpeedButton;
+    btnStaticExt: TSpeedButton;
+    btnStaticHourMod: TSpeedButton;
+    btnStaticComment: TSpeedButton;
+    btnStaticAttr: TSpeedButton;
+    btnStaticSize: TSpeedButton;
+    btnStaticPkSize: TSpeedButton;
+    btnStaticYear: TSpeedButton;
+    btnStaticMonth: TSpeedButton;
+    btnStaticMonthWord: TSpeedButton;
+    gridArcItems: TStringGrid;
+    lblTestArchive: TLabel;
+    lblParserOutput: TLabel;
+    lblResult: TLabel;
+    lblSpacer: TLabel;
+    ckbParserTest: TCheckBox;
+    btnAutoConf: TButton;
+    btnAddonsConf: TSpeedButton;
+    tbParser: TTabSheet;
+    procedure ckbParserTestChange(Sender: TObject);
     procedure chkFileNameOnlyListChange(Sender: TObject);
     procedure chkHideChange(Sender: TObject);
+    procedure lbxArchiverItemClick(Sender: TObject; Index: integer);
     procedure lbxArchiverSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lbxArchiverDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
     procedure lbxArchiverDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
@@ -152,6 +198,13 @@ type
     procedure btnArchiverSelectFileArchiverClick(Sender: TObject);
     procedure btnArchiverRelativerClick(Sender: TObject);
     procedure PopulateParamHelperMenu;
+    procedure btnTestParserClick(Sender: TObject);
+    procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
+    procedure OnParserAddLine(line: string);
+    procedure btnStaticHelperClick(Sender: TObject);
+    procedure btnExtHelperClick(Sender: TObject);
+    procedure ClearTestGrid;
+    procedure tbParserResize(Sender: TObject);
   private
     MultiArcListTemp: TMultiArcList;
     bCurrentlyFilling: boolean;
@@ -178,7 +231,8 @@ uses
   //Lazarus, Free-Pascal, etc.
   IntegerList, LCLVersion,
   //DC
-  DCStrUtils, uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
+  DCStrUtils, uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg,
+  uMultiArchiveUtil;
 
 const
   CONFIG_NOTSAVED = False;
@@ -194,6 +248,9 @@ procedure TfrmOptionsArchivers.Init;
 begin
   OpenArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini;*.addon', rsFilterAnyFiles, AllFilesMask]);
   SaveArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini', rsFilterAnyFiles, AllFilesMask]);
+  // set mono font
+  memArchiverListFormat.Font.Name:= gFonts[dcfEditor].Name;
+  memArchiverOutput.Font.Name:= gFonts[dcfEditor].Name;
 end;
 
 { TfrmOptionsArchivers.Load }
@@ -266,7 +323,12 @@ begin
   bCurrentlyFilling := True;
   iRememberIndex := lbxArchiver.ItemIndex;
   lbxArchiver.Clear;
-  for I := 0 to MultiArcListTemp.Count - 1 do lbxArchiver.Items.AddObject(MultiArcListTemp.Names[I], MultiArcListTemp[I]);
+  for I := 0 to MultiArcListTemp.Count - 1 do
+  begin
+    lbxArchiver.Items.AddObject(MultiArcListTemp.Names[I], MultiArcListTemp[I]);
+    lbxArchiver.Checked[I]:= MultiArcListTemp[I].FEnabled;
+  end;
+
   pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
   chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
   if lbxArchiver.Items.Count > 0 then
@@ -320,6 +382,10 @@ begin
       chkArchiverEnabled.Checked := False;
       pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
       chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
+      memIgnoreString.Lines.Clear;
+      memArchiverAskHistory.Lines.Clear;
+      edtArchiverFallBack.Text:= EmptyStr;
+      edtArchiverSizeStripChars.Text:= EmptyStr;
     end
     else
     begin
@@ -351,10 +417,17 @@ begin
         chkArchiverMultiArcOutput.Checked := FOutput;
         chkArchiverMultiArcDebug.Checked := FDebug;
         chkArchiverEnabled.Checked := FEnabled;
+        memIgnoreString.Lines.Assign(FIgnoreString);
+        memArchiverAskHistory.Lines.Assign(FAskHistory);
+        edtArchiverFallBack.Text:= FFallBack;
+        edtArchiverSizeStripChars.Text:= FSizeStripChars;
       end;
     end;
     chkFileNameOnlyListChange(chkFileNameOnlyList);
     SetControlsState(chkArchiverEnabled.Checked);
+    ClearTestGrid;
+    memArchiverOutput.Clear;
+    edtTestArchive.Text:= EmptyStr;
 
     SetConfigurationState(CONFIG_SAVED);
     bCurrentlyLoadingSettings := False;
@@ -368,15 +441,146 @@ begin
   AEnabled:= (not chkFileNameOnlyList.Checked) and chkArchiverEnabled.Checked;
   edtArchiverList.Enabled:= AEnabled;
   btnArchiverListHelper.Enabled:= AEnabled;
+{
   edtArchiverListStart.Enabled:= AEnabled;
   edtArchiverListEnd.Enabled:= AEnabled;
   memArchiverListFormat.Enabled:= AEnabled;
+ }
+  pnlParser.Enabled:= AEnabled;
+
   edtAnyChange(Sender);
+end;
+
+procedure TfrmOptionsArchivers.ckbParserTestChange(Sender: TObject);
+begin
+  pnlTester.Visible:= ckbParserTest.Checked;
+end;
+
+procedure TfrmOptionsArchivers.OnParserAddLine(line: string);
+begin
+  memArchiverOutput.Append(line);
+end;
+
+procedure TfrmOptionsArchivers.btnStaticHelperClick(Sender: TObject);
+var
+  I, Len: Integer;
+  Str: String = '';
+begin
+  Len:= memArchiverListFormat.SelLength;
+  if len > 0 then
+    for I:= 1 to len do
+      str:= str + TSpeedButton(Sender).Caption
+  else
+    str:= TSpeedButton(Sender).Caption;
+  memArchiverListFormat.SelText:= str;
+end;
+
+procedure TfrmOptionsArchivers.btnExtHelperClick(Sender: TObject);
+begin
+  memArchiverListFormat.SelText:= TSpeedButton(Sender).Caption;
+end;
+
+procedure TfrmOptionsArchivers.ClearTestGrid;
+var
+  I, Count: Integer;
+begin
+  Count:= gridArcItems.RowCount;
+
+  if Count > 1 then
+    for I:= Count - 1 downto 1 do
+      gridArcItems.DeleteRow(I);
+end;
+
+procedure TfrmOptionsArchivers.tbParserResize(Sender: TObject);
+begin
+  pnlParser.Height:= tbParser.Height;
+end;
+
+procedure TfrmOptionsArchivers.OnGetArchiveItem(ArchiveItem: TArchiveItem);
+var
+  I, Last: integer;
+begin
+  I:= 0;
+  Last:= gridArcItems.RowCount;
+  gridArcItems.InsertRowWithValues(Last, []);
+  gridArcItems.Cells[I, Last] := ArchiveItem.FileName;
+  Inc(I);
+  gridArcItems.Cells[I, Last] := ArchiveItem.FileExt;
+  Inc(I);
+  gridArcItems.Cells[I, Last] := ArchiveItem.FileLink;
+  Inc(I);
+  gridArcItems.Cells[I, Last] := ArchiveItem.Comment;
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.PackSize);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.UnpSize);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Year);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Month);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Day);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Hour);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Minute);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Second);
+  Inc(I);
+  gridArcItems.Cells[I, Last] := IntToStr(ArchiveItem.Attributes);
+end;
+
+procedure TfrmOptionsArchivers.btnTestParserClick(Sender: TObject);
+var
+  OutputParser: TOutputParser;
+  MultiArcItem: TMultiArcItem;
+begin
+  memArchiverOutput.Lines.Clear;
+  ClearTestGrid;
+  MultiArcItem := TMultiArcItem.Create;
+  with MultiArcItem do
+  begin
+    FEnabled:=True;
+    FPacker := lbxArchiver.Items[lbxArchiver.ItemIndex];
+    FDescription := edtArchiverDescription.Text;
+    FArchiver := edtArchiverArchiver.Text;
+    FExtension := edtArchiverExtension.Text;
+    FList := edtArchiverList.Text;
+    FStart := edtArchiverListStart.Text;
+    FEnd := edtArchiverListEnd.Text;
+    FFormat.Assign(memArchiverListFormat.Lines);
+    FPasswordQuery:= edtArchiverPasswordQuery.Text;
+    FFormMode := 0;
+    if ckbArchiverUnixPath.Checked then  FFormMode := FFormMode or $01;
+    if ckbArchiverWindowsPath.Checked then  FFormMode := FFormMode or $02;
+    if ckbArchiverUnixFileAttributes.Checked then  FFormMode := FFormMode or $04;
+    if ckbArchiverWindowsFileAttributes.Checked then  FFormMode := FFormMode or $08;
+    FIgnoreString.Assign(memIgnoreString.Lines);
+    FSizeStripChars:= edtArchiverSizeStripChars.Text;
+  end;
+  OutputParser := TOutputParser.Create(MultiArcItem, edtTestArchive.FileName);
+  OutputParser.OnAddLine:= @OnParserAddLine;
+  OutputParser.OnGetArchiveItem:= @OnGetArchiveItem;
+  OutputParser.Prepare;
+  OutputParser.Execute;
+  OutputParser.Destroy;
+  MultiArcItem.Destroy;
+  memArchiverOutput.SelStart:= 0;
+  gridArcItems.AutoSizeColumns;
 end;
 
 procedure TfrmOptionsArchivers.chkHideChange(Sender: TObject);
 begin
   edtAnyChange(Sender);
+end;
+
+procedure TfrmOptionsArchivers.lbxArchiverItemClick(Sender: TObject;
+  Index: integer);
+var
+  Checked: Boolean;
+begin
+  if not bCurrentlyLoadingSettings then
+    SetControlsState(lbxArchiver.Checked[Index]);
 end;
 
 { TfrmOptionsArchivers.lbxArchiverDragOver }
@@ -493,7 +697,7 @@ begin
     for iComponentIndex := 0 to pred(ComponentCount) do
       if Components[iComponentIndex].Owner <> nil then
         if Components[iComponentIndex].InheritsFrom(TControl) then
-          if (TControl(Components[iComponentIndex]).Parent = tbArchiverGeneral) or (TControl(Components[iComponentIndex]).Parent = tbArchiverAdditional) then
+          if (TControl(Components[iComponentIndex]).Parent = tbArchiverGeneral) or (TControl(Components[iComponentIndex]).Parent = tbArchiverAdditional)  or (TControl(Components[iComponentIndex]).Parent = tbParser) then
             if Components[iComponentIndex].Name <> chkArchiverEnabled.Name then
               TControl(Components[iComponentIndex]).Enabled := bWantedState;
 end;
@@ -544,6 +748,10 @@ begin
     if ckbArchiverWindowsFileAttributes.Checked then  FFormMode := FFormMode or $08;
     FOutput := chkArchiverMultiArcOutput.Checked;
     FDebug := chkArchiverMultiArcDebug.Checked;
+    FIgnoreString.Assign(memIgnoreString.Lines);
+    FAskHistory.Assign(memArchiverAskHistory.Lines);
+    FFallBack:= edtArchiverFallBack.Text;
+    FSizeStripChars:= edtArchiverSizeStripChars.Text;
     SetConfigurationState(CONFIG_SAVED);
   end;
 end;
@@ -663,14 +871,18 @@ procedure TfrmOptionsArchivers.btnArchiverOtherClick(Sender: TObject);
 var
   pWantedPos: TPoint;
 begin
-  pWantedPos := btnArchiverOther.ClientToScreen(Point(btnArchiverOther.Width div 2, btnArchiverOther.Height - 5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
+  pWantedPos := btnAddonsConf.ClientToScreen(Point(btnArchiverOther.Width div 2, btnArchiverOther.Height - 5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
   pmArchiverOther.PopUp(pWantedPos.X, pWantedPos.Y);
 end;
 
 { TfrmOptionsArchivers.miArchiverAutoConfigureClick }
 procedure TfrmOptionsArchivers.miArchiverAutoConfigureClick(Sender: TObject);
+var
+  I: Integer;
 begin
   MultiArcListTemp.AutoConfigure;
+  for I := 0 to MultiArcListTemp.Count - 1 do
+    lbxArchiver.Checked[I]:= MultiArcListTemp[I].FEnabled;
   lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 
@@ -702,7 +914,10 @@ var
   iIndex: integer;
 begin
   for iIndex := 0 to pred(MultiArcListTemp.Count) do
+  begin
     MultiArcListTemp.Items[iIndex].FEnabled := (TComponent(Sender).Tag = 1);
+    lbxArchiver.Checked[iIndex]:= MultiArcListTemp.Items[iIndex].FEnabled;
+  end;
   lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 
