@@ -7,7 +7,6 @@ interface
 
 uses
   Classes, SysUtils, Menus, uLng,
-  Controls, Forms, ExtCtrls, LazLoggerBase, uLog,
   MacOSAll, CocoaAll,
   CocoaInt, CocoaPrivate, CocoaThemes, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
   uDarwinUtil, uDarwinFinder;
@@ -310,50 +309,6 @@ begin
   if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
     AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
 end;
-
-type
-  
-  TDebugTimer = class( TTimer )
-    procedure log( Sender: TObject );
-  end;
-
-procedure TDebugTimer.log(Sender: TObject);
-var
-  form: TForm;
-  control: TControl;
-
-  DCApp: TDCCocoaApplication Absolute NSApp;
-  window: NSWindow;
-  responder: NSResponder;
-begin
-  form:= Screen.ActiveForm;
-  if form <> nil then
-    control:= form.ActiveControl
-  else
-    control:= nil;
-  LogWrite( '>>> ' + TimeToStr(now) );
-  LogWrite( 'LCL:' );
-  LogWrite( '  ' + DbgsName(form) );
-  LogWrite( '  ' + DbgsName(control) );
-
-  window:= DCApp.keyWindow;
-  responder:= window.firstResponder;
-  LogWrite( 'COCOA:' );
-  LogWrite( '  ' + window.className.UTF8String + ': ' + DbgsName(window.lclGetTarget) );
-  LogWrite( '  ' + responder.className.UTF8String + ': ' + DbgsName(responder.lclGetTarget)  );
-
-  LogWrite( '' );
-end;
-
-var
-  debugTimer: TDebugTimer;
-
-initialization
-  debugTimer:= TDebugTimer.Create( nil );
-  debugTimer.Interval:= 10*1000;
-  debugTimer.OnTimer:= @debugTimer.log;
-  debugTimer.Enabled:= True;
-
 
 end.
 
