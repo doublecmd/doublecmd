@@ -10,7 +10,7 @@ uses
   Graphics,
   uClassesEx,
   uDarwinUtil, uDarwinFile,
-  CocoaAll;
+  CocoaAll, CocoaThemes;
 
 type
   
@@ -28,7 +28,8 @@ type
       const size:Integer ): NSImage;
     class function getBestFromFileContentWithSize(
       const path: String;
-      const size: Integer ): NSImage;
+      const size: Integer;
+      const autoDark: Boolean = False ): NSImage;
     class function getBitmapForExt(
       const ext: String;
       const size: Integer ): TBitmap;
@@ -151,13 +152,18 @@ end;
 
 class function TDarwinImageUtil.getBestFromFileContentWithSize(
   const path: String;
-  const size: Integer ): NSImage;
+  const size: Integer;
+  const autoDark: Boolean = False ): NSImage;
 var
   image: NSImage;
 begin
-  image:= NSImage.alloc.initByReferencingFile( StringToNSString(path) );
+  image:= NSImage.alloc.initWithContentsOfFile( StringToNSString(path) );
+  image.autorelease;
+  if autoDark then begin
+    if TCocoaThemeServices.isDark then
+      image:= TDarwinImageUtil.invertColor( image );
+  end;
   Result:= TDarwinImageUtil.getBestWithSize( image, size );
-  image.release;
 end;
 
 class function TDarwinImageUtil.getBitmapForExt(
