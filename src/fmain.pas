@@ -4228,6 +4228,9 @@ var
 begin
   SetDragCursor(Shift);
 
+  if ActiveControl = nil then
+    ActiveFrame.SetFocus;
+
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
