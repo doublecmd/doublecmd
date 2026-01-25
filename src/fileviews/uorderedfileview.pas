@@ -886,7 +886,7 @@ begin
       if PathIsAbsolute then
         Result := (FFiles[Index].FSFile.FullPath = aFilePath)
       else
-        Result := (FFiles[Index].FSFile.Name = aFilePath);
+        Result := (FileSource.GetFileName(FFiles[Index].FSFile) = aFilePath);
       if Result then
       begin
           SetUpdate(Index);
