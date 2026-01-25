@@ -81,6 +81,7 @@ type
   private
     procedure createWatcher;
     procedure destroyWatcher;
+    procedure tryDestroyWatcher( data: PtrInt );
     function findWatch(const path: String; const event: TFSWatcherEvent): Integer;
   private
     function toFileSourceEvent( event: TDarwinFSWatchEvent;
@@ -202,6 +203,17 @@ begin
   FreeAndNil( _watcher );
 end;
 
+procedure TiCloudDriveWatcher.tryDestroyWatcher( data: PtrInt );
+begin
+  _lockObject.Acquire;
+  try
+    if _watcherItems.Count = 0 then
+      destroyWatcher;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
 function TiCloudDriveWatcher.findWatch(const path: String; const event: TFSWatcherEvent): Integer;
 var
   i: Integer;
@@ -313,6 +325,8 @@ begin
       Exit;
 
     _watcherItems.Delete( index );
+    if _watcherItems.count = 0 then
+      Application.QueueAsyncCall( @tryDestroyWatcher, PtrInt(self) );
   finally
     _lockObject.Release;
   end;
@@ -326,6 +340,7 @@ end;
 
 destructor TiCloudDriveWatcher.Destroy;
 begin
+  application.RemoveAsyncCalls( self );
   destroyWatcher;
   FreeAndNil( _watcherItems );
   FreeAndNil( _lockObject );
