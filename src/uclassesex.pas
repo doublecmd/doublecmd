@@ -49,6 +49,7 @@ type
   TIniPropStorageEx = class(TCustomIniPropStorage)
   private
     FPixelsPerInch: Integer;
+    procedure FormFirstShow(Sender: TObject);
     function ChangeIdent(const Ident: String): String;
   protected
     procedure SaveProperties; override;
@@ -172,9 +173,21 @@ begin
   Result:= TIniFileEx;
 end;
 
-procedure TIniPropStorageEx.Restore;
+procedure TIniPropStorageEx.FormFirstShow(Sender: TObject);
 var
   AMonitor: TMonitor;
+begin
+  with TCustomForm(Sender) do
+  begin
+    // Refresh monitor list
+    Screen.UpdateMonitors;
+
+    AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
+    if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
+  end;
+end;
+
+procedure TIniPropStorageEx.Restore;
 begin
   StorageNeeded(True);
   try
@@ -188,12 +201,7 @@ begin
   begin
     with TCustomForm(Self.Owner) do
     begin
-      // Refresh monitor list
-      Screen.UpdateMonitors;
-
-      AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
-      if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
-
+      AddHandlerFirstShow(@FormFirstShow);
       // Workaround for bug: http://bugs.freepascal.org/view.php?id=18514
       if WindowState = wsMinimized then WindowState:= wsNormal;
     end;
@@ -206,7 +214,6 @@ var
   Form: TCustomForm;
 begin
   Result := inherited DoReadString(Section, ChangeIdent(Ident), Default);
-{$if lcl_fullversion >= 1070000}
   // Workaround for bug: http://bugs.freepascal.org/view.php?id=31526
   if (Self.Owner is TCustomForm) and (TCustomForm(Self.Owner).Scaled) then
   begin
@@ -222,7 +229,6 @@ begin
       end;
     end;
   end;
-{$endif}
 end;
 
 procedure TIniPropStorageEx.DoWriteString(const Section, Ident, Value: string);
