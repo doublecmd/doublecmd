@@ -979,11 +979,6 @@ var
   LastActiveWindow: TCustomForm = nil;
 {$ENDIF}
 
-{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
-var
-  CloseQueryResult: Boolean = False;
-{$ENDIF}
-
 {$IFDEF LCLGTK2}
 var
   MinimizedWindowButton: Boolean = False;
@@ -1242,8 +1237,6 @@ begin
   TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
 
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
-  // Fixes bug - [0000033] "DC cancels shutdown in KDE"
-  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=33
   QEventHook:= QObject_hook_create(TQtWidget(Self.Handle).Widget);
   QObject_hook_hook_events(QEventHook, @QObjectEventFilter);
 {$ENDIF}
@@ -1873,10 +1866,6 @@ begin
       end;
     end;
   end;
-
-{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
-  CloseQueryResult:= CanClose;
-{$ENDIF}
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -7410,15 +7399,6 @@ begin
     QEventApplicationPaletteChange:
     begin
       ThemeServices.IntfDoOnThemeChange;
-    end;
-    QEventClose:
-    begin
-      TQtWidget(Self.Handle).SlotClose;
-      Result:= CloseQueryResult;
-      if Result then
-        QEvent_accept(Event)
-      else
-        QEvent_ignore(Event);
     end;
   end;
 end;
