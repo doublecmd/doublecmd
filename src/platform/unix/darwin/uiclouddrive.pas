@@ -313,8 +313,6 @@ begin
       Exit;
 
     _watcherItems.Delete( index );
-    if _watcherItems.count = 0 then
-      destroyWatcher;
   finally
     _lockObject.Release;
   end;
