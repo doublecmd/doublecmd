@@ -729,6 +729,9 @@ procedure TSynUniSyn.SaveToStream(Stream: TStream; Rule: TSynRule);
 var
   StreamWriter: TStreamWriter;
 begin
+{$if lcl_fullversion >= 4990000}
+  SetDefaultFilter(DefaultFilter);
+{$endif}
   StreamWriter := TStreamWriter.Create(Stream);
   with StreamWriter do begin
     WriteTag(0, 'UniHighlighter');
