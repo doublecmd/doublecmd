@@ -40,6 +40,9 @@ type
 
 implementation
 
+const
+  MAX_MENU_COUNT = 20;
+
 type
   
   { TMenuItem }
@@ -156,22 +159,38 @@ class function TDarwinFileViewHistoryUtil.createBackwardMenu(
   const onAction: TGotoHistoryAction ): NSMenu;
 var
   fsIndex: Integer;
-  pathIndex: Integer;
   menu: THistoryMenu;
+  count: Integer = 0;
+
+  procedure addHistory;
+  var
+    pathIndex: Integer;
+  begin
+    fsIndex:= fileView.CurrentFileSourceIndex;
+    for pathIndex:= fileView.CurrentPathIndex-1 downto 0 do begin
+      addMenuItem( menu, fileView, fsIndex, pathIndex );
+      inc( count );
+      if count >= MAX_MENU_COUNT then
+        Exit;
+    end;
+
+    Dec( fsIndex );
+    while fsIndex >= 0 do begin
+      for pathIndex:= fileView.PathsCount[fsIndex]-1 downto 0 do begin
+        addMenuItem( menu, fileView, fsIndex, pathIndex );
+        inc( count );
+        if count >= MAX_MENU_COUNT then
+          Exit;
+      end;
+      Dec( fsIndex );
+    end;
+  end;
+
 begin
   menu:= THistoryMenu.new;
   menu.onAction:= onAction;
 
-  fsIndex:= fileView.CurrentFileSourceIndex;
-  for pathIndex:= fileView.CurrentPathIndex-1 downto 0 do
-    addMenuItem( menu, fileView, fsIndex, pathIndex );
-
-  Dec( fsIndex );
-  while fsIndex >= 0 do begin
-    for pathIndex:= fileView.PathsCount[fsIndex]-1 downto 0 do
-      addMenuItem( menu, fileView, fsIndex, pathIndex );
-    Dec( fsIndex );
-  end;
+  addHistory;
 
   if menu.numberOfItems = 0 then begin
     menu.release;
@@ -186,22 +205,38 @@ class function TDarwinFileViewHistoryUtil.createForwardMenu(
   const onAction: TGotoHistoryAction ): NSMenu;
 var
   fsIndex: Integer;
-  pathIndex: Integer;
   menu: THistoryMenu;
+  count: Integer = 0;
+
+  procedure addHistory;
+  var
+    pathIndex: Integer;
+  begin
+    fsIndex:= fileView.CurrentFileSourceIndex;
+    for pathIndex:= fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do begin
+      addMenuItem( menu, fileView, fsIndex, pathIndex );
+      inc( count );
+      if count >= MAX_MENU_COUNT then
+        Exit;
+    end;
+
+    Inc( fsIndex );
+    while fsIndex < fileView.FileSourcesCount do begin
+      for pathIndex:= 0 to fileView.PathsCount[fsIndex]-1 do begin
+        addMenuItem( menu, fileView, fsIndex, pathIndex );
+        inc( count );
+        if count >= MAX_MENU_COUNT then
+          Exit;
+      end;
+      Inc( fsIndex );
+    end;
+  end;
+
 begin
   menu:= THistoryMenu.new;
   menu.onAction:= onAction;
 
-  fsIndex:= fileView.CurrentFileSourceIndex;
-  for pathIndex:= fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do
-    addMenuItem( menu, fileView, fsIndex, pathIndex );
-
-  Inc( fsIndex );
-  while fsIndex < fileView.FileSourcesCount do begin
-    for pathIndex:= 0 to fileView.PathsCount[fsIndex]-1 do
-      addMenuItem( menu, fileView, fsIndex, pathIndex );
-    Inc( fsIndex );
-  end;
+  addHistory;
 
   if menu.numberOfItems = 0 then begin
     menu.release;
