@@ -146,8 +146,7 @@ var
   iconPath: String;
 begin
   iconPath:= mbExpandFileName( ICON_PATH );
-  Result:= TDarwinImageUtil.toBitmap(
-    TDarwinImageUtil.getBestFromFileContentWithSize( iconPath, iconSize, True ) );
+  Result:= darwinImageCacheForPath.copyImageForFileContent( iconPath, iconSize, True );
 end;
 {$ELSE}
 begin

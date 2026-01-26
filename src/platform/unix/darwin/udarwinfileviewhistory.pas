@@ -80,7 +80,7 @@ class function TDarwinFileViewHistoryUtil.getIcon(
   const fs: IFileSource;
   const path: String ): NSImage;
 var
-  bitmap: TBitmap = nil;
+  bitmap: TBitmap;
 begin
   bitmap:= fs.GetCustomIcon( path, gIconsInMenusSize );
 
