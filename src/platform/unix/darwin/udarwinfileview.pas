@@ -151,11 +151,8 @@ end;
 function TSmartFolderSearchResultFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
-var
-  image: NSImage;
 begin
-  image:= TDarwinFileUtil.getIconForExt( 'savedSearch' );
-  Result:= TDarwinImageUtil.toBitmap( image );
+  Result:= darwinImageCacheManager.copyIconForFileExt( 'savedSearch', iconSize );
 end;
 
 { TDarwinSearchResultHandler }
