@@ -233,7 +233,10 @@ var
   bitmap: TBitmap;
 begin
   Result:= nil;
-  ext:= ExtractOnlyFileExt( path );
+  if path.LastIndexOf('.') > 0 then
+    ext:= ExtractOnlyFileExt( path )
+  else
+    ext:= path;
   if ext.IsEmpty then
     Exit;
 
