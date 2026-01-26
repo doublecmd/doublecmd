@@ -43,13 +43,15 @@ type
 
   { TDarwinImageCacheManager }
 
-  TDarwinImageCacheManager = class
+  TDarwinImageCacheManager = class( ICocoaThemeObserver )
   private
     _lockObject: TCriticalSection;
     _images: TFPDataHashTable;
   public
     constructor Create;
     destructor Destroy; override;
+
+    procedure onThemeChanged;
 
     function copyIconForFileExt(
       const path: String;
@@ -230,6 +232,16 @@ begin
   FreeAndNil( _lockObject );
 end;
 
+procedure TDarwinImageCacheManager.onThemeChanged;
+begin
+  _lockObject.Acquire;
+  try
+    _images.Clear;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
 function TDarwinImageCacheManager.copyIconForFileExt(
   const path: String;
   const size: Integer ): TBitmap;
@@ -317,10 +329,14 @@ end;
 
 initialization
   darwinImageCacheForPath:= TDarwinImageCacheManager.Create;
+  TCocoaThemeServices.addObserver( darwinImageCacheForPath );
   darwinImageCacheForExt:= TDarwinImageCacheManager.Create;
+  TCocoaThemeServices.addObserver( darwinImageCacheForExt );
 
 finalization
+  TCocoaThemeServices.removeObserver( darwinImageCacheForPath );
   FreeAndNil( darwinImageCacheForPath );
+  TCocoaThemeServices.removeObserver( darwinImageCacheForExt );
   FreeAndNil( darwinImageCacheForExt );
 
 end.
