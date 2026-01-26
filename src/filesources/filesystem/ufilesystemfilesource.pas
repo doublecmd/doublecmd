@@ -380,6 +380,9 @@ end;
 class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
 begin
   Result := TFile.Create(APath);
+  {$IF DEFINED(DARWIN)}
+  Result.SetPropertyLazyLoader(@PropertyLazyLoader);
+  {$ENDIF}
 
   with Result do
   begin
@@ -401,9 +404,9 @@ var
   LinkAttrs: TFileAttrs;
 begin
   Result := TFile.Create(APath);
-{$IF DEFINED(DARWIN)}
+  {$IF DEFINED(DARWIN)}
   Result.SetPropertyLazyLoader(@PropertyLazyLoader);
-{$ENDIF}
+  {$ENDIF}
 
   with Result do
   begin
@@ -557,6 +560,10 @@ var
   SearchRec: TSearchRecEx;
 {$ENDIF}
 begin
+  {$IF DEFINED(DARWIN)}
+  Afile.SetPropertyLazyLoader(@PropertyLazyLoader);
+  {$ENDIF}
+
   AProps := AFile.AssignedProperties;
 
   // Omit properties that are already assigned.
