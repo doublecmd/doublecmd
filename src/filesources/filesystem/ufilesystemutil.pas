@@ -90,7 +90,9 @@ type
     FAutoRenameItSelf: Boolean;
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
+{$IF DEFINED(MSWINDOWS)}
     FMaxPathOption: TFileSourceOperationUIResponse;
+{$ENDIF}
     FCopyOnWrite: TFileSourceOperationOptionGeneral;
     FDeleteFileOption: TFileSourceOperationUIResponse;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -188,6 +190,9 @@ uses
 {$ENDIF}
 {$IFDEF DARWIN}
   , DCDarwin
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+  , LCLStrConsts
 {$ENDIF}
   ;
 
@@ -1203,14 +1208,14 @@ begin
         end;
       end;
     end;
-
+{$IF DEFINED(MSWINDOWS)}
     // Check MAX_PATH
     if gLongNameAlert and (UTF8Length(TargetName) > MAX_PATH - 1) then
     begin
       if FMaxPathOption <> fsourInvalid then
         AskResult := FMaxPathOption
       else begin
-        AskResult := AskQuestion(Format(rsMsgFilePathOverMaxPath,
+        AskResult := AskQuestion(rsMtWarning + LineEnding + LineEnding + Format(rsMsgFilePathOverMaxPath,
                          [UTF8Length(TargetName), MAX_PATH - 1, LineEnding + WrapTextSimple(TargetName, 100) + LineEnding]), '',
                          [fsourIgnore, fsourSkip, fsourAbort, fsourIgnoreAll, fsourSkipAll], fsourIgnore, fsourSkip);
         if AskResult = fsourSkipAll then FMaxPathOption := fsourSkip;
@@ -1230,7 +1235,7 @@ begin
         fsourIgnoreAll: FMaxPathOption := fsourIgnore;
       end;
     end;
-
+{$ENDIF}
     if aFile.IsLink then
       ProcessedOk := ProcessLink(CurrentSubNode, TargetName)
     else if aFile.IsDirectory then
