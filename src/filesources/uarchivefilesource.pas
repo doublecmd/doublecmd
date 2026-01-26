@@ -97,7 +97,7 @@ begin
 
   {$IFDEF DARWIN}
   if path = PathDelim then
-    Result:= darwinImageCacheManager.copyIconForFileExt( FCurrentAddress, iconSize );
+    Result:= darwinImageCacheForExt.copyIconForFileExt( FCurrentAddress, iconSize );
   {$ENDIF}
 end;
 

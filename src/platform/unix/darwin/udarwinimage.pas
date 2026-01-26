@@ -64,7 +64,8 @@ type
   end;
 
 var
-  darwinImageCacheManager: TDarwinImageCacheManager;
+  darwinImageCacheForPath: TDarwinImageCacheManager;
+  darwinImageCacheForExt: TDarwinImageCacheManager;
 
 implementation
 
@@ -290,10 +291,12 @@ begin
 end;
 
 initialization
-  darwinImageCacheManager:= TDarwinImageCacheManager.Create;
+  darwinImageCacheForPath:= TDarwinImageCacheManager.Create;
+  darwinImageCacheForExt:= TDarwinImageCacheManager.Create;
 
 finalization
-  FreeAndNil( darwinImageCacheManager );
+  FreeAndNil( darwinImageCacheForPath );
+  FreeAndNil( darwinImageCacheForExt );
 
 end.
 
