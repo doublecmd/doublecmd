@@ -6,7 +6,7 @@ unit uDarwinImage;
 interface
 
 uses
-  Classes, SysUtils, Contnrs,
+  Classes, SysUtils, Contnrs, syncobjs,
   Graphics,
   uClassesEx, DCStrUtils,
   uDarwinUtil, uDarwinFile,
@@ -45,6 +45,7 @@ type
 
   TDarwinImageCacheManager = class
   private
+    _lockObject: TCriticalSection;
     _images: TFPDataHashTable;
   public
     constructor Create;
@@ -219,12 +220,14 @@ end;
 
 constructor TDarwinImageCacheManager.Create;
 begin
+  _lockObject:= TCriticalSection.Create;;
   _images:= TFPDataHashTable.Create;
 end;
 
 destructor TDarwinImageCacheManager.Destroy;
 begin
-  _images.Free;
+  FreeAndNil( _images );
+  FreeAndNil( _lockObject );
 end;
 
 function TDarwinImageCacheManager.copyIconForFileExt(
@@ -242,11 +245,17 @@ begin
   if ext.IsEmpty then
     Exit;
 
-  bitmap:= _images[ext];
-  if _images[ext] = nil then begin
-    bitmap:= TDarwinImageUtil.getBitmapForExt( ext, size );
-    _images[ext]:= bitmap;
+  _lockObject.Acquire;
+  try
+    bitmap:= _images[ext];
+    if _images[ext] = nil then begin
+      bitmap:= TDarwinImageUtil.getBitmapForExt( ext, size );
+      _images[ext]:= bitmap;
+    end;
+  finally
+    _lockObject.Release;
   end;
+
   if Assigned(bitmap) then begin
     Result:= TBitmap.Create;
     Result.Assign( bitmap );
@@ -262,12 +271,19 @@ var
   bitmap: TBitmap;
 begin
   Result:= nil;
-  bitmap:= _images[path];
-  if _images[path] = nil then begin
-    image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
-    bitmap:= TDarwinImageUtil.toBitmap( image );
-    _images[path]:= bitmap;
+
+  _lockObject.Acquire;
+  try
+    bitmap:= _images[path];
+    if _images[path] = nil then begin
+      image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
+      bitmap:= TDarwinImageUtil.toBitmap( image );
+      _images[path]:= bitmap;
+    end;
+  finally
+    _lockObject.Release;
   end;
+
   if Assigned(bitmap) then begin
     Result:= TBitmap.Create;
     Result.Assign( bitmap );
@@ -281,11 +297,18 @@ var
   bitmap: TBitmap;
 begin
   Result:= nil;
-  bitmap:= _images[key];
-  if _images[key] = nil then begin
-    bitmap:= TDarwinImageUtil.toBitmap( image );
-    _images[key]:= bitmap;
+
+  _lockObject.Acquire;
+  try
+    bitmap:= _images[key];
+    if _images[key] = nil then begin
+      bitmap:= TDarwinImageUtil.toBitmap( image );
+      _images[key]:= bitmap;
+    end;
+  finally
+    _lockObject.Release;
   end;
+
   if Assigned(bitmap) then begin
     Result:= TBitmap.Create;
     Result.Assign( bitmap );
