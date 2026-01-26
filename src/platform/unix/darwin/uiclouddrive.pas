@@ -708,23 +708,24 @@ begin
   Result:= iCloudDriveUIProcessor;
 end;
 
-function TiCloudDriveFileSource.GetCustomIcon(const path: String;
-  const iconSize: Integer): TBitmap;
+function TiCloudDriveFileSource.GetCustomIcon(
+  const path: String;
+  const iconSize: Integer ): TBitmap;
 var
   realPath: String;
   iconPath: String;
   image: NSImage;
 begin
+  Result:= nil;
   if path = GetRootDir(path) then begin
     TiCloudDriveFileSource.GetMainIcon( iconPath );
     Result:= darwinImageCacheManager.copyImageForFileContent( iconPath, iconSize );
-    Exit;
   end else begin
     realPath:= self.GetRealPath( path );
     image:= getAppIconByPath( realPath );
+    if image <> nil then
+      Result:= darwinImageCacheManager.copyImageForNSImage( realPath, image );
   end;
-
-  Result:= TDarwinImageUtil.toBitmap( image );
 end;
 
 class function TiCloudDriveFileSource.GetMainIcon(out Path: String): Boolean;
