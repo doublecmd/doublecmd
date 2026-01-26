@@ -717,7 +717,8 @@ var
 begin
   if path = GetRootDir(path) then begin
     TiCloudDriveFileSource.GetMainIcon( iconPath );
-    image:= TDarwinImageUtil.getBestFromFileContentWithSize( iconPath, iconSize );
+    Result:= darwinImageCacheManager.copyImageForFileContent( iconPath, iconSize );
+    Exit;
   end else begin
     realPath:= self.GetRealPath( path );
     image:= getAppIconByPath( realPath );
