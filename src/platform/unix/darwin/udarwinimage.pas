@@ -57,6 +57,10 @@ type
     function copyImageForFileContent(
       const path: String;
       const size: Integer ): TBitmap;
+
+    function copyImageForNSImage(
+      const key: String;
+      const image: NSImage ): TBitmap;
   end;
 
 var
@@ -257,6 +261,24 @@ begin
     image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size );
     bitmap:= TDarwinImageUtil.toBitmap( image );
     _images[path]:= bitmap;
+  end;
+  if Assigned(bitmap) then begin
+    Result:= TBitmap.Create;
+    Result.Assign( bitmap );
+  end;
+end;
+
+function TDarwinImageCacheManager.copyImageForNSImage(
+  const key: String;
+  const image: NSImage ): TBitmap;
+var
+  bitmap: TBitmap;
+begin
+  Result:= nil;
+  bitmap:= _images[key];
+  if _images[key] = nil then begin
+    bitmap:= TDarwinImageUtil.toBitmap( image );
+    _images[key]:= bitmap;
   end;
   if Assigned(bitmap) then begin
     Result:= TBitmap.Create;
