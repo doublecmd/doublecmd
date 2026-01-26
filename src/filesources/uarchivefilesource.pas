@@ -93,11 +93,11 @@ end;
 function TArchiveFileSource.GetCustomIcon(const path: String;
   const iconSize: Integer): TBitmap;
 begin
-  {$IFDEF DARWIN}
-  Result:= TDarwinImageUtil.toBitmap(
-    TDarwinImageUtil.getFileIconWithSize( FCurrentAddress, iconSize ) );
-  {$ELSE}
   Result:= nil;
+
+  {$IFDEF DARWIN}
+  if path = PathDelim then
+    Result:= darwinImageCacheManager.copyIconForFileExt( FCurrentAddress, iconSize );
   {$ENDIF}
 end;
 
