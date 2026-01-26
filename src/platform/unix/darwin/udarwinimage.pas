@@ -6,9 +6,9 @@ unit uDarwinImage;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Contnrs,
   Graphics,
-  uClassesEx,
+  uClassesEx, DCStrUtils,
   uDarwinUtil, uDarwinFile,
   CocoaAll, CocoaThemes;
 
@@ -37,6 +37,30 @@ type
       const path: String;
       const size: Integer ): NSImage;
   end;
+
+  // a pure image cache is needed, but TPixMapManager in DC contains too many
+  // features and is too complex.
+
+  { TDarwinImageCacheManager }
+
+  TDarwinImageCacheManager = class
+  private
+    _images: TFPDataHashTable;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function copyIconForFileExt(
+      const path: String;
+      const size: Integer ): TBitmap;
+
+    function copyImageForFileContent(
+      const path: String;
+      const size: Integer ): TBitmap;
+  end;
+
+var
+  darwinImageCacheManager: TDarwinImageCacheManager;
 
 implementation
 
@@ -184,6 +208,67 @@ begin
   Result:= TDarwinFileUtil.getIconForFile( path );
   Result.setSize( NSMakeSize(size,size) );
 end;
+
+{ TDarwinImageCacheManager }
+
+constructor TDarwinImageCacheManager.Create;
+begin
+  _images:= TFPDataHashTable.Create;
+end;
+
+destructor TDarwinImageCacheManager.Destroy;
+begin
+  _images.Free;
+end;
+
+function TDarwinImageCacheManager.copyIconForFileExt(
+  const path: String;
+  const size: Integer ): TBitmap;
+var
+  ext: String;
+  bitmap: TBitmap;
+begin
+  Result:= nil;
+  ext:= ExtractOnlyFileExt( path );
+  if ext.IsEmpty then
+    Exit;
+
+  bitmap:= _images[ext];
+  if _images[ext] = nil then begin
+    bitmap:= TDarwinImageUtil.getBitmapForExt( ext, size );
+    _images[ext]:= bitmap;
+  end;
+  if Assigned(bitmap) then begin
+    Result:= TBitmap.Create;
+    Result.Assign( bitmap );
+  end;
+end;
+
+function TDarwinImageCacheManager.copyImageForFileContent(
+  const path: String;
+  const size: Integer ): TBitmap;
+var
+  image: NSImage;
+  bitmap: TBitmap;
+begin
+  Result:= nil;
+  bitmap:= _images[path];
+  if _images[path] = nil then begin
+    image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size );
+    bitmap:= TDarwinImageUtil.toBitmap( image );
+    _images[path]:= bitmap;
+  end;
+  if Assigned(bitmap) then begin
+    Result:= TBitmap.Create;
+    Result.Assign( bitmap );
+  end;
+end;
+
+initialization
+  darwinImageCacheManager:= TDarwinImageCacheManager.Create;
+
+finalization
+  FreeAndNil( darwinImageCacheManager );
 
 end.
 
