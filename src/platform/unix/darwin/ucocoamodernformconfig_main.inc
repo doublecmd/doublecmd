@@ -87,8 +87,10 @@ procedure onFileViewUpdated( const fileView: TFileView );
       Exit;
     item.setEnabled( fileView.hasNextHistory );
     menu:= TDarwinFileViewHistoryUtil.createForwardMenu(
+      TCocoaToolBarUtils.getNSView(item),
       frmMain.ActiveFrame,
-      @goToHistoryAction );
+      @goToHistoryAction,
+      5 );
     NSMenuToolbarItem(item).setMenu( menu );
     menu.release;
   end;
