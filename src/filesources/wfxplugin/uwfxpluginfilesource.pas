@@ -131,7 +131,7 @@ type
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
 
     function GetCustomIcon(aFile: TFile; AIconSize: Integer; out AIcon: TBitmap): PtrInt; override;
-    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap;
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
