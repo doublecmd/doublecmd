@@ -965,6 +965,9 @@ begin
 {$IF DEFINED(LCLWIN32)}
   FMouseFocus:= MainControl.Focused;
   SetFocus;
+{$ELSEIF DEFINED(LCLCOCOA)}
+  FMouseFocus:= MainControl.Focused;
+  MainControl.Invalidate;
 {$ELSE}
   FMouseFocus := not FMouseEnter;
   FMouseEnter := False;
