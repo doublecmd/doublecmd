@@ -146,7 +146,7 @@ type
     tmRenameFile: TTimer;
     FMouseRename: Boolean;
     FMouseFocus: Boolean;
-{$IFNDEF LCLWIN32}
+{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
     FMouseEnter: Boolean;
 {$ENDIF}
     procedure AfterChangePath; override;
@@ -895,7 +895,10 @@ end;
 procedure TFileViewWithMainCtrl.MainControlEnter(Sender: TObject);
 begin
   Active := True;
-{$IFNDEF LCLWIN32}
+  {$IFDEF LCLCOCOA}
+  FMouseRename := gInplaceRename;
+  {$ENDIF}
+{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
   FMouseEnter:= ssLeft in GetKeyShiftStateEx;
 {$ENDIF}
 end;
@@ -1683,7 +1686,9 @@ begin
 
   // OnEnter don't called automatically (bug?)
   // TODO: Check on which widgetset/OS this is needed.
+  {$IF NOT DEFINED(LCLCOCOA)}
   FMainControl.OnEnter(Self);
+  {$ENDIF}
 end;
 
 procedure TFileViewWithMainCtrl.edtRenameButtonClick(Sender: TObject);
