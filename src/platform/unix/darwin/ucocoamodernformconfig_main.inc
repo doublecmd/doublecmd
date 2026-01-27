@@ -69,8 +69,10 @@ procedure onFileViewUpdated( const fileView: TFileView );
       Exit;
     item.setEnabled( fileView.hasPrevHistory );
     menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
+      TCocoaToolBarUtils.getNSView(item),
       frmMain.ActiveFrame,
-      @goToHistoryAction );
+      @goToHistoryAction,
+      5 );
     NSMenuToolbarItem(item).setMenu( menu );
     menu.release;
   end;
