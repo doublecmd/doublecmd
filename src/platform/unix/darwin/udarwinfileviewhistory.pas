@@ -36,21 +36,21 @@ type
       const onAction: TGotoHistoryAction;
       const maxMenuCount: Integer ): NSMenu;
     class function createForwardMenu(
+      const popupView: NSView;
       const fileView: TFileView;
-      const onAction: TGotoHistoryAction ): NSMenu;
+      const onAction: TGotoHistoryAction;
+      const maxMenuCount: Integer ): NSMenu;
   end;
 
 implementation
 
-const
-  MAX_MENU_COUNT = 5;
-
 type
-  
+
   { THistoryMenu }
 
   THistoryMenu = objcclass( NSMenu )
   private
+    direction: Boolean;
     popupView: NSView;
     fileView: TFileView;
     onAction: TGotoHistoryAction;
@@ -77,11 +77,19 @@ procedure THistoryMenu.dcShowAll(const sender: id);
 var
   menu: NSMenu;
 begin
-  menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
-    nil,
-    self.fileView,
-    self.onAction,
-    MaxInt );
+  if self.direction then begin
+    menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
+      nil,
+      self.fileView,
+      self.onAction,
+      MaxInt );
+  end else begin
+    menu:= TDarwinFileViewHistoryUtil.createForwardMenu(
+      nil,
+      self.fileView,
+      self.onAction,
+      MaxInt );
+  end;
   menu.popUpMenuPositioningItem_atLocation_inView(
     nil, NSMakePoint(0,2), self.popupView );
   menu.release;
@@ -180,7 +188,8 @@ begin
   menuItem.setTitle( NSString.string_ );
   menuItem.setImage( TDarwinImageUtil.getBestFromFileContentWithSize(
     mbExpandFileName('$COMMANDER_PATH/pixmaps/macOS/chevron-down-2.png'),
-    gIconsInMenusSize) );
+    gIconsInMenusSize,
+    True ) );
   menuItem.setTarget( menu );
   menuItem.setAction( ObjCSelector('dcShowAll:') );
 
@@ -224,6 +233,7 @@ var
 
 begin
   menu:= THistoryMenu.new;
+  menu.direction:= True;
   menu.popupView:= popupView;
   menu.fileView:= fileView;
   menu.onAction:= onAction;
@@ -241,8 +251,10 @@ begin
 end;
 
 class function TDarwinFileViewHistoryUtil.createForwardMenu(
+  const popupView: NSView;
   const fileView: TFileView;
-  const onAction: TGotoHistoryAction ): NSMenu;
+  const onAction: TGotoHistoryAction;
+  const maxMenuCount: Integer ): NSMenu;
 var
   fsIndex: Integer;
   menu: THistoryMenu;
@@ -254,19 +266,19 @@ var
   begin
     fsIndex:= fileView.CurrentFileSourceIndex;
     for pathIndex:= fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do begin
+      if count >= maxMenuCount then
+        Exit;
       addMenuItem( menu, fileView, fsIndex, pathIndex );
       inc( count );
-      if count >= MAX_MENU_COUNT then
-        Exit;
     end;
 
     Inc( fsIndex );
     while fsIndex < fileView.FileSourcesCount do begin
       for pathIndex:= 0 to fileView.PathsCount[fsIndex]-1 do begin
+        if count >= maxMenuCount then
+          Exit;
         addMenuItem( menu, fileView, fsIndex, pathIndex );
         inc( count );
-        if count >= MAX_MENU_COUNT then
-          Exit;
       end;
       Inc( fsIndex );
     end;
@@ -274,9 +286,14 @@ var
 
 begin
   menu:= THistoryMenu.new;
+  menu.direction:= False;
+  menu.popupView:= popupView;
+  menu.fileView:= fileView;
   menu.onAction:= onAction;
 
   addHistory;
+  if fsIndex < fileView.FileSourcesCount then
+    TDarwinFileViewHistoryUtil.addShowAllMenuItem( menu );
 
   if menu.numberOfItems = 0 then begin
     menu.release;
