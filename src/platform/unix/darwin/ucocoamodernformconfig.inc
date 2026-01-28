@@ -15,7 +15,7 @@ uses
   uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
   uDarwinFinder, uDarwinFinderModel,
   uDarwinFileView, uDarwinFileViewHistory,
-  CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra,
+  CocoaAll, CocoaConfig, CocoaToolBar, CocoaThemes, Cocoa_Extra,
   LResources, uTranslator, Translations;
 
 procedure initCocoaModernFormConfig;
@@ -100,6 +100,7 @@ begin
 
   fMain.onFileViewUpdated:= @onFileViewUpdated;
   toolBarMenuHandler:= TToolBarMenuHandler.Create;
+  TCocoaThemeServices.addObserver( toolBarMenuHandler );
   doInitConfig;
 end;
 
