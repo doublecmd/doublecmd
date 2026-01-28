@@ -366,16 +366,18 @@ function TDarwinImageCacheManager.getNSImageForFileContent(
 var
   item: TNSImageCacheItem;
   image: NSImage;
+  key: String;
 begin
   Result:= nil;
+  key:= 'NSImage:' + path;
 
   _lockObject.Acquire;
   try
-    item:= TNSImageCacheItem(_images[path]);
-    if _images[path] = nil then begin
+    item:= TNSImageCacheItem(_images[key]);
+    if _images[key] = nil then begin
       image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
       item:= TNSImageCacheItem.Create( image );
-      _images[path]:= item;
+      _images[key]:= item;
     end;
   finally
     _lockObject.Release;
