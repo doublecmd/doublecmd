@@ -254,10 +254,12 @@ constructor TDarwinImageCacheManager.Create;
 begin
   _lockObject:= TCriticalSection.Create;;
   _images:= TFPObjectHashTable.Create;
+  TCocoaThemeServices.addObserver( self );
 end;
 
 destructor TDarwinImageCacheManager.Destroy;
 begin
+  TCocoaThemeServices.removeObserver( self );
   FreeAndNil( _images );
   FreeAndNil( _lockObject );
 end;
@@ -385,14 +387,10 @@ end;
 
 initialization
   darwinImageCacheForPath:= TDarwinImageCacheManager.Create;
-  TCocoaThemeServices.addObserver( darwinImageCacheForPath );
   darwinImageCacheForExt:= TDarwinImageCacheManager.Create;
-  TCocoaThemeServices.addObserver( darwinImageCacheForExt );
 
 finalization
-  TCocoaThemeServices.removeObserver( darwinImageCacheForPath );
   FreeAndNil( darwinImageCacheForPath );
-  TCocoaThemeServices.removeObserver( darwinImageCacheForExt );
   FreeAndNil( darwinImageCacheForExt );
 
 end.
