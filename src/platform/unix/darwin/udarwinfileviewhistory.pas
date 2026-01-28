@@ -183,13 +183,15 @@ end;
 class procedure TDarwinFileViewHistoryUtil.addShowAllMenuItem( const menu: NSMenu );
 var
   menuItem: NSMenuItem;
+  image: NSImage;
 begin
-  menuItem:= NSMenuItem.new;
-  menuItem.setTitle( NSString.string_ );
-  menuItem.setImage( TDarwinImageUtil.getBestFromFileContentWithSize(
+  image:= darwinImageCacheForPath.getNSImageForFileContent(
     mbExpandFileName('$COMMANDER_PATH/pixmaps/macOS/chevron-down-2.png'),
     gIconsInMenusSize,
-    True ) );
+    True );
+  menuItem:= NSMenuItem.new;
+  menuItem.setTitle( NSString.string_ );
+  menuItem.setImage( image );
   menuItem.setTarget( menu );
   menuItem.setAction( ObjCSelector('dcShowAll:') );
 

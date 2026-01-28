@@ -15,7 +15,7 @@ uses
   uDCUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
   uDarwinFile, uDarwinImage, uDarwinUtil,
-  CocoaAll, CocoaUtils, CocoaThemes;
+  CocoaAll, CocoaUtils;
 
 type
 
@@ -107,16 +107,8 @@ type
 
   { TiCloudDriveUIHandler }
 
-  TiCloudDriveUIHandler = class( TFileSourceUIHandler, ICocoaThemeObserver )
-  private
-    _downloadImage: NSImage;
-  private
-    procedure createImages;
-    procedure releaseImages;
-    procedure onThemeChanged;
+  TiCloudDriveUIHandler = class( TFileSourceUIHandler )
   public
-    constructor Create;
-    destructor Destroy; override;
     procedure draw( var params: TFileSourceUIParams ); override;
     function click( var params: TFileSourceUIParams): Boolean; override;
   end;
@@ -513,40 +505,6 @@ end;
 
 { TiCloudDriveUIHandler }
 
-procedure TiCloudDriveUIHandler.createImages;
-var
-  path: String;
-begin
-  _downloadImage.release;
-  path:= mbExpandFileName(iCloudDriveConfig.icon.download);
-  _downloadImage:= TDarwinImageUtil.getBestFromFileContentWithSize( path, 16, True );
-  _downloadImage.retain;
-end;
-
-procedure TiCloudDriveUIHandler.releaseImages;
-begin
-  _downloadImage.release;
-  _downloadImage:= nil;
-end;
-
-procedure TiCloudDriveUIHandler.onThemeChanged;
-begin
-  self.releaseImages;
-end;
-
-constructor TiCloudDriveUIHandler.Create;
-begin
-  Inherited;
-  TCocoaThemeServices.addObserver( self );
-end;
-
-destructor TiCloudDriveUIHandler.Destroy;
-begin
-  TCocoaThemeServices.removeObserver( self );
-  self.releaseImages;
-  Inherited;
-end;
-
 procedure TiCloudDriveUIHandler.draw( var params: TFileSourceUIParams );
 var
   graphicsContext: NSGraphicsContext;
@@ -581,19 +539,22 @@ var
   procedure drawDownloadIcon;
   var
     destRect: NSRect;
+    icon: NSImage;
   begin
     if NOT TSeedFileUtil.isSeedFile(params.displayFile.FSFile) then
       Exit;
 
-    if _downloadImage = nil then
-      createImages;
+    icon:= darwinImageCacheForPath.getNSImageForFileContent(
+      mbExpandFileName(iCloudDriveConfig.icon.download),
+      16,
+      True );
 
-    destRect.size:= _downloadImage.size;
-    destRect.origin.x:= params.decorationRect.Right - Round(_downloadImage.size.width) - 8;
-    destRect.origin.y:= params.decorationRect.Top + (params.decorationRect.Height-Round(_downloadImage.size.height))/2;
+    destRect.size:= icon.size;
+    destRect.origin.x:= params.decorationRect.Right - Round(icon.size.width) - 8;
+    destRect.origin.y:= params.decorationRect.Top + (params.decorationRect.Height-Round(icon.size.height))/2;
     params.decorationRect.Right:= Round(destRect.origin.x) - 4;
 
-    _downloadImage.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
+    icon.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
       destRect,
       NSZeroRect,
       NSCompositeSourceOver,
