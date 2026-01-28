@@ -719,12 +719,12 @@ begin
   Result:= nil;
   if path = GetRootDir(path) then begin
     TiCloudDriveFileSource.GetMainIcon( iconPath );
-    Result:= darwinImageCacheForPath.copyImageForFileContent( iconPath, iconSize );
+    Result:= darwinImageCacheForPath.copyBitmapForFileContent( iconPath, iconSize );
   end else begin
     realPath:= self.GetRealPath( path );
     image:= getAppIconByPath( realPath );
     if image <> nil then
-      Result:= darwinImageCacheForPath.copyImageForNSImage( realPath, image );
+      Result:= darwinImageCacheForPath.copyBitmapForNSImage( realPath, image );
   end;
 end;
 

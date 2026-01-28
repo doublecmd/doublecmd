@@ -152,7 +152,7 @@ function TSmartFolderSearchResultFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
 begin
-  Result:= darwinImageCacheForExt.copyIconForFileExt( 'savedSearch', iconSize );
+  Result:= darwinImageCacheForExt.copyBitmapForFileExt( 'savedSearch', iconSize );
 end;
 
 { TDarwinSearchResultHandler }
