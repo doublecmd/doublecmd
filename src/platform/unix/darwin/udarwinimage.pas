@@ -46,7 +46,7 @@ type
   TDarwinImageCacheManager = class( ICocoaThemeObserver )
   private
     _lockObject: TCriticalSection;
-    _images: TFPDataHashTable;
+    _images: TFPObjectHashTable;
   public
     constructor Create;
     destructor Destroy; override;
@@ -223,7 +223,7 @@ end;
 constructor TDarwinImageCacheManager.Create;
 begin
   _lockObject:= TCriticalSection.Create;;
-  _images:= TFPDataHashTable.Create;
+  _images:= TFPObjectHashTable.Create;
 end;
 
 destructor TDarwinImageCacheManager.Destroy;
@@ -259,7 +259,7 @@ begin
 
   _lockObject.Acquire;
   try
-    bitmap:= _images[ext];
+    bitmap:= TBitmap(_images[ext]);
     if _images[ext] = nil then begin
       bitmap:= TDarwinImageUtil.getBitmapForExt( ext, size );
       _images[ext]:= bitmap;
@@ -286,7 +286,7 @@ begin
 
   _lockObject.Acquire;
   try
-    bitmap:= _images[path];
+    bitmap:= TBitmap(_images[path]);
     if _images[path] = nil then begin
       image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
       bitmap:= TDarwinImageUtil.toBitmap( image );
@@ -312,7 +312,7 @@ begin
 
   _lockObject.Acquire;
   try
-    bitmap:= _images[key];
+    bitmap:= TBitmap(_images[key]);
     if _images[key] = nil then begin
       bitmap:= TDarwinImageUtil.toBitmap( image );
       _images[key]:= bitmap;
