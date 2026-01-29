@@ -23,28 +23,28 @@ type
     class function calcTag(const fsIndex: Integer; const pathIndex: Integer): Integer; inline;
     class function getIcon(const fs: IFileSource; const path: String): NSImage;
     class function getDisplayName(const fs: IFileSource; const path: String): String;
-    class procedure addMenuItem(
-      const menu: NSMenu;
-      const fileView: TFileView;
-      const fsIndex: Integer;
-      const pathIndex: Integer );
-    class procedure addShowAllMenuItem( const menu: NSMenu );
   public
-    class function createBackwardMenu(
+    class function createHistoryMenu(
+      const direction: Boolean;
       const popupView: NSView;
       const fileView: TFileView;
       const onAction: TGotoHistoryAction;
-      const maxMenuCount: Integer ): NSMenu;
-    class function createForwardMenu(
-      const popupView: NSView;
-      const fileView: TFileView;
-      const onAction: TGotoHistoryAction;
-      const maxMenuCount: Integer ): NSMenu;
+      const firstCount: Integer ): NSMenu;
   end;
 
 implementation
 
 type
+
+  { THistoryMenuDelegate }
+
+  THistoryMenuDelegate = objcclass( NSObject, NSMenuDelegateProtocol )
+  private
+    loaded: Boolean;
+  private
+    procedure dealloc; override;
+    procedure menuNeedsUpdate (menu: NSMenu);
+  end;
 
   { THistoryMenu }
 
@@ -54,9 +54,37 @@ type
     popupView: NSView;
     fileView: TFileView;
     onAction: TGotoHistoryAction;
+    firstCount: Integer;
+
+    procedure dealloc; override;
+
+    procedure addMenuItem(
+      const fsIndex: Integer;
+      const pathIndex: Integer ); message 'dcAddMenuItem::';
+    procedure addShowAllMenuItem; message 'dcAddShowAllMenuItem';
+
+    procedure loadBackwardMenu( const maxMenuCount: Integer ); message 'loadBackwardMenu:';
+    procedure loadForwardMenu( const maxMenuCount: Integer ); message 'loadForwardMenu:';
+
     procedure dcItemAction( const sender: id ); message 'dcItemAction:';
+    procedure dcFirstLoad; message 'dcFirstLoad';
     procedure dcShowAll( const sender: id ); message 'dcShowAll:';
   end;
+
+{ THistoryMenuDelgate }
+
+procedure THistoryMenuDelegate.dealloc;
+begin
+  Inherited;
+end;
+
+procedure THistoryMenuDelegate.menuNeedsUpdate(menu: NSMenu);
+begin
+  if self.loaded then
+    Exit;
+  THistoryMenu(menu).dcFirstLoad;
+  self.loaded:= True
+end;
 
 { TMenuItem }
 
@@ -73,23 +101,24 @@ begin
   onAction( fsIndex, pathIndex );
 end;
 
+procedure THistoryMenu.dcFirstLoad;
+begin
+  if self.direction then
+    self.loadBackwardMenu( self.firstCount )
+  else
+    self.loadForwardMenu( self.firstCount );
+end;
+
 procedure THistoryMenu.dcShowAll(const sender: id);
 var
   menu: NSMenu;
 begin
-  if self.direction then begin
-    menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
-      nil,
-      self.fileView,
-      self.onAction,
-      MaxInt );
-  end else begin
-    menu:= TDarwinFileViewHistoryUtil.createForwardMenu(
-      nil,
-      self.fileView,
-      self.onAction,
-      MaxInt );
-  end;
+  menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
+    self.direction,
+    nil,
+    self.fileView,
+    self.onAction,
+    MaxInt );
   menu.popUpMenuPositioningItem_atLocation_inView(
     nil, NSMakePoint(0,2), self.popupView );
   menu.release;
@@ -149,9 +178,14 @@ begin
   Result:= path;
 end;
 
-class procedure TDarwinFileViewHistoryUtil.addMenuItem(
-  const menu: NSMenu;
-  const fileView: TFileView;
+procedure THistoryMenu.dealloc;
+begin
+  self.delegate.release;
+  self.setDelegate( nil );
+  Inherited;
+end;
+
+procedure THistoryMenu.addMenuItem(
   const fsIndex: Integer;
   const pathIndex: Integer );
 var
@@ -162,9 +196,9 @@ var
   displayName: String;
   image: NSImage;
 begin
-  fs:= fileView.FileSources[fsIndex];
-  tag:= calcTag(fsIndex,pathIndex);
-  path:= fileView.Path[fsIndex, pathIndex];
+  fs:= self.fileView.FileSources[fsIndex];
+  tag:= TDarwinFileViewHistoryUtil.calcTag( fsIndex, pathIndex );
+  path:= self.fileView.Path[fsIndex, pathIndex];
 
   displayName:= TDarwinFileViewHistoryUtil.getDisplayName( fs, path );
   image:= TDarwinFileViewHistoryUtil.getIcon( fs, path );
@@ -173,14 +207,14 @@ begin
   menuItem.setTitle( StringToNSString(displayName) );
   menuItem.setImage( image );
   menuItem.setTag( tag );
-  menuItem.setTarget( menu );
+  menuItem.setTarget( self );
   menuItem.setAction( ObjCSelector('dcItemAction:') );
 
-  menu.addItem( menuItem );
+  self.addItem( menuItem );
   menuItem.release;
 end;
 
-class procedure TDarwinFileViewHistoryUtil.addShowAllMenuItem( const menu: NSMenu );
+procedure THistoryMenu.addShowAllMenuItem;
 var
   menuItem: NSMenuItem;
   image: NSImage;
@@ -192,41 +226,59 @@ begin
   menuItem:= NSMenuItem.new;
   menuItem.setTitle( NSString.string_ );
   menuItem.setImage( image );
-  menuItem.setTarget( menu );
+  menuItem.setTarget( self );
   menuItem.setAction( ObjCSelector('dcShowAll:') );
 
-  menu.addItem( menuItem );
+  self.addItem( menuItem );
   menuItem.release;
 end;
 
-class function TDarwinFileViewHistoryUtil.createBackwardMenu(
+class function TDarwinFileViewHistoryUtil.createHistoryMenu(
+  const direction: Boolean;
   const popupView: NSView;
   const fileView: TFileView;
   const onAction: TGotoHistoryAction;
-  const maxMenuCount: Integer ): NSMenu;
+  const firstCount: Integer ): NSMenu;
+var
+  menu: THistoryMenu;
+  delegate: THistoryMenuDelegate;
+begin
+  menu:= THistoryMenu.new;
+  menu.direction:= direction;
+  menu.popupView:= popupView;
+  menu.fileView:= fileView;
+  menu.onAction:= onAction;
+  menu.firstCount:= firstCount;
+
+  delegate:= THistoryMenuDelegate.new;
+  menu.setDelegate( delegate );
+
+  Result:= menu;
+end;
+
+procedure THistoryMenu.loadBackwardMenu( const maxMenuCount: Integer );
 var
   fsIndex: Integer;
-  menu: THistoryMenu;
   count: Integer = 0;
 
   procedure addHistory;
   var
     pathIndex: Integer;
   begin
-    fsIndex:= fileView.CurrentFileSourceIndex;
-    for pathIndex:= fileView.CurrentPathIndex-1 downto 0 do begin
+    fsIndex:= self.fileView.CurrentFileSourceIndex;
+    for pathIndex:= self.fileView.CurrentPathIndex-1 downto 0 do begin
       if count >= maxMenuCount then
         Exit;
-      addMenuItem( menu, fileView, fsIndex, pathIndex );
+      self.addMenuItem( fsIndex, pathIndex );
       inc( count );
     end;
 
     Dec( fsIndex );
     while fsIndex >= 0 do begin
-      for pathIndex:= fileView.PathsCount[fsIndex]-1 downto 0 do begin
+      for pathIndex:= self.fileView.PathsCount[fsIndex]-1 downto 0 do begin
         if count >= maxMenuCount then
           Exit;
-        addMenuItem( menu, fileView, fsIndex, pathIndex );
+        self.addMenuItem( fsIndex, pathIndex );
         inc( count );
       end;
       Dec( fsIndex );
@@ -234,52 +286,34 @@ var
   end;
 
 begin
-  menu:= THistoryMenu.new;
-  menu.direction:= True;
-  menu.popupView:= popupView;
-  menu.fileView:= fileView;
-  menu.onAction:= onAction;
-
   addHistory;
   if fsIndex >= 0 then
-    TDarwinFileViewHistoryUtil.addShowAllMenuItem( menu );
-
-  if menu.numberOfItems = 0 then begin
-    menu.release;
-    Result:= nil;
-  end else begin
-    Result:= menu;
-  end;
+    self.addShowAllMenuItem;
 end;
 
-class function TDarwinFileViewHistoryUtil.createForwardMenu(
-  const popupView: NSView;
-  const fileView: TFileView;
-  const onAction: TGotoHistoryAction;
-  const maxMenuCount: Integer ): NSMenu;
+procedure THistoryMenu.loadForwardMenu( const maxMenuCount: Integer );
 var
   fsIndex: Integer;
-  menu: THistoryMenu;
   count: Integer = 0;
 
   procedure addHistory;
   var
     pathIndex: Integer;
   begin
-    fsIndex:= fileView.CurrentFileSourceIndex;
-    for pathIndex:= fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do begin
+    fsIndex:= self.fileView.CurrentFileSourceIndex;
+    for pathIndex:= self.fileView.CurrentPathIndex+1 to fileView.PathsCount[fsIndex]-1 do begin
       if count >= maxMenuCount then
         Exit;
-      addMenuItem( menu, fileView, fsIndex, pathIndex );
+      self.addMenuItem( fsIndex, pathIndex );
       inc( count );
     end;
 
     Inc( fsIndex );
-    while fsIndex < fileView.FileSourcesCount do begin
-      for pathIndex:= 0 to fileView.PathsCount[fsIndex]-1 do begin
+    while fsIndex < self.fileView.FileSourcesCount do begin
+      for pathIndex:= 0 to self.fileView.PathsCount[fsIndex]-1 do begin
         if count >= maxMenuCount then
           Exit;
-        addMenuItem( menu, fileView, fsIndex, pathIndex );
+        self.addMenuItem( fsIndex, pathIndex );
         inc( count );
       end;
       Inc( fsIndex );
@@ -287,22 +321,9 @@ var
   end;
 
 begin
-  menu:= THistoryMenu.new;
-  menu.direction:= False;
-  menu.popupView:= popupView;
-  menu.fileView:= fileView;
-  menu.onAction:= onAction;
-
   addHistory;
-  if fsIndex < fileView.FileSourcesCount then
-    TDarwinFileViewHistoryUtil.addShowAllMenuItem( menu );
-
-  if menu.numberOfItems = 0 then begin
-    menu.release;
-    Result:= nil;
-  end else begin
-    Result:= menu;
-  end;
+  if fsIndex < self.fileView.FileSourcesCount then
+    self.addShowAllMenuItem;
 end;
 
 end.

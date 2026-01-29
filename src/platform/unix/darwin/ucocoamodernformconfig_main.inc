@@ -48,7 +48,8 @@ begin
   if NOT Assigned(item) then
     Exit;
   item.setEnabled( frmMain.ActiveFrame.hasPrevHistory );
-  menu:= TDarwinFileViewHistoryUtil.createBackwardMenu(
+  menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
+    True,
     TCocoaToolBarUtils.getNSView(item),
     frmMain.ActiveFrame,
     @goToHistoryAction,
@@ -66,7 +67,8 @@ begin
   if NOT Assigned(item) then
     Exit;
   item.setEnabled( frmMain.ActiveFrame.hasNextHistory );
-  menu:= TDarwinFileViewHistoryUtil.createForwardMenu(
+  menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
+    False,
     TCocoaToolBarUtils.getNSView(item),
     frmMain.ActiveFrame,
     @goToHistoryAction,
