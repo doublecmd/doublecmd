@@ -39,42 +39,47 @@ begin
   end;
 end;
 
+procedure updateHistoryToolbarMenu(
+  const item: NSToolbarItem;
+  const direction: Boolean;
+  const hasHistory: Boolean );
+var
+  menu: NSMenu;
+begin
+  assert( Assigned(item), 'Toolbar Menu Item Not Found' );
+  item.setEnabled( hasHistory );
+  if hasHistory then begin
+    menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
+      direction,
+      TCocoaToolBarUtils.getNSView(item),
+      frmMain.ActiveFrame,
+      @goToHistoryAction,
+      5 );
+  end else begin
+    menu:= nil;
+  end;
+  NSMenuToolbarItem(item).setMenu( menu );
+  menu.release;
+end;
+
 procedure updateGoBackwardToolbarMenu;
 var
   item: NSToolbarItem;
-  menu: NSMenu;
+  hasHistory: Boolean;
 begin
   item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoBackward' );
-  if NOT Assigned(item) then
-    Exit;
-  item.setEnabled( frmMain.ActiveFrame.hasPrevHistory );
-  menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
-    True,
-    TCocoaToolBarUtils.getNSView(item),
-    frmMain.ActiveFrame,
-    @goToHistoryAction,
-    5 );
-  NSMenuToolbarItem(item).setMenu( menu );
-  menu.release;
+  hasHistory:= frmMain.ActiveFrame.hasPrevHistory;
+  updateHistoryToolbarMenu( item, True, hasHistory );
 end;
 
 procedure updateGoForwardToolbarMenu;
 var
   item: NSToolbarItem;
-  menu: NSMenu;
+  hasHistory: Boolean;
 begin
   item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.GoForward' );
-  if NOT Assigned(item) then
-    Exit;
-  item.setEnabled( frmMain.ActiveFrame.hasNextHistory );
-  menu:= TDarwinFileViewHistoryUtil.createHistoryMenu(
-    False,
-    TCocoaToolBarUtils.getNSView(item),
-    frmMain.ActiveFrame,
-    @goToHistoryAction,
-    5 );
-  NSMenuToolbarItem(item).setMenu( menu );
-  menu.release;
+  hasHistory:= frmMain.ActiveFrame.hasNextHistory;
+  updateHistoryToolbarMenu( item, False, hasHistory );
 end;
 
 procedure onFileViewUpdated( const fileView: TFileView );
