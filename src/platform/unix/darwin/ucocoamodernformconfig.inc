@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
   fMain, fEditor, fDiffer,
-  uHotkeyManager, uGlobs, uLng, uDCUtils,
+  uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSystemFileSource,
   uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
@@ -95,6 +95,9 @@ end;
 
 procedure initCocoaModernFormConfig;
 begin
+  if gModernUI = false then
+    Exit;
+
   if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
     Exit;
 
