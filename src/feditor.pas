@@ -253,7 +253,7 @@ uses
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles,
   DCOSUtils
 {$IFDEF DARWIN}
-  ,uDarwinApplication
+  , uDarwinApplication, uEarlyConfig
 {$ENDIF}
   ;
 
@@ -648,7 +648,7 @@ begin
   tbToolBar.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                           gToolIconsSize + ScaleY(6, 96));
 {$IFDEF DARWIN}
-  if TDarwinApplicationUtil.supportsModernForm then
+  if gModernUI and TDarwinApplicationUtil.supportsModernForm then
     tbToolBar.Hide;
 {$ENDIF}
 end;
