@@ -2156,7 +2156,7 @@ begin
   gIconsSizeNew := gIconsSize;
   gDiskIconsSize := 16;
   gDiskIconsAlpha := 50;
-  gToolIconsSize := 24;
+  gToolIconsSize := {$IFnDEF DARWIN}24{$ELSE}16{$ENDIF};  // Theme icons lack precision on Retina displays
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
   gPixelsPerInch := 96;
