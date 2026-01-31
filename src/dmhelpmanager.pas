@@ -144,7 +144,7 @@ begin
 
   {$IFDEF MSWindows}
   // Lazarus issue #0021637.
-  if FindDefaultBrowser(ABrowser, AParams) then
+  if FindDefaultBrowser(ABrowser, AParams) and (Pos('"%s"', AParams) = 0) then
   begin
     HTMLBrowserHelpViewer.BrowserPath := ABrowser;
     HTMLBrowserHelpViewer.BrowserParams := StringReplace(AParams, '%s', '"%s"', [rfReplaceAll]);
