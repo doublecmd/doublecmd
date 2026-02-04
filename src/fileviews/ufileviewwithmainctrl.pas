@@ -68,6 +68,9 @@ type
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
     procedure Hack(Data: PtrInt);
     procedure EditExit; override;
+{$ELSEIF DEFINED(LCLCOCOA)}
+    procedure CreateHandle; override;
+    procedure ChildHandlesCreated; override;
 {$ENDIF}
     function CalcButtonVisible: Boolean; override;
     function GetDefaultGlyphName: String; override;
@@ -237,6 +240,8 @@ uses
 {$IF DEFINED(LCLGTK2)}
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
+{$ELSEIF DEFINED(LCLCOCOA)}
+  CocoaConfig,
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSourceOperationTypes,
@@ -304,6 +309,20 @@ end;
 procedure TEditButtonEx.EditExit;
 begin
   Application.QueueAsyncCall(@Hack, 0);
+end;
+{$ENDIF}
+
+{$IFDEF LCLCOCOA}
+procedure TEditButtonEx.CreateHandle;
+begin
+  CocoaConfigEdit.vertAlignCenter:= True;
+  inherited CreateHandle;
+end;
+
+procedure TEditButtonEx.ChildHandlesCreated;
+begin
+  inherited;
+  CocoaConfigEdit.vertAlignCenter:= False;
 end;
 {$ENDIF}
 
