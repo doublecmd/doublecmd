@@ -47,7 +47,7 @@ uses
 {$ELSEIF DEFINED(LCLGTK2)}
   , glib2, gdk2, gtk2
 {$ELSEIF DEFINED(LCLGTK3)}
-  , Glib2, LazGdk3, LazGtk3
+  , LazGObject2, LazGLib2, LazGdk3, LazGtk3
 {$ENDIF}
   ;
 
@@ -61,6 +61,10 @@ begin
 end;
 {$ELSEIF DEFINED(LCLGTK2) OR DEFINED(LCLGTK3)}
 function GetGtkIconTheme: String;
+{$IFDEF LCLGTK3}
+const
+  G_TYPE_STRING = TGType(16 shl G_TYPE_FUNDAMENTAL_SHIFT);
+{$ENDIF}
 var
   ATheme: Pgchar;
   AValue: TGValue;
