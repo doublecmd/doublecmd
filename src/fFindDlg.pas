@@ -411,9 +411,6 @@ uses
 {$IFDEF DARkWIN}
   , uDarkStyle
 {$ENDIF}
-{$IFDEF DARWIN}
-  , CocoaConfig
-{$ENDIF}
   ;
 
 const
@@ -1172,14 +1169,8 @@ begin
   S := cmbFindPathStart.Text;
   AFolder:= ExtractFilePath(ExcludeTrailingBackslash(S));
   if not mbDirectoryExists(AFolder) then AFolder := EmptyStr;
-  {$IFDEF DARWIN}
-  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
-  {$ENDIF}
-  if SelectDirectory(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
+  if SelectDirectoryEx(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
     cmbFindPathStart.Text := S;
-  {$IFDEF DARWIN}
-  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
-  {$ENDIF}
 end;
 
 { TfrmFindDlg.btnNewSearchKeyDown }

@@ -315,14 +315,18 @@ end;
 {$IFDEF LCLCOCOA}
 procedure TEditButtonEx.CreateHandle;
 begin
+{$IF (LCL_FULLVERSION >= 4990000)}
   CocoaConfigEdit.vertAlignCenter:= True;
+{$ENDIF}
   inherited CreateHandle;
 end;
 
 procedure TEditButtonEx.ChildHandlesCreated;
 begin
   inherited;
+{$IF (LCL_FULLVERSION >= 4990000)}
   CocoaConfigEdit.vertAlignCenter:= False;
+{$ENDIF}
 end;
 {$ENDIF}
 
