@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uHotkeyManager, uGlobs, uLng, uDCUtils,
+  fMain, uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSystemFileSource,
   uDarwinUtil, uDarwinApplication, uDarwinFile,
@@ -919,6 +919,9 @@ end;
 
 procedure initCocoaModernFormConfig;
 begin
+  if gModernUI = false then
+    Exit;
+
   if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
     Exit;
 

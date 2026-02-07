@@ -14,6 +14,9 @@ uses
 var
 {$IFDEF DARKWIN}
   gAppMode: Integer = 1;
+{$ENDIF}
+{$IFDEF DARWIN}
+  gModernUI: Boolean = True;
   gSplashForm: Boolean = False;
 {$ELSE}
   gSplashForm: Boolean = True;
@@ -61,6 +64,9 @@ begin
 {$IFDEF DARKWIN}
       gAppMode:= StrToIntDef(Values['DarkMode'], gAppMode);
 {$ENDIF}
+{$IFDEF DARWIN}
+      gModernUI:= StrToBoolDef(Values['ModernUI'], gModernUI);
+{$ENDIF}
     finally
       Free;
     end;
@@ -78,6 +84,9 @@ begin
     Add('SplashForm' + NameValueSeparator + BoolToStr(gSplashForm));
 {$IFDEF DARKWIN}
     AddPair('DarkMode', IntToStr(gAppMode));
+{$ENDIF}
+{$IFDEF DARWIN}
+    AddPair('ModernUI', BoolToStr(gModernUI,True));
 {$ENDIF}
     SaveToFile(AConfig);
   finally
