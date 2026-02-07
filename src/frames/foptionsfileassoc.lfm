@@ -308,8 +308,8 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Top = 10
           Width = 192
           Anchors = [akTop, akLeft, akRight]
-          OnChange = edIconFileNameChange
           TabOrder = 0
+          OnKeyDown = edIconFileNameKeyDown
         end
       end
       object gbExts: TGroupBox
