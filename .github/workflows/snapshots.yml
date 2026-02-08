@@ -18,6 +18,7 @@ concurrency:
 jobs:
   build-mac:
     runs-on: macos-14
+    environment: snapshots
     steps:
     - name: Install Free Pascal
       uses: doublecmd/lazarus-install@mac
@@ -53,15 +54,25 @@ jobs:
     - name: Build packages
       run: ./.github/scripts/create_snapshot.sh
 
-    - name: Deploy to snapshot server
-      run: ./.github/scripts/upload_snapshot.sh
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+    - name: Save revision number
+      run: echo "REVISION=$(git rev-list --count HEAD)" >> "$GITHUB_ENV"
+      shell: bash
+
+    - name: Upload binaries to snapshots
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_name: doublecmd/snapshots
+        repo_token: ${{ secrets.SNAPSHOTS }}
+        file: doublecmd-release/doublecmd*.dmg
+        release_name: Revision ${{ env.REVISION }}
+        body: ${{ vars.BODY }}
+        overwrite: true
+        file_glob: true
+        tag: snapshot
 
   build-win:
     runs-on: windows-latest
+    environment: snapshots
     steps:
     - name: Install Lazarus
       uses: doublecmd/lazarus-install@win
@@ -76,10 +87,18 @@ jobs:
     - name: Build packages
       run: ./.github/scripts/create_snapshot.bat
 
-    - name: Deploy to snapshot server
-      run: ./.github/scripts/upload_snapshot.sh
+    - name: Save revision number
+      run: echo "REVISION=$(git rev-list --count HEAD)" >> "$GITHUB_ENV"
       shell: bash
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+
+    - name: Upload binaries to snapshots
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_name: doublecmd/snapshots
+        repo_token: ${{ secrets.SNAPSHOTS }}
+        file: doublecmd-release/*
+        release_name: Revision ${{ env.REVISION }}
+        body: ${{ vars.BODY }}
+        overwrite: true
+        file_glob: true
+        tag: snapshot
