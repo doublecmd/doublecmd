@@ -65,10 +65,10 @@ jobs:
         repo_token: ${{ secrets.SNAPSHOTS }}
         file: doublecmd-release/doublecmd*.dmg
         release_name: Revision ${{ env.REVISION }}
+        tag: ${{ env.REVISION }}
         body: ${{ vars.BODY }}
         overwrite: true
         file_glob: true
-        tag: snapshot
 
   build-win:
     runs-on: windows-latest
@@ -98,7 +98,7 @@ jobs:
         repo_token: ${{ secrets.SNAPSHOTS }}
         file: doublecmd-release/*
         release_name: Revision ${{ env.REVISION }}
+        tag: ${{ env.REVISION }}
         body: ${{ vars.BODY }}
         overwrite: true
         file_glob: true
-        tag: snapshot
