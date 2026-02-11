@@ -84,6 +84,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Restore timestamps
+      uses: chetan/git-restore-mtime-action@v2
+
     - name: Build packages
       run: ./.github/scripts/create_snapshot.bat
 
@@ -102,3 +105,4 @@ jobs:
         body: ${{ vars.BODY }}
         overwrite: true
         file_glob: true
+
