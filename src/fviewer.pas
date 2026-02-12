@@ -546,7 +546,7 @@ uses
 {$if lcl_fullversion >= 4990000}
   , SynEditWrappedView
 {$endif}
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2) OR DEFINED(DARWIN)}
   , uGraphics
 {$ENDIF}
   ;
@@ -3053,6 +3053,10 @@ begin
               BitmapConvert(TRasterImage(Image.Picture.Graphic));
             end;
           end;
+{$ENDIF}
+{$IF DEFINED(DARWIN)}
+          if Image.Picture.Graphic is TRasterImage then
+            BitmapConvert(TRasterImage(Image.Picture.Graphic));
 {$ENDIF}
           bImage:= True;
           bAnimation:= False;
