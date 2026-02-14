@@ -58,7 +58,8 @@ begin
   try
     Target:= TLazIntfImage.Create(ASource.Width, ASource.Height, [riqfRGB, riqfAlpha]);
     try
-      if NOT Target.DataDescription.IsEqual(Source.DataDescription) then begin
+      if (not Target.DataDescription.IsEqual(Source.DataDescription)) or (ASource <> ATarget) then
+      begin
         Target.CopyPixels(Source);
         BitmapAssign(ATarget, Target);
       end;
