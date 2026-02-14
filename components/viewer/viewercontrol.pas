@@ -2915,21 +2915,31 @@ var
 
   function XYPos2AdrText: PtrInt;
   var
-    i: PtrInt;
+    J: Integer;
     Dos: Boolean;
+    s, ss: String;
+    Len: Integer = 0;
     charWidth: Integer;
     textWidth: Integer;
-    len: Integer = 0;
+    tmpPosition: PtrInt;
     CharLenInBytes: Integer;
-    s: String;
-    ss: String;
   begin
     ss := '';
-    i := StartLine;
-    Dos:= FEncoding in ViewerEncodingOem;
-    while i < EndLine do
+    tmpPosition := StartLine;
+
+    if (Mode = vcmText) and (FHPosition > 0) then
     begin
-      s := GetNextCharAsUtf8(i, CharLenInBytes);
+      for J:= 1 to FHPosition do
+      begin
+        GetNextCharAsAscii(tmpPosition, CharLenInBytes);
+        tmpPosition += CharLenInBytes;
+      end;
+    end;
+
+    Dos:= FEncoding in ViewerEncodingOem;
+    while tmpPosition < EndLine do
+    begin
+      s := GetNextCharAsUtf8(tmpPosition, CharLenInBytes);
       if CharLenInBytes = 0 then
         Break;
 
@@ -2938,18 +2948,12 @@ var
       begin
         if s = #9 then
         begin
-          s := StringOfChar(' ', FTabSpaces - len mod FTabSpaces);
-          len := len + (FTabSpaces - len mod FTabSpaces);
+          s := StringOfChar(' ', FTabSpaces - Len mod FTabSpaces);
+          Len := Len + (FTabSpaces - Len mod FTabSpaces);
         end
         else
-          Inc(len); // Assume there is one character after conversion
-                    // (otherwise use Inc(len, UTF8Length(s))).
-
-        if (Mode = vcmText) and (len <= FHPosition) then
-        begin
-          i := i + CharLenInBytes;
-          Continue;
-        end;
+          Inc(Len); // Assume there is one character after conversion
+                    // (otherwise use Inc(Len, UTF8Length(s))).
 
         if (CharLenInBytes = 1) and (s[1] < ' ') then
         begin
@@ -2969,11 +2973,11 @@ var
           else
             CharSide := csRight;
 
-          Exit(i);
+          Exit(tmpPosition);
         end;
       end;
 
-      i := i + CharLenInBytes;
+      tmpPosition := tmpPosition + CharLenInBytes;
     end;
 
     CharSide := csBefore;
