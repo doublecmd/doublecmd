@@ -239,7 +239,7 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  LCLVersion, SysConst, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
+  LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
 
 {$R *.lfm}
 
@@ -1390,6 +1390,7 @@ var
       i, j: Integer;
       f: TFile;
       r: TFileSyncRec;
+      fn: String;
     begin
       if sideLeft then
         fs := FFileSourceL.GetFiles(BaseDirL + dir)
@@ -1409,19 +1410,20 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
+          fn := NormalizeFileName(f.Name);
           if f.IsDirectory or f.IsLinkToDirectory then
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
             begin
               if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
-                dirs.Add(f.Name);
+                dirs.Add(fn);
             end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
           begin
             if ((MaskList = nil) or MaskList.Matches(f.Name)) then
             begin
-              j := it.IndexOf(f.Name);
+              j := it.IndexOf(fn);
               if j < 0 then
                 r := TFileSyncRec.Create(Self, dir)
               else
@@ -1439,7 +1441,7 @@ var
                   r.FState := srsUnknown;
                 end;
               end;
-              it.AddObject(f.Name, r);
+              it.AddObject(fn, r);
             end;
           end;
         end;
