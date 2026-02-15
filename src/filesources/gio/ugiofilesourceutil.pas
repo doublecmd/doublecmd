@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, DCStrUtils, uFile, uFileSource, uFileSourceOperation,
   uFileSourceCopyOperation, uFileSystemUtil, uFileSourceOperationOptions,
   uFileSourceTreeBuilder, uGioFileSource, uGLib2, uGio2, uLog, uGlobs,
-  uFileSourceOperationUI;
+  uFileSourceOperationUI, uFileProperty;
 
 const
   CONST_DEFAULT_QUERY_INFO_ATTRIBUTES = FILE_ATTRIBUTE_STANDARD_TYPE + ',' + FILE_ATTRIBUTE_STANDARD_NAME + ',' +
@@ -22,6 +22,18 @@ const
 type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
   TCopyMoveFileFunction = function(source: PGFile; destination: PGFile; flags: TGFileCopyFlags; cancellable: PGCancellable; progress_callback: TGFileProgressCallback; progress_callback_data: gpointer; error: PPGError): gboolean; cdecl;
+
+  { TGioFileLinkProperty }
+
+  TGioFileLinkProperty = class(TFileLinkProperty)
+  private
+    FItem: PGFile;
+  public
+    destructor Destroy; override;
+    function Clone: TFileLinkProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+    property Item: PGFile read FItem write FItem;
+  end;
 
   { TGioTreeBuilder }
 
@@ -113,7 +125,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, Math, DateUtils, DCBasicTypes, DCDateTimeUtils, uDCUtils, uFileProperty,
+  Forms, Math, DateUtils, DCBasicTypes, DCDateTimeUtils, uDCUtils,
   uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
@@ -130,6 +142,7 @@ var
 
   procedure FillAndCountRec(const srcPath: String);
   var
+    AChild: PGFile;
     AFolder: PGFile;
     AInfo: PGFileInfo;
     AFileName: Pgchar;
@@ -150,7 +163,8 @@ var
 
           if (aFileName <> '.') and (aFileName <> '..') then
           begin
-            aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
+            AChild:= g_file_enumerator_get_child(AFileEnum, AInfo);
+            aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AChild, AInfo);
             NewFiles.Add(aFile);
 
             if aFile.IsLink then
@@ -243,6 +257,33 @@ begin
   end;
 end;
 
+{ TGioFileLinkProperty }
+
+destructor TGioFileLinkProperty.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FItem) then g_object_unref(PGObject(FItem));
+end;
+
+function TGioFileLinkProperty.Clone: TFileLinkProperty;
+begin
+  Result := TGioFileLinkProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TGioFileLinkProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    if FileProperty is TGioFileLinkProperty then
+    begin
+      TGioFileLinkProperty(FileProperty).FItem := g_file_dup(Self.FItem);
+    end;
+  end;
+end;
+
 { TGioTreeBuilder }
 
 procedure TGioTreeBuilder.AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode);
@@ -264,6 +305,7 @@ procedure TGioTreeBuilder.AddFilesInDirectory(srcPath: String;
   CurrentNode: TFileTreeNode);
 var
   AFile: TFile;
+  AChild: PGFile;
   AFolder: PGFile;
   AInfo: PGFileInfo;
   AError: PGError = nil;
@@ -279,7 +321,8 @@ begin
       while Assigned(AInfo) do
       begin
         CheckOperationState;
-        AFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
+        AChild:= g_file_enumerator_get_child(AFileEnum, AInfo);
+        AFile:= TGioFileSource.CreateFile(srcPath, AFolder, AChild, AInfo);
         g_object_unref(AInfo);
         AddItem(aFile, CurrentNode);
         AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
@@ -402,7 +445,11 @@ var
 begin
   NodeData := aNode.Data as TFileTreeNodeData;
 
-  SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  if aNode.TheFile.LinkProperty is TGioFileLinkProperty then
+    SourceFile:= TGioFileLinkProperty(aNode.TheFile.LinkProperty).Item
+  else begin
+    SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  end;
   TargetFile:= GioNewFile(AbsoluteTargetFileName);
   try
   // If some files will not be moved then source directory cannot be deleted.
@@ -486,7 +533,11 @@ begin
   FOldDoneBytes:= FStatistics.DoneBytes;
 
   FCancel:= g_cancellable_new();
-  SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  if aNode.TheFile.LinkProperty is TGioFileLinkProperty then
+    SourceFile:= TGioFileLinkProperty(aNode.TheFile.LinkProperty).Item
+  else begin
+    SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  end;
   TargetFile:= GioNewFile(AbsoluteTargetFileName);
 
   try

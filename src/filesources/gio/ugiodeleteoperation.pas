@@ -143,7 +143,7 @@ begin
     //if FileIsReadOnly(aFile.Attributes) then
     //  mbFileSetReadOnly(FileName, False);
 
-    AGFile:= GioNewFile(FileName);
+    AGFile:= TGioFileLinkProperty(aFile.LinkProperty).Item;
     Result:= g_file_delete(AGFile, nil, nil);
     g_object_unref(PGObject(AGFile));
 

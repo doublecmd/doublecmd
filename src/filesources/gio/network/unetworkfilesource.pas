@@ -22,7 +22,7 @@ type
 
     class function GetMainIcon(out Path: String): Boolean; override;
     class function IsSupportedPath(const Path: String): Boolean; override;
-    class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile; override;
+    class function CreateFile(const APath: String; AFolder, AFile: PGFile; AFileInfo: PGFileInfo): TFile; override;
   end;
 
 implementation
@@ -54,12 +54,12 @@ begin
   Result:= StrBegins(Path, 'network://');
 end;
 
-class function TNetworkFileSource.CreateFile(const APath: String;
-  AFolder: PGFile; AFileInfo: PGFileInfo): TFile;
+class function TNetworkFileSource.CreateFile(const APath: String; AFolder,
+  AFile: PGFile; AFileInfo: PGFileInfo): TFile;
 var
   ADisplayName: String;
 begin
-  Result:= inherited CreateFile(APath, AFolder, AFileInfo);
+  Result:= inherited CreateFile(APath, AFolder, AFile, AFileInfo);
   ADisplayName:= g_file_info_get_display_name(AFileInfo);
   if Length(ADisplayName) > 0 then Result.Name:= ADisplayName;
 end;

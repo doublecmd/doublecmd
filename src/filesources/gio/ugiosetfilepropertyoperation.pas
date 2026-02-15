@@ -142,7 +142,7 @@ var
 begin
   Result := sfprSuccess;
 
-  AGFile:= GioNewFile(aFile.FullPath);
+  AGFile:= TGioFileLinkProperty(aFile.LinkProperty).Item;
   case aTemplateProperty.GetID of
     fpName:
       if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
