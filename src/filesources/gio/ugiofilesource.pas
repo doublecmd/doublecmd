@@ -152,12 +152,13 @@ class function TGioFileSource.CreateFile(const APath: String; AFolder,
 var
   Addr: TURI;
   ATarget: Pgchar;
+  APathType: TPathType;
   AFileType: TGFileType;
   AFileTime: TFileTimeEx;
   ASymlinkInfo: PGFileInfo;
 begin
   Result:= CreateFile(APath);
-  Result.Name:= g_file_info_get_display_name(AFileInfo);
+  Result.Name:= g_file_info_get_name(AFileInfo);
   TGioFileLinkProperty(Result.LinkProperty).Item:= AFile;
   Result.Attributes:= g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   AFileTime.sec:= Int64(g_file_info_get_attribute_uint64(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
@@ -186,10 +187,11 @@ begin
       if Assigned(ATarget) then
       begin
         Result.LinkProperty.LinkTo := ATarget;
+        APathType:= DCStrUtils.GetPathType(Result.LinkProperty.LinkTo);
 
-        AFile:= g_file_get_child(AFolder, ATarget);
-        if (AFile = nil) and (DCStrUtils.GetPathType(ATarget) = ptAbsolute) then
-        begin
+        if (APathType <> ptAbsolute) then
+          AFile:= g_file_get_child(AFolder, ATarget)
+        else begin
           Addr:= ParseURI(APath);
           Addr.Path:= Result.LinkProperty.LinkTo;
           AFile:= GioNewFile(EncodeURI(Addr));
