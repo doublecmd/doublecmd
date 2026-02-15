@@ -60,7 +60,7 @@ begin
   for AIndex:= 0 to FFiles.Count - 1 do
   begin
     AFile:= FFiles[AIndex];
-    SourceFile:= GioNewFile(AFile.FullPath);
+    SourceFile:= TGioFileLinkProperty(AFile.LinkProperty).Item;
     try
       AInfo:= g_file_query_info(SourceFile, G_FILE_ATTRIBUTE_TRASH_ORIG_PATH, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
       if Assigned(AInfo) then
@@ -201,7 +201,11 @@ begin
     begin
       AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
 
-      AGFile:= GioNewFile(AFile.FullPath);
+      if AFile.LinkProperty is TGioFileLinkProperty then
+        AGFile:= TGioFileLinkProperty(AFile.LinkProperty).Item
+      else begin
+        AGFile:= GioNewFile(AFile.FullPath);
+      end;
 
       AInfo:= g_file_query_info(AGFile, 'trash::*', G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
       if Assigned(AInfo) then
