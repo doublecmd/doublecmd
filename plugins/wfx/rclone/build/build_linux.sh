@@ -1,5 +1,6 @@
 #!/bin/bash
 # Build rclone WFX plugin on Debian 12 (x86_64)
+# Copyright (C) 2026 Miklos Mukka Szel <contact@miklos-szel.com>
 #
 # Usage:
 #   sudo ./build_linux.sh         Build the plugin (installs dependencies)

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Build rclone WFX plugin on macOS using Free Pascal
+# Copyright (C) 2026 Miklos Mukka Szel <contact@miklos-szel.com>
 #
 # Usage:
 #   ./build_macos.sh         Build the plugin

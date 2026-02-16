@@ -5,7 +5,7 @@ library rclone;
    -------------------------------------------------------------------------
    WFX plugin for working with rclone remotes
 
-   Copyright (C) 2026
+   Copyright (C) 2026 Miklos Mukka Szel <contact@miklos-szel.com>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
