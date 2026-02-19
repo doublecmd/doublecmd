@@ -142,7 +142,7 @@ var
 begin
   Result := sfprSuccess;
 
-  AGFile:= TGioFileLinkProperty(aFile.LinkProperty).Item;
+  AGFile:= TGioLinkProperty(aFile.LinkProperty).Item;
   case aTemplateProperty.GetID of
     fpName:
       if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
@@ -207,7 +207,6 @@ begin
     else
       raise Exception.Create('Trying to set unsupported property');
   end;
-  g_object_unref(PGObject(AGFile));
 end;
 
 end.

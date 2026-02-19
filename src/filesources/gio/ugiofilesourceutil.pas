@@ -23,9 +23,9 @@ type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
   TCopyMoveFileFunction = function(source: PGFile; destination: PGFile; flags: TGFileCopyFlags; cancellable: PGCancellable; progress_callback: TGFileProgressCallback; progress_callback_data: gpointer; error: PPGError): gboolean; cdecl;
 
-  { TGioFileLinkProperty }
+  { TGioLinkProperty }
 
-  TGioFileLinkProperty = class(TFileLinkProperty)
+  TGioLinkProperty = class(TFileLinkProperty)
   private
     FItem: PGFile;
   public
@@ -118,6 +118,7 @@ type
 
 procedure ShowError(AError: PGError);
 procedure FreeAndNil(var AError: PGError); overload;
+function GioNewFile(AFile: TFile): PGFile; overload;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
                        out FilesCount: Int64; out FilesSize: Int64);
@@ -132,6 +133,15 @@ procedure ShowError(AError: PGError);
 begin
   msgError(nil, AError^.message);
   g_error_free(AError);
+end;
+
+function GioNewFile(AFile: TFile): PGFile;
+begin
+  if AFile.LinkProperty is TGioLinkProperty then
+    Result:= g_file_dup(TGioLinkProperty(AFile.LinkProperty).Item)
+  else begin
+    Result:= uGio.GioNewFile(AFile.FullPath);
+  end;
 end;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
@@ -257,29 +267,29 @@ begin
   end;
 end;
 
-{ TGioFileLinkProperty }
+{ TGioLinkProperty }
 
-destructor TGioFileLinkProperty.Destroy;
+destructor TGioLinkProperty.Destroy;
 begin
   inherited Destroy;
   if Assigned(FItem) then g_object_unref(PGObject(FItem));
 end;
 
-function TGioFileLinkProperty.Clone: TFileLinkProperty;
+function TGioLinkProperty.Clone: TFileLinkProperty;
 begin
-  Result := TGioFileLinkProperty.Create;
+  Result := TGioLinkProperty.Create;
   CloneTo(Result);
 end;
 
-procedure TGioFileLinkProperty.CloneTo(FileProperty: TFileProperty);
+procedure TGioLinkProperty.CloneTo(FileProperty: TFileProperty);
 begin
   if Assigned(FileProperty) then
   begin
     inherited CloneTo(FileProperty);
 
-    if FileProperty is TGioFileLinkProperty then
+    if (FileProperty is TGioLinkProperty) and Assigned(FItem) then
     begin
-      TGioFileLinkProperty(FileProperty).FItem := g_file_dup(Self.FItem);
+      TGioLinkProperty(FileProperty).FItem := g_file_dup(Self.FItem);
     end;
   end;
 end;
@@ -445,11 +455,7 @@ var
 begin
   NodeData := aNode.Data as TFileTreeNodeData;
 
-  if aNode.TheFile.LinkProperty is TGioFileLinkProperty then
-    SourceFile:= TGioFileLinkProperty(aNode.TheFile.LinkProperty).Item
-  else begin
-    SourceFile:= GioNewFile(aNode.TheFile.FullPath);
-  end;
+  SourceFile:= GioNewFile(aNode.TheFile);
   TargetFile:= GioNewFile(AbsoluteTargetFileName);
   try
   // If some files will not be moved then source directory cannot be deleted.
@@ -533,11 +539,7 @@ begin
   FOldDoneBytes:= FStatistics.DoneBytes;
 
   FCancel:= g_cancellable_new();
-  if aNode.TheFile.LinkProperty is TGioFileLinkProperty then
-    SourceFile:= TGioFileLinkProperty(aNode.TheFile.LinkProperty).Item
-  else begin
-    SourceFile:= GioNewFile(aNode.TheFile.FullPath);
-  end;
+  SourceFile:= GioNewFile(aNode.TheFile);
   TargetFile:= GioNewFile(AbsoluteTargetFileName);
 
   try

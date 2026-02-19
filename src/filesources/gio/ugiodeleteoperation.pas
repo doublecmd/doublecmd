@@ -105,7 +105,6 @@ end;
 
 function TGioDeleteOperation.ProcessFile(aFile: TFile): Boolean;
 var
-  AGFile: PGFile;
   FileName: String;
   bRetry: Boolean;
   sMessage, sQuestion: String;
@@ -143,9 +142,7 @@ begin
     //if FileIsReadOnly(aFile.Attributes) then
     //  mbFileSetReadOnly(FileName, False);
 
-    AGFile:= TGioFileLinkProperty(aFile.LinkProperty).Item;
-    Result:= g_file_delete(AGFile, nil, nil);
-    g_object_unref(PGObject(AGFile));
+    Result:= g_file_delete(TGioLinkProperty(aFile.LinkProperty).Item, nil, nil);
 
     if Result then
     begin // success
