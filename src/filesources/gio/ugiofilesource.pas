@@ -140,7 +140,7 @@ begin
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
-    LinkProperty := TGioFileLinkProperty.Create;
+    LinkProperty := TGioLinkProperty.Create;
     OwnerProperty := TFileOwnerProperty.Create;
     TypeProperty := TFileTypeProperty.Create;
     CommentProperty := TFileCommentProperty.Create;
@@ -159,7 +159,7 @@ var
 begin
   Result:= CreateFile(APath);
   Result.Name:= g_file_info_get_name(AFileInfo);
-  TGioFileLinkProperty(Result.LinkProperty).Item:= AFile;
+  TGioLinkProperty(Result.LinkProperty).Item:= AFile;
   Result.Attributes:= g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   AFileTime.sec:= Int64(g_file_info_get_attribute_uint64(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
   AFileTime.nanosec:= Int64(g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED_USEC)) * 1000;

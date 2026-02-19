@@ -60,34 +60,30 @@ begin
   for AIndex:= 0 to FFiles.Count - 1 do
   begin
     AFile:= FFiles[AIndex];
-    SourceFile:= TGioFileLinkProperty(AFile.LinkProperty).Item;
+    SourceFile:= TGioLinkProperty(AFile.LinkProperty).Item;
+    AInfo:= g_file_query_info(SourceFile, G_FILE_ATTRIBUTE_TRASH_ORIG_PATH, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
+    if Assigned(AInfo) then
     try
-      AInfo:= g_file_query_info(SourceFile, G_FILE_ATTRIBUTE_TRASH_ORIG_PATH, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
-      if Assigned(AInfo) then
-      try
-        APath:= g_file_info_get_attribute_byte_string(AInfo, G_FILE_ATTRIBUTE_TRASH_ORIG_PATH);
-        mbForceDirectory(ExtractFileDir(APath));
+      APath:= g_file_info_get_attribute_byte_string(AInfo, G_FILE_ATTRIBUTE_TRASH_ORIG_PATH);
+      mbForceDirectory(ExtractFileDir(APath));
 
-        TargetFile:= GioNewFile(APAth);
-        try
-          if not g_file_move(SourceFile, TargetFile, G_FILE_COPY_NOFOLLOW_SYMLINKS or G_FILE_COPY_ALL_METADATA or G_FILE_COPY_NO_FALLBACK_FOR_MOVE, nil, nil, nil, @AError) then
-          begin
-            if Assigned(AError) then
-            try
-              if MessageDlg(AError^.message, mtError, [mbAbort, mbIgnore], 0, mbAbort) = mrAbort then
-                Break;
-            finally
-              FreeAndNil(AError);
-            end;
+      TargetFile:= GioNewFile(APath);
+      try
+        if not g_file_move(SourceFile, TargetFile, G_FILE_COPY_NOFOLLOW_SYMLINKS or G_FILE_COPY_ALL_METADATA or G_FILE_COPY_NO_FALLBACK_FOR_MOVE, nil, nil, nil, @AError) then
+        begin
+          if Assigned(AError) then
+          try
+            if MessageDlg(AError^.message, mtError, [mbAbort, mbIgnore], 0, mbAbort) = mrAbort then
+              Break;
+          finally
+            FreeAndNil(AError);
           end;
-        finally
-          g_object_unref(PGObject(TargetFile));
         end;
       finally
-        g_object_unref(AInfo);
+        g_object_unref(PGObject(TargetFile));
       end;
     finally
-      g_object_unref(PGObject(SourceFile));
+      g_object_unref(AInfo);
     end;
   end;
   Reload(PathDelim);
@@ -201,12 +197,7 @@ begin
     begin
       AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
 
-      if AFile.LinkProperty is TGioFileLinkProperty then
-        AGFile:= TGioFileLinkProperty(AFile.LinkProperty).Item
-      else begin
-        AGFile:= GioNewFile(AFile.FullPath);
-      end;
-
+      AGFile:= GioNewFile(AFile);
       AInfo:= g_file_query_info(AGFile, 'trash::*', G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
       if Assigned(AInfo) then
       begin
