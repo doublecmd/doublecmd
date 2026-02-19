@@ -23,6 +23,7 @@ lazbuild wdx\audioinfo\src\AudioInfo.lpi %DC_ARCH%
 
 rem WFX plugins
 lazbuild wfx\ftp\src\ftp.lpi             %DC_ARCH%
+lazbuild wfx\rclone\src\rclone.lpi      %DC_ARCH%
 
 rem WLX plugins
 lazbuild wlx\wmp\src\wmp.lpi             %DC_ARCH%
