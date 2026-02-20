@@ -4213,6 +4213,10 @@ msgstr "Verplaats pictogram naar systeemvak indien geminimaliseerd"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Slechts één actief exemplaar van Double Commander toestaan"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Hier kunt u een of meer schijven of koppelpunten opgeven, gescheiden door puntkomma."
@@ -8272,6 +8276,10 @@ msgstr "&Meerdere schijven archiefbestand"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Plaats eerst in TAR-archiefbestand"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

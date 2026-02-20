@@ -4174,6 +4174,10 @@ msgstr "&Przenieś ikonę do zasobnika systemowego po zminimalizowaniu"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Pozwó&l uruchomić tylko 1 kopię Double Commandera na raz"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Tutaj można wpisać jeden lub więcej dysków oraz punktów montowania, oddzielonych znakiem \";\"."
@@ -8205,6 +8209,10 @@ msgstr "Archiwum &wieloczęściowe"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Najpierw &umieść w archiwum TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

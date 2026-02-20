@@ -4197,6 +4197,10 @@ msgstr "In den System-Tray minimieren"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Nur eine einzelne Instanz von Doub&le Commander erlauben"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Hier können ein oder mehrere Laufwerke oder Mount_Points angegeben werden, die mit \";\" getrennt werden müssen."
@@ -8231,6 +8235,10 @@ msgstr "Archiv auf&teilen"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Z&uerst in einem TAR-Archiv zusammenfassen"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
