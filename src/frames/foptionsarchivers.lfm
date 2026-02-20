@@ -1,71 +1,141 @@
 inherited frmOptionsArchivers: TfrmOptionsArchivers
-  Height = 642
+  Height = 581
   Width = 923
   HelpKeyword = '/multiarc.html'
-  ClientHeight = 642
+  ClientHeight = 581
   ClientWidth = 923
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 159
-  DesignTop = 215
+  DesignLeft = 439
+  DesignTop = 83
   object pnlArchiverListbox: TPanel[0]
     Left = 5
-    Height = 642
+    Height = 581
     Top = 0
     Width = 120
     Align = alLeft
     BorderSpacing.Left = 5
     BevelOuter = bvNone
-    ClientHeight = 642
+    ClientHeight = 581
     ClientWidth = 120
     Constraints.MinWidth = 120
     TabOrder = 0
     object lblArchiverListBox: TLabel
       AnchorSideLeft.Control = pnlArchiverListbox
-      AnchorSideTop.Control = pnlArchiverListbox
+      AnchorSideTop.Control = btnAddonsConf
+      AnchorSideTop.Side = asrCenter
       Left = 3
-      Height = 18
-      Top = 3
-      Width = 114
-      Align = alTop
+      Height = 16
+      Top = 4
+      Width = 59
       BorderSpacing.Around = 3
       Caption = 'Archi&vers:'
       FocusControl = lbxArchiver
       ParentColor = False
     end
-    object lbxArchiver: TListBox
+    object btnAddonsConf: TSpeedButton
+      AnchorSideLeft.Control = lblArchiverListBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlArchiverListbox
+      AnchorSideRight.Control = pnlArchiverListbox
+      AnchorSideRight.Side = asrBottom
+      Left = 96
+      Height = 24
+      Top = 0
+      Width = 24
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      Constraints.MinHeight = 24
+      Constraints.MinWidth = 24
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        200000000000000400006400000064000000000000000000000000000000874A
+        20FF874A20FF874A20FF00000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000874A20FFBEA5
+        92FFB89C86FFB89C86FF874A20FF000000000000000000000000000000000000
+        000000000000858A88FF858A88FF858A88FF0000000000000000874A20FFCCBB
+        ADFFA7917DFFB5957AFFAE8B72FF874A20FF0000000000000000000000000000
+        000000000000858A88FF9EA1A0FF858A88FF0000000000000000874A20FFCCBB
+        ADFFA48D78FFA28A74FFB4957AFFB3937CFF874A20FF00000000000000000000
+        0000858A88FFD2D3D4FFC2C3C4FF858A88FF000000000000000000000000874A
+        20FFD4C8BDFFA48D78FFA48D78FFBEA592FF874A20FF0000000000000000858A
+        88FFE2E3E4FFC2C4C6FF858A88FF858A88FF0000000000000000000000000000
+        0000874A20FFCCBBADFFCCBBADFFB3937CFF874A20FF858A88FF858A88FFD3D3
+        D4FFBDBEBFFF858A88FF00000000000000000000000000000000000000000000
+        000000000000874A20FF874A20FF874A20FF85837DFFAAADADFFC8C9CAFFBDBE
+        BFFF858A88FF0000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000B5B7B8FF858A88FFB7B8B9FF858A
+        88FF000000000000000000000000000000000000000000000000000000000000
+        0000858A88FF858A88FF858A88FF858A88FFD0D1D2FFA3A4A4FF858A88FF858A
+        88FF00000000000000000000000000000000000000000000000000000000858A
+        88FFF3F3F3FFEFF0F0FFEDEEEEFFEAECECFFB6B9BAFF858A88FF00000000858A
+        88FF000000000000000000000000000000000000000000000000858A88FFF5F6
+        F6FFA9ACABFF858A88FFF7F7F7FFE2E3E5FFAAADADFFECEEEEFF000000000000
+        0000858A88FF000000000000000000000000000000000000000000000000858A
+        88FF0000000000000000858A88FFFAFAFAFF858A88FF00000000000000000000
+        000000000000858A88FF878C8AFF000000000000000000000000000000000000
+        00000000000000000000858A88FFEEF0F0FF858A88FF00000000000000000000
+        000000000000858A88FFF0F0F0FF858A88FF0000000000000000000000000000
+        000000000000858A88FFE9EBECFF858A88FF0000000000000000000000000000
+        00000000000000000000858A88FFEEEFEFFF858A88FF00000000000000000000
+        00000000000000000000858A88FF000000000000000000000000000000000000
+        0000000000000000000000000000858A88FF0000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
+      OnClick = btnArchiverOtherClick
+    end
+    object lbxArchiver: TCheckListBox
+      AnchorSideLeft.Control = pnlArchiverListbox
+      AnchorSideTop.Control = btnAddonsConf
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlArchiverListbox
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = btnAutoConf
       Left = 0
-      Height = 618
+      Height = 532
       Top = 24
       Width = 120
-      Align = alClient
+      Anchors = [akTop, akLeft, akRight, akBottom]
       DragMode = dmAutomatic
       ItemHeight = 0
+      TabOrder = 0
+      TopIndex = -1
       OnDragDrop = lbxArchiverDragDrop
       OnDragOver = lbxArchiverDragOver
+      OnItemClick = lbxArchiverItemClick
       OnSelectionChange = lbxArchiverSelectionChange
-      TabOrder = 0
+    end
+    object btnAutoConf: TButton
+      Left = 0
+      Height = 25
+      Top = 556
+      Width = 120
+      Align = alBottom
+      Caption = 'Auto Configure'
+      TabOrder = 1
+      OnClick = miArchiverAutoConfigureClick
     end
   end
   object splArchiver: TSplitter[1]
     Left = 125
-    Height = 642
+    Height = 581
     Top = 0
     Width = 5
   end
   object pnlArchiverCommands: TPanel[2]
     Left = 130
-    Height = 642
+    Height = 581
     Top = 0
     Width = 793
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 642
+    ClientHeight = 581
     ClientWidth = 793
     TabOrder = 2
     object pnlArchiverButtons: TPanel
       Left = 0
-      Height = 38
+      Height = 34
       Top = 0
       Width = 793
       Align = alTop
@@ -73,7 +143,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
       BevelOuter = bvNone
       ChildSizing.LeftRightSpacing = 4
       ChildSizing.TopBottomSpacing = 4
-      ClientHeight = 38
+      ClientHeight = 34
       ClientWidth = 793
       TabOrder = 0
       object chkArchiverEnabled: TCheckBox
@@ -81,13 +151,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Control = pnlArchiverButtons
         AnchorSideTop.Side = asrCenter
         Left = 10
-        Height = 24
-        Top = 7
-        Width = 75
+        Height = 23
+        Top = 6
+        Width = 73
         BorderSpacing.Left = 10
         Caption = 'E&nabled'
-        OnChange = chkArchiverEnabledChange
         TabOrder = 0
+        Visible = False
+        OnChange = chkArchiverEnabledChange
       end
       object btnArchiverApply: TBitBtn
         AnchorSideLeft.Control = chkArchiverEnabled
@@ -95,10 +166,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Control = pnlArchiverButtons
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
-        Left = 95
-        Height = 29
-        Top = 5
-        Width = 49
+        Left = 93
+        Height = 26
+        Top = 4
+        Width = 43
         AutoSize = True
         BorderSpacing.Left = 10
         Caption = 'A&pply'
@@ -112,10 +183,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 147
-        Height = 29
-        Top = 5
-        Width = 39
+        Left = 139
+        Height = 26
+        Top = 4
+        Width = 33
         AutoSize = True
         BorderSpacing.Left = 3
         Caption = 'A&dd'
@@ -129,10 +200,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 189
-        Height = 29
-        Top = 5
-        Width = 45
+        Left = 175
+        Height = 26
+        Top = 4
+        Width = 41
         AutoSize = True
         BorderSpacing.Left = 3
         Caption = 'Cop&y'
@@ -146,10 +217,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 237
-        Height = 29
-        Top = 5
-        Width = 65
+        Left = 219
+        Height = 26
+        Top = 4
+        Width = 59
         AutoSize = True
         BorderSpacing.Left = 3
         Caption = '&Rename'
@@ -163,10 +234,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 305
-        Height = 29
-        Top = 5
-        Width = 54
+        Left = 281
+        Height = 26
+        Top = 4
+        Width = 48
         AutoSize = True
         BorderSpacing.Left = 3
         Caption = 'Delete'
@@ -180,39 +251,40 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 362
-        Height = 29
-        Top = 5
-        Width = 60
+        Left = 332
+        Height = 26
+        Top = 4
+        Width = 54
         AutoSize = True
         BorderSpacing.Left = 3
         Caption = 'Oth&er...'
         OnClick = btnArchiverOtherClick
         TabOrder = 6
+        Visible = False
       end
     end
     object pcArchiverCommands: TPageControl
       Left = 0
-      Height = 604
-      Top = 38
+      Height = 547
+      Top = 34
       Width = 793
-      ActivePage = tbArchiverGeneral
+      ActivePage = tbParser
       Align = alClient
-      TabIndex = 0
+      TabIndex = 1
       TabOrder = 1
       object tbArchiverGeneral: TTabSheet
         Caption = 'General'
-        ClientHeight = 569
-        ClientWidth = 789
+        ClientHeight = 517
+        ClientWidth = 783
         object lblArchiverDescription: TLabel
           AnchorSideLeft.Control = tbArchiverGeneral
           AnchorSideTop.Control = tbArchiverGeneral
           AnchorSideRight.Control = tbArchiverGeneral
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
+          Height = 16
           Top = 10
-          Width = 769
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 10
@@ -228,12 +300,12 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblArchiverDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 26
-          Top = 28
-          Width = 769
+          Height = 28
+          Top = 26
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
-          OnChange = edtAnyChange
           TabOrder = 0
+          OnChange = edtAnyChange
         end
         object lblArchiverArchiver: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -241,9 +313,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
+          Height = 16
           Top = 56
-          Width = 765
+          Width = 759
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
@@ -257,13 +329,13 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnArchiverSelectFileArchiver
           Left = 10
-          Height = 26
-          Top = 74
-          Width = 713
+          Height = 28
+          Top = 72
+          Width = 707
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 2
-          OnChange = edtAnyChange
           TabOrder = 1
+          OnChange = edtAnyChange
         end
         object btnArchiverSelectFileArchiver: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -271,9 +343,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = btnArchiverRelativer
           AnchorSideBottom.Control = edtArchiverArchiver
           AnchorSideBottom.Side = asrBottom
-          Left = 725
-          Height = 26
-          Top = 74
+          Left = 719
+          Height = 28
+          Top = 72
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -324,10 +396,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverArchiver
           AnchorSideBottom.Side = asrBottom
-          Left = 752
-          Height = 26
+          Left = 746
+          Height = 28
           Hint = 'Some functions to select appropriate path'
-          Top = 74
+          Top = 72
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -374,9 +446,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverExtension
           Left = 10
-          Height = 18
-          Top = 102
-          Width = 765
+          Height = 16
+          Top = 104
+          Width = 759
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
@@ -394,6 +466,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Top = 102
           Width = 148
           Anchors = [akTop, akRight]
+          AutoSize = False
           BorderSpacing.Top = 2
           Caption = 'Show as normal files'
           TabOrder = 2
@@ -406,74 +479,76 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblArchiverDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 26
-          Top = 120
-          Width = 769
+          Height = 28
+          Top = 125
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
-          OnChange = edtAnyChange
+          AutoSize = False
           TabOrder = 3
+          OnChange = edtAnyChange
+        end
+        object bvlArchiverCommands: TDividerBevel
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = edtArchiverExtension
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = lblArchiverDescription
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 163
+          Width = 763
+          Caption = 'Commands:'
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 10
+          Font.Style = [fsBold]
+          ParentFont = False
         end
         object lblArchiverList: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = pnlFileNameOnlyList
+          AnchorSideTop.Control = chkFileNameOnlyList
           AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Side = asrBottom
+          AnchorSideRight.Control = chkFileNameOnlyList
           Left = 10
-          Height = 18
-          Top = 151
-          Width = 25
+          Height = 16
+          Top = 182
+          Width = 446
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
           Caption = '&List:'
           FocusControl = edtArchiverList
           ParentColor = False
         end
-        object pnlFileNameOnlyList: TPanel
-          AnchorSideLeft.Control = lblArchiverList
+        object chkFileNameOnlyList: TCheckBox
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtArchiverExtension
+          AnchorSideTop.Control = bvlArchiverCommands
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = edtArchiverList
           AnchorSideRight.Side = asrBottom
-          Left = 45
-          Height = 24
-          Top = 148
-          Width = 704
-          Anchors = [akTop, akLeft, akRight]
-          AutoSize = True
-          BorderSpacing.Top = 2
-          BevelOuter = bvNone
-          ClientHeight = 24
-          ClientWidth = 704
-          TabOrder = 4
-          object chkFileNameOnlyList: TCheckBox
-            AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Side = asrBottom
-            Left = 419
-            Height = 24
-            Top = 0
-            Width = 285
-            Anchors = [akTop, akRight]
-            Caption = 'Use archive name without extension as list'
-            OnChange = chkFileNameOnlyListChange
-            ParentBidiMode = False
-            TabOrder = 0
-          end
+          Left = 466
+          Height = 23
+          Top = 179
+          Width = 277
+          Anchors = [akTop, akRight]
+          Caption = 'Use archive name without extension as list'
+          ParentBidiMode = False
+          TabOrder = 11
+          OnChange = chkFileNameOnlyListChange
         end
         object edtArchiverList: TEdit
           AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = pnlFileNameOnlyList
+          AnchorSideTop.Control = chkFileNameOnlyList
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnArchiverListHelper
           Left = 10
-          Height = 26
-          Top = 172
-          Width = 739
+          Height = 28
+          Top = 202
+          Width = 733
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = False
           BorderSpacing.Right = 3
+          TabOrder = 4
           OnChange = edtAnyChange
-          TabOrder = 5
         end
         object btnArchiverListHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -482,10 +557,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverList
           AnchorSideBottom.Side = asrBottom
-          Left = 752
-          Height = 26
+          Left = 746
+          Height = 28
           Hint = 'Variable reminder helper'
-          Top = 172
+          Top = 202
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -526,111 +601,15 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           }
           OnClick = btnHelperClick
         end
-        object lblArchiverListStart: TLabel
+        object lblArchiverExtract: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
           AnchorSideTop.Control = edtArchiverList
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 200
-          Width = 769
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 2
-          Caption = 'Listin&g start (optional):'
-          FocusControl = edtArchiverListStart
-          ParentColor = False
-        end
-        object edtArchiverListStart: TEdit
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = lblArchiverListStart
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDescription
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 26
-          Top = 218
-          Width = 769
-          Anchors = [akTop, akLeft, akRight]
-          OnChange = edtAnyChange
-          TabOrder = 6
-        end
-        object lblArchiverListEnd: TLabel
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = edtArchiverListStart
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDescription
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 18
-          Top = 244
-          Width = 769
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Listing &finish (optional):'
-          FocusControl = edtArchiverListEnd
-          ParentColor = False
-        end
-        object edtArchiverListEnd: TEdit
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = lblArchiverListEnd
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDescription
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 26
-          Top = 262
-          Width = 769
-          Anchors = [akTop, akLeft, akRight]
-          OnChange = edtAnyChange
-          TabOrder = 7
-        end
-        object lblArchiverListFormat: TLabel
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = edtArchiverListEnd
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 18
-          Top = 290
-          Width = 763
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 2
-          BorderSpacing.Right = 10
-          Caption = 'Listing for&mat:'
-          FocusControl = memArchiverListFormat
-          ParentColor = False
-        end
-        object memArchiverListFormat: TMemo
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = lblArchiverListFormat
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDescription
-          AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Side = asrBottom
-          Left = 10
-          Height = 100
-          Top = 308
-          Width = 769
-          Anchors = [akTop, akLeft, akRight]
-          Constraints.MaxHeight = 100
-          Lines.Strings = (
-            ''
-          )
-          OnChange = edtAnyChange
-          ScrollBars = ssAutoBoth
-          TabOrder = 7
-          WordWrap = False
-        end
-        object lblArchiverExtract: TLabel
-          AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = memArchiverListFormat
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 18
-          Top = 410
-          Width = 765
+          Height = 16
+          Top = 232
+          Width = 759
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
@@ -646,13 +625,13 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideBottom.Control = tbArchiverGeneral
           AnchorSideBottom.Side = asrBottom
           Left = 10
-          Height = 26
-          Top = 428
-          Width = 739
+          Height = 28
+          Top = 248
+          Width = 733
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
+          TabOrder = 5
           OnChange = edtAnyChange
-          TabOrder = 9
         end
         object btnArchiverExtractHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -661,10 +640,89 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverExtract
           AnchorSideBottom.Side = asrBottom
-          Left = 752
-          Height = 26
+          Left = 746
+          Height = 28
           Hint = 'Variable reminder helper'
-          Top = 428
+          Top = 248
+          Width = 27
+          Anchors = [akTop, akRight, akBottom]
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF000000
+            0033000000000000000000000000000000000000000000000000000000000000
+            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+            47FF000000330000000000000000000000000000000000000000000000005C43
+            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+            47FFBB8747FF000000330000000000000000000000000000000000000000B482
+            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+            000000000000000000000000000000000000BB8747FFFFFFFF00
+          }
+          OnClick = btnHelperClick
+        end
+        object lblArchiverExtractWithoutPath: TLabel
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = edtArchiverExtract
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 278
+          Width = 759
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 2
+          Caption = 'Extract &without path:'
+          FocusControl = edtArchiverExtractWithoutPath
+          ParentColor = False
+        end
+        object edtArchiverExtractWithoutPath: TEdit
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = lblArchiverExtractWithoutPath
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnArchiverExtractWithoutPathHelper
+          Left = 10
+          Height = 28
+          Top = 294
+          Width = 733
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Right = 3
+          TabOrder = 6
+          OnChange = edtAnyChange
+        end
+        object btnArchiverExtractWithoutPathHelper: TSpeedButton
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = edtArchiverExtractWithoutPath
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtArchiverExtractWithoutPath
+          AnchorSideBottom.Side = asrBottom
+          Left = 746
+          Height = 28
+          Hint = 'Variable reminder helper'
+          Top = 294
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -707,13 +765,13 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         end
         object lblArchiverAdd: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = edtArchiverExtract
+          AnchorSideTop.Control = edtArchiverExtractWithoutPath
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 456
-          Width = 765
+          Height = 16
+          Top = 324
+          Width = 759
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
@@ -728,14 +786,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = btnArchiverAddHelper
           AnchorSideBottom.Side = asrBottom
           Left = 10
-          Height = 26
-          Top = 474
-          Width = 739
+          Height = 28
+          Top = 340
+          Width = 733
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
           BorderSpacing.Bottom = 6
+          TabOrder = 7
           OnChange = edtAnyChange
-          TabOrder = 10
         end
         object btnArchiverAddHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -744,259 +802,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverAdd
           AnchorSideBottom.Side = asrBottom
-          Left = 752
-          Height = 26
+          Left = 746
+          Height = 28
           Hint = 'Variable reminder helper'
-          Top = 474
-          Width = 27
-          Anchors = [akTop, akRight, akBottom]
-          Glyph.Data = {
-            36040000424D3604000000000000360000002800000010000000100000000100
-            2000000000000004000064000000640000000000000000000000FFFFFF000000
-            0033000000000000000000000000000000000000000000000000000000000000
-            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
-            47FF000000330000000000000000000000000000000000000000000000005C43
-            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
-            47FFBB8747FF000000330000000000000000000000000000000000000000B482
-            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
-            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
-            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
-            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
-            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
-            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
-            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
-            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
-            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
-            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
-            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
-            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
-            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
-            000000000000000000000000000000000000BB8747FFFFFFFF00
-          }
-          OnClick = btnHelperClick
-        end
-      end
-      object tbArchiverAdditional: TTabSheet
-        Caption = 'Additional'
-        ClientHeight = 580
-        ClientWidth = 785
-        object lblArchiverDelete: TLabel
-          AnchorSideLeft.Control = tbArchiverAdditional
-          AnchorSideTop.Control = tbArchiverAdditional
-          AnchorSideRight.Control = tbArchiverAdditional
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 15
-          Top = 10
-          Width = 765
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 10
-          BorderSpacing.Top = 10
-          BorderSpacing.Right = 10
-          Caption = 'De&lete:'
-          FocusControl = edtArchiverDelete
-          ParentColor = False
-        end
-        object edtArchiverDelete: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = lblArchiverDelete
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = btnArchiverDeleteHelper
-          Left = 10
-          Height = 23
-          Top = 25
-          Width = 735
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 3
-          OnChange = edtAnyChange
-          TabOrder = 0
-        end
-        object btnArchiverDeleteHelper: TSpeedButton
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtArchiverDelete
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = edtArchiverDelete
-          AnchorSideBottom.Side = asrBottom
-          Left = 748
-          Height = 23
-          Hint = 'Variable reminder helper'
-          Top = 25
-          Width = 27
-          Anchors = [akTop, akRight, akBottom]
-          Glyph.Data = {
-            36040000424D3604000000000000360000002800000010000000100000000100
-            2000000000000004000064000000640000000000000000000000FFFFFF000000
-            0033000000000000000000000000000000000000000000000000000000000000
-            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
-            47FF000000330000000000000000000000000000000000000000000000005C43
-            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
-            47FFBB8747FF000000330000000000000000000000000000000000000000B482
-            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
-            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
-            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
-            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
-            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
-            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
-            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
-            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
-            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
-            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
-            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
-            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
-            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
-            000000000000000000000000000000000000BB8747FFFFFFFF00
-          }
-          OnClick = btnHelperClick
-        end
-        object lblArchiverTest: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = edtArchiverDelete
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 15
-          Top = 50
-          Width = 765
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 2
-          Caption = 'Tes&t:'
-          FocusControl = edtArchiverTest
-          ParentColor = False
-        end
-        object edtArchiverTest: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = lblArchiverTest
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = btnArchiverTestHelper
-          Left = 10
-          Height = 23
-          Top = 65
-          Width = 735
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 3
-          OnChange = edtAnyChange
-          TabOrder = 1
-        end
-        object btnArchiverTestHelper: TSpeedButton
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtArchiverTest
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = edtArchiverTest
-          AnchorSideBottom.Side = asrBottom
-          Left = 748
-          Height = 23
-          Hint = 'Variable reminder helper'
-          Top = 65
-          Width = 27
-          Anchors = [akTop, akRight, akBottom]
-          Glyph.Data = {
-            36040000424D3604000000000000360000002800000010000000100000000100
-            2000000000000004000064000000640000000000000000000000FFFFFF000000
-            0033000000000000000000000000000000000000000000000000000000000000
-            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
-            47FF000000330000000000000000000000000000000000000000000000005C43
-            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
-            47FFBB8747FF000000330000000000000000000000000000000000000000B482
-            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
-            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
-            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
-            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
-            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
-            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
-            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
-            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
-            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
-            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
-            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
-            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
-            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
-            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
-            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
-            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
-            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
-            000000000000000000000000000000000000BB8747FFFFFFFF00
-          }
-          OnClick = btnHelperClick
-        end
-        object lblArchiverExtractWithoutPath: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = edtArchiverTest
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 15
-          Top = 90
-          Width = 765
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 2
-          Caption = 'Extract &without path:'
-          FocusControl = edtArchiverExtractWithoutPath
-          ParentColor = False
-        end
-        object edtArchiverExtractWithoutPath: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = lblArchiverExtractWithoutPath
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = btnArchiverExtractWithoutPathHelper
-          Left = 10
-          Height = 23
-          Top = 105
-          Width = 735
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 3
-          OnChange = edtAnyChange
-          TabOrder = 2
-        end
-        object btnArchiverExtractWithoutPathHelper: TSpeedButton
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtArchiverExtractWithoutPath
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = edtArchiverExtractWithoutPath
-          AnchorSideBottom.Side = asrBottom
-          Left = 748
-          Height = 23
-          Hint = 'Variable reminder helper'
-          Top = 105
+          Top = 340
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -1038,15 +847,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           OnClick = btnHelperClick
         end
         object lblArchiverSelfExtract: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = edtArchiverExtractWithoutPath
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = edtArchiverAdd
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 130
-          Width = 765
+          Height = 16
+          Top = 374
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           Caption = 'Create self extractin&g archive:'
@@ -1054,30 +862,30 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           ParentColor = False
         end
         object edtArchiverSelfExtract: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = lblArchiverDescription
           AnchorSideTop.Control = lblArchiverSelfExtract
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnArchiverSelfExtractHelper
           Left = 10
-          Height = 23
-          Top = 145
-          Width = 735
+          Height = 28
+          Top = 390
+          Width = 733
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
+          TabOrder = 8
           OnChange = edtAnyChange
-          TabOrder = 3
         end
         object btnArchiverSelfExtractHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = edtArchiverSelfExtract
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = lblArchiverDescription
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtArchiverSelfExtract
           AnchorSideBottom.Side = asrBottom
-          Left = 748
-          Height = 23
+          Left = 746
+          Height = 28
           Hint = 'Variable reminder helper'
-          Top = 145
+          Top = 390
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -1118,90 +926,876 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           }
           OnClick = btnHelperClick
         end
-        object lblArchiverPasswordQuery: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
+        object lblArchiverDelete: TLabel
+          AnchorSideLeft.Control = tbArchiverGeneral
           AnchorSideTop.Control = edtArchiverSelfExtract
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = btnArchiverDeleteHelper
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 170
-          Width = 765
+          Height = 16
+          Top = 420
+          Width = 753
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
           BorderSpacing.Top = 2
-          Caption = 'Password &query string:'
-          FocusControl = edtArchiverPasswordQuery
+          BorderSpacing.Right = 10
+          Caption = 'De&lete:'
+          FocusControl = edtArchiverDelete
           ParentColor = False
         end
-        object edtArchiverPasswordQuery: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = lblArchiverPasswordQuery
+        object edtArchiverDelete: TEdit
+          AnchorSideTop.Control = lblArchiverDelete
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
-          AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 185
-          Width = 765
+          Height = 28
+          Top = 436
+          Width = 733
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Right = 3
+          TabOrder = 9
           OnChange = edtAnyChange
-          TabOrder = 4
         end
-        object bvlArchiverIds: TDividerBevel
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = edtArchiverPasswordQuery
+        object btnArchiverDeleteHelper: TSpeedButton
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = edtArchiverDelete
+          AnchorSideRight.Control = lblArchiverDescription
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtArchiverDelete
+          AnchorSideBottom.Side = asrBottom
+          Left = 746
+          Height = 28
+          Hint = 'Variable reminder helper'
+          Top = 436
+          Width = 27
+          Anchors = [akTop, akRight, akBottom]
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF000000
+            0033000000000000000000000000000000000000000000000000000000000000
+            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+            47FF000000330000000000000000000000000000000000000000000000005C43
+            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+            47FFBB8747FF000000330000000000000000000000000000000000000000B482
+            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+            000000000000000000000000000000000000BB8747FFFFFFFF00
+          }
+          OnClick = btnHelperClick
+        end
+        object lblArchiverTest: TLabel
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = edtArchiverDelete
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 223
-          Width = 765
+          Height = 16
+          Top = 466
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 2
+          Caption = 'Tes&t:'
+          FocusControl = edtArchiverTest
+          ParentColor = False
+        end
+        object edtArchiverTest: TEdit
+          AnchorSideLeft.Control = lblArchiverDescription
+          AnchorSideTop.Control = lblArchiverTest
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnArchiverTestHelper
+          Left = 10
+          Height = 28
+          Top = 482
+          Width = 733
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Right = 3
+          TabOrder = 10
+          OnChange = edtAnyChange
+        end
+        object btnArchiverTestHelper: TSpeedButton
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = edtArchiverTest
+          AnchorSideRight.Control = lblArchiverDescription
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtArchiverTest
+          AnchorSideBottom.Side = asrBottom
+          Left = 746
+          Height = 28
+          Hint = 'Variable reminder helper'
+          Top = 482
+          Width = 27
+          Anchors = [akTop, akRight, akBottom]
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF000000
+            0033000000000000000000000000000000000000000000000000000000000000
+            00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+            47FF000000330000000000000000000000000000000000000000000000005C43
+            2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+            47FFBB8747FF000000330000000000000000000000000000000000000000B482
+            44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+            47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+            0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+            47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+            000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+            4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+            00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+            00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+            00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+            47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+            0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+            47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+            0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+            00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+            0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+            0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+            0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+            000000000000000000000000000000000000BB8747FFFFFFFF00
+          }
+          OnClick = btnHelperClick
+        end
+      end
+      object tbParser: TTabSheet
+        AutoSize = True
+        Caption = 'List parsing'
+        ClientHeight = 517
+        ClientWidth = 783
+        OnResize = tbParserResize
+        object pnlParser: TScrollBox
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 534
+          Top = 0
+          Width = 783
+          HorzScrollBar.Increment = 1
+          HorzScrollBar.Page = 1
+          HorzScrollBar.Visible = False
+          VertScrollBar.Increment = 53
+          VertScrollBar.Page = 532
+          VertScrollBar.Smooth = True
+          VertScrollBar.Tracking = True
+          Anchors = [akTop, akLeft, akRight]
+          ChildSizing.LeftRightSpacing = 10
+          ChildSizing.TopBottomSpacing = 10
+          ClientHeight = 532
+          ClientWidth = 768
+          TabOrder = 0
+          object lblArchiverListStart: TLabel
+            AnchorSideLeft.Control = pnlParser
+            AnchorSideTop.Control = pnlParser
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 16
+            Top = 10
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            Caption = 'Listin&g start (optional):'
+            FocusControl = edtArchiverListStart
+            ParentColor = False
+          end
+          object edtArchiverListStart: TEdit
+            AnchorSideLeft.Control = lblArchiverListStart
+            AnchorSideTop.Control = lblArchiverListStart
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = lblArchiverListFormat
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 28
+            Top = 26
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 0
+            OnChange = edtAnyChange
+          end
+          object lblArchiverListEnd: TLabel
+            AnchorSideLeft.Control = pnlParser
+            AnchorSideTop.Control = edtArchiverListStart
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 16
+            Top = 56
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Top = 2
+            Caption = 'Listing &finish (optional):'
+            FocusControl = edtArchiverListEnd
+            ParentColor = False
+          end
+          object edtArchiverListEnd: TEdit
+            AnchorSideLeft.Control = lblArchiverListStart
+            AnchorSideTop.Control = lblArchiverListEnd
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 28
+            Top = 72
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            OnChange = edtAnyChange
+          end
+          object lblArchiverListFormat: TLabel
+            AnchorSideLeft.Control = pnlParser
+            AnchorSideTop.Control = pnlParserHelpers
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 16
+            Top = 107
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Top = 2
+            BorderSpacing.Right = 1
+            Caption = 'Listing for&mat:'
+            FocusControl = memArchiverListFormat
+            ParentColor = False
+          end
+          object pnlParserHelpers: TPanel
+            AnchorSideTop.Control = edtArchiverListEnd
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = memArchiverListFormat
+            AnchorSideRight.Side = asrBottom
+            Left = 228
+            Height = 30
+            Top = 100
+            Width = 530
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BevelOuter = bvNone
+            ChildSizing.LeftRightSpacing = 10
+            ChildSizing.TopBottomSpacing = 5
+            ChildSizing.HorizontalSpacing = 5
+            ChildSizing.VerticalSpacing = 5
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 21
+            ClientHeight = 30
+            ClientWidth = 530
+            TabOrder = 2
+            object btnStaticFileName: TSpeedButton
+              Left = 10
+              Height = 20
+              Hint = 'Filename char'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'n'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticExt: TSpeedButton
+              Left = 35
+              Height = 20
+              Hint = 'File extension char'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'e'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticComment: TSpeedButton
+              Left = 60
+              Height = 20
+              Hint = 'File description char'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'c'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticAttr: TSpeedButton
+              Left = 85
+              Height = 20
+              Hint = 'Attributes char'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'a'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticSize: TSpeedButton
+              Left = 110
+              Height = 20
+              Hint = 'Unpacked size digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'z'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticPkSize: TSpeedButton
+              Left = 135
+              Height = 20
+              Hint = 'Packed size digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'p'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticYear: TSpeedButton
+              Left = 160
+              Height = 20
+              Hint = 'Year digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'y'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticMonth: TSpeedButton
+              Left = 185
+              Height = 20
+              Hint = 'Month digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 't'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticMonthWord: TSpeedButton
+              Left = 210
+              Height = 20
+              Hint = 'Three letters month char'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'T'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticDay: TSpeedButton
+              Left = 235
+              Height = 20
+              Hint = 'Day digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'd'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticHour: TSpeedButton
+              Left = 260
+              Height = 20
+              Hint = 'Hours digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'h'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticHourMod: TSpeedButton
+              Left = 285
+              Height = 20
+              Hint = 'Hours modifier letter (a – a.m. time, p – p.m. time)'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'H'
+              OnClick = btnExtHelperClick
+            end
+            object btnStaticMinute: TSpeedButton
+              Left = 310
+              Height = 20
+              Hint = 'Minutes digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'm'
+              OnClick = btnStaticHelperClick
+            end
+            object btnStaticSecond: TSpeedButton
+              Left = 335
+              Height = 20
+              Hint = 'Seconds digit'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 's'
+              OnClick = btnStaticHelperClick
+            end
+            object btnSkipChar: TSpeedButton
+              Left = 360
+              Height = 20
+              Hint = 'Skip one symbol'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = '?'
+              OnClick = btnStaticHelperClick
+            end
+            object btnSkipToFirstSpace: TSpeedButton
+              Left = 385
+              Height = 20
+              Hint = 'Skip until first space or end of line'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = '*'
+              OnClick = btnExtHelperClick
+            end
+            object lblSpacer: TLabel
+              Left = 410
+              Height = 20
+              Top = 5
+              Width = 10
+              Constraints.MinWidth = 10
+            end
+            object btnDynamicFileName: TSpeedButton
+              Left = 425
+              Height = 20
+              Hint = 'Use all chars until the end of the line for filename'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'n+'
+              OnClick = btnExtHelperClick
+            end
+            object btnDynamicSize: TSpeedButton
+              Left = 450
+              Height = 20
+              Hint = 'Use all digits up to first non-digit character for the unpacked size'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'z+'
+              OnClick = btnExtHelperClick
+            end
+            object btnDynamicPkSize: TSpeedButton
+              Left = 475
+              Height = 20
+              Hint = 'Use all digits up to first non-digit character for the packed size'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'p+'
+              OnClick = btnExtHelperClick
+            end
+            object btnSkipSpaces: TSpeedButton
+              Left = 500
+              Height = 20
+              Hint = 'Skip all spaces/tabstops until next character or end of line'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = '$'
+              OnClick = btnExtHelperClick
+            end
+          end
+          object memArchiverListFormat: TMemo
+            AnchorSideLeft.Control = lblArchiverListFormat
+            AnchorSideTop.Control = pnlParserHelpers
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Side = asrBottom
+            Left = 10
+            Height = 70
+            Top = 130
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            Constraints.MaxHeight = 100
+            Lines.Strings = (
+              ''
+            )
+            ParentFont = False
+            ScrollBars = ssAutoBoth
+            TabOrder = 3
+            WordWrap = False
+            OnChange = edtAnyChange
+          end
+          object lblIgnoreString: TLabel
+            AnchorSideLeft.Control = pnlParser
+            AnchorSideTop.Control = memArchiverListFormat
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 16
+            Top = 202
+            Width = 83
+            BorderSpacing.Top = 2
+            Caption = 'Ignore strings:'
+          end
+          object memIgnoreString: TMemo
+            AnchorSideLeft.Control = lblIgnoreString
+            AnchorSideTop.Control = lblIgnoreString
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 70
+            Top = 218
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssAutoBoth
+            TabOrder = 4
+            OnChange = edtAnyChange
+          end
+          object bvlArchiverParsingMode: TDividerBevel
+            AnchorSideLeft.Control = lblArchiverListFormat
+            AnchorSideTop.Control = memIgnoreString
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = lblArchiverListFormat
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 16
+            Top = 298
+            Width = 748
+            Caption = 'Format parsing mode:'
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Top = 10
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object ckbArchiverUnixPath: TCheckBox
+            AnchorSideLeft.Control = memArchiverListFormat
+            AnchorSideTop.Control = bvlArchiverParsingMode
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 23
+            Top = 319
+            Width = 153
+            BorderSpacing.Top = 5
+            Caption = '&Unix path delimiter "/"'
+            TabOrder = 5
+            OnChange = ckbArchiverUnixPathChange
+          end
+          object ckbArchiverWindowsPath: TCheckBox
+            AnchorSideLeft.Control = ckbArchiverUnixPath
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = ckbArchiverUnixPath
+            Left = 173
+            Height = 23
+            Top = 319
+            Width = 180
+            BorderSpacing.Left = 10
+            Caption = 'Windows path deli&miter "\"'
+            TabOrder = 6
+            OnChange = ckbArchiverWindowsPathChange
+          end
+          object ckbArchiverUnixFileAttributes: TCheckBox
+            AnchorSideLeft.Control = ckbArchiverWindowsPath
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = ckbArchiverUnixPath
+            Left = 363
+            Height = 23
+            Top = 319
+            Width = 132
+            BorderSpacing.Left = 10
+            Caption = 'Uni&x file attributes'
+            TabOrder = 7
+            OnChange = ckbArchiverUnixFileAttributesChange
+          end
+          object ckbArchiverWindowsFileAttributes: TCheckBox
+            AnchorSideLeft.Control = ckbArchiverUnixFileAttributes
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = ckbArchiverUnixPath
+            Left = 505
+            Height = 23
+            Top = 319
+            Width = 159
+            BorderSpacing.Left = 10
+            Caption = 'Windows &file attributes'
+            ParentBidiMode = False
+            TabOrder = 8
+            OnChange = ckbArchiverWindowsFileAttributesChange
+          end
+          object ckbParserTest: TCheckBox
+            AnchorSideLeft.Control = lblArchiverListStart
+            AnchorSideTop.Control = ckbArchiverWindowsFileAttributes
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 23
+            Top = 352
+            Width = 173
+            BorderSpacing.Top = 10
+            Caption = 'Format parsing preview'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 10
+            OnChange = ckbParserTestChange
+          end
+          object pnlTester: TPanel
+            AnchorSideLeft.Control = pnlParser
+            AnchorSideTop.Control = ckbParserTest
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 250
+            Top = 375
+            Width = 748
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BevelOuter = bvNone
+            ChildSizing.LeftRightSpacing = 5
+            ClientHeight = 250
+            ClientWidth = 748
+            TabOrder = 9
+            Visible = False
+            object lblTestArchive: TLabel
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = pnlTester
+              Left = 5
+              Height = 16
+              Top = 0
+              Width = 75
+              Caption = 'Test archive:'
+            end
+            object edtTestArchive: TFileNameEdit
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = lblTestArchive
+              AnchorSideTop.Side = asrBottom
+              AnchorSideRight.Control = btnTestParser
+              Left = 5
+              Height = 28
+              Top = 21
+              Width = 658
+              FilterIndex = 0
+              HideDirectories = False
+              ButtonWidth = 23
+              NumGlyphs = 1
+              Anchors = [akTop, akLeft, akRight]
+              BorderSpacing.Top = 5
+              BorderSpacing.Right = 5
+              MaxLength = 0
+              TabOrder = 0
+            end
+            object btnTestParser: TButton
+              AnchorSideTop.Control = edtTestArchive
+              AnchorSideRight.Control = pnlTester
+              AnchorSideRight.Side = asrBottom
+              AnchorSideBottom.Control = edtTestArchive
+              AnchorSideBottom.Side = asrBottom
+              Left = 668
+              Height = 28
+              Top = 21
+              Width = 75
+              Anchors = [akTop, akRight, akBottom]
+              Caption = 'Test'
+              TabOrder = 1
+              OnClick = btnTestParserClick
+            end
+            object lblParserOutput: TLabel
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = edtTestArchive
+              AnchorSideTop.Side = asrBottom
+              Left = 5
+              Height = 16
+              Top = 51
+              Width = 146
+              BorderSpacing.Top = 2
+              Caption = 'Received text for pasing:'
+            end
+            object memArchiverOutput: TMemo
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = lblParserOutput
+              AnchorSideTop.Side = asrBottom
+              AnchorSideRight.Control = pnlTester
+              AnchorSideRight.Side = asrBottom
+              Left = 5
+              Height = 65
+              Top = 72
+              Width = 738
+              Anchors = [akTop, akLeft, akRight]
+              BorderSpacing.Top = 5
+              ParentFont = False
+              ReadOnly = True
+              ScrollBars = ssAutoBoth
+              TabOrder = 2
+              WantTabs = True
+              WordWrap = False
+            end
+            object lblResult: TLabel
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = memArchiverOutput
+              AnchorSideTop.Side = asrBottom
+              Left = 5
+              Height = 16
+              Top = 139
+              Width = 42
+              BorderSpacing.Top = 2
+              Caption = 'Result:'
+            end
+            object gridArcItems: TStringGrid
+              AnchorSideLeft.Control = pnlTester
+              AnchorSideTop.Control = lblResult
+              AnchorSideTop.Side = asrBottom
+              AnchorSideRight.Control = pnlTester
+              AnchorSideRight.Side = asrBottom
+              Left = 5
+              Height = 90
+              Top = 160
+              Width = 738
+              Anchors = [akTop, akLeft, akRight]
+              AutoEdit = False
+              BorderSpacing.Top = 5
+              ColCount = 13
+              ColRowDragIndicatorColor = clHighlight
+              FixedCols = 0
+              GridLineStyle = psClear
+              Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll, goScrollKeepVisible]
+              Options2 = [goScrollToLastRow]
+              RowCount = 1
+              TabOrder = 3
+              TitleStyle = tsNative
+              ColWidths = (
+                59
+                59
+                59
+                59
+                59
+                58
+                58
+                58
+                58
+                58
+                58
+                58
+                58
+              )
+              Cells = (
+                13
+                0
+                0
+                'FileName'
+                1
+                0
+                'FileExt'
+                2
+                0
+                'FileLink'
+                3
+                0
+                'Comment'
+                4
+                0
+                'PackSize'
+                5
+                0
+                'UnpSize'
+                6
+                0
+                'Year'
+                7
+                0
+                'Month'
+                8
+                0
+                'Day'
+                9
+                0
+                'Hour'
+                10
+                0
+                'Minute'
+                11
+                0
+                'Second'
+                12
+                0
+                'Attributes'
+              )
+            end
+          end
+        end
+      end
+      object tbArchiverAdditional: TTabSheet
+        Caption = 'Miscellaneous'
+        ClientHeight = 517
+        ClientWidth = 783
+        object bvlArchiverIds: TDividerBevel
+          AnchorSideLeft.Control = tbArchiverAdditional
+          AnchorSideTop.Control = tbArchiverAdditional
+          AnchorSideRight.Control = tbArchiverAdditional
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 10
+          Width = 763
           Caption = 'ID''s used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:'
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 15
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 10
+          BorderSpacing.Right = 10
+          Font.Style = [fsBold]
           ParentFont = False
         end
         object lblArchiverIds: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = bvlArchiverIds
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = tbArchiverAdditional
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 238
-          Width = 765
+          Height = 16
+          Top = 26
+          Width = 773
           Anchors = [akTop, akLeft, akRight]
           Caption = '&ID:'
           FocusControl = edtArchiverId
           ParentColor = False
         end
         object edtArchiverId: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = lblArchiverIds
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 253
-          Width = 765
+          Height = 28
+          Top = 42
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
+          TabOrder = 0
           OnChange = edtAnyChange
-          TabOrder = 5
         end
         object lblArchiverIdPosition: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = edtArchiverId
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 278
-          Width = 765
+          Height = 16
+          Top = 72
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           Caption = 'ID Po&sition:'
@@ -1209,29 +1803,29 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           ParentColor = False
         end
         object edtArchiverIdPosition: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = lblArchiverIdPosition
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 293
-          Width = 765
+          Height = 28
+          Top = 88
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
+          TabOrder = 1
           OnChange = edtAnyChange
-          TabOrder = 6
         end
         object lblArchiverIdSeekRange: TLabel
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = edtArchiverIdPosition
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 318
-          Width = 765
+          Height = 16
+          Top = 118
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           Caption = 'ID See&k Range:'
@@ -1239,137 +1833,200 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           ParentColor = False
         end
         object edtArchiverIdSeekRange: TEdit
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = lblArchiverIdSeekRange
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 333
-          Width = 765
+          Height = 28
+          Top = 134
+          Width = 763
           Anchors = [akTop, akLeft, akRight]
+          TabOrder = 2
           OnChange = edtAnyChange
-          TabOrder = 7
         end
-        object bvlArchiverParsingMode: TDividerBevel
-          AnchorSideLeft.Control = lblArchiverDelete
+        object bvlArchiverOther: TDividerBevel
+          AnchorSideLeft.Control = bvlArchiverIds
           AnchorSideTop.Control = edtArchiverIdSeekRange
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = bvlArchiverIds
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 371
-          Width = 765
-          Caption = 'Format parsing mode:'
+          Height = 16
+          Top = 172
+          Width = 763
+          Caption = 'Other:'
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 15
+          BorderSpacing.Top = 10
+          Font.Style = [fsBold]
           ParentFont = False
         end
-        object ckbArchiverUnixPath: TCheckBox
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = bvlArchiverParsingMode
+        object lblArchiverPasswordQuery: TLabel
+          AnchorSideLeft.Control = lblArchiverFallBack
+          AnchorSideTop.Control = bvlArchiverOther
           AnchorSideTop.Side = asrBottom
-          Left = 10
-          Height = 19
-          Top = 391
-          Width = 138
-          BorderSpacing.Top = 5
-          Caption = '&Unix path delimiter "/"'
-          OnChange = ckbArchiverUnixPathChange
-          TabOrder = 8
-        end
-        object ckbArchiverWindowsPath: TCheckBox
-          AnchorSideLeft.Control = ckbArchiverUnixPath
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = ckbArchiverUnixPath
-          Left = 158
-          Height = 19
-          Top = 391
-          Width = 164
-          BorderSpacing.Left = 10
-          Caption = 'Windows path deli&miter "\"'
-          OnChange = ckbArchiverWindowsPathChange
-          TabOrder = 9
-        end
-        object ckbArchiverUnixFileAttributes: TCheckBox
-          AnchorSideLeft.Control = ckbArchiverWindowsPath
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = ckbArchiverUnixPath
-          Left = 332
-          Height = 19
-          Top = 391
-          Width = 115
-          BorderSpacing.Left = 10
-          Caption = 'Uni&x file attributes'
-          OnChange = ckbArchiverUnixFileAttributesChange
-          TabOrder = 10
-        end
-        object ckbArchiverWindowsFileAttributes: TCheckBox
-          AnchorSideLeft.Control = ckbArchiverUnixFileAttributes
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = ckbArchiverUnixPath
-          Left = 457
-          Height = 19
-          Top = 391
-          Width = 141
-          BorderSpacing.Left = 10
-          Caption = 'Windows &file attributes'
-          OnChange = ckbArchiverWindowsFileAttributesChange
-          ParentBidiMode = False
-          TabOrder = 11
-        end
-        object bvlArchiverOptions: TDividerBevel
-          AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = ckbArchiverUnixPath
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lblArchiverDelete
+          AnchorSideRight.Control = lblArchiverFallBack
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 15
-          Top = 425
-          Width = 765
+          Height = 16
+          Top = 190
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 2
+          Caption = 'Password &query string:'
+          FocusControl = edtArchiverPasswordQuery
+          ParentColor = False
+        end
+        object edtArchiverPasswordQuery: TEdit
+          AnchorSideLeft.Control = lblArchiverPasswordQuery
+          AnchorSideTop.Control = lblArchiverPasswordQuery
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = lblArchiverPasswordQuery
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 28
+          Top = 206
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 3
+          OnChange = edtAnyChange
+        end
+        object lblArchiverSizeStripChars: TLabel
+          AnchorSideLeft.Control = bvlArchiverOther
+          AnchorSideTop.Control = edtArchiverPasswordQuery
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 244
+          Width = 218
+          BorderSpacing.Top = 10
+          Caption = 'Strip characters from size substrings:'
+        end
+        object edtArchiverSizeStripChars: TEdit
+          AnchorSideLeft.Control = bvlArchiverOther
+          AnchorSideTop.Control = lblArchiverSizeStripChars
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = bvlArchiverOther
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 28
+          Top = 260
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 8
+          OnChange = edtAnyChange
+        end
+        object lblArchiverFallBack: TLabel
+          AnchorSideLeft.Control = tbArchiverAdditional
+          AnchorSideTop.Control = edtArchiverSizeStripChars
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = tbArchiverAdditional
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 298
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 10
+          BorderSpacing.Right = 10
+          Caption = 'Fallback to archiver:'
+        end
+        object edtArchiverFallBack: TEdit
+          AnchorSideLeft.Control = lblArchiverFallBack
+          AnchorSideTop.Control = lblArchiverFallBack
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = lblArchiverFallBack
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 28
+          Top = 314
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 4
+          OnChange = edtAnyChange
+        end
+        object lblArchiverAskHistory: TLabel
+          AnchorSideLeft.Control = lblArchiverFallBack
+          AnchorSideTop.Control = edtArchiverFallBack
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = lblArchiverFallBack
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 342
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Custom params history:'
+        end
+        object memArchiverAskHistory: TMemo
+          AnchorSideLeft.Control = lblArchiverAskHistory
+          AnchorSideTop.Control = lblArchiverAskHistory
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = lblArchiverAskHistory
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 70
+          Top = 358
+          Width = 763
+          Anchors = [akTop, akLeft, akRight]
+          ScrollBars = ssAutoBoth
+          TabOrder = 5
+          OnChange = edtAnyChange
+        end
+        object bvlArchiverOptions: TDividerBevel
+          AnchorSideLeft.Control = bvlArchiverIds
+          AnchorSideTop.Control = memArchiverAskHistory
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = bvlArchiverIds
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 16
+          Top = 438
+          Width = 763
           Caption = 'Options:'
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 15
+          BorderSpacing.Top = 10
+          Font.Style = [fsBold]
           ParentFont = False
         end
         object chkArchiverMultiArcOutput: TCheckBox
-          AnchorSideLeft.Control = lblArchiverDelete
+          AnchorSideLeft.Control = bvlArchiverOptions
           AnchorSideTop.Control = bvlArchiverOptions
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 19
-          Top = 445
-          Width = 132
+          Height = 23
+          Top = 459
+          Width = 148
           BorderSpacing.Top = 5
           Caption = 'S&how console output'
+          TabOrder = 6
           OnChange = edtAnyChange
-          TabOrder = 12
         end
         object chkArchiverMultiArcDebug: TCheckBox
           AnchorSideLeft.Control = chkArchiverMultiArcOutput
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = chkArchiverMultiArcOutput
           AnchorSideRight.Side = asrBottom
-          Left = 152
-          Height = 19
-          Top = 445
-          Width = 89
+          Left = 168
+          Height = 23
+          Top = 459
+          Width = 100
           BorderSpacing.Left = 10
           Caption = 'De&bug mode'
+          TabOrder = 7
           OnChange = edtAnyChange
-          TabOrder = 13
         end
       end
     end
   end
   object pmArchiverOther: TPopupMenu[3]
-    left = 192
-    top = 552
+    Left = 192
+    Top = 552
     object miArchiverAutoConfigure: TMenuItem
       Caption = 'Auto Configure'
+      Visible = False
       OnClick = miArchiverAutoConfigureClick
     end
     object miArchiverDiscardModification: TMenuItem
@@ -1406,25 +2063,25 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     end
   end
   object pmArchiverPathHelper: TPopupMenu[4]
-    left = 320
-    top = 552
+    Left = 320
+    Top = 552
   end
   object pmArchiverParamHelper: TPopupMenu[5]
-    left = 456
-    top = 552
+    Left = 456
+    Top = 552
   end
   object SaveArchiverDialog: TSaveDialog[6]
     DefaultExt = '.ini'
     Filter = 'Archiver configuration|*.ini'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
-    left = 600
-    top = 552
+    Left = 600
+    Top = 552
   end
   object OpenArchiverDialog: TOpenDialog[7]
     DefaultExt = '.*.ini'
     Filter = 'Archiver config files|*.ini;*.addon|Any files|*.*'
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
-    left = 728
-    top = 552
+    Left = 728
+    Top = 552
   end
 end
