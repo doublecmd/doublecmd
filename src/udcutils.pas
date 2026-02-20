@@ -662,11 +662,13 @@ end;
 
 function FixExeExt(const sFileName: String): String;
 var
-  ExeExt: String;
+  ExeExt, FileExt: String;
 begin
   Result:= sFileName;
   ExeExt:= GetExeExt;
-  if not SameText(ExeExt, ExtractFileExt(sFileName)) then
+  FileExt:= ExtractFileExt(sFileName);
+  if (SameText(ExeExt, '.exe') and (FileExt = EmptyStr)) or
+     ((ExeExt = EmptyStr) and SameText(FileExt, '.exe')) then
     Result:= ChangeFileExt(sFileName, ExeExt);
 end;
 
