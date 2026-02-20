@@ -1,18 +1,18 @@
 inherited frmOptionsTabs: TfrmOptionsTabs
-  Height = 492
+  Height = 564
   Width = 731
   HelpKeyword = '/configuration.html#ConfigTabs'
-  ClientHeight = 492
+  ClientHeight = 564
   ClientWidth = 731
-  DesignLeft = 147
-  DesignTop = 342
-  object gbTabs: TGroupBox[0]
+  DesignLeft = 291
+  DesignTop = 307
+  object gbAppearance: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 434
+    Height = 209
     Top = 6
     Width = 719
     Anchors = [akTop, akLeft, akRight]
@@ -20,154 +20,33 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 6
-    Caption = 'Folder tabs headers'
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 414
+    BorderSpacing.InnerBorder = 3
+    Caption = 'Appearance'
+    ClientHeight = 189
     ClientWidth = 715
     TabOrder = 0
-    object lblChar: TLabel
-      AnchorSideLeft.Control = edtTabsLimitLength
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = edtTabsLimitLength
-      AnchorSideTop.Side = asrCenter
-      Left = 239
-      Height = 15
-      Top = 58
-      Width = 54
-      BorderSpacing.Left = 6
-      Caption = 'characters'
-      ParentColor = False
-    end
     object lblTabsPosition: TLabel
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cmbTabsPosition
-      AnchorSideTop.Side = asrCenter
-      Left = 12
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = gbAppearance
+      Left = 6
       Height = 15
-      Top = 360
-      Width = 71
-      BorderSpacing.Top = 14
-      Caption = 'Ta&bs position'
+      Top = 6
+      Width = 72
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Ta&bs position:'
       FocusControl = cmbTabsPosition
       ParentColor = False
-    end
-    object cbTabsAlwaysVisible: TCheckBox
-      AnchorSideLeft.Control = gbTabs
-      AnchorSideTop.Control = gbTabs
-      Left = 12
-      Height = 19
-      Top = 6
-      Width = 274
-      BorderSpacing.Left = 12
-      BorderSpacing.Top = 6
-      Caption = '&Show tab header also when there is only one tab'
-      TabOrder = 0
-    end
-    object cbTabsMultiLines: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 31
-      Width = 136
-      BorderSpacing.Top = 6
-      Caption = '&Tabs on multiple lines'
-      TabOrder = 1
-    end
-    object cbTabsLimitOption: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsMultiLines
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 56
-      Width = 141
-      BorderSpacing.Top = 6
-      Caption = '&Limit tab title length to'
-      TabOrder = 2
-    end
-    object edtTabsLimitLength: TEdit
-      AnchorSideLeft.Control = cbTabsLimitOption
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbTabsLimitOption
-      AnchorSideTop.Side = asrCenter
-      Left = 153
-      Height = 23
-      Top = 54
-      Width = 80
-      TabOrder = 3
-    end
-    object cbTabsOpenForeground: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsCloseDuplicateWhenClosing
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 156
-      Width = 218
-      BorderSpacing.Top = 6
-      Caption = 'Ctrl+&Up opens new tab in foreground'
-      TabOrder = 7
-    end
-    object cbTabsConfirmCloseAll: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsConfirmCloseLocked
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 106
-      Width = 134
-      BorderSpacing.Top = 6
-      Caption = 'Con&firm close all tabs'
-      TabOrder = 5
-    end
-    object cbTabsLockedAsterisk: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsShowCloseButton
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 256
-      Width = 204
-      BorderSpacing.Top = 6
-      Caption = 'Show locked tabs &with an asterisk *'
-      TabOrder = 11
-    end
-    object cbTabsActivateOnClick: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbKeepRenamedNameBackToNormal
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 306
-      Width = 302
-      BorderSpacing.Top = 6
-      Caption = 'Activate target &panel when clicking on one of its Tabs'
-      TabOrder = 13
-    end
-    object cbTabsShowCloseButton: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsReuseTabWhenPossible
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 231
-      Width = 138
-      BorderSpacing.Top = 6
-      Caption = 'Show ta&b close button'
-      TabOrder = 10
     end
     object cmbTabsPosition: TComboBox
       AnchorSideLeft.Control = lblTabsPosition
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbTabsShowDriveLetter
-      AnchorSideTop.Side = asrBottom
-      Left = 89
+      AnchorSideTop.Control = lblTabsPosition
+      AnchorSideTop.Side = asrCenter
+      Left = 84
       Height = 23
-      Top = 356
-      Width = 100
+      Top = 2
+      Width = 252
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
@@ -177,104 +56,216 @@ inherited frmOptionsTabs: TfrmOptionsTabs
         'Bottom'
       )
       Style = csDropDownList
-      TabOrder = 15
+      TabOrder = 0
     end
-    object cbTabsOpenNearCurrent: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsOpenForeground
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 181
-      Width = 186
-      BorderSpacing.Top = 6
-      Caption = 'Open &new tabs near current tab'
-      TabOrder = 8
+    object lblTabsStyle: TLabel
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = cmbTabsStyle
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 15
+      Top = 35
+      Width = 53
+      BorderSpacing.Left = 6
+      Caption = 'Tabs style:'
+      FocusControl = cmbTabsStyle
+      ParentColor = False
     end
-    object cbTabsCloseDuplicateWhenClosing: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsConfirmCloseAll
+    object cmbTabsStyle: TComboBox
+      AnchorSideLeft.Control = cmbTabsPosition
+      AnchorSideTop.Control = cmbTabsPosition
       AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 19
-      Top = 131
-      Width = 261
+      AnchorSideRight.Control = cmbTabsPosition
+      AnchorSideRight.Side = asrBottom
+      Left = 84
+      Height = 23
+      Top = 31
+      Width = 252
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
-      Caption = 'Close duplicate tabs when closing application'
-      TabOrder = 6
+      BorderSpacing.Bottom = 6
+      ItemHeight = 15
+      Items.Strings = (
+        'Icons and titles'
+        'Titles only'
+        'Titles only with an asterisk * for locked'
+      )
+      Style = csDropDownList
+      TabOrder = 1
     end
-    object cbTabsShowDriveLetter: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsActivateOnClick
+    object cbTabsAlwaysVisible: TCheckBox
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = cmbTabsStyle
       AnchorSideTop.Side = asrBottom
-      Left = 12
+      Left = 6
       Height = 19
-      Top = 331
-      Width = 203
+      Top = 60
+      Width = 274
+      BorderSpacing.Left = 6
       BorderSpacing.Top = 6
-      Caption = 'Always show drive letter in tab title'
-      TabOrder = 14
-      Visible = False
+      Caption = '&Show tab header also when there is only one tab'
+      TabOrder = 2
     end
-    object cbTabsReuseTabWhenPossible: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsOpenNearCurrent
+    object cbTabsMultiLines: TCheckBox
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = cbTabsAlwaysVisible
       AnchorSideTop.Side = asrBottom
-      Left = 12
+      Left = 6
       Height = 19
-      Top = 206
-      Width = 192
+      Top = 85
+      Width = 135
+      BorderSpacing.Left = 6
       BorderSpacing.Top = 6
-      Caption = 'Reuse existing tab when possible'
-      TabOrder = 9
+      Caption = '&Tabs on multiple lines'
+      TabOrder = 3
     end
-    object cbTabsConfirmCloseLocked: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsLimitOption
-      AnchorSideTop.Side = asrBottom
-      Left = 12
+    object cbTabsLimitOption: TCheckBox
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = edtTabsLimitLength
+      AnchorSideTop.Side = asrCenter
+      Left = 6
       Height = 19
-      Top = 81
-      Width = 157
-      BorderSpacing.Top = 6
-      Caption = 'Confirm close locked tabs'
+      Top = 112
+      Width = 141
+      BorderSpacing.Left = 6
+      Caption = '&Limit tab title length to'
       TabOrder = 4
     end
-    object cbKeepRenamedNameBackToNormal: TCheckBox
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsLockedAsterisk
+    object edtTabsLimitLength: TEdit
+      AnchorSideLeft.Control = cbTabsLimitOption
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbTabsMultiLines
       AnchorSideTop.Side = asrBottom
-      Left = 12
+      Left = 147
+      Height = 23
+      Top = 110
+      Width = 80
+      BorderSpacing.Top = 6
+      TabOrder = 5
+    end
+    object lblChar: TLabel
+      AnchorSideLeft.Control = edtTabsLimitLength
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edtTabsLimitLength
+      AnchorSideTop.Side = asrCenter
+      Left = 233
+      Height = 15
+      Top = 114
+      Width = 54
+      BorderSpacing.Left = 6
+      Caption = 'characters'
+      ParentColor = False
+    end
+    object cbTabsShowDriveLetter: TCheckBox
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = edtTabsLimitLength
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 19
-      Top = 281
+      Top = 139
+      Width = 203
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Always show drive letter in tab title'
+      TabOrder = 6
+      Visible = False
+    end
+    object cbTabsShowCloseButton: TCheckBox
+      AnchorSideLeft.Control = gbAppearance
+      AnchorSideTop.Control = cbTabsShowDriveLetter
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 164
+      Width = 138
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Show ta&b close button'
+      TabOrder = 7
+    end
+  end
+  object gbBehavior: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbClosingTab
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 136
+    Top = 410
+    Width = 719
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.InnerBorder = 3
+    Caption = 'Behavior'
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 116
+    ClientWidth = 715
+    TabOrder = 1
+    object cbTabsActivateOnClick: TCheckBox
+      AnchorSideLeft.Control = gbBehavior
+      AnchorSideTop.Control = cbKeepRenamedNameBackToNormal
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 31
+      Width = 301
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Activate target &panel when clicking on one of its Tabs'
+      TabOrder = 2
+    end
+    object cbTabsCloseDuplicateWhenClosing: TCheckBox
+      AnchorSideLeft.Control = gbBehavior
+      AnchorSideTop.Control = cbTabsActivateOnClick
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 56
+      Width = 261
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Close duplicate tabs when closing application'
+      TabOrder = 0
+    end
+    object cbKeepRenamedNameBackToNormal: TCheckBox
+      AnchorSideLeft.Control = gbBehavior
+      AnchorSideTop.Control = gbBehavior
+      Left = 6
+      Height = 19
+      Top = 6
       Width = 246
+      BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Keep renamed name when unlocking a tab'
-      TabOrder = 12
+      TabOrder = 1
     end
     object lblTabsActionOnDoubleClick: TLabel
-      AnchorSideLeft.Control = cbTabsAlwaysVisible
+      AnchorSideLeft.Control = gbBehavior
       AnchorSideTop.Control = cbTabsActionOnDoubleClick
       AnchorSideTop.Side = asrCenter
-      Left = 12
+      Left = 6
       Height = 15
-      Top = 389
+      Top = 85
       Width = 214
+      BorderSpacing.Left = 6
       Caption = 'Action to do when double click on a tab:'
       ParentColor = False
     end
     object cbTabsActionOnDoubleClick: TComboBox
       AnchorSideLeft.Control = lblTabsActionOnDoubleClick
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cmbTabsPosition
+      AnchorSideTop.Control = cbTabsCloseDuplicateWhenClosing
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbTabs
+      AnchorSideRight.Control = gbBehavior
       AnchorSideRight.Side = asrBottom
-      Left = 232
+      Left = 226
       Height = 23
-      Top = 385
-      Width = 477
-      Anchors = [akTop, akLeft, akRight]
+      Top = 81
+      Width = 156
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       BorderSpacing.Right = 6
@@ -287,7 +278,112 @@ inherited frmOptionsTabs: TfrmOptionsTabs
         'Tabs popup menu'
       )
       Style = csDropDownList
-      TabOrder = 16
+      TabOrder = 3
+    end
+  end
+  object gbOpeningTab: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbAppearance
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 101
+    Top = 221
+    Width = 719
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.InnerBorder = 3
+    Caption = 'Opening tab'
+    ClientHeight = 81
+    ClientWidth = 715
+    TabOrder = 2
+    object cbTabsReuseTabWhenPossible: TCheckBox
+      AnchorSideLeft.Control = gbOpeningTab
+      AnchorSideTop.Control = cbTabsOpenForeground
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 56
+      Width = 193
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Reuse existing tab when possible'
+      TabOrder = 0
+    end
+    object cbTabsOpenNearCurrent: TCheckBox
+      AnchorSideLeft.Control = gbOpeningTab
+      AnchorSideTop.Control = gbOpeningTab
+      Left = 6
+      Height = 19
+      Top = 6
+      Width = 186
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Open &new tabs near current tab'
+      TabOrder = 1
+    end
+    object cbTabsOpenForeground: TCheckBox
+      AnchorSideLeft.Control = gbOpeningTab
+      AnchorSideTop.Control = cbTabsOpenNearCurrent
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 31
+      Width = 218
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Ctrl+&Up opens new tab in foreground'
+      TabOrder = 2
+    end
+  end
+  object gbClosingTab: TGroupBox[3]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbOpeningTab
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 76
+    Top = 328
+    Width = 719
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.InnerBorder = 3
+    Caption = 'Closing tab'
+    ClientHeight = 56
+    ClientWidth = 715
+    TabOrder = 3
+    object cbTabsConfirmCloseLocked: TCheckBox
+      AnchorSideLeft.Control = gbClosingTab
+      AnchorSideTop.Control = gbClosingTab
+      Left = 6
+      Height = 19
+      Top = 6
+      Width = 157
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Confirm close locked tabs'
+      TabOrder = 0
+    end
+    object cbTabsConfirmCloseAll: TCheckBox
+      AnchorSideLeft.Control = gbClosingTab
+      AnchorSideTop.Control = cbTabsConfirmCloseLocked
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 31
+      Width = 134
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Con&firm close all tabs'
+      TabOrder = 1
     end
   end
 end

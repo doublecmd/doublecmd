@@ -189,6 +189,8 @@ type
     property OnMouseUp;
   end;
 
+var ilTabLockStates: TImageList; TabLockStateImageIndexes: array[TTabLockState] of Integer;
+
 implementation
 
 uses
@@ -343,6 +345,8 @@ begin
     Caption := StringReplace(NewCaption, '&', '&&', [rfReplaceAll]);
 {$ENDIF}
   end;
+  if tb_show_icons in gDirTabOptions then
+    ImageIndex := Integer(FLockState);
 end;
 
 procedure TFileViewPage.WMEraseBkgnd(var Message: TLMEraseBkgnd);
@@ -844,6 +848,12 @@ function TFileViewNotebook.GetPageClass: TCustomPageClass;
 begin
   Result:= TFileViewPage;
 end;
+
+initialization
+  ilTabLockStates := TImageList.Create(nil);
+
+finalization
+  ilTabLockStates.Free;
 
 end.
 

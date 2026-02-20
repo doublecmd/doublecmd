@@ -62,6 +62,8 @@ type
   TWatchOptions = set of (watch_file_name_change, watch_attributes_change,
                           watch_only_foreground, watch_exclude_dirs);
   { Tabs options }
+  // don't remove or change the order of it! Only adding is allowed.
+  // todo: convert to record and save separately by name and value
   TTabsOptions = set of (tb_always_visible, tb_multiple_lines, tb_same_width,
                          tb_text_length_limit, tb_confirm_close_all,
                          tb_close_on_dbl_click, tb_open_new_in_foreground,
@@ -71,7 +73,7 @@ type
                          tb_close_on_doubleclick, tb_show_drive_letter,
                          tb_reusing_tab_when_possible,
                          tb_confirm_close_locked_tab,
-                         tb_keep_renamed_when_back_normal);
+                         tb_keep_renamed_when_back_normal, tb_show_icons);
 
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
@@ -2059,7 +2061,6 @@ begin
   { Tabs page }
   gDirTabOptions := [tb_always_visible,
                      tb_confirm_close_all,
-                     tb_show_asterisk_for_locked,
                      tb_activate_panel_on_click,
                      tb_close_on_doubleclick,
                      tb_reusing_tab_when_possible,
@@ -3058,10 +3059,11 @@ begin
       begin
         gDirTabOptions := gDirTabOptions + [tb_close_on_doubleclick , tb_reusing_tab_when_possible, tb_confirm_close_locked_tab]; //The "tb_close_on_doubleclick" is useless but anyway... :-)
         gDirTabActionOnDoubleClick:=tadc_CloseTab;
-      end;
+      end
+      else
+        gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(GetValue(Node, 'ActionOnDoubleClick', Integer(tadc_CloseTab)));
       gDirTabLimit := GetValue(Node, 'CharacterLimit', gDirTabLimit);
       gDirTabPosition := TTabsPosition(GetValue(Node, 'Position', Integer(gDirTabPosition)));
-      gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(GetValue(Node, 'ActionOnDoubleClick', Integer(tadc_CloseTab)));
     end;
 
     { Log page }
