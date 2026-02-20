@@ -348,9 +348,10 @@ var
           FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
           for J:= 0 to 50 do
           begin
-            Format:= TrimQuotes(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr));
+            Format:= IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr);
             if Format <> EmptyStr then
             begin
+              Format:= TrimQuotes(Format);
               if Import then
               begin
                 // mvv build stuff
@@ -362,13 +363,20 @@ var
             else
               Break;
           end;
-          FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
-          FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
-          FExtractWithoutPath:= TrimQuotes(IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr));
-          FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
-          FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
-          FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
-          FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
+          FList:= IniFile.ReadString(Section, 'List', EmptyStr);
+          FExtract:= IniFile.ReadString(Section, 'ExtractWithPath', EmptyStr);
+          if FExtract <> EmptyStr then
+            // tc addon
+            FExtractWithoutPath:= IniFile.ReadString(Section, 'Extract', EmptyStr)
+          else
+          begin
+            FExtract:= IniFile.ReadString(Section, 'Extract', EmptyStr);
+            FExtractWithoutPath:= IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr);
+          end;
+          FTest:= IniFile.ReadString(Section, 'Test', EmptyStr);
+          FDelete:= IniFile.ReadString(Section, 'Delete', EmptyStr);
+          FAdd:= IniFile.ReadString(Section, 'Add', EmptyStr);
+          FAddSelfExtract:= IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr);
           FPasswordQuery:= TrimQuotes(IniFile.ReadString(Section, 'PasswordQuery', EmptyStr));
           // optional
           for J:= 0 to 50 do
@@ -393,9 +401,16 @@ var
           FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
           FOutput:= IniFile.ReadBool(Section, 'Output', False);
           FDebug:= IniFile.ReadBool(Section, 'Debug', False);
-          FFallBack:= TrimQuotes(IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr));
+          FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
           if Import then
           begin
+            FList:= TrimQuotes(FList);
+            FExtract:= TrimQuotes(FExtract);
+            FExtractWithoutPath:= TrimQuotes(FExtractWithoutPath);
+            FAdd:= TrimQuotes(FAdd);
+            FAddSelfExtract:= TrimQuotes(FAddSelfExtract);
+            FDelete:= TrimQuotes(FDelete);
+            FTest:= TrimQuotes(FTest);
             if IniFile.ReadBool(Section, 'UnixPath', False) then
               FFormMode:= FFormMode or MAF_UNIX_PATH;
           end;
