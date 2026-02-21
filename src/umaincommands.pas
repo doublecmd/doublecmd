@@ -1410,7 +1410,7 @@ begin
       bConfirmation := focTestArchive in gFileOperationsConfirmations;
     end;
 
-    if (bConfirmation = False) or (ShowDeleteDialog(rsMsgTestArchive, ActiveFrame.FileSource, QueueId)) then
+    if (bConfirmation = False) or (ShowDeleteDialog(frmMain, rsMsgTestArchive, ActiveFrame.FileSource, QueueId)) then
     begin
       SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
       try
@@ -1708,7 +1708,7 @@ begin
         Exit;
 
       Message:= frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe);
-      if not ShowDeleteDialog(Message, FileSource, QueueId) then
+      if not ShowDeleteDialog(frmMain, Message, FileSource, QueueId) then
         Exit;
 
       Operation := FileSource.CreateWipeOperation(theFilesToWipe);
@@ -2680,8 +2680,11 @@ begin
          end;
          if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
       end;
-      if (bConfirmation = False) or (ShowDeleteDialog(Message, FileSource, QueueId)) then
+      if (bConfirmation = False) or (ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
       begin
+        // Restore focus to main window after confirmation dialog closes
+        if frmMain.ActiveFrame.CanFocus then
+          frmMain.ActiveFrame.SetFocus;
         if FileSource.IsClass(TFileSystemFileSource) then
         begin
           if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -2879,7 +2882,7 @@ begin
           end;
         end;
 
-      if (bConfirmation = False) or (ShowDeleteDialog(rsMsgVerifyChecksum, ActiveFrame.FileSource, QueueId)) then
+      if (bConfirmation = False) or (ShowDeleteDialog(frmMain, rsMsgVerifyChecksum, ActiveFrame.FileSource, QueueId)) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, Hash, '') as TFileSourceCalcChecksumOperation;
