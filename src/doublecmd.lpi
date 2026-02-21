@@ -165,6 +165,11 @@ begin
   UnitPath += &apos;platform/$(SrcOS)/qt5;&apos;;
 end;
 
+if (LCLWidgetType = &apos;qt6&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
+begin
+  UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
+end;
+
 if (LCLWidgetType = &apos;gtk2&apos;) and (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
@@ -2192,6 +2197,11 @@ end;
 if TargetOS = &apos;darwin&apos; then begin
   UsageCustomOptions += &apos; -k-macosx_version_min -k10.5&apos;;
   UsageCustomOptions += &apos; -XR/Developer/SDKs/MacOSX10.5.sdk/&apos;;
+end;
+
+if (LCLWidgetType = &apos;qt6&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
+begin
+  UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>

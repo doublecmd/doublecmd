@@ -47,6 +47,9 @@ uses
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
   uWin32WidgetSetDark,
   {$ENDIF}
+  {$IFDEF LCLQT6}
+  uQtWSControls,
+  {$ENDIF}
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
   {$ENDIF}
@@ -136,7 +139,7 @@ begin
   uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 
-  Application.Scaled:= True;
+  Application.Scaled:=True;
 
   // Fix default BidiMode
   // see http://bugs.freepascal.org/view.php?id=22044
