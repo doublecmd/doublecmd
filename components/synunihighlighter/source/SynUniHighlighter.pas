@@ -447,6 +447,10 @@ end;
 procedure TSynUniSyn.SetRange(Value: Pointer);
 //: Set current range
 begin
+{$if lcl_fullversion >= 4990000}
+  // Workaround, issue #2764
+  if (Value = nil) then Exit;
+{$endif}
   fCurrentRule := TSynRange(Value);
 end;
 
