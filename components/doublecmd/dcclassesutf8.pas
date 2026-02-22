@@ -212,12 +212,18 @@ end;
 
 { TStringListEx }
 
-function TStringListEx.DoCompareText(const S1, S2: String): PtrInt;
-begin
+function TStringListEx.DoCompareText(const S1, S2: String): PtrInt; 
+var
+  U1, U2: UnicodeString;
+begin                
+  U1 := UnicodeString(S1);
+  U2 := UnicodeString(S2);
   if CaseSensitive then
-    Result:= UTF8CompareStr(S1, S2)
+    Result:= CompareStr(U1, U2)
+    //Result:= UTF8CompareStr(S1, S2)
   else
-    Result:= UTF8CompareText(S1, S2);
+    Result:= CompareText(U1, U2);
+    //Result:= UTF8CompareText(S1, S2);
 end;
 
 function TStringListEx.IndexOfValue(const Value: String): Integer;
