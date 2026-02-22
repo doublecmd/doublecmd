@@ -51,7 +51,7 @@ var
 implementation
 
 uses
-  LCLVersion, Graphics, uPixMapManager, uGlobs;
+  LCLVersion, Graphics, uPixMapManager, uGlobs, uDCUtils;
 
 {$R *.lfm}
 
@@ -149,6 +149,7 @@ procedure TdmComData.LoadImages(Images: TImageList; const ANames: array of Strin
 var
   I: Integer;
   AName: String;
+  AFactor: Double;
   AResolutions: array of Integer;
   ABitmaps: array of TCustomBitmap;
 begin
@@ -165,6 +166,15 @@ begin
     SetLength(ABitmaps, 4);
     SetLength(AResolutions, 4);
     AResolutions[3]:= gToolIconsSize;
+  end;
+
+  AFactor:= findScaleFactorByFirstForm;
+
+  if (AFactor > 1.0) then
+  begin
+    SetLength(ABitmaps, Length(ABitmaps) + 1);
+    SetLength(AResolutions, Length(AResolutions) + 1);
+    AResolutions[High(AResolutions)]:= Round(gToolIconsSize * AFactor);
   end;
 
   Images.RegisterResolutions(AResolutions);
