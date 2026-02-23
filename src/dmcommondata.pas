@@ -172,9 +172,13 @@ begin
 
   if (AFactor > 1.0) then
   begin
-    SetLength(ABitmaps, Length(ABitmaps) + 1);
-    SetLength(AResolutions, Length(AResolutions) + 1);
-    AResolutions[High(AResolutions)]:= Round(gToolIconsSize * AFactor);
+    I:= Round(gToolIconsSize * AFactor);
+    if (I <> 16) and (I <> 24) and (I <> 32) then
+    begin
+      SetLength(ABitmaps, Length(ABitmaps) + 1);
+      SetLength(AResolutions, Length(AResolutions) + 1);
+      AResolutions[High(AResolutions)]:= I;
+    end;
   end;
 
   Images.RegisterResolutions(AResolutions);
