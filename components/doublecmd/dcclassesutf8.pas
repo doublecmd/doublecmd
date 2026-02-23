@@ -82,7 +82,7 @@ type
 implementation
 
 uses
-  DCOSUtils, LazUTF8;
+  DCOSUtils, DCConvertEncoding;
 
 { TFileStreamEx }
 
@@ -213,11 +213,17 @@ end;
 { TStringListEx }
 
 function TStringListEx.DoCompareText(const S1, S2: String): PtrInt;
+var
+  U1, U2: UnicodeString;
 begin
+  U1:= CeUtf8ToUtf16(S1);
+  U2:= CeUtf8ToUtf16(S2);
+
   if CaseSensitive then
-    Result:= UTF8CompareStr(S1, S2)
-  else
-    Result:= UTF8CompareText(S1, S2);
+    Result:= UnicodeCompareStr(U1, U2)
+  else begin
+    Result:= UnicodeCompareText(U1, U2);
+  end;
 end;
 
 function TStringListEx.IndexOfValue(const Value: String): Integer;
