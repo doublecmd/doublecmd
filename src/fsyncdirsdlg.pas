@@ -1577,7 +1577,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
     end;
     case FSortIndex of
     0:
-      Result := UTF8CompareStr(sl[i], sl[j]);
+      Result := mbCompareStr(sl[i], sl[j]);
     1:
       if (Assigned(r1.FFileL) < Assigned(r2.FFileL))
       or Assigned(r2.FFileL) and (r1.FFileL.Size < r2.FFileL.Size) then
@@ -1623,7 +1623,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
       else
         Result := 0;
     6:
-      Result := UTF8CompareStr(sl[i], sl[j]);
+      Result := mbCompareStr(sl[i], sl[j]);
     end;
     if FSortDesc then
       Result := -Result;

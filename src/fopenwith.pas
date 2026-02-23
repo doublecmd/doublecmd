@@ -27,8 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, TreeFilterEdit, Forms, Controls, Graphics,
-  Dialogs, StdCtrls, ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus,
-  Types;
+  Dialogs, StdCtrls, ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus;
 
 type
 
@@ -347,7 +346,7 @@ begin
   else if SameText(Node2.Text, rsOpenWithOther) then
     Result:= -1
   else
-    Result := LazUTF8.Utf8CompareStr(Node1.Text, Node2.Text);
+    Result := mbCompareStr(Node1.Text, Node2.Text);
 end;
 
 procedure TfrmOpenWith.LoadBitmap(ANode: TTreeNode; const AName: String);
