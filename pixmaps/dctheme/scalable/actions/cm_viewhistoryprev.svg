@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <radialGradient id="radialGradient8656" cx="25.076" cy="5.786" r="17.171" gradientTransform="matrix(-2.0467 -3.7494e-16 -2.8534e-16 1.5576 67.594 3.2753)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="radialGradient8668" cx="24.837" cy="36.421" r="15.645" gradientTransform="matrix(1 0 0 .53672 6.7728e-15 16.873)" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="radialGradient2597" cx="22.292" cy="32.798" r="16.956" gradientTransform="matrix(-.84302 1.8719e-16 2.2652e-16 1.0202 43.576 1.2052)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#73d216" offset="0"/>
+   <stop stop-color="#4e9a06" offset="1"/>
+  </radialGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Jakub Steiner</dc:title>
+     </cc:Agent>
+    </dc:creator>
+    <dc:source>http://jimmac.musichall.cz</dc:source>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:title>Go Previous</dc:title>
+    <dc:subject>
+     <rdf:Bag>
+      <rdf:li>go</rdf:li>
+      <rdf:li>previous</rdf:li>
+      <rdf:li>left</rdf:li>
+      <rdf:li>arrow</rdf:li>
+      <rdf:li>pointer</rdf:li>
+      <rdf:li>&lt;</rdf:li>
+     </rdf:Bag>
+    </dc:subject>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g>
+  <g fill-rule="evenodd">
+   <path transform="matrix(-1.2712 0 0 1.2712 56.195 -15.279)" d="m40.482 36.421a15.645 8.3969 0 1 1-31.289 0 15.645 8.3969 0 1 1 31.289 0z" color="#000000" fill="url(#radialGradient8668)" opacity=".29947"/>
+   <path d="m39.49 15.497v16.994h-12.953v8.4825l-19.96-17 19.954-17.244v8.7725l12.959-0.005304z" color="#000000" fill="url(#radialGradient2597)" stroke="#3a7304" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"/>
+   <path d="m25.988 7.978v8.0565h12.942v8.8845c-16.75-6.25-16.134 5.2947-31.384-0.95529l18.441-15.986z" color="#000000" fill="url(#radialGradient8656)" opacity=".50802"/>
+  </g>
+  <path d="m38.476 16.541v14.922h-12.985v7.3014l-17.322-14.796 17.338-14.905v7.4826l12.969-0.004897z" color="#000000" fill="none" opacity=".48128" stroke="#fff" stroke-miterlimit="10"/>
+ </g>
+</svg>
