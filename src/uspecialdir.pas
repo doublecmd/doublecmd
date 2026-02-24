@@ -96,7 +96,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls, lazutf8,
+  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls, LazUTF8, LazFileUtils,
   {$IFDEF MSWINDOWS}
   ShlObj, uShellFolder,
   {$ENDIF}
@@ -194,13 +194,18 @@ var
 
   procedure AddToSubMenu(ParamMenuItem:TMenuItem; TagRequested:longint; ProcedureWhenClickOnMenuItem:TProcedureWhenClickOnMenuItem);
   var
-    localmi:TMenuItem;
+    MenuItem: TMenuItem;
   begin
-    localmi:=TMenuItem.Create(ParamMenuItem);
-    localmi.Caption:=GetMenuCaptionAccordingToOptions(SpecialDir[IndexVariable].VariableName,SpecialDir[IndexVariable].PathValue);
-    localmi.tag:=TagRequested;
-    localmi.OnClick:=ProcedureWhenClickOnMenuItem;
-    ParamMenuItem.Add(localmi);
+    if (SpecialDir[IndexVariable].Dispatcher = sd_DOUBLECOMMANDER) then
+    begin
+      if not FilenameIsAbsolute(SpecialDir[IndexVariable].PathValue) then
+        Exit;
+    end;
+    MenuItem:= TMenuItem.Create(ParamMenuItem);
+    MenuItem.Caption:= GetMenuCaptionAccordingToOptions(SpecialDir[IndexVariable].VariableName, SpecialDir[IndexVariable].PathValue);
+    MenuItem.Tag:= TagRequested;
+    MenuItem.OnClick:= ProcedureWhenClickOnMenuItem;
+    ParamMenuItem.Add(MenuItem);
   end;
 
   procedure AddBatchOfMenuItems(SubMenuTitle:string; StartingIndex,StopIndex,TagOffset:longint; ProcedureWhenClickOnMenuItem:TProcedureWhenClickOnMenuItem);
@@ -585,11 +590,7 @@ begin
         if EqualPos <> 0 then
           begin
             EnvValue:=copy(EnvVar, EqualPos + 1, MaxInt);
-            {$IFDEF MSWINDOWS}
-            if (not gShowOnlyValidEnv) OR (ExtractFileDrive(EnvValue)<>'') then
-            {$ELSE}
-            if (not gShowOnlyValidEnv) OR (UTF8LeftStr(EnvValue,1)=PathDelim) then
-            {$ENDIF}
+            if (not gShowOnlyValidEnv) or FilenameIsAbsolute(EnvValue) then
             begin
               LocalSpecialDir:=TSpecialDir.Create;
               LocalSpecialDir.fDispatcher:=sd_ENVIRONMENTVARIABLE;
