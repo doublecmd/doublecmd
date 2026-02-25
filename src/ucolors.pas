@@ -95,6 +95,16 @@ type
   end;
   PDifferColors = ^TDifferColors;
 
+  TProgressColors = record
+    RunColor1: TColor;
+    RunColor2: TColor;
+    WaitColor1: TColor;
+    WaitColor2: TColor;
+    StopColor1: TColor;
+    StopColor2: TColor;
+  end;
+  PProgressColors = ^TProgressColors;
+
   TTreeViewMenuColors = record
     BackgroundColor: TColor;
     ShortcutColor: TColor;
@@ -121,6 +131,7 @@ type
     Differ: TDifferColors;
     SyncDirs: TSyncDirsColors;
     FilePanel: TFilePanelColors;
+    ProgressColors: TProgressColors;
     FreeSpaceInd: TFreeSpaceIndColors;
     TreeViewMenu: TTreeViewMenuColors;
   public
@@ -141,6 +152,7 @@ type
     function Viewer: PViewerColors;
     function SyncDirs: PSyncDirsColors;
     function FilePanel: PFilePanelColors;
+    function ProgressColors: PProgressColors;
     function FreeSpaceInd: PFreeSpaceIndColors;
     function TreeViewMenu: PTreeViewMenuColors;
   public
@@ -203,6 +215,11 @@ end;
 function TColorThemes.FilePanel: PFilePanelColors;
 begin
   Result:= @Current.FilePanel;
+end;
+
+function TColorThemes.ProgressColors: PProgressColors;
+begin
+  Result:= @Current.ProgressColors;
 end;
 
 function TColorThemes.FreeSpaceInd: PFreeSpaceIndColors;
@@ -293,6 +310,15 @@ begin
     ModifiedColor := clPaleBlue;
     ModifiedBinaryColor := clRed;
   end;
+  with FColors[0].ProgressColors do
+  begin
+    RunColor1:= RGBToColor(203, 233, 171);
+    RunColor2:= RGBToColor(146, 208,  80);
+    WaitColor1:= RGBToColor(255, 202, 100);
+    WaitColor2:= RGBToColor(255, 153,   4);
+    StopColor1:= RGBToColor(255, 153, 149);
+    StopColor2:= RGBToColor(255, 110, 103);
+  end;
   with FColors[0].TreeViewMenu do
   begin
     BackgroundColor := clForm;
@@ -335,6 +361,15 @@ begin
     LeftColor:= $8AD277;
     RightColor:= $C09B61;
     UnknownColor:= $6166C0;
+  end;
+  with FColors[1].ProgressColors do
+  begin
+    RunColor1:= RGBToColor(55, 125, 34);
+    RunColor2:= RGBToColor(15, 123, 15);
+    WaitColor1:= RGBToColor(189, 86, 30);
+    WaitColor2:= RGBToColor(178, 61, 21);
+    StopColor1:= RGBToColor(192, 102, 97);
+    StopColor2:= RGBToColor(184,  40, 28);
   end;
 end;
 
@@ -407,7 +442,7 @@ begin
       end;
     end;
 
-        { Viewer }
+    { Viewer }
     Node := Root.FindNode('Viewer');
     if Assigned(Node) then
     begin
@@ -527,6 +562,19 @@ begin
     Group.Add('ModifiedBinaryColor', ColorTheme.Differ.ModifiedBinaryColor);
 
     Group:= TJSONObject.Create;
+    Theme.Add('ProgressBar', Group);
+
+    with ColorTheme.ProgressColors do
+    begin
+      Group.Add('RunColor1', RunColor1);
+      Group.Add('RunColor2', RunColor2);
+      Group.Add('WaitColor1', WaitColor1);
+      Group.Add('WaitColor2', WaitColor2);
+      Group.Add('StopColor1', StopColor1);
+      Group.Add('StopColor2', StopColor2);
+    end;
+
+    Group:= TJSONObject.Create;
     Theme.Add('TreeViewMenu', Group);
 
     Group.Add('BackgroundColor', ColorTheme.TreeViewMenu.BackgroundColor);
@@ -625,6 +673,16 @@ begin
         DeletedColor:= Group.Get('DeletedColor', DeletedColor);
         ModifiedColor:= Group.Get('ModifiedColor', ModifiedColor);
         ModifiedBinaryColor:= Group.Get('ModifiedBinaryColor', ModifiedBinaryColor);
+      end;
+      Group:= Theme.Get('ProgressBar', Empty);
+      with ColorTheme.ProgressColors do
+      begin
+        RunColor1:= Group.Get('RunColor1', RunColor1);
+        RunColor2:= Group.Get('RunColor2', RunColor2);
+        WaitColor1:= Group.Get('WaitColor1', WaitColor1);
+        WaitColor2:= Group.Get('WaitColor2', WaitColor2);
+        StopColor1:= Group.Get('StopColor1', StopColor1);
+        StopColor2:= Group.Get('StopColor2', StopColor2);
       end;
       Group:= Theme.Get('TreeViewMenu', Empty);
       with ColorTheme.TreeViewMenu do
