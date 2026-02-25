@@ -68,6 +68,7 @@ uses
   LCLIntf, LCLType, Math,
   fViewOperations,
   uDCUtils,
+  uGlobs,
   uFileSourceOperationMisc,
   uFileSourceOperationMessageBoxesUI;
 
@@ -115,29 +116,30 @@ end;
 
 procedure TOperationsPanel.GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
 begin
+  with gColors.ProgressColors^ do
   case State of
     // Green if running
     fsosRunning:
       begin
-        ColorFrom:= RGB(203, 233, 171);
-        ColorTo:=  RGB(146, 208, 80);
+        ColorFrom:= RunColor1;
+        ColorTo:=   RunColor2;
       end;
     // Orange if in waiting
     fsosWaitingForFeedback, fsosWaitingForConnection:
       begin
-        ColorFrom:= RGB(255, 202, 100);
-        ColorTo:=  RGB(255, 153, 4);
+        ColorFrom:= WaitColor1;
+        ColorTo:=   WaitColor2;
       end;
     // Red if paused, stopped
     fsosPaused, fsosStopped:
       begin
-        ColorFrom:= RGB(255, 153, 149);
-        ColorTo:=  RGB(255, 110, 103);
+        ColorFrom:= StopColor1;
+        ColorTo:=   StopColor2;
       end;
     else
       begin
-        ColorFrom:= RGB(0, 0, 0);
-        ColorTo:=  RGB(255, 255, 255);
+        ColorFrom:= clWindowText;
+        ColorTo:=  clWindow;
       end;
   end;
 end;
