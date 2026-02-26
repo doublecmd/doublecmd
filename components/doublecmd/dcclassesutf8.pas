@@ -231,12 +231,6 @@ begin
   else
   begin
     Result:= UnicodeCompareText(U1, U2);
-    if Result = 0 then
-    begin
-      Result := CompareMemRange(Pointer(U1), Pointer(U2), Min(Length(U1), Length(U2)) * SizeOf(WideChar));
-      if Result = 0 then
-        Result := Length(U1) - Length(U2);
-    end
   end
 end;
 
