@@ -717,6 +717,7 @@ begin
     // Update progress
     with Statistics do
     begin
+      CurrentFileTo:= FArchiveFileName;
       TotalBytes:= TotalBytes * Divider;
       UpdateStatistics(Statistics);
     end;
