@@ -474,7 +474,7 @@ var
   bitmapSize: Integer;
 begin
   bitmapSize := Round(iIconSize * findScaleFactorByFirstForm());
-  StretchBitmap( bmBitmap, bitmapSize, clBackColor, bFreeAtEnd );
+  Result := StretchBitmap( bmBitmap, bitmapSize, clBackColor, bFreeAtEnd );
 end;
 
 procedure AssignRetinaBitmapForControl(
