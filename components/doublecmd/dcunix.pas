@@ -286,13 +286,11 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  Unix, DCConvertEncoding, LazUTF8
+  Unix, DCConvertEncoding, DCOSUtils, LazUTF8
 {$IF DEFINED(DARWIN)}
   , DCDarwin
 {$ELSEIF DEFINED(LINUX)}
-  , Dos, DCLinux, DCOSUtils
-{$ELSEIF DEFINED(FREEBSD)}
-  , DCOSUtils
+  , Dos, DCLinux
 {$ENDIF}
   ;
 
@@ -495,21 +493,22 @@ begin
     begin
       if (I = 1) then
         sTemp:= PathDelim
-      else
+      else begin
         sTemp:= Copy(FileName, 1, I - 1);
+      end;
       // Stat for current directory
       if (fpLStat(sTemp, recStat) < 0) then Continue;
       // If it is a link then checking link destination
       if fpS_ISLNK(recStat.st_mode) then
       begin
-        sTemp:= fpReadlink(sTemp);
+        sTemp:= mbReadAllLinks(sTemp);
         Result:= FindMountPointPath(sTemp);
         Exit;
       end;
       // Check device ID
       if (recStat.st_dev <> st_dev) then
       begin
-        Result:= Copy(FileName, 1, J);
+        Result:= IncludeTrailingPathDelimiter(Copy(FileName, 1, J));
         Exit;
       end;
       J:= I;
