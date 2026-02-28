@@ -286,13 +286,11 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  Unix, DCConvertEncoding, LazUTF8
+  Unix, DCConvertEncoding, DCOSUtils, LazUTF8
 {$IF DEFINED(DARWIN)}
   , DCDarwin
 {$ELSEIF DEFINED(LINUX)}
-  , Dos, DCLinux, DCOSUtils
-{$ELSEIF DEFINED(FREEBSD)}
-  , DCOSUtils
+  , Dos, DCLinux
 {$ENDIF}
   ;
 
