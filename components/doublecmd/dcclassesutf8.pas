@@ -218,6 +218,7 @@ var
 begin
   U1:= CeUtf8ToUtf16(S1);
   U2:= CeUtf8ToUtf16(S2);
+
   if CaseSensitive then
   begin
     Result:= UnicodeCompareStr(U1, U2);
