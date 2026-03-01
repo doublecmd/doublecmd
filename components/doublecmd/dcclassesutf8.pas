@@ -231,7 +231,7 @@ begin
   else
   begin
     Result:= UnicodeCompareText(U1, U2);
-  end
+  end;
 end;
 
 function TStringListEx.IndexOfValue(const Value: String): Integer;
