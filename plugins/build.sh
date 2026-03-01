@@ -32,6 +32,7 @@ $lazbuild wdx/audioinfo/src/AudioInfo.lpi $DC_ARCH
 
 # WFX plugins
 $lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
+$lazbuild wfx/rclone/src/rclone.lpi $DC_ARCH
 
 # Don't build under OS X
 if [ -z $(uname | grep Darwin) ]; then
