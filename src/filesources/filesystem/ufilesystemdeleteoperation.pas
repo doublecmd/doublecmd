@@ -5,7 +5,7 @@ unit uFileSystemDeleteOperation;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Process,
   uFileSourceDeleteOperation,
   uFileSource,
   uFileSourceOperationOptions,
@@ -62,8 +62,33 @@ uses
   DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator
 {$IF DEFINED(MSWINDOWS)}
   , Windows,  uFileUnlock, fFileUnlock, uSuperUser
+{$ELSEIF DEFINED(UNIX)}
+  , uKde
 {$ENDIF}
   ;
+
+{$IF DEFINED(UNIX)}
+// Force-update the KDE trash widget
+function UpdateKdeWidget : Boolean;
+var
+  KdeOpenProcess: TProcess;
+begin
+  if HasKdeOpen then
+  begin
+    KdeOpenProcess:= TProcess.Create(nil);
+    KdeOpenProcess.Executable:= KdeOpen;
+    KdeOpenProcess.Parameters.Add('--noninteractive');
+    KdeOpenProcess.Parameters.Add('move');
+    KdeOpenProcess.Parameters.Add('/dev/null');
+    KdeOpenProcess.Parameters.Add('trash:/');
+        // Add poUsePipes to consume the /dev/null permissions error output
+    KdeOpenProcess.Options:= KdeOpenProcess.Options + [ poUsePipes ];
+    KdeOpenProcess.Execute;
+    KdeOpenProcess.Free;  // Free immediately (run detached)
+  end;
+  UpdateKdeWidget:= True;
+end;
+{$ENDIF}
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -411,6 +436,9 @@ begin
     AppProcessMessages();
     CheckOperationState;
   end;
+{$IF DEFINED(UNIX)}
+  UpdateKdeWidget;
+{$ENDIF}
 end;
 
 function TFileSystemDeleteOperation.ShowError(sMessage: String): TFileSourceOperationUIResponse;
