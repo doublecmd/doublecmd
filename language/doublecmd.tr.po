@@ -4474,6 +4474,10 @@ msgstr "Küçültüldüğünde simgeyi sistem tepsisine taşı"
 msgid "A&llow only one copy of DC at a time"
 msgstr ""
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr ""
@@ -8736,6 +8740,10 @@ msgstr "&Çoklu disk arşivi"
 #| msgid "Put in the TAR archive first"
 msgid "P&ut in the TAR archive first"
 msgstr "İlk TAR arşivi yerleştir"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

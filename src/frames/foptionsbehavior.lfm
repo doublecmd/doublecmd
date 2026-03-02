@@ -128,4 +128,33 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       TabOrder = 1
     end
   end
+  object gbMisc3: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbMisc2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 25
+    Top = 186
+    Width = 654
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 23
+    ClientWidth = 652
+    TabOrder = 2
+    object cbSetNewestFileTime: TCheckBox
+      Left = 8
+      Height = 23
+      Top = 0
+      Width = 636
+      Caption = 'Always set archive time to newest file time'
+      TabOrder = 0
+    end
+  end
 end

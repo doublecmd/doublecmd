@@ -4196,6 +4196,10 @@ msgstr "Minimalizovať do oznamovacej oblasti (System Tray)"
 msgid "A&llow only one copy of DC at a time"
 msgstr "&Povoliť beh iba jednej verzie DC"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Tu môžeš zadať 1 alebo viac diskov alebo prípojných bodov oddelených \";\"."
@@ -8230,6 +8234,10 @@ msgstr "&Viaczväzkový archív"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Najskôr vložiť do TAR archívu"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

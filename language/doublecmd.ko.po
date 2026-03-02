@@ -4188,6 +4188,10 @@ msgstr "최소화 시 아이콘을 시스템 트레이로 이동(&V)"
 msgid "A&llow only one copy of DC at a time"
 msgstr "한 번에 DC 사본 하나만 허용(&L)"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "여기서 \";\"로 구분된 하나 이상의 드라이브 또는 마운트 지점을 입력할 수 있습니다."
@@ -8222,6 +8226,10 @@ msgstr "다중 디스크 압축파일(&M)"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "먼저 TAR 압축파일에 넣기(&U)"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

@@ -4187,6 +4187,10 @@ msgstr "最小化到系统托盘图标(&V)"
 msgid "A&llow only one copy of DC at a time"
 msgstr "一次只允许一个 DC 副本"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "在此处您可以输入一个或多个驱动器或挂载点，用 \";\" 分隔。"
@@ -8220,6 +8224,10 @@ msgstr "多卷压缩(&M)"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "首先加入 TAR 压缩文件"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

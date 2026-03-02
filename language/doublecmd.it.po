@@ -4200,6 +4200,10 @@ msgstr "Sposta icone nella s&ystem tray quando minimizzato"
 msgid "A&llow only one copy of DC at a time"
 msgstr "C&onsenti solo una copia di DC in esecuzione"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Qui puoi inserire una o più unità o punti di mount, separati da \";\"."
@@ -8237,6 +8241,10 @@ msgstr "&Multiple disk archive"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "In&serisci prima in archivio TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

@@ -4216,6 +4216,10 @@ msgstr "Přesunout do oznamo&vací oblasti pokud je minimalizováno"
 msgid "A&llow only one copy of DC at a time"
 msgstr "P&ovolit pouze jednu kopii DC ve stejný čas"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Zde můžete zadat jednu nebo více jednotek nebo připojovacích bodů oddělených \";\"."
@@ -8271,6 +8275,10 @@ msgstr "&Dělený archív na více médií"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "N&ejdříve vložit do TAR archívu"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

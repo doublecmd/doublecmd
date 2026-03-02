@@ -4206,6 +4206,10 @@ msgstr "Pri skrčenju okna programa pokaži ikono v sistemski vrstici"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Dovoli le &en zagnan primerek programa"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Več pogonov ali priklopnih točk je mogoča vpisati ločeno s podpičjem » ; «."
@@ -8242,6 +8246,10 @@ msgstr "Ustvari arhiv v več &delih"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Pred pakiranjem &vstavi še v arhiv TAR"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"

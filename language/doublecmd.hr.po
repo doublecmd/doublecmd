@@ -4503,6 +4503,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "A&llow only one copy of DC at a time"
 msgstr "Dozvoli samo jedan primjerak DC u isto vrijeme"
 
+#: tfrmoptionsbehavior.cbsetnewestfiletime.caption
+msgid "Always set archive time to newest file time"
+msgstr ""
+
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgctxt "tfrmoptionsbehavior.edtdrivesblacklist.hint"
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
@@ -8819,6 +8823,10 @@ msgstr "&Višestruke arhive na diskovima"
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
 msgstr "Prvo smejsti& u TAR arhive"
+
+#: tfrmpackdlg.cbsetnewestfiletime.caption
+msgid "Set archive time to newest file time"
+msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
