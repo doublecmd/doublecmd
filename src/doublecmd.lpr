@@ -180,9 +180,9 @@ begin
   begin
     DefaultFormatSettings.ThousandSeparator:= ' ';
   end;
-  {$IFDEF UNIX}
-  uMyUnix.FixDateTimeSeparators;
-  {$ENDIF}
+{$IF DEFINED(UNIX)}
+  uMyUnix.FixFormatSettings;
+{$ENDIF}
   FixDateNamesToUTF8;
 
   DCDebug(GetVersionInformation);
