@@ -1,6 +1,6 @@
 program doublecmd;
 
-{$IF DEFINED(LCLGTK3)}
+{$IF DEFINED(LCLGTK3) AND NOT DEFINED(LCL_VER_499)}
 {$FATAL LCLGTK3 is not production ready}
 {$ENDIF}
 
