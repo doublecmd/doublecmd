@@ -106,3 +106,49 @@ jobs:
         overwrite: true
         file_glob: true
 
+  build-lin:
+    runs-on: ubuntu-22.04
+    environment: snapshots
+    steps:
+    - name: Install dependencies
+      run: sudo apt install fpc patchelf libgtk-3-dev libdbus-1-dev
+
+    - name: Get Lazarus source
+      uses: actions/checkout@v6
+      with:
+            repository: 'fpc/Lazarus'
+
+    - name: Build and install Lazarus
+      run: |
+           make all
+           sudo make install
+
+    - name: Create Lazarus config
+      run: |
+           sudo mkdir -p /etc/lazarus
+           sudo cp tools/install/linux/environmentoptions.xml /etc/lazarus/environmentoptions.xml
+           sudo sed -i -e "s|__LAZARUSDIR__|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+
+    - name: Checkout source
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Build packages
+      run: ./.github/scripts/create_snapshot.lnx
+
+    - name: Save revision number
+      run: echo "REVISION=$(git rev-list --count HEAD)" >> "$GITHUB_ENV"
+      shell: bash
+
+    - name: Upload binaries to snapshots
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_name: doublecmd/snapshots
+        repo_token: ${{ secrets.SNAPSHOTS }}
+        file: doublecmd-release/doublecmd*.tar.xz
+        release_name: Revision ${{ env.REVISION }}
+        tag: ${{ env.REVISION }}
+        body: ${{ vars.BODY }}
+        overwrite: true
+        file_glob: true
