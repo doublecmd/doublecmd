@@ -31,7 +31,7 @@ uses
 
 procedure Initialize;
 begin
-  if IsWayland then
+  if IsWayland and Assigned(QtWidgetSetEx) then
   begin
     WSControls.RegisterControl;
     RegisterWSComponent(TControl, TQtWSControlEx);
