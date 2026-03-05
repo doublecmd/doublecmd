@@ -28,7 +28,7 @@ var
 implementation
 
 uses
-  CTypes, SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6;
+  CTypes, SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils;
 
 function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
 
@@ -406,12 +406,26 @@ end;
 
 function IsWayland: Boolean;
 var
+  Index: Integer;
   ASession: String;
   APlatform: String;
 begin
   ASession:= LowerCase(GetEnvironmentVariable('XDG_SESSION_TYPE'));
-  APlatform:= LowerCase(GetEnvironmentVariable('QT_QPA_PLATFORM'));
-  Result:= (ASession = 'wayland') and ((APlatform = '') or (APlatform = 'wayland'));
+  Result:= (ASession = 'wayland');
+  if Result then
+  begin
+    for Index:= 1 to ParamCount do
+    begin
+      if ParamStr(Index) = '-platform' then
+      begin
+        APlatform:= ParamStr(Index + 1);
+        Result:= StrBegins(APlatform, 'wayland');
+        Exit;
+      end;
+    end;
+    APlatform:= LowerCase(GetEnvironmentVariable('QT_QPA_PLATFORM'));
+    Result:= (APlatform = '') or StrBegins(APlatform, 'wayland');
+  end;
 end;
 
 initialization
