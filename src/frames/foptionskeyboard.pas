@@ -57,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng, uDCUtils;
 
 const
   KeyAction_None        = 0;
@@ -73,6 +73,7 @@ begin
   ParseLineToList(rsOptLetters, cbNoModifier.Items);
   cbAlt.Items.Assign(cbNoModifier.Items);
   cbCtrlAlt.Items.Assign(cbNoModifier.Items);
+  AlignControlsEx(gbTyping, cbNoModifier, lblNoModifier);
 end;
 
 procedure TfrmOptionsKeyboard.Load;

@@ -392,6 +392,7 @@ begin
   miImportTCINI.free;
   miImportTCBAR.free;
 {$ENDIF}
+  AlignControlsEx(pnlEditControls, cbInternalCommand, lblInternalCommand);
 end;
 
 procedure TfrmOptionsToolbarBase.LoadCurrentButton;
