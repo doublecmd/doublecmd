@@ -23,7 +23,8 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeVertical = crsSameSize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -36,6 +37,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Command:'
+      Layout = tlCenter
       ParentColor = False
     end
     object edRunInTermStayOpenCmd: TEdit
@@ -60,6 +62,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Parameters:'
+      Layout = tlCenter
       ParentColor = False
     end
     object edRunInTermStayOpenParams: TEdit
@@ -95,7 +98,8 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeVertical = crsSameSize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -137,6 +141,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Command:'
+      Layout = tlCenter
       ParentColor = False
     end
     object lbRunInTermCloseParams: TLabel
@@ -147,6 +152,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Parameters:'
+      Layout = tlCenter
       ParentColor = False
     end
   end
@@ -167,7 +173,8 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeVertical = crsSameSize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -180,6 +187,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Command:'
+      Layout = tlCenter
       ParentColor = False
     end
     object edRunTermCmd: TEdit
@@ -204,6 +212,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       Width = 62
       Alignment = taRightJustify
       Caption = 'Parameters:'
+      Layout = tlCenter
       ParentColor = False
     end
     object edRunTermParams: TEdit

@@ -51,6 +51,7 @@ type
     lbRunTermParams: TLabel;
     edRunTermParams: TEdit;
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -63,9 +64,17 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, uDCUtils;
 
 { TfrmOptionsTerminal }
+
+procedure TfrmOptionsTerminal.Init;
+begin
+  inherited Init;
+  AlignControlsEx(gbJustRunTerminal, edRunTermCmd, lbRunTermCmd);
+  AlignControlsEx(gbRunInTerminalClose, edRunInTermCloseCmd, lbRunInTermCloseCmd);
+  AlignControlsEx(gbRunInTerminalStayOpen, edRunInTermStayOpenCmd, lbRunInTermStayOpenCmd);
+end;
 
 procedure TfrmOptionsTerminal.Load;
 begin

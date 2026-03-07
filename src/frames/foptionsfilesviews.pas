@@ -154,6 +154,8 @@ begin
   begin
     cbDateTimeFormat.Items.Insert(0, DefaultDateTimeFormat);
   end;
+  AlignControlsEx(gbSorting, cbCaseSensitivity, lblCaseSensitivity);
+  AlignControlsEx(gbFormatting, cbFileSizeFormat, lblFileSizeFormat);
 end;
 
 procedure TfrmOptionsFilesViews.Load;

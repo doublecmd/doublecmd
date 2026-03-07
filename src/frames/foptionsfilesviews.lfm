@@ -21,7 +21,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Caption = 'Sorting'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
-    ChildSizing.HorizontalSpacing = 6
+    ChildSizing.HorizontalSpacing = 4
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 143
@@ -189,7 +189,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Caption = 'Formatting'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
-    ChildSizing.HorizontalSpacing = 6
+    ChildSizing.HorizontalSpacing = 4
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 116
