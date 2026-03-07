@@ -42,7 +42,7 @@ build_doublecmd()
   pushd $BUILD_PACK_DIR
   # Set run-time library search path
   patchelf --set-rpath '$ORIGIN' doublecmd/doublecmd
-  tar -cJf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
+  tar -cJf $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.tar.xz doublecmd
   popd
 
   # Clean DC build dir
