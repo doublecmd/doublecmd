@@ -238,7 +238,7 @@ procedure UpdateColor(Control: TControl; Checked: Boolean);
 function findScaleFactorByFirstForm: Double;
 function findScaleFactorByControl( control: TControl ): Double;
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
-procedure AlignControlsEx(AContainer: TWinControl; AComboBox: TComboBox; ALabel: TLabel);
+procedure AlignControlsEx(AContainer: TWinControl; AComboBox: TWinControl; ALabel: TLabel);
 procedure SetComboWidthToLargestElement(AComboBox: TCustomComboBox; iExtraWidthToAdd: integer = 0);
 
 procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
@@ -1305,13 +1305,15 @@ begin
   {$ENDIF}
 end;
 
-procedure AlignControlsEx(AContainer: TWinControl; AComboBox: TComboBox; ALabel: TLabel);
+procedure AlignControlsEx(AContainer: TWinControl; AComboBox: TWinControl; ALabel: TLabel);
 var
   Delta: Integer;
 begin
   Delta:= AComboBox.Height - ALabel.Height;
-  AContainer.ChildSizing.VerticalSpacing:= AContainer.ChildSizing.VerticalSpacing + Delta;
-  AContainer.ChildSizing.TopBottomSpacing:= AContainer.ChildSizing.TopBottomSpacing + Delta;
+  if (Delta > 0) then begin
+    AContainer.ChildSizing.VerticalSpacing:= AContainer.ChildSizing.VerticalSpacing + Delta;
+    AContainer.ChildSizing.TopBottomSpacing:= AContainer.ChildSizing.TopBottomSpacing + Delta;
+  end;
 end;
 
 { SetComboWidthToLargestElement }
