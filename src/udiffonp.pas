@@ -56,6 +56,13 @@ unit uDiffONP;
 * 7 November 2009  - Updated so now compiles in newer versions of Delphi.      *
 *******************************************************************************)
 
+(*******************************************************************************
+* Modified by:       Alexander Koblov (alexx2000@mail.ru)                      *
+* Changelog:                                                                   *
+* 3 March 2015     - Added Lazarus compatibility                               *
+* 7 March 2026     - Removed Application.ProcessMessages                       *
+*******************************************************************************)
+
 {$mode delphi}
 
 interface
@@ -375,7 +382,7 @@ begin
       inc(p);
       if (p mod 1024) = 1023 then
       begin
-        Application.ProcessMessages;
+        // Application.ProcessMessages;
         if fCancelled then exit;
       end;
       //nb: the Snake order is important here
@@ -396,7 +403,7 @@ begin
       inc(p);
       if (p mod 1024) = 1023 then
       begin
-        Application.ProcessMessages;
+        // Application.ProcessMessages;
         if fCancelled then exit;
       end;
       //nb: the Snake order is important here
