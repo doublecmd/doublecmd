@@ -75,7 +75,7 @@ begin
   if lclArray = nil then
     Exit;
 
-  mate:= TQLPreviewPanelMate.alloc.initWithItems( UrlArrayFromLCLToNS(lclArray) );
+  mate:= TQLPreviewPanelMate.alloc.initWithItems( TCocoaCollectionUtil.urlArrayToNSArray(lclArray) );
   panel:= QLPreviewPanel.sharedPreviewPanel;
   panel.setDataSource( mate );
   panel.makeKeyAndOrderFront( nil );
@@ -98,7 +98,7 @@ type
 
 constructor TFinderTagsEditorPanelHandler.Create( const paths: TStringArray );
 begin
-  _urls:= UrlArrayFromLCLToNS( paths );
+  _urls:= TCocoaCollectionUtil.urlArrayToNSArray( paths );
   _urls.retain;
   _oldTagNames:= TDarwinFinderModelUtil.getTagNamesOfFiles( _urls );
   _oldTagNames.retain;
@@ -186,7 +186,7 @@ begin
   if lclArray = nil then
     Exit;
 
-  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
+  cocoaArray:= TCocoaCollectionUtil.urlArrayToNSArray( lclArray );
 
   control:= Screen.ActiveControl;
   point:= control.ScreenToClient( Mouse.CursorPos );
@@ -209,7 +209,7 @@ begin
   if lclArray = nil then
     Exit;
 
-  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
+  cocoaArray:= TCocoaCollectionUtil.urlArrayToNSArray( lclArray );
   service:= NSSharingService.sharingServiceNamed( NSSharingServiceNameSendViaAirDrop );
   service.performWithItems( cocoaArray );
 end;

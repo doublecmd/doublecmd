@@ -523,7 +523,7 @@ var
     if image = nil then
       Exit;
 
-    destRect:= RectToNSRect( params.iconRect );
+    destRect:= TCocoaTypeUtil.toRect( params.iconRect );
     destRect.origin.y:= destRect.origin.y + params.iconRect.Height/16;
     destRect:= NSInsetRect( destRect, params.iconRect.Width/4, params.iconRect.Height/4 );
 
