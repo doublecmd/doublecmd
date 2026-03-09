@@ -82,7 +82,7 @@ begin
   lclArray:= self.serviceMenuGetFilenames();
   if lclArray=nil then exit;
 
-  cocoaArray:= StringArrayFromLCLToNS( lclArray );
+  cocoaArray:= TCocoaCollectionUtil.stringArrayToNSArray( lclArray );
   pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
   pboard.setPropertyList_forType( cocoaArray, NSFileNamesPboardType );
   Result:= true;

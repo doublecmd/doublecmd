@@ -672,7 +672,7 @@ begin
     sender,
     edge );
 
-  NSControlMoveCaretToTheEnd( _tagsTokenField );
+  TCocoaControlUtil.moveCaretToTheEnd( _tagsTokenField );
   self.tokenField_onUpdate;
 end;
 
@@ -879,7 +879,7 @@ class procedure TDarwinFinderUtil.popoverFileTagsEditor(
 var
   panel: TFinderTagsEditorPanel;
 begin
-  panel:= TFinderTagsEditorPanel.editorWithPath( UrlArrayFromLCLToNS(paths) );
+  panel:= TFinderTagsEditorPanel.editorWithPath( TCocoaCollectionUtil.urlArrayToNSArray(paths) );
   panel._onClose:= onClose;
   panel.showPopover( positioningView, edge );
 end;
@@ -913,7 +913,7 @@ begin
       200,
       FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE + FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING*2 ) );
   menuView.setLclMenu( lclMenu, lclMenu.Items[menuIndex+1] );
-  menuView.setUrls( UrlArrayFromLCLToNS(paths) );
+  menuView.setUrls( TCocoaCollectionUtil.urlArrayToNSArray(paths) );
   menuView.setFavoriteTags( favoriteTags );
 
   cocoaItem:= NSMenuItem( lclMenu.Items[menuIndex].Handle );
