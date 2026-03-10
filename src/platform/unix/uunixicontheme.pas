@@ -112,6 +112,7 @@ end;
 
 function GetKdeIconTheme: String;
 var
+  S: String;
   I: Integer;
   FileName: String;
   iniCfg: TIniFileEx;
@@ -135,16 +136,26 @@ begin
       iniCfg:= TIniFileEx.Create(FileName, fmOpenRead);
       try
         Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
-        if (Length(Result) > 0) then Break;
+        if (Length(Result) = 0) then
+        begin
+          S:= iniCfg.ReadString('KDE', 'LookAndFeelPackage', EmptyStr);
+          if (Length(S) > 0) then
+          begin
+            if (S = 'org.kde.breezedark.desktop') then
+              Result:= 'breeze-dark'
+            else begin
+              Result:= 'breeze';
+            end;
+          end;
+        end;
       finally
         iniCfg.Free;
       end;
+      Break;
     except
       // Skip
     end;
   end;
-  if Length(Result) = 0 then
-    Result:= 'breeze';
 end;
 
 function GetGnomeIconTheme: String;
