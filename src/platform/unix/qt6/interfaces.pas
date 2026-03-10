@@ -71,28 +71,32 @@ var
     AWindow: QWidgetH;
     WScreen: TWaylandScreen;
   begin
-    begin
+    if (DstQDC.Parent = nil) then
+      AScreen:= nil
+    else begin
       AWindow:= QWidget_window(DstQDC.Parent);
       AScreen:= QWindow_screen(QWidget_windowHandle(AWindow));
-      if (AScreen = nil) then AScreen:= QGuiApplication_primaryScreen();
-      QScreen_size(AScreen, @ASize);
-      QScreen_name(AScreen, @WName);
-      AName:= UTF8Encode(WName);
+    end;
+    if (AScreen = nil) then begin
+      AScreen:= QGuiApplication_primaryScreen();
+    end;
+    QScreen_size(AScreen, @ASize);
+    QScreen_name(AScreen, @WName);
+    AName:= UTF8Encode(WName);
 
-      // Find corresponding Wayland screen by name
-      for Index:= 0 to FWayland.Screens.Count - 1 do
+    // Find corresponding Wayland screen by name
+    for Index:= 0 to FWayland.Screens.Count - 1 do
+    begin
+      WScreen:= TWaylandScreen(FWayland.Screens[Index]);
+
+      if SameText(AName, WScreen.Name) then
       begin
-        WScreen:= TWaylandScreen(FWayland.Screens[Index]);
-
-        if SameText(AName, WScreen.Name) then
-        begin
-          // Calculate fractional scaling factor
-          Result.x:= (WScreen.Width / ASize.Width);
-          Result.y:= (WScreen.Height / ASize.Height);
-          Result.x:= Round(Result.x * 100) / 100;
-          Result.y:= Round(Result.y * 100) / 100;
-          Exit;
-        end;
+        // Calculate fractional scaling factor
+        Result.x:= (WScreen.Width / ASize.Width);
+        Result.y:= (WScreen.Height / ASize.Height);
+        Result.x:= Round(Result.x * 100) / 100;
+        Result.y:= Round(Result.y * 100) / 100;
+        Exit;
       end;
     end;
     Result.x:= 1.0;
