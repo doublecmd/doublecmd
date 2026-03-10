@@ -934,7 +934,7 @@ procedure TfrmMultiRename.SetConfigurationState(bConfigurationSaved: boolean);
 begin
   if not cbPresets.DroppedDown then
   begin
-    if bConfigurationSaved or (cbPresets.ItemIndex <> 0) then
+    if bConfigurationSaved or (cbPresets.ItemIndex > 0) then
     begin
       if cbPresets.Enabled <> bConfigurationSaved then
       begin
