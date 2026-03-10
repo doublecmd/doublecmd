@@ -592,6 +592,7 @@ var
   AIcon: TIcon;
   iIndex : PtrInt;
   FileExt: String;
+  bitmapSize: Integer;
   GraphicClass: TGraphicClass;
   bmStandartBitmap : Graphics.TBitMap = nil;
 begin
@@ -643,7 +644,8 @@ begin
           AIcon:= TIcon.Create;
           try
             AIcon.LoadFromFile(sFileName);
-            AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(iIconSize, iIconSize));
+            bitmapSize:= Round(iIconSize * findScaleFactorByFirstForm());
+            AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(bitmapSize, bitmapSize));
             bmStandartBitmap:= Graphics.TBitmap.Create;
             try
               if AIcon.RawImage.Description.AlphaPrec <> 0 then
@@ -662,7 +664,8 @@ begin
         else if (GraphicClass = TScalableVectorGraphics) then
         begin
           Stretch := False;
-          bmStandartBitmap := TScalableVectorGraphics.CreateBitmap(sFileName, iIconSize, iIconSize)
+          bitmapSize:= Round(iIconSize * findScaleFactorByFirstForm());
+          bmStandartBitmap := TScalableVectorGraphics.CreateBitmap(sFileName, bitmapSize, bitmapSize)
         end
         else begin
           LoadBitmapFromFile(sFileName, bmStandartBitmap);
