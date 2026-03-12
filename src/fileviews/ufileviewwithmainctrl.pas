@@ -149,7 +149,7 @@ type
     tmRenameFile: TTimer;
     FMouseRename: Boolean;
     FMouseFocus: Boolean;
-{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
+{$IF NOT (DEFINED(LCLWIN32) OR DEFINED(LCLCOCOA))}
     FMouseEnter: Boolean;
 {$ENDIF}
     procedure AfterChangePath; override;
@@ -921,7 +921,7 @@ begin
   {$IFDEF LCLCOCOA}
   FMouseRename := gInplaceRename;
   {$ENDIF}
-{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
+{$IF NOT (DEFINED(LCLWIN32) OR DEFINED(LCLCOCOA))}
   FMouseEnter:= ssLeft in GetKeyShiftStateEx;
 {$ENDIF}
 end;
