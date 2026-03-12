@@ -658,6 +658,7 @@ var
   { Editor }
   gEditWaitTime: Integer;
   gEditorSynEditOptions: TSynEditorOptions;
+  gEditorSynEditSpecialChars: TSynVisibleSpecialChars;
   gEditorSynEditTabWidth,
   gEditorSynEditRightEdge,
   gEditorSynEditBlockIndent: Integer;
@@ -2204,6 +2205,7 @@ begin
   { Editor }
   gEditWaitTime := 2000;
   gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
+  gEditorSynEditSpecialChars := [vscSpace, vscTabAtLast];
   gEditorSynEditTabWidth := 8;
   gEditorSynEditRightEdge := 80;
   gEditorSynEditBlockIndent := 2;
@@ -3267,6 +3269,7 @@ begin
     begin
       gEditWaitTime := GetValue(Node, 'EditWaitTime', gEditWaitTime);
       gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
+      gEditorSynEditSpecialChars := TSynVisibleSpecialChars(GetValue(Node, 'SynEditSpecialChars', Integer(gEditorSynEditSpecialChars)));
       gEditorSynEditTabWidth := GetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
       gEditorSynEditBlockIndent := GetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
@@ -3860,6 +3863,7 @@ begin
     Node := FindNode(Root, 'Editor',True);
     SetValue(Node, 'EditWaitTime', gEditWaitTime);
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
+    SetValue(Node, 'SynEditSpecialChars', Integer(gEditorSynEditSpecialChars));
     SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
     SetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);

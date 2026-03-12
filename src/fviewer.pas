@@ -3146,6 +3146,7 @@ begin
     SynEdit.Options:= gEditorSynEditOptions;
     SynEdit.TabWidth := gEditorSynEditTabWidth;
     SynEdit.RightEdge := gEditorSynEditRightEdge;
+    SynEdit.VisibleSpecialChars:= gEditorSynEditSpecialChars;
     FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
     SynEdit.OnKeyDown:= @SynEditKeyDown;
     SynEdit.OnMouseWheel:= @SynEditMouseWheel;

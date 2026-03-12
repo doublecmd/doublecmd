@@ -382,6 +382,7 @@ begin
   Editor.TabWidth := gEditorSynEditTabWidth;
   Editor.RightEdge := gEditorSynEditRightEdge;
   Editor.BlockIndent := gEditorSynEditBlockIndent;
+  Editor.VisibleSpecialChars:= gEditorSynEditSpecialChars;
 end;
 
 procedure TfrmEditor.actExecute(Sender: TObject);
