@@ -8,7 +8,8 @@ interface
 uses
   Classes, SysUtils, LCLType, Menus,
   uLng,
-  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra,
+  MacOSAll, CocoaAll,
+  CocoaPrivate, CocoaConst, CocoaUtils, Cocoa_Extra,
   uDarwinFinderModel, uDarwinUtil;
 
 const
