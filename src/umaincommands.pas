@@ -2683,8 +2683,10 @@ begin
       if (bConfirmation = False) or (ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
       begin
         // Restore focus to main window after confirmation dialog closes
-        if frmMain.ActiveFrame.CanFocus then
+        if bConfirmation and frmMain.ActiveFrame.CanSetFocus then
+        begin
           frmMain.ActiveFrame.SetFocus;
+        end;
         if FileSource.IsClass(TFileSystemFileSource) then
         begin
           if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
