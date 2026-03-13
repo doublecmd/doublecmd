@@ -4,7 +4,7 @@
     Show file in the text, bin, hex or dec mode
 
     Copyright (C) 2004 Radek Cervinka (radek.cervinka@centrum.cz)
-    Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2026 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ unit ViewerControl;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, LCLVersion, LMessages, fgl;
+  SysUtils, Classes, Controls, StdCtrls, LCLVersion, LCLType, LMessages, fgl;
 
 const
   MaxMemSize = $400000; // 4 Mb
@@ -194,9 +194,9 @@ type
     FEncoding:           TViewerEncoding;
     FViewerControlMode:  TViewerControlMode;
     FFileName:           String;
-    FFileHandle:         THandle;
+    FFileHandle:         System.THandle;
     FFileSize:           Int64;
-    FMappingHandle:      THandle;
+    FMappingHandle:      System.THandle;
     FMappedFile:         Pointer;
     FPosition:           PtrInt;
     FHPosition:          Integer;  // Tab for text during horizontal scroll
@@ -215,8 +215,6 @@ type
     FSelecting:          Boolean;
     FTextWidth:          Integer; // max char count or width in window
     FTextHeight:         Integer; // measured values of font, rec calc at font changed
-    FScrollBarVert:      TScrollBar;
-    FScrollBarHorz:      TScrollBar;
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
@@ -351,7 +349,7 @@ type
 
     procedure UpdateScrollbars;
 
-    procedure ViewerResize(Sender: TObject);
+    procedure DoOnResize; override;
 
     {en
        Returns next unicode character from the file, depending on Encoding.
@@ -404,18 +402,18 @@ type
        For example checks if selection is not in the middle of a unicode character.
     }
     procedure UpdateSelection;
-    function GetViewerRect: TRect;
 
-    procedure ScrollBarVertScroll(Sender: TObject; ScrollCode: TScrollCode;
-      var ScrollPos: Integer);
-    procedure ScrollBarHorzScroll(Sender: TObject; ScrollCode: TScrollCode;
-      var ScrollPos: Integer);
+    procedure ScrollBarSetPosition(Which, Value: Integer);
+    function  ScrollBarGetPosition(Which: Integer): Integer;
 
     function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
 
     procedure SetText(const AValue: String);
 
   protected
+    procedure CreateWnd; override;
+    procedure WMVScroll(var Message : TLMVScroll); message LM_VSCROLL;
+    procedure WMHScroll(var Message : TLMHScroll); message LM_HSCROLL;
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
     procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
     procedure FontChanged(Sender: TObject); override;
@@ -427,7 +425,6 @@ type
     function DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelLeft(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelRight(Shift: TShiftState; MousePos: TPoint): Boolean; override;
-    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double); override;
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -485,7 +482,7 @@ type
     property Percent: Integer Read GetPercent Write SetPercent;
     property Position: PtrInt Read FPosition Write SetPosition;
     property FileSize: Int64 Read FFileSize;
-    property FileHandle: THandle read FFileHandle;
+    property FileHandle: System.THandle read FFileHandle;
     property CaretPos: PtrInt Read FCaretPos Write SetCaretPos;
     property SelectionStart: PtrInt Read FBlockBeg Write SetBlockBegin;
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
@@ -527,7 +524,7 @@ procedure Register;
 implementation
 
 uses
-  Math, LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
+  Math, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF LCL_FULLVERSION >= 4990000}
   , LazUTF16
@@ -611,22 +608,6 @@ begin
 
   FLineList := TPtrIntList.Create;
 
-  FScrollBarVert          := TScrollBar.Create(Self);
-  FScrollBarVert.Parent   := Self;
-  FScrollBarVert.Kind     := sbVertical;
-  FScrollBarVert.Align    := alRight;
-  FScrollBarVert.OnScroll := @ScrollBarVertScroll;
-  FScrollBarVert.TabStop  := False;
-  FScrollBarVert.PageSize := 0;
-
-  FScrollBarHorz          := TScrollBar.Create(Self);
-  FScrollBarHorz.Parent   := Self;
-  FScrollBarHorz.Kind     := sbHorizontal;
-  FScrollBarHorz.Align    := alBottom;
-  FScrollBarHorz.OnScroll := @ScrollBarHorzScroll;
-  FScrollBarHorz.TabStop  := False;
-  FScrollBarHorz.PageSize := 0;
-
   FUpdateScrollBarPos := True;
   FScrollBarPosition  := 0;
   FHScrollBarPosition := 0;
@@ -634,11 +615,8 @@ begin
   FOnPositionChanged := nil;
   FOnGuessEncoding   := nil;
 
-  OnResize := @ViewerResize;
-
   FHex:=TCustomCharsPresentation.Create(16,2,8,8,@HexToValueProc);
   FDec:=TCustomCharsPresentation.Create(15,3,8,5,@DecToValueProc);  // for set bigger ValuePerLine need to improve method GetEndOfLine
-
 end;
 
 destructor TViewerControl.Destroy;
@@ -668,7 +646,7 @@ begin
   Canvas.Pen.Color := Canvas.Font.Color;
   Canvas.Line(0, 0, ClientWidth - 1, ClientHeight - 1);
   Canvas.Line(0, ClientHeight - 1, ClientWidth - 1, 0);
-  Canvas.TextRect(GetViewerRect, 0, 0, FLastError, AStyle);
+  Canvas.TextRect(GetClientRect, 0, 0, FLastError, AStyle);
 end;
 
 procedure TViewerControl.Paint;
@@ -700,7 +678,7 @@ begin
     FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
   else begin
     AText := StringOfChar('W', FMaxTextWidth);
-    FTextWidth := Canvas.TextFitInfo(AText, GetViewerRect.Width - FLeftMargin);
+    FTextWidth := Canvas.TextFitInfo(AText, GetClientRect.Width - FLeftMargin);
   end;
 
   FLineList.Clear;
@@ -849,13 +827,121 @@ begin
   FMappedFile:= Pointer(FText);
 end;
 
-function TViewerControl.GetViewerRect: TRect;
+procedure TViewerControl.CreateWnd;
 begin
-  Result:= GetClientRect;
-  if Assigned(FScrollBarHorz) and FScrollBarHorz.Visible then
-    Dec(Result.Bottom, FScrollBarHorz.Height);
-  if Assigned(FScrollBarVert) and FScrollBarVert.Visible then
-    Dec(Result.Right, FScrollBarVert.Width);
+  inherited CreateWnd;
+  UpdateScrollbars;
+end;
+
+procedure TViewerControl.ScrollBarSetPosition(Which, Value: Integer);
+var
+  ScrollVisible: Boolean;
+  ScrollInfo: TScrollInfo;
+begin
+  if HandleAllocated then
+  begin
+    ScrollInfo:= Default(TScrollInfo);
+    ScrollInfo.cbSize:= SizeOf(ScrollInfo);
+    ScrollVisible:= (Which = SB_VERT) or (FViewerControlMode = vcmText);
+    ShowScrollBar(Handle, Which, ScrollVisible);
+    ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE;
+    ScrollInfo.nPage:= 1;
+    ScrollInfo.nMax:= 100;
+    ScrollInfo.nPos:= Value;
+    SetScrollInfo(Handle, Which, ScrollInfo, ScrollVisible);
+  end;
+end;
+
+function TViewerControl.ScrollBarGetPosition(Which: Integer): Integer;
+var
+  ScrollInfo: TScrollInfo;
+begin
+  if HandleAllocated then
+  begin
+    ScrollInfo:= Default(TScrollInfo);
+    ScrollInfo.cbSize:= SizeOf(ScrollInfo);
+    ScrollInfo.fMask:= SIF_POS;
+    if GetScrollInfo(Handle, Which, ScrollInfo) then
+      Exit(ScrollInfo.nPos);
+  end;
+  case Which of
+    SB_VERT: Result:= FScrollBarPosition;
+    SB_HORZ: Result:= FHScrollBarPosition;
+  end;
+end;
+
+procedure TViewerControl.WMVScroll(var Message: TLMVScroll);
+begin
+  FUpdateScrollBarPos := False;
+  case Message.ScrollCode of
+    SB_LINEUP:     Scroll(-1);
+    SB_LINEDOWN:   Scroll(1);
+    SB_PAGEUP:     PageUp;
+    SB_PAGEDOWN:   PageDown;
+    SB_TOP:        GoHome;
+    SB_BOTTOM:     GoEnd;
+    SB_THUMBTRACK,
+    SB_THUMBPOSITION:
+      begin
+        // This check helps avoiding loops if changing
+        // ScrollBarPosition below triggers another SB_THUMBPOSITION message.
+        if (Message.ScrollCode = SB_THUMBTRACK) or (Message.Pos <> FScrollBarPosition) then
+        begin
+          if Message.Pos = 0 then
+            GoHome
+          else if Message.Pos = 100 then
+            GoEnd
+          else begin
+            Percent := Message.Pos;
+          end;
+        end;
+        if (Message.ScrollCode = SB_THUMBPOSITION) then
+        begin
+          ScrollBarSetPosition(SB_VERT, FScrollBarPosition);
+        end;
+      end;
+    SB_ENDSCROLL:
+      begin
+      end;
+  end;
+  FUpdateScrollBarPos := True;
+end;
+
+procedure TViewerControl.WMHScroll(var Message: TLMHScroll);
+begin
+  FUpdateScrollBarPos := False;
+  case Message.ScrollCode of
+    SB_LINELEFT:   HScroll(-1);
+    SB_LINERIGHT:  HScroll(1);
+    SB_PAGELEFT:   HPageUp;
+    SB_PAGERIGHT:  HPageDown;
+    SB_LEFT:       HGoHome;
+    SB_RIGHT:      HGoEnd;
+    SB_THUMBTRACK,
+    SB_THUMBPOSITION:
+      begin
+        // This check helps avoiding loops if changing
+        // ScrollBarPosition below triggers another SB_THUMBPOSITION message.
+        if (Message.ScrollCode = SB_THUMBTRACK) or (Message.Pos <> FHScrollBarPosition) then
+        begin
+          if Message.Pos = 0 then
+            HGoHome
+          else if Message.Pos = 100 then
+            HGoEnd
+          else begin
+            HScroll((FHLowEnd - FTextWidth) * Message.Pos div 100 - FHPosition);
+          end;
+        end;
+        if (Message.ScrollCode = SB_THUMBPOSITION) then
+        begin
+          ScrollBarSetPosition(SB_HORZ, FHScrollBarPosition);
+        end;
+      end;
+    SB_ENDSCROLL:
+      begin
+      end;
+  end;
+  FUpdateScrollBarPos := True;
 end;
 
 procedure TViewerControl.WMSetFocus(var Message: TLMSetFocus);
@@ -1035,7 +1121,7 @@ begin
 end;
 
 function TViewerControl.TransformCustom(var APosition: PtrInt; ALimit: PtrInt;
-  AWithAdditionalData: boolean): String;
+  AWithAdditionalData: Boolean): String;
 var
   sAscii: string = '';
   sRez  : string = '';
@@ -1923,17 +2009,9 @@ begin
   // Update scrollbar position.
   if FUpdateScrollBarPos then
   begin
-    if FScrollBarHorz.Position <> FHScrollBarPosition then
+    if ScrollBarGetPosition(SB_HORZ) <> FHScrollBarPosition then
     begin
-      // Workaround for bug: http://bugs.freepascal.org/view.php?id=23815
-      {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 1010000)}
-      FScrollBarHorz.OnScroll := nil;
-      FScrollBarHorz.Position := FHScrollBarPosition;
-      Application.ProcessMessages; // Skip message
-      FScrollBarHorz.OnScroll := @ScrollBarHorzScroll;
-      {$ELSE}
-      FScrollBarHorz.Position := FHScrollBarPosition;
-      {$ENDIF}
+      ScrollBarSetPosition(SB_HORZ, FHScrollBarPosition);
     end;
   end;
   // else the scrollbar position will be updated in ScrollBarVertScroll
@@ -1988,17 +2066,9 @@ begin
   // Update scrollbar position.
   if FUpdateScrollBarPos then
   begin
-    if FScrollBarVert.Position <> FScrollBarPosition then
+    if ScrollBarGetPosition(SB_VERT) <> FScrollBarPosition then
     begin
-      // Workaround for bug: http://bugs.freepascal.org/view.php?id=23815
-      {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 1010000)}
-      FScrollBarVert.OnScroll := nil;
-      FScrollBarVert.Position := FScrollBarPosition;
-      Application.ProcessMessages; // Skip message
-      FScrollBarVert.OnScroll := @ScrollBarVertScroll;
-      {$ELSE}
-      FScrollBarVert.Position := FScrollBarPosition;
-      {$ENDIF}
+      ScrollBarSetPosition(SB_VERT, FScrollBarPosition);
     end;
   end;
   // else the scrollbar position will be updated in ScrollBarVertScroll
@@ -2041,9 +2111,9 @@ begin
   if FTextHeight > 0 then
   begin
     if Whole then
-      Result := GetViewerRect.Height div FTextHeight
+      Result := GetClientRect.Height div FTextHeight
     else
-      Result := Ceil(GetViewerRect.Height / FTextHeight);
+      Result := Ceil(GetClientRect.Height / FTextHeight);
   end
   else
     Result := 0;
@@ -2757,13 +2827,6 @@ begin
   Result:= inherited DoMouseWheelRight(Shift, MousePos);
   if not Result then
     Result := HScroll(Mouse.WheelScrollLines);
-end;
-
-procedure TViewerControl.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double);
-begin
-  FScrollBarVert.Width  := LCLIntf.GetSystemMetrics(SM_CYVSCROLL);
-  FScrollBarHorz.Height := LCLIntf.GetSystemMetrics(SM_CYHSCROLL);
-  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
 end;
 
 function TViewerControl.XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
@@ -3551,92 +3614,33 @@ begin
   end;
 end;
 
-procedure TViewerControl.ScrollBarVertScroll(Sender: TObject;
-  ScrollCode: TScrollCode; var ScrollPos: Integer);
-begin
-  FUpdateScrollBarPos := False;
-  case ScrollCode of
-    scLineUp:     Scroll(-1);
-    scLineDown:   Scroll(1);
-    scPageUp:     PageUp;
-    scPageDown:   PageDown;
-    scTop:        GoHome;
-    scBottom:     GoEnd;
-    scTrack,
-    scPosition:
-      begin
-        // This check helps avoiding loops if changing ScrollPos below
-        // triggers another scPosition message.
-        if (ScrollCode = scTrack) or (ScrollPos <> FScrollBarPosition) then
-        begin
-          if ScrollPos = 0 then
-            GoHome
-          else if ScrollPos = 100 then
-            GoEnd
-          else
-            Percent := ScrollPos;
-        end;
-      end;
-    scEndScroll:
-      begin
-      end;
-  end;
-
-  ScrollPos := FScrollBarPosition;
-  FUpdateScrollBarPos := True;
-end;
-
-procedure TViewerControl.ScrollBarHorzScroll(Sender: TObject;
-  ScrollCode: TScrollCode; var ScrollPos: Integer);
-begin
-  FUpdateScrollBarPos := False;
-  case ScrollCode of
-    scLineUp:     HScroll(-1);
-    scLineDown:   HScroll(1);
-    scPageUp:     HPageUp;
-    scPageDown:   HPageDown;
-    scTop:        HGoHome;
-    scBottom:     HGoEnd;
-    scTrack,
-    scPosition:
-      begin
-        // This check helps avoiding loops if changing ScrollPos below
-        // triggers another scPosition message.
-        if (ScrollCode = scTrack) or (ScrollPos <> FHScrollBarPosition) then
-        begin
-          if ScrollPos = 0 then
-            HGoHome
-          else if ScrollPos = 100 then
-            HGoEnd
-            else
-         HScroll((FHLowEnd - FTextWidth) * ScrollPos div 100 - FHPosition);
-        end;
-      end;
-    scEndScroll:
-      begin
-      end;
-  end;
-  ScrollPos := FHScrollBarPosition;
-  FUpdateScrollBarPos := True;
-end;
-
 procedure TViewerControl.UpdateScrollbars;
+var
+  ScrollVisibleH: Boolean;
+  ScrollInfo: TScrollInfo;
 begin
-  FScrollBarVert.LargeChange := GetClientHeightInLines - 1;
-  case Mode of
-    vcmBin, vcmHex:
-    begin
-      //FScrollBarVert.PageSize :=
-      //  ((FHighLimit div cHexWidth - GetClientHeightInLines) div 100);
-    end
-    else
-      FScrollBarVert.PageSize := 1;
+  if HandleAllocated then
+  begin
+    ScrollInfo:= Default(TScrollInfo);
+    ScrollInfo.cbSize:= SizeOf(ScrollInfo);
+    ScrollVisibleH:= (FViewerControlMode = vcmText);
+    ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE or SIF_DISABLENOSCROLL;
+    ScrollInfo.nPage:= 1;
+    ScrollInfo.nMax:= 100;
+    // Vertical
+    ScrollInfo.nPos:= FScrollBarPosition;
+    ShowScrollBar(Handle, SB_Vert, True);
+    SetScrollInfo(Handle, SB_Vert, ScrollInfo, True);
+    // Horizontal
+    ScrollInfo.nPos:= FHScrollBarPosition;
+    ShowScrollBar(Handle, SB_Horz, ScrollVisibleH);
+    SetScrollInfo(Handle, SB_Horz, ScrollInfo, ScrollVisibleH);
   end;
-  FScrollBarHorz.Visible:= (FViewerControlMode = vcmText);
 end;
 
-procedure TViewerControl.ViewerResize(Sender: TObject);
+procedure TViewerControl.DoOnResize;
 begin
+  inherited DoOnResize;
   UpdateScrollbars;
   // Force recalculating position.
   SetPosition(FPosition);
