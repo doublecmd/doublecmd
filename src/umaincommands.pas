@@ -2585,6 +2585,7 @@ end;
 // "recyclesetting"    - if gUseTrash then delete to trash, otherwise delete directly
 // "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
 procedure TMainCommands.cm_Delete(const Params: array of string);
+{$OPTIMIZATION OFF}
 var
   I: Integer;
   Message: String;
@@ -2744,6 +2745,7 @@ begin
     end;
   end;
 end;
+{$OPTIMIZATION DEFAULT}
 
 procedure TMainCommands.cm_CheckSumCalc(const Params: array of string);
 var
