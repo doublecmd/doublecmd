@@ -542,13 +542,10 @@ uses
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
   SynEditTypes, uFile, uFileSystemFileSource, uFileProcs, uOperationsManager,
-  uFileSourceOperationOptions
+  uFileSourceOperationOptions, uGraphics
 {$if lcl_fullversion >= 4990000}
   , SynEditWrappedView
 {$endif}
-{$IF DEFINED(LCLGTK2) OR DEFINED(DARWIN)}
-  , uGraphics
-{$ENDIF}
   ;
 
 const
@@ -1968,7 +1965,8 @@ begin
     Image.Height:= x;
   end;
 
-  TRasterImage(Image.Picture.Graphic).LoadFromIntfImage(TargetImg);
+  BitmapAssign(TRasterImage(Image.Picture.Graphic), TargetImg);
+
   FreeAndNil(SourceImg);
   FreeAndNil(TargetImg);
   AdjustImageSize;
@@ -2006,7 +2004,8 @@ begin
       end;
     end;
 
-  TRasterImage(Image.Picture.Graphic).LoadFromIntfImage(TargetImg);
+  BitmapAssign(TRasterImage(Image.Picture.Graphic), TargetImg);
+
   FreeAndNil(SourceImg);
   FreeAndNil(TargetImg);
   AdjustImageSize;
