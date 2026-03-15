@@ -33,6 +33,8 @@ procedure BitmapConvert(Bitmap: TRasterImage);
 procedure BitmapAssign(Bitmap, Image: TRasterImage);
 procedure BitmapConvert(ASource, ATarget: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
+procedure BitmapRotate(Bitmap: TRasterImage; ADegree: Integer);
+procedure BitmapMirror(Bitmap: TRasterImage; AVertically: Boolean);
 procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 procedure BitmapMerge(ALow, AHigh: TLazIntfImage; const ADestX, ADestY: Integer);
@@ -80,6 +82,207 @@ begin
   Bitmap.LoadFromRawImage(RawImage^, True);
   // Set image data pointer to nil, so it will not free double
   RawImage^.ReleaseData;
+end;
+
+procedure BitmapRotate(Bitmap: TRasterImage; ADegree: Integer);
+// ADegree now supported only 90,180,270 values
+var
+  x, y: Integer;
+  tx, ty: Integer;
+  Bits32: Boolean;
+  xWidth, yHeight: Integer;
+  iWidth, iHeight: Integer;
+  SourceImg: TLazIntfImage;
+  TargetImg: TLazIntfImage;
+  SourceData, TargetData: PUInt32;
+begin
+  TargetImg:= TLazIntfImage.Create(0, 0);
+  SourceImg := TLazIntfImage.Create(Bitmap.RawImage, False);
+  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
+  iWidth:= SourceImg.Width;
+  iHeight:= SourceImg.Height;
+  xWidth:= iWidth - 1;
+  yHeight:= iHeight - 1;
+
+  // Use fast 32 bit rotate function
+  Bits32:= (SourceImg.DataDescription.BitsPerPixel = 32) and
+           (SourceImg.DataDescription.LineOrder = riloTopToBottom) and
+           (SourceImg.DataDescription.LineEnd < rileQWordBoundary);
+  if Bits32 then
+  begin
+    SourceData:= PUInt32(SourceImg.PixelData);
+    TargetData:= PUInt32(TargetImg.PixelData);
+  end;
+
+  if ADegree = 90 then
+  begin
+    TargetImg.SetSize(iHeight, iWidth);
+    if Bits32 then
+    begin
+      for y:= 0 to yHeight do
+      begin
+        ty:= yHeight - y;
+        for x:= 0 to xWidth do
+        begin
+          TargetData[iHeight * x + ty]:= SourceData^;
+          Inc(SourceData);
+        end;
+      end;
+    end
+    else begin
+      for y:= 0 to xWidth do
+      begin
+        for x:= 0 to yHeight do
+        begin
+          TargetImg.Colors[x, y]:= SourceImg.Colors[y, yHeight - x];
+        end;
+      end;
+    end;
+  end
+
+  else if ADegree = 180 then
+  begin
+    TargetImg.SetSize(iWidth, iHeight);
+
+    if Bits32 then
+    begin
+      for y:= 0 to yHeight do
+      begin
+        ty:= yHeight - y;
+        for x:= 0 to xWidth do
+        begin
+          tx:= xWidth - x;
+          TargetData[iWidth * ty + tx]:= SourceData^;
+          Inc(SourceData);
+        end;
+      end;
+    end
+    else begin
+      for y:= 0 to yHeight do
+      begin
+        for x:= 0 to xWidth do
+        begin
+          TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, yHeight - y];
+        end;
+      end;
+    end;
+  end
+
+  else if ADegree = 270 then
+  begin
+    TargetImg.SetSize(iHeight, iWidth);
+    if Bits32 then
+    begin
+      for y:= 0 to yHeight do
+      begin
+        for x:= 0 to xWidth do
+        begin
+          tx:= xWidth - x;
+          TargetData[iHeight * tx + y]:= SourceData^;
+          Inc(SourceData);
+        end;
+      end;
+    end
+    else begin
+      for y:= 0 to xWidth do
+      begin
+        for x:= 0 to yHeight do
+        begin
+          TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - y, x];
+        end;
+      end;
+    end;
+  end;
+
+  BitmapAssign(Bitmap, TargetImg);
+
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
+end;
+
+procedure BitmapMirror(Bitmap: TRasterImage; AVertically: Boolean);
+var
+  x, y: Integer;
+  tx, ty: Integer;
+  Bits32: Boolean;
+  xWidth, yHeight: Integer;
+  iWidth, iHeight: Integer;
+  SourceImg: TLazIntfImage;
+  TargetImg: TLazIntfImage;
+  SourceData, TargetData: PUInt32;
+begin
+  TargetImg:= TLazIntfImage.Create(0, 0);
+  SourceImg := TLazIntfImage.Create(Bitmap.RawImage, False);
+  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
+  iWidth:= SourceImg.Width;
+  iHeight:= SourceImg.Height;
+  xWidth:= iWidth - 1;
+  yHeight:= iHeight - 1;
+
+
+  // Use fast 32 bit mirror function
+  Bits32:= (SourceImg.DataDescription.BitsPerPixel = 32) and
+           (SourceImg.DataDescription.LineOrder = riloTopToBottom) and
+           (SourceImg.DataDescription.LineEnd < rileQWordBoundary);
+  if Bits32 then
+  begin
+    SourceData:= PUInt32(SourceImg.PixelData);
+    TargetData:= PUInt32(TargetImg.PixelData);
+  end;
+
+  if not AVertically then
+  begin
+    if Bits32 then
+    begin
+      for y:= 0 to yHeight do
+      begin
+        ty:= iWidth * y;
+        for x:= 0 to xWidth do
+        begin
+          tx:= xWidth - x;
+          TargetData[ty + tx]:= SourceData^;
+          Inc(SourceData);
+        end;
+      end;
+    end
+    else begin
+      for y:= 0 to yHeight do
+      begin
+        for x:= 0 to xWidth do
+        begin
+          TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, y];
+        end;
+      end;
+    end;
+  end
+  else begin
+    if Bits32 then
+    begin
+      for y:= 0 to yHeight do
+      begin
+        ty:= iWidth * (yHeight - y);
+        for x:= 0 to xWidth do
+        begin
+          TargetData[ty + x]:= SourceData^;
+          Inc(SourceData);
+        end;
+      end;
+    end
+    else begin
+      for y:= 0 to yHeight do
+      begin
+        for x:= 0 to xWidth do
+        begin
+          TargetImg.Colors[x, y]:= SourceImg.Colors[x, yHeight - y];
+        end;
+      end;
+    end;
+  end;
+
+  BitmapAssign(Bitmap, TargetImg);
+
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
 end;
 
 procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);

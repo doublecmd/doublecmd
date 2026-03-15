@@ -464,8 +464,8 @@ type
     function DoZoom( const delta: Double; const inc: Integer ): Boolean;
     function DoZoomIn: Boolean;
     function DoZoomOut: Boolean;
-    procedure RotateImage(AGradus:integer);
-    procedure MirrorImage(AVertically:boolean=False);
+    procedure RotateImage(ADegree: Integer);
+    procedure MirrorImage(AVertically: Boolean = False);
 
   published
     // Commands for hotkey manager
@@ -542,7 +542,7 @@ uses
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
   SynEditTypes, uFile, uFileSystemFileSource, uFileProcs, uOperationsManager,
-  uFileSourceOperationOptions, uGraphics
+  LazLogger, uFileSourceOperationOptions, uGraphics
 {$if lcl_fullversion >= 4990000}
   , SynEditWrappedView
 {$endif}
@@ -1908,106 +1908,25 @@ begin
   Result:= DoZoom( 0.909, -1 );
 end;
 
-procedure TfrmViewer.RotateImage(AGradus: integer);
-// AGradus now supported only 90,180,270 values
+procedure TfrmViewer.RotateImage(ADegree: integer);
+// ADegree now supported only 90,180,270 values
 var
-  x, y: Integer;
-  xWidth,
-  yHeight: Integer;
-  SourceImg: TLazIntfImage;
-  TargetImg: TLazIntfImage;
+  Q: QWord;
 begin
-  TargetImg:= TLazIntfImage.Create(0, 0);
-  SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
-  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
-  xWidth:= SourceImg.Width - 1;
-  yHeight:= SourceImg.Height - 1;
-
-  if AGradus = 90 then
-  begin
-    TargetImg.SetSize(yHeight + 1, xWidth + 1);
-    for y:= 0 to xWidth do
-    begin
-      for x:= 0 to yHeight do
-      begin
-        TargetImg.Colors[x, y]:= SourceImg.Colors[y, yHeight - x];
-      end;
-    end;
-    x:= Image.Width;
-    Image.Width:= Image.Height;
-    Image.Height:= x;
-  end;
-
-  if AGradus = 180 then
-  begin
-    TargetImg.SetSize(xWidth + 1, yHeight + 1);
-    for y:= 0 to yHeight do
-    begin
-      for x:= 0 to xWidth do
-      begin
-        TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, yHeight - y];
-      end;
-    end;
-  end;
-
-  if AGradus = 270 then
-  begin
-    TargetImg.SetSize(yHeight + 1, xWidth + 1);
-    for y:= 0 to xWidth do
-    begin
-      for x:= 0 to yHeight do
-      begin
-        TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - y, x];
-      end;
-    end;
-    x:= Image.Width;
-    Image.Width:= Image.Height;
-    Image.Height:= x;
-  end;
-
-  BitmapAssign(TRasterImage(Image.Picture.Graphic), TargetImg);
-
-  FreeAndNil(SourceImg);
-  FreeAndNil(TargetImg);
+  Q:= SysUtils.GetTickCount64;
+  BitmapRotate(TRasterImage(Image.Picture.Graphic), ADegree);
+  DebugLn('Rotate: ', IntToStr(SysUtils.GetTickCount64 - Q));
   AdjustImageSize;
   CreateTmp;
 end;
 
-procedure TfrmViewer.MirrorImage(AVertically:boolean);
+procedure TfrmViewer.MirrorImage(AVertically: Boolean);
 var
-  x, y: Integer;
-  xWidth,
-  yHeight: Integer;
-  SourceImg: TLazIntfImage;
-  TargetImg: TLazIntfImage;
+  Q: QWord;
 begin
-  TargetImg:= TLazIntfImage.Create(0, 0);
-  SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
-  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
-  xWidth:= SourceImg.Width - 1;
-  yHeight:= SourceImg.Height - 1;
-
-  if not AVertically then
-    for y:= 0 to yHeight do
-    begin
-      for x:= 0 to xWidth do
-      begin
-        TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, y];
-      end;
-    end
-  else
-    for y:= 0 to yHeight do
-    begin
-      for x:= 0 to xWidth do
-      begin
-        TargetImg.Colors[x, y]:= SourceImg.Colors[ x,yHeight - y];
-      end;
-    end;
-
-  BitmapAssign(TRasterImage(Image.Picture.Graphic), TargetImg);
-
-  FreeAndNil(SourceImg);
-  FreeAndNil(TargetImg);
+  Q:= SysUtils.GetTickCount64;
+  BitmapMirror(TRasterImage(Image.Picture.Graphic), AVertically);
+  DebugLn('Mirror: ', IntToStr(SysUtils.GetTickCount64 - Q));
   AdjustImageSize;
   CreateTmp;
 end;
