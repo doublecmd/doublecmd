@@ -283,7 +283,16 @@ begin
       WcxPlugin := gWCXPlugins.LoadModule(ModuleFileName);
       if Assigned(WcxPlugin) then
       begin
-        if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
+        if MatchesMask(anArchiveFileName, AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[I]) then
+        begin
+          anArchiveHandle:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
+          if (anArchiveHandle <> 0) and (lOpenResult = E_SUCCESS) then
+          begin
+            bFound:= True;
+            Break;
+          end;
+        end
+        else if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
         begin
           if (WcxPlugin <> WcxPrevious) then
           begin
@@ -298,11 +307,6 @@ begin
               end;
             end;
           end;
-        end
-        else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
-        begin
-          bFound:= MatchesMask(anArchiveFileName, AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[I]);
-          if bFound then Break;
         end;
       end;
     end;
