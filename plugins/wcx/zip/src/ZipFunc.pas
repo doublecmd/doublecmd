@@ -78,7 +78,7 @@ function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall; exp
 function GetPackerCaps : Integer;dcpcall; export;
 function GetBackgroundFlags: Integer; dcpcall; export;
 procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);dcpcall; export;
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; dcpcall; export;
 {Extension API}
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; export;
 
@@ -578,7 +578,7 @@ begin
   CreateZipConfDlg;
 end;
 
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; dcpcall; export;
 begin
   try
     Result:= (AbDetermineArcType(UTF16ToUTF8(UnicodeString(FileName)), atUnknown) <> atUnknown);

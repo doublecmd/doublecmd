@@ -138,7 +138,7 @@ Type
     function WcxProcessFile(hArcData: TArcHandle; Operation: LongInt; DestPath, DestName: String): LongInt;
     function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: String; Flags: LongInt): LongInt;
     function WcxDeleteFiles(PackedFile, DeleteList: String): LongInt;
-    function WcxCanYouHandleThisFile(FileName: String): Boolean;
+    function WcxCanYouHandleThisFile(FileName: String): LongBool;
     function WcxStartMemPack(Options: LongInt;  FileName: String): TArcHandle;
     procedure WcxSetChangeVolProc(hArcData: TArcHandle); overload;
     procedure WcxSetChangeVolProc(hArcData: TArcHandle; ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW); overload;
@@ -350,7 +350,7 @@ begin
     Result:= DeleteFiles(PAnsiChar(CeUtf8ToSys(PackedFile)), PAnsiChar(CeUtf8ToSys(DeleteList)));
 end;
 
-function TWcxModule.WcxCanYouHandleThisFile(FileName: String): Boolean;
+function TWcxModule.WcxCanYouHandleThisFile(FileName: String): LongBool;
 begin
   if Assigned(CanYouHandleThisFileW) then
     Result:= CanYouHandleThisFileW(PWideChar(CeUtf8ToUtf16(FileName)))
