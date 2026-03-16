@@ -40,7 +40,7 @@ procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcess
 { Optional }
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; winapi;
 function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; winapi;
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; winapi;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; winapi;
 procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); winapi;
 { Extension }
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); winapi;
@@ -501,7 +501,7 @@ begin
   Result:= E_NOT_SUPPORTED;
 end;
 
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; winapi;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; winapi;
 begin
   if not Is7ZipLoaded then Exit(False);
   Result:= FindDecompressFormats(Utf16ToUtf8(WideString(FileName))) <> nil;
