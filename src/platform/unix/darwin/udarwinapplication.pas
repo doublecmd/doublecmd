@@ -301,7 +301,7 @@ begin
   if keyWindow <> nil then
     lclForm:= keyWindow.lclGetTarget;
   if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
-    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
+    TCocoaMenuUtil.attachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
 end;
 
 end.
