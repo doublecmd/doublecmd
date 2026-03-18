@@ -2309,15 +2309,15 @@ begin
       end;
     end;
   end;
+{$IF DEFINED(UNIX)}
+  if (FUserID = 0) or (FUserID = CurItem.UserID) then
+    fpLChown(UseName, TUid(CurItem.UserID), TGid(CurItem.GroupID));
+{$ENDIF}
   if (CurItem.Mode and $F000) <> AB_FMODE_FILELINK then
   begin
     AbSetFileTime(UseName, CurItem.LastWriteTime);
     AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
   end;
-{$IF DEFINED(UNIX)}
-  if (FUserID = 0) or (FUserID = CurItem.UserID) then
-    fpLChown(UseName, TUid(CurItem.UserID), TGid(CurItem.GroupID));
-{$ENDIF}
 end;
 
 procedure TAbTarArchive.ExtractItemToStreamAt(Index: Integer;
