@@ -43,6 +43,11 @@ type
   TOrderedFileView = class(TFileViewWithPanels)
   private
     pmOperationsCancel: TPopupMenu;
+    class function GetPersistentFilterOptions: TQuickSearchOptions; static;
+    procedure ApplyPersistentFilter(const AFilterText: String);
+    procedure ClearActiveFilter;
+    procedure RememberPersistentViewFilter(const AMask: String);
+    procedure UpdateFilterLabel;
     procedure lblFilterClick(Sender: TObject);
     procedure pmOperationsCancelClick(Sender: TObject);
     procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
@@ -88,7 +93,8 @@ type
        Search and position in a file that matches name taking into account
        passed options.
     }
-    procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
+    procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions;
+                         InvertSelection: Boolean = False; UseExactMaskSyntax: Boolean = False);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean = True; aLastTopRowIndex: PtrInt = -1); overload; virtual; abstract;
@@ -102,6 +108,8 @@ type
     procedure PropertiesRetrieverOnAbort(AStart: Integer; AList: TFPList);
 
   public
+    procedure ApplyPersistentViewFilter(const AMask: String); override;
+    procedure ClearPersistentViewFilter; override;
     procedure CloneTo(AFileView: TFileView); override;
     procedure SetActiveFile(aFilePath: String); override; overload;
     procedure ChangePathAndSetActiveFile(aFilePath: String); override; overload;
@@ -123,8 +131,8 @@ implementation
 uses
   LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
-  DCOSUtils, 
-  uLng, uGlobs, uMasks, uDCUtils,
+  DCOSUtils,
+  fMain, uLng, uGlobs, uMasks, uDCUtils, uSearchTemplate,
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,
@@ -138,13 +146,90 @@ const
 
 { TOrderedFileView }
 
-procedure TOrderedFileView.AfterChangePath;
+class function TOrderedFileView.GetPersistentFilterOptions: TQuickSearchOptions;
 begin
-  if Filtered or quickSearch.Visible then
-  begin
-    FFileFilter:= EmptyStr;
+  Result.Match := [qsmBeginning, qsmEnding];
+  Result.SearchCase := qscInsensitive;
+  Result.Items := qsiFiles;
+  Result.Diacritics := True;
+  Result.Direction := qsdNone;
+  Result.LastSearchMode := qsFilter;
+  Result.CancelSearchMode := qscmNode;
+end;
+
+procedure TOrderedFileView.ApplyPersistentFilter(const AFilterText: String);
+var
+  AFilterOptions: TQuickSearchOptions;
+begin
+  AFilterOptions := GetPersistentFilterOptions;
+
+  if not ((FFileFilter = EmptyStr) and (AFilterText = EmptyStr)) then
+    Active := True;
+
+  // Position before filtering so the active file is kept stable when possible.
+  SearchFile(AFilterText, ';,', AFilterOptions, False, True);
+  SetFileFilter(AFilterText, AFilterOptions);
+  UpdateFilterLabel;
+end;
+
+procedure TOrderedFileView.ClearActiveFilter;
+begin
+  if QuickFilter <> EmptyStr then
+    SetQuickFilter(EmptyStr, QuickFilterOptions)
+  else if FileFilter <> EmptyStr then
+    ClearPersistentViewFilter;
+
+  UpdateFilterLabel;
+end;
+
+procedure TOrderedFileView.RememberPersistentViewFilter(const AMask: String);
+var
+  HistoryList: TStringList;
+  Index: Integer;
+begin
+  if (AMask = EmptyStr) or (AMask = '*') then Exit;
+
+  HistoryList := GetPersistentViewFilterHistory;
+  if not Assigned(HistoryList) then Exit;
+
+  Index := HistoryList.IndexOf(AMask);
+  if Index >= 0 then
+    HistoryList.Delete(Index);
+
+  if HistoryList.Count = 0 then
+    HistoryList.Add(AMask)
+  else
+    HistoryList.Insert(0, AMask);
+end;
+
+procedure TOrderedFileView.UpdateFilterLabel;
+var
+  FilterText: String;
+begin
+  if (FileFilter <> EmptyStr) and (QuickFilter <> EmptyStr) then
+    FilterText := Format('%s && %s', [FileFilter, QuickFilter])
+  else if QuickFilter <> EmptyStr then
+    FilterText := QuickFilter
+  else
+    FilterText := FileFilter;
+
+  if FilterText <> EmptyStr then
+    lblFilter.Caption := Format('(%s: %s)', [rsFilterStatus, FilterText]);
+  lblFilter.Visible := (FilterText <> EmptyStr);
+end;
+
+procedure TOrderedFileView.AfterChangePath;
+var
+  HadQuickFilter: Boolean;
+begin
+  HadQuickFilter := QuickFilter <> EmptyStr;
+  if HadQuickFilter then
+    FQuickFilter := EmptyStr;
+
+  if HadQuickFilter or quickSearch.Visible then
     quickSearch.Finalize;
-  end;
+
+  UpdateFilterLabel;
   FLastActiveFileIndex := -1;
   inherited AfterChangePath;
 end;
@@ -168,6 +253,33 @@ begin
       FFocusQuickSearch := Self.quickSearch.edtSearch.Focused;
     end;
   end;
+end;
+
+procedure TOrderedFileView.ApplyPersistentViewFilter(const AMask: String);
+begin
+  if IsLoadingFileList then Exit;
+
+  if (AMask = EmptyStr) or (AMask = '*') then
+    ClearPersistentViewFilter
+  else
+  begin
+    RememberPersistentViewFilter(AMask);
+    ApplyPersistentFilter(AMask);
+
+    if Assigned(frmMain) then
+      frmMain.UpdatePersistentViewFilterMenu;
+  end;
+end;
+
+procedure TOrderedFileView.ClearPersistentViewFilter;
+begin
+  if IsLoadingFileList then Exit;
+
+  SetFileFilter(EmptyStr, FilterOptions);
+  UpdateFilterLabel;
+
+  if Assigned(frmMain) then
+    frmMain.UpdatePersistentViewFilterMenu;
 end;
 
 procedure TOrderedFileView.cm_GoToFirstEntry(const Params: array of string);
@@ -315,10 +427,11 @@ begin
   case Key of
     VK_ESCAPE:
       begin
-        if quickSearch.Visible and not Filtered then
+        if quickSearch.Visible and (QuickFilter = EmptyStr) then
         begin
           quickSearch.Finalize;
           Key := 0;
+          Exit;
         end;
         if Filtered and (GetCurrentWorkType <> fvwtNone) then
         begin
@@ -342,7 +455,7 @@ begin
         end
         else if Filtered then
         begin
-          quickSearch.Finalize;
+          ClearActiveFilter;
           Key := 0;
         end
         else if GetCurrentWorkType <> fvwtNone then
@@ -558,7 +671,7 @@ begin
   begin
     case (Sender as TMenuItem).Tag of
       CANCEL_FILTER:
-        quickSearch.Finalize;
+        ClearActiveFilter;
       CANCEL_OPERATION:
         StopWorkers;
     end;
@@ -567,17 +680,16 @@ end;
 
 procedure TOrderedFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
 begin
-  if not ((FFileFilter = '') and (AFilterText = '')) then
+  if not ((FFileFilter = EmptyStr) and (FQuickFilter = EmptyStr) and (AFilterText = EmptyStr)) then
     Active := True;
 
   // position in file before filtering, otherwise position could be lost if
   // current file is filtered out causing jumps
   SearchFile(AFilterText,';,', AFilterOptions);
 
-  SetFileFilter(AFilterText, AFilterOptions);
+  SetQuickFilter(AFilterText, AFilterOptions);
 
-  lblFilter.Caption := Format('(%s: %s)', [rsFilterStatus, AFilterText]);
-  lblFilter.Visible := Filtered;
+  UpdateFilterLabel;
 end;
 
 procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
@@ -609,20 +721,23 @@ end;
 
 procedure TOrderedFileView.quickSearchHide(Sender: TObject);
 begin
+  if Filtered then
+    UpdateFilterLabel;
   if CanFocus then
     SetFocus;
 end;
 
-procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions; InvertSelection: Boolean);
+procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions;
+  InvertSelection: Boolean; UseExactMaskSyntax: Boolean);
 var
   I, Index, StopIndex, ActiveIndex: PtrInt;
   S: String;
   NewSelectedState,
   FirstFound,
-  Result: Boolean;
-  sFileName : String;
+  Matched: Boolean;
   AFile: TFile;
-  Masks: TMaskList;
+  SearchTemplate: TSearchTemplate;
+  Masks: TMaskList = nil;
   AOptions: TMaskOptions = [moPinyin];
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
@@ -639,10 +754,28 @@ var
       Result := FFiles.Count - 1;
   end;
 
+  function FileMatchesSearch(const AFile: TFile): Boolean;
+  begin
+    if (SearchOptions.Items = qsiFiles) and
+       (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+      Exit(False);
+
+    if (SearchOptions.Items = qsiDirectories) and
+       not AFile.IsDirectory and
+       not AFile.IsLinkToDirectory then
+      Exit(False);
+
+    if Assigned(SearchTemplate) then
+      Exit(SearchTemplate.CheckFile(AFile));
+
+    Result := Assigned(Masks) and Masks.Matches(AFile.Name);
+  end;
+
 begin
   if IsEmpty then
     Exit;
 
+  SearchTemplate := nil;
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
   begin
@@ -672,55 +805,43 @@ begin
 
   StopIndex := Index;
   try
-    if (not SearchOptions.Diacritics) then
-      AOptions += [moIgnoreAccents];
-
-    if (SearchOptions.SearchCase = qscSensitive) then
-      AOptions += [moCaseSensitive];
-
-    Masks:= TMaskList.Create(SearchTerm, ';,', AOptions);
-
-    for I := 0 to Masks.Count - 1 do
-    begin
-      S:= Masks.Items[I].Template;
-      S:= TFileListBuilder.PrepareFilter(S, SearchOptions);
-      Masks.Items[I].Template:= S;
-    end;
-
     try
+      if IsMaskSearchTemplate(SearchTerm) then
+        SearchTemplate := gSearchTemplateList.TemplateByName[SearchTerm]
+      else
+      begin
+        if (not SearchOptions.Diacritics) then
+          AOptions += [moIgnoreAccents];
+
+        if (SearchOptions.SearchCase = qscSensitive) then
+          AOptions += [moCaseSensitive];
+
+        Masks := TMaskList.Create(SearchTerm, SeparatorCharset, AOptions);
+        for I := 0 to Masks.Count - 1 do
+        begin
+          S := Masks.Items[I].Template;
+          S := TFileListBuilder.PrepareFilter(S, SearchOptions, UseExactMaskSyntax);
+          Masks.Items[I].Template := S;
+        end;
+      end;
+
       repeat
-        Result := True;
         AFile := FFiles[Index].FSFile;
+        Matched := FileMatchesSearch(AFile);
 
-        if (SearchOptions.Items = qsiFiles) and
-           (AFile.IsDirectory or
-            AFile.IsLinkToDirectory) then
-          Result := False;
-
-        if (SearchOptions.Items = qsiDirectories) and
-           not AFile.IsDirectory and
-           not AFile.IsLinkToDirectory then
-          Result := False;
-
-        sFileName := AFile.Name;
-
-        // Match the file name and Pinyin letter
-        if not (Masks.Matches(sFileName)) then
-          Result := False;
-
-        if Result then
+        if Matched then
         begin
           if InvertSelection and (SearchOptions.Direction in [qsdFirst, qsdLast]) then
           begin
             if not FirstFound then
             begin
-              FirstFound := True;
               SetActiveFile(Index);
-              if ((SearchOptions.Direction = qsdFirst) and (Index < ActiveIndex) or
-                  (SearchOptions.Direction = qsdLast) and (Index > ActiveIndex)) then
+              FirstFound := True;
+              if ((SearchOptions.Direction = qsdFirst) and (Index < ActiveIndex)) or
+                 ((SearchOptions.Direction = qsdLast) and (Index > ActiveIndex)) then
                 StopIndex := ActiveIndex // continue to mark files until the starting index
               else
-                break;
+                Break;
             end;
             MarkFile(FFiles[Index], NewSelectedState, False);
             DoSelectionChanged(Index);
@@ -739,13 +860,16 @@ begin
           Index := PrevIndexWrap(Index);
 
       until Index = StopIndex;
-    finally
-      Masks.Free;
+    except
+      on EConvertError do
+      begin
+        // bypass invalid masks during incremental search
+      end;
+      else
+        raise;
     end;
-  except
-    on EConvertError do; // bypass
-    else
-      raise;
+  finally
+    FreeAndNil(Masks);
   end;
 end;
 

@@ -187,6 +187,10 @@ type
     actRestoreSelection: TAction;
     actSwitchIgnoreList: TAction;
     actTestArchive: TAction;
+    actPersistentViewFilterDialog: TAction;
+    actPersistentViewFilterLast: TAction;
+    actPersistentViewFilterClear: TAction;
+    actPersistentViewFilter: TAction;
     actQuickView: TAction;
     actOpenBar: TAction;
     actSetFileProperties: TAction;
@@ -297,6 +301,9 @@ type
     pnlMain: TPanel;
     tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;
+    mnuShowAllFiles: TMenuItem;
+    mnuShowCustom: TMenuItem;
+    mnuShowLastUsed: TMenuItem;
     miLine20: TMenuItem;
     miNetworkDisconnect: TMenuItem;
     miNetworkQuickConnect: TMenuItem;
@@ -452,6 +459,7 @@ type
     mnuCmdSwapSourceTarget: TMenuItem;
     mnuCmdTargetIsSource: TMenuItem;
     miLine3: TMenuItem;
+    miLine56: TMenuItem;
     mnuFilesShwSysFiles: TMenuItem;
     miLine1: TMenuItem;
     mnuFilesHardLink: TMenuItem;
@@ -607,7 +615,6 @@ type
     procedure MainToolBarToolButtonMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
@@ -881,6 +888,8 @@ type
     procedure UpdateSelectedDrives;
     procedure UpdateGUIFunctionKeys;
     procedure UpdateMainTitleBar;
+    procedure UpdatePersistentViewFilterShortcuts;
+    procedure UpdatePersistentViewFilterMenu;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
@@ -1221,6 +1230,8 @@ begin
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
 
+  UpdatePersistentViewFilterMenu;
+
   UpdateActionIcons;
 
   {$IF DEFINED(LCLCOCOA)}
@@ -1280,6 +1291,85 @@ begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
   Commands.Commands.ExecuteCommand(cmd, []);
+end;
+
+procedure TfrmMain.UpdatePersistentViewFilterShortcuts;
+  function FindShortcut(const WrapperCommand, ActionParam: String): TShortCut;
+  var
+    HMForm: THMForm;
+    Hotkey: THotkey;
+    Index: Integer;
+  begin
+    Result := VK_UNKNOWN;
+    HMForm := HotMan.Forms.Find(HotkeysCategory);
+    if not Assigned(HMForm) then Exit;
+
+    for Index := 0 to HMForm.Hotkeys.Count - 1 do
+    begin
+      Hotkey := HMForm.Hotkeys[Index];
+      if ((Hotkey.Command = WrapperCommand) and (Length(Hotkey.Params) = 0)) or
+         ((Hotkey.Command = 'cm_PersistentViewFilter') and Hotkey.HasParam(ActionParam)) then
+      begin
+        if Length(Hotkey.Shortcuts) > 0 then
+          Exit(TextToShortCutEx(Hotkey.Shortcuts[0]));
+      end;
+    end;
+  end;
+begin
+  actPersistentViewFilterClear.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterClear', 'action=clear');
+  actPersistentViewFilterLast.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterLast', 'action=last');
+  actPersistentViewFilterDialog.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterDialog', 'action=dialog');
+end;
+
+procedure TfrmMain.UpdatePersistentViewFilterMenu;
+const
+  MaxMaskLength = 24;
+var
+  HasLastMask: Boolean;
+  IsAllFiles: Boolean;
+  IsLastUsed: Boolean;
+  MaskCaption: String;
+  DisplayMask: String;
+  MaskHint: String;
+  LastMask: String;
+begin
+  UpdatePersistentViewFilterShortcuts;
+
+  LastMask := Commands.LastPersistentViewFilter;
+  DisplayMask := LastMask;
+  MaskHint := LastMask;
+  HasLastMask := LastMask <> EmptyStr;
+
+  if UTF8Length(DisplayMask) > MaxMaskLength then
+    DisplayMask := UTF8Copy(DisplayMask, 1, MaxMaskLength - 3) + '...';
+  DisplayMask := StringReplace(DisplayMask, '&', '&&', [rfReplaceAll]);
+  MaskHint := StringReplace(MaskHint, '&', '&&', [rfReplaceAll]);
+
+  if DisplayMask <> EmptyStr then
+    MaskCaption := DisplayMask
+  else
+  begin
+    MaskCaption := '&Last used';
+    MaskHint := MaskCaption;
+  end;
+
+  actPersistentViewFilterLast.Caption := MaskCaption;
+  actPersistentViewFilterLast.Hint := MaskHint;
+  actPersistentViewFilterLast.Enabled := HasLastMask;
+
+  IsAllFiles := not Assigned(ActiveFrame) or (ActiveFrame.FileFilter = EmptyStr);
+  IsLastUsed := Assigned(ActiveFrame) and (ActiveFrame.FileFilter <> EmptyStr) and
+                HasLastMask and (ActiveFrame.FileFilter = LastMask);
+
+  actPersistentViewFilterClear.Checked := IsAllFiles;
+  actPersistentViewFilterLast.Checked := (not IsAllFiles) and IsLastUsed;
+  actPersistentViewFilterDialog.Checked := (not IsAllFiles) and (not IsLastUsed);
+  mnuShowLastUsed.Caption := MaskCaption;
+  mnuShowLastUsed.Hint := MaskHint;
+  mnuShowLastUsed.Enabled := actPersistentViewFilterLast.Enabled;
 end;
 
 procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -4863,6 +4953,7 @@ begin
       UpdateSelectedDrive(Page.Notebook);
       UpdateFreeSpace(Page.Notebook.Side, False);
     end;
+  UpdatePersistentViewFilterMenu;
   UpdateFileView;
 end;
 
@@ -5617,6 +5708,7 @@ var
   FunButton: TSpeedButton;
   Hotkey: THotkey;
 begin
+  UpdatePersistentViewFilterMenu;
   DisableAutoSizing;
   try
     if gHorizontalFilePanels then
@@ -6265,6 +6357,7 @@ procedure TfrmMain.SetPanelSelected(AValue: TFilePanelSelect);
 begin
   if PanelSelected = AValue then Exit;
   PanelSelected := AValue;
+  UpdatePersistentViewFilterMenu;
   UpdateTreeViewPath;
   UpdateMainTitleBar;
   UpdatePrompt;
