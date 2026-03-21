@@ -191,6 +191,10 @@ type
     actRestoreSelection: TAction;
     actSwitchIgnoreList: TAction;
     actTestArchive: TAction;
+    actPersistentViewFilterDialog: TAction;
+    actPersistentViewFilterLast: TAction;
+    actPersistentViewFilterClear: TAction;
+    actPersistentViewFilter: TAction;
     actQuickView: TAction;
     actOpenBar: TAction;
     actSetFileProperties: TAction;
@@ -302,6 +306,9 @@ type
     pnlMain: TPanel;
     tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;
+    mnuShowAllFiles: TMenuItem;
+    mnuShowCustom: TMenuItem;
+    mnuShowLastUsed: TMenuItem;
     miLine20: TMenuItem;
     miNetworkDisconnect: TMenuItem;
     miNetworkQuickConnect: TMenuItem;
@@ -457,6 +464,7 @@ type
     mnuCmdSwapSourceTarget: TMenuItem;
     mnuCmdTargetIsSource: TMenuItem;
     miLine3: TMenuItem;
+    miLine56: TMenuItem;
     mnuFilesShwSysFiles: TMenuItem;
     miLine1: TMenuItem;
     mnuFilesHardLink: TMenuItem;
@@ -612,7 +620,6 @@ type
     procedure MainToolBarToolButtonMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
@@ -888,6 +895,8 @@ type
     procedure UpdateSelectedDrives;
     procedure UpdateGUIFunctionKeys;
     procedure UpdateMainTitleBar;
+    procedure UpdatePersistentViewFilterShortcuts;
+    procedure UpdatePersistentViewFilterMenu;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
@@ -1245,6 +1254,9 @@ begin
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
 
+  UpdatePersistentViewFilterShortcuts;
+  UpdatePersistentViewFilterMenu;
+
   {$IF DEFINED(LCLCOCOA)}
   // 1. TCustomTabControl.GetControlClassDefaultSize() return 200 for Default Width
   // 2. on Cocoa, it is likely to cause TCocoaTabControl not wide enough to
@@ -1305,6 +1317,73 @@ begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
   Commands.Commands.ExecuteCommand(cmd, []);
+end;
+
+procedure TfrmMain.UpdatePersistentViewFilterShortcuts;
+  function FindShortcut(const WrapperCommand, ActionParam: String): TShortCut;
+  var
+    HMForm: THMForm;
+    Hotkey: THotkey;
+    Index: Integer;
+  begin
+    Result := VK_UNKNOWN;
+    HMForm := HotMan.Forms.Find(HotkeysCategory);
+    if not Assigned(HMForm) then Exit;
+
+    for Index := 0 to HMForm.Hotkeys.Count - 1 do
+    begin
+      Hotkey := HMForm.Hotkeys[Index];
+      if ((Hotkey.Command = WrapperCommand) and (Length(Hotkey.Params) = 0)) or
+         ((Hotkey.Command = 'cm_PersistentViewFilter') and Hotkey.HasParam(ActionParam)) then
+        Exit(TextToShortCutEx(Hotkey.Shortcuts[0]));
+    end;
+  end;
+begin
+  actPersistentViewFilterClear.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterClear', 'action=clear');
+  actPersistentViewFilterLast.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterLast', 'action=last');
+  actPersistentViewFilterDialog.ShortCut :=
+    FindShortcut('cm_PersistentViewFilterDialog', 'action=dialog');
+end;
+
+procedure TfrmMain.UpdatePersistentViewFilterMenu;
+const
+  MaxMaskLength = 24;
+var
+  IsAllFiles: Boolean;
+  IsLastUsed: Boolean;
+  DisplayMask: String;
+  LastMask: String;
+  FileView: TFileView;
+begin
+  FileView := ActiveFrame;
+  if Assigned(FileView) then
+    LastMask := FileView.GetLastPersistentViewFilter
+  else
+    LastMask := EmptyStr;
+  DisplayMask := LastMask;
+  actPersistentViewFilterLast.Hint := LastMask;
+
+  if UTF8Length(DisplayMask) > MaxMaskLength then
+    DisplayMask := UTF8Copy(DisplayMask, 1, MaxMaskLength - 3) + '...';
+  DisplayMask := StringReplace(DisplayMask, '&', '&&', [rfReplaceAll]);
+
+  if DisplayMask = EmptyStr then
+  begin
+    DisplayMask := rsLastUsed;
+    actPersistentViewFilterLast.Hint := StripHotkey(DisplayMask);
+  end;
+
+  actPersistentViewFilterLast.Caption := DisplayMask;
+  actPersistentViewFilterLast.Enabled := LastMask <> EmptyStr;
+
+  IsAllFiles := not Assigned(FileView) or (FileView.FileFilter = EmptyStr);
+  IsLastUsed := not IsAllFiles and (FileView.FileFilter = LastMask);
+
+  actPersistentViewFilterClear.Checked := IsAllFiles;
+  actPersistentViewFilterLast.Checked := IsLastUsed;
+  actPersistentViewFilterDialog.Checked := (not IsAllFiles) and (not IsLastUsed);
 end;
 
 procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -4937,6 +5016,7 @@ begin
       UpdateSelectedDrive(Page.Notebook);
       UpdateFreeSpace(Page.Notebook.Side, False);
     end;
+  UpdatePersistentViewFilterMenu;
   UpdateFileView;
 end;
 
@@ -5691,6 +5771,8 @@ var
   FunButton: TSpeedButton;
   Hotkey: THotkey;
 begin
+  UpdatePersistentViewFilterShortcuts;
+  UpdatePersistentViewFilterMenu;
   DisableAutoSizing;
   try
     if gHorizontalFilePanels then
@@ -6339,6 +6421,7 @@ procedure TfrmMain.SetPanelSelected(AValue: TFilePanelSelect);
 begin
   if PanelSelected = AValue then Exit;
   PanelSelected := AValue;
+  UpdatePersistentViewFilterMenu;
   UpdateTreeViewPath;
   UpdateMainTitleBar;
   UpdatePrompt;
