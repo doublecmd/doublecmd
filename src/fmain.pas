@@ -930,6 +930,8 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams);
 
+    function IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+                              RepeatCount: Integer; SystemKey: Boolean): Boolean; override;
 
     property Drives: TDrivesList read DrivesList;
     property SyncChangeDir: String write FSyncChangeDir;
@@ -1133,7 +1135,7 @@ begin
   Application.AddOnKeyDownBeforeHandler( @GlobalMacOSKeyDownHandler );
   {$ENDIF}
 
-  {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
   // Save original captions
   for I:= 0 to mnuMain.Items.Count - 1 do
   begin
@@ -2083,6 +2085,28 @@ begin
 
   finally
     FreeAndNil(DropParams);
+  end;
+end;
+
+function TfrmMain.IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+  RepeatCount: Integer; SystemKey: Boolean): Boolean;
+begin
+  if (RepeatCount < 0) and (gKeyTyping[ktmAlt] = ktaCommandLine) then
+  begin
+    if GetKeyShiftStateEx * KeyModifiersShortcutNoText = [ssAlt] then
+    begin
+      if FrameLeft.Focused or FrameRight.Focused then
+      begin
+        TypeInCommandLine(UTF8Key);
+        UTF8Key := '';
+        Exit(True);
+      end;
+    end;
+  end;
+  if (RepeatCount < 0) then
+    Result:= False
+  else begin
+    Result:= inherited IntfUTF8KeyPress(UTF8Key, RepeatCount, SystemKey);
   end;
 end;
 
@@ -5807,7 +5831,7 @@ begin
       UpdateFreeSpace(fpRight, True);
     end;
 
-{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
     // https://github.com/doublecmd/doublecmd/issues/1327
     if mnuMain.Tag <> PtrInt(gKeyTyping[ktmAlt]) then
     begin
