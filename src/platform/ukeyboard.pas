@@ -472,6 +472,11 @@ begin
   if IsKeyDown(VK_LWIN) or IsKeyDown(VK_RWIN) then
     Include(Result, ssMeta);
 
+{$IF DEFINED(X11) and (DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
+  if IsKeyDown(VK_CAPITAL) then
+    Include(Result, ssCaps);
+{$ENDIF}
+
   if (GetKeyState(VK_CAPITAL) and $1) <> 0 then  // Caps-lock toggled
     Include(Result, ssCaps);
 end;
