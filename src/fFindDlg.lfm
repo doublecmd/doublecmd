@@ -87,7 +87,7 @@ object frmFindDlg: TfrmFindDlg
             Width = 104
             Anchors = [akTop, akRight]
             Caption = 'Follow s&ymlinks'
-            TabOrder = 0
+            TabOrder = 2
           end
           object cmbFindPathStart: TComboBoxWithDelItems
             AnchorSideLeft.Control = lblFindPathStart
@@ -101,12 +101,12 @@ object frmFindDlg: TfrmFindDlg
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Right = 2
             ItemHeight = 15
-            TabOrder = 1
+            TabOrder = 3
           end
           object btnChooseFolder: TSpeedButton
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cmbFindPathStart
-            AnchorSideRight.Side = asrBottom
+            AnchorSideRight.Control = btnDrives
             AnchorSideBottom.Control = cmbFindPathStart
             AnchorSideBottom.Side = asrBottom
             Left = 714
@@ -114,7 +114,24 @@ object frmFindDlg: TfrmFindDlg
             Top = 19
             Width = 23
             Anchors = [akTop, akRight, akBottom]
+            BorderSpacing.Right = 6
             OnClick = btnSelDirClick
+          end
+          object btnDrives: TButton
+            AnchorSideTop.Control = cmbFindPathStart
+            AnchorSideRight.Control = gbDirectories
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = cmbFindPathStart
+            AnchorSideBottom.Side = asrBottom
+            Left = 786
+            Height = 26
+            Top = 24
+            Width = 52
+            Anchors = [akTop, akRight, akBottom]
+            AutoSize = True
+            Caption = 'Drives'
+            TabOrder = 4
+            OnClick = btnDrivesClick
           end
           object lblExcludeDirectories: TLabel
             AnchorSideLeft.Control = cmbFindPathStart
@@ -145,7 +162,7 @@ object frmFindDlg: TfrmFindDlg
             ItemHeight = 15
             ParentShowHint = False
             ShowHint = True
-            TabOrder = 2
+            TabOrder = 5
           end
           object pnlDirectoriesDepth: TPanel
             AnchorSideTop.Control = lblExcludeDirectories
@@ -162,7 +179,7 @@ object frmFindDlg: TfrmFindDlg
             ChildSizing.ControlsPerLine = 1
             ClientHeight = 51
             ClientWidth = 200
-            TabOrder = 3
+            TabOrder = 6
             object lblSearchDepth: TLabel
               Left = 0
               Height = 15
@@ -195,7 +212,7 @@ object frmFindDlg: TfrmFindDlg
             BorderSpacing.Right = 6
             Caption = 'Selected directories and files'
             OnChange = cbSelectedFilesChange
-            TabOrder = 4
+            TabOrder = 1
           end
           object cbOpenedTabs: TCheckBox
             AnchorSideRight.Control = cbSelectedFiles
@@ -209,7 +226,7 @@ object frmFindDlg: TfrmFindDlg
             BorderSpacing.Right = 6
             Caption = 'Opened tabs'
             OnChange = cbOpenedTabsChange
-            TabOrder = 5
+            TabOrder = 0
           end
         end
         object gbFiles: TGroupBox

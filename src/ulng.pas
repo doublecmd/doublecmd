@@ -620,6 +620,7 @@ resourcestring
   rsFindDepthAll = 'all (unlimited depth)';
   rsFindDepthCurDir = 'current dir only';
   rsFindDepth = '%s level(s)';
+  rsFindSelectDrives = 'Select drives';
   rsFindSaveTemplateCaption = 'Save search template';
   rsFindSaveTemplateTitle = 'Template name:';
   rsSearchTemplateUnnamed = '<unnamed template>';

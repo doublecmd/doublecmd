@@ -83,6 +83,7 @@ type
     btnView: TButton;
     btnEdit: TButton;
     btnWorkWithFound: TButton;
+    btnDrives: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -204,6 +205,7 @@ type
     procedure actExecute(Sender: TObject);
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
+    procedure btnDrivesClick(Sender: TObject);
     procedure btnEncodingClick(Sender: TObject);
     procedure btnNewSearchKeyDown(Sender: TObject; var Key: word;
       {%H-}Shift: TShiftState);
@@ -407,7 +409,7 @@ uses
   uColumns, uFileFunctions, uFileSorting,
   DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData,
   uLocalFileSource, uWcxArchiveFileSource, uSearchResultFileSource,
-  uFileSourceUtil, uArchiveFileSourceUtil
+  uFileSourceUtil, uArchiveFileSourceUtil, uDriveWatcher
 {$IFDEF DARkWIN}
   , uDarkStyle
 {$ENDIF}
@@ -807,6 +809,7 @@ begin
   cbFollowSymLinks.Visible := False;
   cbSelectedFiles.Visible := False;
   cbOpenedTabs.Visible := False;
+  btnDrives.Visible := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
@@ -968,6 +971,24 @@ begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
 end;
 
+procedure TfrmFindDlg.btnDrivesClick(Sender: TObject);
+var
+  Drives, Selected: TStringList;
+begin
+  Selected:= TStringList.Create;
+  Drives:= TDriveWatcher.GetUniquePaths;
+  if ShowInputMultiSelectListBox(rsFindSelectDrives, EmptyStr, Drives, Selected) then
+  begin
+    if (Selected.Count > 0) then
+    begin
+      Selected.Delimiter:= ';';
+      cmbFindPathStart.Text:= Selected.DelimitedText;
+    end;
+  end;
+  Selected.Free;
+  Drives.Free;
+end;
+
 procedure TfrmFindDlg.btnEncodingClick(Sender: TObject);
 var
   I, Index, ACount: Integer;
@@ -1078,6 +1099,7 @@ begin
   cbSelectedFiles.Enabled := not cbOpenedTabs.Checked AND (FSelectedFiles.Count > 0);
   cbFollowSymLinks.Enabled := not cbOpenedTabs.Checked;
   cmbFindPathStart.Enabled := not cbOpenedTabs.Checked;
+  btnDrives.Enabled := cmbFindPathStart.Enabled;
 end;
 
 { TfrmFindDlg.cbPartialNameSearchChange }
@@ -1102,6 +1124,7 @@ end;
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
 begin
   cmbFindPathStart.Enabled := not cbSelectedFiles.Checked;
+  btnDrives.Enabled := cmbFindPathStart.Enabled;
 end;
 
 procedure TfrmFindDlg.chkDuplicateContentChange(Sender: TObject);
@@ -1505,6 +1528,7 @@ begin
   cbFindInArchive.Enabled:= not AEnabled;
   cbReplaceText.Enabled:= (not AEnabled) and (cbFindText.Checked);
   cmbFindPathStart.Enabled:= not AEnabled;
+  btnDrives.Enabled := not AEnabled;
   btnChooseFolder.Enabled:= not AEnabled;
   chkDuplicates.Enabled:= not AEnabled;
   cmbSearchDepth.Enabled:=  not AEnabled;

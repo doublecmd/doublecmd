@@ -45,12 +45,15 @@ type
 
   TDriveWatcherObserverList = specialize TFPGList<TDriveWatcherEventNotify>;
 
+  { TDriveWatcher }
+
   TDriveWatcher = class
     class procedure Initialize(Handle: HWND);
     class procedure Finalize;
     class procedure AddObserver(Func: TDriveWatcherEventNotify);
     class procedure RemoveObserver(Func: TDriveWatcherEventNotify);
     class function GetDrivesList: TDrivesList;
+    class function GetUniquePaths: TStringList;
   end;
 
 implementation
@@ -1520,6 +1523,46 @@ begin
   Result := TDrivesList.Create;
 end;
 {$ENDIF}
+
+class function TDriveWatcher.GetUniquePaths: TStringList;
+var
+  I: Integer;
+{$IFDEF UNIX}
+  J: Integer;
+  APath: String;
+{$ENDIF}
+  ADrive: PDrive;
+  Drives: TDrivesList;
+begin
+  Drives:= GetDrivesList;
+  Result:= TStringList.Create;
+  for I:= 0 to Drives.Count - 1 do
+  begin
+    ADrive:= Drives[I];
+    if (ADrive^.IsMounted) and (ADrive^.DriveType <> dtSpecial) and
+       (Length(ADrive^.Path) > 0) and (ADrive^.Path <> PathDelim) then
+    begin
+      Result.Add(ADrive^.Path);
+    end;
+  end;
+  Drives.Free;
+{$IF DEFINED(UNIX)}
+  // Remove a sub-drives
+  for I:= Result.Count - 1 downto 0 do
+  begin
+    APath:= Result[I];
+
+    for J:= Result.Count - 1 downto 0 do
+    begin
+      if IsInPath(Result[J], APath, True, False) then
+      begin
+        Result.Delete(I);
+        Break;
+      end;
+    end;
+  end;
+{$ENDIF}
+end;
 
 {$IFDEF LINUX}
 procedure TFakeClass.OnMountWatcherNotify(Sender: TObject);
