@@ -60,12 +60,12 @@ implementation
 
 uses
   {$IFDEF UNIX}
-  Unix, DCConvertEncoding, uMyUnix, uDebug
+  Unix, DCConvertEncoding, DCStrUtils, uMyUnix, uDebug
    {$IFDEF BSD_not_DARWIN}
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
+   , uUDisks, uUDev, uMountWatcher, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
    , StrUtils, uDarwinFSWatch, uDarwinIO, ExtCtrls
