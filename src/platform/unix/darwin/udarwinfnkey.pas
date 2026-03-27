@@ -58,11 +58,11 @@ begin
       keyCode:= kVK_F2;
     160:
       keyCode:= kVK_F3;
-    128, 129:
+    128, 129, 177:
       keyCode:= kVK_F4;
     176, 179:
       keyCode:= kVK_F5;
-    177, 178, 180:
+    178, 180:
       keyCode:= kVK_F6;
     131:
       keyCode:= kVK_F7;
