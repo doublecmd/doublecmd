@@ -337,7 +337,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="302">
+    <Units Count="303">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2178,6 +2178,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGoogleFileSource"/>
       </Unit301>
+      <Unit302>
+        <Filename Value="platform\unix\darwin\udarwinfnkey.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFNKey"/>
+      </Unit302>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
