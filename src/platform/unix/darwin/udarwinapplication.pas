@@ -279,10 +279,9 @@ begin
   servicesItem:= menu.Items.Find(serviceSubMenuCaption);
   if servicesItem<>nil then
   begin
-    subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
+    subMenu:= NSApp.servicesMenu.copy;
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
     subMenu.release;
-    NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
 end;
 
