@@ -8,9 +8,9 @@ interface
 uses
   Classes, SysUtils, Menus, uLng,
   MacOSAll, CocoaAll,
-  CocoaApplication, CocoaPrivate, CocoaThemes, CocoaMenus,
+  CocoaPrivate, CocoaApplication, CocoaEvent, CocoaThemes, CocoaMenus,
   CocoaUtils, CocoaConst, Cocoa_Extra,
-  uDarwinUtil, uDarwinFinder;
+  uDarwinUtil, uDarwinFinder, uDarwinFNKey;
 
 const
   FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
@@ -53,6 +53,9 @@ type
     class procedure popUpMenuWithServiceSubmenu( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
+  public
+    class procedure installFNKeyTap;
+    class procedure uninstallFNKeyTap;
   public
     class procedure setTheme( const mode: Integer );
   public
@@ -233,6 +236,16 @@ begin
     pboard , nil );
   if ok then
     NSPerformService( NSSTR(serviceName), pboard );
+end;
+
+class procedure TDarwinApplicationUtil.installFNKeyTap;
+begin
+  TCocoaEventTapUtil.installTap( TDarwinFNKeyTap );
+end;
+
+class procedure TDarwinApplicationUtil.uninstallFNKeyTap;
+begin
+  TCocoaEventTapUtil.uninstallTap;
 end;
 
 class procedure TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
