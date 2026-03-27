@@ -341,6 +341,7 @@ var
   gNewFilesPosition: TNewFilesPosition;
   gUpdatedFilesPosition: TUpdatedFilesPosition;
   gLynxLike:Boolean;
+  gForceFunctionKey:Boolean;
   gFirstTextSearch: Boolean;
 
   { File views page }
@@ -1784,6 +1785,7 @@ begin
   gRunTermParams := RunTermParams;
   gOnlyOneAppInstance := False;
   gLynxLike := True;
+  gForceFunctionKey:= False;
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
   gSortSpecial := False;
@@ -2717,6 +2719,7 @@ begin
 
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
       gLynxLike := GetValue(Node, 'LynxLike', gLynxLike);
+      gForceFunctionKey := GetValue(Node, 'ForceFunctionKey', gForceFunctionKey);
       if LoadedConfigVersion < 5 then
       begin
         if GetValue(Node, 'SortCaseSensitive', False) = False then
@@ -3480,6 +3483,7 @@ begin
 
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
+    SetValue(Node, 'ForceFunctionKey', gForceFunctionKey);
     SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
     SetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat));
     SetValue(Node, 'HeaderSizeFormat', Ord(gHeaderSizeFormat));

@@ -128,4 +128,20 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     Caption = 'Le&ft, Right arrows change directory (Lynx-like movement)'
     TabOrder = 1
   end
+  object cbFNKey: TCheckBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbLynxLike
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 18
+    Hint = 'This feature requires additional system permission.'#10#10'Enabling it will automatically guide you to the'#10'System Settings > Privacy & Security > Accessibility Panel.'#10#10'Each time a new version of DC is installed, you must first'#10'remove DC from the list and then add it back in.'
+    Top = 149
+    Width = 295
+    BorderSpacing.Top = 8
+    Caption = 'Force F1, F2, etc. to be treated as function keys'#10'ignore the settings in System Settings > Keyboard'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    Visible = False
+  end
 end

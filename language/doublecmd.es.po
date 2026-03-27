@@ -1620,6 +1620,10 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "A&yuda"
 
+#: tfrmfinddlg.btndrives.caption
+msgid "Drives"
+msgstr ""
+
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -6717,6 +6721,23 @@ msgstr "&Ignorar (no mostrar) los archivos y carpetas siguientes:"
 msgid "&Save in:"
 msgstr "&Guardar en:"
 
+#: tfrmoptionskeyboard.cbfnkey.caption
+msgid ""
+"Force F1, F2, etc. to be treated as function keys\n"
+"ignore the settings in System Settings > Keyboard"
+msgstr ""
+
+#: tfrmoptionskeyboard.cbfnkey.hint
+msgid ""
+"This feature requires additional system permission.\n"
+"\n"
+"Enabling it will automatically guide you to the\n"
+"System Settings > Privacy & Security > Accessibility Panel.\n"
+"\n"
+"Each time a new version of DC is installed, you must first\n"
+"remove DC from the list and then add it back in."
+msgstr ""
+
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
 msgstr "Las &flechas izquierda y derecha cambian de carpeta (como Lynx)"
@@ -10695,6 +10716,10 @@ msgstr "Explorando"
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Buscar archivos"
+
+#: ulng.rsfindselectdrives
+msgid "Select drives"
+msgstr ""
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
