@@ -807,6 +807,7 @@ type
     {$IFDEF DARWIN}
     procedure GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure OpenNewWindow(Sender: TObject);
+    procedure installMacOSFNKeyTap(Sender: TObject; var Done: Boolean);
     {$ENDIF}
 
   protected
@@ -1267,6 +1268,8 @@ begin
 {$IF DEFINED(DARWIN)}
   TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
+  if gForceFunctionKey then
+    Application.OnIdle:= @installMacOSFNKeyTap;
 {$ENDIF}
 end;
 
@@ -7438,6 +7441,12 @@ end;
 procedure TfrmMain.OpenNewWindow(Sender: TObject);
 begin
   TDarwinApplicationUtil.openNewInstance;
+end;
+
+procedure TfrmMain.installMacOSFNKeyTap(Sender: TObject; var Done: Boolean);
+begin
+  TDarwinApplicationUtil.installFNKeyTap;
+  Application.OnIdle:= nil;
 end;
 {$ENDIF}
 
