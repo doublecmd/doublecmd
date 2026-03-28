@@ -1621,7 +1621,7 @@ msgstr "說明 (&H)"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "磁碟"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2877,7 +2877,7 @@ msgstr "依大小排序 (&S)"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
-msgstr ""
+msgstr "開啟磁碟清單"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
@@ -3870,7 +3870,6 @@ msgid "File Path"
 msgstr "檔案路徑"
 
 #: tfrmmultirenamewait.caption
-#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -6804,6 +6803,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"強制將F1、F2等鍵用作標準功能鍵\n"
+"忽略「系統偏好設定 > 鍵盤」中的設定"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6815,6 +6816,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"此功能需要額外的系統權限。\n"
+"\n"
+"啟用此功能將會自動引導至授權設定頁：\n"
+"「系統偏好設定 > 隱私權與安全性 > 輔助使用」\n"
+"\n"
+"以後每次安裝DC新版本，必須先在授權清單中\n"
+"將DC移除，然後再重新加入DC到清單。"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -10830,11 +10838,11 @@ msgstr "尋找檔案"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "選擇磁碟"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr ""
+msgstr "掃描時間: "
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
