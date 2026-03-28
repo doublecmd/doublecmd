@@ -1596,7 +1596,7 @@ msgstr "帮助(&H)"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "驱动器"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -4197,7 +4197,7 @@ msgstr "在此处您可以输入一个或多个驱动器或挂载点，用 \";\"
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
-msgstr "驱动黑名单(&B)"
+msgstr "驱动器黑名单(&B)"
 
 #: tfrmoptionsbriefview.gbcolumns.caption
 msgid "Columns size"
@@ -6651,6 +6651,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"强制将F1、F2等键用作标准功能键\n"
+"忽略【系统偏好设置 > 键盘】中的设定"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6662,6 +6664,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"该功能需要额外的系统权限。\n"
+"\n"
+"启用该功能将会自动引导到授权设置页：\n"
+"【系统偏好设置 > 安全性与隐私 > 辅助功能】\n"
+"\n"
+"以后每次安装DC新版本，必须先在授权列表中\n"
+"将DC移除，然后再重新添加DC到列表。"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -10577,7 +10586,7 @@ msgstr "查找文件"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "选择驱动器"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
