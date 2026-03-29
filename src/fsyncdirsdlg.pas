@@ -938,6 +938,7 @@ begin
   {$IFDEF LCLCOCOA}
   pnlProgress.Color:=clBtnHighlight;
   {$ENDIF}
+  MainDrawGrid.SelectedColor:= gColors.SyncDirs^.SelectedColor;
 
   lblProgress.Caption    := rsOperCopying;
   lblProgressDelete.Caption   := rsOperDeleting;

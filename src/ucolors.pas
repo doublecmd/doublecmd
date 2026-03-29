@@ -75,7 +75,8 @@ type
   TSyncDirsColors = record
     LeftColor,
     RightColor,
-    UnknownColor: TColor;
+    UnknownColor,
+    SelectedColor: TColor;
   end;
   PSyncDirsColors = ^TSyncDirsColors;
 
@@ -295,6 +296,7 @@ begin
     LeftColor:= clGreen;
     RightColor:= clBlue;
     UnknownColor:= clRed;
+    SelectedColor:= clHighlight;
   end;
   with FColors[0].Viewer do
   begin
@@ -544,6 +546,7 @@ begin
     Group.Add('LeftColor', ColorTheme.SyncDirs.LeftColor);
     Group.Add('RightColor', ColorTheme.SyncDirs.RightColor);
     Group.Add('UnknownColor', ColorTheme.SyncDirs.UnknownColor);
+    Group.Add('SelectedColor', ColorTheme.SyncDirs.SelectedColor);
 
     Group:= TJSONObject.Create;
     Theme.Add('Viewer', Group);
@@ -657,6 +660,7 @@ begin
         LeftColor:= Group.Get('LeftColor', LeftColor);
         RightColor:= Group.Get('RightColor', RightColor);
         UnknownColor:= Group.Get('UnknownColor', UnknownColor);
+        SelectedColor:= Group.Get('SelectedColor', SelectedColor);
       end;
       Group:= Theme.Get('Viewer', Empty);
       with ColorTheme.Viewer do
