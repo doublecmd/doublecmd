@@ -2649,6 +2649,10 @@ begin
   Result:= LoadIconThemeBitmap(AIconName, AIconSize);
   if Assigned(Result) then
   begin
+    // LoadIconThemeBitmap takes into account
+    // CanvasScaleFactor, so use scaled icon size here
+    AIconSize := Round(AIconSize * findScaleFactorByFirstForm());
+
     if (Result.Width > AIconSize) or (Result.Height > AIconSize) then
     begin
       ABitmap:= Graphics.TBitmap.Create;
