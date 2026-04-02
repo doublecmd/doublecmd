@@ -707,7 +707,7 @@ object frmViewer: TfrmViewer
         Left = 1
         Height = 28
         Top = 1
-        Width = 32
+        Width = 31
         Action = actReload
         Align = alLeft
         Glyph.Data = {
@@ -786,11 +786,12 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
       object btnPrev1: TSpeedButton
-        Left = 33
+        Left = 32
         Height = 28
         Top = 1
         Width = 24
@@ -872,11 +873,12 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
       object btnNext1: TSpeedButton
-        Left = 57
+        Left = 56
         Height = 28
         Top = 1
         Width = 24
@@ -958,14 +960,15 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
       object btnCopyFile1: TSpeedButton
-        Left = 81
+        Left = 80
         Height = 28
         Top = 1
-        Width = 32
+        Width = 30
         Action = actCopyFile
         Align = alLeft
         Glyph.Data = {
@@ -1044,14 +1047,15 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
       object btnMoveFile1: TSpeedButton
-        Left = 145
+        Left = 140
         Height = 28
         Top = 1
-        Width = 31
+        Width = 30
         Action = actMoveFile
         Align = alLeft
         Glyph.Data = {
@@ -1130,14 +1134,15 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
       object btnDeleteFile1: TSpeedButton
-        Left = 113
+        Left = 110
         Height = 28
         Top = 1
-        Width = 32
+        Width = 30
         Action = actDeleteFile
         Align = alLeft
         Glyph.Data = {
@@ -1216,6 +1221,7 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
+        ImageWidth = 16
         ShowCaption = False
         ParentFont = False
       end
