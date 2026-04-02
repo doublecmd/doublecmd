@@ -363,7 +363,7 @@ procedure TfrmOptionsFileAssoc.UpdateEnabledButtons;
 begin
   if (lbFileTypes.Items.Count = 0) or (lbFileTypes.ItemIndex = -1) then
   begin
-    sbtnIcon.Enabled := False;
+    gbIcon.Enabled := False;
     btnInsertExt.Enabled := False;
     btnAddExt.Enabled := False;
     btnInsertAct.Enabled := False;
@@ -371,11 +371,11 @@ begin
   end
   else
   begin
+    gbIcon.Enabled := True;
     btnInsertExt.Enabled := (lbExts.Items.Count > 0);
     btnAddExt.Enabled := True;
     btnInsertAct.Enabled := (lbExts.Items.Count > 0) and (lbActions.ItemIndex <> -1);
     btnAddAct.Enabled := btnInsertExt.Enabled;
-    sbtnIcon.Enabled := btnInsertExt.Enabled;
   end;
 
   btnRemoveExt.Enabled := ((lbExts.Items.Count <> 0) and (lbExts.ItemIndex <> -1));
