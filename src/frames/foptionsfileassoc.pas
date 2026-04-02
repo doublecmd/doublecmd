@@ -615,7 +615,8 @@ end;
 { TfrmOptionsFileAssoc.lbFileTypesDrawItem }
 procedure TfrmOptionsFileAssoc.lbFileTypesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
 var
-  iDrawTop: integer;
+  iDrawTop: Integer;
+  AStyle: TTextStyle;
 begin
   with (Control as TListBox) do
   begin
@@ -640,13 +641,16 @@ begin
       Canvas.FillRect(ARect);
     end;
 
+    AStyle:= Canvas.TextStyle;
+    AStyle.Layout:= tlCenter;
+    Canvas.TextRect(ARect, gIconsSize + 6, 0, Items[Index], AStyle);
+
     if (Canvas.Locked = False) and (Assigned(Items.Objects[Index])) then
     begin
-      iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - gIconsSize) div 2);
-      Canvas.Draw(ARect.Left + 2, iDrawTop, TBitmap(Items.Objects[Index]));
+      iDrawTop := ARect.Top + ((ARect.Height - gIconsSize) div 2);
+      ARect:= Classes.Bounds(ARect.Left + 2, iDrawTop, gIconsSize, gIconsSize);
+      Canvas.StretchDraw(ARect, TBitmap(Items.Objects[Index]));
     end;
-    iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - Canvas.TextHeight(Items[Index])) div 2);
-    Canvas.TextOut(ARect.Left + gIconsSize + 6, iDrawTop, Items[Index]);
   end;
 end;
 
