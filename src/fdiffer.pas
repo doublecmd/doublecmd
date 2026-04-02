@@ -1464,6 +1464,7 @@ begin
   if gModernUI and TDarwinApplicationUtil.supportsModernForm then
     ToolBar.Hide;
 {$ENDIF}
+  contextMenu.ImagesWidth:= gIconsInMenusSize;
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);
