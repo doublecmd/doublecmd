@@ -652,6 +652,7 @@ begin
   if gModernUI and TDarwinApplicationUtil.supportsModernForm then
     tbToolBar.Hide;
 {$ENDIF}
+  pmContextMenu.ImagesWidth:= gIconsInMenusSize;
 end;
 
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,
