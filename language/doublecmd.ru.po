@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.3.0 alpha\n"
-"POT-Creation-Date: 2026-01-15 09:30+0300\n"
-"PO-Revision-Date: 2026-01-15 19:30+0300\n"
+"POT-Creation-Date: 2026-03-27 12:00+0300\n"
+"PO-Revision-Date: 2026-03-27 13:29+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1621,7 +1621,7 @@ msgstr "Помощ&ь"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "Диски"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -6818,6 +6818,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"Обрабатывать F1, F2 и т.д. как функциональные клавиши,"
+"игнорируя настройки в Системные настройки > Клавиатура"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6829,6 +6831,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"Для этой функции требуется дополнительное системное разрешение.\n"
+"\n"
+"Включение этой функции автоматически перенаправит вас в\n"
+"Системные настройки > Конфиденциальность и безопасность > Универсальный доступ.\n"
+"\n"
+"При установке новой версии DC необходимо сначала удалить DC\n"
+"из списка, а затем добавить его обратно."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -10844,7 +10853,7 @@ msgstr "Поиск файлов"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "Выберите диски"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
