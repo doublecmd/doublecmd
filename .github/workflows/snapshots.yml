@@ -107,6 +107,7 @@ jobs:
         file_glob: true
 
   build-lin:
+    needs: build-win
     runs-on: ubuntu-22.04
     environment: snapshots
     steps:
