@@ -3244,6 +3244,7 @@ msgid "Select all categories by default"
 msgstr "기본적으로 모든 범주 선택"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "선택:"
 
@@ -4317,6 +4318,12 @@ msgstr "수정 날짜:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "오른쪽:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "선택:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"

@@ -3269,6 +3269,7 @@ msgid "Select all categories by default"
 msgstr "Jako výchozí, vybrat všechny kategorie"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Vybráno:"
 
@@ -4350,6 +4351,12 @@ msgstr "Poslední změna:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Vybráno:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 #, fuzzy

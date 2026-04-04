@@ -3252,6 +3252,7 @@ msgid "Select all categories by default"
 msgstr "Označiť ako predvolené všetky kategórie"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Výber:"
 
@@ -4325,6 +4326,12 @@ msgstr "Upravený:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Pravý:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Výber:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"

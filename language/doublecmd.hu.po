@@ -3252,6 +3252,7 @@ msgid "Select all categories by default"
 msgstr "Minden kategória kijelölése alapértelmezésként"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Kiválasztás:"
 
@@ -4327,6 +4328,12 @@ msgstr "Módosított:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Jobb:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Kiválasztás:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"

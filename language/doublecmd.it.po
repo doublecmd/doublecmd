@@ -3254,6 +3254,7 @@ msgid "Select all categories by default"
 msgstr "Seleziona tutte le categorie come impostazione predefinita"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Selezione:"
 
@@ -4329,6 +4330,12 @@ msgstr "Modificato:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Destra:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Selezione:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
