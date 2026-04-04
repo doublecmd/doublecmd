@@ -198,6 +198,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Width = 38
           BorderSpacing.Top = 2
           BorderSpacing.Bottom = 4
+          ImageWidth = 32
           OnClick = sbtnIconClick
         end
         object btnRelativePathIcon: TSpeedButton
