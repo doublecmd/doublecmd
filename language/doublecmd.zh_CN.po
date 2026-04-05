@@ -4319,7 +4319,6 @@ msgid "Right:"
 msgstr "右边："
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
 msgstr "选择："
