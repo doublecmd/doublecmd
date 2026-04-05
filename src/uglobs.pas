@@ -3214,6 +3214,10 @@ begin
       gCustomIcons := TCustomIconsMode(GetValue(Node, 'CustomIcons', Integer(gCustomIcons)));
       gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
       gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
+      if gIconsInMenus then
+        Application.ShowMenuGlyphs:= sbgAlways
+      else
+        Application.ShowMenuGlyphs:= sbgNever;
       Application.ShowButtonGlyphs := TApplicationShowGlyphs(GetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs)));
     end;
 
