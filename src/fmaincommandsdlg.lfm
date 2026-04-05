@@ -346,6 +346,7 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
         Width = 32
         BorderSpacing.Top = 3
         BorderSpacing.Right = 10
+        Stretch = True
         OnDblClick = lbCommandsDblClick
       end
     end
