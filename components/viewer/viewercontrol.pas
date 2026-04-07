@@ -425,7 +425,7 @@ type
     function DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelLeft(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelRight(Shift: TShiftState; MousePos: TPoint): Boolean; override;
-
+    procedure DoShowCaret;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -652,6 +652,7 @@ end;
 procedure TViewerControl.Paint;
 var
   AText: String;
+  oldTextHeight: Integer;
 begin
   if not IsFileOpen then
   begin
@@ -672,7 +673,11 @@ begin
   Canvas.FillRect(ClientRect);
   {$ENDIF}
   Canvas.Brush.Style := bsClear;
+
+  oldTextHeight:= FTextHeight;
   FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
+  if oldTextHeight <> FTextHeight then
+    DoShowCaret;
 
   if FViewerControlMode = vcmBook then
     FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
@@ -947,11 +952,7 @@ end;
 procedure TViewerControl.WMSetFocus(var Message: TLMSetFocus);
 begin
   if FShowCaret then
-  begin
-    LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
-    LCLIntf.ShowCaret(Handle);
-    FCaretVisible:= True;
-  end;
+    DoShowCaret;
 end;
 
 procedure TViewerControl.WMKillFocus(var Message: TLMKillFocus);
@@ -970,7 +971,8 @@ begin
   if HandleAllocated then
   begin
     FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
-    if FShowCaret then LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+    if FShowCaret then
+      DoShowCaret;
   end;
 end;
 
@@ -2158,20 +2160,23 @@ begin
     FShowCaret:= AValue;
 
     if HandleAllocated then
-    begin
-      if FShowCaret then
-      begin
-        LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
-        LCLIntf.ShowCaret(Handle);
-        FCaretVisible:= True;
-        Invalidate;
-      end
-      else begin
-        FCaretVisible:= False;
-        LCLIntf.HideCaret(Handle);
-        LCLIntf.DestroyCaret(Handle);
-      end;
-    end;
+      DoShowCaret;
+  end;
+end;
+
+procedure TViewerControl.DoShowCaret;
+begin
+  if FShowCaret then
+  begin
+    LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+    LCLIntf.ShowCaret(Handle);
+    FCaretVisible:= True;
+    Invalidate;
+  end
+  else begin
+    FCaretVisible:= False;
+    LCLIntf.HideCaret(Handle);
+    LCLIntf.DestroyCaret(Handle);
   end;
 end;
 
