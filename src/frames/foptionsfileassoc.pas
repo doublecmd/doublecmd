@@ -31,7 +31,7 @@ uses
   ExtCtrls, EditBtn, ExtDlgs, Menus, ActnList, Types,
 
   //DC
-  uGlobs, uExts, fOptionsFrame;
+  KASControls, uGlobs, uExts, fOptionsFrame;
 
 type
 
@@ -62,7 +62,7 @@ type
     edIconFileName: TEdit;
     edtParams: TEdit;
     fneCommand: TFileNameEdit;
-    gbActionDescription: TGroupBox;
+    gbActionDescription: TKASGroupBox;
     gbFileTypes: TGroupBox;
     gbIcon: TGroupBox;
     gbExts: TGroupBox;

@@ -7,7 +7,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
   ClientWidth = 519
   ParentShowHint = False
   ShowHint = True
-  object gbRunInTerminalStayOpen: TGroupBox[0]
+  object gbRunInTerminalStayOpen: TKASGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -23,8 +23,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 6
-    ChildSizing.EnlargeVertical = crsSameSize
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -81,7 +80,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       TabOrder = 1
     end
   end
-  object gbRunInTerminalClose: TGroupBox[1]
+  object gbRunInTerminalClose: TKASGroupBox[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbRunInTerminalStayOpen
     AnchorSideTop.Side = asrBottom
@@ -98,8 +97,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 6
-    ChildSizing.EnlargeVertical = crsSameSize
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -156,7 +154,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       ParentColor = False
     end
   end
-  object gbJustRunTerminal: TGroupBox[2]
+  object gbJustRunTerminal: TKASGroupBox[2]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbRunInTerminalClose
     AnchorSideTop.Side = asrBottom
@@ -173,8 +171,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 6
-    ChildSizing.EnlargeVertical = crsSameSize
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503

@@ -27,7 +27,7 @@ unit fOptionsKeyboard;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls,
+  Classes, SysUtils, StdCtrls, KASControls,
   fOptionsFrame;
 
 type
@@ -39,7 +39,7 @@ type
     cbNoModifier: TComboBox;
     cbAlt: TComboBox;
     cbCtrlAlt: TComboBox;
-    gbTyping: TGroupBox;
+    gbTyping: TKASGroupBox;
     lblNoModifier: TLabel;
     lblAlt: TLabel;
     lblCtrlAlt: TLabel;
@@ -73,7 +73,6 @@ begin
   ParseLineToList(rsOptLetters, cbNoModifier.Items);
   cbAlt.Items.Assign(cbNoModifier.Items);
   cbCtrlAlt.Items.Assign(cbNoModifier.Items);
-  AlignControlsEx(gbTyping, cbNoModifier, lblNoModifier);
 end;
 
 procedure TfrmOptionsKeyboard.Load;
