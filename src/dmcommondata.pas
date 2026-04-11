@@ -30,10 +30,6 @@ uses
 
 type
 
-  { TImageList }
-
-  TImageList = class(Controls.TImageList);
-
   { TdmComData }
 
   TdmComData = class(TDataModule)
@@ -184,8 +180,6 @@ begin
     end;
   end;
 
-  I:= AResolutions2[0];
-  Images.SetWidthHeight(I, I);
   Images.RegisterResolutions(AResolutions2);
 
   for AName in ANames do
