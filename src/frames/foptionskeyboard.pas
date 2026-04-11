@@ -27,7 +27,7 @@ unit fOptionsKeyboard;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls,
+  Classes, SysUtils, StdCtrls, KASControls,
 {$IFDEF DARWIN}
   uDarwinApplication,
 {$ENDIF}
@@ -43,7 +43,7 @@ type
     cbAlt: TComboBox;
     cbCtrlAlt: TComboBox;
     cbFNKey: TCheckBox;
-    gbTyping: TGroupBox;
+    gbTyping: TKASGroupBox;
     lblNoModifier: TLabel;
     lblAlt: TLabel;
     lblCtrlAlt: TLabel;
@@ -90,7 +90,6 @@ begin
   ParseLineToList(rsOptLetters, cbNoModifier.Items);
   cbAlt.Items.Assign(cbNoModifier.Items);
   cbCtrlAlt.Items.Assign(cbNoModifier.Items);
-  AlignControlsEx(gbTyping, cbNoModifier, lblNoModifier);
 {$IFDEF DARWIN}
   cbFNKey.Visible:= True;
   cbFNKey.OnChange:= @cbFNKeyChange;

@@ -27,7 +27,7 @@ interface
 
 uses
   uTypes, Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
-  fOptionsFrame;
+  KASControls, fOptionsFrame;
 
 type
 
@@ -50,8 +50,8 @@ type
     edMega: TEdit;
     edGiga: TEdit;
     edTera: TEdit;
-    gbFormatting: TGroupBox;
-    gbSorting: TGroupBox;
+    gbFormatting: TKASGroupBox;
+    gbSorting: TKASGroupBox;
     gbPersonalizedAbbreviationToUse: TGroupBox;
     lblByte: TLabel;
     lblKilobyte: TLabel;
@@ -154,8 +154,6 @@ begin
   begin
     cbDateTimeFormat.Items.Insert(0, DefaultDateTimeFormat);
   end;
-  AlignControlsEx(gbSorting, cbCaseSensitivity, lblCaseSensitivity);
-  AlignControlsEx(gbFormatting, cbFileSizeFormat, lblFileSizeFormat);
 end;
 
 procedure TfrmOptionsFilesViews.Load;

@@ -7,7 +7,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
   ClientHeight = 223
   ClientWidth = 429
   DesignTop = 20
-  object gbTyping: TGroupBox[0]
+  object gbTyping: TKASGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -21,7 +21,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     Caption = 'Typing'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 89
@@ -35,6 +35,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = '&Letters:'
       FocusControl = cbNoModifier
+      Layout = tlCenter
       ParentColor = False
     end
     object cbNoModifier: TComboBox
@@ -68,6 +69,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = 'Alt+L&etters:'
       FocusControl = cbAlt
+      Layout = tlCenter
       ParentColor = False
     end
     object lblCtrlAlt: TLabel
@@ -78,6 +80,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = 'Ctrl+Alt+Le&tters:'
       FocusControl = cbCtrlAlt
+      Layout = tlCenter
       ParentColor = False
     end
     object cbAlt: TComboBox

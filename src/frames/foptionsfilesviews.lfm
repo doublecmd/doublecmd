@@ -6,7 +6,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
   ClientWidth = 640
   DesignLeft = 200
   DesignTop = 261
-  object gbSorting: TGroupBox[0]
+  object gbSorting: TKASGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -22,7 +22,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 143
     ClientWidth = 624
@@ -35,6 +35,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 104
       Caption = '&Sort method:'
       FocusControl = cbSortMethod
+      Layout = tlCenter
       ParentColor = False
     end
     object cbSortMethod: TComboBox
@@ -65,6 +66,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 104
       Caption = 'Case s&ensitivity:'
       FocusControl = cbCaseSensitivity
+      Layout = tlCenter
       ParentColor = False
     end
     object cbCaseSensitivity: TComboBox
@@ -96,6 +98,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 104
       Caption = 'So&rting directories:'
       FocusControl = cbSortFolderMode
+      Layout = tlCenter
       ParentColor = False
     end
     object cbSortFolderMode: TComboBox
@@ -127,6 +130,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 104
       Caption = '&Insert new files:'
       FocusControl = cbNewFilesPosition
+      Layout = tlCenter
       ParentColor = False
     end
     object cbNewFilesPosition: TComboBox
@@ -153,6 +157,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 104
       Caption = '&Move updated files:'
       FocusControl = cbUpdatedFilesPosition
+      Layout = tlCenter
       ParentColor = False
     end
     object cbUpdatedFilesPosition: TComboBox
@@ -173,7 +178,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       TabOrder = 4
     end
   end
-  object gbFormatting: TGroupBox[1]
+  object gbFormatting: TKASGroupBox[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbSorting
     AnchorSideTop.Side = asrBottom
@@ -190,7 +195,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 116
     ClientWidth = 624
@@ -203,6 +208,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 117
       Caption = '&Date and time format:'
       FocusControl = cbDateTimeFormat
+      Layout = tlCenter
       ParentColor = False
     end
     object cbFileSizeFormat: TComboBox
@@ -230,6 +236,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 117
       Caption = 'File si&ze format:'
       FocusControl = cbFileSizeFormat
+      Layout = tlCenter
       ParentColor = False
     end
     object pnlDateTime: TPanel
@@ -311,6 +318,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 148
       Caption = '&Header format:'
       FocusControl = cbHeaderSizeFormat
+      Layout = tlCenter
       ParentColor = False
     end
     object cbHeaderSizeFormat: TComboBox
@@ -370,6 +378,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 148
       Caption = '&Footer format:'
       FocusControl = cbFooterSizeFormat
+      Layout = tlCenter
       ParentColor = False
     end
     object cbFooterSizeFormat: TComboBox
@@ -496,6 +505,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Width = 117
       Caption = 'O&peration size format:'
       FocusControl = cbOperationSizeFormat
+      Layout = tlCenter
       ParentColor = False
     end
   end
