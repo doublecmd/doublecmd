@@ -26,8 +26,8 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="9" Release="5"/>
-    <Files Count="11">
+    <Version Major="1" Minor="10"/>
+    <Files Count="12">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -82,6 +82,11 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASComCtrls"/>
       </Item11>
+      <Item12>
+        <Filename Value="kascontrols.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="kascontrols"/>
+      </Item12>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">
