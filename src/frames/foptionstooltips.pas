@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, DividerBevel, Forms, Controls, StdCtrls, Buttons,
-  Menus, ExtCtrls, Dialogs, fOptionsFrame, uInfoToolTip;
+  Menus, ExtCtrls, Dialogs, KASButton, fOptionsFrame, uInfoToolTip;
 
 type
 
@@ -53,7 +53,7 @@ type
     bvlToolTips1: TDividerBevel;
     lblFieldsMask: TLabel;
     edtFieldsMask: TEdit;
-    btnFieldsSearchTemplate: TBitBtn;
+    btnFieldsSearchTemplate: TKASButton;
     lblFieldsList: TLabel;
     memFieldsList: TMemo;
     btnFieldsList: TButton;
@@ -78,6 +78,7 @@ type
     procedure LoadThisHintWithThisMemo(var sHint: string);
     procedure ActualSaveCurrentToolTips;
     procedure edtAnyChange({%H-}Sender: TObject);
+    procedure edtFieldsMaskChangeBounds({%H-}Sender: TObject);
     procedure SetConfigurationState(bConfigurationSaved: boolean);
     procedure chkShowToolTipChange(Sender: TObject);
     procedure lsbCustomFieldsSelectionChange({%H-}Sender: TObject; {%H-}User: boolean);
@@ -308,6 +309,11 @@ begin
   if not bCurrentlyLoadingSettings then
     if lsbCustomFields.Enabled then
       SetConfigurationState(CONFIG_NOTSAVED);
+end;
+
+procedure TfrmOptionsToolTips.edtFieldsMaskChangeBounds(Sender: TObject);
+begin
+  btnFieldsSearchTemplate.Constraints.MinWidth:= edtFieldsMask.Height;
 end;
 
 { TfrmOptionsToolTips.SetConfigurationState }

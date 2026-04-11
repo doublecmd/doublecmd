@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, KASComboBox, Dialogs, Buttons,
-  LMessages, fOptionsFrame;
+  LMessages, KASButton, fOptionsFrame;
 
 type
 
@@ -37,7 +37,7 @@ type
   TfrmOptionsFileTypesColors = class(TOptionsEditor)
     btnAddCategory: TBitBtn;
     btnDeleteCategory: TBitBtn;
-    btnSearchTemplate: TBitBtn;
+    btnSearchTemplate: TKASButton;
     cbCategoryColor: TKASColorBoxButton;
     edtCategoryAttr: TEdit;
     edtCategoryMask: TEdit;
@@ -52,6 +52,7 @@ type
     procedure cbCategoryColorChange(Sender: TObject);
     procedure edtCategoryAttrChange(Sender: TObject);
     procedure edtCategoryMaskChange(Sender: TObject);
+    procedure edtCategoryMaskChangeBounds(Sender: TObject);
     procedure edtCategoryNameChange(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure btnAddCategoryClick(Sender: TObject);
@@ -97,6 +98,11 @@ procedure TfrmOptionsFileTypesColors.edtCategoryMaskChange(Sender: TObject);
 begin
   if lbCategories.ItemIndex < 0 then Exit;
   TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]).sExt:= edtCategoryMask.Text;
+end;
+
+procedure TfrmOptionsFileTypesColors.edtCategoryMaskChangeBounds(Sender: TObject);
+begin
+  btnSearchTemplate.Constraints.MinWidth:= edtCategoryMask.Height;
 end;
 
 procedure TfrmOptionsFileTypesColors.edtCategoryAttrChange(Sender: TObject);
