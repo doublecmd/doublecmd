@@ -3302,6 +3302,7 @@ msgid "Select all categories by default"
 msgstr "Означи све врсте подразумевано"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Избор:"
 
@@ -4399,6 +4400,12 @@ msgstr "Измењено:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Избор:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 #, fuzzy

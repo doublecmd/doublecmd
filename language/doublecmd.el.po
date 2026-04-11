@@ -3303,6 +3303,7 @@ msgid "Select all categories by default"
 msgstr "Επιλογή όλων των κατηγοριών εξ' ορισμού"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Επιλογή:"
 
@@ -4393,6 +4394,12 @@ msgstr "Τροποποιήθηκε:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Δεξιά:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Επιλογή:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"

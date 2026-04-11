@@ -3239,6 +3239,7 @@ msgid "Select all categories by default"
 msgstr "默认选择所有类别"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "选择："
 
@@ -4312,6 +4313,12 @@ msgstr "修改时间："
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "右边："
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "选择："
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"

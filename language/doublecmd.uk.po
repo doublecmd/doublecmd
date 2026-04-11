@@ -3318,6 +3318,7 @@ msgid "Select all categories by default"
 msgstr "Вибрати всі категорії за замовчуванням"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Виділена:"
 
@@ -4418,6 +4419,12 @@ msgstr "Змінений:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Виділена:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 #, fuzzy

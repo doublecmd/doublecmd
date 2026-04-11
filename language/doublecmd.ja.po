@@ -3312,6 +3312,7 @@ msgid "Select all categories by default"
 msgstr "デフォルトではすべてのカテゴリを選択"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "選択："
 
@@ -4410,6 +4411,12 @@ msgstr "修正済み："
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "選択："
 
 #: tfrmoptionscolors.lblsuccess.caption
 #, fuzzy

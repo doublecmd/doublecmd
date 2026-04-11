@@ -3498,6 +3498,7 @@ msgid "Select all categories by default"
 msgstr "Odabiranje svih kategorije prema zadanim postavkama"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Izbor"
 
@@ -4626,6 +4627,12 @@ msgstr "Izmjenjeno:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Izbor"
 
 #: tfrmoptionscolors.lblsuccess.caption
 #, fuzzy

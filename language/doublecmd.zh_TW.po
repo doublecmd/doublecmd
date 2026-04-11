@@ -3288,6 +3288,7 @@ msgid "Select all categories by default"
 msgstr ""
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr ""
 
@@ -3866,9 +3867,10 @@ msgid "File Path"
 msgstr "檔案路徑"
 
 #: tfrmmultirenamewait.caption
+#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
@@ -4377,6 +4379,11 @@ msgstr "修改時間:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
+msgstr ""
+
+#: tfrmoptionscolors.lblselection.caption
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
 msgstr ""
 
 #: tfrmoptionscolors.lblsuccess.caption
