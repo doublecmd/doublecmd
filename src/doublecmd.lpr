@@ -49,6 +49,9 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT6}
   uQtWSControls,
+  {$IFNDEF LCL_VER_499}
+  uQtWSButtons,
+  {$ENDIF}
   {$ENDIF}
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
