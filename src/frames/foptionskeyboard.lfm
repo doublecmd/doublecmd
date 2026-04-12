@@ -21,7 +21,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     Caption = 'Typing'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 89
