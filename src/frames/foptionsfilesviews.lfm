@@ -22,7 +22,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 143
     ClientWidth = 624
@@ -195,7 +195,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 116
     ClientWidth = 624

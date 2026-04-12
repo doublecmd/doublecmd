@@ -23,7 +23,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -97,7 +97,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
@@ -171,7 +171,7 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 4
-    ChildSizing.VerticalSpacing = 2
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 62
     ClientWidth = 503
