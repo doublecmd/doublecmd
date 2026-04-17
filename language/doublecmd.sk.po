@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.30g\n"
+"Project-Id-Version: Double Commander 1.2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-11-30 00:27+0100\n"
+"PO-Revision-Date: 2026-04-17 22:13+0200\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Slovenčina\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -512,32 +512,24 @@ msgid "Cancel"
 msgstr "Zrušiť"
 
 #: tfrmdiffer.actcopylefttoright.caption
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
 msgid "Copy Block To Right"
-msgstr "Kopírovať blok vpravo"
+msgstr "Kopírovať blok do prava"
 
 #: tfrmdiffer.actcopylefttoright.hint
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block From Left To Right"
-msgstr "Kopírovať blok vpravo"
+msgstr "Kopírovať blok zľava do prava"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
 msgid "Copy Block To Left"
-msgstr "Kopírovať blok vľavo"
+msgstr "Kopírovať blok do ľava"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block From Right To Left"
-msgstr "Kopírovať blok vľavo"
+msgstr "Kopírovať blok sprava do ľava"
 
 #: tfrmdiffer.acteditcopy.caption
 msgctxt "tfrmdiffer.acteditcopy.caption"
@@ -1605,7 +1597,7 @@ msgstr "&Pomoc"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "Disky"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2493,7 +2485,7 @@ msgstr "Vytvoriť priečinok"
 
 #: tfrmmain.actmapnetworkdrive.caption
 msgid "Map Network Drive..."
-msgstr "Namapovať sieťovú jednotku..."
+msgstr "Pripojiť sieťový disk..."
 
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
@@ -4328,7 +4320,6 @@ msgid "Right:"
 msgstr "Pravý:"
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
 msgstr "Výber:"
@@ -6668,6 +6659,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"Nastaviť klávesy F1, F2 atď. tak, aby sa správali ako funkčné klávesy\n"
+"ignorovať nastavenia v časti Systémové nastavenia > Klávesnica"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6679,6 +6672,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"Táto funkcia vyžaduje dodatočné systémové oprávnenie.\n"
+"\n"
+"Po jej aktivácii budete automaticky nasmerovaní do\n"
+"Nastavenia systému > Súkromie a bezpečnosť > Panel prístupnosti.\n"
+"\n"
+"Pri každej inštalácii novej verzie DC musíte najskôr\n"
+"odstrániť DC zo zoznamu a potom ho znova pridať."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7348,7 +7348,7 @@ msgstr "Na kartách zobraziť tlačidlo zavrieť"
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
-msgstr "Vždy zobraziť písmeno jednotky v názve karty"
+msgstr "Vždy zobraziť písmeno disku v názve karty"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
@@ -10337,7 +10337,7 @@ msgstr "Formát rozšíreného textu;HTML formát;Unicode formát;Formát jednod
 
 #: ulng.rsdrivefreespaceindicator
 msgid "Drive Free Space Indicator"
-msgstr "Indikátor Voľného Miesta na Disku"
+msgstr "Indikátor voľného miesta na disku"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10594,7 +10594,7 @@ msgstr "Hľadať súbory"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "Vybrať disky"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
@@ -10894,10 +10894,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL adresa:\n"
+"(napr. smb://server/share; https://dav.server.com; nfs://server/cesta)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS ..."
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11017,22 +11020,22 @@ msgstr "Vyhľadávač"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "Späť"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "Späť"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "Dopredu"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "Dopredu"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -14447,4 +14450,3 @@ msgstr "Žiadne nahradenie nebolo vykonané."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Žiadne nastavenie s názvom \"%s\""
-
