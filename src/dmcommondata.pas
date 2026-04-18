@@ -136,7 +136,8 @@ const
     'choose-encoding'
   );
 
-  ButtonNames: array[0..1] of String = (
+  ButtonNames: array[0..2] of String = (
+    'list-add',
     'choose-filter',
     'choose-variable'
   );
@@ -178,7 +179,7 @@ begin
   begin
     // GetThemeIcon takes into account
     // CanvasScaleFactor, so use original icon size here
-    ABitmap:= PixMapManager.GetThemeIcon(AName, Images.Width);
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, AName, Images.Width);
     if (ABitmap = nil) then ABitmap:= TBitmap.Create;
 
     Images.AddMultipleResolutions([ABitmap]);
