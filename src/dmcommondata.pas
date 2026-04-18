@@ -136,10 +136,11 @@ const
     'choose-encoding'
   );
 
-  ButtonNames: array[0..2] of String = (
+  ButtonNames: array[0..3] of String = (
     'list-add',
     'choose-filter',
-    'choose-variable'
+    'choose-variable',
+    'open-picture-dialog'
   );
 
 type
