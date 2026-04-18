@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Control like TButton which does not steal focus on click
 
-    Copyright (C) 2021-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2021-2026 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Themes, Types;
+  Buttons, Themes, Types, ImgList;
 
 type
 
@@ -38,10 +38,18 @@ type
     FState: TButtonState;
     FShowCaption: Boolean;
     FButtonGlyph: TButtonGlyph;
+    FImageChangeLink: TChangeLink;
+  private
     function GetGlyph: TBitmap;
+    function GetImageWidth: Integer;
     function IsGlyphStored: Boolean;
     procedure SetGlyph(AValue: TBitmap);
+    function GetImageIndex: TImageIndex;
+    function GetImages: TCustomImageList;
+    procedure SetImageWidth(AValue: Integer);
     procedure SetShowCaption(AValue: Boolean);
+    procedure SetImageIndex(AValue: TImageIndex);
+    procedure SetImages(AValue: TCustomImageList);
     function GetDrawDetails: TThemedElementDetails;
   protected
     procedure Paint; override;
@@ -54,7 +62,9 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
   protected
+    function GetGlyphSize: TSize;
     procedure GlyphChanged(Sender: TObject);
+    procedure ImageListChange(Sender: TObject);
     class function GetControlClassDefaultSize: TSize; override;
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer; WithThemeSpace: Boolean); override;
@@ -63,6 +73,9 @@ type
     destructor Destroy; override;
   published
     property Action;
+    property Images: TCustomImageList read GetImages write SetImages;
+    property ImageIndex: TImageIndex read GetImageIndex write SetImageIndex default -1;
+    property ImageWidth: Integer read GetImageWidth write SetImageWidth default 0;
     property Glyph: TBitmap read GetGlyph write SetGlyph stored IsGlyphStored;
     property ShowCaption: Boolean read FShowCaption write SetShowCaption default True;
   end;
@@ -72,7 +85,7 @@ procedure Register;
 implementation
 
 uses
-  LCLType, LCLProc, LCLIntf, ActnList;
+  LCLType, LCLProc, LCLIntf, ActnList, GraphType;
 
 procedure Register;
 begin
@@ -125,6 +138,21 @@ begin
   Result:= FButtonGlyph.Glyph;
 end;
 
+function TKASButton.GetImageIndex: TImageIndex;
+begin
+  Result:= FButtonGlyph.ExternalImageIndex;
+end;
+
+function TKASButton.GetImages: TCustomImageList;
+begin
+  Result:= FButtonGlyph.ExternalImages;
+end;
+
+function TKASButton.GetImageWidth: Integer;
+begin
+  Result:= FButtonGlyph.ExternalImageWidth;
+end;
+
 function TKASButton.IsGlyphStored: Boolean;
 var
   Act: TCustomAction;
@@ -148,11 +176,41 @@ begin
   AdjustSize;
 end;
 
+procedure TKASButton.SetImageIndex(AValue: TImageIndex);
+begin
+  FButtonGlyph.ExternalImageIndex:= AValue;
+end;
+
+procedure TKASButton.SetImages(AValue: TCustomImageList);
+begin
+  if FButtonGlyph.ExternalImages <> nil then
+  begin
+    FButtonGlyph.ExternalImages.UnRegisterChanges(FImageChangeLink);
+    FButtonGlyph.ExternalImages.RemoveFreeNotification(Self);
+  end;
+  FButtonGlyph.ExternalImages := AValue;
+  if FButtonGlyph.ExternalImages <> nil then
+  begin
+    FButtonGlyph.ExternalImages.FreeNotification(Self);
+    FButtonGlyph.ExternalImages.RegisterChanges(FImageChangeLink);
+  end;
+  InvalidatePreferredSize;
+  AdjustSize;
+end;
+
+procedure TKASButton.SetImageWidth(AValue: Integer);
+begin
+  FButtonGlyph.ExternalImageWidth:= AValue;
+  InvalidatePreferredSize;
+  AdjustSize;
+end;
+
 procedure TKASButton.Paint;
 var
   APoint: TPoint;
   SysFont: TFont;
   PaintRect: TRect;
+  AGlyphSize: TSize;
   TextFlags: Integer;
   Details: TThemedElementDetails;
 begin
@@ -181,11 +239,15 @@ begin
       DrawText(Canvas.Handle, PChar(Caption), Length(Caption), PaintRect, TextFlags);
     end;
   end
-  else if not FButtonGlyph.Glyph.Empty then
-  begin
-    APoint.X:= (PaintRect.Width - FButtonGlyph.Width) div 2;
-    APoint.Y:= (PaintRect.Height - FButtonGlyph.Height) div 2;
-    FButtonGlyph.Draw(Canvas, PaintRect, APoint, FState, True, 0);
+  else begin
+    AGlyphSize:= GetGlyphSize;
+
+    if (AGlyphSize.CX > 0) and (AGlyphSize.CY > 0) then
+    begin
+      APoint.X:= (PaintRect.Width - AGlyphSize.CX) div 2;
+      APoint.Y:= (PaintRect.Height - AGlyphSize.CY) div 2;
+      FButtonGlyph.Draw(Canvas, PaintRect, APoint, FState, True, 0, Font.PixelsPerInch, GetCanvasScaleFactor);
+    end;
   end;
 end;
 
@@ -240,10 +302,35 @@ begin
   Invalidate;
 end;
 
+function TKASButton.GetGlyphSize: TSize;
+var
+  AIndex: Integer;
+  AEffect: TGraphicsDrawEffect;
+  AImageRes: TScaledImageListResolution;
+begin
+  if (FButtonGlyph.Glyph.Empty) and ((Images = nil) or (ImageIndex = -1)) then
+  begin
+    Result.CX:= 0;
+    Result.CY:= 0;
+    Exit;
+  end;
+
+  FButtonGlyph.GetImageIndexAndEffect(Low(TButtonState), Font.PixelsPerInch,
+                                      GetCanvasScaleFactor, AImageRes, AIndex, AEffect);
+
+  Result.CX:= AImageRes.Width;
+  Result.CY:= AImageRes.Height;
+end;
+
 procedure TKASButton.GlyphChanged(Sender: TObject);
 begin
   InvalidatePreferredSize;
   AdjustSize;
+end;
+
+procedure TKASButton.ImageListChange(Sender: TObject);
+begin
+  if Sender = Images then Invalidate;
 end;
 
 class function TKASButton.GetControlClassDefaultSize: TSize;
@@ -272,18 +359,21 @@ procedure TKASButton.CalculatePreferredSize(var PreferredWidth,
 var
   PaintRect: TRect;
   ClientRect: TRect;
+  AGlyphSize: TSize;
   Details: TThemedElementDetails;
 begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
 
-  if (not FButtonGlyph.Glyph.Empty) then
+  AGlyphSize:= GetGlyphSize;
+
+  if (AGlyphSize.CX > 0) and (AGlyphSize.CY > 0) then
   begin
     Details:= GetDrawDetails;
     PaintRect:= TRect.Create(0, 0, 32, 32);
     ClientRect:= ThemeServices.ContentRect(Canvas.Handle, Details, PaintRect);
 
-    PreferredWidth:= Abs(PaintRect.Width - ClientRect.Width) + FButtonGlyph.Width;
-    PreferredHeight:= Abs(PaintRect.Height - ClientRect.Height) + FButtonGlyph.Height;
+    PreferredWidth:= Abs(PaintRect.Width - ClientRect.Width) + AGlyphSize.CX;
+    PreferredHeight:= Abs(PaintRect.Height - ClientRect.Height) + AGlyphSize.CY;
   end;
 end;
 
@@ -296,6 +386,9 @@ begin
   FButtonGlyph.OnChange := GlyphChanged;
   FButtonGlyph.IsDesigning := csDesigning in ComponentState;
 
+  FImageChangeLink := TChangeLink.Create;
+  FImageChangeLink.OnChange := ImageListChange;
+
   FShowCaption:= True;
   TabStop:= True;
 end;
@@ -303,6 +396,7 @@ end;
 destructor TKASButton.Destroy;
 begin
   FreeAndNil(FButtonGlyph);
+  FreeAndNil(FImageChangeLink);
   inherited Destroy;
 end;
 
