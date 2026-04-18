@@ -77,6 +77,11 @@ type
     Bitmap: array[TDriveType] of TBitmap;
   end;
 
+  TIconThemeType = (
+    ittInternal,        // DCTheme only
+    ittSystemOrInternal // System theme, DCTheme
+  );
+
   { TfromWhatBitmapWasLoaded }
   //Used to indicate from where the icon was loaded from.
   //Useful when exporting to TC for example which cannot used "as is" the same icon file in some circumstances.
@@ -350,7 +355,8 @@ type
     function CheckAddFileUniqueIcon(AFullPath: String; AIconSize : Integer = 0): PtrInt;
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
-    function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
+    function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
+    function GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean = True) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -2643,10 +2649,25 @@ begin
 end;
 
 function TPixMapManager.GetThemeIcon(const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
+begin
+  Result:= GetThemeIcon(ittSystemOrInternal, AIconName, AIconSize);
+end;
+
+function TPixMapManager.GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   ABitmap: Graphics.TBitmap;
 begin
-  Result:= LoadIconThemeBitmap(AIconName, AIconSize);
+  if AThemeType > ittInternal then
+    Result:= LoadIconThemeBitmap(AIconName, AIconSize)
+  else begin
+    FPixmapsLock.Acquire;
+    try
+      Result:= LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+    finally
+      FPixmapsLock.Release;
+    end;
+  end;
+
   if Assigned(Result) then
   begin
     // LoadIconThemeBitmap takes into account
