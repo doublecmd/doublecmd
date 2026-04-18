@@ -5,15 +5,24 @@ unit Interfaces;
 interface
 
 uses
-  InitC, InterfaceBase, LCLType, QtInt, Types, uWayland;
+  InitC, InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, uWayland;
 
 type
+
+  { TQtThemeServicesEx }
+
+  TQtThemeServicesEx = class(TQtThemeServices)
+  public
+    function GetStockImage(StockID: LongInt; out Image, Mask: HBitmap): Boolean; override;
+  end;
 
   { TQtWidgetSetEx }
 
   TQtWidgetSetEx = Class(TQtWidgetSet)
   private
     FWayland: TWaylandClient;
+  protected
+    function CreateThemeServices: TThemeServices; override;
   public
     constructor Create; override;
     function StretchMaskBlt(DestDC: HDC; X, Y, Width, Height: Integer;
@@ -32,7 +41,19 @@ uses
 
 function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
 
+{ TQtThemeServicesEx }
+
+function TQtThemeServicesEx.GetStockImage(StockID: LongInt; out Image, Mask: HBitmap): Boolean;
+begin
+  Result:= False;
+end;
+
 { TQtWidgetSetEx }
+
+function TQtWidgetSetEx.CreateThemeServices: TThemeServices;
+begin
+  Result:= TQtThemeServicesEx.Create;
+end;
 
 constructor TQtWidgetSetEx.Create;
 begin
