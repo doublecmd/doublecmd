@@ -27,16 +27,16 @@ unit uDCVersion;
 interface
 
 uses
-  Classes, SysUtils, LCLVersion;
+  Classes, SysUtils, LCLVersion, LazVersion;
 
 {$I dcrevision.inc} // Double Commander revision number
 
 const
-  dcBuildDate = {$I %DATE%};
-  lazVersion  = lcl_version;         // Lazarus version (major.minor.micro)
-  fpcVersion  = {$I %FPCVERSION%};   // FPC version (major.minor.micro)
-  TargetCPU   = {$I %FPCTARGETCPU%}; // Target CPU of FPC
-  TargetOS    = {$I %FPCTARGETOS%};  // Target Operating System of FPC
+  dcBuildDate  = {$I %DATE%};
+  dcLazVersion = laz_version;       // Lazarus version (major.minor.micro)
+  fpcVersion   = {$I %FPCVERSION%};   // FPC version (major.minor.micro)
+  TargetCPU    = {$I %FPCTARGETCPU%}; // Target CPU of FPC
+  TargetOS     = {$I %FPCTARGETOS%};  // Target Operating System of FPC
 
 var
   DCVersion,   // Double Commander version
@@ -546,7 +546,7 @@ begin
                   'Platform: %s' + LineEnding +
                   'System: %s',
                   [dcVersion, dcRevision, dcCommit, dcBuildDate,
-                   lazVersion, fpcVersion,
+                   dcLazVersion, fpcVersion,
                    TargetCPU + '-' + TargetOS + '-' + TargetWS,
                    OSVersion
                   ]);
