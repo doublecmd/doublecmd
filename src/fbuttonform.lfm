@@ -56,13 +56,7 @@ object frmButtonForm: TfrmButtonForm
       Width = 23
       Align = alLeft
       BorderSpacing.Right = 12
-      Glyph.Data = {
-        72000000424D7200000000000000360000002800000005000000030000000100
-        2000000000003C00000064000000640000000000000000000000000000000000
-        0000000000FF000000000000000000000000000000FF000000FF000000FF0000
-        0000000000FF000000FF000000FF000000FF000000FF
-      }
-      GlyphShowMode = gsmAlways
+      Caption = '▾'
       Layout = blGlyphBottom
       OnClick = btnCreateSpecialQueueClick
       PopupMenu = pmQueuePopup

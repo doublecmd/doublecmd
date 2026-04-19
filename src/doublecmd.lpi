@@ -25,10 +25,11 @@
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="..\language"/>
-      <ExcludedOriginals Count="3">
-        <Item1 Value=".."/>
-        <Item2 Value=">>"/>
-        <Item3 Value="=>"/>
+      <ExcludedOriginals Count="4">
+        <Item1 Value="▾"/>
+        <Item2 Value=".."/>
+        <Item3 Value=">>"/>
+        <Item4 Value="=>"/>
       </ExcludedOriginals>
     </i18n>
     <VersionInfo>
