@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, uDCUtils, DCOSUtils, DCStrUtils,
+  StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, Math, uDCUtils, DCOSUtils, DCStrUtils,
   uDebug, uReSample, uGlobsPaths, uGlobs, uPixmapManager, uFileSystemFileSource,
   uGraphics, uFileProcs;
 
@@ -92,9 +92,10 @@ end;
 procedure TThumbnailManager.DoCreatePreviewText;
 var
   S: String;
-  Y: Integer;
+  Y, P, LineStart: Integer;
   Stream: TFileStreamEx;
-  Reader: TStreamReader;
+  MaxChars, MaxRead: Integer;
+  Buf: AnsiString;
 begin
   FBitmap:= TBitmap.Create;
   with FBitmap do
@@ -104,18 +105,40 @@ begin
     Canvas.FillRect(Canvas.ClipRect);
     Canvas.Font.Color:= clWindowText;
     Canvas.Font.Size := FThumbBitmapSize.cy div 16;
+    // Estimate max visible characters per line from thumbnail width
+    MaxChars := FThumbBitmapSize.cx div Max(Canvas.TextWidth('M') div 2, 1);
+    MaxRead := 32768;
     try
       Stream:= TFileStreamEx.Create(FFileName, fmOpenRead or fmShareDenyNone);
       try
-        Y:= 0;
-        Reader:= TStreamReader.Create(Stream, BUFFER_SIZE, True);
-        repeat
-          S:= Reader.ReadLine;
+        if Stream.Size < MaxRead then MaxRead := Stream.Size;
+        SetLength(Buf, MaxRead);
+        Stream.Read(Pointer(Buf)^, MaxRead);
+      finally
+        Stream.Free;
+      end;
+      Y:= 0;
+      LineStart := 1;
+      P := 1;
+      while (Y < FThumbBitmapSize.cy) and (P <= Length(Buf)) do
+      begin
+        if Buf[P] in [#10, #13] then
+        begin
+          S := Copy(Buf, LineStart, Min(P - LineStart, MaxChars));
           Canvas.TextOut(0, Y, S);
           Y += Canvas.TextHeight(S) + 2;
-        until (Y >= FThumbBitmapSize.cy) or Reader.Eof;
-      finally
-        Reader.Free;
+          // Skip CR+LF pair
+          if (P < Length(Buf)) and (Buf[P] = #13) and (Buf[P + 1] = #10) then
+            Inc(P);
+          LineStart := P + 1;
+        end;
+        Inc(P);
+      end;
+      // Handle last line (or single-line file)
+      if (Y < FThumbBitmapSize.cy) and (LineStart <= Length(Buf)) then
+      begin
+        S := Copy(Buf, LineStart, Min(Length(Buf) - LineStart + 1, MaxChars));
+        Canvas.TextOut(0, Y, S);
       end;
     except
       // Ignore
