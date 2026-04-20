@@ -44,7 +44,7 @@ object frmButtonForm: TfrmButtonForm
       Constraints.MinHeight = 34
       Constraints.MinWidth = 88
       Images = dmComData.ilButtons
-      ImageIndex = 5
+      ImageIndex = 6
       ModalResult = 1
       OnClick = btnAddToQueueClick
       TabOrder = 0

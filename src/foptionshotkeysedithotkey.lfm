@@ -183,12 +183,15 @@ object frmEditHotkey: TfrmEditHotkey
   object btnAddShortcut: TSpeedButton
     AnchorSideTop.Control = btnRemoveShortcut
     AnchorSideRight.Control = btnRemoveShortcut
-    Left = 406
+    Left = 404
     Height = 22
     Hint = 'Add new shortcut to sequence'
     Top = 6
     Width = 22
     Anchors = [akTop, akRight]
+    BorderSpacing.Right = 2
+    Images = dmComData.ilButtons
+    ImageIndex = 0
     OnClick = btnAddShortcutClick
     ShowHint = True
     ParentShowHint = False
@@ -204,6 +207,8 @@ object frmEditHotkey: TfrmEditHotkey
     Width = 22
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
+    Images = dmComData.ilButtons
+    ImageIndex = 1
     OnClick = btnRemoveShortcutClick
     ShowHint = True
     ParentShowHint = False
@@ -211,12 +216,13 @@ object frmEditHotkey: TfrmEditHotkey
   object btnSelectFromList: TSpeedButton
     AnchorSideTop.Control = btnRemoveShortcut
     AnchorSideRight.Control = btnAddShortcut
-    Left = 382
+    Left = 378
     Height = 22
     Hint = 'Select shortcut from list of remaining free available keys'
     Top = 6
     Width = 24
     Anchors = [akTop, akRight]
+    BorderSpacing.Right = 2
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       2000000000000004000064000000640000000000000000000000000000140000

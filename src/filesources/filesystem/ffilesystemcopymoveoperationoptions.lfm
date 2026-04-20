@@ -279,7 +279,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       BorderSpacing.Right = 5
       GlyphShowMode = gsmAlways
       Images = dmComData.ilButtons
-      ImageIndex = 2
+      ImageIndex = 3
       OnClick = btnSearchTemplateClick
       ParentShowHint = False
       ShowHint = True

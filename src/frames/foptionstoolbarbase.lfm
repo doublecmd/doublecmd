@@ -338,7 +338,7 @@ inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Images = dmComData.ilButtons
-        ImageIndex = 4
+        ImageIndex = 5
         Visible = False
         OnClick = btnOpenIconClick
       end
@@ -726,7 +726,7 @@ inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Images = dmComData.ilButtons
-        ImageIndex = 3
+        ImageIndex = 4
         Visible = False
         OnClick = btnParametersHelperClick
       end
@@ -741,7 +741,7 @@ inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
         Anchors = [akTop, akRight]
         BorderSpacing.Left = 3
         Images = dmComData.ilButtons
-        ImageIndex = 3
+        ImageIndex = 4
         Visible = False
         OnClick = btnInternalParametersHelperClick
       end

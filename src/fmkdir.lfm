@@ -75,7 +75,7 @@ object frmMkDir: TfrmMkDir
       AllowAllUp = True
       Anchors = [akTop, akRight, akBottom]
       Images = dmComData.ilButtons
-      ImageIndex = 1
+      ImageIndex = 2
       GroupIndex = 1
       OnClick = btnAutoCompleteClick
     end
