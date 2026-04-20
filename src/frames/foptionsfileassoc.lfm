@@ -227,7 +227,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Width = 23
           Anchors = [akTop, akRight]
           Images = dmComData.ilButtons
-          ImageIndex = 4
+          ImageIndex = 5
           OnClick = sbtnIconClick
         end
         object edIconFileName: TEdit
@@ -588,7 +588,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Images = dmComData.ilButtons
-          ImageIndex = 3
+          ImageIndex = 4
           OnClick = btnParametersHelperClick
         end
         object lblCommand: TLabel
@@ -666,7 +666,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Images = dmComData.ilButtons
-          ImageIndex = 3
+          ImageIndex = 4
           OnClick = btnStartPathVarHelperClick
         end
         object btnStartPathPathHelper: TSpeedButton

@@ -28,7 +28,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Images = dmComData.ilButtons
-    ImageIndex = 2
+    ImageIndex = 3
     OnClick = btnIncludeMaskClick
   end
   object cmbIncludeMask: TComboBox
@@ -102,7 +102,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Images = dmComData.ilButtons
-    ImageIndex = 2
+    ImageIndex = 3
     OnClick = btnIncludeMaskClick
   end
   object chkLeaveUnselected: TCheckBox

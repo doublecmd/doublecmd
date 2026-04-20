@@ -77,7 +77,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 3
       Images = dmComData.ilButtons
-      ImageIndex = 2
+      ImageIndex = 3
       OnClick = btnSearchTemplateClick
     end
   end
