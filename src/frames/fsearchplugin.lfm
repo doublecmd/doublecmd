@@ -56,13 +56,15 @@ object frmSearchPlugin: TfrmSearchPlugin
   end
   object pnlHeaders: TPanel
     Left = 0
-    Height = 16
+    Height = 24
     Top = 40
     Width = 581
     Align = alTop
+    AutoSize = True
     BorderSpacing.Top = 5
     BevelOuter = bvNone
-    ClientHeight = 16
+    ChildSizing.TopBottomSpacing = 4
+    ClientHeight = 24
     ClientWidth = 581
     Enabled = False
     TabOrder = 3
@@ -145,6 +147,7 @@ object frmSearchPlugin: TfrmSearchPlugin
     Top = 190
     Width = 581
     Align = alBottom
+    AutoSize = True
     BevelOuter = bvNone
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 12
@@ -170,6 +173,7 @@ object frmSearchPlugin: TfrmSearchPlugin
       Height = 26
       Top = 12
       Width = 70
+      AutoSize = True
       Caption = 'L&ess rules'
       OnClick = btnDeleteClick
       TabOrder = 1
