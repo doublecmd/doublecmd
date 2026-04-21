@@ -231,7 +231,8 @@ const
   // 13 -  Replace Configuration/UseConfigInProgramDir by doublecmd.inf
   // 14 -  Move some colors to colors.json
   // 15 -  Move custom columns colors to colors.json
-  ConfigVersion = 15;
+  // 16 -  Move DirectoryHotList to localconfig.xml
+  ConfigVersion = 16;
 
   COLORS_JSON = 'colors.json';
 
@@ -997,6 +998,41 @@ begin
   end;
 end;
 
+function LoadLocalConfig(var {%H-}ErrorMessage: String): Boolean;
+var
+  Root: TXmlNode;
+  LocalConfig: TXmlConfig;
+  LocalConfigFileName: String;
+  LoadedConfigVersion: Integer;
+begin
+  LocalConfigFileName := gpCfgDir + gcfLocalConfig;
+
+  if mbFileExists(LocalConfigFileName) then
+  begin
+    LocalConfig:= TXmlConfig.Create(LocalConfigFileName);
+    try
+      LocalConfig.Load;
+      Root:= LocalConfig.RootNode;
+      if Assigned(LocalConfig.FindNode(Root, cSectionOfHotDir)) then
+      begin
+        gDirectoryHotlist.LoadFromXml(LocalConfig, Root);
+        Exit(True);
+      end;
+    finally
+      LocalConfig.Free;
+    end;
+  end;
+
+  // Backward compatibility: read the legacy node from doublecmd.xml
+  // until localconfig.xml starts carrying the machine-specific section.
+  Root:= gConfig.RootNode;
+  LoadedConfigVersion := gConfig.GetAttr(Root, 'ConfigVersion', ConfigVersion);
+  gDirectoryHotlist.LoadFromXml(gConfig, Root);
+  if LoadedConfigVersion < 16 then
+    gConfig.DeleteNode(Root, cSectionOfHotDir);
+  Result:= True;
+end;
+
 procedure SaveHistoryConfig;
 var
   Root: TXmlNode;
@@ -1047,6 +1083,25 @@ begin
     History.Save;
   finally
     History.Free;
+  end;
+end;
+
+procedure SaveLocalConfig;
+var
+  Root: TXmlNode;
+  LocalConfig: TXmlConfig;
+  LocalConfigFileName: String;
+begin
+  LocalConfigFileName := gpCfgDir + gcfLocalConfig;
+  LocalConfig:= TXmlConfig.Create(LocalConfigFileName);
+  try
+    if mbFileExists(LocalConfigFileName) then
+      LocalConfig.Load;
+    Root:= LocalConfig.RootNode;
+    gDirectoryHotlist.SaveToXml(LocalConfig, Root, True);
+    LocalConfig.Save;
+  finally
+    LocalConfig.Free;
   end;
 end;
 
@@ -2488,6 +2543,9 @@ begin
 
   CopySettingsFiles;
 
+  { Local machine-specific configuration }
+  LoadConfigCheckErrors(@LoadLocalConfig, gpCfgDir + gcfLocalConfig, ErrorMessage);
+
   { Internal associations }
   // "LoadExtsConfig" checks itself if file is present or not
   LoadConfigCheckErrors(@LoadExtsConfig, gpCfgDir + gcfExtensionAssociation, ErrorMessage);
@@ -2565,6 +2623,7 @@ begin
   begin
     SaveWithCheck(@SaveEarlyConfig, 'early config', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
+    SaveWithCheck(@SaveLocalConfig, 'local configuration', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
     SaveWithCheck(@SaveHighlightersConfig, 'highlighters config', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
@@ -3229,9 +3288,6 @@ begin
       gIgnoreListFile:= GetValue(Node, 'IgnoreListFile', gIgnoreListFile);
     end;
 
-    { Directories HotList }
-    gDirectoryHotlist.LoadFromXML(gConfig, Root);
-
     { Viewer }
     Node := Root.FindNode('Viewer');
     if Assigned(Node) then
@@ -3831,9 +3887,6 @@ begin
     Node := FindNode(Root, 'IgnoreList', True);
     SetAttr(Node, 'Enabled', gIgnoreListFileEnabled);
     SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
-
-    { Directories HotList }
-    gDirectoryHotlist.SaveToXml(gConfig, Root, TRUE);
 
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);
