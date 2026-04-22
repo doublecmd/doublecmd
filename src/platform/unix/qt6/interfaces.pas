@@ -5,7 +5,7 @@ unit Interfaces;
 interface
 
 uses
-  InitC, InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, uWayland;
+  InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, uWayland;
 
 type
 
@@ -37,9 +37,7 @@ var
 implementation
 
 uses
-  CTypes, SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils;
-
-function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
+  SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils, DCUnix;
 
 { TQtThemeServicesEx }
 
@@ -448,7 +446,7 @@ begin
         Exit;
       end;
     end;
-    APlatform:= LowerCase(GetEnvironmentVariable('QT_QPA_PLATFORM'));
+    APlatform:= LowerCase(getenv('QT_QPA_PLATFORM'));
     Result:= (APlatform = '') or StrBegins(APlatform, 'wayland');
   end;
 end;
