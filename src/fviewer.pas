@@ -2960,7 +2960,7 @@ begin
   begin
     PushPop(FElevate);
     try
-      if FileHasLongLines(sFileName, gMaxTextWidth) then
+      if FileHasLongLines(sFileName, 8192) then
         Result := False;
     finally
       PushPop(FElevate);

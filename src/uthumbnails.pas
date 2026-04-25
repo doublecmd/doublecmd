@@ -107,7 +107,7 @@ begin
     Canvas.Font.Size := FThumbBitmapSize.cy div 16;
     // Estimate max visible characters per line from thumbnail width
     MaxChars := FThumbBitmapSize.cx div Max(Canvas.TextWidth('M') div 2, 1);
-    MaxRead := gMaxTextWidth * 8;
+    MaxRead := 8192;
     try
       Stream:= TFileStreamEx.Create(FFileName, fmOpenRead or fmShareDenyNone);
       try
