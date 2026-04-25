@@ -2872,6 +2872,36 @@ begin
   end;
 end;
 
+// Returns True if the file has lines longer than MaxLen bytes.
+// Only reads the first MaxLen+1 bytes to check.
+function FileHasLongLines(const sFileName: String; MaxLen: SizeInt): Boolean;
+var
+  CheckLen, J: SizeInt;
+  CheckBuf: AnsiString;
+begin
+  Result := False;
+  try
+    with TFileStreamUAC.Create(sFileName, fmOpenRead or fmShareDenyNone) do
+    try
+      CheckLen := Min(Size, MaxLen + 1);
+      SetLength(CheckBuf, CheckLen);
+      Read(Pointer(CheckBuf)^, CheckLen);
+      if CheckLen <= MaxLen then
+        Exit; // File is smaller than the limit
+      for J := 1 to CheckLen do
+      begin
+        if CheckBuf[J] in [#10, #13] then
+          Exit; // Found a newline within the limit
+      end;
+      Result := True; // No newline found in first MaxLen+1 bytes
+    finally
+      Free;
+    end;
+  except
+    Result := True; // On error, assume long lines to be safe
+  end;
+end;
+
 function TfrmViewer.CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   AFile: TFile;
@@ -2919,6 +2949,19 @@ begin
     PushPop(FElevate);
     try
       Result:= mbFileIsText(sFileName);
+    finally
+      PushPop(FElevate);
+    end;
+  end;
+
+  // Skip files with extremely long lines (e.g. minified JSON)
+  // that would freeze SynEdit's highlighter/word-wrap.
+  if Result and not bForce then
+  begin
+    PushPop(FElevate);
+    try
+      if FileHasLongLines(sFileName, 8192) then
+        Result := False;
     finally
       PushPop(FElevate);
     end;
