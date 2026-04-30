@@ -1409,6 +1409,18 @@ object frmMain: TfrmMain
       object mnuFilesShwSysFiles: TMenuItem
         Action = actShowSysFiles
       end
+      object miLine56: TMenuItem
+        Caption = '-'
+      end
+      object mnuShowAllFiles: TMenuItem
+        Action = actPersistentViewFilterClear
+      end
+      object mnuShowLastUsed: TMenuItem
+        Action = actPersistentViewFilterLast
+      end
+      object mnuShowCustom: TMenuItem
+        Action = actPersistentViewFilterDialog
+      end
       object miLine20: TMenuItem
         Caption = '-'
       end
@@ -1664,6 +1676,34 @@ object frmMain: TfrmMain
       Caption = 'Show &Hidden/System Files'
       Checked = True
       GroupIndex = 2
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actPersistentViewFilter: TAction
+      Tag = 19
+      Category = 'View'
+      Caption = 'Persistent View Filter'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actPersistentViewFilterClear: TAction
+      Tag = 19
+      Category = 'View'
+      Caption = 'All &files'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actPersistentViewFilterLast: TAction
+      Tag = 19
+      Category = 'View'
+      Caption = '&Last used'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actPersistentViewFilterDialog: TAction
+      Tag = 19
+      Category = 'View'
+      Caption = 'C&ustom...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
