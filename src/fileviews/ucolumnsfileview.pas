@@ -174,7 +174,7 @@ type
     procedure RedrawFiles; override;
     procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean; aLastTopRowIndex: PtrInt = -1); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
-    procedure ShowRenameFileEdit(var aFile: TFile); override;
+    procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
     procedure UpdateRenameFileEditPosition; override;
     procedure UpdateInfoPanel; override;
 
@@ -473,7 +473,8 @@ begin
   dgPanel.ColumnsOwnDim:=ExternalDimFunction;
 end;
 
-procedure TColumnsFileView.ShowRenameFileEdit(var aFile: TFile);
+procedure TColumnsFileView.ShowRenameFileEdit(
+  var aFile: TFile; const withExt: Boolean);
 begin
   if FFileNameColumn = -1 then
     Exit;
@@ -489,7 +490,7 @@ begin
     UpdateRenameFileEditPosition;
   end;
 
-  inherited ShowRenameFileEdit(AFile);
+  inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
 procedure TColumnsFileView.UpdateRenameFileEditPosition;

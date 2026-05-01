@@ -47,7 +47,7 @@ type
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
-    procedure ShowRenameFileEdit(var aFile: TFile); override;
+    procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
     procedure UpdateRenameFileEditPosition; override;
     function GetVisibleFilesIndexes: TRange; override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
@@ -554,7 +554,8 @@ begin
   Result:= TBriefDrawGrid;
 end;
 
-procedure TBriefFileView.ShowRenameFileEdit(var aFile: TFile);
+procedure TBriefFileView.ShowRenameFileEdit(
+  var aFile: TFile; const withExt: Boolean);
 begin
   if not edtRename.Visible then
   begin
@@ -567,7 +568,7 @@ begin
     UpdateRenameFileEditPosition;
   end;
 
-  inherited ShowRenameFileEdit(AFile);
+  inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
 procedure TBriefFileView.UpdateRenameFileEditPosition;

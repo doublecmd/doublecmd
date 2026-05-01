@@ -46,6 +46,8 @@ type
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 
   TRenameFileEditInfo=record
+    WithExt: Boolean;
+
     LenNam:integer;    // length of renaming file name
     LenExt:integer;    // length of renaming file ext
     LenFul:integer;    // full length of renaming file name with ext and dot
@@ -118,6 +120,7 @@ type
     procedure edtRenameOnKeyESCAPE(Sender: TObject);
     procedure edtRenameOnKeyRETURN(Sender: TObject);
     procedure edtRenameOnKeySwitch(Sender: TObject; var Key: Word; Shift: TShiftState);
+    function GetNewFilename: String;
   protected
     edtRename: TEditButtonEx;
     FRenameFile: TFile;
@@ -209,7 +212,7 @@ type
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
     procedure ShowRenameFileEditInitSelect(Data: PtrInt);
-    procedure ShowRenameFileEdit(var AFile: TFile); virtual;
+    procedure ShowRenameFileEdit(var AFile: TFile; const withExt: Boolean); virtual;
     procedure UpdateRenameFileEditPosition; virtual;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
 
@@ -371,12 +374,24 @@ begin
   SetFocus;
 end;
 
+function TFileViewWithMainCtrl.GetNewFilename: String;
+var
+  Ext: String;
+begin
+  Result := edtRename.Text;
+  if NOT FRenFile.WithExt then begin
+    Ext:= ExtractOnlyFileExt(edtRename.Hint);
+    if NOT Ext.IsEmpty then
+      Result:= Result + '.' + Ext;
+  end;
+end;
+
 procedure TFileViewWithMainCtrl.edtRenameOnKeyRETURN(Sender: TObject);
 var
   NewFileName: String;
   OldFileName: String;
 begin
-  NewFileName := edtRename.Text;
+  NewFileName := self.GetNewFilename;
   OldFileName := ExtractFileName(edtRename.Hint);
 
   try
@@ -431,7 +446,7 @@ begin
     end;
     edtRename.Tag:= 1;
     EnableWatcher(False);
-    NewFileName := edtRename.Text;
+    NewFileName := self.GetNewFilename;
     OldFileName := ExtractFileName(edtRename.Hint);
     try
       if (OldFileName = NewFileName) then
@@ -451,7 +466,7 @@ begin
             end;
             SetActiveFile(Index);
             edtRename.Tag:= 2;
-            ShowRenameFileEdit(AFile);
+            ShowRenameFileEdit(AFile, FRenFile.WithExt);
             edtRename.Tag:= 1;
             UpdateRenameFileEditPosition;
           end;
@@ -1534,7 +1549,7 @@ begin
       if Assigned(aFile) then
       try
         if aFile.IsNameValid then
-          ShowRenameFileEdit(aFile)
+          ShowRenameFileEdit(aFile, True)
         else if gCurDir then
           ShowPathEdit;
       finally
@@ -1765,11 +1780,16 @@ begin
   end;
 end;
 
-procedure TFileViewWithMainCtrl.ShowRenameFileEdit(var AFile: TFile);
+procedure TFileViewWithMainCtrl.ShowRenameFileEdit(
+  var AFile: TFile; const withExt: Boolean);
 var
   S: String;
 begin
   S:= AFile.Name;
+  if NOT withExt then
+    S:= ExtractOnlyFileName(S);
+
+  FRenFile.WithExt:= withExt;
   FRenFile.LenFul := UTF8Length(S);
   FRenFile.LenExt := UTF8Length(ExtractFileExt(S));
   FRenFile.LenNam := FRenFile.LenFul - FRenFile.LenExt;
@@ -1817,7 +1837,7 @@ begin
   begin
     FRenameFile := aFile;
     edtRename.Hint := aFile.FullPath;
-    edtRename.Text := aFile.Name;
+    edtRename.Text := S;
     edtRename.Visible := True;
     edtRename.SetFocus;
 
