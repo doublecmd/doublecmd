@@ -1541,21 +1541,31 @@ end;
 procedure TFileViewWithMainCtrl.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
+  withExt: Boolean;
+  extensionParam: String;
 begin
-  if not IsLoadingFileList and
-     (fsoSetFileProperty in FileSource.GetOperationsTypes) then
-    begin
-      aFile:= CloneActiveFile;
-      if Assigned(aFile) then
-      try
-        if aFile.IsNameValid then
-          ShowRenameFileEdit(aFile, True)
-        else if gCurDir then
-          ShowPathEdit;
-      finally
-        FreeAndNil(aFile);
-      end;
-    end;
+  if IsLoadingFileList then
+    Exit;
+
+  if NOT (fsoSetFileProperty in FileSource.GetOperationsTypes) then
+    Exit;
+
+  aFile:= CloneActiveFile;
+  if NOT Assigned(aFile) then
+    Exit;
+
+  withExt:= True;
+  if GetParamValue( Params, 'extension', extensionParam ) then
+    GetBoolValue( extensionParam, withExt );
+
+  try
+    if aFile.IsNameValid then
+      ShowRenameFileEdit(aFile, withExt)
+    else if gCurDir then
+      ShowPathEdit;
+  finally
+    FreeAndNil(aFile);
+  end;
 end;
 
 procedure TFileViewWithMainCtrl.SetMainControl(AValue: TWinControl);
