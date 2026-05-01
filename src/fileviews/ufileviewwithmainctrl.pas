@@ -213,7 +213,7 @@ type
 
     procedure ShowRenameFileEditInitSelect(Data: PtrInt);
     procedure ShowRenameFileEdit(var AFile: TFile; const withExt: Boolean); virtual;
-    procedure UpdateRenameFileEditPosition; virtual;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); virtual;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
 
     property MainControl: TWinControl read FMainControl write SetMainControl;
@@ -468,7 +468,7 @@ begin
             edtRename.Tag:= 2;
             ShowRenameFileEdit(AFile, FRenFile.WithExt);
             edtRename.Tag:= 1;
-            UpdateRenameFileEditPosition;
+            UpdateRenameFileEditPosition(FRenFile.WithExt);
           end;
         sfprError:
           begin
@@ -584,7 +584,7 @@ procedure TFileViewWithMainCtrl.DisplayFileListChanged;
 begin
   inherited DisplayFileListChanged;
   if edtRename.Visible then
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(FRenFile.WithExt);
 end;
 
 procedure TFileViewWithMainCtrl.DoActiveChanged;
@@ -1346,7 +1346,7 @@ end;
 procedure TFileViewWithMainCtrl.MainControlResize(Sender: TObject);
 begin
   if edtRename.Visible then
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(FRenFile.WithExt);
 end;
 
 procedure TFileViewWithMainCtrl.MainControlWindowProc(var TheMessage: TLMessage);
@@ -1864,7 +1864,8 @@ begin
   end;
 end;
 
-procedure TFileViewWithMainCtrl.UpdateRenameFileEditPosition;
+procedure TFileViewWithMainCtrl.UpdateRenameFileEditPosition(
+  const withExt: Boolean);
 var
   AFile: TDisplayFile;
 begin

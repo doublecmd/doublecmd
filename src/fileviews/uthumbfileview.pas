@@ -96,7 +96,7 @@ type
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
     procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
-    procedure UpdateRenameFileEditPosition(); override;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
     procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); override;
@@ -788,17 +788,17 @@ begin
     edtRename.Font.Size  := gFonts[dcfMain].Size;
     edtRename.Font.Style := gFonts[dcfMain].Style;
 
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(withExt);
   end;
 
   inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
-procedure TThumbFileView.UpdateRenameFileEditPosition();
+procedure TThumbFileView.UpdateRenameFileEditPosition(const withExt: Boolean);
 var
   ARect: TRect;
 begin
-  inherited UpdateRenameFileEditPosition;
+  inherited UpdateRenameFileEditPosition(withExt);
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   ARect.Top := ARect.Bottom - dgPanel.calcTextHeight - 4;
