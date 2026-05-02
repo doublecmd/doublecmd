@@ -514,8 +514,13 @@ begin
     end;
   end;
 
-  if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
+  if gInplaceRenameButton then
     Inc(ARect.Right, edtRename.ButtonWidth);
+
+  if ARect.Right > dgPanel.ClientWidth then
+    ARect.Right:= dgPanel.ClientWidth;
+
+  Dec(ARect.Right, 1);
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
