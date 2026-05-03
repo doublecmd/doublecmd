@@ -1833,7 +1833,7 @@ begin
   gDriveBlackListUnmounted := False;
 
   { File views page }
-  gExtraLineSpan := 2;
+  gExtraLineSpan := {$IFnDEF DARWIN}2{$ELSE}8{$ENDIF};
   gFolderPrefix := '[';
   gFolderPostfix := ']';
   gRenameConfirmMouse := False;
