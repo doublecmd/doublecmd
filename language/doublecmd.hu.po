@@ -6397,6 +6397,11 @@ msgstr "Bejegyzések megjelölése/jelölés visszavonása"
 msgid "Default attribute mask value to use:"
 msgstr "Alapértelmezett attribútummaszk érték:"
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"

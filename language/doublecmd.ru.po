@@ -6528,6 +6528,11 @@ msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
 msgstr "Маска атрибута по умолчанию:"
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
@@ -6817,9 +6822,7 @@ msgstr "&Сохранить в:"
 msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
-msgstr ""
-"Обрабатывать F1, F2 и т.д. как функциональные клавиши,"
-"игнорируя настройки в Системные настройки > Клавиатура"
+msgstr "Обрабатывать F1, F2 и т.д. как функциональные клавиши,игнорируя настройки в Системные настройки > Клавиатура"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""

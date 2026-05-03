@@ -5845,9 +5845,10 @@ msgid "C&lone"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btncommands.hint
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
 msgid "Select your internal command"
-msgstr ""
+msgstr "選擇內部指令"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
@@ -6297,9 +6298,10 @@ msgid "&Mark Color:"
 msgstr "標記顏色 (&M):"
 
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "背景顏色:"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
@@ -6517,6 +6519,11 @@ msgstr ""
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -7763,9 +7770,10 @@ msgid "Parameter&s:"
 msgstr "參數 (&S):"
 
 #: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
-msgstr ""
+msgstr "說明"
 
 #: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
@@ -10212,9 +10220,10 @@ msgid "Read error:"
 msgstr ""
 
 #: ulng.rschecksumverifysuccess
+#, fuzzy
 msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
-msgstr ""
+msgstr "成功:"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
@@ -14166,9 +14175,10 @@ msgid "All"
 msgstr "全部"
 
 #: ulng.rssimplewordcategory
+#, fuzzy
 msgctxt "ulng.rssimplewordcategory"
 msgid "Category"
-msgstr ""
+msgstr "類別"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"

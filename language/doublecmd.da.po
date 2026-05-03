@@ -7002,6 +7002,11 @@ msgstr "Markering/fjernelse af markeringer"
 msgid "Default attribute mask value to use:"
 msgstr "Anvend disse standardattributter i maske: "
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 # Opsætning - Indstillinger - Visning_ekstra
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"

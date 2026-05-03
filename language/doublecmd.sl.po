@@ -6405,6 +6405,11 @@ msgstr "Označevanje/Odstranjevanje oznak vnosov"
 msgid "Default attribute mask value to use:"
 msgstr "Privzeta maska atributa za uporabo:"
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"

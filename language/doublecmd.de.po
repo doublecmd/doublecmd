@@ -6396,6 +6396,11 @@ msgstr "Wählen/Abwählen von Einträgen"
 msgid "Default attribute mask value to use:"
 msgstr "Standardwert der Attributmaske wählen:"
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
