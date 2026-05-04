@@ -37,9 +37,9 @@ jobs:
 
     - name: Create Lazarus config
       run: |
-           sudo mkdir -p /etc/lazarus
-           sudo cp tools/install/macosx/environmentoptions.xml /etc/lazarus/environmentoptions.xml
-           sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+           mkdir -p $HOME/.lazarus
+           cp tools/install/macosx/environmentoptions.xml $HOME/.lazarus/environmentoptions.xml
+           sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" $HOME/.lazarus/environmentoptions.xml
 
     - name: Checkout source
       uses: actions/checkout@v6
@@ -126,9 +126,9 @@ jobs:
 
     - name: Create Lazarus config
       run: |
-           sudo mkdir -p /etc/lazarus
-           sudo cp tools/install/linux/environmentoptions.xml /etc/lazarus/environmentoptions.xml
-           sudo sed -i -e "s|__LAZARUSDIR__|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+           mkdir -p $HOME/.lazarus
+           cp tools/install/linux/environmentoptions.xml $HOME/.lazarus/environmentoptions.xml
+           sed -i -e "s|__LAZARUSDIR__|/usr/local/share/lazarus|g" $HOME/.lazarus/environmentoptions.xml
 
     - name: Checkout source
       uses: actions/checkout@v6
