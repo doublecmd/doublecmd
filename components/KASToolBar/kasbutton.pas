@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Themes, Types, ImgList;
+  Buttons, Themes, Types, ImgList, LMessages;
 
 type
 
@@ -37,6 +37,7 @@ type
   private
     FState: TButtonState;
     FShowCaption: Boolean;
+    FMouseInControl: Boolean;
     FButtonGlyph: TButtonGlyph;
     FImageChangeLink: TChangeLink;
   private
@@ -62,11 +63,13 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
   protected
+    procedure Click; override;
     function GetGlyphSize: TSize;
     procedure GlyphChanged(Sender: TObject);
     procedure ImageListChange(Sender: TObject);
     class function GetControlClassDefaultSize: TSize; override;
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
+    procedure CMEnabledChanged(var Message: TLMessage); message CM_ENABLEDCHANGED;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer; WithThemeSpace: Boolean); override;
   public
     constructor Create(TheOwner: TComponent); override;
@@ -91,6 +94,9 @@ procedure Register;
 begin
   RegisterComponents('KASComponents',[TKASButton]);
 end;
+
+const
+  UpState: array[Boolean] of TButtonState = (bsUp, bsHot);
 
 { TKASButton }
 
@@ -254,15 +260,23 @@ end;
 procedure TKASButton.MouseEnter;
 begin
   inherited MouseEnter;
-  FState:= bsHot;
-  Invalidate;
+  FMouseInControl:= True;
+  if IsEnabled then
+  begin
+    FState:= bsHot;
+    Invalidate;
+  end;
 end;
 
 procedure TKASButton.MouseLeave;
 begin
   inherited MouseLeave;
-  FState:= bsUp;
-  Invalidate;
+  FMouseInControl:= False;
+  if IsEnabled then
+  begin
+    FState:= bsUp;
+    Invalidate;
+  end;
 end;
 
 procedure TKASButton.KeyUp(var Key: Word; Shift: TShiftState);
@@ -290,16 +304,27 @@ procedure TKASButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
   inherited MouseUp(Button, Shift, X, Y);
-  FState:= bsUp;
-  Invalidate;
+  if IsEnabled then
+  begin
+    FState:= bsUp;
+    Invalidate;
+  end;
 end;
 
 procedure TKASButton.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   inherited MouseDown(Button, Shift, X, Y);
-  FState:= bsDown;
-  Invalidate;
+  if IsEnabled then
+  begin
+    FState:= bsDown;
+    Invalidate;
+  end;
+end;
+
+procedure TKASButton.Click;
+begin
+  if IsEnabled then inherited Click;
 end;
 
 function TKASButton.GetGlyphSize: TSize;
@@ -352,6 +377,16 @@ begin
         ActionList.Images.GetBitmap(ImageIndex, Glyph);
     end;
   end;
+end;
+
+procedure TKASButton.CMEnabledChanged(var Message: TLMessage);
+begin
+  if Enabled then
+    FState:= UpState[FMouseInControl]
+  else begin
+    FState:= bsDisabled;
+  end;
+  Invalidate;
 end;
 
 procedure TKASButton.CalculatePreferredSize(var PreferredWidth,
