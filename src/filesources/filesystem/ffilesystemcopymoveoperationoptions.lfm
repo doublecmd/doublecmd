@@ -265,7 +265,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     ClientHeight = 56
     ClientWidth = 261
     TabOrder = 2
-    object btnSearchTemplate: TBitBtn
+    object btnSearchTemplate: TKASButton
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbFileTemplate
       AnchorSideRight.Control = gbFileTemplate
@@ -277,7 +277,6 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       Width = 32
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 5
-      GlyphShowMode = gsmAlways
       Images = dmComData.ilButtons
       ImageIndex = 3
       OnClick = btnSearchTemplateClick

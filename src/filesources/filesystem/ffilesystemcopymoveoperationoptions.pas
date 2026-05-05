@@ -9,14 +9,14 @@ uses
   uFileSourceOperationOptionsUI,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
-  uSearchTemplate, KASComboBox;
+  uSearchTemplate, KASComboBox, KASButton;
 
 type
 
   { TFileSystemCopyMoveOperationOptionsUI }
 
   TFileSystemCopyMoveOperationOptionsUI = class(TFileSourceOperationOptionsUI)
-    btnSearchTemplate: TBitBtn;
+    btnSearchTemplate: TKASButton;
     cbCheckFreeSpace: TCheckBox;
     cbCorrectLinks: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
