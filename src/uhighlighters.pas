@@ -101,6 +101,11 @@ type
   TSynUNIXShellScriptSynEx = class(TSynUNIXShellScriptSyn)
   protected
     function GetSampleSource: string; override;
+{$IF DEFINED(LCL_VER_499)}
+    function GetInitialDefaultFileFilterMask: string; override;
+{$ELSE}
+    function GetDefaultFilter: string; override;
+{$ENDIF}
   end;
 
   { TSynPlainTextHighlighter }
@@ -332,6 +337,15 @@ begin
     '  if [ "x$FPCVersion" = "x$ver" ]; then'#13#10 +
     '  fi'#13#10 + 'done'#13#10 +
     '# Text Block'#13#10 + #13#10;
+end;
+
+{$IF DEFINED(LCL_VER_499)}
+function TSynUNIXShellScriptSynEx.GetInitialDefaultFileFilterMask: string;
+{$ELSE}
+function TSynUNIXShellScriptSynEx.GetDefaultFilter: string;
+{$ENDIF}
+begin
+  Result:= 'UNIX Shell Script (*.sh,.bashrc,.profile)|*.sh;.bashrc;.profile';
 end;
 
 { TSynPlainTextHighlighter }
