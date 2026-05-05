@@ -7,7 +7,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
   ClientHeight = 248
   ClientWidth = 637
   LCLVersion = '1.6.0.4'
-  object pnlComboBoxes: TPanel
+  object pnlComboBoxes: TKASPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 0
@@ -19,7 +19,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     BevelOuter = bvNone
     ChildSizing.TopBottomSpacing = 5
     ChildSizing.HorizontalSpacing = 5
-    ChildSizing.VerticalSpacing = 10
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 75
@@ -33,6 +33,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When &file exists'
       FocusControl = cmbFileExists
+      Layout = tlCenter
       ParentColor = False
     end
     object lblDirectoryExists: TLabel
@@ -43,6 +44,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When dir&ectory exists'
       FocusControl = cmbDirectoryExists
+      Layout = tlCenter
       ParentColor = False
     end
     object lblSetPropertyError: TLabel
@@ -53,6 +55,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When ca&nnot set property'
       FocusControl = cmbSetPropertyError
+      Layout = tlCenter
       ParentColor = False
     end
     object cmbFileExists: TComboBoxAutoWidth
