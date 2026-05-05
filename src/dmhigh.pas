@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, SynEdit, DCStringHashListUtf8, LCLVersion,
   SynEditHighlighter, SynHighlighterJava, SynHighlighterXML, SynHighlighterLFM,
   SynHighlighterPHP, SynHighlighterSQL, SynHighlighterCss, SynHighlighterPython,
-  SynHighlighterYAML, SynHighlighterLua, SynUniHighlighter,
+  SynHighlighterYAML, SynHighlighterLua, SynUniHighlighter, LazEditHighlighter,
   uHighlighters, uColors, fpJson;
 
 const
@@ -30,7 +30,7 @@ type
     procedure LoadUniHighlighters;
     function GetSyn(Index: Integer): TSynCustomHighlighter;
     function GetSyn(AClass: TSynCustomHighlighterClass): TSynCustomHighlighter;
-    procedure CopyHighlighter(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
+    procedure CopyHighlighter(SourceHighlighter, TargetHighlighter: TLazEditCustomRangesHighlighter);
   public
     SynHighlighterList: TStringList;
     SynHighlighterHashList: TStringHashListUtf8;
@@ -479,7 +479,7 @@ end;
 procedure TdmHighl.CreateHighlighters;
 var
   I: Integer;
-  Highlighter: TSynCustomHighlighter;
+  Highlighter: TLazEditCustomRangesHighlighter;
 begin
   for I:= 0 to High(DEFAULT_HIGHLIGHTERS) do
   begin
@@ -524,7 +524,7 @@ begin
   SynHighlighterHashList.Free;
 end;
 
-procedure TdmHighl.CopyHighlighter(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
+procedure TdmHighl.CopyHighlighter(SourceHighlighter, TargetHighlighter: TLazEditCustomRangesHighlighter);
 var
   J: Integer;
 begin
@@ -557,7 +557,7 @@ function TdmHighl.Clone: TdmHighl;
 var
   I: Integer;
   AClass: TSynCustomHighlighterClass;
-  Highlighter: TSynCustomHighlighter;
+  Highlighter: TLazEditCustomRangesHighlighter;
   SourceHighlighter: TSynCustomHighlighter;
 begin
   Result:= TdmHighl.Create(Application, True);
