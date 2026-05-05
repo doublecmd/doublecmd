@@ -1795,15 +1795,16 @@ procedure TFileViewWithMainCtrl.ShowRenameFileEdit(
 var
   S: String;
 begin
+  if NOT edtRename.Visible then
+    FRenFile.WithExt:= withExt;
+
   S:= AFile.Name;
-  if NOT withExt then
+  if NOT FRenFile.WithExt then
     S:= ExtractOnlyFileName(S);
 
-  FRenFile.WithExt:= withExt;
   FRenFile.LenFul := UTF8Length(S);
   FRenFile.LenExt := UTF8Length(ExtractFileExt(S));
   FRenFile.LenNam := FRenFile.LenFul - FRenFile.LenExt;
-
 
   if edtRename.Visible and (edtRename.Tag < 2) then
   begin
