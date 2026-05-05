@@ -8,13 +8,21 @@ uses
   Classes, SysUtils, Forms, Controls, SynEdit, DCStringHashListUtf8, LCLVersion,
   SynEditHighlighter, SynHighlighterJava, SynHighlighterXML, SynHighlighterLFM,
   SynHighlighterPHP, SynHighlighterSQL, SynHighlighterCss, SynHighlighterPython,
-  SynHighlighterYAML, SynHighlighterLua, SynUniHighlighter, LazEditHighlighter,
-  uHighlighters, uColors, fpJson;
+  SynHighlighterYAML, SynHighlighterLua, SynUniHighlighter,
+  uHighlighters, uColors, fpJson
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditHighlighter
+{$ENDIF}
+  ;
 
 const
   HighlighterConfig = 'highlighters.xml';
 
 type
+
+{$if lcl_fullversion < 4990000}
+  TLazEditCustomRangesHighlighter = TSynCustomHighlighter;
+{$endif}
 
   { TdmHighl }
 
