@@ -9,7 +9,7 @@ uses
   uFileSourceOperationOptionsUI,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
-  uSearchTemplate, KASComboBox, KASButton;
+  uSearchTemplate, KASComboBox, KASButton, KASControls;
 
 type
 
@@ -38,7 +38,7 @@ type
     lblTemplateName: TLabel;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
-    pnlComboBoxes: TPanel;
+    pnlComboBoxes: TKASPanel;
     pnlCheckboxes: TPanel;
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbCopyAttributesChange(Sender: TObject);
