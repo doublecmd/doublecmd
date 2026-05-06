@@ -941,6 +941,7 @@ var
   procedure LoadHistory(const NodeName: String; HistoryList: TStrings; LoadObj: Boolean = False);
   var
     Idx: Integer;
+    AValue: String;
     Node: TXmlNode;
   begin
     Node := History.FindNode(Root, NodeName);
@@ -952,7 +953,11 @@ var
       begin
         if Node.CompareName('Item') = 0 then
         begin
-          Idx:= HistoryList.Add(History.GetContent(Node));
+          if not History.TryGetAttr(Node, 'Value', AValue) then
+          begin
+            AValue:= History.GetContent(Node);
+          end;
+          Idx:= HistoryList.Add(AValue);
           if LoadObj then begin
             HistoryList.Objects[Idx]:= TObject(UIntPtr(History.GetAttr(Node, 'Tag', 0)));
           end;
@@ -1006,7 +1011,7 @@ var
     for I:= 0 to HistoryList.Count - 1 do
     begin
       SubNode := History.AddNode(Node, 'Item');
-      History.SetContent(SubNode, HistoryList[I]);
+      History.SetAttr(SubNode, 'Value', HistoryList[I]);
       if SaveObj then begin
         History.SetAttr(SubNode, 'Tag', UInt32(UIntPtr(HistoryList.Objects[I])));
       end;
