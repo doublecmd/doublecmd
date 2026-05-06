@@ -74,7 +74,6 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           OnDragOver = lbGenericDragOver
           OnDrawItem = lbGenericListDrawItem
           OnSelectionChange = lbActionsSelectionChange
-          ScrollWidth = 198
           Style = lbOwnerDrawFixed
           TabOrder = 0
         end
@@ -277,7 +276,6 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           OnDragOver = lbGenericDragOver
           OnDrawItem = lbGenericListDrawItem
           OnSelectionChange = lbExtsSelectionChange
-          ScrollWidth = 198
           Style = lbOwnerDrawFixed
           TabOrder = 0
         end
@@ -386,7 +384,6 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           OnDragOver = lbGenericDragOver
           OnDrawItem = lbFileTypesDrawItem
           OnSelectionChange = lbFileTypesSelectionChange
-          ScrollWidth = 232
           Style = lbOwnerDrawFixed
           TabOrder = 0
         end
