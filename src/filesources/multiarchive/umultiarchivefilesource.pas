@@ -609,6 +609,21 @@ begin
       if FOutputParser.OpenError and (AFileList.Count < 1) then
         raise EFileSourceException.Create(rsMsgErrEOpen);
 
+      // fix dir items w/o attr
+      if (mafFixDirAttr in FMultiArcItem.FFlags) then
+      begin
+        for I:= 0 to AFileList.Count - 1 do
+        begin
+          ArchiveItem := TArchiveItem(AFileList.Items[I]);
+          if (ArchiveItem.Attributes = 0) and
+             (FAllDirsList.Find(ArchiveItem.FileName) > -1) then
+          begin
+            ArchiveItem.Attributes := FDirectoryAttribute;
+            FExistsDirList.Add(ArchiveItem.FileName);
+          end;
+        end;
+      end;
+
       (* if archiver does not give a list of folders *)
       for I := 0 to FAllDirsList.Count - 1 do
       begin
