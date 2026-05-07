@@ -139,6 +139,7 @@ type
     }
     FRequestedActiveFile: String;
     FFilterOptions: TQuickSearchOptions;
+    FQuickFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
     FLastMark: String;
     FLastMarkCaseSensitive: Boolean;
@@ -230,6 +231,7 @@ type
   protected
     FFlatView: Boolean;
     FFileFilter: String;
+    FQuickFilter: String;
     FAllDisplayFiles: TDisplayFiles;    //<en List of all files that can be displayed
     FFiles: TDisplayFiles;              //<en List of displayed files (filtered)
     FSavedSelection: TStringListEx;
@@ -484,6 +486,10 @@ type
     procedure ChangePathToChild(const aFile: TFile); virtual;
 
     procedure ExecuteCommand(CommandName: String; const Params: array of String); virtual;
+    procedure ApplyPersistentViewFilter(const AMask: String); virtual;
+    procedure ClearPersistentViewFilter; virtual;
+    function GetPersistentViewFilterHistory: TStringListEx; virtual;
+    function GetLastPersistentViewFilter: String; virtual;
 
     {en
        Returns @true if at least one file is somehow selected.
@@ -525,6 +531,7 @@ type
 
     procedure SetDragCursor(Shift: TShiftState); virtual; abstract;
     procedure SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+    procedure SetQuickFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
     procedure JustForColorPreviewSetActiveState(bActive: Boolean);
 
     property CurrentAddress: String read GetCurrentAddress;
@@ -535,6 +542,9 @@ type
     property CurrentLocation: String read GetCurrentLocation;
     property FileFilter: String read FFileFilter;
     property FilterOptions: TQuickSearchOptions read FFilterOptions;
+    property LoadingFileList: Boolean read IsLoadingFileList;
+    property QuickFilter: String read FQuickFilter;
+    property QuickFilterOptions: TQuickSearchOptions read FQuickFilterOptions;
     property Filtered: Boolean read GetFiltered;
     property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
@@ -612,7 +622,7 @@ uses
   Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
+  uFileViewNotebook, uFilePanelSelect, uSearchTemplate, uKeyboard, uFileFunctions,
   fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels;
 
 const
@@ -686,6 +696,7 @@ begin
   FLastMarkIgnoreAccents := gbMarkMaskIgnoreAccents;
   FFiles := TDisplayFiles.Create(False);
   FFilterOptions := gQuickSearchOptions;
+  FQuickFilterOptions := gQuickSearchOptions;
   FHashedNames := TStringHashListUtf8.Create(True);
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FReloadTimer := TTimer.Create(Self);
@@ -794,6 +805,8 @@ begin
 
     AFileView.FFileFilter := Self.FFileFilter;
     AFileView.FFilterOptions := Self.FFilterOptions;
+    AFileView.FQuickFilter := Self.FQuickFilter;
+    AFileView.FQuickFilterOptions := Self.FQuickFilterOptions;
 
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
@@ -1099,7 +1112,9 @@ begin
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(AFileKey, ADisplayFile);
     InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
-    if not TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions) then
+    if not TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile,
+                                          FileFilter, FFilterOptions,
+                                          QuickFilter, QuickFilterOptions) then
     begin
       InsertFile(ADisplayFile, FFiles, NewFilesPosition);
       VisualizeFileUpdate(ADisplayFile);
@@ -2177,6 +2192,8 @@ begin
     CurrentFileSourceIndex,
     FileFilter,
     FilterOptions,
+    QuickFilter,
+    QuickFilterOptions,
     CurrentPath,
     SortingForSorter,
     FlatView,
@@ -2209,7 +2226,9 @@ var
   bFilterOut: Boolean;
   FilteredFilesIndex: Integer;
 begin
-  bFilterOut := TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions);
+  bFilterOut := TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile,
+                                               FileFilter, FFilterOptions,
+                                               QuickFilter, QuickFilterOptions);
   FilteredFilesIndex := FFiles.Find(ADisplayFile);
   if FilteredFilesIndex >= 0 then
   begin
@@ -3020,6 +3039,42 @@ begin
   FMethods.ExecuteCommand(CommandName, Params);
 end;
 
+procedure TFileView.ApplyPersistentViewFilter(const {%H-}AMask: String);
+begin
+end;
+
+procedure TFileView.ClearPersistentViewFilter;
+begin
+end;
+
+function TFileView.GetPersistentViewFilterHistory: TStringListEx;
+begin
+  if NotebookPage is TFileViewPage then
+    Result := uGlobs.GetPersistentViewFilterHistory(TFileViewPage(NotebookPage).Notebook.Side)
+  else
+    Result := uGlobs.GetPersistentViewFilterHistory(fpLeft);
+end;
+
+function TFileView.GetLastPersistentViewFilter: String;
+var
+  HistoryList: TStringListEx;
+  I: Integer;
+begin
+  Result := EmptyStr;
+  HistoryList := GetPersistentViewFilterHistory;
+  if not Assigned(HistoryList) then Exit;
+
+  for I := 0 to HistoryList.Count - 1 do
+  begin
+    if (HistoryList[I] <> EmptyStr) and
+       (HistoryList[I] <> '*') then
+    begin
+      Result := HistoryList[I];
+      Break;
+    end;
+  end;
+end;
+
 function TFileView.AddFileSource(aFileSource: IFileSource; aPath: String): Boolean;
 var
   IsNewFileSource: Boolean;
@@ -3168,7 +3223,7 @@ end;
 
 function TFileView.GetFiltered: Boolean;
 begin
-  Result := Self.FileFilter <> EmptyStr;
+  Result := (Self.FileFilter <> EmptyStr) or (Self.QuickFilter <> EmptyStr);
 end;
 
 function TFileView.GetPath(FileSourceIndex, PathIndex: Integer): String;
@@ -3308,6 +3363,18 @@ begin
 
   FFileFilter := NewFilter;
   FFilterOptions := NewFilterOptions;
+
+  Request([fvrqMakeDisplayFileList]);
+end;
+
+procedure TFileView.SetQuickFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+begin
+  // do not reload if filter has not changed
+  if (FQuickFilter = NewFilter) and (FQuickFilterOptions = NewFilterOptions) then
+    Exit;
+
+  FQuickFilter := NewFilter;
+  FQuickFilterOptions := NewFilterOptions;
 
   Request([fvrqMakeDisplayFileList]);
 end;
@@ -3671,7 +3738,9 @@ begin
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
   TFileListBuilder.MakeDisplayFileList(
-    FileSource, FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
+    FileSource, FAllDisplayFiles, FFiles,
+    FileFilter, FFilterOptions,
+    QuickFilter, QuickFilterOptions);
   Notify([fvnDisplayFileListChanged]);
 end;
 

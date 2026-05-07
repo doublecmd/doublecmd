@@ -78,6 +78,7 @@ resourcestring
   rsMarkPlus = 'Select mask';
   rsMarkMinus = 'Unselect mask';
   rsMaskInput = 'Input mask:';
+  rsShowCustomFiles = 'Show custom files';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
   rsMsgChDirFailed = 'Change current directory to "%s" failed!';
