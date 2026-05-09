@@ -425,6 +425,8 @@ object frmFindDlg: TfrmFindDlg
             Width = 24
             Anchors = [akTop, akLeft, akBottom]
             BorderSpacing.Left = 2
+            Images = dmComData.ilEditorImages
+            ImageIndex = 44
             TabOrder = 8
             TabStop = True
             OnClick = btnEncodingClick
