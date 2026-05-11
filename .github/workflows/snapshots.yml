@@ -54,7 +54,7 @@ jobs:
       run: ./.github/scripts/create_snapshot.sh
 
     - name: Share data between jobs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: snapshot-mac
         retention-days: 1
@@ -81,7 +81,7 @@ jobs:
       run: ./.github/scripts/create_snapshot.bat
 
     - name: Share data between jobs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: snapshot-win
         retention-days: 1
@@ -119,7 +119,7 @@ jobs:
       run: ./.github/scripts/create_snapshot.lnx
 
     - name: Share data between jobs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: snapshot-lin
         retention-days: 1
