@@ -527,6 +527,7 @@ begin
     for I:= 0 to appArray.count-1 do begin
       appUrl:= NSURL( appArray.objectAtIndex(I) );
       mi:= TMenuItem.Create( miOpenWith );
+      mi.GlyphShowMode:= gsmAlways;
       mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
       mi.Hint := appUrl.path.UTF8String;
       ImageIndex:= PixMapManager.CheckAddFileUniqueIcon(appUrl.path.UTF8String,gIconsInMenusSize);
@@ -587,6 +588,7 @@ begin
       begin
         Entry := PDesktopFileEntry(DesktopEntries[I]);
         mi := TMenuItem.Create(miOpenWith);
+        mi.GlyphShowMode:= gsmAlways;
         mi.Caption := Entry^.DisplayName;
         mi.Hint := Entry^.Exec;
         bmpTemp:= PixMapManager.LoadBitmapEnhanced(Entry^.IconName, 16, True, clMenu);

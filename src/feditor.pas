@@ -373,6 +373,10 @@ begin
   FCommands := TFormCommands.Create(Self, ActListEdit);
 
   FMultiCaret := TSynPluginMultiCaret.Create(Editor);
+
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 procedure TfrmEditor.LoadGlobalOptions;
@@ -382,6 +386,7 @@ begin
   Editor.TabWidth := gEditorSynEditTabWidth;
   Editor.RightEdge := gEditorSynEditRightEdge;
   Editor.BlockIndent := gEditorSynEditBlockIndent;
+  Editor.VisibleSpecialChars:= gEditorSynEditSpecialChars;
 end;
 
 procedure TfrmEditor.actExecute(Sender: TObject);
@@ -651,6 +656,7 @@ begin
   if gModernUI and TDarwinApplicationUtil.supportsModernForm then
     tbToolBar.Hide;
 {$ENDIF}
+  pmContextMenu.ImagesWidth:= gIconsInMenusSize;
 end;
 
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,

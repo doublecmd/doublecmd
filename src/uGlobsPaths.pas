@@ -16,6 +16,7 @@ var
 //Global Configuration Filename
 const
   gcfExtensionAssociation : string = 'extassoc.xml';
+  gcfLocalConfig : string = 'localconfig.xml';
   
 procedure LoadPaths;
 procedure UpdateEnvironmentVariable;

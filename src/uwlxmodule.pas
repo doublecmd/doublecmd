@@ -338,12 +338,12 @@ end;
 
 procedure TWlxModule.UnloadModule;
 begin
-{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6) or DEFINED(LCLGTK2))}
-{$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
+{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3))}
   if FModuleHandle <> 0 then
+  begin
     FreeLibrary(FModuleHandle);
-{$ENDIF}
-  FModuleHandle := 0;
+    FModuleHandle := 0;
+  end;
   { Mandatory }
   ListLoad := nil;
   { Optional }

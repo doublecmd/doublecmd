@@ -28,24 +28,24 @@ interface
 
 uses
   Classes, SysUtils,
-  fOptionsFrame, StdCtrls, ExtCtrls, Buttons, Menus;
+  fOptionsFrame, StdCtrls, ExtCtrls, Buttons, Menus, KASControls;
 
 type
 
   { TfrmOptionsTerminal }
 
   TfrmOptionsTerminal = class(TOptionsEditor)
-    gbRunInTerminalStayOpen: TGroupBox;
+    gbRunInTerminalStayOpen: TKASGroupBox;
     lbRunInTermStayOpenCmd: TLabel;
     edRunInTermStayOpenCmd: TEdit;
     lbRunInTermStayOpenParams: TLabel;
     edRunInTermStayOpenParams: TEdit;
-    gbRunInTerminalClose: TGroupBox;
+    gbRunInTerminalClose: TKASGroupBox;
     lbRunInTermCloseCmd: TLabel;
     edRunInTermCloseCmd: TEdit;
     lbRunInTermCloseParams: TLabel;
     edRunInTermCloseParams: TEdit;
-    gbJustRunTerminal: TGroupBox;
+    gbJustRunTerminal: TKASGroupBox;
     lbRunTermCmd: TLabel;
     edRunTermCmd: TEdit;
     lbRunTermParams: TLabel;
@@ -63,7 +63,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, uDCUtils;
 
 { TfrmOptionsTerminal }
 

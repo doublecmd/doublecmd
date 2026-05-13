@@ -474,6 +474,7 @@ function TfrmQuickSearch.CheckSearchOrFilter(var UTF8Key: TUTF8Char): Boolean;
 var
   ModifierKeys: TShiftState;
   SearchMode: TQuickSearchMode;
+  KeyTypingModifier: TKeyTypingModifier;
 begin
   Result := False;
 
@@ -482,9 +483,10 @@ begin
     Exit;
 
   ModifierKeys := GetKeyShiftStateEx;
-  if gKeyTyping[ktmNone] in [ktaQuickSearch, ktaQuickFilter] then
+  for KeyTypingModifier in [ktmNone, ktmAlt] do
+  if gKeyTyping[KeyTypingModifier] in [ktaQuickSearch, ktaQuickFilter] then
   begin
-    if ModifierKeys * KeyModifiersShortcutNoText = TKeyTypingModifierToShift[ktmNone] then
+    if ModifierKeys * KeyModifiersShortcutNoText = TKeyTypingModifierToShift[KeyTypingModifier] then
       begin
         // Make upper case if either caps-lock is toggled or shift pressed.
         if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then

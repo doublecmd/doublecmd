@@ -1,0 +1,212 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin - MacCloud\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
+"Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: uwfxconfig.rsaliyunossdisplayname
+msgctxt "uwfxconfig.rsaliyunossdisplayname"
+msgid "Alibaba Cloud OSS"
+msgstr "Alibaba 클라우드 OSS"
+
+#: uwfxconfig.rsamazons3displayname
+msgctxt "uwfxconfig.rsamazons3displayname"
+msgid "Amazon S3"
+msgstr "Amazon S3"
+
+#: uwfxconfig.rsbackblazeb2displayname
+msgid "BackBlaze B2"
+msgstr "BackBlaze B2"
+
+#: uwfxconfig.rsboxdisplayname
+msgctxt "uwfxconfig.rsboxdisplayname"
+msgid "Box"
+msgstr "Box"
+
+#: uwfxconfig.rsdropboxdisplayname
+msgctxt "uwfxconfig.rsdropboxdisplayname"
+msgid "DropBox"
+msgstr "DropBox"
+
+#: uwfxconfig.rshuaweiobsdisplayname
+msgctxt "uwfxconfig.rshuaweiobsdisplayname"
+msgid "Huawei Cloud OBS"
+msgstr "Huawei 클라우드 OSS"
+
+#: uwfxconfig.rsoauth2authnotes
+msgctxt "uwfxconfig.rsoauth2authnotes"
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to "
+"obtain authorization from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official "
+"website in the Safari browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double "
+"Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, "
+"Double Commander will not get your password"
+msgstr ""
+"1. 연결을 성공적으로 활성화하기 전에 Double Commander는 {driverName}의 승인"
+"을 받아야 합니다\n"
+"\n"
+"2. 연결 버튼을 클릭하여 Safari 브라우저의 {driverName} 공식 웹사이트로 리디렉"
+"션합니다\n"
+"\n"
+"3. Safari에서 {driverName} 계정을 로그인하고 Double Commander의 액세스 권한"
+"을 부여해 주세요\n"
+"\n"
+"4. 승인은 {driverName} 공식 웹사이트에서 완료되었으며, Double Commander는 비"
+"밀번호를 받을 수 없습니다"
+
+#: uwfxconfig.rsonedrivedisplayname
+msgctxt "uwfxconfig.rsonedrivedisplayname"
+msgid "OneDrive"
+msgstr "OneDrive"
+
+#: uwfxconfig.rsqiniukododisplayname
+msgid "Qiniu Cloud KODO"
+msgstr "Qiniu 클라우드 KODO"
+
+#: uwfxconfig.rss3autoconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to "
+"obtain system-level security. The confidential data can only be read by your "
+"own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are "
+"optional. Double Commander can usually automatically obtain others such as "
+"Buckets. Therefore, Region / EndPoint / Bucket are only required if Access "
+"Key permissions are insufficient."
+msgstr ""
+"1. AccessKeyID와 SelectAccessKey는 시스템 수준의 보안을 확보하기 위해 macOS "
+"키체인에 저장됩니다. 기밀 데이터는 사용자의 macOS 권한으로만 읽을 수 있습니"
+"다.\n"
+"\n"
+"2. 액세스 키 ID와 비밀 액세스 키는 필수이며 나머지는 선택 사항입니다. 더블 커"
+"맨더는 일반적으로 버킷과 같은 다른 항목을 자동으로 얻을 수 있습니다. 따라서 "
+"지역 / 엔드포인트 / 버킷은 액세스 키 권한이 충분하지 않은 경우에만 필요합니"
+"다."
+
+#: uwfxconfig.rss3compatibledisplayname
+msgctxt "uwfxconfig.rss3compatibledisplayname"
+msgid "S3 Compatible"
+msgstr "S3 호환"
+
+#: uwfxconfig.rss3manualconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to "
+"obtain system-level security. The confidential data can only be read by your "
+"own macOS permissions.\n"
+"\n"
+"2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are "
+"required for {driverName}"
+msgstr ""
+"1. AccessKeyID와 SelectAccessKey는 시스템 수준의 보안을 확보하기 위해 macOS "
+"키체인에 저장됩니다. 기밀 데이터는 사용자의 macOS 권한으로만 읽을 수 있습니"
+"다.\n"
+"\n"
+"2. {driverName}에 액세스 키 ID / 비밀 액세스 키 / 지역 / 엔드포인트 / 버킷이 "
+"필요합니다"
+
+#: uwfxconfig.rstencentcosdisplayname
+msgctxt "uwfxconfig.rstencentcosdisplayname"
+msgid "Tencent Cloud COS"
+msgstr "Tencent 클라우드 OSS"
+
+#: uwfxconfig.rsupyunussdisplayname
+msgid "Upyun USS"
+msgstr "Upyun USS"
+
+#: uwfxconfig.rsyandexdisplayname
+msgctxt "uwfxconfig.rsyandexdisplayname"
+msgid "Yandex"
+msgstr "Yandex"
+
+#: uwfxoptionscommonrs.rsaddnewconnection
+msgctxt "uwfxoptionscommonrs.rsaddnewconnection"
+msgid "<Add New Connection>"
+msgstr "<새 연결 추가>"
+
+#: uwfxoptionscommonrs.rscancelbuttontitle
+msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
+msgid "Cancel"
+msgstr "취소"
+
+#: uwfxoptionscommonrs.rsconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsconnectbuttontitle"
+msgid "Connect"
+msgstr "연결"
+
+#: uwfxoptionscommonrs.rsdisconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsdisconnectbuttontitle"
+msgid "Disconnect"
+msgstr "연결 끊기"
+
+#: uwfxoptionscommonrs.rsnamelabel
+msgctxt "uwfxoptionscommonrs.rsnamelabel"
+msgid "Name:"
+msgstr "이름:"
+
+#: uwfxoptionscommonrs.rsokbuttontitle
+msgctxt "uwfxoptionscommonrs.rsokbuttontitle"
+msgid "OK"
+msgstr "확인"
+
+#: uwfxoptionscommonrs.rssavebuttontitle
+msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
+msgid "Save"
+msgstr "저장"
+
+#: uwfxoptionss3.rsaccesskeyidlabel
+msgid "Access Key ID:"
+msgstr "액세스 키 ID:"
+
+#: uwfxoptionss3.rsbucketlabel
+msgid "Bucket:"
+msgstr "버킷:"
+
+#: uwfxoptionss3.rsendpointlabel
+msgid "Endpoint:"
+msgstr "엔드포인트:"
+
+#: uwfxoptionss3.rsparamsalerttext
+msgid ""
+"Access Key ID and Secret Access Key are required, please make sure they are "
+"correct. If permissions are insufficient or you are setting \"S3 "
+"Compatible\", Region / Endpoint / Bucket is also required."
+msgstr ""
+"액세스 키 ID와 비밀 액세스 키가 필요합니다. 권한이 충분하지 않거나 \"S3 호환"
+"\"을 설정 중인 경우, 지역 / 엔드포인트 / 버킷도 필요합니다."
+
+#: uwfxoptionss3.rsparamsalerttitle
+msgid "Incomplete Parameters"
+msgstr "불완전한 매개변수"
+
+#: uwfxoptionss3.rsregionlabel
+msgid "Region:"
+msgstr "지역:"
+
+#: uwfxoptionss3.rsregionlistlabel
+msgid "Region List:"
+msgstr "지역 목록:"
+
+#: uwfxoptionss3.rsregionusercustom
+msgid "(User Custom)"
+msgstr "(사용자 지정)"
+
+#: uwfxoptionss3.rssecretaccesskeylabel
+msgid "Secret Access Key:"
+msgstr "비밀 액세스 키:"
+
+#: uwfxoptionss3.rstemporarytokenlabel
+msgid "Temporary Token:"
+msgstr "임시 토큰:"

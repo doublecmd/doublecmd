@@ -47,8 +47,8 @@ type
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
-    procedure ShowRenameFileEdit(var aFile: TFile); override;
-    procedure UpdateRenameFileEditPosition; override;
+    procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); override;
     function GetVisibleFilesIndexes: TRange; override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
@@ -554,7 +554,8 @@ begin
   Result:= TBriefDrawGrid;
 end;
 
-procedure TBriefFileView.ShowRenameFileEdit(var aFile: TFile);
+procedure TBriefFileView.ShowRenameFileEdit(
+  var aFile: TFile; const withExt: Boolean);
 begin
   if not edtRename.Visible then
   begin
@@ -564,17 +565,17 @@ begin
 
     dgPanel.LeftCol:= dgPanel.Col;
 
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(withExt);
   end;
 
-  inherited ShowRenameFileEdit(AFile);
+  inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
-procedure TBriefFileView.UpdateRenameFileEditPosition;
+procedure TBriefFileView.UpdateRenameFileEditPosition(const withExt: Boolean);
 var
   ARect: TRect;
 begin
-  inherited UpdateRenameFileEditPosition;
+  inherited UpdateRenameFileEditPosition(withExt);
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   Dec(ARect.Top, 2);

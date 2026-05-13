@@ -807,6 +807,7 @@ type
     {$IFDEF DARWIN}
     procedure GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure OpenNewWindow(Sender: TObject);
+    procedure installMacOSFNKeyTap(Sender: TObject; var Done: Boolean);
     {$ENDIF}
 
   protected
@@ -934,6 +935,8 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams);
 
+    function IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+                              RepeatCount: Integer; SystemKey: Boolean): Boolean; override;
 
     property Drives: TDrivesList read DrivesList;
     property SyncChangeDir: String write FSyncChangeDir;
@@ -1137,7 +1140,7 @@ begin
   Application.AddOnKeyDownBeforeHandler( @GlobalMacOSKeyDownHandler );
   {$ENDIF}
 
-  {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
   // Save original captions
   for I:= 0 to mnuMain.Items.Count - 1 do
   begin
@@ -1265,6 +1268,8 @@ begin
 {$IF DEFINED(DARWIN)}
   TDarwinApplicationUtil.initServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
+  if gForceFunctionKey then
+    Application.OnIdle:= @installMacOSFNKeyTap;
 {$ENDIF}
 end;
 
@@ -2087,6 +2092,28 @@ begin
 
   finally
     FreeAndNil(DropParams);
+  end;
+end;
+
+function TfrmMain.IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+  RepeatCount: Integer; SystemKey: Boolean): Boolean;
+begin
+  if (RepeatCount < 0) and (gKeyTyping[ktmAlt] = ktaCommandLine) then
+  begin
+    if GetKeyShiftStateEx * KeyModifiersShortcutNoText = [ssAlt] then
+    begin
+      if FrameLeft.Focused or FrameRight.Focused then
+      begin
+        TypeInCommandLine(UTF8Key);
+        UTF8Key := '';
+        Exit(True);
+      end;
+    end;
+  end;
+  if (RepeatCount < 0) then
+    Result:= False
+  else begin
+    Result:= inherited IntfUTF8KeyPress(UTF8Key, RepeatCount, SystemKey);
   end;
 end;
 
@@ -5825,7 +5852,7 @@ begin
       UpdateFreeSpace(fpRight, True);
     end;
 
-{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
     // https://github.com/doublecmd/doublecmd/issues/1327
     if mnuMain.Tag <> PtrInt(gKeyTyping[ktmAlt]) then
     begin
@@ -7414,6 +7441,12 @@ end;
 procedure TfrmMain.OpenNewWindow(Sender: TObject);
 begin
   TDarwinApplicationUtil.openNewInstance;
+end;
+
+procedure TfrmMain.installMacOSFNKeyTap(Sender: TObject; var Done: Boolean);
+begin
+  TDarwinApplicationUtil.installFNKeyTap;
+  Application.OnIdle:= nil;
 end;
 {$ENDIF}
 

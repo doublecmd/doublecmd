@@ -96,6 +96,8 @@ begin
   edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
   seeBlockIndent.Value := gEditorSynEditBlockIndent;
   seeRightEdge.Value := gEditorSynEditRightEdge;
+  chkShowSpecialChars.Enabled:= (gEditorSynEditSpecialChars <> []);
+  if not chkShowSpecialChars.Enabled then chkShowSpecialChars.Checked:= False;
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;

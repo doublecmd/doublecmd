@@ -42,7 +42,7 @@ type
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
       class function CreateFile(const APath: String): TFile; override;
-      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile; virtual;
+      class function CreateFile(const APath: String; AFolder, AFile: PGFile; AFileInfo: PGFileInfo): TFile; virtual;
 
       procedure Reload(const PathsToReload: TPathsArray); override;
       function GetParentDir(sPath : String): String; override;
@@ -80,7 +80,8 @@ uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
-  DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio, uFileSourceManager;
+  DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio, uFileSourceManager,
+  uGioFileSourceUtil;
 
 type
 
@@ -139,25 +140,26 @@ begin
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
-    LinkProperty := TFileLinkProperty.Create;
+    LinkProperty := TGioLinkProperty.Create;
     OwnerProperty := TFileOwnerProperty.Create;
     TypeProperty := TFileTypeProperty.Create;
     CommentProperty := TFileCommentProperty.Create;
   end;
 end;
 
-class function TGioFileSource.CreateFile(const APath: String; AFolder: PGFile;
-  AFileInfo: PGFileInfo): TFile;
+class function TGioFileSource.CreateFile(const APath: String; AFolder,
+  AFile: PGFile; AFileInfo: PGFileInfo): TFile;
 var
   Addr: TURI;
-  AFile: PGFile;
   ATarget: Pgchar;
+  APathType: TPathType;
   AFileType: TGFileType;
   AFileTime: TFileTimeEx;
   ASymlinkInfo: PGFileInfo;
 begin
   Result:= CreateFile(APath);
   Result.Name:= g_file_info_get_name(AFileInfo);
+  TGioLinkProperty(Result.LinkProperty).Item:= AFile;
   Result.Attributes:= g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   AFileTime.sec:= Int64(g_file_info_get_attribute_uint64(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
   AFileTime.nanosec:= Int64(g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED_USEC)) * 1000;
@@ -185,8 +187,15 @@ begin
       if Assigned(ATarget) then
       begin
         Result.LinkProperty.LinkTo := ATarget;
+        APathType:= DCStrUtils.GetPathType(Result.LinkProperty.LinkTo);
 
-        AFile:= g_file_get_child(AFolder, ATarget);
+        if (APathType <> ptAbsolute) then
+          AFile:= g_file_get_child(AFolder, ATarget)
+        else begin
+          Addr:= ParseURI(APath);
+          Addr.Path:= Result.LinkProperty.LinkTo;
+          AFile:= GioNewFile(EncodeURI(Addr));
+        end;
         Result.LinkProperty.IsValid:= Assigned(AFile);
 
         if Result.LinkProperty.IsValid then

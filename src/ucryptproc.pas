@@ -314,7 +314,7 @@ begin
     FArgon2.A:= ARGON2_TYP[ATemp.M >> 31];
     FArgon2.T:= Min(64, Max(ATemp.T, ARGON2_T));
     FArgon2.P:= Min(64, Max(ATemp.P, ARGON2_P));
-    FArgon2.M:= Min(2048, Max(ATemp.M and $7FFFFFFF, ARGON2_M));
+    FArgon2.M:= Min(2097152, Max(ATemp.M and $7FFFFFFF, ARGON2_M));
   end;
 end;
 

@@ -119,6 +119,10 @@ function ExecutableInSystemPath(const FileName: String): Boolean;
 function GetDefaultAppCmd(const FileName: String): String;
 function GetFileMimeType(const FileName: String): String;
 {en
+   Fix invalid default format settings
+}
+procedure FixFormatSettings;
+{en
    Fix separators in case they are broken UTF-8 characters
    (FPC takes only first byte as it doesn't support Unicode).
 }
@@ -368,6 +372,20 @@ begin
   Result:= EmptyStr;
 end;
 {$ENDIF}
+
+procedure FixFormatSettings;
+begin
+  try
+    FormatDateTime(DefaultFormatSettings.ShortDateFormat, Now);
+  except
+    on E: Exception do
+    begin
+      DebugLn('Warning: %s (%s)', [E.Message, DefaultFormatSettings.ShortDateFormat]);
+      DefaultFormatSettings.ShortDateFormat:= 'yyyy.mm.dd';
+    end;
+  end;
+  FixDateTimeSeparators;
+end;
 
 procedure FixDateTimeSeparators;
 var

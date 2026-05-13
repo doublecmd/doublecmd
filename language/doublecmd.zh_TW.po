@@ -693,7 +693,7 @@ msgstr "開啟右邊檔案..."
 
 #: tfrmdiffer.actpaintbackground.caption
 msgid "Paint Background"
-msgstr "繪製背景色彩"
+msgstr "繪製背景顏色"
 
 #: tfrmdiffer.actprevdifference.caption
 msgctxt "tfrmdiffer.actprevdifference.caption"
@@ -1618,6 +1618,10 @@ msgstr "新增 (&A)"
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "說明 (&H)"
+
+#: tfrmfinddlg.btndrives.caption
+msgid "Drives"
+msgstr "磁碟"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2873,7 +2877,7 @@ msgstr "依大小排序 (&S)"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
-msgstr ""
+msgstr "開啟磁碟清單"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
@@ -3271,45 +3275,46 @@ msgstr "確定 (&O)"
 #: tfrmmaincommandsdlg.caption
 msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
-msgstr ""
+msgstr "選擇內部指令"
 
 #: tfrmmaincommandsdlg.cbcategorysortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "傳承排序"
 
 #: tfrmmaincommandsdlg.cbcommandssortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcommandssortornot.text"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "傳承排序"
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr ""
+msgstr "預設選擇全部類別"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
-msgstr ""
+msgstr "選擇:"
 
 #: tfrmmaincommandsdlg.lblcategory.caption
 msgid "&Categories:"
-msgstr ""
+msgstr "類別 (&C):"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr ""
+msgstr "指令名稱 (&N):"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
-msgstr ""
+msgstr "篩選 (&F):"
 
 #: tfrmmaincommandsdlg.lblhint.caption
 msgid "Hint:"
-msgstr ""
+msgstr "提示:"
 
 #: tfrmmaincommandsdlg.lblhotkey.caption
 msgid "Hotkey:"
-msgstr ""
+msgstr "熱鍵:"
 
 #: tfrmmaincommandsdlg.lblselectedcommand.caption
 msgid "cm_name"
@@ -3318,16 +3323,16 @@ msgstr ""
 #: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
 msgid "Category"
-msgstr ""
+msgstr "類別"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhelp.caption
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandhelp.caption"
 msgid "Help"
-msgstr ""
+msgstr "說明"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhint.caption
 msgid "Hint"
-msgstr ""
+msgstr "提示"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
@@ -3868,7 +3873,7 @@ msgstr "檔案路徑"
 #: tfrmmultirenamewait.caption
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
@@ -4300,24 +4305,24 @@ msgstr "二進制模式"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "書本模式"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "圖片模式"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "文字模式"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "新增的:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
 msgid "Background:"
-msgstr ""
+msgstr "背景顏色:"
 
 #: tfrmoptionscolors.lblbooktext.caption
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
@@ -4326,44 +4331,44 @@ msgstr "文字:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "類別:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "已刪除:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "錯誤:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr ""
+msgstr "背景顏色1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
-msgstr "背景色彩2:"
+msgstr "背景顏色2:"
 
 #: tfrmoptionscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
-msgstr "指示器背景色彩 (&D):"
+msgstr "指示器背景顏色 (&D):"
 
 #: tfrmoptionscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr "指示器前景色彩 (&I):"
+msgstr "指示器前景顏色 (&I):"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr ""
+msgstr "指示器阈值顏色 (&T):"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "資訊:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr ""
+msgstr "左邊:"
 
 #: tfrmoptionscolors.lblmodified.caption
 msgctxt "tfrmoptionscolors.lblmodified.caption"
@@ -4377,20 +4382,25 @@ msgstr "修改時間:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr ""
+msgstr "右邊:"
+
+#: tfrmoptionscolors.lblselection.caption
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "選擇:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
-msgstr ""
+msgstr "成功:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "未知:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr ""
+msgstr "狀態"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
@@ -4867,12 +4877,12 @@ msgstr ""
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
 msgid "BackGround:"
-msgstr "背景色彩:"
+msgstr "背景顏色:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
-msgstr "背景色彩2:"
+msgstr "背景顏色2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
@@ -4886,12 +4896,12 @@ msgstr ""
 #: tfrmoptionscustomcolumns.lblcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
 msgid "Cursor Color:"
-msgstr "指標色彩:"
+msgstr "指標顏色:"
 
 #: tfrmoptionscustomcolumns.lblcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.lblcursortext.caption"
 msgid "Cursor Text:"
-msgstr "指標文字色彩:"
+msgstr "指標文字顏色:"
 
 #: tfrmoptionscustomcolumns.lblfilesystem.caption
 msgid "&File system:"
@@ -4910,7 +4920,7 @@ msgstr "大小:"
 #: tfrmoptionscustomcolumns.lblforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
-msgstr "文字色彩:"
+msgstr "文字顏色:"
 
 #: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
@@ -4925,7 +4935,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.lblmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
 msgid "Mark Color:"
-msgstr "標記行色彩:"
+msgstr "標記行顏色:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
@@ -5481,12 +5491,12 @@ msgstr ""
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
-msgstr "背景色彩 (&K)"
+msgstr "背景顏色 (&K)"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Bac&kground"
-msgstr "背景色彩 (&K)"
+msgstr "背景顏色 (&K)"
 
 #: tfrmoptionseditorcolors.btnresetmask.hint
 msgid "Reset"
@@ -5499,12 +5509,12 @@ msgstr "元件屬性"
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Fo&reground"
-msgstr "前景色彩 (&R)"
+msgstr "前景顏色 (&R)"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
 msgid "Fo&reground"
-msgstr "前景色彩 (&R)"
+msgstr "前景顏色 (&R)"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
 msgid "&Text-mark"
@@ -5835,9 +5845,10 @@ msgid "C&lone"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btncommands.hint
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
 msgid "Select your internal command"
-msgstr ""
+msgstr "選擇內部指令"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
@@ -6249,22 +6260,22 @@ msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
-msgstr "背景色彩 (&K):"
+msgstr "背景顏色 (&K):"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
 msgid "Backg&round 2:"
-msgstr "背景色彩2 (&R):"
+msgstr "背景顏色2 (&R):"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
 msgid "C&ursor Color:"
-msgstr "指標行背景色彩 (&U):"
+msgstr "指標行背景顏色 (&U):"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
-msgstr "指標行文字色彩 (&X):"
+msgstr "指標行文字顏色 (&X):"
 
 #: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
@@ -6284,17 +6295,18 @@ msgstr "非現用面板的亮度級別 (&B):"
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
-msgstr "標記色彩 (&M):"
+msgstr "標記顏色 (&M):"
 
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "背景顏色:"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
-msgstr "文字色彩:"
+msgstr "文字顏色:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
@@ -6311,7 +6323,7 @@ msgstr ""
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
-msgstr "文字色彩 (&E):"
+msgstr "文字顏色 (&E):"
 
 #: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
 msgid "When launching file search, clear file mask filter"
@@ -6447,7 +6459,7 @@ msgstr "說明 (&H)"
 #: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
+msgstr "雙擊檔案視圖空白區域時，切換到上一層資料夾"
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
@@ -6467,7 +6479,7 @@ msgstr "高亮顯示新檔及更新檔案 (&G)"
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
+msgstr "兩次點按档案名時，啓用就地重命名"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
@@ -6492,22 +6504,27 @@ msgstr "當按下 <空白鍵> 選擇檔案後, 移動到下一個檔案 (就像�
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
+msgstr "選擇檔案時使用 Windows 樣式過濾器（\"*.*\" 同時選擇沒有副檔名的檔案等）"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
 msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr ""
+msgstr "每次在遮罩輸入對話盒中使用獨立的屬性過濾器"
 
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
 msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
 msgid "Marking/Unmarking entries"
-msgstr ""
+msgstr "選擇/取消選擇"
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
-msgstr ""
+msgstr "屬性遮罩預設值:"
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr "補充行間距:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6527,7 +6544,7 @@ msgstr "範本..."
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "檔案類型色彩 (可用拖曳排序)"
+msgstr "檔案類型顏色 (可用拖曳排序)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -6537,7 +6554,7 @@ msgstr "類別屬性 (&T):"
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
 msgid "Category co&lor:"
-msgstr "類別色彩 (&L):"
+msgstr "類別顏色 (&L):"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
@@ -6619,7 +6636,7 @@ msgstr ""
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "&Filter"
-msgstr "篩選 (&F):"
+msgstr "篩選 (&F)"
 
 #: tfrmoptionshotkeys.lblcategories.caption
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
@@ -6793,6 +6810,32 @@ msgstr "忽略/不顯示下列的檔案及資料夾 (&I):"
 msgctxt "TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION"
 msgid "&Save in:"
 msgstr "儲存位置 (&S):"
+
+#: tfrmoptionskeyboard.cbfnkey.caption
+msgid ""
+"Force F1, F2, etc. to be treated as function keys\n"
+"ignore the settings in System Settings > Keyboard"
+msgstr ""
+"強制將F1、F2等鍵用作標準功能鍵\n"
+"忽略「系統偏好設定 > 鍵盤」中的設定"
+
+#: tfrmoptionskeyboard.cbfnkey.hint
+msgid ""
+"This feature requires additional system permission.\n"
+"\n"
+"Enabling it will automatically guide you to the\n"
+"System Settings > Privacy & Security > Accessibility Panel.\n"
+"\n"
+"Each time a new version of DC is installed, you must first\n"
+"remove DC from the list and then add it back in."
+msgstr ""
+"此功能需要額外的系統權限。\n"
+"\n"
+"啟用此功能將會自動引導至授權設定頁：\n"
+"「系統偏好設定 > 隱私權與安全性 > 輔助使用」\n"
+"\n"
+"以後每次安裝DC新版本，必須先在授權清單中\n"
+"將DC移除，然後再重新加入DC到清單。"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7727,9 +7770,10 @@ msgid "Parameter&s:"
 msgstr "參數 (&S):"
 
 #: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
-msgstr ""
+msgstr "說明"
 
 #: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
@@ -8352,7 +8396,7 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr "指標行背景色彩:"
+msgstr "指標行背景顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
@@ -10176,9 +10220,10 @@ msgid "Read error:"
 msgstr ""
 
 #: ulng.rschecksumverifysuccess
+#, fuzzy
 msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
-msgstr ""
+msgstr "成功:"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
@@ -10206,7 +10251,7 @@ msgstr ""
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr ""
+msgstr "傳承排序;A-Z 排序"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -10277,11 +10322,11 @@ msgstr "複製 (%d) %s"
 
 #: ulng.rsdarkmode
 msgid "Dark mode"
-msgstr ""
+msgstr "深色模式"
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "自動;啟用;停用"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
@@ -10806,9 +10851,13 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "尋找檔案"
 
+#: ulng.rsfindselectdrives
+msgid "Select drives"
+msgstr "選擇磁碟"
+
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr ""
+msgstr "掃描時間: "
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -14126,9 +14175,10 @@ msgid "All"
 msgstr "全部"
 
 #: ulng.rssimplewordcategory
+#, fuzzy
 msgctxt "ulng.rssimplewordcategory"
 msgid "Category"
-msgstr ""
+msgstr "類別"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"

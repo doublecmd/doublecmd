@@ -77,6 +77,11 @@ type
     Bitmap: array[TDriveType] of TBitmap;
   end;
 
+  TIconThemeType = (
+    ittInternal,        // DCTheme only
+    ittSystemOrInternal // System theme, DCTheme
+  );
+
   { TfromWhatBitmapWasLoaded }
   //Used to indicate from where the icon was loaded from.
   //Useful when exporting to TC for example which cannot used "as is" the same icon file in some circumstances.
@@ -350,7 +355,8 @@ type
     function CheckAddFileUniqueIcon(AFullPath: String; AIconSize : Integer = 0): PtrInt;
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
-    function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
+    function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
+    function GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean = True) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -468,7 +474,7 @@ var
   bitmapSize: Integer;
 begin
   bitmapSize := Round(iIconSize * findScaleFactorByFirstForm());
-  StretchBitmap( bmBitmap, bitmapSize, clBackColor, bFreeAtEnd );
+  Result := StretchBitmap( bmBitmap, bitmapSize, clBackColor, bFreeAtEnd );
 end;
 
 procedure AssignRetinaBitmapForControl(
@@ -586,6 +592,7 @@ var
   AIcon: TIcon;
   iIndex : PtrInt;
   FileExt: String;
+  bitmapSize: Integer;
   GraphicClass: TGraphicClass;
   bmStandartBitmap : Graphics.TBitMap = nil;
 begin
@@ -637,7 +644,8 @@ begin
           AIcon:= TIcon.Create;
           try
             AIcon.LoadFromFile(sFileName);
-            AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(iIconSize, iIconSize));
+            bitmapSize:= Round(iIconSize * findScaleFactorByFirstForm());
+            AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(bitmapSize, bitmapSize));
             bmStandartBitmap:= Graphics.TBitmap.Create;
             try
               if AIcon.RawImage.Description.AlphaPrec <> 0 then
@@ -656,7 +664,8 @@ begin
         else if (GraphicClass = TScalableVectorGraphics) then
         begin
           Stretch := False;
-          bmStandartBitmap := TScalableVectorGraphics.CreateBitmap(sFileName, iIconSize, iIconSize)
+          bitmapSize:= Round(iIconSize * findScaleFactorByFirstForm());
+          bmStandartBitmap := TScalableVectorGraphics.CreateBitmap(sFileName, bitmapSize, bitmapSize)
         end
         else begin
           LoadBitmapFromFile(sFileName, bmStandartBitmap);
@@ -2640,12 +2649,31 @@ begin
 end;
 
 function TPixMapManager.GetThemeIcon(const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
+begin
+  Result:= GetThemeIcon(ittSystemOrInternal, AIconName, AIconSize);
+end;
+
+function TPixMapManager.GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   ABitmap: Graphics.TBitmap;
 begin
-  Result:= LoadIconThemeBitmap(AIconName, AIconSize);
+  if AThemeType > ittInternal then
+    Result:= LoadIconThemeBitmap(AIconName, AIconSize)
+  else begin
+    FPixmapsLock.Acquire;
+    try
+      Result:= LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+    finally
+      FPixmapsLock.Release;
+    end;
+  end;
+
   if Assigned(Result) then
   begin
+    // LoadIconThemeBitmap takes into account
+    // CanvasScaleFactor, so use scaled icon size here
+    AIconSize := Round(AIconSize * findScaleFactorByFirstForm());
+
     if (Result.Width > AIconSize) or (Result.Height > AIconSize) then
     begin
       ABitmap:= Graphics.TBitmap.Create;

@@ -1634,6 +1634,10 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "A&juda"
 
+#: tfrmfinddlg.btndrives.caption
+msgid "Drives"
+msgstr ""
+
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -3313,6 +3317,7 @@ msgid "Select all categories by default"
 msgstr "Escolher todas as categorias por predefinição"
 
 #: tfrmmaincommandsdlg.gbselection.caption
+msgctxt "tfrmmaincommandsdlg.gbselection.caption"
 msgid "Selection:"
 msgstr "Selecção:"
 
@@ -4405,6 +4410,12 @@ msgstr "Modificado:"
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Direita:"
+
+#: tfrmoptionscolors.lblselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblselection.caption"
+msgid "Selection:"
+msgstr "Selecção:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -6516,6 +6527,11 @@ msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
 msgstr "Valor predefinido de máscara de atributo:"
 
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
+
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
@@ -6797,6 +6813,23 @@ msgstr "&Ignorar (não mostrar) os ficheiros e pastas seguintes:"
 msgctxt "TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION"
 msgid "&Save in:"
 msgstr "&Gravar em:"
+
+#: tfrmoptionskeyboard.cbfnkey.caption
+msgid ""
+"Force F1, F2, etc. to be treated as function keys\n"
+"ignore the settings in System Settings > Keyboard"
+msgstr ""
+
+#: tfrmoptionskeyboard.cbfnkey.hint
+msgid ""
+"This feature requires additional system permission.\n"
+"\n"
+"Enabling it will automatically guide you to the\n"
+"System Settings > Privacy & Security > Accessibility Panel.\n"
+"\n"
+"Each time a new version of DC is installed, you must first\n"
+"remove DC from the list and then add it back in."
+msgstr ""
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -10804,6 +10837,10 @@ msgstr "A pesquisar"
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Localizar ficheiros"
+
+#: ulng.rsfindselectdrives
+msgid "Select drives"
+msgstr ""
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "

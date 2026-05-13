@@ -17,7 +17,7 @@ DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
 
 # Get libraries
 pushd install
-wget https://github.com/doublecmd/snapshots/raw/main/darwin.tar.gz
+wget https://github.com/doublecmd/external/raw/main/darwin.tar.gz
 tar xzf darwin.tar.gz
 rm -f darwin.tar.gz
 popd

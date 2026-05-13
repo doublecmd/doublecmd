@@ -25,7 +25,7 @@ type
   TStartMemPack = function (Options: Integer;  FileName: PAnsiChar): TArcHandle;
   TPackToMem = function (hMemPack: TArcHandle;  BufIn: PByte;  InLen: Integer;  Taken: pInteger;  BufOut: PByte;  OutLen: Integer;  Written: pInteger;  SeekBy: pInteger): Integer;
   TDoneMemPack = function (hMemPack: TArcHandle): Integer;
-  TCanYouHandleThisFile = function (FileName: PAnsiChar): boolean;
+  TCanYouHandleThisFile = function (FileName: PAnsiChar): LongBool;
   TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);
   TReadHeaderEx = function (hArcData: TArcHandle; var HeaderDataEx : THeaderDataEx): Integer;
   TPkSetCryptCallback = procedure (PkCryptProc: TPkCryptProc; CryptoNr, Flags: Integer);
@@ -39,7 +39,7 @@ type
   TPackFilesW = function (PackedFile, SubPath, SrcPath, AddList: PWideChar; Flags: Integer): Integer;
   TDeleteFilesW = function (PackedFile, DeleteList: PWideChar): Integer;
   TStartMemPackW = function (Options: Integer;  FileName: PWideChar): TArcHandle;
-  TCanYouHandleThisFileW = function (FileName: PWideChar): boolean;
+  TCanYouHandleThisFileW = function (FileName: PWideChar): LongBool;
   TPkSetCryptCallbackW = procedure (PkCryptProc: TPkCryptProcW; CryptoNr, Flags: Integer);
 
 {$CALLING DEFAULT}

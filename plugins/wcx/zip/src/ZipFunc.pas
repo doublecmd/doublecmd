@@ -78,7 +78,7 @@ function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall; exp
 function GetPackerCaps : Integer;dcpcall; export;
 function GetBackgroundFlags: Integer; dcpcall; export;
 procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);dcpcall; export;
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; dcpcall; export;
 {Extension API}
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; export;
 
@@ -389,6 +389,7 @@ end;
 
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
 var
+  Exists: Boolean;
   FileExt: String;
   FilePath: String;
   Arc : TAbZipKitEx;
@@ -412,6 +413,7 @@ begin
     sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
     try
+      Exists:= mbFileExists(sPackedFile);
       FileExt:= LowerCase(ExtractFileExt(sPackedFile));
 
       if ((Flags and PK_PACK_ENCRYPT) <> 0) then
@@ -489,6 +491,10 @@ begin
   finally
     Result := Arc.FOperationResult;
     FreeAndNil(Arc);
+  end;
+  if (Result = E_EABORTED) and (not Exists) then
+  begin
+    mbDeleteFile(sPackedFile);
   end;
 end;
 
@@ -572,7 +578,7 @@ begin
   CreateZipConfDlg;
 end;
 
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
+function CanYouHandleThisFileW(FileName: PWideChar): LongBool; dcpcall; export;
 begin
   try
     Result:= (AbDetermineArcType(UTF16ToUTF8(UnicodeString(FileName)), atUnknown) <> atUnknown);

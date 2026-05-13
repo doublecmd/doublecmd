@@ -5,7 +5,7 @@ unit uFileViewBaseGrid;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, LCLType,
   uFileSource, uFileView, uFileViewWithMainCtrl,
   uSmoothScrollingGrid;
 
@@ -29,6 +29,8 @@ type
     function CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
   public
     function calcTextHeight: Integer; inline;
+    function IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+                              RepeatCount: Integer; SystemKey: Boolean): Boolean; override;
   end;
 
 implementation
@@ -132,6 +134,17 @@ end;
 function TFileViewBaseGrid.calcTextHeight: Integer;
 begin
   Result:= self.Canvas.TextHeight('Wg');
+end;
+
+function TFileViewBaseGrid.IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+  RepeatCount: Integer; SystemKey: Boolean): Boolean;
+begin
+  if SystemKey and Assigned(getFileView) then
+  begin
+    if getFileView.IntfUTF8KeyPress(UTF8Key, -1, SystemKey) then
+      Exit(True);
+  end;
+  Result:= inherited IntfUTF8KeyPress(UTF8Key, RepeatCount, SystemKey);
 end;
 
 function TFileViewBaseGrid.isMultiColumns: Boolean;

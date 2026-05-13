@@ -239,7 +239,7 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  LCLVersion, SysConst, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
+  LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
 
 {$R *.lfm}
 
@@ -938,6 +938,7 @@ begin
   {$IFDEF LCLCOCOA}
   pnlProgress.Color:=clBtnHighlight;
   {$ENDIF}
+  MainDrawGrid.SelectedColor:= gColors.SyncDirs^.SelectedColor;
 
   lblProgress.Caption    := rsOperCopying;
   lblProgressDelete.Caption   := rsOperDeleting;
@@ -967,6 +968,10 @@ begin
   HMSync := HotMan.Register(Self, HotkeysCategory);
   HMSync.RegisterActionList(ActionList);
   FCommands := TFormCommands.Create(Self, ActionList);
+
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.FormResize(Sender: TObject);
@@ -1390,6 +1395,7 @@ var
       i, j: Integer;
       f: TFile;
       r: TFileSyncRec;
+      fn: String;
     begin
       if sideLeft then
         fs := FFileSourceL.GetFiles(BaseDirL + dir)
@@ -1409,19 +1415,20 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
+          fn := NormalizeFileName(f.Name);
           if f.IsDirectory or f.IsLinkToDirectory then
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
             begin
               if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
-                dirs.Add(f.Name);
+                dirs.Add(fn);
             end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
           begin
             if ((MaskList = nil) or MaskList.Matches(f.Name)) then
             begin
-              j := it.IndexOf(f.Name);
+              j := it.IndexOf(fn);
               if j < 0 then
                 r := TFileSyncRec.Create(Self, dir)
               else
@@ -1439,7 +1446,7 @@ var
                   r.FState := srsUnknown;
                 end;
               end;
-              it.AddObject(f.Name, r);
+              it.AddObject(fn, r);
             end;
           end;
         end;
@@ -1575,7 +1582,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
     end;
     case FSortIndex of
     0:
-      Result := UTF8CompareStr(sl[i], sl[j]);
+      Result := mbCompareStr(sl[i], sl[j]);
     1:
       if (Assigned(r1.FFileL) < Assigned(r2.FFileL))
       or Assigned(r2.FFileL) and (r1.FFileL.Size < r2.FFileL.Size) then
@@ -1621,7 +1628,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
       else
         Result := 0;
     6:
-      Result := UTF8CompareStr(sl[i], sl[j]);
+      Result := mbCompareStr(sl[i], sl[j]);
     end;
     if FSortDesc then
       Result := -Result;

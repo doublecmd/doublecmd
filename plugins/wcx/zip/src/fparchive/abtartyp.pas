@@ -417,6 +417,9 @@ type
 
   TAbTarArchive = class(TAbArchive)
   private
+{$IF DEFINED(UNIX)}
+    FUserID: Integer;
+{$ENDIF}
     FArchReadOnly : Boolean;
     FArchFormat: TAbTarHeaderFormat;
   protected
@@ -474,7 +477,11 @@ implementation
 
 uses
   Math, RTLConsts, SysUtils, AbVMStrm, AbExcept, AbProgress,
-  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils, DCDateTimeUtils;
+  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils, DCDateTimeUtils
+{$IF DEFINED(UNIX)}
+  , BaseUnix, UnixType, DCUnix
+{$ENDIF}
+  ;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
@@ -2080,6 +2087,9 @@ end;
 constructor TAbTarArchive.CreateFromStream(aStream : TStream; const aArchiveName : string);
 begin
   inherited;
+{$IF DEFINED(UNIX)}
+  FUserID:= Integer(fpGetEUID);
+{$ENDIF}
   FTarAutoHandle := True;
   FArchFormat := OLDGNU_FORMAT;  // Default for new archives
   FSuspiciousLinks := TStringList.Create;
@@ -2299,6 +2309,10 @@ begin
       end;
     end;
   end;
+{$IF DEFINED(UNIX)}
+  if (FUserID = 0) or (FUserID = CurItem.UserID) then
+    fpLChown(UseName, TUid(CurItem.UserID), TGid(CurItem.GroupID));
+{$ENDIF}
   if (CurItem.Mode and $F000) <> AB_FMODE_FILELINK then
   begin
     AbSetFileTime(UseName, CurItem.LastWriteTime);

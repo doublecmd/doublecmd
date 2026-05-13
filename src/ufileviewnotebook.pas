@@ -530,7 +530,7 @@ begin
   end;
 {$ENDIF}
 
-  Page[Index].Free;
+  Tabs.Delete(Index);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 

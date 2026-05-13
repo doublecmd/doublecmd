@@ -304,6 +304,7 @@ var
     begin
       pyItem:= PyList_GetItem(pyMenu, Index);
       MenuItem:= TMenuItem.Create(BaseItem);
+      MenuItem.GlyphShowMode:= gsmAlways;
       pyObject:= PyObject_GetAttrString(pyItem, 'label');
       MenuItem.Caption:= PyStringToString(pyObject);
       if MenuItem.Caption <> '-' then

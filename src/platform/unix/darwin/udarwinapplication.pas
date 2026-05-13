@@ -8,8 +8,9 @@ interface
 uses
   Classes, SysUtils, Menus, uLng,
   MacOSAll, CocoaAll,
-  CocoaInt, CocoaPrivate, CocoaThemes, Cocoa_Extra, CocoaMenus, CocoaUtils, CocoaConst,
-  uDarwinUtil, uDarwinFinder;
+  CocoaPrivate, CocoaApplication, CocoaEvent, CocoaThemes, CocoaMenus,
+  CocoaUtils, CocoaConst, Cocoa_Extra,
+  uDarwinUtil, uDarwinFinder, uDarwinFNKey;
 
 const
   FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
@@ -53,6 +54,9 @@ type
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
   public
+    class procedure installFNKeyTap;
+    class procedure uninstallFNKeyTap;
+  public
     class procedure setTheme( const mode: Integer );
   public
     class procedure fixFormatSettings;
@@ -84,7 +88,7 @@ begin
   lclArray:= self.serviceMenuGetFilenames();
   if lclArray=nil then exit;
 
-  cocoaArray:= StringArrayFromLCLToNS( lclArray );
+  cocoaArray:= TCocoaCollectionUtil.stringArrayToNSArray( lclArray );
   pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
   pboard.setPropertyList_forType( cocoaArray, NSFileNamesPboardType );
   Result:= true;
@@ -234,6 +238,16 @@ begin
     NSPerformService( NSSTR(serviceName), pboard );
 end;
 
+class procedure TDarwinApplicationUtil.installFNKeyTap;
+begin
+  TCocoaEventTapUtil.installTap( TDarwinFNKeyTap );
+end;
+
+class procedure TDarwinApplicationUtil.uninstallFNKeyTap;
+begin
+  TCocoaEventTapUtil.uninstallTap;
+end;
+
 class procedure TDarwinApplicationUtil.openSystemSecurityPreferences_PrivacyAllFiles;
 const
   Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
@@ -265,10 +279,9 @@ begin
   servicesItem:= menu.Items.Find(serviceSubMenuCaption);
   if servicesItem<>nil then
   begin
-    subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
+    subMenu:= NSApp.servicesMenu.copy;
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
     subMenu.release;
-    NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
 end;
 
@@ -307,7 +320,7 @@ begin
   if keyWindow <> nil then
     lclForm:= keyWindow.lclGetTarget;
   if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
-    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
+    TCocoaMenuUtil.attachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
 end;
 
 end.

@@ -144,6 +144,7 @@ const
       identifier: 'EditorForm.ToolBar';
       style: NSWindowToolbarStyleAutomatic;
       displayMode: NSToolbarDisplayModeIconOnly;
+      autoHideInFullScreen: False;
 
       allowsUserCustomization: True;
       autosavesConfiguration: False;

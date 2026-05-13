@@ -31,7 +31,7 @@ uses
   ExtCtrls, EditBtn, ExtDlgs, Menus, ActnList, Types,
 
   //DC
-  uGlobs, uExts, fOptionsFrame;
+  KASControls, uGlobs, uExts, fOptionsFrame;
 
 type
 
@@ -62,7 +62,7 @@ type
     edIconFileName: TEdit;
     edtParams: TEdit;
     fneCommand: TFileNameEdit;
-    gbActionDescription: TGroupBox;
+    gbActionDescription: TKASGroupBox;
     gbFileTypes: TGroupBox;
     gbIcon: TGroupBox;
     gbExts: TGroupBox;
@@ -114,6 +114,8 @@ type
     procedure btnStartPathVarHelperClick(Sender: TObject);
     procedure deStartPathAcceptDirectory(Sender: TObject; var Value: String);
     procedure deStartPathChange(Sender: TObject);
+    procedure edIconFileNameKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure edtParamsChange(Sender: TObject);
     procedure edIconFileNameChange(Sender: TObject);
     procedure fneCommandAcceptFileName(Sender: TObject; var Value: String);
@@ -298,8 +300,12 @@ begin
   begin
     sName := Exts.Items[I].Name;
 
-    // load icon for use in OnDrawItem procedure
-    Bitmap := PixMapManager.LoadBitmapEnhanced(Exts.Items[I].Icon, gIconsSize, True, lbFileTypes.Color);
+    try
+      // load icon for use in OnDrawItem procedure
+      Bitmap := PixMapManager.LoadBitmapEnhanced(Exts.Items[I].Icon, gIconsSize, True, lbFileTypes.Color);
+    except
+      Bitmap := nil;
+    end;
     lbFileTypes.Items.AddObject(sName, Bitmap);
   end;
 
@@ -361,7 +367,7 @@ procedure TfrmOptionsFileAssoc.UpdateEnabledButtons;
 begin
   if (lbFileTypes.Items.Count = 0) or (lbFileTypes.ItemIndex = -1) then
   begin
-    sbtnIcon.Enabled := False;
+    gbIcon.Enabled := False;
     btnInsertExt.Enabled := False;
     btnAddExt.Enabled := False;
     btnInsertAct.Enabled := False;
@@ -369,11 +375,11 @@ begin
   end
   else
   begin
+    gbIcon.Enabled := True;
     btnInsertExt.Enabled := (lbExts.Items.Count > 0);
     btnAddExt.Enabled := True;
     btnInsertAct.Enabled := (lbExts.Items.Count > 0) and (lbActions.ItemIndex <> -1);
     btnAddAct.Enabled := btnInsertExt.Enabled;
-    sbtnIcon.Enabled := btnInsertExt.Enabled;
   end;
 
   btnRemoveExt.Enabled := ((lbExts.Items.Count <> 0) and (lbExts.ItemIndex <> -1));
@@ -613,7 +619,8 @@ end;
 { TfrmOptionsFileAssoc.lbFileTypesDrawItem }
 procedure TfrmOptionsFileAssoc.lbFileTypesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
 var
-  iDrawTop: integer;
+  iDrawTop: Integer;
+  AStyle: TTextStyle;
 begin
   with (Control as TListBox) do
   begin
@@ -638,21 +645,24 @@ begin
       Canvas.FillRect(ARect);
     end;
 
+    AStyle:= Canvas.TextStyle;
+    AStyle.Layout:= tlCenter;
+    Canvas.TextRect(ARect, gIconsSize + 6, 0, Items[Index], AStyle);
+
     if (Canvas.Locked = False) and (Assigned(Items.Objects[Index])) then
     begin
-      iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - gIconsSize) div 2);
-      Canvas.Draw(ARect.Left + 2, iDrawTop, TBitmap(Items.Objects[Index]));
+      iDrawTop := ARect.Top + ((ARect.Height - gIconsSize) div 2);
+      ARect:= Classes.Bounds(ARect.Left + 2, iDrawTop, gIconsSize, gIconsSize);
+      Canvas.StretchDraw(ARect, TBitmap(Items.Objects[Index]));
     end;
-    iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - Canvas.TextHeight(Items[Index])) div 2);
-    Canvas.TextOut(ARect.Left + gIconsSize + 6, iDrawTop, Items[Index]);
   end;
 end;
 
 { TfrmOptionsFileAssoc.lbFileTypesSelectionChange }
 procedure TfrmOptionsFileAssoc.lbFileTypesSelectionChange(Sender: TObject; User: boolean);
 var
+  I: Integer;
   ExtCommand: TExtAction;
-  I: integer;
   bmpTemp: TBitmap = nil;
 begin
   if (lbFileTypes.ItemIndex >= 0) and (lbFileTypes.ItemIndex < Exts.Count) then
@@ -661,6 +671,7 @@ begin
     Application.ProcessMessages;
     lbExts.Items.Clear;
     Application.ProcessMessages;
+    sbtnIcon.Glyph.Clear;
 
     ExtCommand := Exts.Items[lbFileTypes.ItemIndex];
     lbExts.Items.Assign(ExtCommand.Extensions);
@@ -671,12 +682,15 @@ begin
     end;
     if lbActions.Count > 0 then lbActions.ItemIndex := 0;
 
-    bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, True, sbtnIcon.Color);
     try
-      sbtnIcon.Glyph := bmpTemp;
-    finally
-      if Assigned(bmpTemp) then
+      bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, True, sbtnIcon.Color);
+      try
+        sbtnIcon.Glyph := bmpTemp;
+      finally
         FreeAndNil(bmpTemp);
+      end;
+    except
+      // Ignore
     end;
 
     FUpdatingControls := True; // Don't trigger OnChange
@@ -738,6 +752,16 @@ begin
   TExtActionCommand(lbActions.Items.Objects[iIndex]).StartPath := deStartPath.Text;
   if deStartPath.Directory <> deStartPath.Text then
     deStartPath.Directory := deStartPath.Text;
+end;
+
+procedure TfrmOptionsFileAssoc.edIconFileNameKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    Key := 0;
+    edIconFileNameChange(edIconFileName);
+  end;
 end;
 
 { TfrmOptionsFileAssoc.miActionsClick }
@@ -905,7 +929,10 @@ var
 begin
   sFileName := mbExpandFileName(edIconFileName.Text);
   if ShowOpenIconDialog(Self, sFileName) then
+  begin
     edIconFileName.Text := GetFileAssocFilenameToSave(fameIcon, sFileName);
+    edIconFileNameChange(edIconFileName);
+  end;
 end;
 
 { TfrmOptionsFileAssoc.InsertAddSingleExtensionToLists }
@@ -1263,30 +1290,53 @@ var
   bmpTemp: TBitmap;
   Index: integer;
 begin
+  sbtnIcon.Glyph.Clear;
+
   if sFileName <> EmptyStr then
   begin
-    bmpTemp := PixMapManager.LoadBitmapEnhanced(sFileName, 32, True, sbtnIcon.Color);
-    if Assigned(bmpTemp) then
-    begin
-      sbtnIcon.Glyph.Assign(bmpTemp);
-      FreeAndNil(bmpTemp);
-    end
-    else
-      sbtnIcon.Glyph.Clear;
-  end
-  else
-    sbtnIcon.Glyph.Clear;
+    try
+      bmpTemp := PixMapManager.LoadBitmapEnhanced(sFileName, 32, True, sbtnIcon.Color);
+
+      if Assigned(bmpTemp) then
+      begin
+        sbtnIcon.Glyph.Assign(bmpTemp);
+        FreeAndNil(bmpTemp);
+      end;
+    except
+      on E: Exception do
+      begin
+        msgError(E.Message);
+      end;
+    end;
+  end;
 
   Index := lbFileTypes.ItemIndex;
+
   if (Index >= 0) and (Index < Exts.Count) then
   begin
     FreeIcon(Index);
-    // save icon for use in OnDrawItem procedure
-    if sFileName <> EmptyStr then lbFileTypes.Items.Objects[Index] := PixMapManager.LoadBitmapEnhanced(sFileName, gIconsSize, True, Color);
-    lbFileTypes.Repaint;
+    Exts.Items[Index].IconIndex:= -1;
+    Exts.Items[Index].Icon:= EmptyStr;
 
-    Exts.Items[Index].Icon := sFileName;
-    Exts.Items[Index].IconIndex := -1;
+    // save icon for use in OnDrawItem procedure
+    if not sbtnIcon.Glyph.Empty then
+    try
+      if (gIconsSize <> 32) then
+        bmpTemp:= PixMapManager.LoadBitmapEnhanced(sFileName, gIconsSize, True, Color)
+      else begin
+        bmpTemp:= TBitmap.Create;
+        bmpTemp.Assign(sbtnIcon.Glyph);
+      end;
+      Exts.Items[Index].Icon := sFileName;
+      lbFileTypes.Items.Objects[Index] := bmpTemp;
+    except
+      on E: Exception do
+      begin
+        msgError(E.Message);
+      end;
+    end;
+
+    lbFileTypes.Repaint;
   end;
 end;
 

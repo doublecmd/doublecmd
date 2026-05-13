@@ -27,7 +27,10 @@ unit fOptionsKeyboard;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls,
+  Classes, SysUtils, StdCtrls, KASControls,
+{$IFDEF DARWIN}
+  uDarwinApplication,
+{$ENDIF}
   fOptionsFrame;
 
 type
@@ -39,10 +42,14 @@ type
     cbNoModifier: TComboBox;
     cbAlt: TComboBox;
     cbCtrlAlt: TComboBox;
-    gbTyping: TGroupBox;
+    cbFNKey: TCheckBox;
+    gbTyping: TKASGroupBox;
     lblNoModifier: TLabel;
     lblAlt: TLabel;
     lblCtrlAlt: TLabel;
+    {$IFDEF DARWIN}
+    procedure cbFNKeyChange(Sender: TObject);
+    {$ENDIF}
   protected
     procedure Init; override;
     procedure Load; override;
@@ -57,7 +64,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng, uDCUtils;
 
 const
   KeyAction_None        = 0;
@@ -67,12 +74,26 @@ const
 
 { TfrmOptionsKeyboard }
 
+{$IFDEF DARWIN}
+procedure TfrmOptionsKeyboard.cbFNKeyChange(Sender: TObject);
+begin
+  if cbFNKey.Checked then
+    TDarwinApplicationUtil.installFNKeyTap
+  else
+    TDarwinApplicationUtil.uninstallFNKeyTap;
+end;
+{$ENDIF}
+
 procedure TfrmOptionsKeyboard.Init;
 begin
   // Copy localized strings to each combo box.
   ParseLineToList(rsOptLetters, cbNoModifier.Items);
   cbAlt.Items.Assign(cbNoModifier.Items);
   cbCtrlAlt.Items.Assign(cbNoModifier.Items);
+{$IFDEF DARWIN}
+  cbFNKey.Visible:= True;
+  cbFNKey.OnChange:= @cbFNKeyChange;
+{$ENDIF}
 end;
 
 procedure TfrmOptionsKeyboard.Load;
@@ -97,6 +118,7 @@ begin
   SetAction(cbCtrlAlt, gKeyTyping[ktmCtrlAlt]);
 
   cbLynxLike.Checked := gLynxLike;
+  cbFNKey.Checked:= gForceFunctionKey;
 end;
 
 function TfrmOptionsKeyboard.Save: TOptionsEditorSaveFlags;
@@ -121,6 +143,7 @@ begin
   gKeyTyping[ktmCtrlAlt] := GetAction(cbCtrlAlt);
 
   gLynxLike := cbLynxLike.Checked;
+  gForceFunctionKey:= cbFNKey.Checked;
   Result := [];
 end;
 

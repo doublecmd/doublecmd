@@ -7,7 +7,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
   ClientHeight = 223
   ClientWidth = 429
   DesignTop = 20
-  object gbTyping: TGroupBox[0]
+  object gbTyping: TKASGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -21,7 +21,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     Caption = 'Typing'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
-    ChildSizing.VerticalSpacing = 12
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 89
@@ -35,6 +35,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = '&Letters:'
       FocusControl = cbNoModifier
+      Layout = tlCenter
       ParentColor = False
     end
     object cbNoModifier: TComboBox
@@ -68,6 +69,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = 'Alt+L&etters:'
       FocusControl = cbAlt
+      Layout = tlCenter
       ParentColor = False
     end
     object lblCtrlAlt: TLabel
@@ -78,6 +80,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       Alignment = taRightJustify
       Caption = 'Ctrl+Alt+Le&tters:'
       FocusControl = cbCtrlAlt
+      Layout = tlCenter
       ParentColor = False
     end
     object cbAlt: TComboBox
@@ -127,5 +130,21 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     BorderSpacing.Top = 8
     Caption = 'Le&ft, Right arrows change directory (Lynx-like movement)'
     TabOrder = 1
+  end
+  object cbFNKey: TCheckBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbLynxLike
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 18
+    Hint = 'This feature requires additional system permission.'#10#10'Enabling it will automatically guide you to the'#10'System Settings > Privacy & Security > Accessibility Panel.'#10#10'Each time a new version of DC is installed, you must first'#10'remove DC from the list and then add it back in.'
+    Top = 149
+    Width = 295
+    BorderSpacing.Top = 8
+    Caption = 'Force F1, F2, etc. to be treated as function keys'#10'ignore the settings in System Settings > Keyboard'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    Visible = False
   end
 end

@@ -26,7 +26,8 @@ unit fOptionsFilesViewsComplement;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, KASButtonPanel, fOptionsFrame;
+  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
+  KASButtonPanel, fOptionsFrame;
 
 type
 
@@ -45,12 +46,14 @@ type
     cbSpaceMovesDown: TCheckBox;
     cbInplaceRename: TCheckBox;
     gbMisc: TGroupBox;
+    lblExtraLineSpan: TLabel;
     pnlDefaultAttribute: TKASButtonPanel;
     chkMarkMaskFilterWindows: TCheckBox;
     gbMarking: TGroupBox;
     lbAttributeMask: TLabel;
     edtDefaultAttribute: TEdit;
     chkMarkMaskShowAttribute: TCheckBox;
+    speExtraLineSpan: TSpinEdit;
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
   private
@@ -93,6 +96,8 @@ begin
   chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
   chkMarkMaskShowAttribute.Checked := gMarkShowWantedAttribute;
   edtDefaultAttribute.Text := gMarkDefaultWantedAttribute;
+
+  speExtraLineSpan.Value:= gExtraLineSpan;
 end;
 
 function TfrmOptionsFilesViewsComplement.Save: TOptionsEditorSaveFlags;
@@ -110,6 +115,8 @@ begin
   gMarkMaskFilterWindows := chkMarkMaskFilterWindows.Checked;
   gMarkShowWantedAttribute := chkMarkMaskShowAttribute.Checked;
   gMarkDefaultWantedAttribute := edtDefaultAttribute.Text;
+
+  gExtraLineSpan:= speExtraLineSpan.Value;
 
   Result := [];
 end;

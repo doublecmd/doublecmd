@@ -213,6 +213,9 @@ begin
   // Initialize property storage
   InitPropStorage(Self);
   TreeFilterEdit.Visible:= (OptionsSearchCache.Count > 0);
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 procedure TfrmOptions.FormClose(Sender: TObject; var CloseAction: TCloseAction);

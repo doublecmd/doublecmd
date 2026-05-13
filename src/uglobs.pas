@@ -231,7 +231,8 @@ const
   // 13 -  Replace Configuration/UseConfigInProgramDir by doublecmd.inf
   // 14 -  Move some colors to colors.json
   // 15 -  Move custom columns colors to colors.json
-  ConfigVersion = 15;
+  // 16 -  Move DirectoryHotList to localconfig.xml
+  ConfigVersion = 16;
 
   COLORS_JSON = 'colors.json';
 
@@ -341,6 +342,7 @@ var
   gNewFilesPosition: TNewFilesPosition;
   gUpdatedFilesPosition: TUpdatedFilesPosition;
   gLynxLike:Boolean;
+  gForceFunctionKey:Boolean;
   gFirstTextSearch: Boolean;
 
   { File views page }
@@ -658,6 +660,7 @@ var
   { Editor }
   gEditWaitTime: Integer;
   gEditorSynEditOptions: TSynEditorOptions;
+  gEditorSynEditSpecialChars: TSynVisibleSpecialChars;
   gEditorSynEditTabWidth,
   gEditorSynEditRightEdge,
   gEditorSynEditBlockIndent: Integer;
@@ -944,6 +947,7 @@ var
   procedure LoadHistory(const NodeName: String; HistoryList: TStrings; LoadObj: Boolean = False);
   var
     Idx: Integer;
+    AValue: String;
     Node: TXmlNode;
   begin
     Node := History.FindNode(Root, NodeName);
@@ -955,7 +959,11 @@ var
       begin
         if Node.CompareName('Item') = 0 then
         begin
-          Idx:= HistoryList.Add(History.GetContent(Node));
+          if not History.TryGetAttr(Node, 'Value', AValue) then
+          begin
+            AValue:= History.GetContent(Node);
+          end;
+          Idx:= HistoryList.Add(AValue);
           if LoadObj then begin
             HistoryList.Objects[Idx]:= TObject(UIntPtr(History.GetAttr(Node, 'Tag', 0)));
           end;
@@ -995,6 +1003,33 @@ begin
   end;
 end;
 
+function LoadLocalConfig(var {%H-}ErrorMessage: String): Boolean;
+var
+  Root: TXmlNode;
+  LocalConfig: TXmlConfig;
+  LocalConfigFileName: String;
+begin
+  LocalConfigFileName := gpCfgDir + gcfLocalConfig;
+
+  if mbFileExists(LocalConfigFileName) then
+  begin
+    LocalConfig:= TXmlConfig.Create(LocalConfigFileName);
+    try
+      LocalConfig.Load;
+      Root:= LocalConfig.RootNode;
+      if Assigned(LocalConfig.FindNode(Root, cSectionOfHotDir)) then
+      begin
+        gDirectoryHotlist.LoadFromXml(LocalConfig, Root);
+        Exit(True);
+      end;
+    finally
+      LocalConfig.Free;
+    end;
+  end;
+
+  Result:= True;
+end;
+
 procedure SaveHistoryConfig;
 var
   Root: TXmlNode;
@@ -1010,7 +1045,7 @@ var
     for I:= 0 to HistoryList.Count - 1 do
     begin
       SubNode := History.AddNode(Node, 'Item');
-      History.SetContent(SubNode, HistoryList[I]);
+      History.SetAttr(SubNode, 'Value', HistoryList[I]);
       if SaveObj then begin
         History.SetAttr(SubNode, 'Tag', UInt32(UIntPtr(HistoryList.Objects[I])));
       end;
@@ -1045,6 +1080,23 @@ begin
     History.Save;
   finally
     History.Free;
+  end;
+end;
+
+procedure SaveLocalConfig;
+var
+  Root: TXmlNode;
+  LocalConfig: TXmlConfig;
+  LocalConfigFileName: String;
+begin
+  LocalConfigFileName := gpCfgDir + gcfLocalConfig;
+  LocalConfig:= TXmlConfig.Create(LocalConfigFileName);
+  try
+    Root:= LocalConfig.RootNode;
+    gDirectoryHotlist.SaveToXml(LocalConfig, Root, True);
+    LocalConfig.Save;
+  finally
+    LocalConfig.Free;
   end;
 end;
 
@@ -1783,6 +1835,7 @@ begin
   gRunTermParams := RunTermParams;
   gOnlyOneAppInstance := False;
   gLynxLike := True;
+  gForceFunctionKey:= False;
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
   gSortSpecial := False;
@@ -1830,7 +1883,7 @@ begin
   gDriveBlackListUnmounted := False;
 
   { File views page }
-  gExtraLineSpan := 2;
+  gExtraLineSpan := {$IFnDEF DARWIN}2{$ELSE}8{$ENDIF};
   gFolderPrefix := '[';
   gFolderPostfix := ']';
   gRenameConfirmMouse := False;
@@ -2204,6 +2257,7 @@ begin
   { Editor }
   gEditWaitTime := 2000;
   gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
+  gEditorSynEditSpecialChars := [vscSpace, vscTabAtLast];
   gEditorSynEditTabWidth := 8;
   gEditorSynEditRightEdge := 80;
   gEditorSynEditBlockIndent := 2;
@@ -2484,6 +2538,9 @@ begin
 
   CopySettingsFiles;
 
+  { Local machine-specific configuration }
+  LoadConfigCheckErrors(@LoadLocalConfig, gpCfgDir + gcfLocalConfig, ErrorMessage);
+
   { Internal associations }
   // "LoadExtsConfig" checks itself if file is present or not
   LoadConfigCheckErrors(@LoadExtsConfig, gpCfgDir + gcfExtensionAssociation, ErrorMessage);
@@ -2561,6 +2618,7 @@ begin
   begin
     SaveWithCheck(@SaveEarlyConfig, 'early config', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
+    SaveWithCheck(@SaveLocalConfig, 'local configuration', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
     SaveWithCheck(@SaveHighlightersConfig, 'highlighters config', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
@@ -2666,6 +2724,12 @@ begin
       DeleteNode(Root, 'Configuration/UseConfigInProgramDir');
     end;
 
+    if (LoadedConfigVersion < 16) then
+    begin
+      gDirectoryHotlist.LoadFromXML(gConfig, Root);
+      DeleteNode(Root, cSectionOfHotDir);
+    end;
+
     { Language page }
     gPOFileName := GetValue(Root, 'Language/POFileName', gPOFileName);
 
@@ -2715,6 +2779,7 @@ begin
 
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
       gLynxLike := GetValue(Node, 'LynxLike', gLynxLike);
+      gForceFunctionKey := GetValue(Node, 'ForceFunctionKey', gForceFunctionKey);
       if LoadedConfigVersion < 5 then
       begin
         if GetValue(Node, 'SortCaseSensitive', False) = False then
@@ -3208,7 +3273,14 @@ begin
       end;
       gCustomIcons := TCustomIconsMode(GetValue(Node, 'CustomIcons', Integer(gCustomIcons)));
       gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
+      // Qt bindings support only 16px icons for menu items
+{$IF NOT (DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
       gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
+{$ENDIF}
+      if gIconsInMenus then
+        Application.ShowMenuGlyphs:= sbgAlways
+      else
+        Application.ShowMenuGlyphs:= sbgNever;
       Application.ShowButtonGlyphs := TApplicationShowGlyphs(GetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs)));
     end;
 
@@ -3219,9 +3291,6 @@ begin
       gIgnoreListFileEnabled:= GetAttr(Node, 'Enabled', gIgnoreListFileEnabled);
       gIgnoreListFile:= GetValue(Node, 'IgnoreListFile', gIgnoreListFile);
     end;
-
-    { Directories HotList }
-    gDirectoryHotlist.LoadFromXML(gConfig, Root);
 
     { Viewer }
     Node := Root.FindNode('Viewer');
@@ -3267,6 +3336,7 @@ begin
     begin
       gEditWaitTime := GetValue(Node, 'EditWaitTime', gEditWaitTime);
       gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
+      gEditorSynEditSpecialChars := TSynVisibleSpecialChars(GetValue(Node, 'SynEditSpecialChars', Integer(gEditorSynEditSpecialChars)));
       gEditorSynEditTabWidth := GetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
       gEditorSynEditBlockIndent := GetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
@@ -3477,6 +3547,7 @@ begin
 
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
+    SetValue(Node, 'ForceFunctionKey', gForceFunctionKey);
     SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
     SetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat));
     SetValue(Node, 'HeaderSizeFormat', Ord(gHeaderSizeFormat));
@@ -3821,9 +3892,6 @@ begin
     SetAttr(Node, 'Enabled', gIgnoreListFileEnabled);
     SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
 
-    { Directories HotList }
-    gDirectoryHotlist.SaveToXml(gConfig, Root, TRUE);
-
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
@@ -3860,6 +3928,7 @@ begin
     Node := FindNode(Root, 'Editor',True);
     SetValue(Node, 'EditWaitTime', gEditWaitTime);
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
+    SetValue(Node, 'SynEditSpecialChars', Integer(gEditorSynEditSpecialChars));
     SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
     SetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);

@@ -96,17 +96,14 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls, lazutf8,
+  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls, LazUTF8, LazFileUtils,
   {$IFDEF MSWINDOWS}
   ShlObj, uShellFolder,
-  {$ENDIF}
-  {$IFDEF DARWIN}
-  CocoaConfig,
   {$ENDIF}
 
   //DC
   DCOSUtils, uDCUtils, uGlobsPaths, fmain, uLng, uGlobs, uHotDir, uOSUtils,
-  DCStrUtils;
+  DCStrUtils, uOSForms;
 
 { The special path are sorted first by type of special path they represent (DC, Windows, Environment...)
   Then, by alphabetical order.
@@ -197,13 +194,18 @@ var
 
   procedure AddToSubMenu(ParamMenuItem:TMenuItem; TagRequested:longint; ProcedureWhenClickOnMenuItem:TProcedureWhenClickOnMenuItem);
   var
-    localmi:TMenuItem;
+    MenuItem: TMenuItem;
   begin
-    localmi:=TMenuItem.Create(ParamMenuItem);
-    localmi.Caption:=GetMenuCaptionAccordingToOptions(SpecialDir[IndexVariable].VariableName,SpecialDir[IndexVariable].PathValue);
-    localmi.tag:=TagRequested;
-    localmi.OnClick:=ProcedureWhenClickOnMenuItem;
-    ParamMenuItem.Add(localmi);
+    if (SpecialDir[IndexVariable].Dispatcher = sd_DOUBLECOMMANDER) then
+    begin
+      if not FilenameIsAbsolute(SpecialDir[IndexVariable].PathValue) then
+        Exit;
+    end;
+    MenuItem:= TMenuItem.Create(ParamMenuItem);
+    MenuItem.Caption:= GetMenuCaptionAccordingToOptions(SpecialDir[IndexVariable].VariableName, SpecialDir[IndexVariable].PathValue);
+    MenuItem.Tag:= TagRequested;
+    MenuItem.OnClick:= ProcedureWhenClickOnMenuItem;
+    ParamMenuItem.Add(MenuItem);
   end;
 
   procedure AddBatchOfMenuItems(SubMenuTitle:string; StartingIndex,StopIndex,TagOffset:longint; ProcedureWhenClickOnMenuItem:TProcedureWhenClickOnMenuItem);
@@ -344,13 +346,7 @@ begin
       begin
         //by default, let's try to initialise dir browser to current dir value and if it's not present, let's take the current path of the active frame
         if MaybeResultingOutputPath='' then MaybeResultingOutputPath:=frmMain.ActiveFrame.CurrentPath;
-        {$IFDEF DARWIN}
-        CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
-        {$ENDIF}
-        if SelectDirectory(rsSelectDir, mbExpandFileName(MaybeResultingOutputPath), sSelectedPath, False) then MaybeResultingOutputPath:=sSelectedPath;
-        {$IFDEF DARWIN}
-        CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
-        {$ENDIF}
+        if SelectDirectoryEx(rsSelectDir, mbExpandFileName(MaybeResultingOutputPath), sSelectedPath, False) then MaybeResultingOutputPath:=sSelectedPath;
       end;
 
     100..1099: //Use...
@@ -594,11 +590,7 @@ begin
         if EqualPos <> 0 then
           begin
             EnvValue:=copy(EnvVar, EqualPos + 1, MaxInt);
-            {$IFDEF MSWINDOWS}
-            if (not gShowOnlyValidEnv) OR (ExtractFileDrive(EnvValue)<>'') then
-            {$ELSE}
-            if (not gShowOnlyValidEnv) OR (UTF8LeftStr(EnvValue,1)=PathDelim) then
-            {$ENDIF}
+            if (not gShowOnlyValidEnv) or FilenameIsAbsolute(EnvValue) then
             begin
               LocalSpecialDir:=TSpecialDir.Create;
               LocalSpecialDir.fDispatcher:=sd_ENVIRONMENTVARIABLE;

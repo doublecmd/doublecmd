@@ -50,9 +50,10 @@ const
     'plugins/wcx/cpio/src/cpio.lpi'
   );
 
-  DarwinPlugins: array[1..2] of String =
+  DarwinPlugins: array[1..3] of String =
   (
     'plugins/wcx/cpio/src/cpio.lpi',
+    'plugins/wfx/MacCloud/src/MacCloud.lpi',
     'plugins/wlx/MacPreview/src/MacPreview.lpi'
   );
 

@@ -53,7 +53,7 @@ function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Inte
 function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; dcpcall; export;
 procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); dcpcall; export;
 procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); dcpcall; export;
-function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall; export;
+function  CanYouHandleThisFile(FileName: PAnsiChar): LongBool; dcpcall; export;
 
 implementation
 

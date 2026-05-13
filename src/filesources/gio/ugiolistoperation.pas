@@ -41,6 +41,7 @@ end;
 procedure TGioListOperation.MainExecute;
 var
   AFile: TFile;
+  AChild: PGFile;
   AFolder: PGFile;
   AInfo: PGFileInfo;
   AError: PGError = nil;
@@ -88,7 +89,8 @@ begin
         while Assigned(AInfo) do
         begin
           CheckOperationState;
-          AFile:= AFileSource.CreateFile(Path, AFolder, AInfo);
+          AChild:= g_file_enumerator_get_child(AFileEnum, AInfo);
+          AFile:= AFileSource.CreateFile(Path, AFolder, AChild, AInfo);
           g_object_unref(AInfo);
           FFiles.Add(AFile);
           AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);

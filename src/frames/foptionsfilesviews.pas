@@ -27,7 +27,7 @@ interface
 
 uses
   uTypes, Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
-  fOptionsFrame;
+  KASControls, fOptionsFrame;
 
 type
 
@@ -50,8 +50,8 @@ type
     edMega: TEdit;
     edGiga: TEdit;
     edTera: TEdit;
-    gbFormatting: TGroupBox;
-    gbSorting: TGroupBox;
+    gbFormatting: TKASGroupBox;
+    gbSorting: TKASGroupBox;
     gbPersonalizedAbbreviationToUse: TGroupBox;
     lblByte: TLabel;
     lblKilobyte: TLabel;

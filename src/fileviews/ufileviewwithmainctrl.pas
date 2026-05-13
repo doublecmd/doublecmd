@@ -46,6 +46,8 @@ type
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 
   TRenameFileEditInfo=record
+    WithExt: Boolean;
+
     LenNam:integer;    // length of renaming file name
     LenExt:integer;    // length of renaming file ext
     LenFul:integer;    // full length of renaming file name with ext and dot
@@ -68,6 +70,9 @@ type
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
     procedure Hack(Data: PtrInt);
     procedure EditExit; override;
+{$ELSEIF DEFINED(LCLCOCOA)}
+    procedure CreateHandle; override;
+    procedure ChildHandlesCreated; override;
 {$ENDIF}
     function CalcButtonVisible: Boolean; override;
     function GetDefaultGlyphName: String; override;
@@ -115,6 +120,7 @@ type
     procedure edtRenameOnKeyESCAPE(Sender: TObject);
     procedure edtRenameOnKeyRETURN(Sender: TObject);
     procedure edtRenameOnKeySwitch(Sender: TObject; var Key: Word; Shift: TShiftState);
+    function GetNewFilename: String;
   protected
     edtRename: TEditButtonEx;
     FRenameFile: TFile;
@@ -146,7 +152,7 @@ type
     tmRenameFile: TTimer;
     FMouseRename: Boolean;
     FMouseFocus: Boolean;
-{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
+{$IF NOT (DEFINED(LCLWIN32) OR DEFINED(LCLCOCOA))}
     FMouseEnter: Boolean;
 {$ENDIF}
     procedure AfterChangePath; override;
@@ -206,8 +212,8 @@ type
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
     procedure ShowRenameFileEditInitSelect(Data: PtrInt);
-    procedure ShowRenameFileEdit(var AFile: TFile); virtual;
-    procedure UpdateRenameFileEditPosition; virtual;
+    procedure ShowRenameFileEdit(var AFile: TFile; const withExt: Boolean); virtual;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); virtual;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
 
     property MainControl: TWinControl read FMainControl write SetMainControl;
@@ -237,6 +243,8 @@ uses
 {$IF DEFINED(LCLGTK2)}
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
+{$ELSEIF DEFINED(LCLCOCOA)}
+  CocoaConfig,
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSourceOperationTypes,
@@ -307,6 +315,24 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF LCLCOCOA}
+procedure TEditButtonEx.CreateHandle;
+begin
+{$IF (LCL_FULLVERSION >= 4990000)}
+  CocoaConfigEdit.vertAlignCenter:= True;
+{$ENDIF}
+  inherited CreateHandle;
+end;
+
+procedure TEditButtonEx.ChildHandlesCreated;
+begin
+  inherited;
+{$IF (LCL_FULLVERSION >= 4990000)}
+  CocoaConfigEdit.vertAlignCenter:= False;
+{$ENDIF}
+end;
+{$ENDIF}
+
 function TEditButtonEx.GetDefaultGlyphName: String;
 begin
   Result:= BitBtnResNames[idButtonOk];
@@ -348,12 +374,24 @@ begin
   SetFocus;
 end;
 
+function TFileViewWithMainCtrl.GetNewFilename: String;
+var
+  Ext: String;
+begin
+  Result := edtRename.Text;
+  if NOT FRenFile.WithExt then begin
+    Ext:= ExtractOnlyFileExt(edtRename.Hint);
+    if NOT Ext.IsEmpty then
+      Result:= Result + '.' + Ext;
+  end;
+end;
+
 procedure TFileViewWithMainCtrl.edtRenameOnKeyRETURN(Sender: TObject);
 var
   NewFileName: String;
   OldFileName: String;
 begin
-  NewFileName := edtRename.Text;
+  NewFileName := self.GetNewFilename;
   OldFileName := ExtractFileName(edtRename.Hint);
 
   try
@@ -408,7 +446,7 @@ begin
     end;
     edtRename.Tag:= 1;
     EnableWatcher(False);
-    NewFileName := edtRename.Text;
+    NewFileName := self.GetNewFilename;
     OldFileName := ExtractFileName(edtRename.Hint);
     try
       if (OldFileName = NewFileName) then
@@ -428,9 +466,9 @@ begin
             end;
             SetActiveFile(Index);
             edtRename.Tag:= 2;
-            ShowRenameFileEdit(AFile);
+            ShowRenameFileEdit(AFile, FRenFile.WithExt);
             edtRename.Tag:= 1;
-            UpdateRenameFileEditPosition;
+            UpdateRenameFileEditPosition(FRenFile.WithExt);
           end;
         sfprError:
           begin
@@ -546,7 +584,7 @@ procedure TFileViewWithMainCtrl.DisplayFileListChanged;
 begin
   inherited DisplayFileListChanged;
   if edtRename.Visible then
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(FRenFile.WithExt);
 end;
 
 procedure TFileViewWithMainCtrl.DoActiveChanged;
@@ -898,7 +936,7 @@ begin
   {$IFDEF LCLCOCOA}
   FMouseRename := gInplaceRename;
   {$ENDIF}
-{$IF NOT (DEFINED(LCLWIN32) and DEFINED(LCLCOCOA))}
+{$IF NOT (DEFINED(LCLWIN32) OR DEFINED(LCLCOCOA))}
   FMouseEnter:= ssLeft in GetKeyShiftStateEx;
 {$ENDIF}
 end;
@@ -1308,7 +1346,7 @@ end;
 procedure TFileViewWithMainCtrl.MainControlResize(Sender: TObject);
 begin
   if edtRename.Visible then
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(FRenFile.WithExt);
 end;
 
 procedure TFileViewWithMainCtrl.MainControlWindowProc(var TheMessage: TLMessage);
@@ -1503,21 +1541,31 @@ end;
 procedure TFileViewWithMainCtrl.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
+  withExt: Boolean;
+  extensionParam: String;
 begin
-  if not IsLoadingFileList and
-     (fsoSetFileProperty in FileSource.GetOperationsTypes) then
-    begin
-      aFile:= CloneActiveFile;
-      if Assigned(aFile) then
-      try
-        if aFile.IsNameValid then
-          ShowRenameFileEdit(aFile)
-        else if gCurDir then
-          ShowPathEdit;
-      finally
-        FreeAndNil(aFile);
-      end;
-    end;
+  if IsLoadingFileList then
+    Exit;
+
+  if NOT (fsoSetFileProperty in FileSource.GetOperationsTypes) then
+    Exit;
+
+  aFile:= CloneActiveFile;
+  if NOT Assigned(aFile) then
+    Exit;
+
+  withExt:= True;
+  if GetParamValue( Params, 'extension', extensionParam ) then
+    GetBoolValue( extensionParam, withExt );
+
+  try
+    if aFile.IsNameValid then
+      ShowRenameFileEdit(aFile, withExt)
+    else if gCurDir then
+      ShowPathEdit;
+  finally
+    FreeAndNil(aFile);
+  end;
 end;
 
 procedure TFileViewWithMainCtrl.SetMainControl(AValue: TWinControl);
@@ -1742,15 +1790,21 @@ begin
   end;
 end;
 
-procedure TFileViewWithMainCtrl.ShowRenameFileEdit(var AFile: TFile);
+procedure TFileViewWithMainCtrl.ShowRenameFileEdit(
+  var AFile: TFile; const withExt: Boolean);
 var
   S: String;
 begin
+  if NOT edtRename.Visible then
+    FRenFile.WithExt:= withExt;
+
   S:= AFile.Name;
+  if NOT FRenFile.WithExt then
+    S:= ExtractOnlyFileName(S);
+
   FRenFile.LenFul := UTF8Length(S);
   FRenFile.LenExt := UTF8Length(ExtractFileExt(S));
   FRenFile.LenNam := FRenFile.LenFul - FRenFile.LenExt;
-
 
   if edtRename.Visible and (edtRename.Tag < 2) then
   begin
@@ -1794,7 +1848,7 @@ begin
   begin
     FRenameFile := aFile;
     edtRename.Hint := aFile.FullPath;
-    edtRename.Text := aFile.Name;
+    edtRename.Text := S;
     edtRename.Visible := True;
     edtRename.SetFocus;
 
@@ -1811,7 +1865,8 @@ begin
   end;
 end;
 
-procedure TFileViewWithMainCtrl.UpdateRenameFileEditPosition;
+procedure TFileViewWithMainCtrl.UpdateRenameFileEditPosition(
+  const withExt: Boolean);
 var
   AFile: TDisplayFile;
 begin

@@ -849,6 +849,10 @@ begin
   FillEncodingMenu(pmEncodingLeft.Items, @SetEncodingLeft, 1);
   FillEncodingMenu(pmEncodingRight.Items, @SetEncodingRight, 2);
   EncodingList.Free;
+
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 procedure TfrmDiffer.FormDestroy(Sender: TObject);
@@ -1464,6 +1468,7 @@ begin
   if gModernUI and TDarwinApplicationUtil.supportsModernForm then
     ToolBar.Hide;
 {$ENDIF}
+  contextMenu.ImagesWidth:= gIconsInMenusSize;
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);

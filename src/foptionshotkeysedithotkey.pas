@@ -87,7 +87,6 @@ type
     function GetTranslatedControlName(const AName: String): String;
     function GetTranslatedFormName(const AName: String): String;
     procedure RemoveLastShortcutEditor;
-    procedure SetBitmapOrCaption(Button: TSpeedButton; const AIconName, ACaption: String);
     procedure SetCommand(NewCommand: String);
     procedure SetControls(const NewControls: TDynamicStringArray);
     procedure SetHotkey(Hotkey: THotkey);
@@ -533,9 +532,6 @@ begin
   FFormsTranslated := TStringList.Create;
   TFormCommands.GetCategoriesList(FForms, FFormsTranslated);
 
-  SetBitmapOrCaption(btnAddShortcut, 'list-add', '+');
-  SetBitmapOrCaption(btnRemoveShortcut, 'list-remove', '-');
-
   AddShortcutEditor;
 end;
 
@@ -597,26 +593,6 @@ procedure TfrmEditHotkey.RemoveLastShortcutEditor;
 begin
   if pnlShortcuts.ControlCount > 1 then
     pnlShortcuts.Controls[pnlShortcuts.ControlCount - 1].Free;
-end;
-
-procedure TfrmEditHotkey.SetBitmapOrCaption(Button: TSpeedButton; const AIconName, ACaption: String);
-var
-  Bmp: TBitmap = nil;
-  IconIndex: PtrInt;
-begin
-  IconIndex := PixMapManager.GetIconByName(AIconName);
-  if IconIndex <> -1 then
-    Bmp := PixMapManager.GetBitmap(IconIndex);
-
-  if Assigned(Bmp) then
-  begin
-    Button.Glyph  := Bmp;
-    Bmp.Free;
-  end
-  else
-  begin
-    Button.Caption := ACaption;
-  end;
 end;
 
 procedure TfrmEditHotkey.SetCommand(NewCommand: String);

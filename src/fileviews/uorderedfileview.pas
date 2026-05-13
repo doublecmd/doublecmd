@@ -27,7 +27,7 @@ unit uOrderedFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, StdCtrls, Menus,
+  Classes, SysUtils, Controls, StdCtrls, Menus, LCLType,
   uTypes,
   fQuickSearch,
   uFileView,
@@ -106,6 +106,8 @@ type
     procedure SetActiveFile(aFilePath: String); override; overload;
     procedure ChangePathAndSetActiveFile(aFilePath: String); override; overload;
     procedure SetFocus; override;
+    function IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+                              RepeatCount: Integer; SystemKey: Boolean): Boolean; override;
 
   published  // commands
     procedure cm_QuickSearch(const Params: array of string);
@@ -121,7 +123,7 @@ type
 implementation
 
 uses
-  LCLProc, LCLType, math, Forms, Graphics,
+  LCLProc, Math, Forms, Graphics,
   DCStrUtils,
   DCOSUtils, 
   uLng, uGlobs, uMasks, uDCUtils,
@@ -373,6 +375,29 @@ begin
   end;
 
   inherited DoHandleKeyDownWhenLoading(Key, Shift);
+end;
+
+function TOrderedFileView.IntfUTF8KeyPress(var UTF8Key: TUTF8Char;
+  RepeatCount: Integer; SystemKey: Boolean): Boolean;
+var
+  AForm: TCustomForm;
+begin
+  if SystemKey and (gKeyTyping[ktmAlt] <> ktaNone) then
+  begin
+    AForm:= GetParentForm(Self);
+    if Assigned(AForm) and AForm.KeyPreview then
+    begin
+      if AForm.IntfUTF8KeyPress(UTF8Key, -1, SystemKey) then
+        Exit(True);
+    end;
+    if quickSearch.CheckSearchOrFilter(UTF8Key) then
+      Exit(True);
+  end;
+  if (RepeatCount < 0) then
+    Result:= False
+  else begin
+    Result:= inherited IntfUTF8KeyPress(UTF8Key, RepeatCount, SystemKey);
+  end;
 end;
 
 procedure TOrderedFileView.DoSelectionChanged;

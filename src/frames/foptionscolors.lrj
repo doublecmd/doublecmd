@@ -17,6 +17,7 @@
 {"hash":5422458,"name":"tfrmoptionscolors.lblleft.caption","sourcebytes":[76,101,102,116,58],"value":"Left:"},
 {"hash":93314938,"name":"tfrmoptionscolors.lblright.caption","sourcebytes":[82,105,103,104,116,58],"value":"Right:"},
 {"hash":86338010,"name":"tfrmoptionscolors.lblunknown.caption","sourcebytes":[85,110,107,110,111,119,110,58],"value":"Unknown:"},
+{"hash":196049466,"name":"tfrmoptionscolors.lblselection.caption","sourcebytes":[83,101,108,101,99,116,105,111,110,58],"value":"Selection:"},
 {"hash":135998194,"name":"tfrmoptionscolors.cbbusegradientind.caption","sourcebytes":[85,115,101,32,38,71,114,97,100,105,101,110,116,32,73,110,100,105,99,97,116,111,114],"value":"Use &Gradient Indicator"},
 {"hash":171869450,"name":"tfrmoptionscolors.lblindcolor.caption","sourcebytes":[38,73,110,100,105,99,97,116,111,114,32,70,111,114,101,32,67,111,108,111,114,58],"value":"&Indicator Fore Color:"},
 {"hash":115941530,"name":"tfrmoptionscolors.lblindthresholdcolor.caption","sourcebytes":[73,110,100,105,99,97,116,111,114,32,38,84,104,114,101,115,104,111,108,100,32,67,111,108,111,114,58],"value":"Indicator &Threshold Color:"},

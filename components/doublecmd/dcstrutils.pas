@@ -247,6 +247,7 @@ function TrimPath(const Path: String): String;
 }
 function TrimRightLineEnding(const sText: String; TextLineBreakStyle: TTextLineBreakStyle): String;
 function mbCompareText(const s1, s2: String): PtrInt;
+function mbCompareStr(const s1, s2: String): PtrInt;
 
 function StrNewW(const mbString: String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
@@ -1024,9 +1025,12 @@ end;
 
 function mbCompareText(const s1, s2: String): PtrInt; inline;
 begin
-// From 0.9.31 LazUtils can be used but this package does not exist in 0.9.30.
-//  Result := LazUTF8.UTF8CompareText(s1, s2);
-  Result := WideCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
+  Result := UnicodeCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
+end;
+
+function mbCompareStr(const s1, s2: String): PtrInt; inline;
+begin
+  Result := UnicodeCompareStr(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
 end;
 
 function StrNewW(const mbString: String): PWideChar;

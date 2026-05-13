@@ -28,7 +28,7 @@ unit DCClassesUtf8;
 interface
 
 uses
-  Classes, RtlConsts, SysUtils, IniFiles;
+  Classes, RtlConsts, SysUtils, IniFiles, Math;
 
 type
   { TFileStreamEx class }
@@ -53,7 +53,7 @@ type
     property AutoSync: Boolean read FAutoSync write SetAutoSync;
     property Capacity: Int64 write SetCapacity;
     property FileName: String read FFileName;
-  end; 
+  end;
 
   { TStringListEx }
 
@@ -64,7 +64,7 @@ type
     function IndexOfValue(const Value: String): Integer;
     procedure LoadFromFile(const FileName: String); override;
     procedure SaveToFile(const FileName: String); override;
-  end;   
+  end;
 
   { TIniFileEx }
 
@@ -82,7 +82,7 @@ type
 implementation
 
 uses
-  DCOSUtils, LazUTF8;
+  DCOSUtils, DCConvertEncoding;
 
 { TFileStreamEx }
 
@@ -175,7 +175,7 @@ begin
         inherited Create(AHandle);
     end
   else
-    begin 
+    begin
       AHandle:= mbFileOpen(AFileName, Mode);
       if AHandle = feInvalidHandle then
         raise EFOpenError.CreateFmt(SFOpenError + LineEnding + mbSysErrorMessage , [AFilename])
@@ -213,11 +213,26 @@ end;
 { TStringListEx }
 
 function TStringListEx.DoCompareText(const S1, S2: String): PtrInt;
+var
+  U1, U2: UnicodeString;
 begin
+  U1:= CeUtf8ToUtf16(S1);
+  U2:= CeUtf8ToUtf16(S2);
+
   if CaseSensitive then
-    Result:= UTF8CompareStr(S1, S2)
+  begin
+    Result:= UnicodeCompareStr(U1, U2);
+    if Result = 0 then
+    begin
+      Result := CompareMemRange(Pointer(U1), Pointer(U2), Min(Length(U1), Length(U2)) * SizeOf(WideChar));
+      if Result = 0 then
+        Result := Length(U1) - Length(U2);
+    end
+  end
   else
-    Result:= UTF8CompareText(S1, S2);
+  begin
+    Result:= UnicodeCompareText(U1, U2);
+  end;
 end;
 
 function TStringListEx.IndexOfValue(const Value: String): Integer;

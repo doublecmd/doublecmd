@@ -7,8 +7,8 @@ interface
 
 uses
   Classes, SysUtils,
-  LCLType, Forms, Menus,
-  fMain, fEditor, fDiffer,
+  LCLType, Forms, Menus, ComCtrls,
+  fMain, fEditor, fDiffer, fViewer,
   uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSystemFileSource,
@@ -53,6 +53,7 @@ end;
 {$i ucocoamodernformconfig_main.inc}
 {$i ucocoamodernformconfig_editor.inc}
 {$i ucocoamodernformconfig_differ.inc}
+{$i ucocoamodernformconfig_viewer.inc}
 
 const
   transparentTitleFormConfig: TCocoaConfigForm = (
@@ -83,11 +84,13 @@ begin
   doInitMainFormConfig;
   doInitEditorFormConfig;
   doInitDifferFormConfig;
+  doInitViewerFormConfig;
 
   CocoaConfigForms:= [
     mainFormConfig,
     editorFormConfig,
     differFormConfig,
+    viewerFormConfig,
     transparentTitleFormConfig,
     separateTitleFormConfig
   ];

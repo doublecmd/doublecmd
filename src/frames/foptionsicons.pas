@@ -149,6 +149,10 @@ var
   AIconSize: String;
 begin
   inherited Init;
+  // Qt bindings support only 16px icons for menu items
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  cbIconsInMenusSize.Visible:= False;
+{$ENDIF}
   for I:= Low(ICON_SIZES) to High(ICON_SIZES) do
   begin
     AIconSize:= IntToStr(ICON_SIZES[I]) + 'x' + IntToStr(ICON_SIZES[I]);

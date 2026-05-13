@@ -27,8 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, TreeFilterEdit, Forms, Controls, Graphics,
-  Dialogs, StdCtrls, ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus,
-  Types;
+  Dialogs, StdCtrls, ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus;
 
 type
 
@@ -64,6 +63,7 @@ type
     procedure tvApplicationsDeletion(Sender: TObject; Node: TTreeNode);
     procedure tvApplicationsSelectionChanged(Sender: TObject);
   private
+    FFactor: Double;
     FMimeType: String;
     FFileList: TStringList;
     procedure LoadApplicationList;
@@ -124,8 +124,12 @@ end;
 
 procedure TfrmOpenWith.FormCreate(Sender: TObject);
 begin
+  ImageList.Clear;
   ImageList.Width:= gIconsSize;
   ImageList.Height:= gIconsSize;
+  FFactor:= GetCanvasScaleFactor;
+  ImageList.RegisterResolutions([Round(gIconsSize * FFactor)]);
+
   FMimeType:= GetFileMimeType(FFileList[0]);
   lblMimeType.Caption:= Format(lblMimeType.Caption, [FMimeType]);
   with tvApplications do
@@ -347,11 +351,12 @@ begin
   else if SameText(Node2.Text, rsOpenWithOther) then
     Result:= -1
   else
-    Result := LazUTF8.Utf8CompareStr(Node1.Text, Node2.Text);
+    Result := mbCompareStr(Node1.Text, Node2.Text);
 end;
 
 procedure TfrmOpenWith.LoadBitmap(ANode: TTreeNode; const AName: String);
 var
+  ASize: Integer;
   Bitmap: TBitmap;
   ImageIndex: PtrInt;
 begin
@@ -361,7 +366,8 @@ begin
     Bitmap:= PixMapManager.GetBitmap(ImageIndex);
     if Assigned(Bitmap) then
     begin
-      BitmapCenter(Bitmap, ImageList.Width, ImageList.Height);
+      ASize:= Round(gIconsSize * FFactor);
+      BitmapCenter(Bitmap, ASize, ASize);
       ANode.ImageIndex:= ImageList.Add(Bitmap, nil);
       ANode.SelectedIndex:= ANode.ImageIndex;
       ANode.StateIndex:= ANode.ImageIndex;

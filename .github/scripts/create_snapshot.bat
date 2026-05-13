@@ -25,7 +25,7 @@ git log -n 10 --format="%%h %%al %%ai%%n%%s%%n" > %PACK_DIR%\changelog.txt
 
 rem Get libraries
 pushd install
-curl -o windows.7z -L https://github.com/doublecmd/snapshots/raw/main/windows.7z
+curl -o windows.7z -L https://github.com/doublecmd/external/raw/main/windows.7z
 "%ProgramFiles%\7-Zip\7z.exe" x windows.7z
 del /Q windows.7z
 popd

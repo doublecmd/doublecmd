@@ -21,17 +21,17 @@ type
     { public declarations }
   end;
 
-function ShowDeleteDialog(const Message: String; FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier): Boolean;
+function ShowDeleteDialog(TheOwner: TComponent; const Message: String; FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 implementation
 
 uses
   LCLType;
 
-function ShowDeleteDialog(const Message: String; FileSource: IFileSource;
+function ShowDeleteDialog(TheOwner: TComponent; const Message: String; FileSource: IFileSource;
   out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin
-  with TfrmDeleteDlg.Create(Application, FileSource) do
+  with TfrmDeleteDlg.Create(TheOwner, FileSource) do
   begin
     Caption:= Application.Title;
     lblMessage.Caption:= Message;

@@ -110,6 +110,9 @@ procedure ShowTrashContextMenu(Parent: TWinControl; X, Y : Integer;
 }
 function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 
+function SelectDirectoryEx(const Caption, InitialDirectory: string;
+                           out Directory: string; ShowHidden: Boolean): Boolean;
+
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 {en
    Show open with dialog
@@ -145,7 +148,7 @@ uses
     {$ENDIF}
   {$ENDIF}
   {$IF DEFINED(DARWIN)}
-  , LCLStrConsts
+  , LCLStrConsts, CocoaConfig
   , BaseUnix, Errors, fFileProperties
   , uQuickLook, uOpenDocThumb, uDarwinApplication, uDarwinFile, uDefaultTerminal
   {$ELSEIF DEFINED(UNIX)}
@@ -154,7 +157,7 @@ uses
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
-    , uDCReadJXL, uFileSourceUtil, uNetworkFileSource
+    , uDCReadJXL, uFileSourceUtil, uNetworkFileSource, uGoogleFileSource
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     , uFlatpak
@@ -694,6 +697,7 @@ begin
       RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
     if TGioFileSource.IsSupportedPath('network://') then
       RegisterVirtualFileSource(rsVfsNetwork, TNetworkFileSource, True);
+    RegisterVirtualFileSource('Google', TGoogleFileSource, False);
     RegisterVirtualFileSource('GVfs', TGioFileSource, False);
   end;
   {$ENDIF}
@@ -978,6 +982,18 @@ begin
 
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
+end;
+
+function SelectDirectoryEx(const Caption, InitialDirectory: string; out
+  Directory: string; ShowHidden: Boolean): Boolean;
+begin
+{$IF DEFINED(DARWIN) AND (LCL_FULLVERSION >= 4990000)}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
+{$ENDIF}
+  Result:= SelectDirectory(Caption, InitialDirectory, Directory, ShowHidden);
+{$IF DEFINED(DARWIN) AND (LCL_FULLVERSION >= 4990000)}
+  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
+{$ENDIF}
 end;
 
 function GetControlHandle(AWindow: TWinControl): HWND;

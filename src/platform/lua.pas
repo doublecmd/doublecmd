@@ -672,6 +672,7 @@ var
   luaL_prepbuffsize: function (B: PluaL_Buffer; sz: size_t): PAnsiChar; cdecl;
   lua_getglobal_: function (L: Plua_State; const name: PAnsiChar): Integer; cdecl;
   lua_tonumber_:    function (L : Plua_State; idx : Integer) : lua_Number;  cdecl;
+  luaL_openselectedlibs:  procedure (L: Plua_State; load, preload: Integer); cdecl;
   luaL_loadfile_: function (L: Plua_State; const filename: PAnsiChar): Integer; cdecl;
   lua_newuserdatauv: function(L: Plua_State; sz: size_t; nuvalue: Integer): Pointer; cdecl;
   lua_tonumberx: function(L: Plua_State; idx: Integer; isnum: PLongBool): lua_Number; cdecl;
@@ -712,6 +713,11 @@ procedure lua_replace53(L : Plua_State; idx : Integer);  cdecl;
 begin
   lua_copy(L, -1, idx);
   lua_pop(L, 1);
+end;
+
+procedure luaL_openlibs55(L: Plua_State); cdecl;
+begin
+  luaL_openselectedlibs(L, not 0, 0);
 end;
 
 procedure UnloadLuaLib;
@@ -807,7 +813,6 @@ begin
   @luaopen_math := GetProcAddress(LuaLibD, 'luaopen_math');
   @luaopen_debug := GetProcAddress(LuaLibD, 'luaopen_debug');
   @luaopen_package := GetProcAddress(LuaLibD, 'luaopen_package');
-  @luaL_openlibs := GetProcAddress(LuaLibD, 'luaL_openlibs');
   @lua_getstack := GetProcAddress(LuaLibD, 'lua_getstack');
   @lua_getinfo := GetProcAddress(LuaLibD, 'lua_getinfo');
   @lua_getlocal := GetProcAddress(LuaLibD, 'lua_getlocal');
@@ -947,6 +952,16 @@ begin
   else begin
     @lua_resume51 := GetProcAddress(LuaLibD, 'lua_resume');
   end;
+
+  if (LUA_VERSION_DYN < 505) then
+    @luaL_openlibs := GetProcAddress(LuaLibD, 'luaL_openlibs')
+  else begin
+    @luaL_openlibs := @luaL_openlibs55;
+    LUA_REGISTRYINDEX := -(MaxInt div 2 + 1000);
+    LUA_UPVALUEINDEX_ := -(MaxInt div 2 + 1000);
+    LUAL_BUFFERSIZE := (16 * SizeOf(Pointer) * SizeOf(lua_Number));
+    @luaL_openselectedlibs := GetProcAddress(LuaLibD, 'luaL_openselectedlibs');
+  end
 end;
 
 (*****************************************************************************)

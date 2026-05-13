@@ -60,7 +60,9 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
     AutoSize = True
     Caption = 'Columns size'
     ChildSizing.LeftRightSpacing = 6
-    ChildSizing.TopBottomSpacing = 2
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeVertical = crsSameSize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
     ClientHeight = 69

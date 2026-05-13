@@ -100,6 +100,7 @@ end;
 procedure TGioCalcStatisticsOperation.ProcessSubDirs(const srcPath: String);
 var
   AFile: TFile;
+  AChild: PGFile;
   AFolder: PGFile;
   AInfo: PGFileInfo;
   AFileName: Pgchar;
@@ -120,7 +121,8 @@ begin
 
         if (aFileName <> '.') and (aFileName <> '..') then
         begin
-          aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
+          AChild:= g_file_enumerator_get_child(AFileEnum, AInfo);
+          aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AChild, AInfo);
           try
             ProcessFile(aFile);
           finally

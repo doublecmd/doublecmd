@@ -36,9 +36,9 @@ jobs:
 
     - name: Create Lazarus config
       run: |
-           sudo mkdir -p /etc/lazarus
-           sudo cp tools/install/macosx/environmentoptions.xml /etc/lazarus/environmentoptions.xml
-           sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+           mkdir -p $HOME/.lazarus
+           cp tools/install/macosx/environmentoptions.xml $HOME/.lazarus/environmentoptions.xml
+           sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" $HOME/.lazarus/environmentoptions.xml
 
     - name: Checkout source
       uses: actions/checkout@v6
@@ -53,12 +53,13 @@ jobs:
     - name: Build packages
       run: ./.github/scripts/create_snapshot.sh
 
-    - name: Deploy to snapshot server
-      run: ./.github/scripts/upload_snapshot.sh
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+    - name: Share data between jobs
+      uses: actions/upload-artifact@v7
+      with:
+        name: snapshot-mac
+        retention-days: 1
+        compression-level: 0
+        path: doublecmd-release/doublecmd*.dmg
 
   build-win:
     runs-on: windows-latest
@@ -73,13 +74,80 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Restore timestamps
+      uses: chetan/git-restore-mtime-action@v2
+
     - name: Build packages
       run: ./.github/scripts/create_snapshot.bat
 
-    - name: Deploy to snapshot server
-      run: ./.github/scripts/upload_snapshot.sh
+    - name: Share data between jobs
+      uses: actions/upload-artifact@v7
+      with:
+        name: snapshot-win
+        retention-days: 1
+        compression-level: 0
+        path: doublecmd-release/*
+
+  build-lin:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Install dependencies
+      run: sudo apt install fpc patchelf libgtk-3-dev libdbus-1-dev
+
+    - name: Get Lazarus source
+      uses: actions/checkout@v6
+      with:
+            repository: 'fpc/Lazarus'
+
+    - name: Build and install Lazarus
+      run: |
+           make all
+           sudo make install
+
+    - name: Create Lazarus config
+      run: |
+           mkdir -p $HOME/.lazarus
+           cp tools/install/linux/environmentoptions.xml $HOME/.lazarus/environmentoptions.xml
+           sed -i -e "s|__LAZARUSDIR__|/usr/local/share/lazarus|g" $HOME/.lazarus/environmentoptions.xml
+
+    - name: Checkout source
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Build packages
+      run: ./.github/scripts/create_snapshot.lnx
+
+    - name: Share data between jobs
+      uses: actions/upload-artifact@v7
+      with:
+        name: snapshot-lin
+        retention-days: 1
+        compression-level: 0
+        path: doublecmd-release/doublecmd*.tar.xz
+
+  upload:
+    needs: [build-win, build-mac, build-lin]
+    runs-on: ubuntu-latest
+    environment: snapshots
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v8
+      with:
+        merge-multiple: true
+
+    - name: Save revision number
+      run: echo "REVISION=$(cat revision.txt)" >> "$GITHUB_ENV"
       shell: bash
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+
+    - name: Upload binaries to snapshots
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_name: doublecmd/snapshots
+        repo_token: ${{ secrets.SNAPSHOTS }}
+        file: ./*
+        release_name: Revision ${{ env.REVISION }}
+        tag: ${{ env.REVISION }}
+        body: ${{ vars.BODY }}
+        overwrite: true
+        file_glob: true

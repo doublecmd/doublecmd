@@ -1,6 +1,6 @@
 program doublecmd;
 
-{$IF DEFINED(LCLGTK3)}
+{$IF DEFINED(LCLGTK3) AND NOT DEFINED(LCL_VER_499)}
 {$FATAL LCLGTK3 is not production ready}
 {$ENDIF}
 
@@ -46,6 +46,12 @@ uses
   {$ENDIF}
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
   uWin32WidgetSetDark,
+  {$ENDIF}
+  {$IFDEF LCLQT6}
+  uQtWSControls,
+  {$IFNDEF LCL_VER_499}
+  uQtWSButtons,
+  {$ENDIF}
   {$ENDIF}
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
@@ -136,7 +142,7 @@ begin
   uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 
-  Application.Scaled:= True;
+  Application.Scaled:=True;
 
   // Fix default BidiMode
   // see http://bugs.freepascal.org/view.php?id=22044
@@ -177,9 +183,9 @@ begin
   begin
     DefaultFormatSettings.ThousandSeparator:= ' ';
   end;
-  {$IFDEF UNIX}
-  uMyUnix.FixDateTimeSeparators;
-  {$ENDIF}
+{$IF DEFINED(UNIX)}
+  uMyUnix.FixFormatSettings;
+{$ENDIF}
   FixDateNamesToUTF8;
 
   DCDebug(GetVersionInformation);

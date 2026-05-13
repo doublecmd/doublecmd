@@ -83,6 +83,7 @@ type
     btnView: TButton;
     btnEdit: TButton;
     btnWorkWithFound: TButton;
+    btnDrives: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -204,6 +205,7 @@ type
     procedure actExecute(Sender: TObject);
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
+    procedure btnDrivesClick(Sender: TObject);
     procedure btnEncodingClick(Sender: TObject);
     procedure btnNewSearchKeyDown(Sender: TObject; var Key: word;
       {%H-}Shift: TShiftState);
@@ -399,20 +401,17 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
+  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, ImgList, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uOfficeXML,
-   uFile, uFileProperty, uColumnsFileView,
+  uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils,
   DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
   uColumns, uFileFunctions, uFileSorting,
   DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData,
   uLocalFileSource, uWcxArchiveFileSource, uSearchResultFileSource,
-  uFileSourceUtil, uArchiveFileSourceUtil
+  uFileSourceUtil, uArchiveFileSourceUtil, uDriveWatcher
 {$IFDEF DARkWIN}
   , uDarkStyle
-{$ENDIF}
-{$IFDEF DARWIN}
-  , CocoaConfig
 {$ENDIF}
   ;
 
@@ -739,6 +738,9 @@ begin
   if (ListOffrmFindDlgInstance.Count = 0) then
     Application.AddOnKeyDownBeforeHandler(@FormKeyDown);
 {$ENDIF}
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 { TfrmFindDlg.cbUsePluginChange }
@@ -771,8 +773,6 @@ end;
 
 { TfrmFindDlg.Create }
 constructor TfrmFindDlg.Create(TheOwner: TComponent);
-var
-  C: TPortableNetworkGraphic;
 begin
   FSelectedFiles := TStringList.Create;
   inherited Create(TheOwner);
@@ -781,15 +781,8 @@ begin
   FUpdateTimer.Enabled := False;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
 
-  try
-    C := TPortableNetworkGraphic.Create;
-    C.LoadFromResourceName(hInstance, ResBtnSelDir);
-    btnChooseFolder.Glyph.Assign(C);
-  finally
-    C.Free;
-  end;
-
-  dmComData.ilEditorImages.GetBitmap(44, btnEncoding.Glyph);
+  btnChooseFolder.Images:= LCLGlyphs;
+  btnChooseFolder.ImageIndex:= LCLGlyphs.GetImageIndex(ResBtnSelDir);
 
   FCommands := TFormCommands.Create(Self, actList);
 end;
@@ -810,6 +803,7 @@ begin
   cbFollowSymLinks.Visible := False;
   cbSelectedFiles.Visible := False;
   cbOpenedTabs.Visible := False;
+  btnDrives.Visible := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
@@ -971,6 +965,24 @@ begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
 end;
 
+procedure TfrmFindDlg.btnDrivesClick(Sender: TObject);
+var
+  Drives, Selected: TStringList;
+begin
+  Selected:= TStringList.Create;
+  Drives:= TDriveWatcher.GetUniquePaths;
+  if ShowInputMultiSelectListBox(rsFindSelectDrives, EmptyStr, Drives, Selected) then
+  begin
+    if (Selected.Count > 0) then
+    begin
+      Selected.Delimiter:= ';';
+      cmbFindPathStart.Text:= Selected.DelimitedText;
+    end;
+  end;
+  Selected.Free;
+  Drives.Free;
+end;
+
 procedure TfrmFindDlg.btnEncodingClick(Sender: TObject);
 var
   I, Index, ACount: Integer;
@@ -1081,6 +1093,7 @@ begin
   cbSelectedFiles.Enabled := not cbOpenedTabs.Checked AND (FSelectedFiles.Count > 0);
   cbFollowSymLinks.Enabled := not cbOpenedTabs.Checked;
   cmbFindPathStart.Enabled := not cbOpenedTabs.Checked;
+  btnDrives.Enabled := cmbFindPathStart.Enabled;
 end;
 
 { TfrmFindDlg.cbPartialNameSearchChange }
@@ -1105,6 +1118,7 @@ end;
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
 begin
   cmbFindPathStart.Enabled := not cbSelectedFiles.Checked;
+  btnDrives.Enabled := cmbFindPathStart.Enabled;
 end;
 
 procedure TfrmFindDlg.chkDuplicateContentChange(Sender: TObject);
@@ -1172,14 +1186,8 @@ begin
   S := cmbFindPathStart.Text;
   AFolder:= ExtractFilePath(ExcludeTrailingBackslash(S));
   if not mbDirectoryExists(AFolder) then AFolder := EmptyStr;
-  {$IFDEF DARWIN}
-  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= True;
-  {$ENDIF}
-  if SelectDirectory(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
+  if SelectDirectoryEx(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
     cmbFindPathStart.Text := S;
-  {$IFDEF DARWIN}
-  CocoaConfigFileDialog.selectDirectory.allowsFilePackagesContents:= False;
-  {$ENDIF}
 end;
 
 { TfrmFindDlg.btnNewSearchKeyDown }
@@ -1514,6 +1522,7 @@ begin
   cbFindInArchive.Enabled:= not AEnabled;
   cbReplaceText.Enabled:= (not AEnabled) and (cbFindText.Checked);
   cmbFindPathStart.Enabled:= not AEnabled;
+  btnDrives.Enabled := not AEnabled;
   btnChooseFolder.Enabled:= not AEnabled;
   chkDuplicates.Enabled:= not AEnabled;
   cmbSearchDepth.Enabled:=  not AEnabled;
