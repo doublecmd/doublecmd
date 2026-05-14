@@ -4345,7 +4345,7 @@ begin
         if Assigned(aFile) then
           try
             if aFile.IsNameValid then
-              ShowDescrEditDlg(aFile.FullPath, frmMain.ActiveFrame)
+              ShowDescrEditDlg(frmMain, aFile.FullPath, frmMain.ActiveFrame)
             else
               msgWarning(rsMsgNoFilesSelected);
           finally
@@ -4360,7 +4360,7 @@ begin
             if aFile.IsNameValid then
               begin
                 if FileSource.GetLocalName(aFile) then
-                  ShowDescrEditDlg(aFile.FullPath, frmMain.ActiveFrame)
+                  ShowDescrEditDlg(frmMain, aFile.FullPath, frmMain.ActiveFrame)
                 else
                   msgWarning(rsMsgErrNotSupported);
               end
