@@ -311,10 +311,11 @@ end;
 procedure viewerPenColorAction( const Sender: id );
 var
   form: TfrmViewer;
+  item: TCocoaToolBarItemColorWell absolute Sender;
 begin
   form:= getCurrentViewerForm;
   if Assigned(form) then
-    form.btnPenColor.Click;
+    form.btnPenColor.ButtonColor:= item.lclGetColor;
 end;
 
 procedure viewerSlideAction( const Sender: id );
@@ -673,16 +674,20 @@ const
     onGetMenu: @onViewerGetPenWidthMenu;
   );
 
-  viewerPenColorItemConfig: TCocoaConfigToolBarItem = (
+  viewerPenColorItemConfig: TCocoaConfigToolBarItemColorWell = (
     identifier: 'ViewerForm.PenColor';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'eyedropper';
+    iconName: '';
     title: 'Color';
-    tips: '';
+    tips: 'Color';
     bordered: True;
     onAction: @viewerPenColorAction;
+
+    wellStyle: NSColorWellStyleMinimal;
+    sizeWithStyle: ( width: 20; height: 14 );
+    sizeWithoutStyle: ( width: 16; height: 16 );
   );
 
   viewerFormConfig: TCocoaConfigForm = (
@@ -894,6 +899,7 @@ var
     item.setEnabled( paintButton.Down );
     item:= TCocoaToolBarUtils.findItemByIdentifier( toolBar , 'ViewerForm.PenColor');
     item.setEnabled( paintButton.Down );
+    TCocoaToolBarItemColorWell(item).lclSetColor( viewer.btnPenColor.ButtonColor );
   end;
 
 begin
