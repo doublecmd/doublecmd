@@ -12,7 +12,7 @@ object frmDescrEdit: TfrmDescrEdit
   Constraints.MinWidth = 400
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   SessionProperties = 'Height;WindowState;Width'
   LCLVersion = '2.0.4.0'
   object lblEditCommentFor: TLabel
