@@ -35,7 +35,6 @@ type
   TdmComData = class(TDataModule)
     ilEditorImages: TImageList;
     ilViewerImages: TImageList;
-    ImageList: TImageList;
     ilButtons: TImageList;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;

@@ -219,6 +219,8 @@ object frmFileOp: TfrmFileOp
         BorderSpacing.Left = 3
         Constraints.MinWidth = 50
         GlyphShowMode = gsmAlways
+        Images = dmComData.ilViewerImages
+        ImageIndex = 11
         OnClick = btnPauseStartClick
         Spacing = 0
         TabOrder = 3
