@@ -487,7 +487,7 @@ type
       sShellCmdLine := state.sSubParam + ' > ' + QuoteStr(sTmpFilename);
       Process := TProcessUTF8.Create(nil);
       try
-        Process.CommandLine := FormatShell(sShellCmdLine);
+        FormatShell(Process, sShellCmdLine);
         Process.Options := [poNoConsole, poWaitOnExit];
         Process.Execute;
       finally
@@ -958,7 +958,7 @@ begin
       sShellCmdLine := Copy(sParams, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
       Process := TProcessUTF8.Create(nil);
       try
-        Process.CommandLine := FormatShell(sShellCmdLine);
+        FormatShell(Process, sShellCmdLine);
         Process.CurrentDirectory := sWorkPath;
         Process.Options := [poWaitOnExit];
         Process.ShowWindow := swoHide;
