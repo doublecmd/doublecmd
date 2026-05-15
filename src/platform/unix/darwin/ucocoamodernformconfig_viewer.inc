@@ -603,11 +603,11 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'pencil.tip';
+    iconName: 'pencil.tip.crop.circle';
     title: 'Paint';
     tips: 'Paint';
     bordered: True;
-    alternateIconName: '#pencil.tip';
+    alternateIconName: '####pencil.tip.crop.circle';
 
     onAction: @viewerPaintAction;
   );
