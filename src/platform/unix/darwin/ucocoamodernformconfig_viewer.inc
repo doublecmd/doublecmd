@@ -686,8 +686,10 @@ const
     onAction: @viewerPenColorAction;
 
     wellStyle: NSColorWellStyleMinimal;
-    sizeWithStyle: ( width: 20; height: 14 );
+    sizeWithStyle: ( width: 26; height: 16 );
     sizeWithoutStyle: ( width: 16; height: 16 );
+    supportsAlpha: False;
+    autoClose: True;
   );
 
   viewerFormConfig: TCocoaConfigForm = (
