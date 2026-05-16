@@ -18,7 +18,7 @@ type
   TMenuKeyCap = (mkcClear, mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
     mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcMeta, mkcNumDivide, mkcNumMultiply,
-    mkcNumAdd, mkcNumSubstract);
+    mkcNumAdd, mkcNumSubstract, mkcAltGr);
 
 const
   SmkcClear = 'Clear';
@@ -49,12 +49,13 @@ const
   SmkcAtem = {$IF DEFINED(DARWIN)}SmkcWin{$ELSE}SmkcCmd{$ENDIF};
   SmkcMeta = {$IF DEFINED(DARWIN)}SmkcCmd{$ELSE}SmkcWin{$ENDIF};
   SmkcSuper = {$IF DEFINED(DARWIN)}SmkcCmd{$ELSE}SmkcCtrl{$ENDIF};
+  SmkcFn = 'Fn+';
 
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcClear, SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight, SmkcDown,
     SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt, SmkcMeta,
-    SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract);
+    SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract, SmkcFn);
 
   // Modifiers that can be used for shortcuts (non-toggable).
   KeyModifiersShortcut = [ssShift, ssAlt, ssCtrl, ssMeta, ssSuper, ssHyper, ssAltGr];
@@ -185,11 +186,12 @@ type
   end;
 
 const
-  ModifiersMap: array [0..3] of TModifiersMap =
+  ModifiersMap: array [0..4] of TModifiersMap =
    ((Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
     (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
-    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta)
+    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta),
+    (Shift: ssAltGr; Shortcut: scAltGr; Text: mkcAltGr)
     );
 
 {$IF DEFINED(X11)}
@@ -471,6 +473,11 @@ begin
     Include(Result, ssShift);
   if IsKeyDown(VK_LWIN) or IsKeyDown(VK_RWIN) then
     Include(Result, ssMeta);
+
+{$IF DEFINED(DARWIN)}
+  if IsKeyDown(VK_FN) then
+    Include(Result, ssAltGr);
+{$ENDIF}
 
 {$IF DEFINED(X11) and (DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   if IsKeyDown(VK_CAPITAL) then
