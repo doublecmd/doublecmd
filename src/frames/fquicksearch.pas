@@ -486,6 +486,10 @@ begin
   for KeyTypingModifier in [ktmNone, ktmAlt] do
   if gKeyTyping[KeyTypingModifier] in [ktaQuickSearch, ktaQuickFilter] then
   begin
+    {$IFDEF DARWIN}
+    if ssAltGr in ModifierKeys then
+      continue;
+    {$ENDIF}
     if ModifierKeys * KeyModifiersShortcutNoText = TKeyTypingModifierToShift[KeyTypingModifier] then
       begin
         // Make upper case if either caps-lock is toggled or shift pressed.
