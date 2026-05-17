@@ -1487,10 +1487,10 @@ end;
 
 procedure TfrmViewer.showLCLToolBar( newVisibility: Boolean );
 begin
-{{$IFDEF DARWIN}
+{$IFDEF DARWIN}
   if self.modernToolBarEnabled then
     newVisibility:= False;
-{$ENDIF}}
+{$ENDIF}
   ToolBar1.Visible:= newVisibility;
 end;
 
