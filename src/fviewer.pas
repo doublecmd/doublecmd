@@ -166,6 +166,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGIFView;
     memFolder: TMemo;
+    MenuItem1: TMenuItem;
     mnuPlugins: TMenuItem;
     miCode: TMenuItem;
     miShowTransparency: TMenuItem;
@@ -1486,10 +1487,10 @@ end;
 
 procedure TfrmViewer.showLCLToolBar( newVisibility: Boolean );
 begin
-{$IFDEF DARWIN}
+{{$IFDEF DARWIN}
   if self.modernToolBarEnabled then
     newVisibility:= False;
-{$ENDIF}
+{$ENDIF}}
   ToolBar1.Visible:= newVisibility;
 end;
 
@@ -2784,6 +2785,7 @@ var
 begin
   MenuItem.Owner.Tag:= MenuItem.Tag;
   TToolButton(MenuItem.Owner).Caption:= MenuItem.Caption;
+  viewerFormHandler.onImageEditStateChanged( self );
 end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
@@ -3104,6 +3106,7 @@ function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
       gifStates:= []
     else
       gifStates:= [vgsIsGif];
+    viewerFormHandler.onSlideStateChanged( self );
     viewerFormHandler.onGifStateChanged( self, gifStates );
     viewerFormHandler.onImageEditStateChanged( self );
   end;

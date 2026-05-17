@@ -849,6 +849,20 @@ begin
   item.setEnabled( exportEnabled );
 end;
 
+procedure checkMenuByButton( const button: TToolButton; const menu: TMenu );
+var
+  index: Integer;
+  item: TMenuItem;
+begin
+  try
+    index:= button.Tag - 1;
+    for item in menu.Items do
+      item.Checked:= False;
+    menu.Items[index].Checked:= True;
+  except
+  end;
+end;
+
 procedure TCocoaViewerFormHandler.onImageEditStateChanged(
   const viewer: TfrmViewer );
 var
@@ -897,6 +911,8 @@ var
 
     item:= TCocoaToolBarUtils.findItemByIdentifier( toolBar , 'ViewerForm.PenWidth');
     item.setEnabled( paintButton.Down );
+    checkMenuByButton( viewer.btnPenWidth, TCocoaToolBarItemMenu(item).lclGetMenu );
+
     item:= TCocoaToolBarUtils.findItemByIdentifier( toolBar , 'ViewerForm.PenColor');
     item.setEnabled( paintButton.Down );
     TCocoaToolBarItemColorWell(item).lclSetColor( viewer.btnPenColor.ButtonColor );
@@ -924,6 +940,7 @@ begin
     Exit;
 
   TCocoaToolBarItem(item).lclSetState( viewer.btnSlideShow.Down );
+  checkMenuByButton( viewer.btnSlideShow, TCocoaToolBarItemMenu(item).lclGetMenu );
 
   viewer.TimerViewer.Enabled:= viewer.btnSlideShow.Down;
 end;
