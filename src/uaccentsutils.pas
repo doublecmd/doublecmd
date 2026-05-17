@@ -100,19 +100,52 @@ end;
 { NormalizeAccentedChar }
 function NormalizeAccentedChar(sInput: string): string;
 var
-  iIndexChar, iPosChar: integer;
-  cWorkingChar: string;
+  AInputCharPointer, AOutputBufferPointer: PChar;
+  AByteLengthOfChar, AAllocatedBufferSize: Integer;
+  ACurrentCharAsString: String;
+  AIndexInAccentList: Integer;
+  AReplacementString: String;
 begin
-  Result := '';
-  for iIndexChar := 1 to UTF8length(sInput) do
-  begin
-    cWorkingChar := UTF8Copy(sInput, iIndexChar, 1);
-    iPosChar := gslAccents.IndexOf(cWorkingChar);
-    if iPosChar = -1 then
-      Result := Result + cWorkingChar
+  if sInput = '' then
+    Exit;
+  AAllocatedBufferSize := Length(sInput) * 2; // worst scenario: every character expands (e.g., 'œ' -> 'oe' doubles length)
+  SetLength(Result, AAllocatedBufferSize);
+  AOutputBufferPointer := PChar(Result);
+  AInputCharPointer := PChar(sInput);
+
+  while AInputCharPointer^ <> #0 do begin
+    AByteLengthOfChar := UTF8CodepointSize(AInputCharPointer);
+    if (AByteLengthOfChar = 1) and (Byte(AInputCharPointer^) < 128) then begin
+      // if byte < 128, it is standard ASCII and definitely NOT with accent
+      AOutputBufferPointer^ := AInputCharPointer^;
+      Inc(AOutputBufferPointer);
+      Inc(AInputCharPointer);
+      Continue;
+    end;
+
+    // extract current character using pointers
+    SetString(ACurrentCharAsString, AInputCharPointer, AByteLengthOfChar);
+
+    // lookup using IndexOf (Find causes crash) works regardless of sorting and is fast enough for this small list
+    AIndexInAccentList := gslAccents.IndexOf(ACurrentCharAsString);
+    if AIndexInAccentList <> -1 then begin
+      AReplacementString := gslAccentsStripped[AIndexInAccentList];
+      if AReplacementString <> '' then begin
+        Move(AReplacementString[1], AOutputBufferPointer^, Length(AReplacementString));
+        Inc(AOutputBufferPointer, Length(AReplacementString));
+      end;
+    end
     else
-      Result := Result + gslAccentsStripped.Strings[iPosChar];
+    begin
+      // not found in accent list, copy original character to buffer
+      Move(AInputCharPointer^, AOutputBufferPointer^, AByteLengthOfChar);
+      Inc(AOutputBufferPointer, AByteLengthOfChar);
+    end;
+
+    Inc(AInputCharPointer, AByteLengthOfChar);
   end;
+  // trim the buffer to the actual size used.
+  SetLength(Result, AOutputBufferPointer - PChar(Result));
 end;
 
 { PosOfSubstrWithVersatileOptions }
