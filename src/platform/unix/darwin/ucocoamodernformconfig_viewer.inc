@@ -434,7 +434,6 @@ const
     onAction: @viewerSlideAction;
 
     showsIndicator: True;
-    menu: nil;
     onGetMenu: @onViewerGetSlideMenu;
   );
 
@@ -670,7 +669,6 @@ const
     onAction: nil;
 
     showsIndicator: False;
-    menu: nil;
     onGetMenu: @onViewerGetPenWidthMenu;
   );
 

@@ -663,7 +663,6 @@ const
     onAction: nil;
 
     showsIndicator: False;
-    menu: nil;
     onGetMenu: @onGetFolderMenu;
   );
 
@@ -701,7 +700,6 @@ const
     onAction: nil;
 
     showsIndicator: True;
-    menu: nil;
     onGetMenu: @onGetCommandMenu;
   );
 
@@ -728,7 +726,6 @@ const
 
     showsIndicator: False;
     dynamic: True;
-    menu: nil;
     onGetMenu: @onGetSearchMenu;
   );
 
