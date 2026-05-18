@@ -426,11 +426,11 @@ const
     identifier: 'ViewerForm.Slide';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
-    iconName: 'play';
+    iconName: 'play.fill';
     title: 'Slide Show';
     tips: 'Slide Show';
     bordered: True;
-    alternateIconName: 'stop';
+    alternateIconName: 'stop.fill';
     onAction: @viewerSlideAction;
 
     showsIndicator: True;
@@ -514,11 +514,11 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'play.fill';
+    iconName: 'play';
     title: '';
     tips: '';
     bordered: True;
-    alternateIconName: 'pause.fill';
+    alternateIconName: 'pause';
 
     onAction: @viewerGifMoveAction;
   );
@@ -552,7 +552,7 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'arrow.down.circle.fill';
+    iconName: 'arrow.down.circle';
     title: 'GifExport';
     tips: 'GifExport';
     bordered: True;
@@ -606,7 +606,7 @@ const
     title: 'Paint';
     tips: 'Paint';
     bordered: True;
-    alternateIconName: '####pencil.tip.crop.circle';
+    alternateIconName: '###pencil.tip.crop.circle';
 
     onAction: @viewerPaintAction;
   );
