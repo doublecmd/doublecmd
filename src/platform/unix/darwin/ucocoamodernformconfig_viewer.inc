@@ -515,8 +515,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'play';
-    title: '';
-    tips: '';
+    title: 'Gif';
+    tips: 'Gif';
     bordered: True;
     alternateIconName: 'pause';
 
@@ -529,8 +529,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'arrow.left';
-    title: 'GifPrev';
-    tips: 'GifPrev';
+    title: 'Previous Frame';
+    tips: 'Previous Frame';
     bordered: True;
     onAction: @viewerGifPrevAction;
   );
@@ -541,8 +541,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'arrow.right';
-    title: 'GifNext';
-    tips: 'GifNext';
+    title: 'Next Frame';
+    tips: 'Next Frame';
     bordered: True;
     onAction: @viewerGifNextAction;
   );
@@ -553,8 +553,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'arrow.down.circle';
-    title: 'GifExport';
-    tips: 'GifExport';
+    title: 'Export Frame';
+    tips: 'Export Frame';
     bordered: True;
     onAction: @viewerGifExportAction;
   );
@@ -776,6 +776,9 @@ begin
   translateItemConfig( poFile, 'tfrmviewer.actmirrorhorz.hint', viewerMirrorItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.btnresize.hint', viewerResizeItemConfig );
 
+  translateItemConfig( poFile, 'tfrmviewer.btnprevgifframe.hint', viewerGifPrevItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnnextgifframe.hint', viewerGifNextItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btngiftobmp.hint', viewerGifExportItemConfig );
 end;
 
 procedure addViewerFormShortCutTips;
