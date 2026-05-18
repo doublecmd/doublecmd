@@ -1380,14 +1380,14 @@ begin
               vptRectangle, vptEllipse:
               begin
                 CopyRect( getUndoRect(tmp), tmp_all.canvas, getUndoRect(tmp) );
+                setUndoRect( StartX, StartY, X, Y );
                 case TViewerPaintTool(btnPenMode.Tag) of
-                  vptRectangle: Rectangle(Rect(StartX,StartY,X,Y));
-                  vptEllipse:Ellipse(StartX,StartY,X,Y);
+                  vptRectangle: Rectangle( getUndoRect(0) );
+                  vptEllipse:Ellipse( getUndoRect(0) );
                 end;
               end;
             end;
 
-            setUndoRect( StartX, StartY, X, Y );
           end;
         end;
       if not (btnHightlight.Down) and not (btnPaint.Down) then
