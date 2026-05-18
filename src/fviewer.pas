@@ -1375,12 +1375,22 @@ begin
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
-                if (startX>x) and (startY<y) then CopyRect (Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp));
-                if (startX<x) and (startY>y) then CopyRect (Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp));
-                if (startX>x) and (startY>y) then
-                  CopyRect (Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp))
+                if (startX>x) and (startY<y) then
+                  CopyRect( Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp),
+                            tmp_all.canvas,
+                            Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp) )
+                else if (startX<x) and (startY>y) then
+                  CopyRect( Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp),
+                            tmp_all.canvas,
+                            Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp) )
+                else if (startX>x) and (startY>y) then
+                  CopyRect( Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp),
+                            tmp_all.canvas,
+                            Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp) )
                 else
-                  CopyRect (Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp));//UndoTmp;
+                  CopyRect( Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp),
+                            tmp_all.canvas,
+                            Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp) ); //UndoTmp;
 
                 case TViewerPaintTool(btnPenMode.Tag) of
                   vptRectangle: Rectangle(Rect(StartX,StartY,X,Y));
