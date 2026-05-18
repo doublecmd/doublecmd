@@ -663,7 +663,7 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'lineweight';
-    title: 'Width';
+    title: '';
     tips: '';
     bordered: True;
     onAction: nil;
@@ -678,8 +678,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: '';
-    title: 'Color';
-    tips: 'Color';
+    title: '';
+    tips: '';
     bordered: True;
     onAction: @viewerPenColorAction;
 
@@ -779,6 +779,14 @@ begin
   translateItemConfig( poFile, 'tfrmviewer.btnprevgifframe.hint', viewerGifPrevItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.btnnextgifframe.hint', viewerGifNextItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.btngiftobmp.hint', viewerGifExportItemConfig );
+
+  translateItemConfig( poFile, 'tfrmviewer.btnhightlight.hint', viewerHighLightItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btncuttuimage.hint', viewerCropItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnredeye.hint', viewerRedEyesItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnpaint.hint', viewerPaintItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.mipen.hint', viewerPenModePenItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.mirect.hint', viewerPenModeRectItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.miellipse.caption', viewerPenModeEllipseItemConfig );
 end;
 
 procedure addViewerFormShortCutTips;
