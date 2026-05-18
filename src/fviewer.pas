@@ -1354,15 +1354,14 @@ begin
             if endY> Image.Picture.Height then endY:=Image.Picture.Height;
             with Image.Picture.Bitmap.Canvas do
               begin
-                DrawFocusRect(Rect(UndoSX,UndoSY,UndoEX,UndoEY));
-                DrawFocusRect(Rect(UndoSX+10,UndoSY+10,UndoEX-10,UndoEY-10));
-                DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
-                DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));//Pen.Mode := pmNotXor;
+                if NOT getUndoRect(0).IsEmpty then begin
+                  DrawFocusRect( getUndoRect(0) );
+                  DrawFocusRect( getUndoRect(-10) );
+                end;
+                setUndoRect( StartX, StartY, EndX, EndY );
+                DrawFocusRect( getUndoRect(0) );
+                DrawFocusRect( getUndoRect(-10) );//Pen.Mode := pmNotXor;
                 Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
-                UndoSX:=StartX;
-                UndoSY:=StartY;
-                UndoEX:=EndX;
-                UndoEY:=EndY;
               end;
           end;
         if btnPaint.Down then
@@ -1379,7 +1378,8 @@ begin
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
-                CopyRect( getUndoRect(tmp), tmp_all.canvas, getUndoRect(tmp) );
+                if NOT getUndoRect(0).IsEmpty then
+                  CopyRect( getUndoRect(tmp), tmp_all.canvas, getUndoRect(tmp) );
                 setUndoRect( StartX, StartY, X, Y );
                 case TViewerPaintTool(btnPenMode.Tag) of
                   vptRectangle: Rectangle( getUndoRect(0) );
