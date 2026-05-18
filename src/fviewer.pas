@@ -1375,15 +1375,15 @@ begin
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
-                if (startX>x) and (startY<y) then
+                if (UndoSX>UndoEX) and (UndoSY<UndoEY) then
                   CopyRect( Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp),
                             tmp_all.canvas,
                             Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp) )
-                else if (startX<x) and (startY>y) then
+                else if (UndoSX<UndoEX) and (UndoSY>UndoEY) then
                   CopyRect( Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp),
                             tmp_all.canvas,
                             Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp) )
-                else if (startX>x) and (startY>y) then
+                else if (UndoSX>UndoEX) and (UndoSY>UndoEY) then
                   CopyRect( Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp),
                             tmp_all.canvas,
                             Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp) )
