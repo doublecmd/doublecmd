@@ -480,6 +480,10 @@ type
     procedure RotateImage(ADegree: Integer);
     procedure MirrorImage(AVertically: Boolean = False);
 
+  private
+    procedure setUndoRect( const x1, y1, x2, y2: Integer );
+    function getUndoRect( const delta: Integer ): TRect;
+
   published
     // Commands for hotkey manager
     procedure cm_About(const Params: array of string);
@@ -1375,23 +1379,7 @@ begin
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
-                if (UndoSX>UndoEX) and (UndoSY<UndoEY) then
-                  CopyRect( Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp),
-                            tmp_all.canvas,
-                            Rect(UndoEX-tmp,UndoSY-tmp,UndoSX+tmp,UndoEY+tmp) )
-                else if (UndoSX<UndoEX) and (UndoSY>UndoEY) then
-                  CopyRect( Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp),
-                            tmp_all.canvas,
-                            Rect(UndoSX-tmp,UndoEY-tmp,UndoEX+tmp,UndoSY+tmp) )
-                else if (UndoSX>UndoEX) and (UndoSY>UndoEY) then
-                  CopyRect( Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp),
-                            tmp_all.canvas,
-                            Rect(UndoEX-tmp,UndoEY-tmp,UndoSX+tmp,UndoSY+tmp) )
-                else
-                  CopyRect( Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp),
-                            tmp_all.canvas,
-                            Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp) ); //UndoTmp;
-
+                CopyRect( getUndoRect(tmp), tmp_all.canvas, getUndoRect(tmp) );
                 case TViewerPaintTool(btnPenMode.Tag) of
                   vptRectangle: Rectangle(Rect(StartX,StartY,X,Y));
                   vptEllipse:Ellipse(StartX,StartY,X,Y);
@@ -1399,10 +1387,7 @@ begin
               end;
             end;
 
-            UndoSX:=StartX;
-            UndoSY:=StartY;
-            UndoEX:=X;
-            UndoEY:=Y;
+            setUndoRect( StartX, StartY, X, Y );
           end;
         end;
       if not (btnHightlight.Down) and not (btnPaint.Down) then
@@ -2060,6 +2045,20 @@ begin
   DebugLn('Mirror: ', IntToStr(SysUtils.GetTickCount64 - Q));
   AdjustImageSize;
   CreateTmp;
+end;
+
+procedure TfrmViewer.setUndoRect( const x1, y1, x2, y2: Integer );
+begin
+  UndoSX:= min( x1, x2 );
+  UndoEX:= max( x1, x2 );
+  UndoSY:= min( y1, y2 );
+  UndoEY:= max( y1, y2 );
+end;
+
+function TfrmViewer.getUndoRect( const delta: Integer): TRect;
+begin
+  Result:= Rect( UndoSX, UndoSY, UndoEX, UndoEY );
+  InflateRect( Result, delta, delta );
 end;
 
 procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
