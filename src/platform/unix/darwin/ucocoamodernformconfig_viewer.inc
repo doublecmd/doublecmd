@@ -372,8 +372,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'chevron.left';
-    title: 'Prev';
-    tips: 'Prev';
+    title: 'Previous';
+    tips: 'Load Previous File';
     bordered: True;
     onAction: @viewerPrevAction;
   );
@@ -384,7 +384,7 @@ const
     navigational: True;
     iconName: 'chevron.right';
     title: 'Next';
-    tips: 'Next';
+    tips: 'Load Next File';
     bordered: True;
     onAction: @viewerNextAction;
   );
@@ -394,8 +394,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'doc.on.doc';
-    title: 'CopyFile';
-    tips: 'CopyFile';
+    title: 'Copy File';
+    tips: 'Copy File';
     bordered: True;
     onAction: @viewerCopyAction;
   );
@@ -405,8 +405,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'scissors';
-    title: 'MoveFile';
-    tips: 'MoveFile';
+    title: 'Move File';
+    tips: 'Move File';
     bordered: True;
     onAction: @viewerMoveAction;
   );
@@ -416,8 +416,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'trash';
-    title: 'DeleteFile';
-    tips: 'DeleteFile';
+    title: 'Delete File';
+    tips: 'Delete File';
     bordered: True;
     onAction: @viewerDeleteAction;
   );
@@ -753,8 +753,38 @@ const
     );
   );
 
+procedure translateViewerFormToolbarItem;
+var
+  poFile: TPOFile;
+begin
+  if NOT (LRSTranslator is TTranslator) then
+    Exit;
+
+  poFile:= TTranslator(LRSTranslator).POFile;
+  translateItemConfig( poFile, 'tfrmviewer.actreload.hint', viewerReloadItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actloadprevfile.hint', viewerPrevItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actloadnextfile.hint', viewerNextItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actcopyfile.hint', viewerCopyFileItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actdeletefile.hint', viewerDeleteFileItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
+end;
+
+procedure addViewerFormShortCutTips;
+begin
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_Reload', viewerReloadItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_LoadPrev', viewerPrevItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_LoadNext', viewerNextItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_CopyFile', viewerCopyFileItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_MoveFile', viewerMoveFileItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_DeleteFile', viewerDeleteFileItemConfig );
+end;
+
 procedure doInitViewerFormConfig;
 begin
+  translateViewerFormToolbarItem;
+  addViewerFormShortCutTips;
+
   viewerPenModeItemConfig.subitems:= [
     TCocoaToolBarUtils.toClass(viewerPenModePenItemConfig),
     TCocoaToolBarUtils.toClass(viewerPenModeRectItemConfig),
