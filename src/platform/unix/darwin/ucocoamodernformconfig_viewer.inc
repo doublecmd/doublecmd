@@ -466,8 +466,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'rotate.left';
-    title: 'Rotate -90 degree';
-    tips: 'Rotate -90 degree';
+    title: '- 90';
+    tips: 'Rotate -90 degrees';
     bordered: True;
     onAction: @viewerRotate270Action;
   );
@@ -478,8 +478,8 @@ const
     navigational: False;
     appValidates: True;
     iconName: 'rotate.right';
-    title: 'Rotate +90 degree';
-    tips: 'Rotate +90 degree';
+    title: '+ 90';
+    tips: 'Rotate +90 degrees';
     bordered: True;
     onAction: @viewerRotate90Action;
   );
@@ -491,7 +491,7 @@ const
     appValidates: True;
     iconName: 'arrow.left.and.right.righttriangle.left.righttriangle.right';
     title: 'Mirror';
-    tips: 'Mirror';
+    tips: 'Mirror Horizontally';
     bordered: True;
     onAction: @viewerMirrorAction;
   );
@@ -768,6 +768,14 @@ begin
   translateItemConfig( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actdeletefile.hint', viewerDeleteFileItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
+
+  translateItemConfig( poFile, 'tfrmviewer.actzoomin.hint', viewerZoomInItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actzoomout.hint', viewerZoomOutItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actrotate270.hint', viewerRotate270ItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actrotate90.hint', viewerRotate90ItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.actmirrorhorz.hint', viewerMirrorItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnresize.hint', viewerResizeItemConfig );
+
 end;
 
 procedure addViewerFormShortCutTips;
@@ -778,6 +786,12 @@ begin
   addShortCutTipsToItemConfig( 'Viewer', 'cm_CopyFile', viewerCopyFileItemConfig );
   addShortCutTipsToItemConfig( 'Viewer', 'cm_MoveFile', viewerMoveFileItemConfig );
   addShortCutTipsToItemConfig( 'Viewer', 'cm_DeleteFile', viewerDeleteFileItemConfig );
+
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_ZoomIn', viewerZoomInItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_ZoomOut', viewerZoomOutItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_Rotate270', viewerRotate270ItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_Rotate90', viewerRotate90ItemConfig );
+  addShortCutTipsToItemConfig( 'Viewer', 'cm_MirrorHorz', viewerMirrorItemConfig );
 end;
 
 procedure doInitViewerFormConfig;
