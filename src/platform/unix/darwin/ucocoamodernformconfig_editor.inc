@@ -174,18 +174,6 @@ const
   );
 
 
-procedure translateItemConfig(
-  const poFile: TPOFile;
-  const identifier: String;
-  var item: TCocoaConfigToolBarItemWithUI );
-var
-  s: String;
-begin
-  s:= poFile.Translate( identifier, item.tips );
-  item.title:= s;
-  item.tips:= s;
-end;
-
 procedure translateEditorFormToolbarItem;
 var
   poFile: TPOFile;

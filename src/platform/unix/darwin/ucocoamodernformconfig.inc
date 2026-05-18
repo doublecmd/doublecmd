@@ -22,6 +22,18 @@ procedure initCocoaModernFormConfig;
 
 implementation
 
+procedure translateItemConfig(
+  const poFile: TPOFile;
+  const identifier: String;
+  var item: TCocoaConfigToolBarItemWithUI );
+var
+  s: String;
+begin
+  s:= poFile.Translate( identifier, item.tips );
+  item.title:= s;
+  item.tips:= s;
+end;
+
 function shortCutToMacOSName( const shortCutString: String ): String;
 begin
   Result:= shortCutString.Replace( 'Cmd+', 'Command+' );
