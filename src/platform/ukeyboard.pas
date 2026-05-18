@@ -178,6 +178,11 @@ uses
 {$ENDIF}
   ;
 
+{$IF NOT DECLARED(scAltGr)}
+const
+  scAltGr = $800;
+{$ENDIF}
+
 type
   TModifiersMap = record
     Shift:    TShiftStateEnum;
