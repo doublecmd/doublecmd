@@ -1429,9 +1429,7 @@ begin
   X:=round(X*Image.Picture.Width/Image.Width);             // for correct paint after zoom
   Y:=round(Y*Image.Picture.Height/Image.Height);
   MDFlag:=false;
-  if ToolBar1.Visible then
-    begin
-      if (button = mbLeft) and btnHightlight.Down then
+  if (button = mbLeft) and btnHightlight.Down then
     begin
       UndoTmp;
       CheckXY;
@@ -1444,7 +1442,6 @@ begin
         DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));
         Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
       end;
-    end;
     end;
   Image.Cursor:=crDefault;
 end;
