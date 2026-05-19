@@ -159,6 +159,15 @@ begin
     form.cm_DeleteFile( [] );
 end;
 
+procedure openWithAction( const Sender: id );
+var
+  form: TfrmViewer;
+begin
+  form:= getCurrentViewerForm;
+  if Assigned(form) then
+    TDarwinApplicationUtil.openWithDefaultApp( form.FileName );
+end;
+
 procedure viewerZoomInAction( const Sender: id );
 var
   form: TfrmViewer;
@@ -389,6 +398,32 @@ const
     onAction: @viewerNextAction;
   );
 
+  viewerOpenWithItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'ViewerForm.OpenWithPreview';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: True;
+    iconName: 'square.and.arrow.up';
+    title: 'Open with';
+    tips: 'Open with default App';
+    bordered: True;
+    onAction: @openWithAction;
+  );
+
+  viewerSlideItemConfig: TCocoaConfigToolBarItemMenu = (
+    identifier: 'ViewerForm.Slide';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: True;
+    iconName: 'play.fill';
+    title: 'Slide Show';
+    tips: 'Slide Show';
+    bordered: True;
+    alternateIconName: 'stop.fill';
+    onAction: @viewerSlideAction;
+
+    showsIndicator: True;
+    onGetMenu: @onViewerGetSlideMenu;
+  );
+
   viewerCopyFileItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'ViewerForm.CopyFile';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -420,21 +455,6 @@ const
     tips: 'Delete File';
     bordered: True;
     onAction: @viewerDeleteAction;
-  );
-
-  viewerSlideItemConfig: TCocoaConfigToolBarItemMenu = (
-    identifier: 'ViewerForm.Slide';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: True;
-    iconName: 'play.fill';
-    title: 'Slide Show';
-    tips: 'Slide Show';
-    bordered: True;
-    alternateIconName: 'stop.fill';
-    onAction: @viewerSlideAction;
-
-    showsIndicator: True;
-    onGetMenu: @onViewerGetSlideMenu;
   );
 
 
@@ -715,19 +735,21 @@ const
         'ViewerForm.Reload',
         'ViewerForm.Prev',
         'ViewerForm.Next',
+        'ViewerForm.OpenWithPreview',
+        'ViewerForm.Slide',
         'ViewerForm.CopyFile',
         'ViewerForm.MoveFile',
-        'ViewerForm.DeleteFile',
-        'ViewerForm.Slide'
+        'ViewerForm.DeleteFile'
       );
       allowedItemsIdentifiers: (
         'ViewerForm.Reload',
         'ViewerForm.Prev',
         'ViewerForm.Next',
+        'ViewerForm.OpenWithPreview',
+        'ViewerForm.Slide',
         'ViewerForm.CopyFile',
         'ViewerForm.MoveFile',
         'ViewerForm.DeleteFile',
-        'ViewerForm.Slide',
 
         'ViewerForm.ZoomIn',
         'ViewerForm.ZoomOut',
@@ -764,10 +786,10 @@ begin
   translateItemConfig( poFile, 'tfrmviewer.actreload.hint', viewerReloadItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actloadprevfile.hint', viewerPrevItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actloadnextfile.hint', viewerNextItemConfig );
+  translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actcopyfile.hint', viewerCopyFileItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actdeletefile.hint', viewerDeleteFileItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
 
   translateItemConfig( poFile, 'tfrmviewer.actzoomin.hint', viewerZoomInItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actzoomout.hint', viewerZoomOutItemConfig );
@@ -820,10 +842,11 @@ begin
     TCocoaToolBarUtils.toClass(viewerReloadItemConfig),
     TCocoaToolBarUtils.toClass(viewerPrevItemConfig),
     TCocoaToolBarUtils.toClass(viewerNextItemConfig),
+    TCocoaToolBarUtils.toClass(viewerOpenWithItemConfig),
+    TCocoaToolBarUtils.toClass(viewerSlideItemConfig),
     TCocoaToolBarUtils.toClass(viewerCopyFileItemConfig),
     TCocoaToolBarUtils.toClass(viewerMoveFileItemConfig),
     TCocoaToolBarUtils.toClass(viewerDeleteFileItemConfig),
-    TCocoaToolBarUtils.toClass(viewerSlideItemConfig),
 
     TCocoaToolBarUtils.toClass(viewerZoomInItemConfig),
     TCocoaToolBarUtils.toClass(viewerZoomOutItemConfig),

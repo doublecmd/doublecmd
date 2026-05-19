@@ -460,7 +460,6 @@ type
 {$ENDIF}
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
-    property FileName: String write SetFileName;
 
   protected
     procedure WMCommand(var Message: TLMCommand); message LM_COMMAND;
@@ -490,6 +489,8 @@ type
     function DoZoomOut: Boolean;
     procedure RotateImage(ADegree: Integer);
     procedure MirrorImage(AVertically: Boolean = False);
+
+    property FileName: String read FFileName write SetFileName;
 
   published
     // Commands for hotkey manager

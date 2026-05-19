@@ -51,6 +51,7 @@ type
       const isReadyFunc: TDarwinServiceMenuIsReadyFunc;
       const getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
     class procedure popUpMenuWithServiceSubmenu( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
+    class procedure openWithDefaultApp( const filePath: String );
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
   public
@@ -223,6 +224,11 @@ begin
   menu.PopUp();
 
   menuManager.Free;
+end;
+
+class procedure TDarwinApplicationUtil.openWithDefaultApp( const filePath: String );
+begin
+  NSWorkspace.sharedWorkspace.openFile( StringToNSString(filePath) );
 end;
 
 class procedure TDarwinApplicationUtil.performService(const serviceName: String
