@@ -1315,7 +1315,6 @@ procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
 var
   tmp: integer;
 begin
-  if btnHightlight.Down then Image.Cursor:=crCross;
   if miFullScreen.Checked then
     begin
       sboxImage.Cursor:=crDefault;
@@ -1443,7 +1442,8 @@ begin
         Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
       end;
     end;
-  Image.Cursor:=crDefault;
+  if NOT btnHightlight.Down then
+    Image.Cursor:=crDefault;
 end;
 
 procedure TfrmViewer.ImageMouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -2739,6 +2739,11 @@ begin
   btnPenColor.Enabled:= btnPaint.Down;
   ImgEdit:= True;
   CreateTmp;
+
+  if btnHightlight.Down then
+    Image.Cursor:= crCross
+  else
+    Image.Cursor:= crDefault;
 
   viewerFormHandler.onImageEditStateChanged( self );
 end;
