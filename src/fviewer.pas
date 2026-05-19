@@ -1819,6 +1819,8 @@ begin
   Image.Height:=h;
 
   CreateTmp;
+  UpdateImagePlacement;
+
   StartX:=0;StartY:=0;EndX:=0;EndY:=0;
 end;
 
