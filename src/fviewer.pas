@@ -1340,18 +1340,12 @@ begin
               EndX:=X+tmpX;
               EndY:=Y+tmpY;
             end;
-            if StartX<0 then
-              begin
-                StartX:=0;
-                EndX:= UndoEX;
-              end;
-            if StartY<0 then
-              begin
-                StartY:=0;
-                EndY:= UndoEY;
-              end;
-            if endX> Image.Picture.Width then endX:=Image.Picture.Width;
-            if endY> Image.Picture.Height then endY:=Image.Picture.Height;
+            if StartX < 0 then StartX:= 0;
+            if StartY < 0 then StartY:= 0;
+            if endX < 0 then endX:= 0;
+            if endY < 0 then endY:= 0;
+            if endX > Image.Picture.Width then endX:=Image.Picture.Width;
+            if endY > Image.Picture.Height then endY:=Image.Picture.Height;
             with Image.Picture.Bitmap.Canvas do
               begin
                 if NOT getUndoRect(0).IsEmpty then begin
