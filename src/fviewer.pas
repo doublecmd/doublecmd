@@ -101,6 +101,17 @@ type
     property FileList: TStringList write FFileList;
   end;
 
+  { TNormalizedRect }
+
+  TNormalizedRect = object
+  private
+    _rect: TRect;
+  public
+    procedure setRect( const x1, y1, x2, y2: Integer ); inline;
+    function getRect: TRect; inline;
+    function getDeltaRect( const delta: Integer ): TRect; inline;
+  end;
+
   { TfrmViewer }
 
   TfrmViewer = class(TAloneForm, IFormCommands)
@@ -365,8 +376,8 @@ type
     iActiveFile,
     tmpX, tmpY,
     startX, startY, endX, endY,
-    UndoSX, UndoSY, UndoEX, UndoEY,
     cas, i_timer:Integer;
+    undoRect: TNormalizedRect;
     bAnimation,
     bImage,
     bPlugin,
@@ -479,10 +490,6 @@ type
     function DoZoomOut: Boolean;
     procedure RotateImage(ADegree: Integer);
     procedure MirrorImage(AVertically: Boolean = False);
-
-  private
-    procedure setUndoRect( const x1, y1, x2, y2: Integer );
-    function getUndoRect( const delta: Integer ): TRect;
 
   published
     // Commands for hotkey manager
@@ -870,6 +877,25 @@ begin
     Canvas.Brush.Color:= Color;
     Canvas.FillRect(aRect);
   end;
+end;
+
+{ TNormalizedRect }
+
+procedure TNormalizedRect.setRect(const x1, y1, x2, y2: Integer);
+begin
+  _rect:= Rect( x1, y1, x2, y2 );
+  _rect.NormalizeRect;
+end;
+
+function TNormalizedRect.getRect: TRect;
+begin
+  Result:= _rect;
+end;
+
+function TNormalizedRect.getDeltaRect(const delta: Integer): TRect;
+begin
+  Result:= _rect;
+  InflateRect( Result, delta, delta );
 end;
 
 { TThumbThread }
@@ -1348,18 +1374,18 @@ begin
             if endY > Image.Picture.Height then endY:=Image.Picture.Height;
             with Image.Picture.Bitmap.Canvas do
               begin
-                if NOT getUndoRect(0).IsEmpty then begin
+                if NOT undoRect.getRect.IsEmpty then begin
                   {$IFnDEF DARWIN}
-                  DrawFocusRect( getUndoRect(0) );
-                  DrawFocusRect( getUndoRect(-10) );
+                  DrawFocusRect( undoRect.getRect );
+                  DrawFocusRect( undoRect.getDeltaRect(-10) );
                   {$ELSE}
                   // XOR not supported on macOS, redraw instead
-                  CopyRect( getUndoRect(0), tmp_all.canvas, getUndoRect(0) );
+                  CopyRect( undoRect.getRect, tmp_all.canvas, undoRect.getRect );
                   {$ENDIF}
                 end;
-                setUndoRect( StartX, StartY, EndX, EndY );
-                DrawFocusRect( getUndoRect(0) );
-                DrawFocusRect( getUndoRect(-10) );//Pen.Mode := pmNotXor;
+                undoRect.setRect( StartX, StartY, EndX, EndY );
+                DrawFocusRect( undoRect.getRect );
+                DrawFocusRect( undoRect.getDeltaRect(-10) );//Pen.Mode := pmNotXor;
                 Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
               end;
           end;
@@ -1377,12 +1403,12 @@ begin
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
-                if NOT getUndoRect(0).IsEmpty then
-                  CopyRect( getUndoRect(tmp), tmp_all.canvas, getUndoRect(tmp) );
-                setUndoRect( StartX, StartY, X, Y );
+                if NOT undoRect.getRect.IsEmpty then
+                  CopyRect( undoRect.getDeltaRect(tmp), tmp_all.canvas, undoRect.getDeltaRect(tmp) );
+                undoRect.setRect( StartX, StartY, X, Y );
                 case TViewerPaintTool(btnPenMode.Tag) of
-                  vptRectangle: Rectangle( getUndoRect(0) );
-                  vptEllipse:Ellipse( getUndoRect(0) );
+                  vptRectangle: Rectangle( undoRect.getRect );
+                  vptEllipse:Ellipse( undoRect.getRect );
                 end;
               end;
             end;
@@ -2044,20 +2070,6 @@ begin
   DebugLn('Mirror: ', IntToStr(SysUtils.GetTickCount64 - Q));
   AdjustImageSize;
   CreateTmp;
-end;
-
-procedure TfrmViewer.setUndoRect( const x1, y1, x2, y2: Integer );
-begin
-  UndoSX:= min( x1, x2 );
-  UndoEX:= max( x1, x2 );
-  UndoSY:= min( y1, y2 );
-  UndoEY:= max( y1, y2 );
-end;
-
-function TfrmViewer.getUndoRect( const delta: Integer): TRect;
-begin
-  Result:= Rect( UndoSX, UndoSY, UndoEX, UndoEY );
-  InflateRect( Result, delta, delta );
 end;
 
 procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
