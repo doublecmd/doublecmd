@@ -2827,7 +2827,7 @@ msgstr "開啟"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr "使用系統預設的檔案關聯開啟"
+msgstr "使用系統預設的關聯應用程式開啟"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
@@ -6033,7 +6033,7 @@ msgstr "開啟"
 
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
-msgstr ""
+msgstr "開啟..."
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"
@@ -7171,7 +7171,7 @@ msgstr "使用 Ctrl + 滾輪縮放"
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
-msgstr "開啟..."
+msgstr "開啟"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION"

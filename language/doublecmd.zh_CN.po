@@ -2784,7 +2784,7 @@ msgstr "打开"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr "使用系统关联打开"
+msgstr "使用系统默认关联应用程序打开"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
