@@ -1355,8 +1355,13 @@ begin
             with Image.Picture.Bitmap.Canvas do
               begin
                 if NOT getUndoRect(0).IsEmpty then begin
+                  {$IFnDEF DARWIN}
                   DrawFocusRect( getUndoRect(0) );
                   DrawFocusRect( getUndoRect(-10) );
+                  {$ELSE}
+                  // XOR not supported on macOS, redraw instead
+                  CopyRect( getUndoRect(0), tmp_all.canvas, getUndoRect(0) );
+                  {$ENDIF}
                 end;
                 setUndoRect( StartX, StartY, EndX, EndY );
                 DrawFocusRect( getUndoRect(0) );
