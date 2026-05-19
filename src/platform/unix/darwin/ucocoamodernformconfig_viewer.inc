@@ -404,7 +404,7 @@ const
     navigational: True;
     iconName: 'square.and.arrow.up';
     title: 'Open with';
-    tips: 'Open with default App';
+    tips: 'Open with the system default associated App';
     bordered: True;
     onAction: @openWithAction;
   );
@@ -786,6 +786,7 @@ begin
   translateItemConfig( poFile, 'tfrmviewer.actreload.hint', viewerReloadItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actloadprevfile.hint', viewerPrevItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actloadnextfile.hint', viewerNextItemConfig );
+  translateItemConfig( poFile, 'tfrmmain.actshellexecute.hint', viewerOpenWithItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actcopyfile.hint', viewerCopyFileItemConfig );
   translateItemConfig( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
