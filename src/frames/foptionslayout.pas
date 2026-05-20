@@ -53,12 +53,14 @@ type
     cbShowTabHeader: TCheckBox;
     cbShowTabs: TCheckBox;
     cbTermWindow: TCheckBox;
+    cbTermSplit: TCheckBox;
     cbTwoDiskPanels: TCheckBox;
     cbShowShortDriveFreeSpace: TCheckBox;
     chkShowMiddleToolBar: TCheckBox;
     gbScreenLayout: TGroupBox;
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowDriveFreeSpaceChange(Sender: TObject);
+    procedure cbTermWindowChange(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -86,6 +88,12 @@ procedure TfrmOptionsLayout.cbShowDriveFreeSpaceChange(Sender: TObject);
 begin
   cbShowShortDriveFreeSpace.Enabled:= cbShowDriveFreeSpace.Checked;
   if not(cbShowDriveFreeSpace.Checked) then cbShowShortDriveFreeSpace.Checked:= false;
+end;
+
+procedure TfrmOptionsLayout.cbTermWindowChange(Sender: TObject);
+begin
+  cbTermSplit.Enabled := cbTermWindow.Checked;
+  if not(cbTermWindow.Checked) then cbTermSplit.Checked := False;
 end;
 
 class function TfrmOptionsLayout.GetIconIndex: Integer;
@@ -116,6 +124,8 @@ begin
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
+  cbTermSplit.Checked := gTermWindowSplit;
+  cbTermSplit.Enabled := gTermWindow;
   cbShowDriveFreeSpace.Checked := gDriveFreeSpace;
   cbFreespaceInd.Checked := gDriveInd;
   cbProgInMenuBar.Checked := gProgInMenuBar;
@@ -143,6 +153,7 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   gTermWindow := cbTermWindow.Checked;
+  gTermWindowSplit := cbTermSplit.Checked;
   gDriveFreeSpace := cbShowDriveFreeSpace.Checked;
   gDriveInd := cbFreespaceInd.Checked;
   gProgInMenuBar := cbProgInMenuBar.Checked;

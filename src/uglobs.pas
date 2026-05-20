@@ -298,6 +298,7 @@ var
   gCmdLine,
   gLogWindow,
   gTermWindow,
+  gTermWindowSplit,
   gKeyButtons,
   gInterfaceFlat,
   gDriveInd,
@@ -310,6 +311,9 @@ var
   gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
   gSeparateTree: Boolean;
+  // 0 = Detach, 1 = Sync Panel->Terminal, 2 = Sync Terminal->Panel
+  gTermSyncModeLeft: Integer;
+  gTermSyncModeRight: Integer;
 
   { Toolbar }
   gMiddleToolBarFlat,
@@ -2023,6 +2027,9 @@ begin
   gCmdLine := True;
   gLogWindow := False;
   gTermWindow := False;
+  gTermWindowSplit := False;
+  gTermSyncModeLeft := 0; // Detach
+  gTermSyncModeRight := 0; // Detach
   gKeyButtons := True;
   gInterfaceFlat := True;
   gDriveInd := False;
@@ -2958,6 +2965,9 @@ begin
       gCmdLine := GetValue(Node, 'CmdLine', gCmdLine);
       gLogWindow := GetValue(Node, 'LogWindow', gLogWindow);
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
+      gTermWindowSplit := GetValue(Node, 'TermWindowSplit', gTermWindowSplit);
+      gTermSyncModeLeft := GetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
+      gTermSyncModeRight := GetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
       gInterfaceFlat := GetValue(Node, 'InterfaceFlat', gInterfaceFlat);
       gDriveFreeSpace := GetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
@@ -3675,6 +3685,9 @@ begin
     SetValue(Node, 'CmdLine', gCmdLine);
     SetValue(Node, 'LogWindow', gLogWindow);
     SetValue(Node, 'TermWindow', gTermWindow);
+    SetValue(Node, 'TermWindowSplit', gTermWindowSplit);
+    SetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
+    SetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
     SetValue(Node, 'KeyButtons', gKeyButtons);
     SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
     SetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
