@@ -732,6 +732,9 @@ type
     FTerminalSyncTimer: TTimer;
     FLastTermCwdLeft: String;
     FLastTermCwdRight: String;
+    FLeftTermNeedInit: Boolean;
+    FRightTermNeedInit: Boolean;
+    FTermNeedInit: Boolean;
     FCommands: TMainCommands;
     FInitializedView: Boolean;
     {en
@@ -2518,6 +2521,46 @@ begin
     DCDebug('ActiveFrame = nil');
   end;
   HiddenToTray := False;
+
+  if gTermWindow then
+  begin
+    if gTermWindowSplit then
+    begin
+      if Assigned(ConsLeft) then
+      begin
+        if not ConsLeft.Connected then
+        begin
+          if Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+            ConsLeft.InitialDir := nbLeft.ActivePage.FileView.CurrentPath;
+          ConsLeft.Connected := True;
+          FLeftTermNeedInit := True;
+        end;
+      end;
+      if Assigned(ConsRight) then
+      begin
+        if not ConsRight.Connected then
+        begin
+          if Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+            ConsRight.InitialDir := nbRight.ActivePage.FileView.CurrentPath;
+          ConsRight.Connected := True;
+          FRightTermNeedInit := True;
+        end;
+      end;
+    end
+    else
+    begin
+      if Assigned(Cons) then
+      begin
+        if not Cons.Connected then
+        begin
+          if Assigned(ActiveFrame) then
+            Cons.InitialDir := ActiveFrame.CurrentPath;
+          Cons.Connected := True;
+          FTermNeedInit := True;
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
@@ -5508,8 +5551,33 @@ end;
 procedure TfrmMain.TerminalSyncTimerTimer(Sender: TObject);
 var
   Target: AnsiString;
+const
+  Ticks: Integer = 0;
 begin
+  // Process any pending TThread.Synchronize calls (e.g. from PTY reader threads)
+  CheckSynchronize;
+
+  if FLeftTermNeedInit and Assigned(ConsLeft) and ConsLeft.Connected then
+  begin
+    ConsLeft.WriteStr(#13);
+    FLeftTermNeedInit := False;
+  end;
+  if FRightTermNeedInit and Assigned(ConsRight) and ConsRight.Connected then
+  begin
+    ConsRight.WriteStr(#13);
+    FRightTermNeedInit := False;
+  end;
+  if FTermNeedInit and Assigned(Cons) and Cons.Connected then
+  begin
+    Cons.WriteStr(#13);
+    FTermNeedInit := False;
+  end;
+
   if not gTermWindowSplit then Exit;
+
+  Inc(Ticks);
+  if Ticks mod 5 <> 0 then Exit;
+  Ticks := 0;
 
   if Assigned(ConsLeft) and (gTermSyncModeLeft = 2) then
   begin
@@ -5518,9 +5586,10 @@ begin
     if Target <> FLastTermCwdLeft then
     begin
       FLastTermCwdLeft := Target;
-      if (Target <> '') and (Target <> nbLeft.ActivePage.FileView.CurrentPath) then
+      if (Target <> '') and Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
       begin
-        nbLeft.ActivePage.FileView.CurrentPath := Target;
+        if Target <> nbLeft.ActivePage.FileView.CurrentPath then
+          nbLeft.ActivePage.FileView.CurrentPath := Target;
       end;
     end;
     {$ENDIF}
@@ -5533,9 +5602,10 @@ begin
     if Target <> FLastTermCwdRight then
     begin
       FLastTermCwdRight := Target;
-      if (Target <> '') and (Target <> nbRight.ActivePage.FileView.CurrentPath) then
+      if (Target <> '') and Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
       begin
-        nbRight.ActivePage.FileView.CurrentPath := Target;
+        if Target <> nbRight.ActivePage.FileView.CurrentPath then
+          nbRight.ActivePage.FileView.CurrentPath := Target;
       end;
     end;
     {$ENDIF}
@@ -5783,16 +5853,29 @@ begin
       UpdateTermSyncButtons(True);
 
       cmdConsoleLeft := TVirtualTerminal.Create(pnlTermContainerLeft);
+      cmdConsoleLeft.Width := 400;
+      cmdConsoleLeft.Height := 176;
       cmdConsoleLeft.Parent := pnlTermContainerLeft;
       cmdConsoleLeft.Align := alClient;
       cmdConsoleLeft.ShowHint := False;
+
+      // Adjust Z-order: splitter needs to be above the container.
+      // So container must be backmost (processed first), then splitter.
+      splitTermLeft.SendToBack;
+      pnlTermContainerLeft.SendToBack;
     end;
     FontOptionsToFont(gFonts[dcfConsole], cmdConsoleLeft.Font);
     if not Assigned(ConsLeft) then
     begin
       ConsLeft := TPtyDevice.Create(Self);
       cmdConsoleLeft.PtyDevice := ConsLeft;
-      ConsLeft.Connected := True;
+      if FInitializedView then
+      begin
+        if Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+          ConsLeft.InitialDir := nbLeft.ActivePage.FileView.CurrentPath;
+        ConsLeft.Connected := True;
+        FLeftTermNeedInit := True;
+      end;
     end;
 
     if not Assigned(pnlTermContainerRight) then
@@ -5839,16 +5922,29 @@ begin
       UpdateTermSyncButtons(False);
 
       cmdConsoleRight := TVirtualTerminal.Create(pnlTermContainerRight);
+      cmdConsoleRight.Width := 400;
+      cmdConsoleRight.Height := 176;
       cmdConsoleRight.Parent := pnlTermContainerRight;
       cmdConsoleRight.Align := alClient;
       cmdConsoleRight.ShowHint := False;
+
+      // Adjust Z-order: splitter needs to be above the container.
+      // So container must be backmost (processed first), then splitter.
+      splitTermRight.SendToBack;
+      pnlTermContainerRight.SendToBack;
     end;
     FontOptionsToFont(gFonts[dcfConsole], cmdConsoleRight.Font);
     if not Assigned(ConsRight) then
     begin
       ConsRight := TPtyDevice.Create(Self);
       cmdConsoleRight.PtyDevice := ConsRight;
-      ConsRight.Connected := True;
+      if FInitializedView then
+      begin
+        if Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+          ConsRight.InitialDir := nbRight.ActivePage.FileView.CurrentPath;
+        ConsRight.Connected := True;
+        FRightTermNeedInit := True;
+      end;
     end;
 
     pnlTermContainerLeft.Visible := True;
@@ -5860,7 +5956,7 @@ begin
     if not Assigned(FTerminalSyncTimer) then
     begin
       FTerminalSyncTimer := TTimer.Create(Self);
-      FTerminalSyncTimer.Interval := 1000;
+      FTerminalSyncTimer.Interval := 200;
       FTerminalSyncTimer.OnTimer := @TerminalSyncTimerTimer;
     end;
     FTerminalSyncTimer.Enabled := True;
@@ -5890,14 +5986,25 @@ begin
     begin
       Cons:= TPtyDevice.Create(Self);
       cmdConsole.PtyDevice:= Cons;
-      Cons.Connected:= True;
+      if FInitializedView then
+      begin
+        if Assigned(ActiveFrame) then
+          Cons.InitialDir := ActiveFrame.CurrentPath;
+        Cons.Connected:= True;
+        FTermNeedInit := True;
+      end;
     end;
     nbConsole.Visible := True;
     ConsoleSplitter.Visible := True;
 
-    // Stop polling timer when using single terminal
-    if Assigned(FTerminalSyncTimer) then
-      FTerminalSyncTimer.Enabled := False;
+    // Keep polling timer enabled to wake up event loop
+    if not Assigned(FTerminalSyncTimer) then
+    begin
+      FTerminalSyncTimer := TTimer.Create(Self);
+      FTerminalSyncTimer.Interval := 200;
+      FTerminalSyncTimer.OnTimer := @TerminalSyncTimerTimer;
+    end;
+    FTerminalSyncTimer.Enabled := True;
 
     // Hide/destroy split terminals
     if Assigned(pnlTermContainerLeft) then
@@ -5907,8 +6014,6 @@ begin
       pnlTermContainerRight.Visible := False;
       splitTermRight.Visible := False;
     end;
-    if Assigned(FTerminalSyncTimer) then
-      FTerminalSyncTimer.Enabled := False;
   end
   else
   begin

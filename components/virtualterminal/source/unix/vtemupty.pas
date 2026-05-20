@@ -161,6 +161,8 @@ begin
   if FChildPid = 0 then
   begin
     FileCloseOnExecAll;
+    if FInitialDir <> '' then
+      fpChdir(FInitialDir);
     setenv('TERM', 'xterm-256color', 1);
     execl(PAnsiChar(cmd), PAnsiChar(cmd), nil);
     Errors.PError('execl() failed. Command: '+ cmd, cerrno);
@@ -204,18 +206,19 @@ function TPtyDevice.SetScreenSize(aCols, aRows: Integer): Boolean;
 var
   ws: TWinSize;
 begin
-  ws.ws_row:= aRows;
-  ws.ws_col:= aCols;
-  ws.ws_xpixel:= 0;
-  ws.ws_ypixel:= 0;
+  FCols:= aCols;
+  FRows:= aRows;
 
-  Result:= FpIOCtl(Fpty,TIOCSWINSZ,@ws) = 0;
-
-  if Result then
+  if FConnected then
   begin
-    FCols:= aCols;
-    FRows:= aRows;
-  end;
+    ws.ws_row:= aRows;
+    ws.ws_col:= aCols;
+    ws.ws_xpixel:= 0;
+    ws.ws_ypixel:= 0;
+    Result:= FpIOCtl(Fpty,TIOCSWINSZ,@ws) = 0;
+  end
+  else
+    Result:= True;
 end;
 
 function TPtyDevice.GetChildPid: THandle;

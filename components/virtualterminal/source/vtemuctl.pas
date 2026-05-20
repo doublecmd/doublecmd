@@ -37,6 +37,7 @@ type
   protected
     FOnRxBuf: TOnRxBuf;
     FConnected: Boolean;
+    FInitialDir: String;
   protected
     procedure SetConnected(AValue: Boolean); virtual; abstract;
   public
@@ -47,6 +48,7 @@ type
     property ChildPid: THandle read GetChildPid;
     property OnRxBuf: TOnRxBuf read FOnRxBuf write FOnRxBuf;
     property Connected: Boolean read FConnected write SetConnected default False;
+    property InitialDir: String read FInitialDir write FInitialDir;
   end;
 
   TCustomComTerminal = class;  // forward declaration
