@@ -107,7 +107,7 @@ var
   AReplacementString: String;
 begin
   if sInput = '' then
-    Exit;
+    Exit('');
   AAllocatedBufferSize := Length(sInput) * 2; // worst scenario: every character expands (e.g., 'œ' -> 'oe' doubles length)
   SetLength(Result, AAllocatedBufferSize);
   AOutputBufferPointer := PChar(Result);
