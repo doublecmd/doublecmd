@@ -34,6 +34,20 @@ inherited frmDeleteDlg: TfrmDeleteDlg
       ShowAccelChar = False
       WordWrap = True
     end
+    object chkUseTrash: TCheckBox[1]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = lblMessage
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 1
+      Width = 399
+      Anchors = [akTop, akLeft]
+      Caption = 'Move to &Recycle Bin'
+      TabOrder = 1
+      Visible = False
+      OnChange = chkUseTrashChange
+    end
   end
   inherited pnlButtons: TPanel
     AnchorSideLeft.Control = Owner

@@ -2592,11 +2592,13 @@ var
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
+  MsgTrash, MsgNoTrash: String;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
   bConfirmation, HasConfirmationParam: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
+  TrashAvailable: Boolean;
   QueueId: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   with frmMain.ActiveFrame do
@@ -2637,11 +2639,12 @@ begin
     end;
 
     // Save parameter for later use
+    TrashAvailable := FileSource.IsClass(TFileSystemFileSource) and
+                      mbCheckTrash(CurrentPath);
     BoolValue := bRecycle;
 
     if bRecycle then
-      bRecycle := FileSource.IsClass(TFileSystemFileSource) and
-                  mbCheckTrash(CurrentPath);
+      bRecycle := TrashAvailable;
 
     if not HasConfirmationParam then
     begin
@@ -2675,16 +2678,24 @@ begin
     try
       if (theFilesToDelete.Count = 0) then Exit;
       if (theFilesToDelete.Count = 1) then
-        Message:= Format(MsgDelSel, [theFilesToDelete[0].Name])
+      begin
+        MsgTrash   := Format(rsMsgDelSelT, [theFilesToDelete[0].Name]);
+        MsgNoTrash := Format(rsMsgDelSel,  [theFilesToDelete[0].Name]);
+        Message    := Format(MsgDelSel,    [theFilesToDelete[0].Name]);
+      end
       else begin
-         Message:= Format(MsgDelFlDr, [theFilesToDelete.Count]) + LineEnding;
-         for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
-         begin
-           Message+= LineEnding + theFilesToDelete[I].Name;
-         end;
-         if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
+        // Build the file list suffix once and share it across all message variants
+        Message := LineEnding;
+        for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
+          Message += LineEnding + theFilesToDelete[I].Name;
+        if theFilesToDelete.Count > 5 then Message += LineEnding + '...';
+        MsgTrash   := Format(rsMsgDelFlDrT, [theFilesToDelete.Count]) + Message;
+        MsgNoTrash := Format(rsMsgDelFlDr,  [theFilesToDelete.Count]) + Message;
+        Message    := Format(MsgDelFlDr,    [theFilesToDelete.Count]) + Message;
       end;
-      if (bConfirmation = False) or (ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
+      if (bConfirmation = False) or
+         (TrashAvailable and ShowDeleteDialog(frmMain, MsgTrash, MsgNoTrash, FileSource, QueueId, bRecycle)) or
+         ((not TrashAvailable) and ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
       begin
         // Restore focus to main window after confirmation dialog closes
         if bConfirmation and frmMain.ActiveFrame.CanSetFocus then

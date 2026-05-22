@@ -29,9 +29,11 @@ uses
   Classes, SysUtils, uMyUnix;
 
 function KioOpen(const URL: String): Boolean;
+procedure RefreshKdeTrashWidget;
 
 var
   HasKdeOpen: Boolean = False;
+  KdeOpen: String = 'kioclient';
 
 implementation
 
@@ -40,7 +42,6 @@ uses
 
 var
   KdeVersion: String;
-  KdeOpen: String = 'kioclient';
 
 function KioOpen(const URL: String): Boolean;
 begin
@@ -60,6 +61,14 @@ begin
   end;
 end;
 
+procedure RefreshKdeTrashWidget;
+begin
+  // This intentionally-failing move triggers KDE to refresh its trash widget.
+  // See: https://github.com/doublecmd/doublecmd/issues/2688
+  if HasKdeOpen then
+    ExecuteProcess(KdeOpen, ['--noninteractive', 'move', '/dev/null', 'trash:/']);
+end;
+
 procedure Initialize;
 begin
   if (DesktopEnv = DE_KDE) then
@@ -67,7 +76,7 @@ begin
     KdeVersion:= GetEnvironmentVariable('KDE_SESSION_VERSION');
     if KdeVersion = '5' then KdeOpen:= 'kioclient5';
     HasKdeOpen:= FindExecutableInSystemPath(KdeOpen);
-    // if HasKdeOpen then FileTrashUtf8:= @FileTrash;
+    if HasKdeOpen then FileTrashUtf8:= @FileTrash;
   end;
 end;
 
