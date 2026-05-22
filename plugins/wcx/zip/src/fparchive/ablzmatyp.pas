@@ -172,6 +172,7 @@ begin
   FLzmaStream  := FStream;
   FLzmaItem    := FItemList;
   FTarStream   := TAbVirtualMemoryStream.Create;
+  TAbVirtualMemoryStream(FTarStream).SwapFileDirectory := ExtractFileDir(aArchiveName);
   FTarList     := TAbArchiveList.Create(True);
 end;
 { -------------------------------------------------------------------------- }
