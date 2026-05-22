@@ -12,7 +12,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   Constraints.MinWidth = 400
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   inherited pnlContent: TPanel
     Height = 1
     Width = 399
