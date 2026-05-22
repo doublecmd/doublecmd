@@ -234,6 +234,10 @@ const
   // 16 -  Move DirectoryHotList to localconfig.xml
   ConfigVersion = 16;
 
+  twmSingle = 0;
+  twmPerPanel = 1;
+  twmPerTab = 2;
+
   COLORS_JSON = 'colors.json';
 
   // Configuration related filenames
@@ -298,7 +302,6 @@ var
   gCmdLine,
   gLogWindow,
   gTermWindow,
-  gTermWindowSplit,
   gKeyButtons,
   gInterfaceFlat,
   gDriveInd,
@@ -314,6 +317,8 @@ var
   // 0 = Detach, 1 = Sync Panel->Terminal, 2 = Sync Terminal->Panel
   gTermSyncModeLeft: Integer;
   gTermSyncModeRight: Integer;
+
+  gTermWindowMode: Integer;
 
   { Toolbar }
   gMiddleToolBarFlat,
@@ -2027,7 +2032,7 @@ begin
   gCmdLine := True;
   gLogWindow := False;
   gTermWindow := False;
-  gTermWindowSplit := False;
+  gTermWindowMode := twmSingle;
   gTermSyncModeLeft := 0; // Detach
   gTermSyncModeRight := 0; // Detach
   gKeyButtons := True;
@@ -2965,7 +2970,10 @@ begin
       gCmdLine := GetValue(Node, 'CmdLine', gCmdLine);
       gLogWindow := GetValue(Node, 'LogWindow', gLogWindow);
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
-      gTermWindowSplit := GetValue(Node, 'TermWindowSplit', gTermWindowSplit);
+      if GetValue(Node, 'TermWindowSplit', False) then
+        gTermWindowMode := twmPerPanel
+      else
+        gTermWindowMode := GetValue(Node, 'TermWindowMode', gTermWindowMode);
       gTermSyncModeLeft := GetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
       gTermSyncModeRight := GetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
@@ -3685,7 +3693,7 @@ begin
     SetValue(Node, 'CmdLine', gCmdLine);
     SetValue(Node, 'LogWindow', gLogWindow);
     SetValue(Node, 'TermWindow', gTermWindow);
-    SetValue(Node, 'TermWindowSplit', gTermWindowSplit);
+    SetValue(Node, 'TermWindowMode', gTermWindowMode);
     SetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
     SetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
     SetValue(Node, 'KeyButtons', gKeyButtons);

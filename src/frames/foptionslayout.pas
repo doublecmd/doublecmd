@@ -27,7 +27,7 @@ unit fOptionsLayout;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls,
+  Classes, SysUtils, StdCtrls, ExtCtrls,
   fOptionsFrame;
 
 type
@@ -53,7 +53,7 @@ type
     cbShowTabHeader: TCheckBox;
     cbShowTabs: TCheckBox;
     cbTermWindow: TCheckBox;
-    cbTermSplit: TCheckBox;
+    rgTermMode: TRadioGroup;
     cbTwoDiskPanels: TCheckBox;
     cbShowShortDriveFreeSpace: TCheckBox;
     chkShowMiddleToolBar: TCheckBox;
@@ -92,8 +92,7 @@ end;
 
 procedure TfrmOptionsLayout.cbTermWindowChange(Sender: TObject);
 begin
-  cbTermSplit.Enabled := cbTermWindow.Checked;
-  if not(cbTermWindow.Checked) then cbTermSplit.Checked := False;
+  rgTermMode.Enabled := cbTermWindow.Checked;
 end;
 
 class function TfrmOptionsLayout.GetIconIndex: Integer;
@@ -124,8 +123,8 @@ begin
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
-  cbTermSplit.Checked := gTermWindowSplit;
-  cbTermSplit.Enabled := gTermWindow;
+  rgTermMode.ItemIndex := gTermWindowMode;
+  rgTermMode.Enabled := gTermWindow;
   cbShowDriveFreeSpace.Checked := gDriveFreeSpace;
   cbFreespaceInd.Checked := gDriveInd;
   cbProgInMenuBar.Checked := gProgInMenuBar;
@@ -153,7 +152,7 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   gTermWindow := cbTermWindow.Checked;
-  gTermWindowSplit := cbTermSplit.Checked;
+  gTermWindowMode := rgTermMode.ItemIndex;
   gDriveFreeSpace := cbShowDriveFreeSpace.Checked;
   gDriveInd := cbFreespaceInd.Checked;
   gProgInMenuBar := cbProgInMenuBar.Checked;

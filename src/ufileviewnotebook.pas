@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, Controls, ComCtrls, LMessages,
   LCLType, Forms,
-  uFileView, uFilePanelSelect, DCXmlConfig;
+  uFileView, uFilePanelSelect, DCXmlConfig, VTEmuCtl, VTEmuPty;
 
 type
 
@@ -61,6 +61,10 @@ type
     FBackupColumnSet: String;
     FOnChangeFileView: TNotifyEvent;
     FBackupViewClass: TFileViewClass;
+    FTerminal: TVirtualTerminal;
+    FPtyDevice: TCustomPtyDevice;
+    FTermInitialized: Boolean;
+    FTermNeedInit: Boolean;
 
     procedure AssignPage(OtherPage: TFileViewPage);
     procedure AssignProperties(OtherPage: TFileViewPage);
@@ -90,6 +94,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
 
     function IsActive: Boolean;
     procedure MakeActive;
@@ -109,6 +114,10 @@ type
     property BackupColumnSet: String read FBackupColumnSet write FBackupColumnSet;
     property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
     property OnChangeFileView: TNotifyEvent read FOnChangeFileView write FOnChangeFileView;
+    property Terminal: TVirtualTerminal read FTerminal write FTerminal;
+    property PtyDevice: TCustomPtyDevice read FPtyDevice write FPtyDevice;
+    property TermInitialized: Boolean read FTermInitialized write FTermInitialized;
+    property TermNeedInit: Boolean read FTermNeedInit write FTermNeedInit;
   end;
 
   { TFileViewNotebook }
@@ -231,6 +240,13 @@ begin
   FLockState := tlsNormal;
   FBackupViewClass := TColumnsFileView;
   inherited Create(TheOwner);
+end;
+
+destructor TFileViewPage.Destroy;
+begin
+  if Assigned(FTerminal) then FTerminal.Free;
+  if Assigned(FPtyDevice) then FPtyDevice.Free;
+  inherited Destroy;
 end;
 
 {$IF DEFINED(LCLWIN32)}

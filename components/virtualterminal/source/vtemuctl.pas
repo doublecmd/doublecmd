@@ -25,7 +25,7 @@ interface
 
 uses
   LCLType, Classes, Controls, StdCtrls, ExtCtrls, Forms, Messages, Graphics,
-  VTEmuEsc, LCLIntf, Types, LazUtf8, LMessages;
+  VTEmuEsc, LCLIntf, Types, LazUtf8, LMessages, Clipbrd;
 
 type
 
@@ -75,12 +75,18 @@ type
   strict private
     FRows: Integer;
     FColumns: Integer;
+    FHistory: array[0..99] of Pointer;
+    FHistoryHead: Integer;
+    FHistoryCount: Integer;
   public
     constructor Create(AOwner: TCustomComTerminal);
     destructor Destroy; override;
     procedure Init(ARows, AColumns: Integer);
     procedure SetChar(Column, Row: Integer; TermChar: TComTermChar);
     function GetChar(Column, Row: Integer): TComTermChar;
+    function GetHistoryChar(Column, HistRow: Integer): TComTermChar;
+    procedure PushHistoryLine(LineData: PByte);
+    function GetHistoryCount: Integer;
     procedure SetTab(Column: Integer; Put: Boolean);
     function GetTab(Column: Integer): Boolean;
     function NextTab(Column: Integer): Integer;
@@ -158,6 +164,9 @@ type
     FTopLeft: TPoint;
     FCaretHeight: Integer;
     FSaveAttr: TTermAttributes;
+    FSelecting: Boolean;
+    FSelStart: TPoint;
+    FSelEnd: TPoint;
     FBuffer: TComTermBuffer;
     FMainBuffer: TComTermBuffer;
     FAlternateBuffer: TComTermBuffer;
@@ -192,6 +201,7 @@ type
     procedure SetMode(AParams: TStrings; OnOff: Boolean);
     procedure ShowCaret;
     procedure StringReceived(Str: string);
+    function IsSelected(AColumn, ARow: Integer): Boolean;
     procedure PaintTerminal(Rect: TRect);
     procedure PaintDesign;
     procedure PutChar(Ch: TUTF8Char);
@@ -225,6 +235,7 @@ type
     procedure KeyPress(var Key: Char); override;
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure CreateWnd; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -242,6 +253,7 @@ type
     procedure MoveCaret(AColumn, ARow: Integer);
     procedure Write(const Buffer:string; Size: Integer);
     procedure WriteStr(const Str: string);
+    procedure CopyToClipboard;
     procedure WriteEscCode(ACode: TEscapeCode; AParams: TStrings);
     procedure LoadFromStream(Stream: TStream);
     procedure SaveToStream(Stream: TStream);
@@ -355,16 +367,25 @@ const
 
 // create class
 constructor TComTermBuffer.Create(AOwner: TCustomComTerminal);
+var
+  I: Integer;
 begin
   inherited Create;
   FOwner := AOwner;
   FTopLeft := Classes.Point(1, 1);
   FCaretPos := Classes.Point(1, 1);
+  for I := 0 to 99 do FHistory[I] := nil;
+  FHistoryCount := 0;
+  FHistoryHead := 0;
 end;
 
 // destroy class
 destructor TComTermBuffer.Destroy;
+var
+  I: Integer;
 begin
+  for I := 0 to 99 do
+    if FHistory[I] <> nil then FreeMem(FHistory[I]);
   if FBuffer <> nil then
   begin
     FreeMem(FBuffer);
@@ -397,9 +418,49 @@ begin
   Result:= PComTermChar(FBuffer + (Address * SizeOf(TComTermChar)))^;
 end;
 
+function TComTermBuffer.GetHistoryCount: Integer;
+begin
+  Result := FHistoryCount;
+end;
+
+function TComTermBuffer.GetHistoryChar(Column, HistRow: Integer): TComTermChar;
+var
+  Index: Integer;
+  LineData: PComTermChar;
+begin
+  if (Column > FColumns) or (HistRow < 1) or (HistRow > FHistoryCount) then
+    Exit(Default(TComTermChar));
+  Index := (FHistoryHead - HistRow + 100) mod 100;
+  LineData := PComTermChar(FHistory[Index]);
+  if LineData <> nil then
+    Result := LineData[Column - 1]
+  else
+    Result := Default(TComTermChar);
+end;
+
+procedure TComTermBuffer.PushHistoryLine(LineData: PByte);
+var
+  LineSize: Integer;
+begin
+  LineSize := FColumns * SizeOf(TComTermChar);
+  if FHistory[FHistoryHead] = nil then
+    GetMem(FHistory[FHistoryHead], LineSize);
+  Move(LineData^, FHistory[FHistoryHead]^, LineSize);
+  FHistoryHead := (FHistoryHead + 1) mod 100;
+  if FHistoryCount < 100 then
+    Inc(FHistoryCount);
+end;
+
 // scroll down up line
 procedure TComTermBuffer.ScrollDown;
+var
+  LineData: PByte;
 begin
+  if FScrollRange.Top = 1 then
+  begin
+    LineData := FBuffer;
+    PushHistoryLine(LineData);
+  end;
   DeleteLine(FScrollRange.Top, 1);
 end;
 
@@ -864,6 +925,8 @@ begin
       I+= L;
     end;
   finally
+    UpdateScrollRange;
+    UpdateScrollPos;
     ShowCaret;
   end;
 end;
@@ -1098,6 +1161,28 @@ var
 begin
   inherited KeyDown(Key, Shift);
 
+  // Copy: Ctrl+Shift+C or Ctrl+Insert
+  if ((Key = VK_C) and (ssCtrl in Shift) and (ssShift in Shift)) or
+     ((Key = VK_INSERT) and (ssCtrl in Shift)) then
+  begin
+    CopyToClipboard;
+    Key := 0;
+    Exit;
+  end;
+
+  // Paste: Ctrl+Shift+V or Shift+Insert
+  if ((Key = VK_V) and (ssCtrl in Shift) and (ssShift in Shift)) or
+     ((Key = VK_INSERT) and (ssShift in Shift)) then
+  begin
+    if Clipboard.HasFormat(CF_TEXT) then
+    begin
+      if (FPtyDevice <> nil) and (FPtyDevice.Connected) then
+        FPtyDevice.WriteStr(Clipboard.AsText);
+    end;
+    Key := 0;
+    Exit;
+  end;
+
   if (Key in [VK_TAB, VK_ESCAPE]) then
   begin
     SendChar(Chr(Key));
@@ -1187,13 +1272,49 @@ procedure TCustomComTerminal.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseDown(Button, Shift, X, Y);
+  if (not (FTermMode.MouseMode and FTermMode.MouseTrack)) and (Button = mbLeft) then
+  begin
+    FSelecting := True;
+    FSelStart.X := X div FFontWidth + FTopLeft.X;
+    FSelStart.Y := Y div FFontHeight + FTopLeft.Y;
+    FSelEnd := FSelStart;
+    Invalidate;
+  end;
   MouseEvent(ecMouseDown, Button, Shift, X, Y);
+end;
+
+procedure TCustomComTerminal.MouseMove(Shift: TShiftState; X, Y: Integer);
+begin
+  inherited MouseMove(Shift, X, Y);
+  if FSelecting then
+  begin
+    FSelEnd.X := X div FFontWidth + FTopLeft.X;
+    FSelEnd.Y := Y div FFontHeight + FTopLeft.Y;
+    if FSelEnd.X < 1 then FSelEnd.X := 1;
+    if FSelEnd.X > FColumns then FSelEnd.X := FColumns;
+    Invalidate;
+  end;
 end;
 
 procedure TCustomComTerminal.MouseUp(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   inherited MouseUp(Button, Shift, X, Y);
+  if FSelecting and (Button = mbLeft) then
+  begin
+    FSelecting := False;
+    FSelEnd.X := X div FFontWidth + FTopLeft.X;
+    FSelEnd.Y := Y div FFontHeight + FTopLeft.Y;
+    Invalidate;
+  end
+  else if (not FSelecting) and (Button in [mbMiddle, mbRight]) then
+  begin
+    if Clipboard.HasFormat(CF_TEXT) then
+    begin
+      if (FPtyDevice <> nil) and (FPtyDevice.Connected) then
+        FPtyDevice.WriteStr(Clipboard.AsText);
+    end;
+  end;
   MouseEvent(ecMouseUp, Button, Shift, X, Y);
 end;
 
@@ -1231,7 +1352,15 @@ begin
     for I := Rect.Left to Rect.Right do
     begin
       X := I + FTopLeft.X - 1;
-      Ch := FBuffer.GetChar(X, Y);
+      if Y < 1 then
+        Ch := FBuffer.GetHistoryChar(X, 1 - Y)
+      else
+        Ch := FBuffer.GetChar(X, Y);
+      if IsSelected(X, Y) then
+      begin
+        Ch.BackColor := clHighlight;
+        Ch.FrontColor := clHighlightText;
+      end;
       if Ch.Ch <> Chr(0) then
         DrawChar(I, J, Ch);
     end;
@@ -1327,6 +1456,73 @@ begin
   end;
 end;
 
+function TCustomComTerminal.IsSelected(AColumn, ARow: Integer): Boolean;
+var
+  SY1, SY2, SX1, SX2: Integer;
+begin
+  if not FSelecting and (FSelStart.Y = 0) and (FSelEnd.Y = 0) then Exit(False);
+
+  if (FSelStart.Y < FSelEnd.Y) or ((FSelStart.Y = FSelEnd.Y) and (FSelStart.X <= FSelEnd.X)) then
+  begin
+    SY1 := FSelStart.Y; SX1 := FSelStart.X;
+    SY2 := FSelEnd.Y;   SX2 := FSelEnd.X;
+  end else
+  begin
+    SY1 := FSelEnd.Y;   SX1 := FSelEnd.X;
+    SY2 := FSelStart.Y; SX2 := FSelStart.X;
+  end;
+
+  if (ARow > SY1) and (ARow < SY2) then
+    Result := True
+  else if SY1 = SY2 then
+    Result := (ARow = SY1) and (AColumn >= SX1) and (AColumn <= SX2)
+  else if ARow = SY1 then
+    Result := AColumn >= SX1
+  else if ARow = SY2 then
+    Result := AColumn <= SX2
+  else
+    Result := False;
+end;
+
+procedure TCustomComTerminal.CopyToClipboard;
+var
+  SY1, SY2, SX1, SX2: Integer;
+  R, C: Integer;
+  S: String;
+  Ch: TComTermChar;
+begin
+  if (FSelStart.X = 0) and (FSelStart.Y = 0) and (FSelEnd.X = 0) and (FSelEnd.Y = 0) then Exit;
+
+  if (FSelStart.Y < FSelEnd.Y) or ((FSelStart.Y = FSelEnd.Y) and (FSelStart.X <= FSelEnd.X)) then
+  begin
+    SY1 := FSelStart.Y; SX1 := FSelStart.X;
+    SY2 := FSelEnd.Y;   SX2 := FSelEnd.X;
+  end else
+  begin
+    SY1 := FSelEnd.Y;   SX1 := FSelEnd.X;
+    SY2 := FSelStart.Y; SX2 := FSelStart.X;
+  end;
+
+  S := '';
+  for R := SY1 to SY2 do
+  begin
+    for C := 1 to FColumns do
+    begin
+      if IsSelected(C, R) then
+      begin
+        if R < 1 then
+          Ch := FBuffer.GetHistoryChar(C, 1 - R)
+        else
+          Ch := FBuffer.GetChar(C, R);
+        if Ch.Ch = #0 then S := S + ' '
+        else S := S + Ch.Ch;
+      end;
+    end;
+    if R < SY2 then S := S + LineEnding;
+  end;
+  Clipboard.AsText := S;
+end;
+
 // move caret after new char is put on screen
 procedure TCustomComTerminal.AdvanceCaret(Kind: TAdvanceCaret);
 var
@@ -1365,10 +1561,10 @@ begin
   end;
   if FAutoFollow then
   begin
-    if (FCaretPos.Y - FTopLeft.Y) > FVisibleRows then
+    if (FCaretPos.Y - FTopLeft.Y) >= FVisibleRows then
     begin
-      I:= FCaretPos.Y - FVisibleRows + 1;
-      ModifyScrollBar(SB_Vert, SB_THUMBPOSITION, I);
+      I := FCaretPos.Y - FVisibleRows + 1;
+      ModifyScrollBar(SB_VERT, SB_THUMBPOSITION, I - 1 + FBuffer.GetHistoryCount);
     end;
   end;
 end;
@@ -1553,7 +1749,7 @@ begin
     Dy := 0;
   end else
   begin
-    FTopLeft.Y := APos + 1;
+    FTopLeft.Y := APos + 1 - FBuffer.GetHistoryCount;
     Dx := 0;
     Dy := (OldPos - APos) * FFontHeight;
   end;
@@ -1572,7 +1768,7 @@ begin
   end;
   if FScrollBars in [ssBoth, ssVertical] then
   begin
-    SetScrollPos(Handle, SB_VERT, FTopLeft.Y - 1, True);
+    SetScrollPos(Handle, SB_VERT, FTopLeft.Y - 1 + FBuffer.GetHistoryCount, True);
   end;
 end;
 
@@ -1635,11 +1831,11 @@ var
     if OldScrollBars in [ssBoth, ssVertical] then
     begin
       ARows := AHeight div FFontHeight;
-      if ARows >= FBuffer.Rows then
+      if (ARows >= FBuffer.Rows) and (FBuffer.GetHistoryCount = 0) then
         SetRange(SB_VERT, 1)  // screen is high enough, hide scroll bar
       else
       begin
-        Max := FBuffer.Rows - (ARows - 1);
+        Max := FBuffer.Rows + FBuffer.GetHistoryCount - (ARows - 1);
         SetRange(SB_VERT, Max);
       end;
     end;
