@@ -517,10 +517,21 @@ var
   hFile: System.THandle;
   TempPath : String;
 begin
+  { Default to the system temp directory; upgrade to Dir if it exists and is
+    writable.  Using the archive's own directory avoids /tmp tmpfs size limits
+    when packing large archives. }
+  TempPath := AbGetTempDirectory;
   if mbDirectoryExists(Dir) then
-    TempPath := IncludeTrailingPathDelimiter(Dir)
-  else
-    TempPath := AbGetTempDirectory;
+  begin
+    { Quick writeability probe: try to create and immediately remove a file. }
+    hFile := mbFileCreate(IncludeTrailingPathDelimiter(Dir) + '~probe');
+    if hFile <> feInvalidHandle then
+    begin
+      FileClose(hFile);
+      mbDeleteFile(IncludeTrailingPathDelimiter(Dir) + '~probe');
+      TempPath := IncludeTrailingPathDelimiter(Dir);
+    end;
+  end;
 
   Result := GetTempName(TempPath + 'VMS');
 
