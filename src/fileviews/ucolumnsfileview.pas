@@ -522,6 +522,11 @@ begin
 
   Dec(ARect.Right, 1);
 
+  {$IFDEF LCLCOCOA}
+  Dec( ARect.Top, 1 );
+  Dec( ARect.Left, 2 );
+  {$ENDIF}
+
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
 
