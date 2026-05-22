@@ -70,9 +70,6 @@ type
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
     procedure Hack(Data: PtrInt);
     procedure EditExit; override;
-{$ELSEIF DEFINED(LCLCOCOA)}
-    procedure CreateHandle; override;
-    procedure ChildHandlesCreated; override;
 {$ENDIF}
     function CalcButtonVisible: Boolean; override;
     function GetDefaultGlyphName: String; override;
@@ -243,8 +240,6 @@ uses
 {$IF DEFINED(LCLGTK2)}
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
-{$ELSEIF DEFINED(LCLCOCOA)}
-  CocoaConfig,
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSourceOperationTypes,
@@ -312,24 +307,6 @@ end;
 procedure TEditButtonEx.EditExit;
 begin
   Application.QueueAsyncCall(@Hack, 0);
-end;
-{$ENDIF}
-
-{$IFDEF LCLCOCOA}
-procedure TEditButtonEx.CreateHandle;
-begin
-{$IF (LCL_FULLVERSION >= 4990000)}
-  CocoaConfigEdit.vertAlignCenter:= True;
-{$ENDIF}
-  inherited CreateHandle;
-end;
-
-procedure TEditButtonEx.ChildHandlesCreated;
-begin
-  inherited;
-{$IF (LCL_FULLVERSION >= 4990000)}
-  CocoaConfigEdit.vertAlignCenter:= False;
-{$ENDIF}
 end;
 {$ENDIF}
 
@@ -545,6 +522,9 @@ begin
   edtRename.Visible := False;
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
+{$IFDEF LCL_VER_499}
+  edtRename.Edit.VerticalAlignment:= taVerticalCenter;
+{$ENDIF}
 {$IFDEF LCLWIN32}
   edtRename.onKeyDown:=@edtRenameKeyDown;
 {$ENDIF}
