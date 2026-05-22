@@ -1302,7 +1302,10 @@ begin
     DoArchiveProgress( 100, Abort );
   finally {NewStream}
     OutGzHelp.Free;
-    if (FStream <> NewStream) then
+    { Use FGzStream (not FStream) so the comparison is correct even when
+      SwapToTar was called and an exception prevented SwapToGzip from running.
+      FGzStream always holds the original gzip stream reference. }
+    if (FGzStream <> NewStream) then
       NewStream.Free;
   end;
 end;
