@@ -9,23 +9,27 @@ uses
   Buttons, Menus, StdCtrls, fButtonForm, uOperationsManager, uFileSource;
 
 type
+  TDeleteMode = (dmTrash, dmDelete, dmWipe);
 
   { TfrmDeleteDlg }
 
   TfrmDeleteDlg = class(TfrmButtonForm)
-    chkUseTrash: TCheckBox;
+    rbTrash: TRadioButton;
+    rbDelete: TRadioButton;
+    rbWipe: TRadioButton;
     lblMessage: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure chkUseTrashChange(Sender: TObject);
+    procedure rbModeChange(Sender: TObject);
   private
-    FMsgTrash: String;
-    FMsgNoTrash: String;
+    FMessages: array[TDeleteMode] of String;
   public
     { public declarations }
   end;
 
 function ShowDeleteDialog(TheOwner: TComponent; const Message: String; FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier): Boolean; overload;
-function ShowDeleteDialog(TheOwner: TComponent; const TrashMessage, NoTrashMessage: String; FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier; var UseTrash: Boolean): Boolean; overload;
+function ShowDeleteDialog(TheOwner: TComponent; const TrashMessage, DeleteMessage, WipeMessage: String;
+  FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier;
+  ShowTrash, ShowWipe: Boolean; var DeleteMode: TDeleteMode): Boolean; overload;
 
 implementation
 
@@ -45,23 +49,33 @@ begin
   end;
 end;
 
-function ShowDeleteDialog(TheOwner: TComponent; const TrashMessage, NoTrashMessage: String;
+function ShowDeleteDialog(TheOwner: TComponent; const TrashMessage, DeleteMessage, WipeMessage: String;
   FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier;
-  var UseTrash: Boolean): Boolean;
+  ShowTrash, ShowWipe: Boolean; var DeleteMode: TDeleteMode): Boolean;
 begin
   with TfrmDeleteDlg.Create(TheOwner, FileSource) do
   begin
     Caption:= Application.Title;
-    FMsgTrash:= TrashMessage;
-    FMsgNoTrash:= NoTrashMessage;
-    chkUseTrash.Visible:= True;
-    chkUseTrash.Checked:= UseTrash;
-    if UseTrash then
-      lblMessage.Caption:= TrashMessage
-    else
-      lblMessage.Caption:= NoTrashMessage;
+    FMessages[dmTrash]  := TrashMessage;
+    FMessages[dmDelete] := DeleteMessage;
+    FMessages[dmWipe]   := WipeMessage;
+    rbTrash.Visible  := ShowTrash;
+    rbDelete.Visible := True;
+    rbWipe.Visible   := ShowWipe;
+    // Set initial selection; fall back to dmDelete if the preferred mode is unavailable
+    case DeleteMode of
+      dmTrash:  if ShowTrash then rbTrash.Checked  := True else rbDelete.Checked := True;
+      dmWipe:   if ShowWipe  then rbWipe.Checked   := True else rbDelete.Checked := True;
+      else           rbDelete.Checked := True;
+    end;
+    lblMessage.Caption:= FMessages[DeleteMode];
     Result:= ShowModal = mrOK;
-    if Result then UseTrash:= chkUseTrash.Checked;
+    if Result then
+    begin
+      if rbTrash.Checked then DeleteMode := dmTrash
+      else if rbWipe.Checked then DeleteMode := dmWipe
+      else DeleteMode := dmDelete;
+    end;
     QueueId:= QueueIdentifier;
     Free;
   end;
@@ -81,12 +95,14 @@ begin
   end;
 end;
 
-procedure TfrmDeleteDlg.chkUseTrashChange(Sender: TObject);
+procedure TfrmDeleteDlg.rbModeChange(Sender: TObject);
+var
+  Mode: TDeleteMode;
 begin
-  if chkUseTrash.Checked then
-    lblMessage.Caption:= FMsgTrash
-  else
-    lblMessage.Caption:= FMsgNoTrash;
+  if rbTrash.Checked then Mode := dmTrash
+  else if rbWipe.Checked then Mode := dmWipe
+  else Mode := dmDelete;
+  lblMessage.Caption := FMessages[Mode];
 end;
 
 end.
