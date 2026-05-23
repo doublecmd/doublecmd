@@ -523,7 +523,7 @@ begin
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
 {$IFDEF LCL_VER_499}
-  edtRename.Edit.VerticalAlignment:= taVerticalCenter;
+  edtRename.Edit.VerticalAlignment:= tlCenter;
 {$ENDIF}
 {$IFDEF LCLWIN32}
   edtRename.onKeyDown:=@edtRenameKeyDown;
