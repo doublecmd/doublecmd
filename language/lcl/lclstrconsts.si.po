@@ -59,6 +59,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -838,6 +843,10 @@ msgstr "සේවා"
 msgid "Show All"
 msgstr "සියල්ල පෙන්වන්න"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "සම්පූර්ණ තිරය ටොගල කරන්න"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "මෙරූන්"
@@ -1379,6 +1388,10 @@ msgstr "ඇතුල් කරන්න"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "පිට වීම"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
