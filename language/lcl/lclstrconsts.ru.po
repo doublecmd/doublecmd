@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lazaruside\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-05-17 21:40+0300\n"
+"PO-Revision-Date: 2026-05-25 23:38+0300\n"
 "Last-Translator: Maxim Ganetsky <maxkill@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -833,7 +833,7 @@ msgstr "Показать все"
 
 #: lclstrconsts.rsmacosmenutogglefullscreen
 msgid "Toggle Full Screen"
-msgstr "переключить полноэкранный режим"
+msgstr "Переключить полноэкранный режим"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
