@@ -520,10 +520,10 @@ begin
   if ARect.Right > dgPanel.ClientWidth then
     ARect.Right:= dgPanel.ClientWidth;
 
-  Dec(ARect.Right, 1);
+  Dec( ARect.Right );
 
   {$IFDEF LCLCOCOA}
-  Dec( ARect.Top, 1 );
+  Dec( ARect.Top );
   Dec( ARect.Left, 2 );
   {$ENDIF}
 

@@ -588,7 +588,7 @@ begin
     Inc(ARect.Right, edtRename.ButtonWidth);
 
   {$IFDEF LCLCOCOA}
-  Dec( ARect.Top, 1 );
+  Dec( ARect.Top );
   Dec( ARect.Left, 2 );
   {$ENDIF}
 
