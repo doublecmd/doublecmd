@@ -236,6 +236,7 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
+  uOSForms,
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
@@ -289,13 +290,22 @@ type
   end;
 
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
+var
+  Dlg: TfrmSyncDirsDlg;
 begin
   if not Assigned(FileView1) then
     raise Exception.Create('ShowSyncDirsDlg: FileView1=nil');
   if not Assigned(FileView2) then
     raise Exception.Create('ShowSyncDirsDlg: FileView2=nil');
-  with TfrmSyncDirsDlg.Create(Application, FileView1, FileView2) do
-    Show;
+  Dlg := TfrmSyncDirsDlg.Create(Application, FileView1, FileView2);
+  { Center on the same monitor as the main DC window. }
+  if Assigned(frmMain) then
+  with GetFrmMainMonitor do
+    Dlg.SetBounds(
+      Left + (Width  - Dlg.Width)  div 2,
+      Top  + (Height - Dlg.Height) div 2,
+      Dlg.Width, Dlg.Height);
+  Dlg.Show;
 end;
 
 { TDrawGrid }
@@ -562,11 +572,17 @@ begin
       if FileTimeDiff < 0 then
         FState := srsCopyLeft;
   end;
-  if FForm.chkAsymmetric.Checked and (FState = srsCopyLeft) then
-    FAction := srsDoNothing
-  else begin
+  if FForm.chkAsymmetric.Checked then
+  begin
+    if FState = srsCopyLeft then
+      FAction := srsDoNothing
+    else if FState = srsNotEq then
+      FAction := srsCopyRight  // left is authoritative — copy left→right for ambiguous diffs
+    else
+      FAction := FState;
+  end
+  else
     FAction := FState;
-  end;
 end;
 
 { TfrmSyncDirsDlg }
