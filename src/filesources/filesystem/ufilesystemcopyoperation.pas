@@ -160,6 +160,7 @@ begin
     TreeBuilder.ExcludeEmptyTemplateDirectories := Self.ExcludeEmptyTemplateDirectories;
 
     TreeBuilder.BuildFromFiles(SourceFiles);
+    Self.SymLinkOption := TreeBuilder.SymLinkOption;
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
     FStatistics.TotalBytes := TreeBuilder.FilesSize;
