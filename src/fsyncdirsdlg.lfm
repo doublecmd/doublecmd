@@ -592,6 +592,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 222
         Max = 222
+        Smooth = True
         ParentFont = False
         TabOrder = 0
         BarShowText = True
@@ -637,6 +638,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 222
         Max = 222
+        Smooth = True
         ParentFont = False
         TabOrder = 0
         BarShowText = True
