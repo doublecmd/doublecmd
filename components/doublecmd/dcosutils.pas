@@ -619,6 +619,14 @@ begin
           if Assigned(Errors) then Errors^[caoCopyOwnership]:= GetLastOSError;
         end;
       end;
+      if caoCopyTime in Options then
+      begin
+        if DC_SymLinkSetTime(sDst, StatInfo.mtime, StatInfo.atime) = false then
+        begin
+          Include(Result, caoCopyTime);
+          if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
+        end;
+      end;
 {$IF DEFINED(HAIKU)}
       if caoCopyXattributes in Options then
       begin
