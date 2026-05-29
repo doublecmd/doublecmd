@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uLng, WfxPlugin;
+  DCOSUtils, uFileProperty, uLng, WfxPlugin;
 
 constructor TWfxPluginDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);
@@ -122,9 +122,10 @@ var
   logOptions: TLogOptions;
 begin
   Result := False;
-  aFileName := aFile.Path + aFile.Name;
+  aFileName := aFile.FullPath;
 
-  if FileIsReadOnly(aFile.Attributes) then
+  if (aFile.AttributesProperty.ClassType = TNtfsFileAttributesProperty) and
+     (TNtfsFileAttributesProperty(aFile.AttributesProperty).IsReadOnly) then
   begin
     case FDeleteReadOnly of
       fsoogNone:
@@ -149,9 +150,6 @@ begin
 
   repeat
     bRetry := False;
-
-    //if FileIsReadOnly(aFile.Attributes) then
-    //  mbFileSetReadOnly(aFileName, False);
 
     with FWfxPluginFileSource.WfxModule do
     if aFile.IsDirectory then // directory

@@ -977,7 +977,7 @@ end;
 
 function TNtfsFileAttributesProperty.IsReadOnly: Boolean;
 begin
-  Result := (FAttributes and FILE_ATTRIBUTE_READONLY) <> 0;
+  Result := (FAttributes and (FILE_ATTRIBUTE_READONLY or FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM)) <> 0;
 end;
 
 function TNtfsFileAttributesProperty.IsHidden: Boolean;
