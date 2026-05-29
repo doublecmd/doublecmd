@@ -561,7 +561,9 @@ begin
   with FFiles[iIndex] do
   begin
     lblFileName.Caption:= Name;
-    lblFile.Caption:= Name;
+    if lblFileName.Caption = emptyStr then
+      lblFileName.Caption:= FFileSource.GetDisplayFileName(FFiles[iIndex]);
+    lblFile.Caption:= lblFileName.Caption;
     lblFolder.Caption:= Path;
 
     if not (fpCreationTime in SupportedProperties) then
