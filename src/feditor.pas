@@ -60,6 +60,7 @@ type
     actEditFindPrevious: TAction;
     actFileReload: TAction;
     actEditTimeDate: TAction;
+    actWordWrap: TAction;
     actZoomOut: TAction;
     actZoomIn: TAction;
     ilBookmarks: TImageList;
@@ -73,6 +74,10 @@ type
     actFileNew: TAction;
     actFileExit: TAction;
     MenuItem1: TMenuItem;
+    miWordWrap: TMenuItem;
+    miZoomOut: TMenuItem;
+    miZoomIn: TMenuItem;
+    miView: TMenuItem;
     miFileReload: TMenuItem;
     miFindPrevious: TMenuItem;
     miGotoLine: TMenuItem;
@@ -116,6 +121,7 @@ type
     miReplace: TMenuItem;
     Help1: TMenuItem;
     miAbout: TMenuItem;
+    miSeparator3: TMenuItem;
     StatusBar: TStatusBar;
     Editor: TSynEdit;
     miHighlight: TMenuItem;
@@ -168,6 +174,9 @@ type
     FElevate: TDuplicates;
     FCommands: TFormCommands;
     FMultiCaret: TSynPluginMultiCaret;
+{$if lcl_fullversion >= 4990000}
+    FSynEditWrap: TLazSynEditPlugin;
+{$endif}
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
 
@@ -236,6 +245,7 @@ type
      procedure cm_EditRplc(const {%H-}Params:array of string);
      procedure cm_ZoomIn(const {%H-}Params: array of string);
      procedure cm_ZoomOut(const {%H-}Params: array of string);
+     procedure cm_WordWrap(const {%H-}Params: array of string);
   end;
 
   procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
@@ -252,6 +262,9 @@ uses
   uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator, uHighlighters,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles,
   DCOSUtils
+{$if lcl_fullversion >= 4990000}
+  , SynEditWrappedView
+{$endif}
 {$IFDEF DARWIN}
   , uDarwinApplication, uEarlyConfig
 {$ENDIF}
@@ -387,6 +400,21 @@ begin
   Editor.RightEdge := gEditorSynEditRightEdge;
   Editor.BlockIndent := gEditorSynEditBlockIndent;
   Editor.VisibleSpecialChars:= gEditorSynEditSpecialChars;
+{$if lcl_fullversion >= 4990000}
+  if gEditorWordWrap then
+  begin
+    if not (eoScrollPastEoL in gEditorSynEditOptions) then
+    begin
+      Editor.ScrollBars:= ssVertical;
+    end;
+    FSynEditWrap:= TLazSynEditLineWrapPlugin.Create(Editor)
+  end;
+  actWordWrap.Checked := gEditorWordWrap
+{$else}
+  actWordWrap.Enabled:= False;
+  actWordWrap.Visible:= False;
+  miSeparator3.Visible:= False;
+{$endif}
 end;
 
 procedure TfrmEditor.actExecute(Sender: TObject);
@@ -1120,6 +1148,32 @@ end;
 procedure TfrmEditor.cm_ZoomOut(const Params: array of string);
 begin
   self.DoZoomOut;
+end;
+
+procedure TfrmEditor.cm_WordWrap(const Params: array of string);
+{$if lcl_fullversion >= 4990000}
+var
+  TopLine: Integer;
+{$endif}
+begin
+  gEditorWordWrap:= not gEditorWordWrap;
+  actWordWrap.Checked:= gEditorWordWrap;
+{$if lcl_fullversion >= 4990000}
+  TopLine:= Editor.TopLine;
+  if gEditorWordWrap then
+  begin
+    if not (eoScrollPastEoL in Editor.Options) then
+    begin
+      Editor.ScrollBars:= ssVertical;
+    end;
+    FSynEditWrap:= TLazSynEditLineWrapPlugin.Create(Editor)
+  end
+  else begin
+    FreeAndNil(FSynEditWrap);
+    Editor.ScrollBars:= ssBoth;
+  end;
+  Editor.TopLine:= TopLine;
+{$endif}
 end;
 
 procedure TfrmEditor.frmEditorClose(Sender: TObject;

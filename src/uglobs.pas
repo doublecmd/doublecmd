@@ -665,6 +665,7 @@ var
   gEditorSynEditRightEdge,
   gEditorSynEditBlockIndent: Integer;
   gEditorFindWordAtCursor: Boolean;
+  gEditorWordWrap: Boolean;
 
   { Differ }
   gDifferIgnoreCase,
@@ -2262,6 +2263,7 @@ begin
   gEditorSynEditRightEdge := 80;
   gEditorSynEditBlockIndent := 2;
   gEditorFindWordAtCursor := True;
+  gEditorWordWrap:= False;
 
   { Differ }
   gDifferIgnoreCase := False;
@@ -3341,6 +3343,7 @@ begin
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
       gEditorSynEditBlockIndent := GetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
       gEditorFindWordAtCursor := GetValue(Node, 'FindWordAtCursor', gEditorFindWordAtCursor);
+      gEditorWordWrap := GetValue(Node, 'WordWrap', gEditorWordWrap);
     end;
 
     { Differ }
@@ -3933,6 +3936,7 @@ begin
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
     SetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
     SetValue(Node, 'FindWordAtCursor', gEditorFindWordAtCursor);
+    SetValue(Node, 'WordWrap', gEditorWordWrap);
 
     { Differ }
     Node := FindNode(Root, 'Differ',True);
