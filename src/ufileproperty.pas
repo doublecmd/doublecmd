@@ -256,6 +256,8 @@ type
     // Is it a symbolic link.
     function IsLink: Boolean; virtual;
 
+    function IsReadOnly: Boolean; virtual;
+
     // Retrieves raw attributes.
     function GetAttributes: TFileAttrs; virtual;
 
@@ -283,7 +285,8 @@ type
     // Is it a symbolic link.
     function IsLink: Boolean; override;
 
-    function IsReadOnly: Boolean;
+    function IsReadOnly: Boolean; override;
+
     function IsHidden: Boolean;
 
     class function GetDescription: String; override;
@@ -305,6 +308,8 @@ type
 
     // Is it a symbolic link.
     function IsLink: Boolean; override;
+
+    function IsReadOnly: Boolean; override;
 
     function IsOwnerRead: Boolean;
     function IsOwnerWrite: Boolean;
@@ -944,6 +949,11 @@ begin
   Result := fpS_ISLNK(FAttributes);
 end;
 
+function TFileAttributesProperty.IsReadOnly: Boolean;
+begin
+  Result:= False;
+end;
+
 // ----------------------------------------------------------------------------
 
 function TNtfsFileAttributesProperty.Clone: TNtfsFileAttributesProperty;
@@ -1016,6 +1026,11 @@ end;
 function TUnixFileAttributesProperty.IsLink: Boolean;
 begin
   Result:= ((FAttributes and S_IFMT) = S_IFLNK);
+end;
+
+function TUnixFileAttributesProperty.IsReadOnly: Boolean;
+begin
+  Result:= (((FAttributes and S_IRUGO) <> 0) and ((FAttributes and S_IWUGO) = 0));
 end;
 
 function TUnixFileAttributesProperty.IsOwnerRead: Boolean;
