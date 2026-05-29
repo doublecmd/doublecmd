@@ -124,8 +124,7 @@ begin
   Result := False;
   aFileName := aFile.FullPath;
 
-  if (aFile.AttributesProperty.ClassType = TNtfsFileAttributesProperty) and
-     (TNtfsFileAttributesProperty(aFile.AttributesProperty).IsReadOnly) then
+  if aFile.AttributesProperty.IsReadOnly then
   begin
     case FDeleteReadOnly of
       fsoogNone:

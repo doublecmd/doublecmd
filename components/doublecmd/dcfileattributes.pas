@@ -82,6 +82,8 @@ const
   S_IRWXU =  S_IRUSR or S_IWUSR or S_IXUSR;
   S_IRWXG =  S_IRGRP or S_IWGRP or S_IXGRP;
   S_IRWXO =  S_IROTH or S_IWOTH or S_IXOTH;
+  S_IRUGO =  S_IRUSR or S_IRGRP or S_IROTH;
+  S_IWUGO =  S_IWUSR or S_IWGRP or S_IWOTH;
   S_IXUGO =  S_IXUSR or S_IXGRP or S_IXOTH;
 
   { POSIX setuid(), setgid(), and sticky bit }
