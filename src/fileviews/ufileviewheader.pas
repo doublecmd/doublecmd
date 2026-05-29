@@ -287,6 +287,8 @@ begin
 
   FPathEdit:= TKASPathEdit.Create(FPathLabel);
   FPathEdit.Parent:= Self;
+  FPathEdit.Align:= alCustom;
+  FPathEdit.AutoSize:= False;
   FPathEdit.Visible:= False;
   FPathEdit.TabStop:= False;
   FPathEdit.BorderStyle:= bsNone;
