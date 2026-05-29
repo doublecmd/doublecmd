@@ -333,7 +333,7 @@ begin
       if (FixedInfo.FileFlags and VS_FF_PRIVATEBUILD <> 0) then
         DCVersion+= ' alpha'
       else begin
-        DCVersion+= ' beta';
+        DCVersion+= ' gamma';
       end;
     end;
     Free;
