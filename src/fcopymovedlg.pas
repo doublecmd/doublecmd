@@ -77,6 +77,7 @@ type
     FDialogType: TCopyMoveDlgType;
     noteb: TFileViewNotebook;
     FFileSource: IFileSource;
+    FDestFileSource: IFileSource;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
     FCurrentCopyDlgNameSelectionStep: TCurrentCopyDlgNameSelectionStep;
@@ -94,7 +95,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
-                       AFileSource: IFileSource;
+                       AFileSource: IFileSource; ADestFileSource: IFileSource;
                        AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass); reintroduce;
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
@@ -112,7 +113,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
+  LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager,
+  DCOSUtils, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -121,11 +123,12 @@ var
   FQueueIdentifier: TOperationsManagerQueueIdentifier = SingleQueueId;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
-                               AFileSource: IFileSource;
+                               AFileSource: IFileSource; ADestFileSource: IFileSource;
                                AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
 begin
   FDialogType := DialogType;
   FFileSource := AFileSource;
+  FDestFileSource := ADestFileSource;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
   FCommands := TFormCommands.Create(Self);
   inherited Create(TheOwner);
@@ -133,7 +136,7 @@ end;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent);
 begin
-  Create(TheOwner, cmdtCopy, nil, nil);
+  Create(TheOwner, cmdtCopy, nil, nil, nil);
 end;
 
 procedure TfrmCopyDlg.SetOperationOptions(Operation: TFileSourceOperation);
@@ -458,6 +461,11 @@ begin
 
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
+
+  if FDestFileSource.ClassName = 'TFileSystemFileSource' then
+    edtDst.GetFilesFunc:= @GetFilesInDir
+  else
+    edtDst.GetFilesFunc:= nil;
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
