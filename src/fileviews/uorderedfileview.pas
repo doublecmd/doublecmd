@@ -473,7 +473,7 @@ begin
           begin
             AFile.IconID := PixMapManager.GetIconByFile(AFileSource, AFile, DirectAccess, True, gShowIcons, not gIconOverlays);
           end;
-          {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+          {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
           if gIconOverlays and (AFile.IconOverlayID < 0) then
           begin
             AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile, DirectAccess);
@@ -499,7 +499,7 @@ begin
            (AFileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
            (HaveIcons and ( ((AFile.IconID < 0) and (AFile.Icon = nil))
-             {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+             {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
              or (gIconOverlays and (AFile.IconOverlayID < 0))
              {$ENDIF}
            ))) then

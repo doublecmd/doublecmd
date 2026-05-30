@@ -173,6 +173,11 @@ end;
 if (LCLWidgetType = &apos;gtk2&apos;) and (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
+end;
+
+if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
+begin
+  CustomOptions += &apos;-dXDG -dRabbitVCS&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -1461,6 +1466,7 @@ end;"/>
       <Unit183>
         <Filename Value="filesources\wfxplugin\uwfxplugindeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginDeleteOperation"/>
       </Unit183>
       <Unit184>
         <Filename Value="filesources\wfxplugin\uwfxpluginexecuteoperation.pas"/>
@@ -2211,6 +2217,11 @@ end;
 if (LCLWidgetType = &apos;qt6&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
+end;
+
+if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
+begin
+  CustomOptions += &apos;-dXDG -dRabbitVCS&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>

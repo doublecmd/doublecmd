@@ -341,7 +341,7 @@ type
                            IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
     function GetIconByFile(constref AFileSource: IFileSource; AFile: TDisplayFile; DirectAccess: Boolean; LoadIcon: Boolean;
                            IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt; overload;
-    {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+    {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
     {en
        Retrieves overlay icon index for a file.
 
@@ -417,7 +417,7 @@ type
   TBitmap = Graphics.TBitmap;
 {$ENDIF}
 
-{$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+{$IF DEFINED(MSWINDOWS)}
 const
   SystemIconIndexStart: PtrInt = High(PtrInt) div 2;
 {$ENDIF}
@@ -2130,25 +2130,23 @@ begin
           Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
       end;
     end
-  {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+  {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
   else if gIconOverlays then
     if DirectAccess then
     begin
-      if AFile.IconOverlayID >= SystemIconIndexStart then
-        Result:= DrawBitmap(AFile.IconOverlayID
-                            {$IFDEF RabbitVCS} - SystemIconIndexStart {$ENDIF},
-                            Canvas, X, Y)
       {$IF DEFINED(MSWINDOWS)}
+      if AFile.IconOverlayID >= SystemIconIndexStart then
+        Result:= DrawBitmap(AFile.IconOverlayID, Canvas, X, Y)
       // Special case for OneDrive
-      else if AFile.IconOverlayID > 0 then
+      else
+      {$ENDIF}
+      if AFile.IconOverlayID > 0 then
       begin
         I:= gIconsSize div 2;
         Result:= DrawBitmap(AFile.IconOverlayID, Canvas, X, Y + I, I, I);
       end;
-      {$ENDIF}
     end;
   {$ENDIF}
-    ;
 end;
 
 function TPixMapManager.CheckAddPixmap(AUniqueName: String; AIconSize: Integer;
@@ -2626,20 +2624,25 @@ begin
   else
     Result:= 0;
 end;
-{$ELSEIF DEFINED(RabbitVCS)}
+{$ELSEIF DEFINED(RabbitVCS) OR DEFINED(XDG)}
 function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
 var
   Emblem: String;
 begin
-  if RabbitVCS and DirectAccess then
+  if not DirectAccess then Exit(0);
+{$IF DEFINED(RabbitVCS)}
+  if RabbitVCS then
   begin
     Emblem:= CheckStatus(AFile.FullPath);
-    if Length(Emblem) = 0 then Exit(0);
-    Result:= CheckAddThemePixmap(Emblem);
-    Result:= IfThen(Result < 0, 0, Result + SystemIconIndexStart);
-  end
-  else
-    Result:= 0;
+  end;
+  if (not RabbitVCS) or (Length(Emblem) = 0) then
+{$ENDIF}
+  begin
+    Emblem:= GioFileGetEmblem(AFile.FullPath);
+  end;
+  if Length(Emblem) = 0 then Exit(0);
+  Result:= CheckAddThemePixmap(Emblem, gIconsSize div 2);
+  Result:= IfThen(Result < 0, 0, Result);
 end;
 {$ENDIF}
 
