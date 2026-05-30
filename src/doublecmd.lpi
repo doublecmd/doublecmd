@@ -171,14 +171,14 @@ begin
   UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
 end;
 
-if (LCLWidgetType = &apos;gtk2&apos;) and (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
+if ((LCLWidgetType = &apos;gtk2&apos;) or (LCLWidgetType = &apos;gtk3&apos;)) and (SrcOS = &apos;unix&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
 end;
 
 if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
 begin
-  CustomOptions += &apos;-dXDG -dRabbitVCS&apos;;
+  CustomOptions += &apos; -dXDG -dRabbitVCS&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -2209,6 +2209,11 @@ end;
 if (LCLWidgetType = &apos;qt6&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
+end;
+
+if ((LCLWidgetType = &apos;gtk2&apos;) or (LCLWidgetType = &apos;gtk3&apos;)) and (SrcOS = &apos;unix&apos;) then
+begin
+  UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
 end;
 
 if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then

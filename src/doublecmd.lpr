@@ -56,6 +56,9 @@ uses
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
   {$ENDIF}
+  {$IFDEF LCLGTK3}
+  uGtk3WSControls,
+  {$ENDIF}
   {$IFDEF darwin}
   uDarwinApplication,
   uiCloudDriveConfig,
