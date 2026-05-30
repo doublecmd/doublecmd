@@ -471,7 +471,7 @@ begin
         begin
           if (AFile.IconID < 0) and (AFile.Icon = nil) then
           begin
-            AFile.IconID := PixMapManager.GetIconByFile(AFileSource, AFile, DirectAccess, True, gShowIcons, not gIconOverlays);
+            AFile.IconID := PixMapManager.GetIconByFile(AFileSource, AFile, DirectAccess, True, gShowIcons);
           end;
           {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
           if gIconOverlays and (AFile.IconOverlayID < 0) then
