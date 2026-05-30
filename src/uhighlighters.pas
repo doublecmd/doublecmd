@@ -57,6 +57,11 @@ type
   TSynIniSynEx = class(TSynIniSyn)
   public
     constructor Create(AOwner: TComponent); override;
+{$IF DEFINED(LCL_VER_499)}
+    function GetInitialDefaultFileFilterMask: string; override;
+{$ELSE}
+    function GetDefaultFilter: string; override;
+{$ENDIF}
   end;
 
   { TSynPasSynEx }
@@ -241,6 +246,15 @@ begin
   SpaceAttri.StoredName   := SYNS_XML_AttrSpace;
   StringAttri.StoredName  := SYNS_XML_AttrString;
   SymbolAttri.StoredName  := SYNS_XML_AttrSymbol;
+end;
+
+{$IF DEFINED(LCL_VER_499)}
+function TSynIniSynEx.GetInitialDefaultFileFilterMask: string;
+{$ELSE}
+function TSynIniSynEx.GetDefaultFilter: string;
+{$ENDIF}
+begin
+  Result:= 'INI Files (*.ini;*.desktop;*.service)|*.ini;*.desktop;*.service';
 end;
 
 { TSynPasSynEx }
