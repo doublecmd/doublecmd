@@ -113,8 +113,6 @@ type
 
     FDriveIconList : array[0..2] of TDriveIconList;
     FiDirIconID : PtrInt;
-    FiDirLinkBrokenIconID : PtrInt;
-    FiLinkBrokenIconID : PtrInt;
     FiEmblemLinkID: PtrInt;
     FiEmblemUnreadableID: PtrInt;
     FiUpDirIconID : PtrInt;
@@ -334,14 +332,11 @@ type
               its index regardless of LoadIcon parameter.)
        @param(IconsMode
               Whether to retrieve only standard icon, also from file resources, etc.)
-       @param(GetIconWithLink
-              If the file is a link and GetLinkIcon is @true it retrieves icon
-              with embedded link bitmap. If @false it only retrieves the file icon itself.)
     }
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
-                           IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+                           IconsMode: TShowIconsMode): PtrInt;
     function GetIconByFile(constref AFileSource: IFileSource; AFile: TDisplayFile; DirectAccess: Boolean; LoadIcon: Boolean;
-                           IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt; overload;
+                           IconsMode: TShowIconsMode): PtrInt; overload;
     {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
     {en
        Retrieves overlay icon index for a file.
@@ -686,7 +681,7 @@ begin
       begin
         AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
         try
-          iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe, False);
+          iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe);
           bmStandartBitmap := GetBitmap(iIndex);
           if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlFileIconByExtension;
         finally
@@ -1905,8 +1900,6 @@ begin
   if FiDirIconID = -1 then
   {$ENDIF}
   FiDirIconID:= AddDefaultThemePixmap('folder');
-  FiDirLinkBrokenIconID:= AddSpecial(FiDirIconID, FiEmblemUnreadableID);
-  FiLinkBrokenIconID:= AddSpecial(FiDefaultIconID, FiEmblemUnreadableID);
   FiUpDirIconID:= CheckAddThemePixmap('go-up');
   {$IF DEFINED(MSWINDOWS) OR DEFINED(XDG)}
   FiArcIconID := -1;
@@ -2361,7 +2354,7 @@ begin
 end;
 
 function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
-                                      IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+                                      IconsMode: TShowIconsMode): PtrInt;
 var
   Ext: String;
 {$IFDEF MSWINDOWS}
@@ -2383,12 +2376,6 @@ begin
     begin
       Result := FiUpDirIconID;
       Exit;
-    end;
-
-    if IsLinkToDirectory and GetIconWithLink then
-    begin
-      if Assigned(LinkProperty) and not LinkProperty.IsValid then
-        Exit(FiDirLinkBrokenIconID);
     end;
 
     if (DirectAccess = False) then
@@ -2466,12 +2453,6 @@ begin
     end
     else // not directory
     begin
-      if IsLink and GetIconWithLink then
-      begin
-        if Assigned(LinkProperty) and not LinkProperty.IsValid then
-          Exit(FiLinkBrokenIconID);
-      end;
-
       if (Extension = '') then
       begin
         {$IF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
@@ -2652,7 +2633,7 @@ begin
 end;
 
 function TPixMapManager.GetIconByFile(constref AFileSource: IFileSource; AFile: TDisplayFile;
-  DirectAccess: Boolean; LoadIcon: Boolean; IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+  DirectAccess: Boolean; LoadIcon: Boolean; IconsMode: TShowIconsMode): PtrInt;
 var
   ABitmap: TBitmap;
 begin
@@ -2675,7 +2656,7 @@ begin
     end;
   end;
 
-  Result:= GetIconByFile(AFile.FSFile, DirectAccess, LoadIcon, IconsMode, GetIconWithLink);
+  Result:= GetIconByFile(AFile.FSFile, DirectAccess, LoadIcon, IconsMode);
 end;
 
 {$IF DEFINED(MSWINDOWS)}
