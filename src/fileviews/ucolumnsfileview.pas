@@ -1588,15 +1588,12 @@ var
                                 );
 
       // Draw overlay icon for a file if needed
-      if gIconOverlays then
-      begin
-        PixMapManager.DrawBitmapOverlay(AFile,
-                                        FileSourceDirectAccess,
-                                        Canvas,
-                                        params.iconRect.Left,
-                                        params.iconRect.Top
-                                        );
-      end;
+      PixMapManager.DrawBitmapOverlay(AFile,
+                                      FileSourceDirectAccess,
+                                      Canvas,
+                                      params.iconRect.Left,
+                                      params.iconRect.Top
+                                      );
 
     end;
 

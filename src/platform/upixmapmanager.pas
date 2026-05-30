@@ -2131,7 +2131,7 @@ begin
       end;
     end
   {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
-  else
+  else if gIconOverlays then
     if DirectAccess then
     begin
       if AFile.IconOverlayID >= SystemIconIndexStart then
