@@ -38,6 +38,14 @@ uses
 
 type
 
+  { TKASPathEditGetFilesFunc }
+
+  TKASPathEditGetFilesFunc = Procedure (
+    const path: String;
+    const types: TObjectTypes;
+    const sort: TFileSortType;
+    files: TStringList );
+
   { TKASPathEdit }
 
   TKASPathEdit = class(TEdit)
@@ -47,6 +55,7 @@ type
     FListBox: TListBox;
     FPanel: THintWindow;
     FAutoComplete: Boolean;
+    FGetFilesFunc: TKASPathEditGetFilesFunc;
     FStringList: TStringList;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
@@ -80,6 +89,7 @@ type
     onKeyRETURN: TNotifyEvent;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    property GetFilesFunc: TKASPathEditGetFilesFunc read FGetFilesFunc write FGetFilesFunc;
   published
     property ObjectTypes: TObjectTypes read FObjectTypes write SetObjectTypes;
     property FileSortType: TFileSortType read FFileSortType write FFileSortType;
@@ -129,77 +139,6 @@ begin
   RegisterComponents('KASComponents', [TKASPathEdit]);
 end;
 
-function FilesSortAlphabet(List: TStringList; Index1, Index2: Integer): Integer;
-begin
-  Result:= CompareFilenames(List[Index1], List[Index2]);
-end;
-
-function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
-var
-  Attr1, Attr2: IntPtr;
-begin
-  Attr1:= IntPtr(List.Objects[Index1]);
-  Attr2:= IntPtr(List.Objects[Index2]);
-  if (Attr1 and faDirectory <> 0) and (Attr2 and faDirectory <> 0) then
-    Result:= CompareFilenames(List[Index1], List[Index2])
-  else begin
-    if (Attr1 and faDirectory <> 0) then
-      Result:= -1
-    else begin
-      Result:=  1;
-    end;
-  end;
-end;
-
-procedure GetFilesInDir(const ABaseDir: String; AMask: String; AObjectTypes: TObjectTypes;
-                        AResult: TStringList; AFileSortType: TFileSortType);
-var
-  ExcludeAttr: Integer;
-  SearchRec: TSearchRec;
-{$IF DEFINED(MSWINDOWS)}
-  ErrMode : LongWord;
-{$ENDIF}
-begin
-{$IF DEFINED(MSWINDOWS)}
-  ErrMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOALIGNMENTFAULTEXCEPT or SEM_NOGPFAULTERRORBOX or SEM_NOOPENFILEERRORBOX);
-  try
-{$ENDIF}
-  if FindFirst(ABaseDir + AMask, faAnyFile, SearchRec) = 0 then
-  begin
-    ExcludeAttr:= 0;
-
-    if not (otHidden in AObjectTypes) then
-      ExcludeAttr:= ExcludeAttr or faHidden;
-    if not (otFolders in AObjectTypes) then
-      ExcludeAttr:= ExcludeAttr or faDirectory;
-
-    repeat
-      if (SearchRec.Attr and ExcludeAttr <> 0) then
-        Continue;
-      if (SearchRec.Name = '.') or (SearchRec.Name = '..')then
-        Continue;
-      if (SearchRec.Attr and faDirectory = 0) and not (otNonFolders in AObjectTypes) then
-        Continue;
-
-      AResult.AddObject(SearchRec.Name, TObject(IntPtr(SearchRec.Attr)));
-    until FindNext(SearchRec) <> 0;
-
-    if AResult.Count > 0 then
-    begin
-      case AFileSortType of
-        fstAlphabet:     AResult.CustomSort(@FilesSortAlphabet);
-        fstFoldersFirst: AResult.CustomSort(@FilesSortFoldersFirst);
-      end;
-    end;
-  end;
-  SysUtils.FindClose(SearchRec);
-{$IF DEFINED(MSWINDOWS)}
-  finally
-    SetErrorMode(ErrMode);
-  end;
-{$ENDIF}
-end;
-
 { TKASPathEdit }
 
 function TKASPathEdit.isShowingListBox(): Boolean;
@@ -228,7 +167,8 @@ begin
     begin
       FStringList.Clear;
       FBasePath:= BasePath;
-      GetFilesInDir(BasePath, AllFilesMask, FObjectTypes, FStringList, FFileSortType);
+      if Assigned(FGetFilesFunc) then
+        FGetFilesFunc(BasePath, FObjectTypes, FFileSortType, FStringList);
     end;
     if (FStringList.Count > 0) then
     begin
