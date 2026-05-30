@@ -546,15 +546,12 @@ var
       end;
 
     // Draw overlay icon for a file if needed
-    if gIconOverlays then
-    begin
-      PixMapManager.DrawBitmapOverlay(AFile,
-                                      FileSourceDirectAccess,
-                                      Canvas,
-                                      aRect.Left + 2,
-                                      iTextTop - gIconsSize - 2
-                                      );
-    end;
+    PixMapManager.DrawBitmapOverlay(AFile,
+                                    FileSourceDirectAccess,
+                                    Canvas,
+                                    aRect.Left + 2,
+                                    iTextTop - gIconsSize - 2
+                                    );
 
     s:= AFile.DisplayStrings[0];
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
