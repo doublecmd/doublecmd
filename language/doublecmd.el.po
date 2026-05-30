@@ -1098,6 +1098,10 @@ msgstr "Αποθήκευση ως..."
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1149,6 +1153,12 @@ msgstr "Επισήμανση Σύνταξης"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Τέλος Γραμμής"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "Προβολή"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

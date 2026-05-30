@@ -1079,6 +1079,10 @@ msgstr "Uložiť &ako.."
 msgid "Save As"
 msgstr "Uložiť ako"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1130,6 +1134,12 @@ msgstr "Zvýrazňovanie syntaxe"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Koniec riadku"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Zobrazenie"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"

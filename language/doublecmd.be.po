@@ -1093,6 +1093,10 @@ msgstr "Захаваць &як..."
 msgid "Save As"
 msgstr "Захаваць як"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1144,6 +1148,12 @@ msgstr "Падсвятленне сінтаксісу"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Канец радка"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Праглядзець"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"

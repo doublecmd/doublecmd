@@ -1118,6 +1118,10 @@ msgstr "&Lagr som..."
 msgid "Save As"
 msgstr "Lagr som"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1169,6 +1173,12 @@ msgstr "Framhev syntaks"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Linjeavslutning"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Vis"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

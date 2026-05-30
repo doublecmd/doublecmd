@@ -1087,6 +1087,10 @@ msgstr "S&alva Come.."
 msgid "Save As"
 msgstr "Salva come"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1138,6 +1142,12 @@ msgstr "Evidenziazione sintassi"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Fine linea"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Mostra"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"

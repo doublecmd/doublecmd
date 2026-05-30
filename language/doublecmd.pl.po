@@ -1085,6 +1085,10 @@ msgstr "Zapisz j&ako..."
 msgid "Save As"
 msgstr "Zapisz jako"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1136,6 +1140,12 @@ msgstr "Podświetlanie &składni"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Koniec wiersza"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Widok"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

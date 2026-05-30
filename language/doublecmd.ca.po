@@ -1193,6 +1193,10 @@ msgstr "Anomena i desa..."
 msgid "Save As"
 msgstr "Anomena i desa"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1244,6 +1248,12 @@ msgstr "LLenguatge de codificació"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Fi de línia"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Visualització"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy

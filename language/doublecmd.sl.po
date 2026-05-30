@@ -1095,6 +1095,10 @@ msgstr "Shrani &kot ..."
 msgid "Save As"
 msgstr "Shrani kot"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1146,6 +1150,12 @@ msgstr "Poudarjanje skladnje"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Zapis konca vrstice"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Pogled"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"

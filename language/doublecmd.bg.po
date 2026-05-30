@@ -1116,6 +1116,10 @@ msgstr "Съхраняване &като..."
 msgid "Save As"
 msgstr "Съхраняване &като"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1167,6 +1171,12 @@ msgstr "Синтактично подчертаване"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Край на реда"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Преглед"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy

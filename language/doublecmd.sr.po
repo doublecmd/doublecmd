@@ -1104,6 +1104,10 @@ msgstr "Сачувај &као..."
 msgid "Save As"
 msgstr "Сачувај као"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1155,6 +1159,12 @@ msgstr "Истицање синтаксе"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Завршетак линије"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Преглед"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

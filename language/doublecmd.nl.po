@@ -1100,6 +1100,10 @@ msgstr "Opslaan &als..."
 msgid "Save As"
 msgstr "Opslaan als"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1151,6 +1155,12 @@ msgstr "Opmaakmarkering"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Einde van regel"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Tonen"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

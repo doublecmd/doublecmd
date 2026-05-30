@@ -1114,6 +1114,10 @@ msgstr "名前を付けて保存(&A)…"
 msgid "Save As"
 msgstr "名前を付けて保存"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1165,6 +1169,12 @@ msgstr "構文のハイライト表示"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "行の末尾"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "表示(&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

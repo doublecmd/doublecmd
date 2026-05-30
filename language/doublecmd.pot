@@ -1077,6 +1077,10 @@ msgstr ""
 msgid "Save As"
 msgstr ""
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1127,6 +1131,11 @@ msgstr ""
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
+msgstr ""
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
 msgstr ""
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption

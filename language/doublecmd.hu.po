@@ -1087,6 +1087,10 @@ msgstr "Mentés &másként..."
 msgid "Save As"
 msgstr "Mentés másként"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1138,6 +1142,12 @@ msgstr "Szintaxis kiemelés"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Sorvége jel"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Nézet"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"

@@ -1091,6 +1091,10 @@ msgstr "另存新檔 (&A)..."
 msgid "Save As"
 msgstr "另存新檔"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1142,6 +1146,12 @@ msgstr "語法高亮 (&S)"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "換行符號"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "檢視 (&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"

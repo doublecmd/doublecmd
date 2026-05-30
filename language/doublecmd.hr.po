@@ -1154,6 +1154,10 @@ msgstr "Kopiraj&kao..."
 msgid "Save As"
 msgstr "Kopiraj kao"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1205,6 +1209,12 @@ msgstr "Isticanje sintakse"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Završetak linije"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Pregled"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy
