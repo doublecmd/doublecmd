@@ -2226,7 +2226,7 @@ end;
 
 if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
 begin
-  CustomOptions += &apos;-dXDG -dRabbitVCS&apos;;
+  CustomOptions += &apos; -dXDG -dRabbitVCS&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>
