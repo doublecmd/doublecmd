@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-01-17 01:45+0900\n"
+"PO-Revision-Date: 2026-05-10 19:27+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -1607,7 +1607,7 @@ msgstr "도움말(&H)"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "드라이브"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -4330,7 +4330,6 @@ msgid "Right:"
 msgstr "오른쪽:"
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
 msgstr "선택:"
@@ -6400,7 +6399,7 @@ msgstr "사용할 기본 특성 마스크 값:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
+msgstr "추가 줄 간격:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6675,6 +6674,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"F1, F2 등을 기능 키로 취급하도록 강제하는 것은\n"
+"시스템 설정 > 키보드의 설정을 무시합니다"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6686,6 +6687,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"이 기능은 추가 시스템 권한이 필요합니다.\n"
+"\n"
+"이 기능을 활성화하면 자동으로\n"
+"시스템 설정 > 개인정보 보호 및 보안 > 접근성 패널로 이동합니다.\n"
+"\n"
+"DC의 새 버전을 설치할 때마다, 먼저 목록에서\n"
+"DC를 제거한 다음 다시 추가해야 합니다."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -10601,7 +10609,7 @@ msgstr "파일 찾기"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "드라이브 선택"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
