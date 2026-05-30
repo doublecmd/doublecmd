@@ -377,6 +377,10 @@ procedure TFileViewHeader.ShowPathEdit;
 begin
   with FPathLabel do
   begin
+    if FFileView.FileSource.ClassName = 'TFileSystemFileSource' then
+      FPathEdit.GetFilesFunc:= @GetFilesInDir
+    else
+      FPathEdit.GetFilesFunc:= nil;
     FPathEdit.SetBounds(Left, Top, Width, Height);
     FPathEdit.Text := FFileView.CurrentPath;
     FPathEdit.Visible := True;
