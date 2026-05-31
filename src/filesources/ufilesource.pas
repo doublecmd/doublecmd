@@ -831,17 +831,18 @@ begin
     if (f.Name = '.') or (f.Name = '..') then
       Continue;
     attr:= f.AttributesProperty;
-    if IsSystemFile(f) and not (otHidden in types) then
-      continue;
-    if attr.IsDirectory and not (otFolders in types) then
-      Continue;
-    if not attr.IsDirectory and not (otNonFolders in types) then
-      Continue;
-    strings.AddObject( f.Name, attr );
+    if Assigned(attr) then begin
+      if self.IsSystemFile(f) and not (otHidden in types) then
+        continue;
+      if attr.IsDirectory and not (otFolders in types) then
+        Continue;
+      if not attr.IsDirectory and not (otNonFolders in types) then
+        Continue;
+    end;
+    strings.AddObject( self.GetFileName(f), attr );
   end;
 
-  if strings.Count > 0 then
-  begin
+  if strings.Count > 0 then begin
     case sort of
       fstAlphabet:     strings.CustomSort(@FilesSortAlphabet);
       fstFoldersFirst: strings.CustomSort(@FilesSortFoldersFirst);
