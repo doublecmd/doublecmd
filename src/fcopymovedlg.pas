@@ -26,7 +26,7 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
+  SysUtils, Classes, Controls, Forms, StdCtrls, ShellCtrls, Buttons, ExtCtrls, Menus,
   ActnList, KASPathEdit, uFileSource, uFileViewNotebook, uFileSourceOperation,
   uFileSourceOperationOptionsUI, uOperationsManager, uFormCommands;
 
@@ -38,7 +38,7 @@ type
 
   { TfrmCopyDlg }
 
-  TfrmCopyDlg = class(TForm, IFormCommands)
+  TfrmCopyDlg = class(TForm, IFormCommands, IKASPathEditMate)
     btnCancel: TBitBtn;
     btnOK: TBitBtn;
     btnAddToQueue: TBitBtn;
@@ -91,6 +91,11 @@ type
     procedure ShowOptions(bShow: Boolean);
     procedure UpdateSize;
 
+    function getFilesAtPath(
+      const path: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
+
     property {%H-}Commands: TFormCommands read FCommands implements IFormCommands;
 
   public
@@ -113,8 +118,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager,
-  uOSUtils, DCStrUtils;
+  LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -462,10 +466,7 @@ begin
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
 
-  if FDestFileSource.ClassName = 'TFileSystemFileSource' then
-    edtDst.GetFilesFunc:= @GetFilesInDir
-  else
-    edtDst.GetFilesFunc:= nil;
+  edtDst.Mate:= self;
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
@@ -486,6 +487,14 @@ begin
                    pnlOptions.BorderSpacing.Top + pnlOptions.BorderSpacing.Bottom
   else
     Self.Height := pnlOptions.Top;
+end;
+
+function TfrmCopyDlg.getFilesAtPath(
+  const path: String;
+  const types: TObjectTypes;
+  const sort: TFileSortType ): TStringList;
+begin
+  Result:= FDestFileSource.GetFilesForPathAndType( path, types, sort );
 end;
 
 initialization
