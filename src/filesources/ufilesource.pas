@@ -5,7 +5,10 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus, Graphics,
+  Classes, SysUtils,
+  syncobjs, URIParser,
+  LCLProc, Menus, Graphics, ShellCtrls,
+  DCStrUtils,
   uFile, uDisplayFile, uFileProperty,
   uFileSourceWatcher,
   uFileSourceOperation, uFileSourceOperationTypes, uFileSourceProperty;
@@ -135,6 +138,10 @@ type
     function GetOperationsTypes: TFileSourceOperationTypes;
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
+    function GetFilesForPathAndType(
+      const TargetPath: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
     function GetParentFileSource: IFileSource;
     procedure SetParentFileSource(NewValue: IFileSource);
 
@@ -325,6 +332,14 @@ type
     // Caller is responsible for freeing the result list.
     function GetFiles(TargetPath: String): TFiles; virtual;
 
+    // Retrieves a list of files.
+    // the default implementation is based on GetFiles(TargetPath: String): TFiles;
+    // a more efficient implementation is possible for specific FileSources.
+    function GetFilesForPathAndType(
+      const TargetPath: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
+
     // Create an empty TFile object with appropriate properties for the file.
     class function CreateFile(const APath: String): TFile; virtual;
 
@@ -480,7 +495,7 @@ var
 implementation
 
 uses
-  uDebug, uFileSourceManager, uFileSourceListOperation, uLng;
+  uDebug, uFileSourceManager, uFileSourceListOperation, uLng, LazFileUtils;
 
 var
   defaultFileSourceWatcher: TFileSourceWatcher;
@@ -770,6 +785,71 @@ begin
         FreeAndNil(Operation);
       end;
   end;
+end;
+
+function FilesSortAlphabet(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  Result:= CompareFilenames(List[Index1], List[Index2]);
+end;
+
+function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
+var
+  Attr1, Attr2: TFileAttributesProperty;
+begin
+  Attr1:= TFileAttributesProperty(List.Objects[Index1]);
+  Attr2:= TFileAttributesProperty(List.Objects[Index2]);
+  if Attr1.IsDirectory and Attr2.IsDirectory then
+    Result:= CompareFilenames(List[Index1], List[Index2])
+  else begin
+    if Attr1.IsDirectory then
+      Result:= -1
+    else begin
+      Result:=  1;
+    end;
+  end;
+end;
+
+function TFileSource.GetFilesForPathAndType(
+  const TargetPath: String;
+  const types: TObjectTypes;
+  const sort: TFileSortType ): TStringList;
+var
+  files: TFiles;
+  strings: TStringList;
+  i: Integer;
+  f: TFile;
+  attr: TFileAttributesProperty;
+begin
+  Result:= nil;
+  files:= self.GetFiles( IncludeTrailingPathDelimiter(TargetPath) );
+  if files = nil then
+    Exit;
+
+  strings:= TStringList.Create;
+  for i:= 0 to files.Count-1 do begin
+    f:= files[i];
+    if (f.Name = '.') or (f.Name = '..') then
+      Continue;
+    attr:= f.AttributesProperty;
+    if IsSystemFile(f) and not (otHidden in types) then
+      continue;
+    if attr.IsDirectory and not (otFolders in types) then
+      Continue;
+    if not attr.IsDirectory and not (otNonFolders in types) then
+      Continue;
+    strings.AddObject( f.Name, attr );
+  end;
+
+  if strings.Count > 0 then
+  begin
+    case sort of
+      fstAlphabet:     strings.CustomSort(@FilesSortAlphabet);
+      fstFoldersFirst: strings.CustomSort(@FilesSortFoldersFirst);
+    end;
+  end;
+
+  files.Free;
+  Result:= strings;
 end;
 
 class function TFileSource.CreateFile(const APath: String): TFile;
