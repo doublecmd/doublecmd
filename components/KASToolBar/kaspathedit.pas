@@ -22,6 +22,7 @@
 unit KASPathEdit;
 
 {$mode delphi}
+{$interfaces corba}
 {$IF DEFINED(LCLCOCOA)}
 {$modeswitch objectivec1}
 {$ENDIF}
@@ -46,10 +47,20 @@ type
     const sort: TFileSortType;
     files: TStringList );
 
+  { IKASPathEditMate }
+
+  IKASPathEditMate = interface
+    function getFilesAtPath(
+      const path: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
+  end;
+
   { TKASPathEdit }
 
   TKASPathEdit = class(TEdit)
   private
+    FMate: IKASPathEditMate;
     FKeyDown: Word;
     FBasePath: String;
     FListBox: TListBox;
@@ -90,6 +101,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property GetFilesFunc: TKASPathEditGetFilesFunc read FGetFilesFunc write FGetFilesFunc;
+    property Mate: IKASPathEditMate read FMate write FMate;
   published
     property ObjectTypes: TObjectTypes read FObjectTypes write SetObjectTypes;
     property FileSortType: TFileSortType read FFileSortType write FFileSortType;
@@ -165,50 +177,49 @@ begin
     BasePath:= ExtractFilePath(Path);
     if CompareFilenames(FBasePath, BasePath) <> 0 then
     begin
-      FStringList.Clear;
+      FreeAndNil(FStringList);
       FBasePath:= BasePath;
-      if Assigned(FGetFilesFunc) then
-        FGetFilesFunc(BasePath, FObjectTypes, FFileSortType, FStringList);
+      if Assigned(FMate) then
+        FStringList:= FMate.getFilesAtPath(BasePath, FObjectTypes, FFileSortType);
     end;
-    if (FStringList.Count > 0) then
-    begin
-      FListBox.Items.BeginUpdate;
-      try
-        // Check mask and make absolute file name
-        AMask:= TMask.Create(ExtractFileName(Path) + '*',
+    if (FStringList=nil) or (FStringList.Count<=0) then
+      Exit;
+    FListBox.Items.BeginUpdate;
+    try
+      // Check mask and make absolute file name
+      AMask:= TMask.Create(ExtractFileName(Path) + '*',
 {$IF LCL_FULLVERSION < 4990000}
-                             AFlags[FileNameCaseSensitive]
+                           AFlags[FileNameCaseSensitive]
 {$ELSE}
-                             FileNameCaseSensitive
+                           FileNameCaseSensitive
 {$ENDIF}
-          );
-        for I:= 0 to FStringList.Count - 1 do
-        begin
-          if AMask.Matches(FStringList[I]) then
-            FListBox.Items.Add(BasePath + FStringList[I]);
-        end;
-        AMask.Free;
-      finally
-        FListBox.Items.EndUpdate;
-      end;
-      if FListBox.Items.Count = 0 then HideListBox;
-      if FListBox.Items.Count > 0 then
+        );
+      for I:= 0 to FStringList.Count - 1 do
       begin
-        ShowListBox;
-        // Calculate ListBox height
-        with FListBox.ItemRect(0) do
-        I:= Bottom - Top; // TListBox.ItemHeight sometimes don't work under GTK2
-        with FListBox do
-        begin
+        if AMask.Matches(FStringList[I]) then
+          FListBox.Items.Add(BasePath + FStringList[I]);
+      end;
+      AMask.Free;
+    finally
+      FListBox.Items.EndUpdate;
+    end;
+    if FListBox.Items.Count = 0 then HideListBox;
+    if FListBox.Items.Count > 0 then
+    begin
+      ShowListBox;
+      // Calculate ListBox height
+      with FListBox.ItemRect(0) do
+      I:= Bottom - Top; // TListBox.ItemHeight sometimes don't work under GTK2
+      with FListBox do
+      begin
 {$IF NOT DEFINED(LCLCOCOA)}
-          if Items.Count = 1 then
-            FPanel.ClientHeight:= Self.Height
-          else
-            FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1);
+        if Items.Count = 1 then
+          FPanel.ClientHeight:= Self.Height
+        else
+          FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1);
 {$ELSE}
-          FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1) + trunc(i/2);
+        FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1) + trunc(i/2);
 {$ENDIF}
-        end;
       end;
     end;
   end;
@@ -442,8 +453,6 @@ end;
 constructor TKASPathEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-
-  FStringList:= TStringList.Create;
 
   FListBox:= TListBox.Create(Self);
   FListBox.TabStop:= False;
