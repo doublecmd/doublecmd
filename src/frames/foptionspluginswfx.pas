@@ -142,10 +142,6 @@ begin
   begin
     bEnabled := (stgPlugins.Cells[COLNO_ACTIVE, aRow] = '-');
     btnEnablePlugin.Caption := IfThen(bEnabled, rsOptPluginEnable, rsOptPluginDisable);
-    if bEnabled then
-      btnEnablePlugin.Glyph.Assign(ImgSwitchDisable.Picture.Bitmap)
-    else
-      btnEnablePlugin.Glyph.Assign(ImgSwitchEnable.Picture.Bitmap);
     bEnable := True;
   end;
 
