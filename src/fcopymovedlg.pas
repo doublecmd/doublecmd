@@ -114,7 +114,7 @@ implementation
 
 uses
   LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager,
-  DCOSUtils, DCStrUtils;
+  uOSUtils, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';

@@ -89,7 +89,7 @@ type
 implementation
 
 uses
-  LCLType, ShellCtrls, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
+  LCLType, ShellCtrls, Graphics, uOSUtils, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
   uArchiveFileSource, uFileViewWithPanels, uVfsModule;
 
