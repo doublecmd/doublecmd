@@ -1,6 +1,6 @@
 <UniHighlighter version="1.8">
   <Info>
-    <General Name="JSON" Extensions="json" Other="0"/>
+    <General Name="JSON" Extensions="json,jsonc" Other="0"/>
     <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
     <Version Version="1" Revision="1" Date="45338,8541038426"/>
     <History>
@@ -40,6 +40,14 @@
       <Word Value=":"/>
     </Keywords>
     <Set Name="Numbers" Attributes="$00008000,$80000005;False:True." Style="" Symbols="0123456789"/>
+    <Range Name="Remark //" Attributes="$00A00000,$80000005;False:True." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remark /*...*/" Attributes="$00A00000,$80000005;False:True." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
     <Range Name="Strings &quot;..&quot;" Attributes="$00000080,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
