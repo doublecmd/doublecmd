@@ -30,8 +30,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, Process, LCLType, ShellCtrls,
-    uDrive, DCBasicTypes, uFindEx
+    SysUtils, Classes, Process, LCLType, uDrive, DCBasicTypes, uFindEx
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
@@ -186,15 +185,10 @@ function GetCurrentUserName : String;
 }
 function GetComputerNetName: String;
 
-procedure GetFilesInDir(const ABaseDir: String; const AObjectTypes: TObjectTypes;
-                        const AFileSortType: TFileSortType; AResult: TStringList );
-
-
 implementation
 
 uses
-  StrUtils, uFileProcs, FileUtil, LazFileUtils,
-  uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
+  StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , Windows, Shlwapi, WinRT.Classes, uMyWindows, JwaWinNetWk,
@@ -912,76 +906,5 @@ begin
   Result:= Utf8ToSys(FileName);
 end;
 {$ENDIF}
-
-function FilesSortAlphabet(List: TStringList; Index1, Index2: Integer): Integer;
-begin
-  Result:= CompareFilenames(List[Index1], List[Index2]);
-end;
-
-function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
-var
-  Attr1, Attr2: IntPtr;
-begin
-  Attr1:= IntPtr(List.Objects[Index1]);
-  Attr2:= IntPtr(List.Objects[Index2]);
-  if (Attr1 and faDirectory <> 0) and (Attr2 and faDirectory <> 0) then
-    Result:= CompareFilenames(List[Index1], List[Index2])
-  else begin
-    if (Attr1 and faDirectory <> 0) then
-      Result:= -1
-    else begin
-      Result:=  1;
-    end;
-  end;
-end;
-
-procedure GetFilesInDir(const ABaseDir: String; const AObjectTypes: TObjectTypes;
-                        const AFileSortType: TFileSortType; AResult: TStringList );
-var
-  ExcludeAttr: Integer;
-  SearchRec: TSearchRec;
-{$IF DEFINED(MSWINDOWS)}
-  ErrMode : LongWord;
-{$ENDIF}
-begin
-{$IF DEFINED(MSWINDOWS)}
-  ErrMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOALIGNMENTFAULTEXCEPT or SEM_NOGPFAULTERRORBOX or SEM_NOOPENFILEERRORBOX);
-  try
-{$ENDIF}
-  if FindFirst(ABaseDir + AllFilesMask, faAnyFile, SearchRec) = 0 then
-  begin
-    ExcludeAttr:= 0;
-
-    if not (otHidden in AObjectTypes) then
-      ExcludeAttr:= ExcludeAttr or faHidden;
-    if not (otFolders in AObjectTypes) then
-      ExcludeAttr:= ExcludeAttr or faDirectory;
-
-    repeat
-      if (SearchRec.Attr and ExcludeAttr <> 0) then
-        Continue;
-      if (SearchRec.Name = '.') or (SearchRec.Name = '..')then
-        Continue;
-      if (SearchRec.Attr and faDirectory = 0) and not (otNonFolders in AObjectTypes) then
-        Continue;
-
-      AResult.AddObject(SearchRec.Name, TObject(IntPtr(SearchRec.Attr)));
-    until FindNext(SearchRec) <> 0;
-
-    if AResult.Count > 0 then
-    begin
-      case AFileSortType of
-        fstAlphabet:     AResult.CustomSort(@FilesSortAlphabet);
-        fstFoldersFirst: AResult.CustomSort(@FilesSortFoldersFirst);
-      end;
-    end;
-  end;
-  SysUtils.FindClose(SearchRec);
-{$IF DEFINED(MSWINDOWS)}
-  finally
-    SetErrorMode(ErrMode);
-  end;
-{$ENDIF}
-end;
 
 end.
