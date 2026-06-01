@@ -794,12 +794,17 @@ end;
 
 function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
 var
-  Attr1, Attr2: TFileAttributesProperty;
+  attr1: TFileAttributesProperty;
+  attr2: TFileAttributesProperty;
+  isDir1: Boolean;
+  isDir2: Boolean;
 begin
-  Attr1:= TFileAttributesProperty(List.Objects[Index1]);
-  Attr2:= TFileAttributesProperty(List.Objects[Index2]);
-  if Attr1.IsDirectory xor Attr2.IsDirectory then begin
-    if Attr1.IsDirectory then
+  attr1:= TFileAttributesProperty(List.Objects[Index1]);
+  isDir1:= Assigned(attr1) and attr1.IsDirectory;
+  attr2:= TFileAttributesProperty(List.Objects[Index2]);
+  isDir2:= Assigned(attr2) and attr2.IsDirectory;
+  if isDir1 xor isDir2 then begin
+    if isDir1 then
       Result:= -1
     else begin
       Result:=  1;
