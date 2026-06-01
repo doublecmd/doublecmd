@@ -560,9 +560,7 @@ begin
 
   with FFiles[iIndex] do
   begin
-    lblFileName.Caption:= Name;
-    if lblFileName.Caption = emptyStr then
-      lblFileName.Caption:= FFileSource.GetDisplayFileName(FFiles[iIndex]);
+    lblFileName.Caption:= FFileSource.GetFileName(FFiles[iIndex]);
     lblFile.Caption:= lblFileName.Caption;
     lblFolder.Caption:= Path;
 
