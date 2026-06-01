@@ -798,14 +798,14 @@ var
 begin
   Attr1:= TFileAttributesProperty(List.Objects[Index1]);
   Attr2:= TFileAttributesProperty(List.Objects[Index2]);
-  if Attr1.IsDirectory and Attr2.IsDirectory then
-    Result:= CompareFilenames(List[Index1], List[Index2])
-  else begin
+  if Attr1.IsDirectory xor Attr2.IsDirectory then begin
     if Attr1.IsDirectory then
       Result:= -1
     else begin
       Result:=  1;
     end;
+  end else begin
+    Result:= CompareFilenames(List[Index1], List[Index2])
   end;
 end;
 
