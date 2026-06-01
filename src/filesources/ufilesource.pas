@@ -196,6 +196,8 @@ type
     function GetRealPath(const path: String): String;
     function GetLocalName(var aFile: TFile): Boolean;
 
+    procedure AddSearchPath( const startPath: String; paths: TStringList );
+
     function CreateDirectory(const Path: String): Boolean;
     function FileSystemEntryExists(const Path: String): Boolean;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
@@ -410,6 +412,8 @@ type
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; virtual;
     function GetRealPath(const path: String): String; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
+
+    procedure AddSearchPath( const startPath: String; paths: TStringList ); virtual;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
 
@@ -761,6 +765,10 @@ end;
 function TFileSource.GetLocalName(var aFile: TFile): Boolean;
 begin
   Result:= False;
+end;
+
+procedure TFileSource.AddSearchPath(const startPath: String; paths: TStringList);
+begin
 end;
 
 // Operations.
