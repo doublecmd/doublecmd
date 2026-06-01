@@ -2386,7 +2386,10 @@ begin
     if cmbFindFileMask.CanSetFocus then
       cmbFindFileMask.SetFocus;
 
-  cbSelectedFiles.Checked := FSelectedFiles.Count > 0;
+  if cbSelectedFiles.Checked <> (FSelectedFiles.Count > 0) then
+    cbSelectedFiles.Checked := NOT cbSelectedFiles.Checked
+  else
+    cbSelectedFilesChange( cbSelectedFiles );
   cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 
