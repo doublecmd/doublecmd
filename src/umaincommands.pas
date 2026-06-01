@@ -3545,19 +3545,17 @@ procedure TMainCommands.cm_Search(const Params: array of string);
 var
   TemplateName: String;
 begin
-  if not (frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) or
-    frmMain.ActiveFrame.FileSource.IsClass(TWcxArchiveFileSource) or
-    frmMain.ActiveFrame.FileSource.IsClass(TSearchResultFileSource) ) then
+  if fspSearchable in frmMain.ActiveFrame.FileSource.GetProperties then
   begin
-    msgError(rsMsgErrNotSupported)
-  end
-  else begin
     if Length(Params) > 0 then
       TemplateName:= Params[0]
     else begin
       TemplateName:= gSearchDefaultTemplate;
     end;
     ShowFindDlg(frmMain.ActiveFrame, TemplateName);
+  end
+  else begin
+    msgError(rsMsgErrNotSupported)
   end;
 end;
 

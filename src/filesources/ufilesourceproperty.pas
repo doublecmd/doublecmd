@@ -77,7 +77,11 @@ type
     {en
        Set, if the file source supports custom file icons.
     }
-    fspCustomIcon
+    fspCustomIcon,
+    {en
+       Set, if the file source supports searching in FindDlg.
+    }
+    fspSearchable
   );
 
   TFileSourceProperties = set of TFileSourceProperty;
