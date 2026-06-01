@@ -49,6 +49,8 @@ type
 
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
     function GetDisplayFileName(aFile: TFile): String; override;
+
+    procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
 
 implementation
@@ -160,6 +162,21 @@ begin
     Result:= _displayName
   else
     Result:= aFile.Name;
+end;
+
+procedure TSearchResultFileSource.AddSearchPath(
+  const startPath: String;
+  paths: TStringList );
+var
+  files: TFiles;
+  i: Integer;
+begin
+  if paths.Count > 0 then
+    Exit;
+  files:= self.GetFiles( self.GetRootDir(EmptyStr) );
+  for i:= 0 to files.Count-1 do
+    paths.Add( files[i].FullPath );
+  files.Free;
 end;
 
 initialization
