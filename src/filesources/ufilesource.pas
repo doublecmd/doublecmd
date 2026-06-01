@@ -336,7 +336,7 @@ type
     // the default implementation is based on GetFiles(TargetPath: String): TFiles;
     // a more efficient implementation is possible for specific FileSources.
     function GetFilesForPathAndType(
-      const TargetPath: String;
+      const path: String;
       const types: TObjectTypes;
       const sort: TFileSortType ): TStringList;
 
@@ -815,7 +815,7 @@ begin
 end;
 
 function TFileSource.GetFilesForPathAndType(
-  const TargetPath: String;
+  const path: String;
   const types: TObjectTypes;
   const sort: TFileSortType ): TStringList;
 var
@@ -826,7 +826,7 @@ var
   attr: TFileAttributesProperty;
 begin
   Result:= nil;
-  files:= self.GetFiles( IncludeTrailingPathDelimiter(TargetPath) );
+  files:= self.GetFiles( path );
   if files = nil then
     Exit;
 
