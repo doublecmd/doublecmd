@@ -3546,7 +3546,8 @@ var
   TemplateName: String;
 begin
   if not (frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) or
-    frmMain.ActiveFrame.FileSource.IsClass(TWcxArchiveFileSource)) then
+    frmMain.ActiveFrame.FileSource.IsClass(TWcxArchiveFileSource) or
+    frmMain.ActiveFrame.FileSource.IsClass(TSearchResultFileSource) ) then
   begin
     msgError(rsMsgErrNotSupported)
   end
