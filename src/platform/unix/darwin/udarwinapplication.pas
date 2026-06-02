@@ -7,6 +7,7 @@ interface
 
 uses
   Classes, SysUtils, Menus, uLng,
+  BaseUnix,
   MacOSAll, CocoaAll,
   CocoaPrivate, CocoaApplication, CocoaEvent, CocoaThemes, CocoaMenus,
   CocoaUtils, CocoaConst, Cocoa_Extra,
@@ -54,6 +55,7 @@ type
     class procedure openWithDefaultApp( const filePath: String );
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
+    class function hasFullDiskAccess: Boolean;
   public
     class procedure installFNKeyTap;
     class procedure uninstallFNKeyTap;
@@ -262,6 +264,21 @@ var
 begin
   url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
   NSWorkspace.sharedWorkspace.openURL( url );
+end;
+
+class function TDarwinApplicationUtil.hasFullDiskAccess: Boolean;
+const
+  testFile = '/Library/Application Support/com.apple.TCC/TCC.db';
+var
+  fd: cInt;
+begin
+  fd:= fpopen( pchar(testFile), O_RDONLY );
+  if fd = -1 then begin
+    Result:= False;
+  end else begin
+    fpclose( fd );
+    Result:= True;
+  end;
 end;
 
 procedure TDarwinServiceMenuManager.attachSystemMenu(Sender: TObject);
