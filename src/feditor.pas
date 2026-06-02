@@ -266,7 +266,7 @@ uses
   , SynEditWrappedView
 {$endif}
 {$IFDEF DARWIN}
-  , uDarwinApplication, uEarlyConfig
+  , uCocoaModernFormConfig
 {$ENDIF}
   ;
 
@@ -681,7 +681,7 @@ begin
   tbToolBar.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                           gToolIconsSize + ScaleY(6, 96));
 {$IFDEF DARWIN}
-  if gModernUI and TDarwinApplicationUtil.supportsModernForm then
+  if TDCCocoaModernFormUtils.isEnabled then
     tbToolBar.Hide;
 {$ENDIF}
   pmContextMenu.ImagesWidth:= gIconsInMenusSize;

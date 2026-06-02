@@ -148,5 +148,3 @@ begin
   TCocoaToolBarUtils.removeItemByIndex( toolBar, index );
 end;
 
-end.
-

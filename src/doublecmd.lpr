@@ -102,10 +102,8 @@ uses
   , uMyUnix
   {$ENDIF}
   {$IFDEF LclCocoa}
-{$if NOT defined(DisableCocoaModernForm)}
-  ,uCocoaModernFormConfig
-{$endif}
-  ,CocoaConfig
+  , uCocoaModernFormConfig
+  , CocoaConfig
   {$ENDIF}
   ;
 
@@ -225,9 +223,7 @@ begin
       InitPasswordStore;
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
-      {$if NOT defined(DisableCocoaModernForm)}
       TDCCocoaModernFormUtils.initConfig;
-      {$endif}
       iCloudDriveConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
