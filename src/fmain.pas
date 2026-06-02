@@ -973,6 +973,9 @@ uses
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
+{$IFDEF DARWIN}
+  , uCocoaModernFormConfig
+{$ENDIF}
   ;
 
 const
@@ -1270,6 +1273,9 @@ begin
   TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
   if gForceFunctionKey then
     Application.OnIdle:= @installMacOSFNKeyTap;
+  {$if NOT defined(DisableCocoaModernForm)}
+  TDCCocoaModernFormUtils.checkAndSetPrivilegeItem;
+  {$endif}
 {$ENDIF}
 end;
 

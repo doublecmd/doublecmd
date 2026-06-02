@@ -225,7 +225,9 @@ begin
       InitPasswordStore;
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
-      initCocoaModernFormConfig;
+      {$if NOT defined(DisableCocoaModernForm)}
+      TDCCocoaModernFormUtils.initConfig;
+      {$endif}
       iCloudDriveConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
