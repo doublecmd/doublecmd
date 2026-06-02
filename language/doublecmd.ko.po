@@ -11093,6 +11093,14 @@ msgstr "네트워크"
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 ‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr "권한"

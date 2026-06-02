@@ -1071,6 +1071,8 @@ resourcestring
   rsMFSTBITerminalTips  = 'Open in Terminal';
   rsMFSTBIPrivilegeTitle = 'Privilege';
   rsMFSTBIPrivilegeTips = 'As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add "Double Commander.app" to the "Full Disk Access" list to complete the authorization.';
+  rsMFSTBIPrivilegeTips2 = 'If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete.';
+  rsMFSTBIPrivilegeTips3 = 'You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work.';
 
   rsMFSTBIRefreshTitle = 'Refresh';
   rsMFSTBIRefreshTips = 'Refresh File List';
