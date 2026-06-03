@@ -65,11 +65,19 @@ var
   files: TFiles;
   path: String;
   f: TFile;
+  i: Integer;
 begin
   files:= TFiles.Create( EmptyStr );
-  for path in _paths do begin
-    f:= TFileSystemFileSource.CreateFileFromFile( path );
-    files.Add( f );
+  i:= 0;
+  while i < _paths.Count do begin
+    path:= _paths[i];
+    try
+      f:= TFileSystemFileSource.CreateFileFromFile( path );
+      files.Add( f );
+      inc( i );
+    except
+      _paths.Delete( i );
+    end;
   end;
   Result:= files;
 end;
