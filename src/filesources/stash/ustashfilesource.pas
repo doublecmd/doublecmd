@@ -42,6 +42,7 @@ type
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
+    function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
   end;
 
 implementation
@@ -175,7 +176,7 @@ end;
 
 function TStashFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopyIn, fsoCopyOut];
+  Result:= [fsoList, fsoCopyIn, fsoCopyOut, fsoSetFileProperty];
 end;
 
 class function TStashFileSource.CreateFile(const APath: String): TFile;
@@ -205,6 +206,15 @@ begin
               TargetFileSource,
               SourceFiles,
               TargetPath );
+end;
+
+function TStashFileSource.CreateSetFilePropertyOperation(
+  var theTargetFiles: TFiles; var theNewProperties: TFileProperties
+  ): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateSetFilePropertyOperation(
+              theTargetFiles,
+              theNewProperties );
 end;
 
 initialization
