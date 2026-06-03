@@ -3733,7 +3733,7 @@ msgstr "Wyrażenia &regularne"
 
 #: tfrmmultirename.cbrepext.caption
 msgid "E"
-msgstr "E"
+msgstr ""
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
