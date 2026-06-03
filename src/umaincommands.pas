@@ -1288,8 +1288,7 @@ procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
   function OpenTab(const aFullPath: string): TFileViewPage;
   begin
     Result := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
-    // Workaround for Search Result File Source
-    if Result.FileView.FileSource is TSearchResultFileSource then
+    if fspDontChangePath in Result.FileView.FileSource.Properties then
       SetFileSystemPath(Result.FileView, aFullPath)
     else
       Result.FileView.CurrentPath := aFullPath;
@@ -5246,8 +5245,7 @@ begin
     localPath := ANotebook.Page[iPage].FileView.CurrentPath;
 
     localFileViewPage := TargetNotebook.NewPage(ANotebook.Page[iPage].FileView);
-    // Workaround for Search Result File Source
-    if localFileViewPage.FileView.FileSource is TSearchResultFileSource then
+    if fspDontChangePath in localFileViewPage.FileView.FileSource.Properties then
       SetFileSystemPath(localFileViewPage.FileView, localPath)
     else
       localFileViewPage.FileView.CurrentPath := localPath;

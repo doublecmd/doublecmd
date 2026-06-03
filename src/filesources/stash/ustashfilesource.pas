@@ -30,6 +30,7 @@ type
     _fileSystemFS: IFileSystemFileSource;
   public
     constructor Create; override; overload;
+    function GetLocalName(var aFile: TFile): Boolean; override;
 
     function GetProcessor: TFileSourceProcessor; override;
     function GetRootDir(sPath : String): String; override;
@@ -141,6 +142,11 @@ begin
   _fileSystemFS:= TFileSystemFileSource.Create;
 end;
 
+function TStashFileSource.GetLocalName(var aFile: TFile): Boolean;
+begin
+  Result:= True;
+end;
+
 function TStashFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= stashFileSourceProcessor;
@@ -154,6 +160,7 @@ end;
 function TStashFileSource.GetProperties: TFileSourceProperties;
 begin
   Result:= _fileSystemFS.Properties;
+  Result+= [fspLinksToLocalFiles, fspDontChangePath];
 end;
 
 function TStashFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
