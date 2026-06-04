@@ -210,6 +210,7 @@ type
     procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray);
     procedure Reload(const PathToReload: String);
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean;
     procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
     procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
 
@@ -432,6 +433,7 @@ type
     procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray); virtual; overload;
     procedure Reload(const PathToReload: String); overload;
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean; virtual;
 
     procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
     procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
@@ -1121,6 +1123,13 @@ begin
   SetLength(PathsToReload, 1);
   PathsToReload[0] := PathToReload;
   Reload(PathsToReload);
+end;
+
+function TFileSource.needReload(
+  const PathToReload: String;
+  const PathToCheck: String): Boolean;
+begin
+  Result := IsInPath(PathToReload, PathToCheck, True, True);
 end;
 
 procedure TFileSource.AddEventListener(FunctionToCall: TFileSourceEventListener);

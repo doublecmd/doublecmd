@@ -2463,7 +2463,7 @@ begin
   begin
     Result := False;
     for i := Low(PathsToReload) to High(PathsToReload) do
-      if IsInPath(PathsToReload[i], CurrentPath, True, True) then
+      if FileSource.needReload(PathsToReload[i], CurrentPath) then
       begin
         Result := True;
         Break;

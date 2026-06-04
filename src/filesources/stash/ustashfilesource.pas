@@ -28,9 +28,13 @@ type
   TStashFileSource = class(TVirtualFileSource)
   private
     _fileSystemFS: IFileSystemFileSource;
+  protected
+    procedure onFileSystemEvent(var params: TFileSourceEventParams);
   public
     constructor Create; override; overload;
+    destructor Destroy; override;
     function GetLocalName(var aFile: TFile): Boolean; override;
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
 
     function GetProcessor: TFileSourceProcessor; override;
     function GetRootDir(sPath : String): String; override;
@@ -39,6 +43,7 @@ type
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     class function CreateFile(const APath: String): TFile; override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
@@ -137,14 +142,34 @@ end;
 
 { TStashFileSource }
 
+procedure TStashFileSource.onFileSystemEvent(var params: TFileSourceEventParams);
+begin
+  self.Reload( params.paths );
+end;
+
 constructor TStashFileSource.Create;
 begin
   Inherited Create;
-  _fileSystemFS:= TFileSystemFileSource.Create;
+  _fileSystemFS:= IFileSystemFileSource(FileSourceManager.Find(TFileSystemFileSource,EmptyStr));
+  _fileSystemFS.AddEventListener( @self.onFileSystemEvent );
+end;
+
+destructor TStashFileSource.Destroy;
+begin
+  _fileSystemFS.RemoveEventListener( @self.onFileSystemEvent );
+  inherited Destroy;
 end;
 
 function TStashFileSource.GetLocalName(var aFile: TFile): Boolean;
 begin
+  Result:= True;
+end;
+
+function TStashFileSource.needReload(
+  const PathToReload: String;
+  const PathToCheck: String): Boolean;
+begin
+  // todo: it should check the path in StashFilesBackend
   Result:= True;
 end;
 
@@ -181,7 +206,14 @@ end;
 
 class function TStashFileSource.CreateFile(const APath: String): TFile;
 begin
-  Result:= TFileSystemFileSource.CreateFileFromFile(APath);
+  Result:= TFileSystemFileSource.CreateFile(APath);
+end;
+
+procedure TStashFileSource.RetrieveProperties(AFile: TFile;
+  PropertiesToSet: TFilePropertiesTypes;
+  const AVariantProperties: array of String);
+begin
+  _fileSystemFS.RetrieveProperties(AFile, PropertiesToSet, AVariantProperties);
 end;
 
 function TStashFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
