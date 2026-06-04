@@ -8,8 +8,8 @@ uses
   Classes, SysUtils,
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
-  uFileSource, uVirtualFileSource, uFileSystemFileSource,
-  uFileSourceUtil;
+  uFileSource, uVirtualFileSource, uFileSystemFileSource, uVfsModule,
+  uFileSourceUtil, uDCUtils;
 
 type
 
@@ -34,6 +34,7 @@ type
     constructor Create; override; overload;
     destructor Destroy; override;
     function GetLocalName(var aFile: TFile): Boolean; override;
+    class function GetMainIcon(out Path: String): Boolean; override;
     function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
 
     function GetProcessor: TFileSourceProcessor; override;
@@ -165,6 +166,12 @@ begin
   Result:= True;
 end;
 
+class function TStashFileSource.GetMainIcon(out Path: String): Boolean;
+begin
+  Path:= mbExpandFileName( '$COMMANDER_PATH/pixmaps/stuff/stash.png' );
+  Result:= True;
+end;
+
 function TStashFileSource.needReload(
   const PathToReload: String;
   const PathToCheck: String): Boolean;
@@ -251,6 +258,7 @@ end;
 
 initialization
   stashFileSourceProcessor:= TStashFileSourceProcessor.Create;
+  RegisterVirtualFileSource( 'Stash', TStashFileSource, True );
 
 finalization
   FreeAndNil( stashFileSourceProcessor );
