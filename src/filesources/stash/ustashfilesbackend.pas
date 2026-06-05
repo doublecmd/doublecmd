@@ -22,6 +22,7 @@ type
     procedure removePath( const path: String );
     procedure clear;
     function count: Integer;
+    procedure addPaths( const files: TFiles );
     procedure removePaths( const files: TFiles );
     function toFiles: TFiles;
   end;
@@ -67,6 +68,14 @@ end;
 function TStashFilesBackend.count: Integer;
 begin
   Result:= _paths.Count;
+end;
+
+procedure TStashFilesBackend.addPaths(const files: TFiles);
+var
+  i: Integer;
+begin
+  for i:= 0 to files.Count-1 do
+    self.addPath( files[i].FullPath );
 end;
 
 procedure TStashFilesBackend.removePaths(const files: TFiles);

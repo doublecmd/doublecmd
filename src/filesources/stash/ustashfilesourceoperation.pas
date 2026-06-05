@@ -38,14 +38,8 @@ end;
 { TStashCopyInOperation }
 
 procedure TStashCopyInOperation.MainExecute;
-var
-  i: Integer;
-  f: TFile;
 begin
-  for i:= 0 to SourceFiles.Count-1 do begin
-    f:= SourceFiles[i];
-    stashFilesBackend.addPath( f.FullPath );
-  end;
+  stashFilesBackend.addPaths( SourceFiles );
 end;
 
 end.
