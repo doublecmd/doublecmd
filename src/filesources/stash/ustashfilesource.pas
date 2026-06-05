@@ -53,6 +53,7 @@ type
 
     function GetProcessor: TFileSourceProcessor; override;
     function GetRootDir(sPath : String): String; override;
+    class function IsSupportedPath(const Path: String): Boolean; override;
     function GetProperties: TFileSourceProperties; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
@@ -267,6 +268,11 @@ end;
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + STASH_NAME + PathDelim;
+end;
+
+class function TStashFileSource.IsSupportedPath(const Path: String): Boolean;
+begin
+  Result:= Path.StartsWith( STASH_SCHEME );
 end;
 
 function TStashFileSource.GetProperties: TFileSourceProperties;

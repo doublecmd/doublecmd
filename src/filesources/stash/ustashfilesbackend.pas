@@ -56,14 +56,14 @@ end;
 
 procedure TStashFilesBackend.addPath(const path: String);
 begin
-  _paths.Add( path );
+  _paths.Add( ExcludeTrailingPathDelimiter(path) );
 end;
 
 procedure TStashFilesBackend.removePath(const path: String);
 var
   i: Integer;
 begin
-  _paths.Find( path, i );
+  _paths.Find( ExcludeTrailingPathDelimiter(path), i );
   if i >= 0 then
     _paths.Delete( i );
 end;
