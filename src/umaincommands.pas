@@ -382,6 +382,7 @@ type
    procedure cm_AddPlugin(const Params: array of string);
    procedure cm_LoadList(const Params: array of string);
    procedure cm_SetSortMode(const Params: array of string);
+   procedure cm_AddToStash(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -410,7 +411,8 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
-     uColumnsFileView, uTypes
+     uColumnsFileView, uTypes,
+     uStashFilesBackend
      ;
 
 resourcestring
@@ -5706,6 +5708,15 @@ begin
   end;
   frmMain.ActiveFrame.Reload(True);
   frmMain.NotActiveFrame.Reload(True);
+end;
+
+procedure TMainCommands.cm_AddToStash(const Params: array of string);
+var
+  files: TFiles;
+begin
+  files:= frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  stashFilesBackend.addPaths( files );
+  files.Free;
 end;
 
 end.

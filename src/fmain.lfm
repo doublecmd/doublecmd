@@ -2878,6 +2878,12 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
+    object actAddToStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Add to Stash'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

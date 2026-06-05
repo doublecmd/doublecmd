@@ -74,6 +74,7 @@ type
 
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
+    actAddToStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
     actMapNetworkDrive: TAction;
