@@ -6,12 +6,16 @@ interface
 
 uses
   Classes, SysUtils,
-  Menus,
+  Graphics, Menus,
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource, uVfsModule,
   uFileSourceUtil, uDCUtils,
-  uStashFilesBackend;
+  uStashFilesBackend
+  {$IFDEF DARWIN}
+  , uDarwinImage
+  {$ENDIF}
+  ;
 
 type
 
@@ -43,6 +47,8 @@ type
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     class function GetMainIcon(out Path: String): Boolean; override;
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
+    function GetDisplayFileName(aFile: TFile): String; override;
     function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
 
     function GetProcessor: TFileSourceProcessor; override;
@@ -67,6 +73,7 @@ uses
   uStashFileSourceOperation;
 
 const
+  STASH_NAME   = 'Stash';
   STASH_SCHEME = 'stash://';
 
 var
@@ -219,6 +226,30 @@ begin
   Result:= True;
 end;
 
+function TStashFileSource.GetCustomIcon(
+  const path: String;
+  const iconSize: Integer): TBitmap;
+{$IFDEF DARWIN}
+var
+  iconPath: String;
+begin
+  self.GetMainIcon( iconPath );
+  Result:= darwinImageCacheForPath.copyBitmapForFileContent( iconPath, iconSize, False );
+end;
+{$ELSE}
+begin
+  Result:= nil;
+end;
+{$ENDIF}
+
+function TStashFileSource.GetDisplayFileName(aFile: TFile): String;
+begin
+  if aFile.FullPath = self.GetRootDir() then
+    Result:= STASH_NAME
+  else
+    Result:= aFile.Name;
+end;
+
 function TStashFileSource.needReload(
   const PathToReload: String;
   const PathToCheck: String): Boolean;
@@ -234,7 +265,7 @@ end;
 
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + 'Stash';
+  Result:= PathDelim + STASH_NAME + PathDelim;
 end;
 
 function TStashFileSource.GetProperties: TFileSourceProperties;
@@ -383,7 +414,7 @@ end;
 
 initialization
   stashFileSourceProcessor:= TStashFileSourceProcessor.Create;
-  RegisterVirtualFileSource( 'Stash', STASH_SCHEME, TStashFileSource, True );
+  RegisterVirtualFileSource( STASH_NAME, STASH_SCHEME, TStashFileSource, True );
 
 finalization
   FreeAndNil( stashFileSourceProcessor );
