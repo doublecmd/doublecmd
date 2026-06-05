@@ -105,7 +105,7 @@ end;
 
 function TSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:=  PathDelim + PathDelim + PathDelim + rsSearchResult + PathDelim;
+  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + PathDelim;
 end;
 
 function TSearchResultFileSource.GetProperties: TFileSourceProperties;
@@ -175,7 +175,7 @@ var
 begin
   if paths.Count > 0 then
     Exit;
-  files:= self.GetFiles( self.GetRootDir(EmptyStr) );
+  files:= self.GetFiles( self.GetRootDir );
   for i:= 0 to files.Count-1 do
     paths.Add( files[i].FullPath );
   files.Free;

@@ -65,6 +65,7 @@ type
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
+    procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
 
 implementation
@@ -410,6 +411,21 @@ begin
     addSeperator;
     Result:= True;
   end;
+end;
+
+procedure TStashFileSource.AddSearchPath(
+  const startPath: String;
+  paths: TStringList );
+var
+  files: TFiles;
+  i: Integer;
+begin
+  if paths.Count > 0 then
+    Exit;
+  files:= self.GetFiles( self.GetRootDir );
+  for i:= 0 to files.Count-1 do
+    paths.Add( files[i].FullPath );
+  files.Free;
 end;
 
 initialization
