@@ -375,7 +375,7 @@ begin
   begin
     if TFileSystemFileSource.ClassNameIs(FileSource.ClassName) then
       CurrentPath := aPath
-    else if fspLinksToLocalFiles in FileSource.Properties then
+    else
       AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
   end;
 end;
