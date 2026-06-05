@@ -32,6 +32,7 @@ type
     _fileSystemFS: IFileSystemFileSource;
   private
     procedure onFileSystemEvent(var params: TFileSourceEventParams);
+    procedure onStashChanged(Sender: TObject);
     procedure reload; overload;
     procedure removeAction(Sender: TObject);
     procedure clearAction(Sender: TObject);
@@ -160,6 +161,11 @@ begin
   self.Reload( params.paths );
 end;
 
+procedure TStashFileSource.onStashChanged(Sender: TObject);
+begin
+  TThread.Synchronize( nil, @self.reload );
+end;
+
 procedure TStashFileSource.reload;
 begin
   self.Reload( self.GetRootDir );
@@ -172,18 +178,17 @@ var
 begin
   files:= TFiles( item.Tag );
   stashFilesBackend.removePaths( files );
-  self.reload;
 end;
 
 procedure TStashFileSource.clearAction(Sender: TObject);
 begin
   stashFilesBackend.clear;
-  self.reload;
 end;
 
 constructor TStashFileSource.Create;
 begin
   Inherited Create;
+  stashFilesBackend.setListener( @self.onStashChanged );
   FCurrentAddress:= STASH_SCHEME;
   _fileSystemFS:= IFileSystemFileSource(FileSourceManager.Find(TFileSystemFileSource,EmptyStr));
   _fileSystemFS.AddEventListener( @self.onFileSystemEvent );
@@ -191,6 +196,7 @@ end;
 
 destructor TStashFileSource.Destroy;
 begin
+  stashFilesBackend.setListener( nil );
   _fileSystemFS.RemoveEventListener( @self.onFileSystemEvent );
   inherited Destroy;
 end;
@@ -228,7 +234,7 @@ end;
 
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + 'Stash' + PathDelim;
+  Result:= PathDelim + 'Stash';
 end;
 
 function TStashFileSource.GetProperties: TFileSourceProperties;

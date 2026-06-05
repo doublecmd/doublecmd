@@ -18,6 +18,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    procedure setListener( const listener: TNotifyEvent );
+
     procedure addPath( const path: String );
     procedure removePath( const path: String );
     procedure clear;
@@ -44,6 +47,11 @@ end;
 destructor TStashFilesBackend.Destroy;
 begin
   FreeAndNIl( _paths );
+end;
+
+procedure TStashFilesBackend.setListener(const listener: TNotifyEvent);
+begin
+  _paths.OnChange:= listener;
 end;
 
 procedure TStashFilesBackend.addPath(const path: String);
