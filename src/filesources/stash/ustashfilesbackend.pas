@@ -21,6 +21,8 @@ type
     procedure addPath( const path: String );
     procedure removePath( const path: String );
     procedure clear;
+    function count: Integer;
+    procedure removePaths( const files: TFiles );
     function toFiles: TFiles;
   end;
 
@@ -34,6 +36,8 @@ implementation
 constructor TStashFilesBackend.Create;
 begin
   _paths:= TStringList.Create;
+  _paths.SortStyle:= sslAuto;
+  _paths.Duplicates:= dupIgnore;
 end;
 
 destructor TStashFilesBackend.Destroy;
@@ -50,7 +54,7 @@ procedure TStashFilesBackend.removePath(const path: String);
 var
   i: Integer;
 begin
-  i:= _paths.IndexOf( path );
+  _paths.Find( path, i );
   if i >= 0 then
     _paths.Delete( i );
 end;
@@ -58,6 +62,19 @@ end;
 procedure TStashFilesBackend.clear;
 begin
   _paths.Clear;
+end;
+
+function TStashFilesBackend.count: Integer;
+begin
+  Result:= _paths.Count;
+end;
+
+procedure TStashFilesBackend.removePaths(const files: TFiles);
+var
+  i: Integer;
+begin
+  for i:= 0 to files.Count-1 do
+    self.removePath( files[i].FullPath );
 end;
 
 function TStashFilesBackend.toFiles: TFiles;
