@@ -608,20 +608,20 @@ begin
   // Register shell folder file source
   if (Win32MajorVersion > 5) then
   begin
-    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource);
+    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource.RootName, TShellFileSource);
   end;
   // Register recycle bin file source
   if CheckWin32Version(5, 1) then
   begin
-    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
+    RegisterVirtualFileSource(rsVfsRecycleBin, rsVfsRecycleBin, TRecycleBinFileSource);
   end;
   // Register Windows Subsystem for Linux (WSL) file source
   if CheckWin32Version(10) then
   begin
-    RegisterVirtualFileSource('Linux', TWslFileSource, TWslFileSource.Available);
+    RegisterVirtualFileSource('Linux', 'Linux', TWslFileSource, TWslFileSource.Available);
   end;
   // Register network file source
-  RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  RegisterVirtualFileSource(rsVfsNetwork, rsVfsNetwork, TWinNetFileSource);
 
   // If run under administrator
   if (IsUserAdmin = dupAccept) then
@@ -694,11 +694,11 @@ begin
   if HasGio then
   begin
     if TGioFileSource.IsSupportedPath('trash://') then
-      RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
+      RegisterVirtualFileSource(rsVfsRecycleBin, rsVfsRecycleBin, TTrashFileSource, True);
     if TGioFileSource.IsSupportedPath('network://') then
-      RegisterVirtualFileSource(rsVfsNetwork, TNetworkFileSource, True);
-    RegisterVirtualFileSource('Google', TGoogleFileSource, False);
-    RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+      RegisterVirtualFileSource(rsVfsNetwork, rsVfsNetwork, TNetworkFileSource, True);
+    RegisterVirtualFileSource('Google', 'Google', TGoogleFileSource, False);
+    RegisterVirtualFileSource('GVfs', 'GVfs', TGioFileSource, False);
   end;
   {$ENDIF}
 
