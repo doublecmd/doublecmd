@@ -6,10 +6,12 @@ interface
 
 uses
   Classes, SysUtils,
+  Menus,
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource, uVfsModule,
-  uFileSourceUtil, uDCUtils;
+  uFileSourceUtil, uDCUtils,
+  uStashFilesBackend;
 
 type
 
@@ -28,8 +30,11 @@ type
   TStashFileSource = class(TVirtualFileSource)
   private
     _fileSystemFS: IFileSystemFileSource;
-  protected
+  private
     procedure onFileSystemEvent(var params: TFileSourceEventParams);
+    procedure reload; overload;
+    procedure removeAction(Sender: TObject);
+    procedure clearAction(Sender: TObject);
   public
     constructor Create; override; overload;
     destructor Destroy; override;
@@ -49,6 +54,8 @@ type
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
+
+    function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
   end;
 
 implementation
@@ -146,6 +153,27 @@ end;
 procedure TStashFileSource.onFileSystemEvent(var params: TFileSourceEventParams);
 begin
   self.Reload( params.paths );
+end;
+
+procedure TStashFileSource.reload;
+begin
+  self.Reload( self.GetRootDir );
+end;
+
+procedure TStashFileSource.removeAction(Sender: TObject);
+var
+  item: TMenuItem absolute Sender;
+  files: TFiles;
+begin
+  files:= TFiles( item.Tag );
+  stashFilesBackend.removePaths( files );
+  self.reload;
+end;
+
+procedure TStashFileSource.clearAction(Sender: TObject);
+begin
+  stashFilesBackend.clear;
+  self.reload;
 end;
 
 constructor TStashFileSource.Create;
@@ -254,6 +282,55 @@ begin
   Result:= _fileSystemFS.CreateSetFilePropertyOperation(
               theTargetFiles,
               theNewProperties );
+end;
+
+function TStashFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
+
+  function hasValidPath: Boolean;
+  var
+    testPath: String;
+  begin
+    Result:= False;
+    if AFiles.Count = 0 then
+      Exit;
+    if AFiles.Count = 1 then begin
+      testPath:= IncludeTrailingPathDelimiter( AFiles[0].FullPath );
+      Result:= NOT self.IsPathAtRoot( testPath );
+    end else begin
+      Result:= True;
+    end;
+  end;
+
+var
+  menuItem: TMenuItem;
+  index: Integer;
+begin
+  Result:= False;
+  index:= 0;
+
+  if hasValidPath then begin
+    menuItem:= TMenuItem.Create( AMenu );
+    menuItem.Caption:= 'Remove Shash Items';
+    menuItem.OnClick:= @self.removeAction;
+    menuItem.Tag:= PtrInt( AFiles );
+    AMenu.Items.Insert(index, menuItem);
+    inc( index );
+  end;
+
+  if stashFilesBackend.count > 0 then begin
+    menuItem:= TMenuItem.Create( AMenu );
+    menuItem.Caption:= 'Empty Stash';
+    menuItem.OnClick:= @self.clearAction;
+    AMenu.Items.Insert(index, menuItem);
+    inc( index );
+  end;
+
+  if index > 0 then begin
+    menuItem:= TMenuItem.Create( AMenu );
+    menuItem.Caption:= '-';
+    AMenu.Items.Insert(index, menuItem);
+    Result:= True;
+  end;
 end;
 
 initialization
