@@ -38,6 +38,8 @@ type
   public
     constructor Create; override; overload;
     destructor Destroy; override;
+    class function GetFileSource: IFileSource; override;
+
     function GetLocalName(var aFile: TFile): Boolean; override;
     class function GetMainIcon(out Path: String): Boolean; override;
     function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
@@ -62,6 +64,9 @@ implementation
 
 uses
   uStashFileSourceOperation;
+
+const
+  STASH_SCHEME = 'stash://';
 
 var
   stashFileSourceProcessor: TFileSourceProcessor;
@@ -179,6 +184,7 @@ end;
 constructor TStashFileSource.Create;
 begin
   Inherited Create;
+  FCurrentAddress:= STASH_SCHEME;
   _fileSystemFS:= IFileSystemFileSource(FileSourceManager.Find(TFileSystemFileSource,EmptyStr));
   _fileSystemFS.AddEventListener( @self.onFileSystemEvent );
 end;
@@ -187,6 +193,13 @@ destructor TStashFileSource.Destroy;
 begin
   _fileSystemFS.RemoveEventListener( @self.onFileSystemEvent );
   inherited Destroy;
+end;
+
+class function TStashFileSource.GetFileSource: IFileSource;
+begin
+  Result:= FileSourceManager.Find( TStashFileSource, STASH_SCHEME );
+  if not Assigned(Result) then
+    Result:= TStashFileSource.Create;
 end;
 
 function TStashFileSource.GetLocalName(var aFile: TFile): Boolean;
@@ -364,7 +377,7 @@ end;
 
 initialization
   stashFileSourceProcessor:= TStashFileSourceProcessor.Create;
-  RegisterVirtualFileSource( 'Stash', TStashFileSource, True );
+  RegisterVirtualFileSource( 'Stash', STASH_SCHEME, TStashFileSource, True );
 
 finalization
   FreeAndNil( stashFileSourceProcessor );

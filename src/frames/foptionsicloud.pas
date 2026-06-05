@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, ComCtrls, Graphics,
   fOptionsFrame,
-  fMain, uFileSystemFileSource, uFileViewNotebook,
+  fMain, uFileSource, uFileSystemFileSource, uFileViewNotebook,
   uiCloudDrive, uiCloudDriveConfig, uiCloudDriveUtil,
   uDarwinImage,
   CocoaAll;
@@ -41,7 +41,7 @@ implementation
 
 procedure TfrmOptionsiCloud.appsListViewDblClick(Sender: TObject);
 var
-  fs: IFileSystemFileSource;
+  fs: IFileSource;
   path: String;
   notebook: TFileViewNotebook;
   newPage: TFileViewPage;

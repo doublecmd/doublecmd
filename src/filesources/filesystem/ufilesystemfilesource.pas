@@ -46,6 +46,7 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
+    class function GetFileSource: IFileSource; override;
 
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
@@ -74,8 +75,6 @@ type
                                            OmitNotExisting: Boolean = False): TFiles;
 
     procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
-
-    class function GetFileSource: IFileSystemFileSource;
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
@@ -791,15 +790,11 @@ begin
   end;
 end;
 
-class function TFileSystemFileSource.GetFileSource: IFileSystemFileSource;
-var
-  aFileSource: IFileSource;
+class function TFileSystemFileSource.GetFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-  if not Assigned(aFileSource) then
-    Result := TFileSystemFileSource.Create
-  else
-    Result := aFileSource as IFileSystemFileSource;
+  Result:= FileSourceManager.Find(TFileSystemFileSource, '');
+  if not Assigned(Result) then
+    Result := TFileSystemFileSource.Create;
 end;
 
 function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;

@@ -273,7 +273,7 @@ class procedure TDarwinFileViewUtil.addiCloudDrivePage;
 var
   iCloudFS: TiCloudDriveFileSource;
 begin
-  iCloudFS := TiCloudDriveFileSource.GetFileSource;
+  iCloudFS := TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
   _activeFrameFunc().AddFileSource(iCloudFS, iCloudFS.GetRootDir);
   _activeFrameFunc().SetFocus;
 end;

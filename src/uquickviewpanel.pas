@@ -265,7 +265,7 @@ begin
     if FFileSource.IsClass(TTempFileSystemFileSource) then
       TempFileSource := (FFileSource as ITempFileSystemFileSource)
     else
-      TempFileSource := TTempFileSystemFileSource.GetFileSource;
+      TempFileSource := TTempFileSystemFileSource.Create;
 
     Operation := Sender.FileSource.CreateCopyOutOperation(
                      TempFileSource,

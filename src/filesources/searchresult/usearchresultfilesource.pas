@@ -74,12 +74,12 @@ var
 
 procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
 var
-  searchResultFS: ISearchResultFileSource;
+  searchResultFS: TSearchResultFileSource;
 begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
 
-  searchResultFS:= params.currentFS as ISearchResultFileSource;
+  searchResultFS:= params.currentFS as TSearchResultFileSource;
   params.sourceFS:= searchResultFS.FileSource;
 end;
 

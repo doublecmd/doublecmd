@@ -367,7 +367,7 @@ begin
         begin
           SourceFiles:= TFiles.Create(PathDelim);
           SourceFiles.Add(AFiles[Index].Clone);
-          Temp:= TTempFileSystemFileSource.GetFileSource;
+          Temp:= TTempFileSystemFileSource.Create;
 
           Operation:= FileSource.CreateCopyOutOperation(Temp, SourceFiles, Temp.GetRootDir) as TArchiveCopyOutOperation;
           try

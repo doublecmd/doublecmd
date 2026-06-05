@@ -17,6 +17,7 @@ type
 
   TVfsModule = class
     Visible: Boolean;
+    Address: String;
     FileSourceClass: TFileSourceClass;
   end;
 
@@ -33,6 +34,7 @@ type
   end;
 
 procedure RegisterVirtualFileSource(AName: String;
+                                    AAddress: String;
                                     AFileSourceClass: TFileSourceClass;
                                     Visible: Boolean = True);
 
@@ -45,6 +47,7 @@ var
 implementation
 
 procedure RegisterVirtualFileSource(AName: String;
+                                    AAddress: String;
                                     AFileSourceClass: TFileSourceClass;
                                     Visible: Boolean = True);
 var
@@ -52,6 +55,7 @@ var
 begin
   VfsModule:= TVfsModule.Create;
   VfsModule.Visible:= Visible;
+  VfsModule.Address:= AAddress;
   VfsModule.FileSourceClass:= AFileSourceClass;
   gVfsModuleList.AddObject(AName, VfsModule);
 end;

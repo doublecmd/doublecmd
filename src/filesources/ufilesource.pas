@@ -312,6 +312,8 @@ type
     constructor Create(const URI: TURI); virtual; overload;
     destructor Destroy; override;
 
+    class function GetFileSource: IFileSource; virtual;
+
     function GetWatcher: TFileSourceWatcher; virtual;
     function GetProcessor: TFileSourceProcessor; virtual;
     function GetUIHandler: TFileSourceUIHandler; virtual;
@@ -580,6 +582,11 @@ begin
   FreeAndNil(FEventListeners);
 
   inherited Destroy;
+end;
+
+class function TFileSource.GetFileSource: IFileSource;
+begin
+  Result:= Create;
 end;
 
 function TFileSource.GetWatcher: TFileSourceWatcher;

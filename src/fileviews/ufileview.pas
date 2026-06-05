@@ -2636,7 +2636,7 @@ begin
               aFileSource := TFileSystemFileSource.GetFileSource
             else begin
               FileSourceClass := gVfsModuleList.FindFileSource(sFSType);
-              if Assigned(FileSourceClass) then aFileSource := FileSourceClass.Create;
+              if Assigned(FileSourceClass) then aFileSource := FileSourceClass.GetFileSource;
             end;
 
             if Assigned(aFileSource) then
