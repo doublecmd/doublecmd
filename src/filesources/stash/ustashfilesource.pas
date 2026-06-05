@@ -285,6 +285,8 @@ begin
 end;
 
 function TStashFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
+var
+  index: Integer;
 
   function hasValidPath: Boolean;
   var
@@ -301,34 +303,61 @@ function TStashFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu
     end;
   end;
 
-var
-  menuItem: TMenuItem;
-  index: Integer;
+  procedure removeAddToStash;
+  var
+    item: TMenuItem;
+  begin
+    item:= AMenu.Items.Find( 'Add to Stash' );
+    if Assigned(item) then
+      AMenu.Items.Remove( item );
+  end;
+
+  procedure addRemoveStashItems;
+  var
+    item: TMenuItem;
+  begin
+    item:= TMenuItem.Create( AMenu );
+    item.Caption:= 'Remove Stash Items';
+    item.OnClick:= @self.removeAction;
+    item.Tag:= PtrInt( AFiles );
+    AMenu.Items.Insert(index, item);
+    inc( index );
+  end;
+
+  procedure addEmptyStash;
+  var
+    item: TMenuItem;
+  begin
+    item:= TMenuItem.Create( AMenu );
+    item.Caption:= 'Empty Stash';
+    item.OnClick:= @self.clearAction;
+    AMenu.Items.Insert(index, item);
+    inc( index );
+  end;
+
+  procedure addSeperator;
+  var
+    item: TMenuItem;
+  begin
+    item:= TMenuItem.Create( AMenu );
+    item.Caption:= '-';
+    AMenu.Items.Insert(index, item);
+  end;
+
 begin
   Result:= False;
   index:= 0;
 
-  if hasValidPath then begin
-    menuItem:= TMenuItem.Create( AMenu );
-    menuItem.Caption:= 'Remove Shash Items';
-    menuItem.OnClick:= @self.removeAction;
-    menuItem.Tag:= PtrInt( AFiles );
-    AMenu.Items.Insert(index, menuItem);
-    inc( index );
-  end;
+  removeAddToStash;
 
-  if stashFilesBackend.count > 0 then begin
-    menuItem:= TMenuItem.Create( AMenu );
-    menuItem.Caption:= 'Empty Stash';
-    menuItem.OnClick:= @self.clearAction;
-    AMenu.Items.Insert(index, menuItem);
-    inc( index );
-  end;
+  if hasValidPath then
+    addRemoveStashItems;
+
+  if stashFilesBackend.count > 0 then
+    addEmptyStash;
 
   if index > 0 then begin
-    menuItem:= TMenuItem.Create( AMenu );
-    menuItem.Caption:= '-';
-    AMenu.Items.Insert(index, menuItem);
+    addSeperator;
     Result:= True;
   end;
 end;
