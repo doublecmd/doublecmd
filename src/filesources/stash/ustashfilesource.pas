@@ -63,6 +63,7 @@ type
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
@@ -293,7 +294,7 @@ end;
 
 function TStashFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopyIn, fsoCopyOut, fsoSetFileProperty];
+  Result:= [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoSetFileProperty];
 end;
 
 class function TStashFileSource.CreateFile(const APath: String): TFile;
@@ -330,6 +331,11 @@ begin
               TargetFileSource,
               SourceFiles,
               TargetPath );
+end;
+
+function TStashFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateDeleteOperation( FilesToDelete );
 end;
 
 function TStashFileSource.CreateSetFilePropertyOperation(
