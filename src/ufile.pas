@@ -856,7 +856,8 @@ begin
   I := Length(FileName);
   while (I > 0) and (FileName[I] <> ExtensionSeparator) do
     Dec(I);
-  if I > 1 then
+
+  if (I>1) and (FileName<>'.') and (FileName<>'..') then
   begin
     aFileNameOnly := Copy(FileName, 1, I - 1);
     aExtension    := Copy(FileName, I + 1, MaxInt);
