@@ -279,7 +279,7 @@ end;
 function TStashFileSource.GetProperties: TFileSourceProperties;
 begin
   Result:= _fileSystemFS.Properties;
-  Result+= [fspLinksToLocalFiles, fspDontChangePath];
+  Result+= [fspLinksToLocalFiles, fspDontChangePath, fspDontCreateDirectory];
 end;
 
 function TStashFileSource.GetSupportedFileProperties: TFilePropertiesTypes;

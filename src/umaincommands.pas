@@ -2509,12 +2509,13 @@ begin
   try
     if not (fsoCreateDirectory in ActiveFrame.FileSource.GetOperationsTypes) then
     begin
-      if (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
-        bMakeViaCopy := True
-      else begin
+      if (fspDontCreateDirectory in ActiveFrame.FileSource.Properties) or
+         NOT (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
+      begin
         msgWarning(rsMsgErrNotSupported);
         Exit;
       end;
+      bMakeViaCopy := True
     end;
 
     ActiveFile := ActiveFrame.CloneActiveFile;

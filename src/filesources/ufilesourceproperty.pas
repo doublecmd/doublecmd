@@ -79,6 +79,12 @@ type
     fspDontChangePath,
 
     {en
+       Set, if creating directories is forbidden.
+       DC should not use workarounds to create directories.
+    }
+    fspDontCreateDirectory,
+
+    {en
        Set, if the file source supports searching in FindDlg.
     }
     fspSearchable,
