@@ -898,10 +898,11 @@ begin
 
     leftFile:= frmMain.FrameLeft.CloneActiveFile;
     rightFile:= frmMain.FrameRight.CloneActiveFile;
+    // ".." should be interpreted as the parent directory
     if Assigned(leftFile) and (not leftFile.IsNameValid) then
-      FreeAndNil(leftFile);
+      leftFile.Name:= EmptyStr;
     if Assigned(rightFile) and (not rightFile.IsNameValid) then
-      FreeAndNil(rightFile);
+      rightFile.Name:= EmptyStr;
 
     if frmMain.ActiveFrame = frmMain.FrameLeft then
     begin
