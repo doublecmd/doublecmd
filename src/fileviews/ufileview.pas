@@ -2986,7 +2986,11 @@ begin
     // If there is a higher level file source then change to it.
     if (FileSourcesCount > 1) and AllowChangingFileSource then
     begin
-      RemoveCurrentFileSource;
+      // use GoToPrevHistory instead of RemoveCurrentFileSource to navigate
+      // to the parent when the current FileSource is at the Root.
+      // in this way, for example, in SearchResults, after clicking "..",
+      // we can navigation by cm_ViewHistoryPrev/cm_ViewHistoryNext.
+      GoToPrevHistory;
     end;
   end
   else
