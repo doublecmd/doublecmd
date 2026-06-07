@@ -2069,6 +2069,7 @@ begin
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
+  NewPage.FileView.clearFilesOnly;
 
   if FLastSearchTemplate.SearchRecord.Duplicates then
   begin

@@ -261,8 +261,9 @@ begin
 
   if newPage then begin
     page:= Notebook.NewPage(fileView);
-    page.MakeActive;
     fileView:= page.FileView;
+    fileView.clearFilesOnly;
+    page.MakeActive;
   end;
 
   fileView.AddFileSource(fs, fs.GetRootDir);
