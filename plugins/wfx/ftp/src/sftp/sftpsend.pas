@@ -69,7 +69,7 @@ implementation
 
 uses
   LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, CTypes,
-  DCClassesUtf8, DCFileAttributes, DCConvertEncoding;
+  DCClassesUtf8, DCFileAttributes, DCConvertEncoding{$IFDEF UNIX}, BaseUnix{$ENDIF};
 
 const
   READ_BUFFER_SIZE  = 131072;
@@ -228,11 +228,45 @@ var
   TotalBytesToWrite: Int64 = 0;
   TargetHandle: PLIBSSH2_SFTP_HANDLE = nil;
   Flags: cint = LIBSSH2_FXF_CREAT or LIBSSH2_FXF_WRITE;
+{$IFDEF UNIX}
+  LocalStat: BaseUnix.TStat;
+  UploadAttrs: LIBSSH2_SFTP_ATTRIBUTES;
+  LinkTarget: String;
+{$ENDIF}
 begin
   if FCopySCP then begin
     Result:= inherited StoreFile(FileName, Restore);
     Exit;
   end;
+
+{$IFDEF UNIX}
+  // If the local source is a symlink, recreate it on the remote.
+  // On failure (server refused), fall through to a normal content upload.
+  if fpLStat(FDirectFileName, LocalStat) = 0 then
+  begin
+    if FPS_ISLNK(LocalStat.st_mode) then
+    begin
+      LinkTarget:= fpReadLink(FDirectFileName);
+      if Length(LinkTarget) > 0 then
+      begin
+        // Remove any existing destination; sftp_symlink does not overwrite.
+        repeat
+          FLastError:= libssh2_sftp_unlink(FSFTPSession, PAnsiChar(FileName));
+          if FLastError = LIBSSH2_ERROR_EAGAIN then FSock.CanRead(10);
+        until FLastError <> LIBSSH2_ERROR_EAGAIN;
+        repeat
+          FLastError:= libssh2_sftp_symlink(FSFTPSession, PAnsiChar(LinkTarget), PAnsiChar(FileName));
+          if FLastError = LIBSSH2_ERROR_EAGAIN then FSock.CanRead(10);
+        until FLastError <> LIBSSH2_ERROR_EAGAIN;
+        if FLastError = 0 then
+        begin
+          Result:= True;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+{$ENDIF}
 
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
@@ -304,6 +338,22 @@ begin
     FreeMem(FBuffer);
     Result:= FileClose(TargetHandle) and Result;
     libssh2_session_set_blocking(FSession, 1);
+{$IFDEF UNIX}
+    if Result then
+    begin
+      if FpStat(FDirectFileName, LocalStat) = 0 then
+      begin
+        FillChar(UploadAttrs, SizeOf(UploadAttrs), 0);
+        UploadAttrs.permissions:= LocalStat.st_mode;
+        UploadAttrs.flags:= LIBSSH2_SFTP_ATTR_PERMISSIONS;
+        libssh2_sftp_setstat(FSFTPSession, PAnsiChar(FileName), @UploadAttrs);
+        UploadAttrs.uid:= LocalStat.st_uid;
+        UploadAttrs.gid:= LocalStat.st_gid;
+        UploadAttrs.flags:= LIBSSH2_SFTP_ATTR_UIDGID;
+        libssh2_sftp_setstat(FSFTPSession, PAnsiChar(FileName), @UploadAttrs);
+      end;
+    end;
+{$ENDIF}
   end;
 end;
 
@@ -315,6 +365,9 @@ var
   RetrStream: TFileStreamEx;
   TotalBytesToRead: Int64 = 0;
   SourceHandle: PLIBSSH2_SFTP_HANDLE;
+{$IFDEF UNIX}
+  DownloadAttrs: LIBSSH2_SFTP_ATTRIBUTES;
+{$ENDIF}
 begin
   if FCopySCP then begin
     Result:= inherited RetrieveFile(FileName, FileSize, Restore);
@@ -380,6 +433,20 @@ begin
   finally
     RetrStream.Free;
     libssh2_session_set_blocking(FSession, 1);
+{$IFDEF UNIX}
+    if Result then
+    begin
+      if libssh2_sftp_stat(FSFTPSession, PAnsiChar(FileName), @DownloadAttrs) = 0 then
+      begin
+        if (DownloadAttrs.flags and LIBSSH2_SFTP_ATTR_PERMISSIONS) <> 0 then
+        begin
+          FpChmod(FDirectFileName, DownloadAttrs.permissions and $0FFF);
+          if (DownloadAttrs.flags and LIBSSH2_SFTP_ATTR_UIDGID) <> 0 then
+            FpChown(FDirectFileName, DownloadAttrs.uid, DownloadAttrs.gid);
+        end;
+      end;
+    end;
+{$ENDIF}
   end;
 end;
 
@@ -404,6 +471,7 @@ var
   Return: Integer;
   FindRec: PFindRec absolute Handle;
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
+  LinkAttrs: LIBSSH2_SFTP_ATTRIBUTES;
   AFileName: array[0..1023] of AnsiChar;
   AFullData: array[0..2047] of AnsiChar;
 begin
@@ -425,6 +493,9 @@ begin
     FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.atime));
     if (Attributes.permissions and S_IFMT) = S_IFLNK then
     begin
+      // Follow the link to detect if the target is a directory, but keep
+      // the symlink's own mtime and size for sync comparisons.
+      LinkAttrs:= Attributes;
       if libssh2_sftp_stat(FSFTPSession, PAnsiChar(FindRec.Path + AFileName), @Attributes) = 0 then
       begin
         if (Attributes.permissions and S_IFMT) = S_IFDIR then
@@ -432,8 +503,16 @@ begin
           FindData.nFileSizeLow:= 0;
           FindData.nFileSizeHigh:= 0;
           FindData.dwFileAttributes:= FindData.dwFileAttributes or FILE_ATTRIBUTE_REPARSE_POINT;
+        end
+        else
+        begin
+          // Restore the symlink's own size (= byte length of link target string).
+          FindData.nFileSizeLow:= Int64Rec(LinkAttrs.filesize).Lo;
+          FindData.nFileSizeHigh:= Int64Rec(LinkAttrs.filesize).Hi;
         end;
       end;
+      FindData.ftLastWriteTime:= TWfxFileTime(UnixFileTimeToWinTime(LinkAttrs.mtime));
+      FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(LinkAttrs.atime));
     end;
   end;
 end;
