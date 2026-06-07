@@ -386,6 +386,7 @@ type
 
     destructor Destroy; override;
     procedure Clear;
+    procedure clearFilesOnly;
 
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
@@ -1041,15 +1042,22 @@ begin
   HashFileList;
 end;
 
+procedure TFileView.clearFilesOnly;
+begin
+  if Assigned(FFiles) then
+    FFiles.Clear;
+  if Assigned(FAllDisplayFiles) then
+    FAllDisplayFiles.Clear;
+  HashFileList;
+end;
+
 procedure TFileView.ClearFiles;
 begin
   if Assigned(FAllDisplayFiles) then
   begin
     ClearRecentlyUpdatedFiles;
     ClearPendingFilesChanges;
-    FFiles.Clear;
-    FAllDisplayFiles.Clear; // Clear references to files from the source.
-    HashFileList;
+    clearFilesOnly;
     Notify([fvnDisplayFileListChanged]);
   end;
 end;
@@ -3039,6 +3047,8 @@ begin
 
     EnableWatcher(False);
 
+    clearFilesOnly;
+
     FHistory.Add(aFileSource, aPath);
 
     AfterChangePath;
@@ -3094,6 +3104,8 @@ begin
             FileSource.RemoveEventListener(@FileSourceEventListener);
 
           EnableWatcher(False);
+
+          clearFilesOnly;
 
           FHistory.DeleteFromCurrentFileSource;
 
@@ -3573,6 +3585,8 @@ begin
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveEventListener(@FileSourceEventListener);
     EnableWatcher(False);
+
+    clearFilesOnly;
 
     FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
 
