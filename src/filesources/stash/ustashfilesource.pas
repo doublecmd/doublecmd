@@ -64,6 +64,10 @@ type
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+    function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
+    function CreateSplitOperation(var aSourceFile: TFile; aTargetPath: String): TFileSourceOperation; override;
+    function CreateCombineOperation(var theSourceFiles: TFiles; aTargetFile: String): TFileSourceOperation; override;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
@@ -294,7 +298,12 @@ end;
 
 function TStashFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoSetFileProperty];
+  Result:= [fsoList,
+            fsoCopyIn, fsoCopyOut,
+            fsoDelete, fsoWipe,
+            fsoSplit, fsoCombine,
+            fsoCalcStatistics,
+            fsoSetFileProperty];
 end;
 
 class function TStashFileSource.CreateFile(const APath: String): TFile;
@@ -336,6 +345,29 @@ end;
 function TStashFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 begin
   Result:= _fileSystemFS.CreateDeleteOperation( FilesToDelete );
+end;
+
+function TStashFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateWipeOperation( FilesToWipe );
+end;
+
+function TStashFileSource.CreateSplitOperation(var aSourceFile: TFile;
+  aTargetPath: String): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateSplitOperation(aSourceFile, aTargetPath);
+end;
+
+function TStashFileSource.CreateCombineOperation(var theSourceFiles: TFiles;
+  aTargetFile: String): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateCombineOperation(theSourceFiles, aTargetFile);
+end;
+
+function TStashFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles
+  ): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateCalcStatisticsOperation(theFiles);
 end;
 
 function TStashFileSource.CreateSetFilePropertyOperation(
