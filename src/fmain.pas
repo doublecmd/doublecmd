@@ -3882,9 +3882,11 @@ function TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
                             QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
   sDstMaskTemp: String;
-  Operation: TFileSourceMoveOperation;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
+  OperationClass: TFileSourceOperationClass;
+  Operation: TFileSourceMoveOperation;
+  OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 
   params: TFileSourceConsultParams;
 begin
@@ -3926,9 +3928,13 @@ begin
 
     if bShowDialog then
     begin
+      OperationClass:= SourceFileSource.GetOperationClass(fsoMove);
+      if Assigned(OperationClass) then
+        OperationOptionsUIClass:= OperationClass.GetOptionsUIClass;
+
       MoveDialog := TfrmCopyDlg.Create(
         Self, cmdtMove, SourceFileSource, TargetFileSource,
-        SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
+        OperationOptionsUIClass );
       MoveDialog.edtDst.Text := params.targetPath;
       MoveDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
 
