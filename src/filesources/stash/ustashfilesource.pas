@@ -10,7 +10,7 @@ uses
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource, uVfsModule,
-  uFileSourceUtil, uDCUtils,
+  uFileSourceUtil, uDCUtils, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -46,14 +46,16 @@ type
     class function GetFileSource: IFileSource; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
+    function GetRootDir(sPath : String): String; override;
+    function GetRealPath(const path: String): String; override;
+    class function IsSupportedPath(const Path: String): Boolean; override;
+
     class function GetMainIcon(out Path: String): Boolean; override;
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
     function GetDisplayFileName(aFile: TFile): String; override;
-    function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
+    function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
 
     function GetProcessor: TFileSourceProcessor; override;
-    function GetRootDir(sPath : String): String; override;
-    class function IsSupportedPath(const Path: String): Boolean; override;
     function GetProperties: TFileSourceProperties; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
@@ -71,7 +73,7 @@ type
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
 
-    function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
     procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
 
@@ -274,6 +276,14 @@ end;
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + STASH_NAME + PathDelim;
+end;
+
+function TStashFileSource.GetRealPath(const path: String): String;
+begin
+  if self.IsPathAtRoot(path) then
+    Result:= GetHomeDir
+  else
+    Result:= Path;
 end;
 
 class function TStashFileSource.IsSupportedPath(const Path: String): Boolean;

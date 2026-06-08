@@ -5,13 +5,11 @@ unit uSearchResultFileSource;
 interface
 
 uses
-  Classes, SysUtils, Graphics,
-  uFile,
-  uFileSource, uFileSourceManager,
-  uMultiListFileSource,
-  uFileSourceOperationTypes,
-  uFileSourceOperation,
-  uFileSourceProperty
+  Classes, SysUtils,
+  Graphics,
+  uFile, uFileSource, uFileSourceManager, uMultiListFileSource,
+  uFileSourceOperationTypes, uFileSourceOperation, uFileSourceProperty,
+  uSysFolders
   {$IFDEF DARWIN}
   , uDarwinFile, uDarwinImage, uDCUtils
   {$ENDIF}
@@ -35,20 +33,18 @@ type
   public
     constructor Create( const displayName: String );
 
-    function GetProcessor: TFileSourceProcessor; override;
-
-    function GetRootDir(sPath : String): String; override;
-    function GetProperties: TFileSourceProperties; override;
-    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
-
-    class function CreateFile(const APath: String): TFile; override;
-
-    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
-
     function GetLocalName(var aFile: TFile): Boolean; override;
+    function GetRootDir(sPath : String): String; override;
+    function GetRealPath(const path: String): String; override;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
     function GetDisplayFileName(aFile: TFile): String; override;
+
+    function GetProcessor: TFileSourceProcessor; override;
+    function GetProperties: TFileSourceProperties; override;
+    class function CreateFile(const APath: String): TFile; override;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
 
     procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
@@ -106,6 +102,14 @@ end;
 function TSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + PathDelim;
+end;
+
+function TSearchResultFileSource.GetRealPath(const path: String): String;
+begin
+  if self.IsPathAtRoot(path) then
+    Result:= GetHomeDir
+  else
+    Result:= Path;
 end;
 
 function TSearchResultFileSource.GetProperties: TFileSourceProperties;
