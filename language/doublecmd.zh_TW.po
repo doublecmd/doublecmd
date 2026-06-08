@@ -2082,6 +2082,10 @@ msgstr "複製路徑到指令行"
 msgid "Add Plugin"
 msgstr "添加插件"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基準測試(&B)"
@@ -2342,6 +2346,10 @@ msgstr "編輯新檔案"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "變更路徑"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2633,6 +2641,10 @@ msgstr "在新分頁開啟資料夾 (&F)"
 msgid "Open Drive by Index"
 msgstr "依索引開啟磁碟"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "開啟虛擬檔案系統清單 (&V)"
@@ -2685,6 +2697,10 @@ msgstr "重新整理 (&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "重新載入上次加載的「我的最愛」分頁"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2812,6 +2828,10 @@ msgstr "將所有分頁設置為允許變更資料夾的鎖定狀態"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "變更檔案屬性... (&A)"
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14301,6 +14321,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "選擇資料夾:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

@@ -2123,6 +2123,10 @@ msgstr "Kopiér sti til kommandolinje"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Testprogram"
@@ -2385,6 +2389,10 @@ msgstr "Redigér ny fil"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Redigér stifeltet over fillista"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2678,6 +2686,10 @@ msgstr "&Opn mappe i ny fane"
 msgid "Open Drive by Index"
 msgstr "Opn drev ved indeksnr"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2731,6 +2743,10 @@ msgstr "&Oppdatér"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Gjeninnles siste brukte favorittfaner"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2858,6 +2874,10 @@ msgstr "Alle fanene låste. Tillat endring av mappe"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "&Endr attributt..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14623,6 +14643,10 @@ msgstr "Automatisk;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High De
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Vél mappe:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

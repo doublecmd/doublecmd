@@ -2047,6 +2047,10 @@ msgstr "复制路径到命令行"
 msgid "Add Plugin"
 msgstr "添加插件"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基准测试(&B)"
@@ -2303,6 +2307,10 @@ msgstr "编辑新文件"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "编辑文件列表上方的路径字段"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2592,6 +2600,10 @@ msgstr "在新标签打开文件夹(&F)"
 msgid "Open Drive by Index"
 msgstr "按索引打开驱动器"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "打开虚拟文件系统 (VFS) 列表(&V)"
@@ -2643,6 +2655,10 @@ msgstr "刷新(&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "重新加载上次加载的收藏夹标签"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2769,6 +2785,10 @@ msgstr "将所有标签设置为允许更改文件夹的锁定状态"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "更改属性(&A)..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14094,6 +14114,10 @@ msgstr "自动;1457664B - 3.5\" 高密度 1.44M;1213952B - 5.25\" 高密度 1.2M
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "选中的文件夹："
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

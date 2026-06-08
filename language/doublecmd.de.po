@@ -2058,6 +2058,10 @@ msgstr "&Pfad in die Befehlszeile kopieren"
 msgid "Add Plugin"
 msgstr "Plugin hinzufügen"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "Benchmark"
@@ -2314,6 +2318,10 @@ msgstr "Datei erstellen und bearbeiten"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Pfadzeile über der Dateiliste bearbeiten"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2603,6 +2611,10 @@ msgstr "Verzeichnis in neue&m Tab öffnen"
 msgid "Open Drive by Index"
 msgstr "Laufwerk/Medium per Index öffnen"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "&VFS-Liste öffnen"
@@ -2654,6 +2666,10 @@ msgstr "A&ktualisieren"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Zuletzt geladenen ☆-Tab erneut laden"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2780,6 +2796,10 @@ msgstr "Alle Tabs gesperrt, Verzeichniswechsel möglich"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Dateieigensch&aften ändern …"
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14075,6 +14095,10 @@ msgstr "Automatisch;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High D
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Wähle Verzeichnis:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

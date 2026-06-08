@@ -2057,6 +2057,10 @@ msgstr "Útvonal másolása a parancssorba"
 msgid "Add Plugin"
 msgstr "Bővítmény hozzáadása"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Teljesítményteszt"
@@ -2313,6 +2317,10 @@ msgstr "Új fájl szerkesztése"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Elérési út mező szerkesztése a fájllista felett"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2602,6 +2610,10 @@ msgstr "Mappa megnyitása ú&j lapon"
 msgid "Open Drive by Index"
 msgstr "Meghajtó megnyitása index alapján"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "&VFS lista megnyitása"
@@ -2653,6 +2665,10 @@ msgstr "&Frissítés"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Utoljára betöltött Kedvenc Lapok újratöltése"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2779,6 +2795,10 @@ msgstr "Minden lap zárt, de könyvtárváltás engedélyezett"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Attribútumok módosítá&sa..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14073,6 +14093,10 @@ msgstr "Automatikus;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High D
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Válasszon mappát:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

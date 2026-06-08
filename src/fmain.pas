@@ -968,7 +968,7 @@ uses
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   uDragDropEx, uKeyboard,
   uLocalFileSource, uFileSystemFileSource, uSearchResultFileSource, uStashFileSource,
-  fViewOperations, uMultiListFileSource,
+  uVfsModule, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -1117,11 +1117,12 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     );
   end;
 
-  procedure setStashAction;
+  procedure initStash;
   begin
     stashActionAddToStash:= actAddToStash;
     stashActionRemoveFromStash:= actRemoveFromStash;
     stashActionEmptyStash:= actEmptyStash;
+    RegisterVirtualFileSource( rsStashName, STASH_SCHEME, TStashFileSource, True );
   end;
 
 var
@@ -1135,7 +1136,7 @@ begin
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
 
-  setStashAction;
+  initStash;
 
   {$IF DEFINED(DARWIN)}
   // in LCL's DARWIN implements, there is no way but to Use LCL's method of dropping files

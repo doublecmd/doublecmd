@@ -2048,6 +2048,10 @@ msgstr "명령줄에 경로 복사"
 msgid "Add Plugin"
 msgstr "플러그인 추가"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "벤치마크(&B)"
@@ -2304,6 +2308,10 @@ msgstr "새 파일 편집"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "파일 목록 위의 경로 필드 편집"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2593,6 +2601,10 @@ msgstr "새 탭에 폴더 열기(&F)"
 msgid "Open Drive by Index"
 msgstr "인덱스로 드라이브 열기"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "가상 파일 시스템 목록 열기(&V)"
@@ -2644,6 +2656,10 @@ msgstr "새로 고침(&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "마지막으로 불러온 즐겨찾기 탭 다시 불러오기"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2770,6 +2786,10 @@ msgstr "디렉터리 변경 허용으로 모든 탭이 잠김"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "속성 변경(&A)..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14074,6 +14094,10 @@ msgstr "자동;1457664B - 3.5\" 고밀도 1.44M;1213952B - 5.25\" 고밀도 1.2M
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "디렉터리 선택:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

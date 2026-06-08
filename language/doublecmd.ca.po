@@ -2274,6 +2274,10 @@ msgstr "Copia ruta a linia d'ordres"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2552,6 +2556,10 @@ msgstr "Edita nou Fitxer"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Edita camp de ruta sobre la llista de fitxers"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2867,6 +2875,10 @@ msgstr "Obre carpeta a nova pestanya"
 msgid "Open Drive by Index"
 msgstr ""
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 #, fuzzy
 #| msgid "Open VFS List"
@@ -2925,6 +2937,10 @@ msgstr "&Actualitza"
 
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
 msgstr ""
 
 #: tfrmmain.actrename.caption
@@ -3063,6 +3079,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Canvia atributs..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -15054,6 +15074,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Escull carpeta:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

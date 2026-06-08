@@ -2188,6 +2188,10 @@ msgstr "Kopiraj putanju u naredbenu liniju"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2454,6 +2458,10 @@ msgstr "Uredi novu datoteku"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Uredi polje putanje iznad spiska"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2790,6 +2798,10 @@ msgstr "Otvori &Mapu u novoj kartici"
 msgid "Open Drive by Index"
 msgstr ""
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2854,6 +2866,10 @@ msgstr "&Osvježi"
 msgctxt "tfrmmain.actreloadfavoritetabs.caption"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Ponovno učitajte posljednje učitane kartice "
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2991,6 +3007,10 @@ msgstr "Dopuštanje promjena na svim karticama"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Promjeni &svojstva..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgctxt "tfrmmain.actsettaboptiondirsinnewtab.caption"
@@ -14805,6 +14825,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Izaberite Mapa:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

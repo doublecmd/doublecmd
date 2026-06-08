@@ -9,8 +9,8 @@ uses
   Graphics, Menus,
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
-  uFileSource, uVirtualFileSource, uFileSystemFileSource, uVfsModule,
-  uFileSourceUtil, uDCUtils, uSysFolders,
+  uFileSource, uVirtualFileSource, uFileSystemFileSource,
+  uFileSourceUtil, uDCUtils, uLng, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -82,14 +82,13 @@ var
   stashActionRemoveFromStash: TBasicAction;
   stashActionEmptyStash: TBasicAction;
 
+const
+  STASH_SCHEME = 'stash://';
+
 implementation
 
 uses
   uStashFileSourceOperation;
-
-const
-  STASH_NAME   = 'Stash';
-  STASH_SCHEME = 'stash://';
 
 var
   stashFileSourceProcessor: TFileSourceProcessor;
@@ -255,11 +254,14 @@ end;
 {$ENDIF}
 
 function TStashFileSource.GetDisplayFileName(aFile: TFile): String;
+var
+  fullpath: String;
 begin
-  if aFile.FullPath = self.GetRootDir() then
-    Result:= STASH_NAME
+  fullpath:= aFile.FullPath;
+  if fullpath = self.GetRootDir() then
+    Result:= rsStashName
   else
-    Result:= aFile.Name;
+    Result:= ExtractFileName( ExcludeTrailingPathDelimiter(fullpath) );
 end;
 
 function TStashFileSource.needReload(
@@ -277,7 +279,7 @@ end;
 
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + STASH_NAME + PathDelim;
+  Result:= PathDelim + rsStashName + PathDelim;
 end;
 
 function TStashFileSource.GetRealPath(const path: String): String;
@@ -498,7 +500,6 @@ end;
 
 initialization
   stashFileSourceProcessor:= TStashFileSourceProcessor.Create;
-  RegisterVirtualFileSource( STASH_NAME, STASH_SCHEME, TStashFileSource, True );
 
 finalization
   FreeAndNil( stashFileSourceProcessor );

@@ -2049,6 +2049,10 @@ msgstr "Kopírovať cestu do príkazového riadku"
 msgid "Add Plugin"
 msgstr "Pridať zásuvný modul"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Benchmark"
@@ -2305,6 +2309,10 @@ msgstr "Editovať nový súbor"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Upraviť cestu nad zoznamom súborov"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2594,6 +2602,10 @@ msgstr "Otvoriť priečinok v novej karte"
 msgid "Open Drive by Index"
 msgstr "Otvoriť disk podľa indexu"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "Otvoriť VFS zoznam"
@@ -2645,6 +2657,10 @@ msgstr "&Obnoviť"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Znovunačítať posledné otvorené obľúbené karty"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2771,6 +2787,10 @@ msgstr "Všetky karty zamknuté s povolením zmeny priečinka"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Zmena &atribútov..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14074,6 +14094,10 @@ msgstr "Automatické;1457664B - 3.5\" Vysoká hustota 1.44M;1213952B - 5.25\" Vy
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Zvoľte priečinok:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

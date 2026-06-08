@@ -2153,6 +2153,10 @@ msgstr "Copiar caminho para a linha de comandos."
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2415,6 +2419,10 @@ msgstr "Editar novo arquivo."
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Editar campo de caminho acima da lista de arquivos."
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2706,6 +2714,10 @@ msgstr "Abrir &pasta em nova guia"
 msgid "Open Drive by Index"
 msgstr ""
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2759,6 +2771,10 @@ msgstr "&Atualizar"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Recarregar a última guia Favoritos carregada."
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2886,6 +2902,10 @@ msgstr "Todas guias bloqueadas com Alterações de Dir Permitidas."
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Alterar &atributos"
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14552,6 +14572,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Pasta selecionada:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

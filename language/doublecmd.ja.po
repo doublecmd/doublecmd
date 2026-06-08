@@ -2108,6 +2108,10 @@ msgstr "コマンドラインにパスをコピー"
 msgid "Add Plugin"
 msgstr "プラグインの追加"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "ベンチマーク(&B)"
@@ -2370,6 +2374,10 @@ msgstr "新しいファイルを編集"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "ファイルリストのパスフィールドを編集"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2661,6 +2669,10 @@ msgstr "新しいタブでフォルダを開く(&F)"
 msgid "Open Drive by Index"
 msgstr "インデックスでドライブを開く"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2714,6 +2726,10 @@ msgstr "リフレッシュ(&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "最後に読み込まれたお気に入りタブを再読み込み"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2841,6 +2857,10 @@ msgstr "全てのタブをロックするがディレクトリの移動を許可
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "属性の変更(&A)…"
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14372,6 +14392,10 @@ msgstr "自動;1457664B - 3.5”高密度1.44M;1213952B - 5.25”高密度1.2M;7
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "ディレクトリを選択："
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

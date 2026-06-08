@@ -416,6 +416,9 @@ resourcestring
   rsVfsNetwork = 'Network';
   rsVfsRecycleBin = 'Recycle Bin';
 
+  // Stash
+  rsStashName = 'Stash';
+
   // Buttons.
   rsDlgButtonOK = '&OK';
   rsDlgButtonNo = '&No';

@@ -2147,6 +2147,10 @@ msgstr "Kopiér sti til kommandolinje"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Benchmark"
@@ -2436,6 +2440,10 @@ msgstr "Rediger ny fil"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Rediger stifeltet over fillisten"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 # Kommandoer
 #: tfrmmain.actexchange.caption
@@ -2767,6 +2775,10 @@ msgstr "Åbn mappe i ny &fane"
 msgid "Open Drive by Index"
 msgstr "Åbn drev efter indeks"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 # Kommandoer
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
@@ -2826,6 +2838,10 @@ msgstr "&Opdatér vindue"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Genindlæs seneste anvendte Favoritfaneblad"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2975,6 +2991,10 @@ msgstr "Alle faneblade låste. Tillad ændring af mappe"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "&Ændre attributter..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 # Faner - Indstillinger
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
@@ -15275,6 +15295,10 @@ msgstr "Automatisk;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High De
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Vælg mappe:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 # Opsætning - Indstillinger - Layout - Mappeoversigt_Layout og Farver
 #: ulng.rsstrpreviewjustpreview

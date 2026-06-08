@@ -2065,6 +2065,10 @@ msgstr "Kopira pot v ukazno vrstico"
 msgid "Add Plugin"
 msgstr "Dodaj vstavek"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Primerjalni preizkus"
@@ -2321,6 +2325,10 @@ msgstr "Uredi novo datoteko"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Uredi polje poti nad seznamom datotek"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2610,6 +2618,10 @@ msgstr "O&dpri mapo v novem zavihku"
 msgid "Open Drive by Index"
 msgstr "Odpri seznam pogona po določilu"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "Odpri seznam &VFS"
@@ -2661,6 +2673,10 @@ msgstr "&Osveži"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Ponovno naloži zadnji naložen priljubljen zavihek"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2787,6 +2803,10 @@ msgstr "Nastavi vse zavihke kot zaklenjene z možnostjo spreminjanja map"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Spremeni &atribute ..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14089,6 +14109,10 @@ msgstr "Samodejno;1457664B – 3.5\" Visoke gostote 1.44M;1213952B – 5.25\" Vi
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Izbor mape:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
