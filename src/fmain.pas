@@ -6976,7 +6976,7 @@ begin
     with lblCommandPath do
     begin
       Visible := True;
-      st := ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
+      st := ExcludeTrailingBackslash(ActiveFrame.CurrentRealPath);
       Hint := st;
 
       Caption := MinimizeFilePath(Format(fmtCommandPath, [st]),
@@ -6987,7 +6987,7 @@ begin
     if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
       begin
         if gTermWindow and Assigned(Cons) then
-          Cons.SetCurrentDir(ActiveFrame.CurrentPath);
+          Cons.SetCurrentDir(ActiveFrame.CurrentRealPath);
       end;
 
     edtCommand.Visible := True;
@@ -7001,7 +7001,7 @@ begin
   Properties := ActiveFrame.FileSource.GetProperties;
   if (fspDirectAccess in Properties) and not (fspLinksToLocalFiles in Properties) then
   begin
-    mbSetCurrentDir(ActiveFrame.CurrentPath);
+    mbSetCurrentDir(ActiveFrame.CurrentRealPath);
   end;
 end;
 
