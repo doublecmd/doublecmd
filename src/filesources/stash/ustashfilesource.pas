@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils,
-  Graphics, Menus,
+  Graphics, Menus, ActnList,
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource,
-  uFileSourceUtil, uDCUtils, uLng, uSysFolders,
+  uFileSourceUtil, uDCUtils, DCStrUtils, uLng, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -47,6 +47,7 @@ type
     function GetLocalName(var aFile: TFile): Boolean; override;
     function GetRootDir(sPath : String): String; override;
     function GetRealPath(const path: String): String; override;
+    function IsPathAtRoot(Path: String): Boolean; override;
     class function IsSupportedPath(const Path: String): Boolean; override;
 
     class function GetMainIcon(out Path: String): Boolean; override;
@@ -78,9 +79,9 @@ type
   end;
 
 var
-  stashActionAddToStash: TBasicAction;
-  stashActionRemoveFromStash: TBasicAction;
-  stashActionEmptyStash: TBasicAction;
+  stashActionAddToStash: TAction;
+  stashActionRemoveFromStash: TAction;
+  stashActionEmptyStash: TAction;
 
 const
   STASH_SCHEME = 'stash://';
@@ -290,6 +291,17 @@ begin
     Result:= Path;
 end;
 
+function TStashFileSource.IsPathAtRoot(Path: String): Boolean;
+var
+  dirs: TStringList;
+  dirCount: Integer;
+begin
+  dirs:= TStringList.Create;
+  dirCount:= GetDirs( ExcludeTrailingPathDelimiter(Path), dirs );
+  Result:= (dirCount <= 1);
+  dirs.Free;
+end;
+
 class function TStashFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
   Result:= Path.StartsWith( STASH_SCHEME );
@@ -410,6 +422,7 @@ end;
 
 function TStashFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
 var
+  removedIndex: Integer;
   index: Integer;
 
   function hasValidPath: Boolean;
@@ -428,12 +441,10 @@ var
   end;
 
   procedure removeAddToStash;
-  var
-    item: TMenuItem;
   begin
-    item:= AMenu.Items.Find( 'Add to Stash' );
-    if Assigned(item) then
-      AMenu.Items.Remove( item );
+    removedIndex:= AMenu.Items.IndexOfCaption( stashActionAddToStash.Caption );
+    if removedIndex >= 0 then
+      AMenu.Items.Delete( removedIndex );
   end;
 
   procedure addRemoveStashItems;
@@ -466,10 +477,14 @@ var
   end;
 
 begin
-  Result:= False;
-  index:= 0;
+  Result:= True;
 
   removeAddToStash;
+
+  if removedIndex >= 0 then
+    index:= removedIndex
+  else
+    index:= 0;
 
   if hasValidPath then
     addRemoveStashItems;
@@ -477,10 +492,8 @@ begin
   if stashFilesBackend.count > 0 then
     addEmptyStash;
 
-  if index > 0 then begin
+  if removedIndex < 0 then
     addSeperator;
-    Result:= True;
-  end;
 end;
 
 procedure TStashFileSource.AddSearchPath(
