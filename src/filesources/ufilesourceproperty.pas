@@ -90,6 +90,11 @@ type
     fspSearchable,
 
     {en
+       Set, if the file source supports save to ConfigFile and load from ConfigFile.
+    }
+    fspSaveableLoadable,
+
+    {en
       Set, if the file source has default columns view
     }
     fspDefaultView,

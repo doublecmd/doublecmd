@@ -2843,8 +2843,7 @@ begin
 
   for i := 0 to FileSourcesCount - 1 do
   begin
-    // Currently saves only FileSystem.
-    if FHistory.FileSource[i].IsClass(TFileSystemFileSource) then
+    if fspSaveableLoadable in FHistory.FileSource[i].Properties then
     begin
       EntryNode := AConfig.AddNode(HistoryNode, 'Entry');
       if FHistory.CurrentFileSourceIndex = i then
