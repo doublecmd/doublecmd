@@ -4200,7 +4200,7 @@ var
 begin
   with frmMain do
   begin
-    if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+    if fspDirectAccess in ActiveFrame.FileSource.Properties then
       begin
         SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
         if Assigned(SelectedFiles) then

@@ -189,7 +189,7 @@ begin
       end
     else
       // if filesystem
-      if aFileView.FileSource.IsClass(TFileSystemFileSource) then
+      if fspDirectAccess in aFileView.FileSource.Properties then
         begin
          // If archives count > 1 then put to queue
          if (aFiles.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
