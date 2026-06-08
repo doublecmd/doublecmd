@@ -75,6 +75,8 @@ type
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
     actAddToStash: TAction;
+    actEmptyStash: TAction;
+    actRemoveFromStash: TAction;
     actOpenStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
@@ -961,10 +963,12 @@ implementation
 {$R *.lfm}
 
 uses
-  Themes, uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
+  Themes, uFileProcs, uShellContextMenu, fTreeViewMenu,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
-  uDragDropEx, uKeyboard, uLocalFileSource, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
+  uDragDropEx, uKeyboard,
+  uLocalFileSource, uFileSystemFileSource, uSearchResultFileSource, uStashFileSource,
+  fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -1113,6 +1117,13 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     );
   end;
 
+  procedure setStashAction;
+  begin
+    stashActionAddToStash:= actAddToStash;
+    stashActionRemoveFromStash:= actRemoveFromStash;
+    stashActionEmptyStash:= actEmptyStash;
+  end;
+
 var
   HMMainForm: THMForm;
   I: Integer;
@@ -1123,6 +1134,8 @@ begin
   Application.OnShowHint := @AppShowHint;
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
+
+  setStashAction;
 
   {$IF DEFINED(DARWIN)}
   // in LCL's DARWIN implements, there is no way but to Use LCL's method of dropping files

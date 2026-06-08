@@ -39,8 +39,6 @@ type
     procedure onFileSystemEvent(var params: TFileSourceEventParams);
     procedure onStashChanged(Sender: TObject);
     procedure reload; overload;
-    procedure removeAction(Sender: TObject);
-    procedure clearAction(Sender: TObject);
   public
     constructor Create; override; overload;
     destructor Destroy; override;
@@ -78,6 +76,11 @@ type
     function needReload(const PathToReload: String; const PathToCheck: String): Boolean; override;
     procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   end;
+
+var
+  stashActionAddToStash: TBasicAction;
+  stashActionRemoveFromStash: TBasicAction;
+  stashActionEmptyStash: TBasicAction;
 
 implementation
 
@@ -199,20 +202,6 @@ end;
 procedure TStashFileSource.reload;
 begin
   self.Reload( self.GetRootDir );
-end;
-
-procedure TStashFileSource.removeAction(Sender: TObject);
-var
-  item: TMenuItem absolute Sender;
-  files: TFiles;
-begin
-  files:= TFiles( item.Tag );
-  stashFilesBackend.removePaths( files );
-end;
-
-procedure TStashFileSource.clearAction(Sender: TObject);
-begin
-  stashFilesBackend.clear;
 end;
 
 constructor TStashFileSource.Create;
@@ -450,9 +439,7 @@ var
     item: TMenuItem;
   begin
     item:= TMenuItem.Create( AMenu );
-    item.Caption:= 'Remove Stash Items';
-    item.OnClick:= @self.removeAction;
-    item.Tag:= PtrInt( AFiles );
+    item.Action:= stashActionRemoveFromStash;
     AMenu.Items.Insert(index, item);
     inc( index );
   end;
@@ -462,8 +449,7 @@ var
     item: TMenuItem;
   begin
     item:= TMenuItem.Create( AMenu );
-    item.Caption:= 'Empty Stash';
-    item.OnClick:= @self.clearAction;
+    item.Action:= stashActionEmptyStash;
     AMenu.Items.Insert(index, item);
     inc( index );
   end;

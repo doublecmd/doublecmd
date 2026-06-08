@@ -267,6 +267,8 @@
 {"hash":10715029,"name":"tfrmmain.actsetsortmode.caption","sourcebytes":[83,101,116,32,83,111,114,116,32,77,111,100,101],"value":"Set Sort Mode"},
 {"hash":86036264,"name":"tfrmmain.actaddtostash.caption","sourcebytes":[65,100,100,32,116,111,32,83,116,97,115,104],"value":"Add to Stash"},
 {"hash":6278744,"name":"tfrmmain.actopenstash.caption","sourcebytes":[79,112,101,110,32,83,116,97,115,104],"value":"Open Stash"},
+{"hash":145114643,"name":"tfrmmain.actremovefromstash.caption","sourcebytes":[82,101,109,111,118,101,32,83,116,97,115,104,32,73,116,101,109,115],"value":"Remove Stash Items"},
+{"hash":186052392,"name":"tfrmmain.actemptystash.caption","sourcebytes":[69,109,112,116,121,32,83,116,97,115,104],"value":"Empty Stash"},
 {"hash":310020,"name":"tfrmmain.tbedit.caption","sourcebytes":[69,100,105,116],"value":"Edit"},
 {"hash":78392485,"name":"tfrmmain.tbdelete.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
 {"hash":1140,"name":"tfrmmain.tbchangedir.caption","sourcebytes":[67,68],"value":"CD"},

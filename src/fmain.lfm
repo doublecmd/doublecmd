@@ -2893,6 +2893,18 @@ object frmMain: TfrmMain
       Caption = 'Open Stash'
       OnExecute = actExecute
     end
+    object actRemoveFromStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Remove Stash Items'
+      OnExecute = actExecute
+    end
+    object actEmptyStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Empty Stash'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

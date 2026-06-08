@@ -385,6 +385,8 @@ type
    procedure cm_LoadList(const Params: array of string);
    procedure cm_SetSortMode(const Params: array of string);
    procedure cm_AddToStash(const {%H-}Params: array of string);
+   procedure cm_RemoveFromStash(const {%H-}Params: array of string);
+   procedure cm_EmptyStash(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -5732,11 +5734,35 @@ end;
 
 procedure TMainCommands.cm_AddToStash(const Params: array of string);
 var
+  fs: IFileSource;
   files: TFiles;
 begin
+  fs:= frmMain.ActiveFrame.FileSource;
+  if fs.IsClass(TStashFileSource) then
+    Exit;
+  if NOT (fspDirectAccess in fs.Properties) then
+    Exit;
   files:= frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
   stashFilesBackend.addPaths( files );
   files.Free;
+end;
+
+procedure TMainCommands.cm_RemoveFromStash(const Params: array of string);
+var
+  fs: IFileSource;
+  files: TFiles;
+begin
+  fs:= frmMain.ActiveFrame.FileSource;
+  if NOT fs.IsClass(TStashFileSource) then
+    Exit;
+  files:= frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  stashFilesBackend.removePaths( files );
+  files.Free;
+end;
+
+procedure TMainCommands.cm_EmptyStash(const Params: array of string);
+begin
+  stashFilesBackend.clear;
 end;
 
 end.
