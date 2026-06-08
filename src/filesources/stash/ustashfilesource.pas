@@ -24,6 +24,7 @@ type
   TStashFileSourceProcessor = class( TDefaultFileSourceProcessor )
   private
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
+    procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
     procedure confirmOperation(var params: TFileSourceConsultParams); override;
@@ -65,6 +66,7 @@ type
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
+    function CreateMoveOperation(var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
     function CreateSplitOperation(var aSourceFile: TFile; aTargetPath: String): TFileSourceOperation; override;
@@ -145,6 +147,19 @@ begin
     doTarget;
 end;
 
+procedure TStashFileSourceProcessor.consultMoveOperation(
+  var params: TFileSourceConsultParams);
+begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
+  if params.phase=TFileSourceConsultPhase.target then
+    Exit;
+
+  if fspDirectAccess in params.targetFS.Properties then
+    params.consultResult:= fscrSuccess;
+end;
+
 procedure TStashFileSourceProcessor.consultOperation(
   var params: TFileSourceConsultParams);
 begin
@@ -152,7 +167,7 @@ begin
     fsoCopy:
       self.consultCopyOperation( params );
     else
-      Inherited;
+      self.consultMoveOperation( params );
   end;
 end;
 
@@ -166,8 +181,6 @@ begin
         params.handled:= True;
       end;
     end
-    else
-      Inherited;
   end;
 end;
 
@@ -310,7 +323,7 @@ end;
 function TStashFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result:= [fsoList,
-            fsoCopyIn, fsoCopyOut,
+            fsoCopyIn, fsoCopyOut, fsoMove,
             fsoDelete, fsoWipe,
             fsoSplit, fsoCombine,
             fsoCalcStatistics,
@@ -353,6 +366,12 @@ begin
               TargetFileSource,
               SourceFiles,
               TargetPath );
+end;
+
+function TStashFileSource.CreateMoveOperation(var SourceFiles: TFiles;
+  TargetPath: String): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateMoveOperation(SourceFiles, TargetPath);
 end;
 
 function TStashFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
