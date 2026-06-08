@@ -71,6 +71,7 @@ implementation
 uses
   Dialogs,
   uGlobs, uDCUtils, uShowMsg, uLng, DCStrUtils,
+  uFileSourceProperty,
   uFileSourceOperation,
   uFileSystemFileSource,
   uArchiveFileSourceUtil,
@@ -161,7 +162,7 @@ begin
           end
           else
           // if filesystem
-          if SourceFileSource.IsClass(TFileSystemFileSource) then
+          if fspDirectAccess in SourceFileSource.Properties then
           begin
             // if archives count > 1 then put to queue
             if (Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
