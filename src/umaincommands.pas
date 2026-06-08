@@ -71,6 +71,7 @@ type
    // parameters would have to be converted to and from strings).
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
+   procedure DoOpenStash(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
    procedure DoUpdateFileView(AFileView: TFileView; {%H-}UserData: Pointer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
@@ -186,6 +187,7 @@ type
    procedure cm_Open(const {%H-}Params: array of string);
    procedure cm_ShellExecute(const Params: array of string);
    procedure cm_OpenVirtualFileSystemList(const {%H-}Params: array of string);
+   procedure cm_OpenStash(const {%H-}Params: array of string);
    procedure cm_TargetEqualSource(const {%H-}Params: array of string);
    procedure cm_LeftEqualRight(const {%H-}Params: array of string);
    procedure cm_RightEqualLeft(const {%H-}Params: array of string);
@@ -412,7 +414,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
      uColumnsFileView, uTypes,
-     uStashFilesBackend
+     uStashFileSource, uStashFilesBackend
      ;
 
 resourcestring
@@ -730,6 +732,18 @@ var
   FileSource: IFileSource;
 begin
   FileSource:= TVfsFileSource.Create(gWFXPlugins);
+  if Assigned(FileSource) then
+  begin
+    Panel.AddFileSource(FileSource, FileSource.GetRootDir);
+    frmMain.ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TMainCommands.DoOpenStash(Panel: TFileView);
+var
+  FileSource: IFileSource;
+begin
+  FileSource:= TStashFileSource.GetFileSource;
   if Assigned(FileSource) then
   begin
     Panel.AddFileSource(FileSource, FileSource.GetRootDir);
@@ -1455,6 +1469,11 @@ end;
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
 begin
   DoOpenVirtualFileSystemList(frmMain.ActiveFrame);
+end;
+
+procedure TMainCommands.cm_OpenStash(const Params: array of string);
+begin
+  DoOpenStash(frmMain.ActiveFrame);
 end;
 
 //------------------------------------------------------

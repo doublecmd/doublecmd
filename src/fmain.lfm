@@ -1216,6 +1216,9 @@ object frmMain: TfrmMain
       object mnuOpenVFSList: TMenuItem
         Action = actOpenVirtualFileSystemList
       end
+      object mnuOpenStash: TMenuItem
+        Action = actOpenStash
+      end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange
       end
@@ -2882,6 +2885,12 @@ object frmMain: TfrmMain
       Tag = 4
       Category = 'File Operations'
       Caption = 'Add to Stash'
+      OnExecute = actExecute
+    end
+    object actOpenStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Open Stash'
       OnExecute = actExecute
     end
   end

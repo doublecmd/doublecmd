@@ -75,6 +75,7 @@ type
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
     actAddToStash: TAction;
+    actOpenStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
     actMapNetworkDrive: TAction;
@@ -252,6 +253,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuOpenStash: TMenuItem;
     mnuDoAnyCmCommand: TMenuItem;
     miConfigArchivers: TMenuItem;
     mnuConfigSavePos: TMenuItem;
