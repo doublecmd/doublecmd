@@ -69,6 +69,7 @@ type
     function CreateCombineOperation(var theSourceFiles: TFiles; aTargetFile: String): TFileSourceOperation; override;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles; var theNewProperties: TFileProperties): TFileSourceOperation; override;
+    function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
 
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
     procedure AddSearchPath( const startPath: String; paths: TStringList); override;
@@ -303,7 +304,9 @@ begin
             fsoDelete, fsoWipe,
             fsoSplit, fsoCombine,
             fsoCalcStatistics,
-            fsoSetFileProperty];
+            fsoSetFileProperty,
+            fsoExecute,
+            fsoTestArchive];
 end;
 
 class function TStashFileSource.CreateFile(const APath: String): TFile;
@@ -377,6 +380,12 @@ begin
   Result:= _fileSystemFS.CreateSetFilePropertyOperation(
               theTargetFiles,
               theNewProperties );
+end;
+
+function TStashFileSource.CreateExecuteOperation(var ExecutableFile: TFile;
+  BasePath, Verb: String): TFileSourceOperation;
+begin
+  Result:= _fileSystemFS.CreateExecuteOperation(ExecutableFile, BasePath, Verb);
 end;
 
 function TStashFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
