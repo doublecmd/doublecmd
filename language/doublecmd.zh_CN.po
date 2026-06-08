@@ -2049,7 +2049,7 @@ msgstr "添加插件"
 
 #: tfrmmain.actaddtostash.caption
 msgid "Add to Stash"
-msgstr ""
+msgstr "添加到暂存区"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2310,7 +2310,7 @@ msgstr "编辑文件列表上方的路径字段"
 
 #: tfrmmain.actemptystash.caption
 msgid "Empty Stash"
-msgstr ""
+msgstr "清空暂存区"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2602,7 +2602,7 @@ msgstr "按索引打开驱动器"
 
 #: tfrmmain.actopenstash.caption
 msgid "Open Stash"
-msgstr ""
+msgstr "打开暂存区"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
@@ -2658,7 +2658,7 @@ msgstr "重新加载上次加载的收藏夹标签"
 
 #: tfrmmain.actremovefromstash.caption
 msgid "Remove Stash Items"
-msgstr ""
+msgstr "从暂存区移除"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2788,7 +2788,7 @@ msgstr "更改属性(&A)..."
 
 #: tfrmmain.actsetsortmode.caption
 msgid "Set Sort Mode"
-msgstr ""
+msgstr "设置排序模式"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -14117,7 +14117,7 @@ msgstr "选中的文件夹："
 
 #: ulng.rsstashname
 msgid "Stash"
-msgstr ""
+msgstr "暂存区"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
