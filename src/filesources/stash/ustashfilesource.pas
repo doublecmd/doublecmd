@@ -10,7 +10,7 @@ uses
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource,
-  uFileSourceUtil, uDCUtils, DCStrUtils, uLng, uSysFolders,
+  uDCUtils, DCStrUtils, uLng, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -105,6 +105,12 @@ var
   procedure doSource;
   begin
     params.handled:= True;
+
+    if targetFS.IsClass(TStashFileSource) then begin
+      params.consultResult:= fscrNotSupported;
+      Exit;
+    end;
+
     if NOT (fspDirectAccess in targetFS.Properties) and
        NOT (fsoCopyIn in targetFS.GetOperationsTypes) then begin
           params.consultResult:= fscrNotSupported;
@@ -124,6 +130,12 @@ var
   procedure doTarget;
   begin
     params.handled:= True;
+
+    if sourceFS.IsClass(TStashFileSource) then begin
+      params.consultResult:= fscrNotSupported;
+      Exit;
+    end;
+
     if NOT (fspDirectAccess in sourceFS.Properties) then begin
       params.consultResult:= fscrNotSupported;
       Exit;
@@ -138,12 +150,6 @@ begin
   sourceFS:= params.sourceFS;
   targetFS:= params.targetFS;
 
-  if isCompatibleFileSourceForCopyOperation(sourceFS,targetFS) then begin
-    params.consultResult:= fscrNotSupported;
-    params.handled:= True;
-    Exit;
-  end;
-
   if params.phase=TFileSourceConsultPhase.source then
     doSource
   else
@@ -157,6 +163,9 @@ begin
   params.handled:= True;
 
   if params.phase=TFileSourceConsultPhase.target then
+    Exit;
+
+  if params.targetFS.IsClass(TStashFileSource) then
     Exit;
 
   if fspDirectAccess in params.targetFS.Properties then
