@@ -5,7 +5,7 @@ unit uStashFilesBackend;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, syncobjs,
   uFile, uFileSystemFileSource;
 
 type
@@ -14,15 +14,17 @@ type
 
   TStashFilesBackend = class
   private
+    _lockObject: TCriticalSection;
     _paths: TStringList;
+  private
+    procedure addPath( const path: String ); inline;
+    procedure removePath( const path: String ); inline;
   public
     constructor Create;
     destructor Destroy; override;
 
     procedure setListener( const listener: TNotifyEvent );
 
-    procedure addPath( const path: String );
-    procedure removePath( const path: String );
     procedure clear;
     function count: Integer;
     procedure addPaths( const files: TFiles );
@@ -39,6 +41,7 @@ implementation
 
 constructor TStashFilesBackend.Create;
 begin
+  _lockObject:= TCriticalSection.Create;;
   _paths:= TStringList.Create;
   _paths.SortStyle:= sslAuto;
   _paths.Duplicates:= dupIgnore;
@@ -47,6 +50,7 @@ end;
 destructor TStashFilesBackend.Destroy;
 begin
   FreeAndNIl( _paths );
+  FreeAndNil( _lockObject );
 end;
 
 procedure TStashFilesBackend.setListener(const listener: TNotifyEvent);
@@ -70,28 +74,48 @@ end;
 
 procedure TStashFilesBackend.clear;
 begin
-  _paths.Clear;
+  _lockObject.Acquire;
+  try
+    _paths.Clear;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TStashFilesBackend.count: Integer;
 begin
-  Result:= _paths.Count;
+  _lockObject.Acquire;
+  try
+    Result:= _paths.Count;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 procedure TStashFilesBackend.addPaths(const files: TFiles);
 var
   i: Integer;
 begin
-  for i:= 0 to files.Count-1 do
-    self.addPath( files[i].FullPath );
+  _lockObject.Acquire;
+  try
+    for i:= 0 to files.Count-1 do
+      self.addPath( files[i].FullPath );
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 procedure TStashFilesBackend.removePaths(const files: TFiles);
 var
   i: Integer;
 begin
-  for i:= 0 to files.Count-1 do
-    self.removePath( files[i].FullPath );
+  _lockObject.Acquire;
+  try
+    for i:= 0 to files.Count-1 do
+      self.removePath( files[i].FullPath );
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TStashFilesBackend.toFiles: TFiles;
@@ -103,16 +127,23 @@ var
 begin
   files:= TFiles.Create( EmptyStr );
   i:= 0;
-  while i < _paths.Count do begin
-    path:= _paths[i];
-    try
-      f:= TFileSystemFileSource.CreateFileFromFile( path );
-      files.Add( f );
-      inc( i );
-    except
-      _paths.Delete( i );
+
+  _lockObject.Acquire;
+  try
+    while i < _paths.Count do begin
+      path:= _paths[i];
+      try
+        f:= TFileSystemFileSource.CreateFileFromFile( path );
+        files.Add( f );
+        inc( i );
+      except
+        _paths.Delete( i );
+      end;
     end;
+  finally
+    _lockObject.Release;
   end;
+
   Result:= files;
 end;
 
