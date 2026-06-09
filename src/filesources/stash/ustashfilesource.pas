@@ -104,18 +104,9 @@ var
 
   procedure doSource;
   begin
-    params.handled:= True;
-
-    if targetFS.IsClass(TStashFileSource) then begin
-      params.consultResult:= fscrNotSupported;
-      Exit;
-    end;
-
     if NOT (fspDirectAccess in targetFS.Properties) and
-       NOT (fsoCopyIn in targetFS.GetOperationsTypes) then begin
-          params.consultResult:= fscrNotSupported;
+       NOT (fsoCopyIn in targetFS.GetOperationsTypes) then
           Exit;
-    end;
 
     if fspDirectAccess in targetFS.Properties then begin
       params.resultOperationType:= fsoCopyOut;
@@ -124,29 +115,29 @@ var
       params.resultOperationType:= fsoCopyIn;
       params.resultFS:= targetFS;
     end;
+    params.operationTemp:= False;
     params.consultResult:= fscrSuccess;
+    params.handled:= False;
   end;
 
   procedure doTarget;
   begin
-    params.handled:= True;
-
-    if sourceFS.IsClass(TStashFileSource) then begin
-      params.consultResult:= fscrNotSupported;
+    if NOT (fspDirectAccess in sourceFS.Properties) then
       Exit;
-    end;
-
-    if NOT (fspDirectAccess in sourceFS.Properties) then begin
-      params.consultResult:= fscrNotSupported;
-      Exit;
-    end;
 
     params.resultOperationType:= fsoCopyIn;
     params.resultFS:= targetFS;
+    params.operationTemp:= False;
     params.consultResult:= fscrSuccess;
   end;
 
 begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
+  if params.partnerFS.IsClass(TStashFileSource) then
+    Exit;
+
   sourceFS:= params.sourceFS;
   targetFS:= params.targetFS;
 
@@ -162,10 +153,10 @@ begin
   params.consultResult:= fscrNotSupported;
   params.handled:= True;
 
-  if params.phase=TFileSourceConsultPhase.target then
+  if params.partnerFS.IsClass(TStashFileSource) then
     Exit;
 
-  if params.targetFS.IsClass(TStashFileSource) then
+  if params.phase=TFileSourceConsultPhase.target then
     Exit;
 
   if fspDirectAccess in params.targetFS.Properties then
