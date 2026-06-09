@@ -1097,10 +1097,6 @@ var
     end else if fsoCopyIn in targetFS.GetOperationsTypes then begin
       params.resultOperationType:= fsoCopyIn;
       params.resultFS:= targetFS;
-    end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
-      params.resultOperationType:= fsoCopyOut;
-      params.resultFS:= params.sourceFS;
-      params.operationTemp:= True;
     end else begin
       params.consultResult:= fscrNotSupported;
     end;
