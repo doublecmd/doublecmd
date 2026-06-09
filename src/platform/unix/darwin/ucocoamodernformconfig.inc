@@ -11,6 +11,7 @@ uses
   fMain, fEditor, fDiffer, fViewer,
   uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
+  uFileSourceProperty,
   uFileSystemFileSource,
   uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
   uDarwinFinder, uDarwinFinderModel,

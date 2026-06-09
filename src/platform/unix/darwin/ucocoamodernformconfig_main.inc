@@ -107,7 +107,7 @@ procedure onFileViewUpdated( const fileView: TFileView );
     enabled: Boolean;
     item: NSToolbarItem;
   begin
-    enabled:= fileView.FileSource.IsClass( TFileSystemFileSource );
+    enabled:= fspDirectAccess in fileView.FileSource.Properties;
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.Share' );
     item.setEnabled( enabled );
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.AirDrop' );
