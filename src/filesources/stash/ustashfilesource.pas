@@ -211,6 +211,10 @@ begin
   FCurrentAddress:= STASH_SCHEME;
   _fileSystemFS:= IFileSystemFileSource(FileSourceManager.Find(TFileSystemFileSource,EmptyStr));
   _fileSystemFS.AddEventListener( @self.onFileSystemEvent );
+
+  FOperationsClasses[fsoCopyIn]  := TStashCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut] := _fileSystemFS.GetOperationClass(fsoCopyOut);
+  FOperationsClasses[fsoMove]    := _fileSystemFS.GetOperationClass(fsoMove);;
 end;
 
 destructor TStashFileSource.Destroy;
