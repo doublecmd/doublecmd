@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFile, uFileSource,
+  uFileSource,
   uFileSourceListOperation, uFileSourceCopyOperation,
   uStashFilesBackend;
 
