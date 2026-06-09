@@ -116,7 +116,7 @@ function TSearchResultFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := inherited GetProperties;
   Result -= [fspNoneParent, fspListFlatView, fspSaveableLoadable];
-  Result += [fspDontChangePath, fspDontCreateDirectory, fspSearchable];
+  Result += [fspDontChangePath, fspDontCreateDirectory, fspImmutable, fspSearchable];
   if (fspDirectAccess in Result) then Result+= [fspLinksToLocalFiles];
 end;
 

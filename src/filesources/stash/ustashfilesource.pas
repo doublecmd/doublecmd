@@ -132,12 +132,6 @@ var
   end;
 
 begin
-  params.consultResult:= fscrNotSupported;
-  params.handled:= True;
-
-  if params.partnerFS.IsClass(TStashFileSource) then
-    Exit;
-
   sourceFS:= params.sourceFS;
   targetFS:= params.targetFS;
 
@@ -150,12 +144,6 @@ end;
 procedure TStashFileSourceProcessor.consultMoveOperation(
   var params: TFileSourceConsultParams);
 begin
-  params.consultResult:= fscrNotSupported;
-  params.handled:= True;
-
-  if params.partnerFS.IsClass(TStashFileSource) then
-    Exit;
-
   if params.phase=TFileSourceConsultPhase.target then
     Exit;
 
@@ -166,6 +154,15 @@ end;
 procedure TStashFileSourceProcessor.consultOperation(
   var params: TFileSourceConsultParams);
 begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
+  if params.partnerFS.IsClass(TStashFileSource) then
+    Exit;
+
+  if fspImmutable in params.targetFS.Properties then
+    Exit;
+
   case params.operationType of
     fsoCopy:
       self.consultCopyOperation( params );

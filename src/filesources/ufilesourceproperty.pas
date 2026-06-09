@@ -85,6 +85,12 @@ type
     fspDontCreateDirectory,
 
     {en
+       Set, if the files/paths of the file source cannnot be changed
+       (for example: results from searching, etc.).
+    }
+    fspImmutable,
+
+    {en
        Set, if the file source supports searching in FindDlg.
     }
     fspSearchable,

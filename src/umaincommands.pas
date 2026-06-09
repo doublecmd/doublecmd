@@ -2531,6 +2531,7 @@ begin
     if not (fsoCreateDirectory in ActiveFrame.FileSource.GetOperationsTypes) then
     begin
       if (fspDontCreateDirectory in ActiveFrame.FileSource.Properties) or
+         (fspImmutable in ActiveFrame.FileSource.Properties) or
          NOT (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
         msgWarning(rsMsgErrNotSupported);

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
-  uFileSource, uFileSourceOperationTypes, uFileSourceUtil,
+  uFileSource, uFileSourceOperationTypes, uFileSourceProperty, uFileSourceUtil,
   uDebug, DCStrUtils;
 
 type
@@ -272,6 +272,12 @@ end;
 
 procedure TDefaultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams );
 begin
+  if fspImmutable in params.targetFS.Properties then begin
+    params.consultResult:= fscrNotSupported;
+    params.handled:= True;
+    Exit;
+  end;
+
   case params.operationType of
     fsoCopy:
       self.consultCopyOperation( params );
