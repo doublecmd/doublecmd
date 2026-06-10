@@ -360,7 +360,7 @@ begin
   params.handled:= True;
   if params.phase=TFileSourceConsultPhase.source then
     Exit;
-  if params.sourceFS.GetClass.ClassType <> TFileSystemFileSource then
+  if NOT (fspDirectAccess in params.sourceFS.Properties) then
     Exit;
 
   params.consultResult:= fscrSuccess;
