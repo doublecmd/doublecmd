@@ -519,6 +519,7 @@ type
                                   var DropParams: TDropParams); virtual abstract;
 
     procedure GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
+    procedure GoToPrevFileSourceHistory;
     function hasPrevHistory: Boolean;
     procedure GoToPrevHistory;
     function hasNextHistory: Boolean;
@@ -2993,11 +2994,11 @@ begin
     // If there is a higher level file source then change to it.
     if (FileSourcesCount > 1) and AllowChangingFileSource then
     begin
-      // use GoToPrevHistory instead of RemoveCurrentFileSource to navigate
+      // use GoToPrevFileSourceHistory instead of RemoveCurrentFileSource to navigate
       // to the parent when the current FileSource is at the Root.
       // in this way, for example, in SearchResults, after clicking "..",
       // we can navigation by cm_ViewHistoryPrev/cm_ViewHistoryNext.
-      GoToPrevHistory;
+      GoToPrevFileSourceHistory
     end;
   end
   else
@@ -3604,6 +3605,17 @@ begin
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
+  end;
+end;
+
+procedure TFileView.GoToPrevFileSourceHistory;
+var
+  aFileSourceIndex, aPathIndex: Integer;
+begin
+  if FHistory.CurrentFileSourceIndex > 0 then begin
+    aFileSourceIndex := FHistory.CurrentFileSourceIndex - 1;
+    aPathIndex := FHistory.PathsCount[aFileSourceIndex] - 1;
+    GoToHistoryIndex(aFileSourceIndex, aPathIndex);
   end;
 end;
 
