@@ -80,6 +80,21 @@ type
          SearchResult CopyOut / TargetFileSource CopyIn / Temp file needed
     }
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
+
+    {
+      when moving from SearchResult to TargetFileSource, the following needs to be considered:
+      1. the SearchResult created from a Wcx/Zip doesn't support moving files.
+         it's limited by DC's philosophy that doesn't support moving files from
+         WCX/ZIP files to external.
+      2. only the SearchResult created from FileSource that supports DirectAccess,
+         such as FileSystemFileSource, supports moving files. it only supports moving outwards,
+         not moving to SearchResult.
+      3. only the TargetFileSource that supports DirectAccess supports moving files from
+         SearchResult. it's also limited by DC's philosophy that doesn't support moving
+         files to Wcx/Zip.
+      4. therefore, only one type of movement is currently supported: moving from
+         SearchResult that supports DirectAccess to TargetFileSource that supports DirectAccess.
+    }
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
@@ -115,14 +130,17 @@ begin
   if params.phase = TFileSourceConsultPhase.target then
     Exit;
 
-  if fspDirectAccess in params.sourceFS.Properties then begin
-    params.resultFS:= params.partnerFS;
-    params.resultOperationType:= fsoCopyIn;
-    params.operationTemp:= False;
-    params.consultResult:= fscrSuccess;
-  end else begin
-    Inherited consultOperation( params );
-  end;
+  if NOT (fspDirectAccess in params.sourceFS.Properties) then
+    Exit;
+
+  if NOT (fspDirectAccess in params.targetFS.Properties) then
+    Exit;
+
+  params.resultFS:= params.partnerFS;
+  params.resultOperationType:= fsoMove;
+  params.operationTemp:= False;
+  params.consultResult:= fscrSuccess;
+  params.handled:= False;
 end;
 
 procedure TSearchResultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams);
