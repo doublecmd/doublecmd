@@ -217,10 +217,12 @@ begin
   // If same file source and address
   if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
     params.resultFS:= params.sourceFS;
+    params.consultResult:= fscrSuccess;
   end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
     params.resultOperationType:= fsoCopyOut;
     params.operationTemp:= True;
     params.resultFS:= params.sourceFS;
+    params.consultResult:= fscrSuccess;
   end else begin
     params.consultResult:= fscrNotSupported;
   end;
