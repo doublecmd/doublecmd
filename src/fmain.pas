@@ -3921,15 +3921,10 @@ begin
 
     if NOT bMove then begin
       if params.consultResult = fscrNotImplemented then
-      begin
-        msgWarning(rsMsgNotImplemented);
-        Exit;
-      end
-      else
-      begin
+        msgWarning(rsMsgNotImplemented)
+      else if params.consultResult = fscrNotSupported then
         msgWarning(rsMsgErrNotSupported);
-        Exit;
-      end;
+      Exit;
     end;
 
     if SourceFiles.Count = 0 then
