@@ -60,32 +60,95 @@ type
 
   TSearchResultFileSourceProcessor = class( TDefaultFileSourceProcessor )
   private
+    {
+      when copying from SearchResult to TargetFileSource, the following needs to be considered:
+      1. SearchResult only supports copying outwards, not copying to SearchResult.
+      2. there are two types of SearchResult: one is created from a FileSource that
+         supports DirectAccess, in which case the SearchResult supports DirectAccess;
+         the other is created from a Wcx/Zip, in which case the SearchResult does not
+         support DirectAccess.
+      3. there are also two types of TargetFileSource: one that supports DirectAccess
+         and one that does not (such as Wcx/Zip).
+      therefore, there are a total of 4 combinations:
+      1. both SearchResult and TargetFileSource support DirectAccess
+         TargetFileSource CopyIn / no temp file
+      2. SearchResult supports DirectAccess, but TargetFileSource does not
+         TargetFileSource CopyIn / no temp file
+      3. SearchResult does not support DirectAccess, but TargetFileSource does
+         SearchResult CopyOut / no temp file
+      4. Neither SearchResult nor TargetFileSource supports DirectAccess
+         SearchResult CopyOut / TargetFileSource CopyIn / Temp file needed
+    }
+    procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
+    procedure confirmOperation(var params: TFileSourceConsultParams); override;
   end;
 
 var
   searchResultFileSourceProcessor: TSearchResultFileSourceProcessor;
 
-procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
-var
-  searchResultFS: TSearchResultFileSource;
+procedure TSearchResultFileSourceProcessor.consultCopyOperation(
+  var params: TFileSourceConsultParams);
 begin
-  if params.phase<>TFileSourceConsultPhase.source then
+  if params.phase = TFileSourceConsultPhase.target then
     Exit;
 
-  searchResultFS:= params.currentFS as TSearchResultFileSource;
-  params.sourceFS:= searchResultFS.FileSource;
+  if NOT (fsoCopyIn in params.partnerFS.GetOperationsTypes) then
+    Exit;
+
+  params.handled:= False;
+
+  if fspDirectAccess in params.targetFS.Properties then begin
+    params.resultFS:= params.partnerFS;
+    params.resultOperationType:= fsoCopyIn;
+    params.operationTemp:= False;
+    params.consultResult:= fscrSuccess;
+  end else begin
+    Inherited consultOperation( params );
+  end;
+end;
+
+procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
+begin
+  if params.phase = TFileSourceConsultPhase.target then
+    Exit;
+
+  if fspDirectAccess in params.sourceFS.Properties then begin
+    params.resultFS:= params.partnerFS;
+    params.resultOperationType:= fsoCopyIn;
+    params.operationTemp:= False;
+    params.consultResult:= fscrSuccess;
+  end else begin
+    Inherited consultOperation( params );
+  end;
 end;
 
 procedure TSearchResultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams);
 begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
   case params.operationType of
+    fsoCopy:
+      self.consultCopyOperation( params );
     fsoMove:
       self.consultMoveOperation( params );
   end;
-  Inherited;
+end;
+
+procedure TSearchResultFileSourceProcessor.confirmOperation(
+  var params: TFileSourceConsultParams);
+begin
+  case params.operationType of
+    fsoCopy: begin
+      if fspDirectAccess in params.targetFS.Properties then
+        Exit;
+      params.files.Path:= params.files[0].Path;
+      params.handled:= True;
+    end
+  end;
 end;
 
 constructor TSearchResultFileSource.Create(const displayName: String);
