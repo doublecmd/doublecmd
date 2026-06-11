@@ -798,6 +798,8 @@ begin
   end;
 end;
 {$ELSE}
+var
+  contextFiles: TFiles;
 begin
   if Files.Count = 0 then
   begin
@@ -808,7 +810,9 @@ begin
   // Free previous created menu
   FreeAndNil(ShellContextMenu);
   // Create new context menu
+  contextFiles:= Files;
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
+  frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
   ShellContextMenu.OnClose := CloseEvent;
   ShellContextMenu.PopUp(X, Y);
 end;
