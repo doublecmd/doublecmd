@@ -656,6 +656,10 @@ end;
 
 procedure TMultiArchiveFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
+  // reset FAttributeData (updated timestamp) in TArchiveFileSource
+  // avoids Changed() still return True after ReadArchive()
+  self.Changed;
+
   ReadArchive;
 end;
 
