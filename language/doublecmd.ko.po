@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-01-17 01:45+0900\n"
+"PO-Revision-Date: 2026-05-31 04:24+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -4316,7 +4316,6 @@ msgid "Right:"
 msgstr "오른쪽:"
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
 msgstr "선택:"
@@ -7691,12 +7690,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDTOP.CAPTION"
@@ -7720,12 +7719,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
@@ -7749,12 +7748,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDTOP.CAPTION"
@@ -7778,12 +7777,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDTOP.CAPTION"
