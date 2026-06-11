@@ -403,6 +403,7 @@ var
   gWheelScrollLines: Integer;
   gZoomWithCtrlWheel: Boolean;
   gAlwaysShowTrayIcon: Boolean;
+  gUseMonochromeTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gConfirmQuit: Boolean;
   gFileSizeFormat: TFileSizeFormat;
@@ -1865,6 +1866,7 @@ begin
   gConfirmQuit := False;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
+  gUseMonochromeTrayIcon := False;
   gMouseSelectionEnabled := True;
   gMouseSelectionButton := 0;  // Left
   gMouseSingleClickStart := 0;
@@ -2836,6 +2838,7 @@ begin
       gConfirmQuit := GetValue(Node, 'ConfirmQuit', gConfirmQuit);
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
+      gUseMonochromeTrayIcon := GetValue(Node, 'UseMonochromeTrayIcon', gUseMonochromeTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
       gMouseSelectionButton := GetValue(Node, 'Mouse/Selection/Button', gMouseSelectionButton);
       gMouseSingleClickStart := GetValue(Node, 'Mouse/SingleClickStart', gMouseSingleClickStart);
@@ -3578,6 +3581,7 @@ begin
     SetValue(Node, 'ConfirmQuit', gConfirmQuit);
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
+    SetValue(Node, 'UseMonochromeTrayIcon', gUseMonochromeTrayIcon);
     SubNode := FindNode(Node, 'Mouse', True);
     SetAttr(SubNode, 'Selection/Enabled', gMouseSelectionEnabled);
     SetValue(SubNode, 'Selection/Button', gMouseSelectionButton);
