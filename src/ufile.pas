@@ -242,6 +242,9 @@ type
     procedure Delete(AtIndex: Integer);
     procedure Clear;
 
+    function allFilesAtSamePath: Boolean;
+    procedure setPathBaseOnAllFiles;
+
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TFile read Get write Put; default;
     property List: TFPList read FList;
@@ -965,6 +968,33 @@ begin
   end;
 
   FList.Clear;
+end;
+
+function TFiles.allFilesAtSamePath: Boolean;
+var
+  checkPath: String;
+  i: Integer;
+begin
+  if FList.Count = 0 then
+    Exit( False );
+
+  if FList.Count <= 1 then
+    Exit( True );
+
+  checkPath:= Self[0].Path;
+  for i:=1 to FList.Count-1 do begin
+    if Self[i].Path <> checkPath then
+      Exit( False );
+  end;
+  Result:= True;
+end;
+
+procedure TFiles.setPathBaseOnAllFiles;
+begin
+  if self.allFilesAtSamePath then
+    self.Path:= self[0].Path
+  else
+    self.Path:= EmptyStr;
 end;
 
 function TFiles.Get(Index: Integer): TFile;
