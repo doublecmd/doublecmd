@@ -106,23 +106,23 @@ var
 
 procedure TSearchResultFileSourceProcessor.consultCopyOperation(
   var params: TFileSourceConsultParams);
+var
+  targetFS: IFileSource;
 begin
   if params.phase = TFileSourceConsultPhase.target then
     Exit;
 
-  if NOT (fsoCopyIn in params.partnerFS.GetOperationsTypes) then
-    Exit;
+  targetFS:= params.targetFS;
 
+  if NOT (fspDirectAccess in targetFS.Properties) and
+     NOT (fsoCopyIn in targetFS.GetOperationsTypes) then
+        Exit;
+
+  params.resultOperationType:= fsoCopyIn;
+  params.resultFS:= targetFS;
+  params.operationTemp:= False;
+  params.consultResult:= fscrSuccess;
   params.handled:= False;
-
-  if fspDirectAccess in params.targetFS.Properties then begin
-    params.resultFS:= params.partnerFS;
-    params.resultOperationType:= fsoCopyIn;
-    params.operationTemp:= False;
-    params.consultResult:= fscrSuccess;
-  end else begin
-    Inherited consultOperation( params );
-  end;
 end;
 
 procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
@@ -161,9 +161,7 @@ procedure TSearchResultFileSourceProcessor.confirmOperation(
 begin
   case params.operationType of
     fsoCopy: begin
-      if fspDirectAccess in params.targetFS.Properties then
-        Exit;
-      params.files.Path:= params.files[0].Path;
+      params.files.setPathBaseOnAllFiles;
       params.handled:= True;
     end
   end;
