@@ -195,7 +195,6 @@ begin
   end;
 
   FreeAndNil(FFileList);
-  FreeAndNil(FFullFilesTree);
 end;
 
 procedure TWcxArchiveCopyInOperation.Initialize;
@@ -209,12 +208,6 @@ begin
     WcxCopyInOperationG := Self
   else
     WcxCopyInOperationT := Self;
-
-  // Gets full list of files (recursive)
-  FillAndCount(SourceFiles,
-               FFullFilesTree,
-               FStatistics.TotalFiles,
-               FStatistics.TotalBytes);
 
   // Need to check file existence
   if FFileExistsOption <> fsoofeOverwrite then
@@ -235,10 +228,85 @@ end;
 
 procedure TWcxArchiveCopyInOperation.MainExecute;
 var
-  iResult: Integer;
-  sFileList: String;
+  iResult: LongInt;
   sDestPath: String;
   WcxModule: TWcxModule;
+
+  function doPackFiles( files: TFiles ): LongInt;
+  var
+    currentFullFiles: TFiles = nil;
+    sFileList: String;
+  begin
+    Result:= E_UNKNOWN;
+    try
+      FillAndCount(files,
+                   currentFullFiles,
+                   FStatistics.TotalFiles,
+                   FStatistics.TotalBytes);
+
+      // Convert TFiles into String;
+      sFileList:= GetFileList(currentFullFiles);
+      // Nothing to pack (user skip all files)
+      if sFileList = #0 then Exit;
+
+      Result:= WcxModule.WcxPackFiles(
+        FWcxArchiveFileSource.ArchiveFileName,
+        sDestPath, // no trailing path delimiter here
+        IncludeTrailingPathDelimiter(files.Path), // end with path delimiter here
+        sFileList,
+        PackingFlags);
+    finally
+      currentFullFiles.Free;
+    end;
+  end;
+
+  {
+    due to the limitations of WcxPackFiles(), when copying multiple paths from
+    a virtual FileSource (Search Result / Stash / iCloud) to a Wcx/Zip,
+    in some cases, each file must be processed individually. for examples:
+    1. SourceFiles in Search Result:
+       /home/user/folder1/a
+       /home/user/folder2/b
+    2. DestPath in Wcx/Zip:
+       /Result
+    3. the expected path structure after copying is:
+       /Result/a (from /home/user/folder1/a)
+       /Result/b (from /home/user/folder2/b)
+    in this situation, the goal cannot be achieved by calling WcxPackFiles() once.
+  }
+  function packFileOneByOne: LongInt;
+  var
+    currentFiles: TFiles;
+    f: TFile;
+    i: Integer;
+  begin
+    Result:= E_UNKNOWN;
+    currentFiles:= TFiles.Create( EmptyStr );
+    currentFiles.OwnsObjects:= False;
+    try
+      for i:= 0 to SourceFiles.Count-1 do begin
+        f:= SourceFiles[i];
+        currentFiles.Path:= f.Path;
+        currentFiles.Add( f );
+        Result:= doPackFiles( currentFiles );
+        if Result <> E_SUCCESS then
+          break;
+        currentFiles.Clear;
+      end;
+    finally
+      currentFiles.Free;
+    end;
+  end;
+
+  function packAllFiles: LongInt;
+  begin
+    if SourceFiles.Path <> EmptyStr then begin
+      Result:= doPackFiles( self.SourceFiles );
+    end else begin
+      Result:= packFileOneByOne;
+    end;
+  end;
+
 begin
   // Put to TAR archive if needed
   if FTarBefore and Tar then Exit;
@@ -247,7 +315,6 @@ begin
 
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
-  sDestPath := sDestPath;
 
   with FStatistics do
   begin
@@ -259,17 +326,7 @@ begin
   SetProcessDataProc(wcxInvalidHandle);
   WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
 
-  // Convert TFiles into String;
-  sFileList:= GetFileList(FFullFilesTree);
-  // Nothing to pack (user skip all files)
-  if sFileList = #0 then Exit;
-
-  iResult := WcxModule.WcxPackFiles(
-               FWcxArchiveFileSource.ArchiveFileName,
-               sDestPath, // no trailing path delimiter here
-               IncludeTrailingPathDelimiter(FFullFilesTree.Path), // end with path delimiter here
-               sFileList,
-               PackingFlags);
+  iResult:= packAllFiles;
 
   // Check for errors.
   if iResult <> E_SUCCESS then
@@ -536,7 +593,13 @@ end;
 function TWcxArchiveCopyInOperation.Tar: Boolean;
 var
   TarWriter: TTarWriter = nil;
+  tarFullFiles: TFiles;
 begin
+  FillAndCount(SourceFiles,
+               tarFullFiles,
+               FStatistics.TotalFiles,
+               FStatistics.TotalBytes);
+
   with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
   begin
     if Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
@@ -565,20 +628,21 @@ begin
   end;
 
   try
-    if TarWriter.ProcessTree(FFullFilesTree, FStatistics) then
+    if TarWriter.ProcessTree(tarFullFiles, FStatistics) then
     begin
       if Result and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
-        DeleteFiles(FFullFilesTree)
+        DeleteFiles(SourceFiles)
       else
         begin
           // Fill file list with tar archive file
-          FFullFilesTree.Clear;
-          FFullFilesTree.Path:= ExtractFilePath(FTarFileName);
-          FFullFilesTree.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+          SourceFiles.Clear;
+          SourceFiles.Path:= ExtractFilePath(FTarFileName);
+          SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
         end;
     end;
   finally
     FreeAndNil(TarWriter);
+    FreeAndNil(tarFullFiles);
   end;
 end;
 
