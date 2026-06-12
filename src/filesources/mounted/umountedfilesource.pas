@@ -312,36 +312,26 @@ end;
 
 procedure TMountedFileSourceProcessor.detectIfSupportOperation(
   var params: TFileSourceConsultParams);
-var
-  files: TFiles;
-  i: Integer;
-  path: String;
 begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
-  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
+
+  if fspDirectAccess in params.partnerFS.Properties then
     Exit;
 
-  files:= params.files;
-  if files.Count = 1 then
+  if params.files.allFilesAtSamePath then
     Exit;
 
-  path:= files[0].Path;
-  for i:=1 to files.Count-1 do begin
-    if files[i].Path = path then
-      continue;
+  MessageDlg(
+    rsMountedFileSourceCopyMultiFilesToWcxDlgTitle,
+    rsMountedFileSourceCopyMultiFilesToWcxDlgMessage,
+    mtInformation,
+    [mbOK],
+    0 );
 
-    MessageDlg(
-      rsMountedFileSourceCopyMultiFilesToWcxDlgTitle,
-      rsMountedFileSourceCopyMultiFilesToWcxDlgMessage,
-      mtInformation,
-      [mbOK],
-      0 );
-
-    params.consultResult:= fscrCancel;
-    params.handled:= True;
-    Exit;
-  end;
+  params.consultResult:= fscrCancel;
+  params.handled:= True;
+  Exit;
 end;
 
 procedure TMountedFileSourceProcessor.consultCopyOperation(var params: TFileSourceConsultParams);
