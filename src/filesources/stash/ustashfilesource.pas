@@ -177,7 +177,7 @@ begin
   case params.operationType of
     fsoCopy: begin
       if (params.resultFS=params.partnerFS) then begin
-        params.files.Path:= params.files[0].Path;
+        params.files.setPathBaseOnAllFiles;
         params.handled:= True;
       end;
     end
