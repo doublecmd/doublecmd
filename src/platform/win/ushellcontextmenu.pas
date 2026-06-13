@@ -29,7 +29,7 @@ unit uShellContextMenu;
 interface
 
 uses
-  Classes, SysUtils, Controls, uFile, Windows, ComObj, ShlObj, ActiveX,
+  Classes, SysUtils, Controls, Menus, uFile, Windows, ComObj, ShlObj, ActiveX,
   JwaShlGuid, uGlobs, uShlObjAdditional;
 
 const
@@ -63,6 +63,8 @@ type
     FUserWishForContextMenu: TUserWishForContextMenu;
   protected
     procedure Execute(Data: PtrInt);
+  public
+    PopupMenu: TPopupMenu;
   public
     constructor Create(Parent: TWinControl; var Files: TFiles; Background: boolean; UserWishForContextMenu: TUserWishForContextMenu = uwcmComplete); reintroduce;
     destructor Destroy; override;
@@ -600,6 +602,7 @@ end;
 { TShellContextMenu.Create }
 constructor TShellContextMenu.Create(Parent: TWinControl; var Files: TFiles; Background: boolean; UserWishForContextMenu: TUserWishForContextMenu);
 var
+  MenuItem: TMenuItem;
   UFlags: UINT = CMF_EXPLORE;
 begin
   FParent:= GetControlHandle(Parent);
@@ -620,6 +623,7 @@ begin
     UFlags := UFlags or CMF_EXTENDEDVERBS;
   end;
   try
+    PopupMenu:= TPopupMenu.Create(Parent);
     try
       FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
       if Assigned(FShellMenu1) then
@@ -631,6 +635,14 @@ begin
 
         FShellMenu1.QueryInterface(IID_IContextMenu2, ShellMenu2); // to handle submenus.
         FShellMenu1.QueryInterface(IID_IContextMenu3, ShellMenu3); // to handle submenus.
+
+        // Add the "Add to Stash"
+        if FUserWishForContextMenu = uwcmComplete then
+        begin
+          MenuItem:= TMenuItem.Create(PopupMenu);
+          MenuItem.Action:= frmMain.actAddToStash;
+          PopupMenu.Items.Add(MenuItem);
+        end;
       end;
     except
       on e: EOleError do
@@ -643,6 +655,7 @@ end;
 
 destructor TShellContextMenu.Destroy;
 begin
+  PopupMenu.Free;
   // Restore window procedure
   {$PUSH}{$HINTS OFF}
   SetWindowLongPtrW(FParent, GWL_WNDPROC, LONG_PTR(@OldWProc));
@@ -661,7 +674,8 @@ end;
 procedure TShellContextMenu.PopUp(X, Y: integer);
 var
   aFile: TFile = nil;
-  i: integer;
+  I, J: integer;
+  MenuItem: TMenuItem;
   hActionsSubMenu: HMENU = 0;
   iActionsItemsCount: integer;
   cmd: UINT = 0;
@@ -754,7 +768,22 @@ begin
               iActionsItemsCount := GetMenuItemCount(hActionsSubMenu);
 
               if (FUserWishForContextMenu = uwcmComplete) and (iActionsItemsCount > 0) then
+              begin
                 InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuActions)), I, 333, MFT_STRING);
+                Inc(I);
+              end;
+
+              // Add FileSource specific items
+              if FUserWishForContextMenu = uwcmComplete then
+              begin
+                for J:= 0 to PopupMenu.Items.Count - 1 do
+                begin
+                  MenuItem:= PopupMenu.Items[J];
+                  sVerb:= 'cm_' + Copy(MenuItem.Action.Name, 4, MaxInt);
+                  iCmd:= InnerExtActionList.Add(TExtActionCommand.Create(MenuItem.Caption, sVerb, '', ''));
+                  InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(MenuItem.Caption)), I + J, iCmd + USER_CMD_ID, MFT_STRING);
+                end;
+              end;
             end;
             { /Actions submenu }
           end;
