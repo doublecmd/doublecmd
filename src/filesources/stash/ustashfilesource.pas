@@ -494,7 +494,7 @@ begin
   if stashFilesBackend.count > 0 then
     addEmptyStash;
 
-  if removedIndex < 0 then
+  if (removedIndex < 0) and (AMenu.Items.Count > 0) then
     addSeperator;
 end;
 

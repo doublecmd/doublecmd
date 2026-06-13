@@ -625,7 +625,12 @@ begin
   try
     PopupMenu:= TPopupMenu.Create(Parent);
     try
-      FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
+      if Background and not TFileSystemFileSource.ClassNameIs(frmMain.ActiveFrame.FileSource.ClassName) then
+        FShellMenu := CreatePopupMenu
+      else begin
+        FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
+      end;
+
       if Assigned(FShellMenu1) then
       begin
         FShellMenu := CreatePopupMenu;
@@ -635,14 +640,14 @@ begin
 
         FShellMenu1.QueryInterface(IID_IContextMenu2, ShellMenu2); // to handle submenus.
         FShellMenu1.QueryInterface(IID_IContextMenu3, ShellMenu3); // to handle submenus.
+      end;
 
-        // Add the "Add to Stash"
-        if FUserWishForContextMenu = uwcmComplete then
-        begin
-          MenuItem:= TMenuItem.Create(PopupMenu);
-          MenuItem.Action:= frmMain.actAddToStash;
-          PopupMenu.Items.Add(MenuItem);
-        end;
+      // Add the "Add to Stash"
+      if (not Background) and (FUserWishForContextMenu = uwcmComplete) then
+      begin
+        MenuItem:= TMenuItem.Create(PopupMenu);
+        MenuItem.Action:= frmMain.actAddToStash;
+        PopupMenu.Items.Add(MenuItem);
       end;
     except
       on e: EOleError do
@@ -693,7 +698,7 @@ var
 begin
   try
     try
-      if Assigned(FShellMenu1) then
+      if (FShellMenu <> 0) then
         try
           FormCommands := frmMain as IFormCommands;
 
@@ -733,15 +738,19 @@ begin
               // Add submenu to context menu
               InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuSortBy)), 1, 333, MFT_STRING);
 
-              // Add menu separator
-              InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
+              if Assigned(FShellMenu1) then
+              begin
+                // Add menu separator
+                InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
 
-              // Add commands to root of context menu
-              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
-              InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
+                // Add commands to root of context menu
+                I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
+                InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
 
-              // Add menu separator
-              InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
+                // Add menu separator
+                InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
+              end;
+              I:= 0;
             end
             else  // Add "Actions" submenu
             begin
@@ -772,20 +781,24 @@ begin
                 InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuActions)), I, 333, MFT_STRING);
                 Inc(I);
               end;
-
-              // Add FileSource specific items
-              if FUserWishForContextMenu = uwcmComplete then
-              begin
-                for J:= 0 to PopupMenu.Items.Count - 1 do
-                begin
-                  MenuItem:= PopupMenu.Items[J];
-                  sVerb:= 'cm_' + Copy(MenuItem.Action.Name, 4, MaxInt);
-                  iCmd:= InnerExtActionList.Add(TExtActionCommand.Create(MenuItem.Caption, sVerb, '', ''));
-                  InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(MenuItem.Caption)), I + J, iCmd + USER_CMD_ID, MFT_STRING);
-                end;
-              end;
             end;
             { /Actions submenu }
+          end;
+          // Add FileSource specific items
+          if FUserWishForContextMenu = uwcmComplete then
+          begin
+            for J:= 0 to PopupMenu.Items.Count - 1 do
+            begin
+              MenuItem:= PopupMenu.Items[J];
+
+              if MenuItem.IsLine then
+                InsertMenuItemEx(FShellMenu, 0, nil, I + J, 0, MFT_SEPARATOR)
+              else begin
+                sVerb:= 'cm_' + Copy(MenuItem.Action.Name, 4, MaxInt);
+                iCmd:= InnerExtActionList.Add(TExtActionCommand.Create(MenuItem.Caption, sVerb, '', ''));
+                InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(MenuItem.Caption)), I + J, iCmd + USER_CMD_ID, MFT_STRING);
+              end;
+            end;
           end;
           //------------------------------------------------------------------------------
           cmd := UINT(TrackPopupMenu(FShellMenu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, FParent, nil));
