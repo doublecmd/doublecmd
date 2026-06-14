@@ -621,7 +621,12 @@ begin
   end;
   try
     try
-      FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
+      if Background and not TFileSystemFileSource.ClassNameIs(frmMain.ActiveFrame.FileSource.ClassName) then
+        FShellMenu := CreatePopupMenu
+      else begin
+        FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
+      end;
+
       if Assigned(FShellMenu1) then
       begin
         FShellMenu := CreatePopupMenu;
@@ -679,7 +684,7 @@ var
 begin
   try
     try
-      if Assigned(FShellMenu1) then
+      if (FShellMenu <> 0) then
         try
           FormCommands := frmMain as IFormCommands;
 
@@ -719,15 +724,18 @@ begin
               // Add submenu to context menu
               InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuSortBy)), 1, 333, MFT_STRING);
 
-              // Add menu separator
-              InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
+              if Assigned(FShellMenu1) then
+              begin
+                // Add menu separator
+                InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
 
-              // Add commands to root of context menu
-              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
-              InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
+                // Add commands to root of context menu
+                I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
+                InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
 
-              // Add menu separator
-              InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
+                // Add menu separator
+                InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
+              end;
             end
             else  // Add "Actions" submenu
             begin
