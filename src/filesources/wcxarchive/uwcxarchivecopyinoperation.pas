@@ -263,7 +263,7 @@ var
   {
     due to the limitations of WcxPackFiles(), when copying multiple paths from
     a virtual FileSource (Search Result / Stash / iCloud) to a Wcx/Zip,
-    in some cases, each file must be processed individually. for examples:
+    in some cases, each path must be processed individually. for examples:
     1. SourceFiles in Search Result:
        /home/user/folder1/a
        /home/user/folder2/b
@@ -274,7 +274,7 @@ var
        /Result/b (from /home/user/folder2/b)
     in this situation, the goal cannot be achieved by calling WcxPackFiles() once.
   }
-  function packFileOneByOne: LongInt;
+  function packFilesPathByPath: LongInt;
   var
     currentFiles: TFiles;
     f: TFile;
@@ -284,10 +284,19 @@ var
     currentFiles:= TFiles.Create( EmptyStr );
     currentFiles.OwnsObjects:= False;
     try
-      for i:= 0 to SourceFiles.Count-1 do begin
+      i:= 0;
+      while i < SourceFiles.Count do begin
         f:= SourceFiles[i];
         currentFiles.Path:= f.Path;
         currentFiles.Add( f );
+        inc( i );
+        while i < SourceFiles.Count do begin
+          f:= SourceFiles[i];
+          if f.Path <> currentFiles.Path then
+            break;
+          currentFiles.Add( f );
+          inc( i );
+        end;
         Result:= doPackFiles( currentFiles );
         if Result <> E_SUCCESS then
           break;
@@ -303,11 +312,13 @@ var
     if SourceFiles.Path <> EmptyStr then begin
       Result:= doPackFiles( self.SourceFiles );
     end else begin
-      Result:= packFileOneByOne;
+      Result:= packFilesPathByPath;
     end;
   end;
 
 begin
+  SourceFiles.sort;
+
   // Put to TAR archive if needed
   if FTarBefore and Tar then Exit;
 
