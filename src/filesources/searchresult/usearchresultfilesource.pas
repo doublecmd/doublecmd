@@ -153,18 +153,16 @@ begin
       self.consultCopyOperation( params );
     fsoMove:
       self.consultMoveOperation( params );
+    else
+      Inherited;
   end;
 end;
 
 procedure TSearchResultFileSourceProcessor.confirmOperation(
   var params: TFileSourceConsultParams);
 begin
-  case params.operationType of
-    fsoCopy: begin
-      params.files.setPathBaseOnAllFiles;
-      params.handled:= True;
-    end
-  end;
+  params.files.setPathBaseOnAllFiles;
+  params.handled:= True;
 end;
 
 constructor TSearchResultFileSource.Create(const displayName: String);
