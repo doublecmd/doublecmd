@@ -192,10 +192,8 @@ begin
         params.handled:= True;
       end;
     end;
-    fsoPack: begin
+    fsoPack:
       params.files.setPathBaseOnAllFiles;
-      params.handled:= True;
-    end;
   end;
 end;
 

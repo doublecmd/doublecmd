@@ -162,7 +162,6 @@ procedure TSearchResultFileSourceProcessor.confirmOperation(
   var params: TFileSourceConsultParams);
 begin
   params.files.setPathBaseOnAllFiles;
-  params.handled:= True;
 end;
 
 constructor TSearchResultFileSource.Create(const displayName: String);

@@ -75,6 +75,7 @@ type
     FPassword: String;
     FVolumeSize: String;
     FCustomParams: String;
+    FTargetPath: String;
     FTargetPathInArchive: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
     procedure ChangeArchiveExt(const NewArcExt: String);
@@ -151,7 +152,9 @@ begin
 
     if (ShowModal = mrOK) then
     begin
+      params.targetPath:= edtPackCmd.Text;
       FileSourceManager.confirmOperation( params );
+      FTargetPath:= params.resultTargetPath;
       case PrepareData(params.sourceFS, params.files, @OnPackCopyOutStateChanged) of
         pdrInCallback:
           PackDialog:= nil;
@@ -609,7 +612,7 @@ begin
           aFiles:= TFiles.Create(Files.Path);
           try
             aFiles.Add(Files[I].Clone);
-            FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+            FArchiveName:= GetAbsoluteFileName(Files.Path, FTargetPath);
             try
               // Check if there is an ArchiveFileSource for possible archive.
               aFile := FTargetFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
@@ -640,7 +643,7 @@ begin
       end
     else
       begin
-        FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+        FArchiveName:= GetAbsoluteFileName(Files.Path, FTargetPath);
         try
           // Check if there is an ArchiveFileSource for possible archive.
           aFile := FTargetFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
