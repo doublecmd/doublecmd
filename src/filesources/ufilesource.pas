@@ -864,7 +864,7 @@ begin
     strings.AddObject( self.GetFileName(f), attr );
   end;
 
-  if strings.Count > 0 then begin
+  if strings.Count > 1 then begin
     case sort of
       fstAlphabet:     strings.CustomSort(@FilesSortAlphabet);
       fstFoldersFirst: strings.CustomSort(@FilesSortFoldersFirst);

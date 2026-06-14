@@ -242,6 +242,8 @@ type
     procedure Delete(AtIndex: Integer);
     procedure Clear;
 
+    procedure sort;
+
     function allFilesAtSamePath: Boolean;
     procedure setPathBaseOnAllFiles;
 
@@ -251,7 +253,6 @@ type
     property OwnsObjects: Boolean read FOwnsObjects write FOwnsObjects;
     property Path: String read FPath write SetPath;
     property Flat: Boolean read FFlat write FFlat;
-
   end;
 
   {en
@@ -968,6 +969,19 @@ begin
   end;
 
   FList.Clear;
+end;
+
+function simpleCompare(Item1, Item2: Pointer): Integer;
+var
+  file1: TFile absolute Item1;
+  file2: TFile absolute Item2;
+begin
+  Result:= CompareStr( file1.FullPath, file2.FullPath );
+end;
+
+procedure TFiles.sort;
+begin
+  FList.Sort( @simpleCompare);
 end;
 
 function TFiles.allFilesAtSamePath: Boolean;
