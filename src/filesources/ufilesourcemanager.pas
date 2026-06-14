@@ -38,6 +38,7 @@ type
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure confirmCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
+    procedure consultPackOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
@@ -272,6 +273,31 @@ begin
   end;
 end;
 
+procedure TDefaultFileSourceProcessor.consultPackOperation(
+  var params: TFileSourceConsultParams);
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
+begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
+  sourceFS:= params.sourceFS;
+  targetFS:= params.targetFS;
+
+  if NOT (fspDirectAccess in targetFS.Properties) then
+    Exit;
+
+  if NOT (fspDirectAccess in sourceFS.Properties) and NOT (fsoCopyOut in sourceFS.GetOperationsTypes) then
+    Exit;
+
+  params.operationTemp:= False;
+  params.resultFS:= sourceFS;
+  params.operationTemp:= NOT (fspDirectAccess in sourceFS.Properties);
+  params.consultResult:= fscrSuccess;
+  params.handled:= False;
+end;
+
 procedure TDefaultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams );
 begin
   if fspImmutable in params.targetFS.Properties then begin
@@ -285,6 +311,8 @@ begin
       self.consultCopyOperation( params );
     fsoMove:
       self.consultMoveOperation( params );
+    fsoPack:
+      self.consultPackOperation( params );
   end;
 end;
 

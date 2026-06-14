@@ -22,6 +22,7 @@ type
     fsoSplit,
     fsoCombine,
     fsoCreateDirectory,
+    fsoPack,
     //fsoCreateFile,
     //fsoCreateLink,
     fsoCalcChecksum,
