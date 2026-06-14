@@ -162,7 +162,7 @@ procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsult
   end;
 
 begin
-  if params.operationType = fsoCopy then
+  if params.operationType in [fsoCopy, fsoPack] then
     confirmIfSeedFiles;
 
   if params.handled then

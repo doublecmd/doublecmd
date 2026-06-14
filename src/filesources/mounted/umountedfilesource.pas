@@ -73,11 +73,14 @@ type
 
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
-    procedure detectIfSupportOperation(var params: TFileSourceConsultParams);
-    procedure consultCopyOperation(var params: TFileSourceConsultParams);
-    procedure consultMoveOperation(var params: TFileSourceConsultParams);
+    procedure detectIfOperateDiffPaths(var params: TFileSourceConsultParams);
+    procedure detectIfCopyDiffPaths(var params: TFileSourceConsultParams);
     procedure resolveRealPath( var params: TFileSourceConsultParams );
     procedure calcTargetPath( var params: TFileSourceConsultParams );
+  private
+    procedure consultCopyOperation(var params: TFileSourceConsultParams);
+    procedure consultMoveOperation(var params: TFileSourceConsultParams);
+    procedure consultPackOperation(var params: TFileSourceConsultParams);
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
@@ -310,13 +313,10 @@ begin
   params.targetPath:= IncludeTrailingPathDelimiter(params.targetPath) + mountPoint.name + PathDelim;
 end;
 
-procedure TMountedFileSourceProcessor.detectIfSupportOperation(
+procedure TMountedFileSourceProcessor.detectIfOperateDiffPaths(
   var params: TFileSourceConsultParams);
 begin
   if params.phase<>TFileSourceConsultPhase.source then
-    Exit;
-
-  if fspDirectAccess in params.partnerFS.Properties then
     Exit;
 
   if params.files.allFilesAtSamePath then
@@ -331,12 +331,20 @@ begin
 
   params.consultResult:= fscrCancel;
   params.handled:= True;
-  Exit;
+end;
+
+procedure TMountedFileSourceProcessor.detectIfCopyDiffPaths(
+  var params: TFileSourceConsultParams);
+begin
+  if fspDirectAccess in params.partnerFS.Properties then
+    Exit;
+
+  self.detectIfOperateDiffPaths( params );
 end;
 
 procedure TMountedFileSourceProcessor.consultCopyOperation(var params: TFileSourceConsultParams);
 begin
-  detectIfSupportOperation( params );
+  detectIfCopyDiffPaths( params );
   if params.handled then
     Exit;
 
@@ -356,6 +364,16 @@ begin
   params.consultResult:= fscrSuccess;
 end;
 
+procedure TMountedFileSourceProcessor.consultPackOperation(var params: TFileSourceConsultParams);
+begin
+  detectIfOperateDiffPaths( params );
+  if params.handled then
+    Exit;
+
+  inherited consultOperation( params );
+  self.calcTargetPath( params );
+end;
+
 procedure TMountedFileSourceProcessor.consultOperation(
   var params: TFileSourceConsultParams);
 begin
@@ -364,18 +382,15 @@ begin
       consultCopyOperation( params );
     fsoMove:
       consultMoveOperation( params );
-    else
-      inherited consultOperation( params );
+    fsoPack:
+      consultPackOperation( params );
   end;
 end;
 
 procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
   inherited confirmOperation( params );
-  case params.operationType of
-    fsoCopy, fsoMove:
-      self.resolveRealPath( params );
-  end;
+  self.resolveRealPath( params );
 end;
 
 initialization
