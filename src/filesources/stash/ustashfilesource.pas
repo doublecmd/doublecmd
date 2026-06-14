@@ -25,6 +25,7 @@ type
   private
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
+    procedure consultPackOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
     procedure confirmOperation(var params: TFileSourceConsultParams); override;
@@ -151,6 +152,14 @@ begin
     params.consultResult:= fscrSuccess;
 end;
 
+procedure TStashFileSourceProcessor.consultPackOperation(
+  var params: TFileSourceConsultParams);
+begin
+  if params.phase=TFileSourceConsultPhase.target then
+    Exit;
+  Inherited consultOperation( params );
+end;
+
 procedure TStashFileSourceProcessor.consultOperation(
   var params: TFileSourceConsultParams);
 begin
@@ -166,8 +175,10 @@ begin
   case params.operationType of
     fsoCopy:
       self.consultCopyOperation( params );
-    else
+    fsoMove:
       self.consultMoveOperation( params );
+    fsoPack:
+      self.consultPackOperation( params );
   end;
 end;
 
@@ -180,7 +191,11 @@ begin
         params.files.setPathBaseOnAllFiles;
         params.handled:= True;
       end;
-    end
+    end;
+    fsoPack: begin
+      params.files.setPathBaseOnAllFiles;
+      params.handled:= True;
+    end;
   end;
 end;
 
