@@ -402,7 +402,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView, fSelectDuplicates,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas, uSysFolders,
-     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math, fViewer,
+     uFilePanelSelect, uFileSourceManager, uFileSystemFileSource, uQuickViewPanel, Math, fViewer,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
@@ -1483,41 +1483,48 @@ end;
 procedure TMainCommands.cm_PackFiles(const Params: array of string);
 var
   Param: String;
-  TargetPath: String;
-  SelectedFiles: TFiles;
-  TargetFileSource: IFileSource;
+  fsParams: TFileSourceConsultParams;
 begin
   with frmMain do
   begin
+    fsParams:= Default(TFileSourceConsultParams);
+    fsParams.operationType:= fsoPack;
+    fsParams.sourceFS:= ActiveFrame.FileSource;
+
     Param := GetDefaultParam(Params);
     if Param = 'PackHere' then
     begin
-      TargetPath:= ActiveFrame.CurrentPath;
-      TargetFileSource:= ActiveFrame.FileSource;
+      fsParams.targetPath:= ActiveFrame.CurrentPath;
+      fsParams.targetFS:= ActiveFrame.FileSource;
     end
     else begin
-      TargetPath:= NotActiveFrame.CurrentPath;
-      TargetFileSource:= NotActiveFrame.FileSource;
+      fsParams.targetPath:= NotActiveFrame.CurrentPath;
+      fsParams.targetFS:= NotActiveFrame.FileSource;
     end;
-    if not (fspDirectAccess in TargetFileSource.Properties) then
-      msgError(rsMsgErrNotSupported)
-    else begin
-      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
-      try
-        if SelectedFiles.Count = 0 then
-          msgWarning(rsMsgNoFilesSelected)
-        else begin
-          ShowPackDlg(frmMain,
-                      ActiveFrame.FileSource,
-                      TargetFileSource,
-                      SelectedFiles,
-                      TargetPath,
-                      PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
-                     );
-        end;
-      finally
-        FreeAndNil(SelectedFiles);
+
+    fsParams.files:= ActiveFrame.CloneSelectedOrActiveFiles;
+    try
+      if fsParams.files.Count = 0 then begin
+        msgWarning(rsMsgNoFilesSelected);
+        Exit;
       end;
+
+      FileSourceManager.consultOperation( fsParams );
+      case fsParams.consultResult of
+        fscrNotSupported:
+          msgError(rsMsgErrNotSupported);
+        fscrNotImplemented:
+          msgError(rsMsgNotImplemented);
+      end;
+      if fsParams.consultResult <> fscrSuccess then
+        Exit;
+
+      ShowPackDlg(frmMain,
+                  fsParams,
+                  PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
+                 );
+    finally
+      FreeAndNil(fsParams.files);
     end;
   end;
 end;
