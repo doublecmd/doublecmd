@@ -37,6 +37,8 @@ type
     procedure LogMessage(const sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     procedure DeleteFiles(const aFiles: TFiles);
 
+    function doWcxPackFiles(const files: TFiles): Integer;
+
   protected
     function Tar: Boolean;
     procedure SetProcessDataProc(hArcData: TArcHandle);
@@ -226,96 +228,46 @@ begin
   end;
 end;
 
+function TWcxArchiveCopyInOperation.doWcxPackFiles(const files: TFiles): Integer;
+var
+  sDestPath: String;
+  currentFullFiles: TFiles = nil;
+  sFileList: String;
+begin
+  Result:= E_UNKNOWN;
+  sDestPath := ExcludeFrontPathDelimiter(TargetPath);
+  sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
+
+  try
+    FillAndCount(files,
+                 currentFullFiles,
+                 FStatistics.TotalFiles,
+                 FStatistics.TotalBytes);
+
+    // Convert TFiles into String;
+    sFileList:= GetFileList(currentFullFiles);
+    // Nothing to pack (user skip all files)
+    if sFileList = #0 then Exit;
+
+    Result:= FWcxArchiveFileSource.WcxModule.WcxPackFiles(
+      FWcxArchiveFileSource.ArchiveFileName,
+      sDestPath, // no trailing path delimiter here
+      IncludeTrailingPathDelimiter(files.Path), // end with path delimiter here
+      sFileList,
+      PackingFlags);
+
+    // User aborted operation.
+    if Result = E_EABORTED then
+      RaiseAbortOperation;
+  finally
+    currentFullFiles.Free;
+  end;
+end;
+
 procedure TWcxArchiveCopyInOperation.MainExecute;
 var
-  iResult: LongInt;
-  sDestPath: String;
+  resultCode: Integer;
   WcxModule: TWcxModule;
-
-  function doPackFiles( files: TFiles ): LongInt;
-  var
-    currentFullFiles: TFiles = nil;
-    sFileList: String;
-  begin
-    Result:= E_UNKNOWN;
-    try
-      FillAndCount(files,
-                   currentFullFiles,
-                   FStatistics.TotalFiles,
-                   FStatistics.TotalBytes);
-
-      // Convert TFiles into String;
-      sFileList:= GetFileList(currentFullFiles);
-      // Nothing to pack (user skip all files)
-      if sFileList = #0 then Exit;
-
-      Result:= WcxModule.WcxPackFiles(
-        FWcxArchiveFileSource.ArchiveFileName,
-        sDestPath, // no trailing path delimiter here
-        IncludeTrailingPathDelimiter(files.Path), // end with path delimiter here
-        sFileList,
-        PackingFlags);
-    finally
-      currentFullFiles.Free;
-    end;
-  end;
-
-  {
-    due to the limitations of WcxPackFiles(), when copying multiple paths from
-    a virtual FileSource (Search Result / Stash / iCloud) to a Wcx/Zip,
-    in some cases, each path must be processed individually. for examples:
-    1. SourceFiles in Search Result:
-       /home/user/folder1/a
-       /home/user/folder2/b
-    2. DestPath in Wcx/Zip:
-       /Result
-    3. the expected path structure after copying is:
-       /Result/a (from /home/user/folder1/a)
-       /Result/b (from /home/user/folder2/b)
-    in this situation, the goal cannot be achieved by calling WcxPackFiles() once.
-  }
-  function packFilesPathByPath: LongInt;
-  var
-    currentFiles: TFiles;
-    f: TFile;
-    i: Integer;
-  begin
-    Result:= E_UNKNOWN;
-    currentFiles:= TFiles.Create( EmptyStr );
-    currentFiles.OwnsObjects:= False;
-    try
-      i:= 0;
-      while i < SourceFiles.Count do begin
-        f:= SourceFiles[i];
-        currentFiles.Path:= f.Path;
-        currentFiles.Add( f );
-        inc( i );
-        while i < SourceFiles.Count do begin
-          f:= SourceFiles[i];
-          if f.Path <> currentFiles.Path then
-            break;
-          currentFiles.Add( f );
-          inc( i );
-        end;
-        Result:= doPackFiles( currentFiles );
-        if Result <> E_SUCCESS then
-          break;
-        currentFiles.Clear;
-      end;
-    finally
-      currentFiles.Free;
-    end;
-  end;
-
-  function packAllFiles: LongInt;
-  begin
-    if SourceFiles.Path <> EmptyStr then begin
-      Result:= doPackFiles( self.SourceFiles );
-    end else begin
-      Result:= packFilesPathByPath;
-    end;
-  end;
-
 begin
   SourceFiles.sort;
 
@@ -323,9 +275,6 @@ begin
   if FTarBefore and Tar then Exit;
 
   WcxModule := FWcxArchiveFileSource.WcxModule;
-
-  sDestPath := ExcludeFrontPathDelimiter(TargetPath);
-  sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
 
   with FStatistics do
   begin
@@ -337,17 +286,14 @@ begin
   SetProcessDataProc(wcxInvalidHandle);
   WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
 
-  iResult:= packAllFiles;
+  resultCode:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doWcxPackFiles );
 
   // Check for errors.
-  if iResult <> E_SUCCESS then
+  if resultCode <> 0 then
   begin
-    // User aborted operation.
-    if iResult = E_EABORTED then RaiseAbortOperation;
-
     ShowError(Format(rsMsgLogError + rsMsgLogPack,
                      [FWcxArchiveFileSource.ArchiveFileName +
-                      ' : ' + GetErrorMsg(iResult)]), iResult, [log_arc_op]);
+                      ' : ' + GetErrorMsg(resultCode)]), resultCode, [log_arc_op]);
   end
   else
   begin
