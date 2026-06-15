@@ -265,47 +265,57 @@ begin
 end;
 
 procedure TWcxArchiveCopyInOperation.MainExecute;
-var
-  resultCode: Integer;
-  WcxModule: TWcxModule;
+
+  procedure doPack;
+  var
+    resultCode: Integer;
+    WcxModule: TWcxModule;
+  begin
+    WcxModule := FWcxArchiveFileSource.WcxModule;
+
+    with FStatistics do
+    begin
+      if FTarBefore then CurrentFileDoneBytes := -1;
+      CurrentFileTo:= FWcxArchiveFileSource.ArchiveFileName;
+      UpdateStatistics(FStatistics);
+    end;
+
+    SetProcessDataProc(wcxInvalidHandle);
+    WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
+
+    resultCode:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doWcxPackFiles );
+
+    // Check for errors.
+    if resultCode <> 0 then
+    begin
+      ShowError(Format(rsMsgLogError + rsMsgLogPack,
+                       [FWcxArchiveFileSource.ArchiveFileName +
+                        ' : ' + GetErrorMsg(resultCode)]), resultCode, [log_arc_op]);
+    end
+    else
+    begin
+      LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
+                        [FWcxArchiveFileSource.ArchiveFileName]), [log_arc_op], lmtSuccess);
+
+      FStatistics.DoneFiles:= FStatistics.TotalFiles;
+      UpdateStatistics(FStatistics);
+    end;
+  end;
+
 begin
   SourceFiles.sort;
 
   // Put to TAR archive if needed
-  if FTarBefore and Tar then Exit;
+  if FTarBefore and Tar then
+    Exit;
 
-  WcxModule := FWcxArchiveFileSource.WcxModule;
-
-  with FStatistics do
-  begin
-    if FTarBefore then CurrentFileDoneBytes := -1;
-    CurrentFileTo:= FWcxArchiveFileSource.ArchiveFileName;
-    UpdateStatistics(FStatistics);
+  try
+    doPack;
+  finally
+    // Delete temporary TAR archive if needed
+    if FTarBefore then
+      mbDeleteFile(FTarFileName);
   end;
-
-  SetProcessDataProc(wcxInvalidHandle);
-  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
-
-  resultCode:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doWcxPackFiles );
-
-  // Check for errors.
-  if resultCode <> 0 then
-  begin
-    ShowError(Format(rsMsgLogError + rsMsgLogPack,
-                     [FWcxArchiveFileSource.ArchiveFileName +
-                      ' : ' + GetErrorMsg(resultCode)]), resultCode, [log_arc_op]);
-  end
-  else
-  begin
-    LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
-                      [FWcxArchiveFileSource.ArchiveFileName]), [log_arc_op], lmtSuccess);
-
-    FStatistics.DoneFiles:= FStatistics.TotalFiles;
-    UpdateStatistics(FStatistics);
-  end;
-
-  // Delete temporary TAR archive if needed
-  if FTarBefore then mbDeleteFile(FTarFileName);
 end;
 
 procedure TWcxArchiveCopyInOperation.Finalize;
