@@ -28,6 +28,13 @@ procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
 
 procedure InstallPlugin(const FileName: String);
 
+type
+  TProcessFilesFunc = function (const files: TFiles): Integer of object;
+
+function ProcessFilesWithMultiRootPath(
+  const orderedTopFiles: TFiles;
+  const func: TProcessFilesFunc ): Integer;
+
 implementation
 
 uses
@@ -472,6 +479,65 @@ begin
   if Result < 0 then
   begin
     msgError(rsSimpleWordError);
+  end;
+end;
+
+{
+  due to the limitations of WcxPackFiles(), when copying multiple paths from
+  a virtual FileSource (Search Result / Stash / iCloud) to a Wcx/Zip,
+  in some cases, each path must be processed individually. for examples:
+  1. SourceFiles in Search Result:
+     /home/user/folder1/a
+     /home/user/folder2/b
+  2. DestPath in Wcx/Zip:
+     /Result
+  3. the expected path structure after copying is:
+     /Result/a (from /home/user/folder1/a)
+     /Result/b (from /home/user/folder2/b)
+  in this situation, the goal cannot be achieved by calling WcxPackFiles() once.
+}
+function ProcessFilesWithMultiRootPath(
+  const orderedTopFiles: TFiles;
+  const func: TProcessFilesFunc): Integer;
+
+  function processPathByPath: Integer;
+  var
+    currentFiles: TFiles;
+    f: TFile;
+    i: Integer;
+  begin
+    Result:= 0;
+    currentFiles:= TFiles.Create( EmptyStr );
+    currentFiles.OwnsObjects:= False;
+    try
+      i:= 0;
+      while i < orderedTopFiles.Count do begin
+        f:= orderedTopFiles[i];
+        currentFiles.Path:= f.Path;
+        currentFiles.Add( f );
+        inc( i );
+        while i < orderedTopFiles.Count do begin
+          f:= orderedTopFiles[i];
+          if f.Path <> currentFiles.Path then
+            break;
+          currentFiles.Add( f );
+          inc( i );
+        end;
+        Result:= func( currentFiles );
+        if Result <> 0 then
+          break;
+        currentFiles.Clear;
+      end;
+    finally
+      currentFiles.Free;
+    end;
+  end;
+
+begin
+  if orderedTopFiles.Path <> EmptyStr then begin
+    Result:= func( orderedTopFiles );
+  end else begin
+    Result:= processPathByPath;
   end;
 end;
 
