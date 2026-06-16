@@ -5635,8 +5635,11 @@ var
   LeftPty, RightPty: TCustomPtyDevice;
   Page: TFileViewPage;
 begin
-  // Process any pending TThread.Synchronize calls (e.g. from PTY reader threads)
-  CheckSynchronize;
+  // Note: Do NOT call CheckSynchronize here.
+  // The LCL event loop already processes pending TThread.Synchronize calls.
+  // Calling it explicitly inside a timer handler causes re-entrant message
+  // processing that can corrupt Qt6 widget state during paint operations
+  // (e.g. thumbnail rendering), leading to EAccessViolation crashes.
 
   if FLeftTermNeedInit and Assigned(ConsLeft) and ConsLeft.Connected then
   begin
@@ -6249,14 +6252,19 @@ procedure TfrmMain.GetOrCreateTabTerminal(Page: TFileViewPage; AParent: TWinCont
 begin
   if not Assigned(Page.Terminal) then
   begin
-    Page.Terminal := TVirtualTerminal.Create(Page);
+    // IMPORTANT: Do not use Page as the Owner here.
+    // TFileViewPage.GetFileView returns Components[0], assuming it is the
+    // FileView. If Terminal or PtyDevice are owned by Page, they get added
+    // to Page.Components[] and can displace the FileView from index 0,
+    // causing GetFileView to return the wrong component (EAccessViolation).
+    Page.Terminal := TVirtualTerminal.Create(Self);
     Page.Terminal.Width := 400;
     Page.Terminal.Height := 176;
     Page.Terminal.ShowHint := False;
     
     FontOptionsToFont(gFonts[dcfConsole], Page.Terminal.Font);
     
-    Page.PtyDevice := TPtyDevice.Create(Page);
+    Page.PtyDevice := TPtyDevice.Create(Self);
     Page.Terminal.PtyDevice := Page.PtyDevice;
     Page.Terminal.Parent := AParent;
     
@@ -6290,16 +6298,21 @@ begin
     Page := TFileViewPage(Notebook.Page[i]);
     if Assigned(Page.Terminal) then
     begin
-      Page.Terminal.Hide;
-      Page.Terminal.Parent := nil;
+      // Do NOT set Parent := nil here. On Qt6, removing the parent destroys
+      // the native widget handle, but the PTY read thread keeps running and
+      // delivers data via TThread.Synchronize. When the LCL processes those
+      // calls, accessing Canvas/Handle on a handleless widget causes
+      // EAccessViolation. Instead, just hide the terminal.
+      Page.Terminal.Visible := False;
     end;
   end;
   
   Page := TFileViewPage(Notebook.ActivePage);
   GetOrCreateTabTerminal(Page, Container);
-  Page.Terminal.Parent := Container;
+  if Page.Terminal.Parent <> Container then
+    Page.Terminal.Parent := Container;
   Page.Terminal.Align := alClient;
-  Page.Terminal.Show;
+  Page.Terminal.Visible := True;
 
   if Notebook = nbLeft then
     UpdateTermSyncButtons(True)

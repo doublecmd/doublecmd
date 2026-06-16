@@ -2266,6 +2266,13 @@ var
   end;
 
 begin
+  // Skip visual processing when the terminal has no parent (e.g. inactive
+  // tab in per-tab terminal mode). StringReceived calls DrawChar which
+  // accesses Canvas/Handle; doing so on a parentless Qt6 widget causes
+  // an EAccessViolation crash (e.g. during thumbnail rendering).
+  if not Assigned(Parent) then
+    Exit;
+
   if (Length(FPartChar) = 0) then
   begin
     SetLength(Str, Count);
