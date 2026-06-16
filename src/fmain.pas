@@ -1005,6 +1005,9 @@ uses
 {$IFDEF DARWIN}
   , uCocoaModernFormConfig
 {$ENDIF}
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+  , BaseUnix
+{$ENDIF}
   ;
 
 const
@@ -5897,6 +5900,15 @@ begin
     if IsLeft then gTermSyncModeLeft := 0 else gTermSyncModeRight := 0;
   end;
 
+  // In per-tab mode, persist the sync state to the active page
+  if gTermWindowMode = twmPerTab then
+  begin
+    if IsLeft and Assigned(nbLeft.ActivePage) then
+      TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
+    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+      TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
+  end;
+
   UpdateTermSyncButtons(IsLeft);
 end;
 
@@ -5957,6 +5969,15 @@ begin
         end;
       end;
     end;
+  end;
+
+  // In per-tab mode, persist the sync state to the active page
+  if gTermWindowMode = twmPerTab then
+  begin
+    if IsLeft and Assigned(nbLeft.ActivePage) then
+      TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
+    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+      TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
   end;
 
   UpdateTermSyncButtons(IsLeft);
@@ -6335,10 +6356,18 @@ begin
   Page.Terminal.Align := alClient;
   Page.Terminal.Visible := True;
 
+  // Restore per-tab sync mode into the global so UpdateTermSyncButtons
+  // and the timer reflect this tab's state rather than the previous tab's.
   if Notebook = nbLeft then
-    UpdateTermSyncButtons(True)
+  begin
+    gTermSyncModeLeft := Page.TermSyncMode;
+    UpdateTermSyncButtons(True);
+  end
   else
+  begin
+    gTermSyncModeRight := Page.TermSyncMode;
     UpdateTermSyncButtons(False);
+  end;
 end;
 
 procedure TfrmMain.ShowOptionsLayout(Data: PtrInt);

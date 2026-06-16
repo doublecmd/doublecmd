@@ -65,6 +65,7 @@ type
     FPtyDevice: TCustomPtyDevice;
     FTermInitialized: Boolean;
     FTermNeedInit: Boolean;
+    FTermSyncMode: Integer;
 
     procedure AssignPage(OtherPage: TFileViewPage);
     procedure AssignProperties(OtherPage: TFileViewPage);
@@ -118,6 +119,7 @@ type
     property PtyDevice: TCustomPtyDevice read FPtyDevice write FPtyDevice;
     property TermInitialized: Boolean read FTermInitialized write FTermInitialized;
     property TermNeedInit: Boolean read FTermNeedInit write FTermNeedInit;
+    property TermSyncMode: Integer read FTermSyncMode write FTermSyncMode;
   end;
 
   { TFileViewNotebook }
@@ -239,6 +241,7 @@ constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
   FBackupViewClass := TColumnsFileView;
+  FTermSyncMode := 0;
   inherited Create(TheOwner);
 end;
 
