@@ -129,6 +129,9 @@ type
 
     function ProcessTree(var Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 
+    function TarBegin: Boolean;
+    function TarFiles(const Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+    function TarEnd(const beforeResult: Boolean): Boolean;
   end;
 
 implementation
@@ -785,6 +788,111 @@ begin
       begin
         ShowError(rsMsgLogError + rsMsgErrECreate + ': ' + FArchiveFileName);
       end;
+  end;
+end;
+
+function TTarWriter.TarBegin: Boolean;
+begin
+  Result:= False;
+  try
+    FTargetStream:= TFileStreamEx.Create(FArchiveFileName, fmCreate);
+    Result:= True;
+  except
+    on EFCreateError do
+      begin
+        ShowError(rsMsgLogError + rsMsgErrECreate + ': ' + FArchiveFileName);
+      end;
+  end;
+end;
+
+function TTarWriter.TarFiles(
+  const Files: TFiles;
+  var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+var
+  aFile: TFile;
+  Divider: Int64 = 1;
+  CurrentFileIndex: Integer;
+  iTotalDiskSize, iFreeDiskSize: Int64;
+
+  procedure initCurrentTar;
+  begin
+    // Set base path
+    FBasePath:= Files.Path;
+    if FMemPack = 0 then begin
+      Divider:= 2;
+    end;
+    // Update progress
+    with Statistics do
+    begin
+      CurrentFileTo:= FArchiveFileName;
+      TotalBytes:= TotalBytes * Divider;
+      UpdateStatistics(Statistics);
+    end;
+    // initCurrentTar disk free space
+    //if FCheckFreeSpace = True then
+    begin
+      GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
+      if Statistics.TotalBytes > iFreeDiskSize then
+      begin
+        AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
+        AbortOperation;
+      end;
+    end;
+  end;
+
+begin
+  Result:= False;
+
+  initCurrentTar;
+
+  for CurrentFileIndex := 0 to Files.Count - 1 do begin
+    aFile := Files[CurrentFileIndex];
+
+    if aFile.IsDirectory or aFile.IsLink then begin
+      // Add file record only
+      AddFile(aFile.FullPath);
+    end else begin
+      // Update progress
+      with Statistics do
+      begin
+        CurrentFileFrom := aFile.FullPath;
+        CurrentFileTotalBytes := aFile.Size;
+        CurrentFileDoneBytes := 0;
+      end;
+      UpdateStatistics(Statistics);
+
+      // Add file record
+      AddFile(aFile.FullPath);
+      // TAR current file
+      if not WriteFile(aFile.FullPath, Statistics) then
+        Exit;
+    end;
+
+    CheckOperationState;
+  end;
+
+  Result:= True;
+end;
+
+function TTarWriter.TarEnd(const beforeResult: Boolean): Boolean;
+begin
+  Result:= False;
+  try
+    // Finish TAR archive with two null records
+    FillByte(FBufferIn^, RECORDSIZE * 2, 0);
+    DataWrite(FBufferIn, RECORDSIZE * 2);
+    // Finish compression if needed
+    if (FMemPack <> 0) then CompressData(FBufferIn, 0);
+    Result:= beforeResult;
+  finally
+    if Assigned(FTargetStream) then begin
+      FreeAndNil(FTargetStream);
+      if NOT Result then begin
+        // There was some error, because not all files has been archived.
+        // Delete the not completed target file.
+        mbDeleteFile(FArchiveFileName)
+      end;
+    end;
   end;
 end;
 
