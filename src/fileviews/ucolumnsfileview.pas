@@ -520,7 +520,12 @@ begin
   if ARect.Right > dgPanel.ClientWidth then
     ARect.Right:= dgPanel.ClientWidth;
 
-  Dec(ARect.Right, 1);
+  Dec( ARect.Right );
+
+  {$IFDEF LCLCOCOA}
+  Dec( ARect.Top );
+  Dec( ARect.Left, 2 );
+  {$ENDIF}
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
@@ -1583,15 +1588,12 @@ var
                                 );
 
       // Draw overlay icon for a file if needed
-      if gIconOverlays then
-      begin
-        PixMapManager.DrawBitmapOverlay(AFile,
-                                        FileSourceDirectAccess,
-                                        Canvas,
-                                        params.iconRect.Left,
-                                        params.iconRect.Top
-                                        );
-      end;
+      PixMapManager.DrawBitmapOverlay(AFile,
+                                      FileSourceDirectAccess,
+                                      Canvas,
+                                      params.iconRect.Left,
+                                      params.iconRect.Top
+                                      );
 
     end;
 

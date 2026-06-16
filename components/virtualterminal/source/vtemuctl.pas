@@ -850,7 +850,9 @@ end;
 procedure TCustomComTerminal.ClearScreen;
 begin
   FBuffer.Init(0, 0);
+  FTopLeft := Classes.Point(1, 1);
   MoveCaret(1, 1);
+  UpdateScrollRange;
   Invalidate;
 end;
 
@@ -1973,7 +1975,9 @@ begin
       ecEraseScreen:
       begin
         FBuffer.EraseScreenRight(1, 1);
-        MoveCaret(1, 1)
+        FTopLeft := Classes.Point(1, 1);
+        MoveCaret(1, 1);
+        UpdateScrollRange;
       end;
       ecEraseChar: FBuffer.EraseChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
       ecDeleteChar: FBuffer.DeleteChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));

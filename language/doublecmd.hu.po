@@ -1087,6 +1087,10 @@ msgstr "Mentés &másként..."
 msgid "Save As"
 msgstr "Mentés másként"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1138,6 +1142,12 @@ msgstr "Szintaxis kiemelés"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Sorvége jel"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Nézet"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
@@ -2047,6 +2057,10 @@ msgstr "Útvonal másolása a parancssorba"
 msgid "Add Plugin"
 msgstr "Bővítmény hozzáadása"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Teljesítményteszt"
@@ -2303,6 +2317,10 @@ msgstr "Új fájl szerkesztése"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Elérési út mező szerkesztése a fájllista felett"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2592,6 +2610,10 @@ msgstr "Mappa megnyitása ú&j lapon"
 msgid "Open Drive by Index"
 msgstr "Meghajtó megnyitása index alapján"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "&VFS lista megnyitása"
@@ -2643,6 +2665,10 @@ msgstr "&Frissítés"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Utoljára betöltött Kedvenc Lapok újratöltése"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2769,6 +2795,10 @@ msgstr "Minden lap zárt, de könyvtárváltás engedélyezett"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Attribútumok módosítá&sa..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -11083,6 +11113,14 @@ msgstr "hálózat"
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Fájlkezelőként a Double Commander teljes lemezhozzáférési engedélyt igényel. A gombra kattintva megjelenik a macOS rendszerbeállítások oldal. Adja hozzá a \"Double Commander.app\"-ot a \"Teljes lemezhozzáférés\" listához az engedélyezés befejezéséhez."
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr "Jogosultság"
@@ -14055,6 +14093,10 @@ msgstr "Automatikus;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High D
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Válasszon mappát:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

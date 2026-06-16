@@ -30,6 +30,7 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
+    class function GetFileSource: IFileSource; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
 
@@ -37,8 +38,6 @@ type
     function getAppIconByPath( const path: String ): NSImage;
     function getDefaultPointForPath( const path: String ): String; override;
   public
-    class function GetFileSource: TiCloudDriveFileSource;
-
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
     function GetUIHandler: TFileSourceUIHandler; override;
@@ -163,7 +162,7 @@ procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsult
   end;
 
 begin
-  if params.operationType = fsoCopy then
+  if params.operationType in [fsoCopy, fsoPack] then
     confirmIfSeedFiles;
 
   if params.handled then
@@ -229,12 +228,15 @@ end;
 
 function TiCloudDriveWatcher.toFileSourceEvent(event: TDarwinFSWatchEvent;
   var fileSourceEvent: TFSWatcherEventData ): Boolean;
+var
+  fs: TiCloudDriveFileSource;
 begin
   Result:= TDarwinFSWatcherUtil.convertToFileSourceEvent( event, fileSourceEvent );
   if Result = false then
     Exit;
 
-  if TiCloudDriveFileSource.GetFileSource.getMountPointFromPath(event.fullPath)<>nil then begin
+  fs:= TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
+  if fs.getMountPointFromPath(event.fullPath)<>nil then begin
     fileSourceEvent.Path:= event.fullPath;
     fileSourceEvent.FileName:= '';
   end else begin
@@ -253,8 +255,10 @@ var
   virtualPath: String;
   item: TWatcherItem;
   fileSourceEvent: TFSWatcherEventData;
+  fs: TiCloudDriveFileSource;
 begin
-  virtualPath:= TiCloudDriveFileSource.GetFileSource.GetVirtualPath( event.fullPath );
+  fs:= TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
+  virtualPath:= fs.GetVirtualPath( event.fullPath );
   virtualPath:= ExtractFilePath( ExcludeTrailingPathDelimiter(virtualPath) );
   ok:= Self.toFileSourceEvent( event, fileSourceEvent );
   if NOT ok then
@@ -711,15 +715,11 @@ begin
   Result:= TDarwinFileUtil.getDisplayName( path );
 end;
 
-class function TiCloudDriveFileSource.GetFileSource: TiCloudDriveFileSource;
-var
-  aFileSource: IFileSource;
+class function TiCloudDriveFileSource.GetFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TiCloudDriveFileSource, iCloudDriveConfig.scheme );
-  if not Assigned(aFileSource) then
-    Result:= TiCloudDriveFileSource.Create
-  else
-    Result:= aFileSource as TiCloudDriveFileSource;
+  Result:= FileSourceManager.Find( TiCloudDriveFileSource, iCloudDriveConfig.scheme );
+  if not Assigned(Result) then
+    Result:= TiCloudDriveFileSource.Create;
 end;
 
 function TiCloudDriveFileSource.GetWatcher: TFileSourceWatcher;
@@ -815,7 +815,7 @@ initialization
   iCloudDriveWatcher:= TiCloudDriveWatcher.Create;
   iCloudDriveProcessor:= TiCloudDriveProcessor.Create;
   iCloudDriveUIProcessor:= TiCloudDriveUIHandler.Create;
-  RegisterVirtualFileSource( 'iCloud', TiCloudDriveFileSource, True );
+  RegisterVirtualFileSource( 'iCloud', 'iCloud://', TiCloudDriveFileSource, True );
 
 finalization
   FreeAndNil( iCloudDriveWatcher );

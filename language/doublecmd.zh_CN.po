@@ -1078,6 +1078,10 @@ msgstr "另存为(&A)..."
 msgid "Save As"
 msgstr "另存为"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr "自动换行(&W)"
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1129,6 +1133,11 @@ msgstr "语法高亮"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "行末"
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "查看(&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2038,6 +2047,10 @@ msgstr "复制路径到命令行"
 msgid "Add Plugin"
 msgstr "添加插件"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr "添加到暂存区"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基准测试(&B)"
@@ -2294,6 +2307,10 @@ msgstr "编辑新文件"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "编辑文件列表上方的路径字段"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr "清空暂存区"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2583,6 +2600,10 @@ msgstr "在新标签打开文件夹(&F)"
 msgid "Open Drive by Index"
 msgstr "按索引打开驱动器"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr "打开暂存区"
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "打开虚拟文件系统 (VFS) 列表(&V)"
@@ -2634,6 +2655,10 @@ msgstr "刷新(&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "重新加载上次加载的收藏夹标签"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr "从暂存区移除"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2760,6 +2785,10 @@ msgstr "将所有标签设置为允许更改文件夹的锁定状态"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "更改属性(&A)..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr "设置排序模式"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -9490,7 +9519,7 @@ msgstr "文本方式显示(&T)"
 
 #: tfrmviewer.actshowaswraptext.caption
 msgid "Show as &Wrap text"
-msgstr "换行文本方式显示(&W)"
+msgstr "自动换行(&W)"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
@@ -9542,7 +9571,7 @@ msgstr "撤销"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr "文本换行(&W)"
+msgstr "自动换行(&W)"
 
 #: tfrmviewer.actzoom.caption
 msgctxt "tfrmviewer.actzoom.caption"
@@ -11086,6 +11115,14 @@ msgstr "网络连接"
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Double Command作为文件管理器，需要获得完全磁盘访问权限。点击此按钮将弹出macOS系统设置页，请添加“Double Commander.app”到“完全磁盘访问权限”列表中完成授权。"
+
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr "如果你能看到我，说明DC仍未获得授权。DC会在成功授权后隐藏我。"
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr "每次安装DC的新版本，你都必须重新进行授权。这种情况你需要先将DC从列表中移除，再重新将DC加入到列表中。因为新版本有不同的指纹，单纯启用复选框是无效的。"
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -14077,6 +14114,10 @@ msgstr "自动;1457664B - 3.5\" 高密度 1.44M;1213952B - 5.25\" 高密度 1.2M
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "选中的文件夹："
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr "暂存区"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

@@ -107,7 +107,7 @@ procedure onFileViewUpdated( const fileView: TFileView );
     enabled: Boolean;
     item: NSToolbarItem;
   begin
-    enabled:= fileView.FileSource.IsClass( TFileSystemFileSource );
+    enabled:= fspDirectAccess in fileView.FileSource.Properties;
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.Share' );
     item.setEnabled( enabled );
     item:= TCocoaToolBarUtils.findItemByIdentifier( frmMain, 'MainForm.AirDrop' );
@@ -876,9 +876,17 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
 end;
 
+procedure joinPrivilegeTips;
+begin
+  privilegeItemConfig.tips:= rsMFSTBIPrivilegeTips + #13#13
+                           + rsMFSTBIPrivilegeTips2 + #13#13
+                           + rsMFSTBIPrivilegeTips3;
+end;
+
 procedure doInitMainFormConfig;
 begin
   addMainFormShortCutTips;
+  joinPrivilegeTips;
 
   showModeItemConfig.subitems:= [
     TCocoaToolBarUtils.toClass(showBriefItemConfig),

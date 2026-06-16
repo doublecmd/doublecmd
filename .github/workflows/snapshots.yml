@@ -92,7 +92,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Install dependencies
-      run: sudo apt install fpc patchelf libgtk-3-dev libdbus-1-dev
+      run: |
+           sudo apt update
+           sudo apt install fpc patchelf libgtk-3-dev libdbus-1-dev
 
     - name: Get Lazarus source
       uses: actions/checkout@v6

@@ -1216,6 +1216,9 @@ object frmMain: TfrmMain
       object mnuOpenVFSList: TMenuItem
         Action = actOpenVirtualFileSystemList
       end
+      object mnuOpenStash: TMenuItem
+        Action = actOpenStash
+      end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange
       end
@@ -2876,6 +2879,30 @@ object frmMain: TfrmMain
       Category = 'Configuration'
       Caption = 'Set Sort Mode'
       HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actAddToStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Add to Stash'
+      OnExecute = actExecute
+    end
+    object actOpenStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Open Stash'
+      OnExecute = actExecute
+    end
+    object actRemoveFromStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Remove Stash Items'
+      OnExecute = actExecute
+    end
+    object actEmptyStash: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Empty Stash'
       OnExecute = actExecute
     end
   end

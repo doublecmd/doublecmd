@@ -928,6 +928,14 @@ begin
         CreateActionSubMenu(Self, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)))
       end;
 
+      // Add the "Add to Stash"
+      if FUserWishForContextMenu = uwcmComplete then
+      begin
+        mi:= TMenuItem.Create(Self);
+        mi.Action:= frmMain.actAddToStash;
+        Self.Items.Add(mi);
+      end;
+
       if FUserWishForContextMenu = uwcmComplete then
       begin
         addDelimiterMenuItem( self );

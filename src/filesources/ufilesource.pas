@@ -5,7 +5,10 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus, Graphics,
+  Classes, SysUtils,
+  syncobjs, URIParser,
+  LCLProc, Menus, Graphics, ShellCtrls,
+  DCStrUtils,
   uFile, uDisplayFile, uFileProperty,
   uFileSourceWatcher,
   uFileSourceOperation, uFileSourceOperationTypes, uFileSourceProperty;
@@ -135,6 +138,10 @@ type
     function GetOperationsTypes: TFileSourceOperationTypes;
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
+    function GetFilesForPathAndType(
+      const TargetPath: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
     function GetParentFileSource: IFileSource;
     procedure SetParentFileSource(NewValue: IFileSource);
 
@@ -189,6 +196,8 @@ type
     function GetRealPath(const path: String): String;
     function GetLocalName(var aFile: TFile): Boolean;
 
+    procedure AddSearchPath( const startPath: String; paths: TStringList );
+
     function CreateDirectory(const Path: String): Boolean;
     function FileSystemEntryExists(const Path: String): Boolean;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
@@ -201,6 +210,7 @@ type
     procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray);
     procedure Reload(const PathToReload: String);
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean;
     procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
     procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
 
@@ -302,6 +312,8 @@ type
     constructor Create(const URI: TURI); virtual; overload;
     destructor Destroy; override;
 
+    class function GetFileSource: IFileSource; virtual;
+
     function GetWatcher: TFileSourceWatcher; virtual;
     function GetProcessor: TFileSourceProcessor; virtual;
     function GetUIHandler: TFileSourceUIHandler; virtual;
@@ -324,6 +336,14 @@ type
     // and returning the result of Operation.ReleaseFiles.
     // Caller is responsible for freeing the result list.
     function GetFiles(TargetPath: String): TFiles; virtual;
+
+    // Retrieves a list of files.
+    // the default implementation is based on GetFiles(TargetPath: String): TFiles;
+    // a more efficient implementation is possible for specific FileSources.
+    function GetFilesForPathAndType(
+      const path: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
 
     // Create an empty TFile object with appropriate properties for the file.
     class function CreateFile(const APath: String): TFile; virtual;
@@ -396,6 +416,8 @@ type
     function GetRealPath(const path: String): String; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
 
+    procedure AddSearchPath( const startPath: String; paths: TStringList ); virtual;
+
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
 
     {en
@@ -413,6 +435,7 @@ type
     procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray); virtual; overload;
     procedure Reload(const PathToReload: String); overload;
+    function needReload(const PathToReload: String; const PathToCheck: String): Boolean; virtual;
 
     procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
     procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
@@ -480,7 +503,7 @@ var
 implementation
 
 uses
-  uDebug, uFileSourceManager, uFileSourceListOperation, uLng;
+  uDebug, uFileSourceManager, uFileSourceListOperation, uLng, LazFileUtils;
 
 var
   defaultFileSourceWatcher: TFileSourceWatcher;
@@ -559,6 +582,11 @@ begin
   FreeAndNil(FEventListeners);
 
   inherited Destroy;
+end;
+
+class function TFileSource.GetFileSource: IFileSource;
+begin
+  Result:= Create;
 end;
 
 function TFileSource.GetWatcher: TFileSourceWatcher;
@@ -748,6 +776,10 @@ begin
   Result:= False;
 end;
 
+procedure TFileSource.AddSearchPath(const startPath: String; paths: TStringList);
+begin
+end;
+
 // Operations.
 
 function TFileSource.GetFiles(TargetPath: String): TFiles;
@@ -770,6 +802,77 @@ begin
         FreeAndNil(Operation);
       end;
   end;
+end;
+
+function FilesSortAlphabet(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  Result:= CompareFilenames(List[Index1], List[Index2]);
+end;
+
+function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
+var
+  attr1: TFileAttributesProperty;
+  attr2: TFileAttributesProperty;
+  isDir1: Boolean;
+  isDir2: Boolean;
+begin
+  attr1:= TFileAttributesProperty(List.Objects[Index1]);
+  isDir1:= Assigned(attr1) and attr1.IsDirectory;
+  attr2:= TFileAttributesProperty(List.Objects[Index2]);
+  isDir2:= Assigned(attr2) and attr2.IsDirectory;
+  if isDir1 xor isDir2 then begin
+    if isDir1 then
+      Result:= -1
+    else begin
+      Result:=  1;
+    end;
+  end else begin
+    Result:= CompareFilenames(List[Index1], List[Index2])
+  end;
+end;
+
+function TFileSource.GetFilesForPathAndType(
+  const path: String;
+  const types: TObjectTypes;
+  const sort: TFileSortType ): TStringList;
+var
+  files: TFiles;
+  strings: TStringList;
+  i: Integer;
+  f: TFile;
+  attr: TFileAttributesProperty;
+begin
+  Result:= nil;
+  files:= self.GetFiles( path );
+  if files = nil then
+    Exit;
+
+  strings:= TStringList.Create;
+  for i:= 0 to files.Count-1 do begin
+    f:= files[i];
+    if (f.Name = '.') or (f.Name = '..') then
+      Continue;
+    attr:= f.AttributesProperty;
+    if Assigned(attr) then begin
+      if self.IsSystemFile(f) and not (otHidden in types) then
+        continue;
+      if attr.IsDirectory and not (otFolders in types) then
+        Continue;
+      if not attr.IsDirectory and not (otNonFolders in types) then
+        Continue;
+    end;
+    strings.AddObject( self.GetFileName(f), attr );
+  end;
+
+  if strings.Count > 1 then begin
+    case sort of
+      fstAlphabet:     strings.CustomSort(@FilesSortAlphabet);
+      fstFoldersFirst: strings.CustomSort(@FilesSortFoldersFirst);
+    end;
+  end;
+
+  files.Free;
+  Result:= strings;
 end;
 
 class function TFileSource.CreateFile(const APath: String): TFile;
@@ -1027,6 +1130,13 @@ begin
   SetLength(PathsToReload, 1);
   PathsToReload[0] := PathToReload;
   Reload(PathsToReload);
+end;
+
+function TFileSource.needReload(
+  const PathToReload: String;
+  const PathToCheck: String): Boolean;
+begin
+  Result := IsInPath(PathToReload, PathToCheck, True, True);
 end;
 
 procedure TFileSource.AddEventListener(FunctionToCall: TFileSourceEventListener);

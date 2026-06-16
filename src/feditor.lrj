@@ -3,6 +3,7 @@
 {"hash":2805797,"name":"tfrmeditor.mifile.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":2800388,"name":"tfrmeditor.miedit.caption","sourcebytes":[38,69,100,105,116],"value":"&Edit"},
 {"hash":97085973,"name":"tfrmeditor.milineendtype.caption","sourcebytes":[69,110,100,32,79,102,32,76,105,110,101],"value":"End Of Line"},
+{"hash":2871239,"name":"tfrmeditor.miview.caption","sourcebytes":[38,86,105,101,119],"value":"&View"},
 {"hash":212198471,"name":"tfrmeditor.miencoding.caption","sourcebytes":[69,110,38,99,111,100,105,110,103],"value":"En&coding"},
 {"hash":107742931,"name":"tfrmeditor.miencodingin.caption","sourcebytes":[79,112,101,110,32,97,115],"value":"Open as"},
 {"hash":160200403,"name":"tfrmeditor.miencodingout.caption","sourcebytes":[83,97,118,101,32,97,115],"value":"Save as"},
@@ -55,5 +56,6 @@
 {"hash":97034739,"name":"tfrmeditor.acteditfindprevious.caption","sourcebytes":[70,105,110,100,32,112,114,101,118,105,111,117,115],"value":"Find previous"},
 {"hash":93074804,"name":"tfrmeditor.actfilereload.caption","sourcebytes":[82,101,108,111,97,100],"value":"Reload"},
 {"hash":23458974,"name":"tfrmeditor.actzoomin.caption","sourcebytes":[90,111,111,109,32,73,110],"value":"Zoom In"},
-{"hash":106909908,"name":"tfrmeditor.actzoomout.caption","sourcebytes":[90,111,111,109,32,79,117,116],"value":"Zoom Out"}
+{"hash":106909908,"name":"tfrmeditor.actzoomout.caption","sourcebytes":[90,111,111,109,32,79,117,116],"value":"Zoom Out"},
+{"hash":140859104,"name":"tfrmeditor.actwordwrap.caption","sourcebytes":[38,87,111,114,100,32,119,114,97,112],"value":"&Word wrap"}
 ]}

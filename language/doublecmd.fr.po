@@ -1162,6 +1162,10 @@ msgstr "Enregistrer &sous..."
 msgid "Save As"
 msgstr "Enregistrer sous"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1215,6 +1219,12 @@ msgstr "Coloration syntaxique"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Fin de ligne"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Vue"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2150,6 +2160,10 @@ msgstr "Copier le chemin vers la ligne de commande"
 msgid "Add Plugin"
 msgstr "Ajouter un \"Plugin\""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "Étalonnage"
@@ -2412,6 +2426,10 @@ msgstr "Éditer le nouveau fichier"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Éditer le champ du chemin au dessus de la liste des fichiers"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2703,6 +2721,10 @@ msgstr "Ouvrir le &dossier dans un nouvel onglet"
 msgid "Open Drive by Index"
 msgstr "Ouvrir un lecteur par index"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr ""
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2756,6 +2778,10 @@ msgstr "&Rafraîchir"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Recharger le groupe courant d'onglets favoris"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2883,6 +2909,10 @@ msgstr "Verrouiller tous les onglets avec changements de &dossiers autorisés"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Changer les &attributs..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -11433,6 +11463,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -14493,6 +14531,10 @@ msgstr "Automatique;1457664B - 3.5\" Haute densité 1.44M;1213952B - 5.25\" Haut
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Sélectionner un dossier :"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

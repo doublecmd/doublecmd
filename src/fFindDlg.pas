@@ -545,8 +545,7 @@ begin
           FreeAndNil(ASelectedFiles);
         end;
 
-      (FileView.FileSource as ILocalFileSource).AddSearchPath(
-        FileView.CurrentRealPath, FSelectedFiles );
+      FileView.FileSource.AddSearchPath( FileView.CurrentRealPath, FSelectedFiles );
 
       FindInArchive(FileView);
 
@@ -1741,15 +1740,18 @@ begin
 
   if cbFindInArchive.Enabled then
   begin
-    if (cmbFindPathStart.Text = '') then begin
-      cmbFindPathStart.Text:= mbGetCurrentDir;
-    end;
-    for sPath in SplitPath(cmbFindPathStart.Text) do
+    if FFileSource.IsClass(TFileSystemFileSource) then
     begin
-      if not mbDirectoryExists(sPath) then
+      if (cmbFindPathStart.Text = '') then begin
+        cmbFindPathStart.Text:= mbGetCurrentDir;
+      end;
+      for sPath in SplitPath(cmbFindPathStart.Text) do
       begin
-        ShowMessage(Format(rsFindDirNoEx, [sPath]));
-        Exit;
+        if not mbDirectoryExists(sPath) then
+        begin
+          ShowMessage(Format(rsFindDirNoEx, [sPath]));
+          Exit;
+        end;
       end;
     end;
   end;
@@ -2067,6 +2069,7 @@ begin
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
+  NewPage.FileView.clearFilesOnly;
 
   if FLastSearchTemplate.SearchRecord.Duplicates then
   begin
@@ -2386,7 +2389,10 @@ begin
     if cmbFindFileMask.CanSetFocus then
       cmbFindFileMask.SetFocus;
 
-  cbSelectedFiles.Checked := FSelectedFiles.Count > 0;
+  if cbSelectedFiles.Checked <> (FSelectedFiles.Count > 0) then
+    cbSelectedFiles.Checked := NOT cbSelectedFiles.Checked
+  else
+    cbSelectedFilesChange( cbSelectedFiles );
   cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 

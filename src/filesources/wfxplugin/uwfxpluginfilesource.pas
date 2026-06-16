@@ -1225,7 +1225,7 @@ initialization
   WfxConnectionsLock := TCriticalSection.Create;
   WfxOperationsQueue := TObjectList.Create(False); // False = don't destroy operations (only store references)
   WfxOperationsQueueLock := TCriticalSection.Create;
-  RegisterVirtualFileSource('WfxPlugin', TWfxPluginFileSource, False);
+  RegisterVirtualFileSource('WfxPlugin', '', TWfxPluginFileSource, False);
 
 finalization
   FreeAndNil(WfxOperationList);

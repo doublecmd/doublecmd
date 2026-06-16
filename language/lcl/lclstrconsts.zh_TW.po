@@ -57,6 +57,11 @@ msgstr ""
 msgid "Cmd"
 msgstr ""
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -169,7 +174,7 @@ msgstr ""
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: lclstrconsts.rscannotfocus
 msgid "Cannot focus"
@@ -826,6 +831,10 @@ msgstr "服務"
 msgid "Show All"
 msgstr "顯示全部"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "切換全螢幕模式"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr ""
@@ -1365,6 +1374,10 @@ msgstr ""
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
+msgstr ""
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
 msgstr ""
 
 #: lclstrconsts.smkchome

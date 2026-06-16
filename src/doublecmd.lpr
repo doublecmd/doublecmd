@@ -56,6 +56,9 @@ uses
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
   {$ENDIF}
+  {$IFDEF LCLGTK3}
+  uGtk3WSControls,
+  {$ENDIF}
   {$IFDEF darwin}
   uDarwinApplication,
   uiCloudDriveConfig,
@@ -99,10 +102,8 @@ uses
   , uMyUnix
   {$ENDIF}
   {$IFDEF LclCocoa}
-{$if NOT defined(DisableCocoaModernForm)}
-  ,uCocoaModernFormConfig
-{$endif}
-  ,CocoaConfig
+  , uCocoaModernFormConfig
+  , CocoaConfig
   {$ENDIF}
   ;
 
@@ -222,7 +223,7 @@ begin
       InitPasswordStore;
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
-      initCocoaModernFormConfig;
+      TDCCocoaModernFormUtils.initConfig;
       iCloudDriveConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form

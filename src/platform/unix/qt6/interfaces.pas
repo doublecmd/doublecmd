@@ -5,7 +5,7 @@ unit Interfaces;
 interface
 
 uses
-  InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, uWayland;
+  InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, LCLVersion, uWayland;
 
 type
 
@@ -14,6 +14,9 @@ type
   TQtThemeServicesEx = class(TQtThemeServices)
   public
     function GetStockImage(StockID: LongInt; out Image, Mask: HBitmap): Boolean; override;
+{$if lcl_fullversion < 4990000}
+    procedure DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect = nil); override;
+{$endif}
   end;
 
   { TQtWidgetSetEx }
@@ -37,7 +40,11 @@ var
 implementation
 
 uses
-  SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils, DCUnix;
+  SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils, DCUnix
+{$if lcl_fullversion < 4990000}
+  , LCLIntf, TmSchema
+{$endif}
+  ;
 
 { TQtThemeServicesEx }
 
@@ -45,6 +52,21 @@ function TQtThemeServicesEx.GetStockImage(StockID: LongInt; out Image, Mask: HBi
 begin
   Result:= False;
 end;
+
+{$if lcl_fullversion < 4990000}
+procedure TQtThemeServicesEx.DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect);
+var
+  ARect: TRect;
+begin
+  inherited DrawElement(DC, Details, R, ClipRect);
+
+  if (Details.Element = teToolBar) and (Details.Part = TP_SPLITBUTTONDROPDOWN) then
+  begin
+    ARect:= R;
+    DrawText(DC, Details, '▾', ARect, DT_CENTER or DT_VCENTER or DT_SINGLELINE, 0);
+  end;
+end;
+{$endif}
 
 { TQtWidgetSetEx }
 

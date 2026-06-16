@@ -1091,6 +1091,10 @@ msgstr "另存新檔 (&A)..."
 msgid "Save As"
 msgstr "另存新檔"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr "自動換行 (&W)"
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1142,6 +1146,11 @@ msgstr "語法高亮 (&S)"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "換行符號"
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "檢視 (&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2073,6 +2082,10 @@ msgstr "複製路徑到指令行"
 msgid "Add Plugin"
 msgstr "添加插件"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr "添加至暫存區"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基準測試(&B)"
@@ -2333,6 +2346,10 @@ msgstr "編輯新檔案"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "變更路徑"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr "清空暫存區"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2624,6 +2641,10 @@ msgstr "在新分頁開啟資料夾 (&F)"
 msgid "Open Drive by Index"
 msgstr "依索引開啟磁碟"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr "開啟暫存區"
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "開啟虛擬檔案系統清單 (&V)"
@@ -2676,6 +2697,10 @@ msgstr "重新整理 (&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "重新載入上次加載的「我的最愛」分頁"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr "從暫存區移除"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2803,6 +2828,10 @@ msgstr "將所有分頁設置為允許變更資料夾的鎖定狀態"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "變更檔案屬性... (&A)"
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr "設置排序模式"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -5845,7 +5874,6 @@ msgid "C&lone"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btncommands.hint
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
 msgid "Select your internal command"
 msgstr "選擇內部指令"
@@ -6298,7 +6326,6 @@ msgid "&Mark Color:"
 msgstr "標記顏色 (&M):"
 
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
 msgstr "背景顏色:"
@@ -7770,7 +7797,6 @@ msgid "Parameter&s:"
 msgstr "參數 (&S):"
 
 #: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
 msgstr "說明"
@@ -9747,7 +9773,7 @@ msgstr "顯示為文字 (&T)"
 #: tfrmviewer.actshowaswraptext.caption
 msgctxt "tfrmviewer.actshowaswraptext.caption"
 msgid "Show as &Wrap text"
-msgstr "顯示為自動換行文字 (&W)"
+msgstr "自動換行 (&W)"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
@@ -9801,7 +9827,7 @@ msgstr "復原"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "自動換行 (&W)"
 
 #: tfrmviewer.actzoom.caption
 msgctxt "tfrmviewer.actzoom.caption"
@@ -10220,7 +10246,6 @@ msgid "Read error:"
 msgstr ""
 
 #: ulng.rschecksumverifysuccess
-#, fuzzy
 msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "成功:"
@@ -11331,6 +11356,14 @@ msgstr "網路連接"
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Double Command作為档案管理器，需要獲得完全磁盤訪問特權。點擊此按鈕將彈出macOS系統設置頁，請添加“Double Commander.app”到“完全磁盤訪問特權”列表中完成授權。"
+
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr "如果你能看到我，說明DC仍未獲得授權。DC會在成功授權後隱藏我。"
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr "每次安裝DC的新版本，你都必須重新進行授權。這種情況你需要先將DC從列表中移除，再重新將DC加入到列表中。因為新版本有不同的指紋，單純啓用復選框是無效的。"
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -14175,7 +14208,6 @@ msgid "All"
 msgstr "全部"
 
 #: ulng.rssimplewordcategory
-#, fuzzy
 msgctxt "ulng.rssimplewordcategory"
 msgid "Category"
 msgstr "類別"
@@ -14289,6 +14321,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "選擇資料夾:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr "暫存區"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

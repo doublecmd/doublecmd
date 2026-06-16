@@ -60,7 +60,7 @@ type
 
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
 
-    function Changed: Boolean;
+    function Changed: Boolean; virtual;
 
     property ArchiveFileName: String read GetCurrentAddress;
   end;
@@ -105,9 +105,10 @@ function TArchiveFileSource.Changed: Boolean;
 var
   Attr: TFileAttributeData;
 begin
-  if not mbFileGetAttr(ArchiveFileName, Attr) then
-    Result:= False
-  else begin
+  if not mbFileGetAttr(ArchiveFileName, Attr) then begin
+    FAttributeData.Size:= 0;
+    Result:= False;
+  end else begin
     Result:= (Attr.Size <> FAttributeData.Size) or
              (Attr.LastWriteTime <> FAttributeData.LastWriteTime);
     if Result then FAttributeData:= Attr;

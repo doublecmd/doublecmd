@@ -84,6 +84,8 @@ type
                        anArchiveHandle: TArcHandle); reintroduce;
     destructor Destroy; override;
 
+    function Changed: Boolean; override;
+
     class function CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile; overload;
 
     // Retrieve operations permitted on the source.  = capabilities?
@@ -123,7 +125,7 @@ type
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
 
-    property ArchiveFileList: TThreadObjectList read FArcFileList;
+    property ArchiveFileList: TThreadObjectList read GetArcFileList;
     property PluginCapabilities: PtrInt read FPluginCapabilities;
     property WcxModule: TWCXModule read FWcxModule;
   end;
@@ -458,6 +460,13 @@ begin
     FreeAndNil(FArcFileList);
 end;
 
+function TWcxArchiveFileSource.Changed: Boolean;
+begin
+  Result:= Inherited;
+  if NOT mbFileExists(ArchiveFileName) then
+    Result:= (FArcFileList.Count <> 0);
+end;
+
 class function TWcxArchiveFileSource.CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile;
 begin
   Result := TFile.Create(APath);
@@ -511,7 +520,7 @@ end;
 
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspUsesConnections, fspListFlatView];
+  Result := [fspUsesConnections, fspListFlatView, fspSearchable];
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -533,7 +542,7 @@ begin
 
     NewDir := IncludeTrailingPathDelimiter(NewDir);
 
-    AFileList:= FArcFileList.LockList;
+    AFileList:= ArchiveFileList.LockList;
     try
       // Search file list for a directory with name NewDir.
       for I := 0 to AFileList.Count - 1 do
@@ -546,7 +555,7 @@ begin
         end;
       end;
     finally
-      FArcFileList.UnlockList;
+      ArchiveFileList.UnlockList;
     end;
   end;
 end;
@@ -570,6 +579,8 @@ end;
 
 function TWcxArchiveFileSource.GetArcFileList: TThreadObjectList;
 begin
+  if self.Changed then
+    self.ReadArchive;
   Result := FArcFileList;
 end;
 
@@ -695,28 +706,30 @@ var
 begin
   Result:= False;
 
-  if anArchiveHandle <> 0 then
-    ArcHandle:= anArchiveHandle
-  else begin
-    if not mbFileAccess(ArchiveFileName, fmOpenRead) then
-    begin
-      FOpenResult := E_EREAD;
-      Exit;
-    end;
-
-    DCDebug('Open Archive');
-    ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, FOpenResult);
-    if ArcHandle = 0 then Exit;
-  end;
-
-  WcxModule.WcxSetChangeVolProc(ArcHandle);
-  WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
-
-  DCDebug('Get File List');
-  (*Get File List*)
-  AFileList:= FArcFileList.LockList;
+  AFileList:= FArcFileList.LockList;  // direct access, don't use ArchiveFileList
   try
     AFileList.Clear;
+
+    if anArchiveHandle <> 0 then
+      ArcHandle:= anArchiveHandle
+    else begin
+      if not mbFileAccess(ArchiveFileName, fmOpenRead) then
+      begin
+        FOpenResult := E_EREAD;
+        Exit;
+      end;
+
+      DCDebug('Open Archive');
+      ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, FOpenResult);
+      if ArcHandle = 0 then Exit;
+    end;
+
+    WcxModule.WcxSetChangeVolProc(ArcHandle);
+    WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
+
+    DCDebug('Get File List');
+    (*Get File List*)
+
     ExistsDirList := TStringHashListUtf8.Create(True);
     AllDirsList := TStringHashListUtf8.Create(True);
 
@@ -788,7 +801,7 @@ begin
     end;
 
   finally
-    FArcFileList.UnlockList;
+    FArcFileList.UnlockList;  // direct access, don't use ArchiveFileList
   end;
 end;
 
@@ -984,6 +997,10 @@ end;
 
 procedure TWcxArchiveFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
+  // reset FAttributeData (updated timestamp) in TArchiveFileSource
+  // avoids Changed() still return True after ReadArchive()
+  self.Changed;
+
   ReadArchive;
 end;
 

@@ -11,6 +11,7 @@ uses
   fMain, fEditor, fDiffer, fViewer,
   uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
+  uFileSourceProperty,
   uFileSystemFileSource,
   uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
   uDarwinFinder, uDarwinFinderModel,
@@ -18,7 +19,15 @@ uses
   CocoaAll, CocoaConfig, CocoaToolBar, CocoaThemes, Cocoa_Extra,
   LResources, uTranslator, Translations;
 
-procedure initCocoaModernFormConfig;
+type
+
+  { TDCCocoaModernFormUtils }
+
+  TDCCocoaModernFormUtils = class
+    class procedure initConfig;
+    class function isEnabled: Boolean;
+    class procedure checkAndSetPrivilegeItem;
+  end;
 
 implementation
 
@@ -108,12 +117,9 @@ begin
   ];
 end;
 
-procedure initCocoaModernFormConfig;
+class procedure TDCCocoaModernFormUtils.initConfig;
 begin
-  if gModernUI = false then
-    Exit;
-
-  if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
+  if NOT TDCCocoaModernFormUtils.isEnabled then
     Exit;
 
   fMain.onFileViewUpdated:= @onFileViewUpdated;
@@ -122,5 +128,24 @@ begin
   doInitConfig;
 end;
 
-end.
+class function TDCCocoaModernFormUtils.isEnabled: Boolean;
+begin
+  Result:= gModernUI and TDarwinApplicationUtil.supportsModernForm;
+end;
+
+class procedure TDCCocoaModernFormUtils.checkAndSetPrivilegeItem;
+var
+  toolBar: NSToolBar;
+  index: Integer;
+begin
+  if NOT TDCCocoaModernFormUtils.isEnabled then
+    Exit;
+
+  if NOT TDarwinApplicationUtil.hasFullDiskAccess then
+    Exit;
+
+  toolBar:= TCocoaToolBarUtils.getToolBar( frmMain );
+  index:= TCocoaToolBarUtils.findItemIndexByIdentifier( toolBar, 'MainForm.Privilege' );
+  TCocoaToolBarUtils.removeItemByIndex( toolBar, index );
+end;
 

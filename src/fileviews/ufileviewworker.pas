@@ -781,8 +781,7 @@ begin
                                                     AFile,
                                                     DirectAccess,
                                                     not gLoadIconsSeparately,
-                                                    gShowIcons,
-                                                    not gIconOverlays);
+                                                    gShowIcons);
       end;
 
       aDisplayFiles.Add(AFile);
@@ -836,8 +835,7 @@ begin
                                                         AFile,
                                                         DirectAccess,
                                                         not gLoadIconsSeparately,
-                                                        gShowIcons,
-                                                        not gIconOverlays);
+                                                        gShowIcons);
           end;
 
           // New file.
@@ -955,10 +953,9 @@ begin
               FWorkingFile,
               DirectAccess,
               True,
-              gShowIcons,
-              not gIconOverlays);
+              gShowIcons);
 
-        {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+        {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
         if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
           FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
               FWorkingFile.FSFile,

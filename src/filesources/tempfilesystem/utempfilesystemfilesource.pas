@@ -45,8 +45,6 @@ type
     constructor Create(const aPath: String); virtual; overload;
     destructor Destroy; override;
 
-    class function GetFileSource: ITempFileSystemFileSource;
-
     function IsPathAtRoot(Path: String): Boolean; override;
     function GetParentDir(sPath: String): String; override;
     function GetRootDir(sPath: String): String; override; overload;
@@ -113,11 +111,6 @@ end;
 procedure TTempFileSystemFileSource.SetDeleteOnDestroy(NewDeleteOnDestroy: Boolean);
 begin
   FDeleteOnDestroy := NewDeleteOnDestroy;
-end;
-
-class function TTempFileSystemFileSource.GetFileSource: ITempFileSystemFileSource;
-begin
-  Result := TTempFileSystemFileSource.Create;
 end;
 
 function TTempFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-01-17 01:45+0900\n"
+"PO-Revision-Date: 2026-06-12 15:00+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -1079,6 +1079,10 @@ msgstr "다른 이름으로 저장(&A)..."
 msgid "Save As"
 msgstr "다음으로 저장"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr "자동 줄 바꿈(&W)"
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1130,6 +1134,11 @@ msgstr "구문 강조"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "줄의 끝"
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "보기(&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
@@ -1597,7 +1606,7 @@ msgstr "도움말(&H)"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "드라이브"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2039,6 +2048,10 @@ msgstr "명령줄에 경로 복사"
 msgid "Add Plugin"
 msgstr "플러그인 추가"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr "보관함에 추가"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "벤치마크(&B)"
@@ -2295,6 +2308,10 @@ msgstr "새 파일 편집"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "파일 목록 위의 경로 필드 편집"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr "보관함 비우기"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2584,6 +2601,10 @@ msgstr "새 탭에 폴더 열기(&F)"
 msgid "Open Drive by Index"
 msgstr "인덱스로 드라이브 열기"
 
+#: tfrmmain.actopenstash.caption
+msgid "Open Stash"
+msgstr "보관함 열기"
+
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "가상 파일 시스템 목록 열기(&V)"
@@ -2635,6 +2656,10 @@ msgstr "새로 고침(&R)"
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "마지막으로 불러온 즐겨찾기 탭 다시 불러오기"
+
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr "보관함 항목 제거"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2761,6 +2786,10 @@ msgstr "디렉터리 변경 허용으로 모든 탭이 잠김"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "속성 변경(&A)..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr "정렬 모드 설정"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -4320,7 +4349,6 @@ msgid "Right:"
 msgstr "오른쪽:"
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
 msgstr "선택:"
@@ -6390,7 +6418,7 @@ msgstr "사용할 기본 특성 마스크 값:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
+msgstr "추가 줄 간격:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6665,6 +6693,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"F1, F2 등을 기능 키로 취급하도록 강제하는 것은\n"
+"시스템 설정 > 키보드의 설정을 무시합니다"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6676,6 +6706,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"이 기능은 추가 시스템 권한이 필요합니다.\n"
+"\n"
+"이 기능을 활성화하면 자동으로\n"
+"시스템 설정 > 개인정보 보호 및 보안 > 접근성 패널로 이동합니다.\n"
+"\n"
+"DC의 새 버전을 설치할 때마다, 먼저 목록에서\n"
+"DC를 제거한 다음 다시 추가해야 합니다."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7717,12 +7754,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDTOP.CAPTION"
@@ -7746,12 +7783,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
@@ -7775,12 +7812,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDTOP.CAPTION"
@@ -7804,12 +7841,12 @@ msgstr "현재 도구 모음에 추가"
 #: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "새 도구 모음을 현재 도구 모음에 추가"
+msgstr "현재 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "상단 도구 모음에 새 도구 모음을 추가"
+msgstr "상단 도구 모음에 새 도구 모음 추가"
 
 #: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
 msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDTOP.CAPTION"
@@ -10591,7 +10628,7 @@ msgstr "파일 찾기"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "드라이브 선택"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
@@ -11075,6 +11112,14 @@ msgstr "네트워크"
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 ‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
+
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr "제가 보이면 DC가 아직 인증되지 않았다는 뜻입니다. 인증이 완료되면 DC가 저를 숨깁니다."
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr "새 버전을 설치할 때마다 다시 인증해야 합니다. 이 경우 먼저 목록에서 DC를 제거한 다음 다시 추가해야 합니다. 새 버전은 지문이 다르기 때문에 체크박스를 활성화하는 것만으로는 작동하지 않습니다."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -14049,6 +14094,10 @@ msgstr "자동;1457664B - 3.5\" 고밀도 1.44M;1213952B - 5.25\" 고밀도 1.2M
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "디렉터리 선택:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr "보관함"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

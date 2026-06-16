@@ -386,6 +386,7 @@ type
 
     destructor Destroy; override;
     procedure Clear;
+    procedure clearFilesOnly;
 
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
@@ -518,6 +519,7 @@ type
                                   var DropParams: TDropParams); virtual abstract;
 
     procedure GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
+    procedure GoToPrevFileSourceHistory;
     function hasPrevHistory: Boolean;
     procedure GoToPrevHistory;
     function hasNextHistory: Boolean;
@@ -1041,15 +1043,22 @@ begin
   HashFileList;
 end;
 
+procedure TFileView.clearFilesOnly;
+begin
+  if Assigned(FFiles) then
+    FFiles.Clear;
+  if Assigned(FAllDisplayFiles) then
+    FAllDisplayFiles.Clear;
+  HashFileList;
+end;
+
 procedure TFileView.ClearFiles;
 begin
   if Assigned(FAllDisplayFiles) then
   begin
     ClearRecentlyUpdatedFiles;
     ClearPendingFilesChanges;
-    FFiles.Clear;
-    FAllDisplayFiles.Clear; // Clear references to files from the source.
-    HashFileList;
+    clearFilesOnly;
     Notify([fvnDisplayFileListChanged]);
   end;
 end;
@@ -2463,7 +2472,7 @@ begin
   begin
     Result := False;
     for i := Low(PathsToReload) to High(PathsToReload) do
-      if IsInPath(PathsToReload[i], CurrentPath, True, True) then
+      if FileSource.needReload(PathsToReload[i], CurrentPath) then
       begin
         Result := True;
         Break;
@@ -2636,7 +2645,7 @@ begin
               aFileSource := TFileSystemFileSource.GetFileSource
             else begin
               FileSourceClass := gVfsModuleList.FindFileSource(sFSType);
-              if Assigned(FileSourceClass) then aFileSource := FileSourceClass.Create;
+              if Assigned(FileSourceClass) then aFileSource := FileSourceClass.GetFileSource;
             end;
 
             if Assigned(aFileSource) then
@@ -2835,8 +2844,7 @@ begin
 
   for i := 0 to FileSourcesCount - 1 do
   begin
-    // Currently saves only FileSystem.
-    if FHistory.FileSource[i].IsClass(TFileSystemFileSource) then
+    if fspSaveableLoadable in FHistory.FileSource[i].Properties then
     begin
       EntryNode := AConfig.AddNode(HistoryNode, 'Entry');
       if FHistory.CurrentFileSourceIndex = i then
@@ -2986,7 +2994,11 @@ begin
     // If there is a higher level file source then change to it.
     if (FileSourcesCount > 1) and AllowChangingFileSource then
     begin
-      RemoveCurrentFileSource;
+      // use GoToPrevFileSourceHistory instead of RemoveCurrentFileSource to navigate
+      // to the parent when the current FileSource is at the Root.
+      // in this way, for example, in SearchResults, after clicking "..",
+      // we can navigation by cm_ViewHistoryPrev/cm_ViewHistoryNext.
+      GoToPrevFileSourceHistory
     end;
   end
   else
@@ -3007,8 +3019,7 @@ begin
   if Assigned(aFile) and aFile.IsNameValid and
      (aFile.IsDirectory or aFile.IsLinkToDirectory) then
   begin
-    // Workaround for Search Result File Source
-    if FileSource is TSearchResultFileSource then
+    if fspDontChangePath in FileSource.Properties then
       SetFileSystemPath(Self, aFile.FullPath)
     else
       CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(FileSource.GetFileName(aFile));
@@ -3035,6 +3046,8 @@ begin
       FileSource.RemoveEventListener(@FileSourceEventListener);
 
     EnableWatcher(False);
+
+    clearFilesOnly;
 
     FHistory.Add(aFileSource, aPath);
 
@@ -3091,6 +3104,8 @@ begin
             FileSource.RemoveEventListener(@FileSourceEventListener);
 
           EnableWatcher(False);
+
+          clearFilesOnly;
 
           FHistory.DeleteFromCurrentFileSource;
 
@@ -3571,6 +3586,8 @@ begin
       FileSource.RemoveEventListener(@FileSourceEventListener);
     EnableWatcher(False);
 
+    clearFilesOnly;
+
     FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
 
     if Assigned(FileSource) and IsNewFileSource then
@@ -3588,6 +3605,17 @@ begin
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
+  end;
+end;
+
+procedure TFileView.GoToPrevFileSourceHistory;
+var
+  aFileSourceIndex, aPathIndex: Integer;
+begin
+  if FHistory.CurrentFileSourceIndex > 0 then begin
+    aFileSourceIndex := FHistory.CurrentFileSourceIndex - 1;
+    aPathIndex := FHistory.PathsCount[aFileSourceIndex] - 1;
+    GoToHistoryIndex(aFileSourceIndex, aPathIndex);
   end;
 end;
 

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
-  uFileSource, uFileSourceOperationTypes, uFileSourceUtil,
+  uFileSource, uFileSourceOperationTypes, uFileSourceProperty, uFileSourceUtil,
   uDebug, DCStrUtils;
 
 type
@@ -38,6 +38,7 @@ type
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure confirmCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
+    procedure consultPackOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
@@ -217,10 +218,12 @@ begin
   // If same file source and address
   if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
     params.resultFS:= params.sourceFS;
+    params.consultResult:= fscrSuccess;
   end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
     params.resultOperationType:= fsoCopyOut;
     params.operationTemp:= True;
     params.resultFS:= params.sourceFS;
+    params.consultResult:= fscrSuccess;
   end else begin
     params.consultResult:= fscrNotSupported;
   end;
@@ -270,13 +273,46 @@ begin
   end;
 end;
 
+procedure TDefaultFileSourceProcessor.consultPackOperation(
+  var params: TFileSourceConsultParams);
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
+begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+
+  sourceFS:= params.sourceFS;
+  targetFS:= params.targetFS;
+
+  if NOT (fspDirectAccess in targetFS.Properties) then
+    Exit;
+
+  if NOT (fspDirectAccess in sourceFS.Properties) and NOT (fsoCopyOut in sourceFS.GetOperationsTypes) then
+    Exit;
+
+  params.operationTemp:= False;
+  params.resultFS:= sourceFS;
+  params.operationTemp:= NOT (fspDirectAccess in sourceFS.Properties);
+  params.consultResult:= fscrSuccess;
+  params.handled:= False;
+end;
+
 procedure TDefaultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams );
 begin
+  if fspImmutable in params.targetFS.Properties then begin
+    params.consultResult:= fscrNotSupported;
+    params.handled:= True;
+    Exit;
+  end;
+
   case params.operationType of
     fsoCopy:
       self.consultCopyOperation( params );
     fsoMove:
       self.consultMoveOperation( params );
+    fsoPack:
+      self.consultPackOperation( params );
   end;
 end;
 

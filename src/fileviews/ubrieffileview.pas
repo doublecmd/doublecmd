@@ -462,16 +462,12 @@ var
                                    );
 
         // Draw overlay icon for a file if needed
-        if gIconOverlays then
-        begin
-          PixMapManager.DrawBitmapOverlay(AFile,
-                                          FileSourceDirectAccess,
-                                          Canvas,
-                                          params.iconRect.Left,
-                                          params.iconRect.Top
-                                          );
-        end;
-
+        PixMapManager.DrawBitmapOverlay(AFile,
+                                        FileSourceDirectAccess,
+                                        Canvas,
+                                        params.iconRect.Left,
+                                        params.iconRect.Top
+                                        );
       end;
       // Print filename with align
       targetWidth:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
@@ -586,6 +582,11 @@ begin
 
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);
+
+  {$IFDEF LCLCOCOA}
+  Dec( ARect.Top );
+  Dec( ARect.Left, 2 );
+  {$ENDIF}
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;

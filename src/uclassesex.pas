@@ -73,6 +73,7 @@ type
     procedure Clear;
     function Clone: TObjectList;
     function Add(AObject: TObjectEx): Integer;
+    function Count: Integer;
     function  LockList: TObjectList;
     procedure UnlockList;
   end;
@@ -139,6 +140,12 @@ end;
 function TThreadObjectList.Add(AObject: TObjectEx): Integer;
 begin
   Result:= FList.Add(AObject);
+end;
+
+function TThreadObjectList.Count: Integer;
+begin
+  // no need to lock
+  Result:= FList.Count;
 end;
 
 function TThreadObjectList.LockList: TObjectList;

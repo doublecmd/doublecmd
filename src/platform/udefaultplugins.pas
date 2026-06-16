@@ -81,6 +81,9 @@ implementation
 uses
   //Lazarus, Free-Pascal, etc.
   Forms, Dialogs,
+
+  // enable StashFileSource, don't remove
+  uStashFileSource,
   
   //DC
   {$IF DEFINED(CPU64)}

@@ -74,6 +74,10 @@ type
 
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
+    actAddToStash: TAction;
+    actEmptyStash: TAction;
+    actRemoveFromStash: TAction;
+    actOpenStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
     actMapNetworkDrive: TAction;
@@ -251,6 +255,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuOpenStash: TMenuItem;
     mnuDoAnyCmCommand: TMenuItem;
     miConfigArchivers: TMenuItem;
     mnuConfigSavePos: TMenuItem;
@@ -980,10 +985,12 @@ implementation
 {$R *.lfm}
 
 uses
-  Themes, uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
+  Themes, uFileProcs, uShellContextMenu, fTreeViewMenu,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
-  uDragDropEx, uKeyboard, uLocalFileSource, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
+  uDragDropEx, uKeyboard,
+  uLocalFileSource, uFileSystemFileSource, uSearchResultFileSource, uStashFileSource,
+  uVfsModule, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -995,8 +1002,8 @@ uses
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
-{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
-  , BaseUnix
+{$IFDEF DARWIN}
+  , uCocoaModernFormConfig
 {$ENDIF}
   ;
 
@@ -1132,6 +1139,14 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     );
   end;
 
+  procedure initStash;
+  begin
+    stashActionAddToStash:= actAddToStash;
+    stashActionRemoveFromStash:= actRemoveFromStash;
+    stashActionEmptyStash:= actEmptyStash;
+    RegisterVirtualFileSource( rsStashName, STASH_SCHEME, TStashFileSource, True );
+  end;
+
 var
   HMMainForm: THMForm;
   I: Integer;
@@ -1142,6 +1157,8 @@ begin
   Application.OnShowHint := @AppShowHint;
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
+
+  initStash;
 
   {$IF DEFINED(DARWIN)}
   // in LCL's DARWIN implements, there is no way but to Use LCL's method of dropping files
@@ -1295,6 +1312,7 @@ begin
   TDarwinFileViewUtil.init( @ActiveNotebook, @ActiveFrame );
   if gForceFunctionKey then
     Application.OnIdle:= @installMacOSFNKeyTap;
+  TDCCocoaModernFormUtils.checkAndSetPrivilegeItem;
 {$ENDIF}
 end;
 
@@ -3803,7 +3821,8 @@ begin
       if Assigned(OperationClass) then
         OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
-      CopyDialog := TfrmCopyDlg.Create(Self, cmdtCopy, params.resultFS, OperationOptionsUIClass);
+      CopyDialog := TfrmCopyDlg.Create(
+        Self, cmdtCopy, params.resultFS, params.targetFS, OperationOptionsUIClass);
       CopyDialog.edtDst.Text := params.targetPath;
       CopyDialog.edtDst.ReadOnly := params.operationTemp;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
@@ -3956,9 +3975,11 @@ function TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
                             QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
   sDstMaskTemp: String;
-  Operation: TFileSourceMoveOperation;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
+  OperationClass: TFileSourceOperationClass;
+  Operation: TFileSourceMoveOperation;
+  OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 
   params: TFileSourceConsultParams;
 begin
@@ -3977,15 +3998,10 @@ begin
 
     if NOT bMove then begin
       if params.consultResult = fscrNotImplemented then
-      begin
-        msgWarning(rsMsgNotImplemented);
-        Exit;
-      end
-      else
-      begin
+        msgWarning(rsMsgNotImplemented)
+      else if params.consultResult = fscrNotSupported then
         msgWarning(rsMsgErrNotSupported);
-        Exit;
-      end;
+      Exit;
     end;
 
     if SourceFiles.Count = 0 then
@@ -4000,8 +4016,13 @@ begin
 
     if bShowDialog then
     begin
-      MoveDialog := TfrmCopyDlg.Create(Self, cmdtMove, SourceFileSource,
-        SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
+      OperationClass:= SourceFileSource.GetOperationClass(fsoMove);
+      if Assigned(OperationClass) then
+        OperationOptionsUIClass:= OperationClass.GetOptionsUIClass;
+
+      MoveDialog := TfrmCopyDlg.Create(
+        Self, cmdtMove, SourceFileSource, TargetFileSource,
+        OperationOptionsUIClass );
       MoveDialog.edtDst.Text := params.targetPath;
       MoveDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
 
@@ -7799,7 +7820,7 @@ begin
     with lblCommandPath do
     begin
       Visible := True;
-      st := ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
+      st := ExcludeTrailingBackslash(ActiveFrame.CurrentRealPath);
       Hint := st;
 
       Caption := MinimizeFilePath(Format(fmtCommandPath, [st]),
@@ -7810,7 +7831,7 @@ begin
     if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
       begin
         if gTermWindow and Assigned(Cons) then
-          Cons.SetCurrentDir(ActiveFrame.CurrentPath);
+          Cons.SetCurrentDir(ActiveFrame.CurrentRealPath);
       end;
 
     edtCommand.Visible := True;
@@ -7824,7 +7845,7 @@ begin
   Properties := ActiveFrame.FileSource.GetProperties;
   if (fspDirectAccess in Properties) and not (fspLinksToLocalFiles in Properties) then
   begin
-    mbSetCurrentDir(ActiveFrame.CurrentPath);
+    mbSetCurrentDir(ActiveFrame.CurrentRealPath);
   end;
 end;
 

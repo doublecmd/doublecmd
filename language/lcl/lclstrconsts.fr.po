@@ -58,6 +58,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Commande"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -873,6 +878,10 @@ msgstr "Services"
 msgid "Show All"
 msgstr "Tout Afficher"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Basculer vers le plein écran"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Marron"
@@ -1468,6 +1477,10 @@ msgstr "Entrée"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Échap"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
