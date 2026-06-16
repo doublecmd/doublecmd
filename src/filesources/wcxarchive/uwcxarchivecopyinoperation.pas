@@ -13,6 +13,7 @@ uses
   uFile,
   uWcxModule,
   uWcxArchiveFileSource,
+  uTarWriter,
   uArchiveCopyOperation,
   uFileSourceOperationUI,
   uFileSourceOperationOptions,
@@ -26,6 +27,7 @@ type
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
+    FTarWriter: TTarWriter;
     FFileList: TStringHashListUtf8;
 
     {en
@@ -38,6 +40,7 @@ type
     procedure DeleteFiles(const aFiles: TFiles);
 
     function doWcxPackFiles(const files: TFiles): Integer;
+    function doTarFiles(const files: TFiles): Integer;
 
   protected
     function Tar: Boolean;
@@ -74,7 +77,7 @@ implementation
 uses
   LazUTF8, FileUtil, DCStrUtils, uDCUtils, uLng,
   fWcxArchiveCopyOperationOptions, uFileSystemFileSource, DCOSUtils,
-  uTarWriter, uClassesEx, DCConvertEncoding, DCDateTimeUtils,
+  uClassesEx, DCConvertEncoding, DCDateTimeUtils,
   uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
@@ -557,22 +560,51 @@ begin
   Result:= TWcxArchiveCopyInOperationOptionsUI;
 end;
 
-function TWcxArchiveCopyInOperation.Tar: Boolean;
+function TWcxArchiveCopyInOperation.doTarFiles(const files: TFiles): Integer;
 var
-  TarWriter: TTarWriter = nil;
-  tarFullFiles: TFiles;
+  success: Boolean;
+  currentFullFiles: TFiles = nil;
 begin
-  FillAndCount(SourceFiles,
-               tarFullFiles,
-               FStatistics.TotalFiles,
-               FStatistics.TotalBytes);
+  Result:= -1;
+  try
+    FillAndCount(files,
+                 currentFullFiles,
+                 FStatistics.TotalFiles,
+                 FStatistics.TotalBytes);
+    success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
+    if success then
+      Result:= 0;
+  finally
+    currentFullFiles.Free;
+  end;
+end;
 
+function TWcxArchiveCopyInOperation.Tar: Boolean;
+
+  function tarFiles: Boolean;
+  var
+    tarBeginResult: Boolean;
+    resultCode: Integer;
+  begin
+    Result:= False;
+    tarBeginResult:= FTarWriter.TarBegin;
+    if tarBeginResult then begin
+      resultCode:= -1;
+      try
+        resultCode:= ProcessFilesWithMultiRootPath( SourceFiles, @self.doTarFiles );
+      finally
+        Result:= FTarWriter.TarEnd( resultCode=0 );
+      end;
+    end;
+  end;
+
+begin
   with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
   begin
     if Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
       begin
         FTarFileName:= ArchiveFileName;
-        TarWriter:= TTarWriter.Create(FTarFileName,
+        FTarWriter:= TTarWriter.Create(FTarFileName,
                                       @AskQuestion,
                                       @RaiseAbortOperation,
                                       @CheckOperationState,
@@ -584,7 +616,7 @@ begin
     else
       begin
         FTarFileName:= RemoveFileExt(ArchiveFileName);
-        TarWriter:= TTarWriter.Create(FTarFileName,
+        FTarWriter:= TTarWriter.Create(FTarFileName,
                                       @AskQuestion,
                                       @RaiseAbortOperation,
                                       @CheckOperationState,
@@ -595,7 +627,7 @@ begin
   end;
 
   try
-    if TarWriter.ProcessTree(tarFullFiles, FStatistics) then
+    if TarFiles() then
     begin
       if Result and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
         DeleteFiles(SourceFiles)
@@ -608,8 +640,7 @@ begin
         end;
     end;
   finally
-    FreeAndNil(TarWriter);
-    FreeAndNil(tarFullFiles);
+    FreeAndNil(FTarWriter);
   end;
 end;
 
