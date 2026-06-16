@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.2.0 alpha\n"
 "POT-Creation-Date: 2025-07-14 19:30+0300\n"
-"PO-Revision-Date: 2025-07-14 21:33+0300\n"
+"PO-Revision-Date: 2026-06-08 20:20+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -4696,7 +4696,7 @@ msgstr "Переименовать"
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
@@ -4706,7 +4706,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
@@ -4716,7 +4716,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
@@ -4726,7 +4726,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetcursorborder.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
@@ -4736,7 +4736,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
@@ -4746,7 +4746,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
@@ -4756,7 +4756,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
@@ -4766,7 +4766,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
@@ -4776,7 +4776,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetframecursor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetframecursor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
@@ -4786,7 +4786,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
@@ -4796,7 +4796,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
@@ -4806,7 +4806,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
@@ -4816,7 +4816,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
@@ -4826,7 +4826,7 @@ msgstr "Восстановить значение по умолчанию"
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
 msgid "R"
-msgstr ""
+msgstr "С"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
