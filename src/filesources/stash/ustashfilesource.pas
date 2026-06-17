@@ -248,8 +248,7 @@ end;
 
 class function TStashFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= EnvVarCommanderPath + PathDelim + 'pixmaps' + PathDelim + 'stuff' + PathDelim + 'stash.png';
-  Path:= mbExpandFileName( Path );
+  Path:= 'cm_openstash';
   Result:= True;
 end;
 
