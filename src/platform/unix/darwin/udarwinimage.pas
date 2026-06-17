@@ -78,6 +78,9 @@ var
 
 implementation
 
+uses
+  uPixMapManager;
+
 type
   
   { TNSImageCacheItem }
@@ -310,8 +313,20 @@ function TDarwinImageCacheManager.copyBitmapForFileContent(
   const path: String;
   const size: Integer;
   const autoDark: Boolean = False ): TBitmap;
+
+  function loadBitmap: TBitmap;
+  var
+    image: NSImage;
+  begin
+    if GetPathType(path) = ptAbsolute then begin
+      image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
+      Result:= TDarwinImageUtil.toBitmap( image );
+    end else begin
+      Result:= PixmapManager.GetThemeIcon( path, size );
+    end;
+  end;
+
 var
-  image: NSImage;
   bitmap: TBitmap;
 begin
   Result:= nil;
@@ -320,8 +335,7 @@ begin
   try
     bitmap:= TBitmap(_images[path]);
     if _images[path] = nil then begin
-      image:= TDarwinImageUtil.getBestFromFileContentWithSize( path, size, autoDark );
-      bitmap:= TDarwinImageUtil.toBitmap( image );
+      bitmap:= loadBitmap;
       _images[path]:= bitmap;
     end;
   finally
