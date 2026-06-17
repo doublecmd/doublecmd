@@ -21,11 +21,9 @@ type
 
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
-    FRemoveFilesTree: TFiles;
     FPassword: String;
     FVolumeSize: String;
     FCustomParams: String;
-    FCallResult: Boolean;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -53,8 +51,6 @@ type
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
-    destructor Destroy; override;
-
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
@@ -69,7 +65,7 @@ type
 implementation
 
 uses
-  LazUTF8, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
+  LazUTF8, FileUtil, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
   uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
   uTarWriter, uShowMsg, uAdministrator,
   uArchiveFileSourceUtil;
@@ -81,7 +77,6 @@ constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
   FPassword:= FMultiArchiveFileSource.Password;
-  FRemoveFilesTree := nil;
   FPackingFlags := 0;
   FVolumeSize := EmptyStr;
   FTarBefore:= False;
@@ -96,13 +91,6 @@ begin
     CurrentFileDoneBytes := -1;
     UpdateStatistics(FStatistics);
   end;
-end;
-
-destructor TMultiArchiveCopyInOperation.Destroy;
-begin
-  inherited Destroy;
-
-  FreeAndNil(FRemoveFilesTree);
 end;
 
 procedure TMultiArchiveCopyInOperation.Initialize;
@@ -254,17 +242,15 @@ procedure TMultiArchiveCopyInOperation.MainExecute;
       Result:= doPackFilesOneByOne( self.SourceFiles )
     else  // pack whole file list
       Result:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
-
-    // Check for errors.
-    if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then
-    begin
-      if (NOT FTarBefore) and (PackingFlags and PK_PACK_MOVE_FILES) <> 0) then
-        DeleteFiles(EmptyStr, SourceFiles);
-    end;
   end;
 
+var
+  removeFiles: TFiles = nil;
 begin
   SourceFiles.sort;
+
+  if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+    removeFiles:= SourceFiles.Clone;
 
   // Put to TAR archive if needed
   if FTarBefore then Tar;
@@ -275,12 +261,16 @@ begin
   try
     doPack;
   finally
-    // Delete temporary TAR archive if needed
-    if FTarBefore then
-    begin
-      mbDeleteFile(FTarFileName);
-      if FCallResult and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
-        DeleteFiles(EmptyStr, FRemoveFilesTree);
+    try
+      // Delete temporary TAR archive if needed
+      if FTarBefore then
+        mbDeleteFile(FTarFileName);
+      if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then begin
+        if Assigned(removeFiles) then
+          DeleteFiles(EmptyStr, removeFiles);
+      end;
+    finally
+      removeFiles.Free;
     end;
   end;
 end;
@@ -341,7 +331,6 @@ begin
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                         [FileName]), [log_arc_op], lmtSuccess);
     end;
-  FCallResult:= Result;
 end;
 
 procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: String; aFile: TFile);
@@ -361,7 +350,7 @@ begin
   begin
     aFile:= aFiles[I];
     if aFile.IsDirectory then
-      mbRemoveDir(BasePath + aFile.FullPath)
+      DeleteDirectory(BasePath + aFile.FullPath, False)
     else
       mbDeleteFile(BasePath + aFile.FullPath);
   end;
@@ -391,8 +380,6 @@ begin
     if TarWriter.ProcessTree(currentFullFiles, FStatistics) then
     begin
       // Fill file list with tar archive file
-      FRemoveFilesTree:= SourceFiles.Clone;
-
       SourceFiles.Clear;
       SourceFiles.Path:= ExtractFilePath(FTarFileName);
       SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));

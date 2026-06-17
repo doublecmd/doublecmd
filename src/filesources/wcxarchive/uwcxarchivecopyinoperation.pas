@@ -423,7 +423,7 @@ begin
   begin
     aFile:= aFiles[I];
     if aFile.IsDirectory then
-      mbRemoveDir(aFile.FullPath)
+      DeleteDirectory(aFile.FullPath, False)
     else
       mbDeleteFile(aFile.FullPath);
   end;
