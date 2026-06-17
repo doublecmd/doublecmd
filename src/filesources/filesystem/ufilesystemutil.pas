@@ -259,7 +259,7 @@ begin
     if Files.Count <> 1 then
       raise Exception.Create('Only a single directory can be set with ExcludeRootDir=True');
     NewFiles := TFiles.Create(Files[0].FullPath);
-    FillAndCountRec(Files[0].FullPath + DirectorySeparator);
+    FillAndCountRec( IncludeTrailingPathDelimiter(Files[0].FullPath) );
   end
   else
   begin
@@ -285,7 +285,7 @@ begin
       begin
         if CountDirs then
           Inc(FilesCount);
-        FillAndCountRec(aFile.FullPath + DirectorySeparator);  // recursive browse child dir
+        FillAndCountRec( IncludeTrailingPathDelimiter(aFile.FullPath) );  // recursive browse child dir
       end
       else
       begin
