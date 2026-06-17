@@ -34,7 +34,6 @@ type
     procedure DeleteFiles(const BasePath: String; aFiles: TFiles);
 
     function doMultiPackFiles(const files: TFiles): Integer;
-    function doPackFilesOneByOne(const files: TFiles): Integer;
     function doTarFiles(const files: TFiles): Integer;
   protected
     FExProcess: TExProcess;
@@ -140,115 +139,82 @@ begin
   ElevateAction:= dupError;
 end;
 
-function TMultiArchiveCopyInOperation.doMultiPackFiles(const files: TFiles): Integer;
+function TMultiArchiveCopyInOperation.doMultiPackFiles(const files: TFiles
+  ): Integer;
 var
   currentFullFiles: TFiles = nil;
+  currentFiles: TFiles;
+  currentPath: String;
+  aFile: TFile;
+  I: Integer;
+  oneByOne: Boolean;
   sRootPath: String;
   sDestPath: String;
   sReadyCommand: String;
 begin
   Result:= -1;
 
-  uFileSystemUtil.FillAndCount(
-    files, False, False,
-    currentFullFiles,
-    FStatistics.TotalFiles,
-    FStatistics.TotalBytes);     // gets full list of files (recursive)
+  oneByOne:= Pos('%F', FCommandLine) <> 0;  // pack file by file
 
-  sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
-  sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
-  sRootPath:= currentFullFiles.Path;
 
-  ChangeFileListRoot(EmptyStr, currentFullFiles);
+  try
+    uFileSystemUtil.FillAndCount(
+      files, False, False,
+      currentFullFiles,
+      FStatistics.TotalFiles,
+      FStatistics.TotalBytes);     // gets full list of files (recursive)
 
-  sReadyCommand:= FormatArchiverCommand(
-                                        FMultiArchiveFileSource.MultiArcItem.FArchiver,
-                                        FCommandLine,
-                                        FMultiArchiveFileSource.ArchiveFileName,
-                                        currentFullFiles,
-                                        EmptyStr,
-                                        sDestPath,
-                                        FTempFile,
-                                        Password,
-                                        VolumeSize,
-                                        CustomParams
-                                        );
-  OnReadLn(sReadyCommand);
+    sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
+    sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
+    sRootPath:= currentFullFiles.Path;
 
-  // Set archiver current path to file list root
-  FExProcess.Process.CurrentDirectory:= sRootPath;
-  FExProcess.SetCmdLine(sReadyCommand);
-  FExProcess.Execute;
+    ChangeFileListRoot(EmptyStr, currentFullFiles);
 
-  Result:= FExProcess.ExitStatus;
-end;
+    for I:= currentFullFiles.Count - 1 downto 0 do begin
+      if oneByOne then begin
+        aFile:= currentFullFiles[I];
+        UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
+        currentFiles:= nil;
+        currentPath:= aFile.FullPath;
+      end else begin
+        currentFiles:= currentFullFiles;
+        currentPath:= EmptyStr;
+      end;
 
-function TMultiArchiveCopyInOperation.doPackFilesOneByOne(const files: TFiles
-  ): Integer;
-var
-  currentFullFiles: TFiles = nil;
-  aFile: TFile;
-  I: Integer;
-  sRootPath,
-  sDestPath: String;
-  sReadyCommand: String;
-begin
-  Result:= -1;
+      sReadyCommand:= FormatArchiverCommand(
+                                            FMultiArchiveFileSource.MultiArcItem.FArchiver,
+                                            FCommandLine,
+                                            FMultiArchiveFileSource.ArchiveFileName,
+                                            currentFiles,
+                                            currentPath,
+                                            sDestPath,
+                                            FTempFile,
+                                            Password,
+                                            VolumeSize,
+                                            CustomParams
+                                            );
+      OnReadLn(sReadyCommand);
 
-  uFileSystemUtil.FillAndCount(
-    files, False, False,
-    currentFullFiles,
-    FStatistics.TotalFiles,
-    FStatistics.TotalBytes);     // gets full list of files (recursive)
+      // Set archiver current path to file list root
+      FExProcess.Process.CurrentDirectory:= sRootPath;
+      FExProcess.SetCmdLine(sReadyCommand);
+      FExProcess.Execute;
 
-  sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
-  sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
-  sRootPath:= currentFullFiles.Path;
+      Result:= FExProcess.ExitStatus;
+      if Result <> 0 then
+        Exit;
 
-  ChangeFileListRoot(EmptyStr, currentFullFiles);
+      if NOT oneByOne then
+        break;
 
-  for I:= currentFullFiles.Count - 1 downto 0 do
-  begin
-    aFile:= currentFullFiles[I];
-    UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
-
-    sReadyCommand:= FormatArchiverCommand(
-                                          FMultiArchiveFileSource.MultiArcItem.FArchiver,
-                                          FCommandLine,
-                                          FMultiArchiveFileSource.ArchiveFileName,
-                                          nil,
-                                          aFile.FullPath,
-                                          sDestPath,
-                                          FTempFile,
-                                          Password,
-                                          VolumeSize,
-                                          CustomParams
-                                          );
-    OnReadLn(sReadyCommand);
-
-    // Set archiver current path to file list root
-    FExProcess.Process.CurrentDirectory:= sRootPath;
-    FExProcess.SetCmdLine(sReadyCommand);
-    FExProcess.Execute;
-
-    Result:= FExProcess.ExitStatus;
-    if Result <> 0 then
-      Exit;
-
-    UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
-  end
+      UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
+    end
+  finally
+    currentFullFiles.Free;
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.MainExecute;
-
-  function doPack: Integer;
-  begin
-    if Pos('%F', FCommandLine) <> 0 then // pack file by file
-      Result:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doPackFilesOneByOne )
-    else  // pack whole file list
-      Result:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
-  end;
-
 var
   removeFiles: TFiles = nil;
 begin
@@ -264,7 +230,7 @@ begin
   FErrorLevel:= ExtractErrorLevel(FCommandLine);
 
   try
-    doPack;
+    ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
   finally
     try
       // Delete temporary TAR archive if needed
