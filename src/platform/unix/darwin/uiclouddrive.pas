@@ -11,7 +11,7 @@ uses
   uiCloudDriveConfig, uiCloudDriveUtil,
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
-  uFileSourceWatcher, uMountedFileSource, uVfsModule,
+  uFileSourceWatcher, uMountedFileSource, uVfsModule, uMultiArchiveFileSource,
   uDCUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
   uDarwinFile, uDarwinImage, uDarwinUtil,
@@ -100,6 +100,11 @@ type
   { TiCloudDriveProcessor }
 
   TiCloudDriveProcessor = class( TMountedFileSourceProcessor )
+  protected
+    function calcSourcePath(
+      const mountedFS: TMountedFileSource;
+      const targetFS: IFileSource;
+      const realPath: String): String; override;
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
   end;
@@ -136,6 +141,26 @@ var
   iCloudDriveUIProcessor: TiCloudDriveUIHandler;
 
 { TiCloudDriveProcessor }
+
+function TiCloudDriveProcessor.calcSourcePath(
+  const mountedFS: TMountedFileSource;
+  const targetFS: IFileSource;
+  const realPath: String): String;
+var
+  mountPoint: TMountPoint;
+begin
+  mountPoint:= mountedFS.getMountPointFromPath( realPath );
+  {
+    '%R' is usually not specified in TMultiArchiveFileSource
+    this means that specifying subdir in MultiArchive/7z is not supported.
+    therefore, it falls back to the base path of iCloud to indirectly
+    achieve the effect of the subdir.
+  }
+  if (mountPoint<>nil) and targetFS.IsClass(TMultiArchiveFileSource) then
+    Result:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.base )
+  else
+    Result:= inherited;
+end;
 
 procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsultParams );
 

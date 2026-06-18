@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Generics.Collections,
   Dialogs,
   uFile, uFileSource, uFileSourceManager,
-  uFileSystemFileSource, uArchiveFileSource,
+  uFileSystemFileSource, uWcxArchiveFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uLng, uDCUtils, DCStrUtils;
 
@@ -81,6 +81,11 @@ type
     procedure consultCopyOperation(var params: TFileSourceConsultParams);
     procedure consultMoveOperation(var params: TFileSourceConsultParams);
     procedure consultPackOperation(var params: TFileSourceConsultParams);
+  protected
+    function calcSourcePath(
+      const mountedFS: TMountedFileSource;
+      const targetFS: IFileSource;
+      const realPath: String ): String; virtual;
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
@@ -261,20 +266,7 @@ var
   mountedFS: TMountedFileSource;
   pathType: TPathType;
   targetPath: String;
-
-  function calcBasePath: String;
-  var
-    realPath: String;
-    mountPoint: TMountPoint;
-  begin
-    realPath:= params.files[0].FullPath;
-    mountPoint:= mountedFS.getMountPointFromPath( realPath );
-    if mountPoint <> nil then
-      Result:= mountPoint.path
-    else
-      Result:= GetParentDir( realPath );
-  end;
-
+  realPath: String;
 begin
   mountedFS:= params.currentFS as TMountedFileSource;
   targetPath:= params.targetPath;
@@ -289,8 +281,10 @@ begin
     params.resultTargetPath:= mountedFS.getRealPath( targetPath );
   end;
 
-  if params.phase=TFileSourceConsultPhase.source then
-    params.files.Path:= calcBasePath;
+  if params.phase=TFileSourceConsultPhase.source then begin
+    realPath:= params.files[0].FullPath;
+    params.files.Path:= calcSourcePath( mountedFS, params.targetFS, realPath );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.calcTargetPath(var params: TFileSourceConsultParams);
@@ -301,7 +295,7 @@ var
 begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
-  if NOT params.partnerFS.IsClass(TArchiveFileSource) then
+  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
     Exit;
 
   mountedFS:= params.currentFS as TMountedFileSource;
@@ -372,6 +366,21 @@ begin
 
   inherited consultOperation( params );
   self.calcTargetPath( params );
+end;
+
+function TMountedFileSourceProcessor.calcSourcePath(
+  const mountedFS: TMountedFileSource;
+  const targetFS: IFileSource;
+  const realPath: String ): String;
+var
+  mountPoint: TMountPoint;
+begin
+  mountPoint:= mountedFS.getMountPointFromPath( realPath );
+  if mountPoint <> nil then begin
+    Result:= mountPoint.path
+  end else begin
+    Result:= GetParentDir( realPath );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.consultOperation(
