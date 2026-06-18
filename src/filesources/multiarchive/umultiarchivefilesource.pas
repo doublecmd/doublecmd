@@ -5,7 +5,7 @@ unit uMultiArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, DCStringHashListUtf8, uOSUtils,
+  Classes, SysUtils, DCStringHashListUtf8, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
   uMultiArchiveUtil, DCBasicTypes, uClassesEx;
@@ -245,9 +245,9 @@ constructor TMultiArchiveFileSource.Create(anArchiveFileSource: IFileSource;
 begin
   inherited Create(anArchiveFileSource, anArchiveFileName);
 
-  FMultiArcItem := aMultiArcItem;
+  FMultiArcItem := aMultiArcItem.Clone;
   FArcFileList := TThreadObjectList.Create;
-  FOutputParser := TOutputParser.Create(aMultiArcItem, anArchiveFileName);
+  FOutputParser := TOutputParser.Create(FMultiArcItem, anArchiveFileName);
   FOutputParser.OnGetArchiveItem:= @OnGetArchiveItem;
 
   FOperationsClasses[fsoCopyIn]          := TMultiArchiveCopyInOperation.GetOperationClass;
@@ -279,8 +279,9 @@ destructor TMultiArchiveFileSource.Destroy;
 begin
   inherited Destroy;
 
-  if Assigned(FArcFileList) then
-    FreeAndNil(FArcFileList);
+  FreeAndNil(FOutputParser);
+  FreeAndNil(FArcFileList);
+  FreeAndNil(FMultiArcItem);
 end;
 
 class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem; FormMode: Integer): TFile;
