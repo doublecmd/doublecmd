@@ -1271,6 +1271,13 @@ begin
       AFileView.Reload;
     Exit;
   end;
+
+  if not (fspListFlatView in AFileSource.GetProperties) then
+  begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
+
   AFileList := TFileTree.Create;
   AFiles := AFileView.CloneSelectedFiles;
   for J := 0 to AFiles.Count - 1 do
