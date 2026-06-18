@@ -45,6 +45,7 @@ type
   protected
     function Tar: Boolean;
     procedure SetProcessDataProc(hArcData: TArcHandle);
+    procedure DoReloadFileSources; override;
 
   protected
     FCurrentFile: TFile;
@@ -438,6 +439,12 @@ begin
     else
       WcxSetProcessDataProc(hArcData, @ProcessDataProcAT, @ProcessDataProcWT);
   end;
+end;
+
+procedure TWcxArchiveCopyInOperation.DoReloadFileSources;
+begin
+  if not FCreateNew then
+    TargetFileSource.Reload( EmptyStr );  // force reloading all open paths
 end;
 
 procedure TWcxArchiveCopyInOperation.QuestionActionHandler(

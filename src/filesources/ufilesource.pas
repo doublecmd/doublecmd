@@ -1125,10 +1125,12 @@ end;
 
 procedure TFileSource.Reload(const PathToReload: String);
 var
-  PathsToReload: TPathsArray;
+  PathsToReload: TPathsArray = nil;
 begin
-  SetLength(PathsToReload, 1);
-  PathsToReload[0] := PathToReload;
+  if PathToReload <> EmptyStr then begin
+    SetLength(PathsToReload, 1);
+    PathsToReload[0] := PathToReload;
+  end;
   Reload(PathsToReload);
 end;
 
