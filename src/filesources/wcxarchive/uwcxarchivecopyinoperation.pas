@@ -237,16 +237,22 @@ var
   sDestPath: String;
   currentFullFiles: TFiles = nil;
   sFileList: String;
+  uselessTotalFiles: Int64;
+  uselessTotalBytes: Int64;
 begin
   Result:= E_UNKNOWN;
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
 
   try
-    FillAndCount(files,
-                 currentFullFiles,
-                 FStatistics.TotalFiles,
-                 FStatistics.TotalBytes);
+    if Assigned(FFullFilesTree) then begin
+      currentFullFiles:= FFullFilesTree;
+    end else begin
+      FillAndCount(files,
+                   currentFullFiles,
+                   uselessTotalFiles,
+                   uselessTotalBytes);
+    end;
 
     // Convert TFiles into String;
     sFileList:= GetFileList(currentFullFiles);
@@ -264,7 +270,8 @@ begin
     if Result = E_EABORTED then
       RaiseAbortOperation;
   finally
-    currentFullFiles.Free;
+    if currentFullFiles <> FFullFilesTree then
+      currentFullFiles.Free;
   end;
 end;
 
@@ -307,7 +314,20 @@ procedure TWcxArchiveCopyInOperation.MainExecute;
   end;
 
 begin
-  SourceFiles.sort;
+  // 1. calc statistics
+  FillAndCount( SourceFiles,
+                FFullFilesTree,
+                FStatistics.TotalFiles,
+                FStatistics.TotalBytes);
+
+  // 2. if MultiRootPath, free FFullFilesTree, only retain statistics
+  if SourceFiles.Path = EmptyStr then begin
+    // in this case, FFullFilesTree is not useful, we will need to expand path by path
+    FreeAndNil( FFullFilesTree );
+    // sorting allows files from the same path to be grouped together,
+    // enabling the processing of more files at once.
+    SourceFiles.sort;
+  end;
 
   // Put to TAR archive if needed
   if FTarBefore and Tar then
@@ -316,6 +336,7 @@ begin
   try
     doPack;
   finally
+    FreeAndNil(FFullFilesTree);
     // Delete temporary TAR archive if needed
     if FTarBefore then
       mbDeleteFile(FTarFileName);
@@ -571,14 +592,20 @@ function TWcxArchiveCopyInOperation.doTarFiles(const files: TFiles): Integer;
 var
   success: Boolean;
   currentFullFiles: TFiles = nil;
+  uselessTotalFiles: Int64;
+  uselessTotalBytes: Int64;
 begin
   Result:= -1;
   try
-    FillAndCount(files,
-                 currentFullFiles,
-                 FStatistics.TotalFiles,
-                 FStatistics.TotalBytes);
-    success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
+    if Assigned(FFullFilesTree) then begin
+      success:= FTarWriter.TarFiles(FFullFilesTree, FStatistics);
+    end else begin
+      FillAndCount(files,
+                   currentFullFiles,
+                   uselessTotalFiles,
+                   uselessTotalBytes);
+      success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
+    end;
     if success then
       Result:= 0;
   finally
@@ -644,6 +671,8 @@ begin
           SourceFiles.Clear;
           SourceFiles.Path:= ExtractFilePath(FTarFileName);
           SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+          // SourceFiles changed, FFullFilesTree becomes meaningless
+          FreeAndNil(FFullFilesTree);
         end;
     end;
   finally

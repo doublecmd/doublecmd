@@ -21,6 +21,7 @@ type
   protected
     FStatistics: TFileSourceCopyOperationStatistics; // Local copy of statistics
     FPackingFlags: Integer; // Packing flags passed to plugin
+    FFullFilesTree: TFiles; // Full list of files (recursive), only according to SourceFiles
     FCreateNew: Boolean;  // Create new archive
     FTarBefore: Boolean;  // Create TAR archive first
     FTarFileName: String; // Temporary TAR archive name
