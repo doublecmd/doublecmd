@@ -277,11 +277,12 @@ end;
 
 procedure TWcxArchiveCopyInOperation.MainExecute;
 
-  procedure doPack;
+  function doPack: Boolean;
   var
     resultCode: Integer;
     WcxModule: TWcxModule;
   begin
+    Result:= False;
     WcxModule := FWcxArchiveFileSource.WcxModule;
 
     with FStatistics do
@@ -310,9 +311,12 @@ procedure TWcxArchiveCopyInOperation.MainExecute;
 
       FStatistics.DoneFiles:= FStatistics.TotalFiles;
       UpdateStatistics(FStatistics);
+      Result:= True;
     end;
   end;
 
+var
+  removeFiles: TFiles = nil;
 begin
   // 1. calc statistics
   FillAndCount( SourceFiles,
@@ -329,14 +333,23 @@ begin
     SourceFiles.sort;
   end;
 
-  // Put to TAR archive if needed
-  if FTarBefore and Tar then
-    Exit;
+  if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+    removeFiles:= SourceFiles.Clone;
 
   try
-    doPack;
+    // Put to TAR archive if needed
+    if FTarBefore and Tar then
+      Exit;
+
+    if NOT doPack() then
+      Exit;
+
+    // if success, delete files need to be removed
+    if Assigned(removeFiles) then
+      DeleteFiles(removeFiles);
   finally
     FreeAndNil(FFullFilesTree);
+    removeFiles.Free;
     // Delete temporary TAR archive if needed
     if FTarBefore then
       mbDeleteFile(FTarFileName);
@@ -661,19 +674,18 @@ begin
   end;
 
   try
-    if TarFiles() then
-    begin
-      if Result and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
-        DeleteFiles(SourceFiles)
-      else
-        begin
-          // Fill file list with tar archive file
-          SourceFiles.Clear;
-          SourceFiles.Path:= ExtractFilePath(FTarFileName);
-          SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
-          // SourceFiles changed, FFullFilesTree becomes meaningless
-          FreeAndNil(FFullFilesTree);
-        end;
+    if TarFiles() then begin
+      if Result = False then begin
+        // Fill file list with tar archive file
+        SourceFiles.Clear;
+        SourceFiles.Path:= ExtractFilePath(FTarFileName);
+        SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+        // SourceFiles changed, FFullFilesTree becomes meaningless
+        FreeAndNil(FFullFilesTree);
+      end;
+    end else begin
+      // tar fail, Exit MainExecute()
+      Result:= True;
     end;
   finally
     FreeAndNil(FTarWriter);
