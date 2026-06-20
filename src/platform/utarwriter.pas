@@ -129,7 +129,7 @@ type
 
     function TarBegin(var Statistics: TFileSourceCopyOperationStatistics): Boolean;
     function TarFiles(const Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
-    function TarEnd(const beforeResult: Boolean): Boolean;
+    function TarEnd(var Statistics: TFileSourceCopyOperationStatistics; const beforeResult: Boolean): Boolean;
   end;
 
 implementation
@@ -711,8 +711,9 @@ function TTarWriter.TarBegin(
     with Statistics do
     begin
       CurrentFileTo:= FArchiveFileName;
+      Statistics.TotalFiles:= Statistics.TotalFiles + 1;  // add .tar file
       if FMemPack = 0 then
-        TotalBytes:= TotalBytes * 2;
+        TotalBytes:= TotalBytes * 2;  // take TotalBytes as an approximation of the tar file
       UpdateStatistics(Statistics);
     end;
     //if FCheckFreeSpace = True then
@@ -779,7 +780,11 @@ begin
   Result:= True;
 end;
 
-function TTarWriter.TarEnd(const beforeResult: Boolean): Boolean;
+function TTarWriter.TarEnd(
+  var Statistics: TFileSourceCopyOperationStatistics;
+  const beforeResult: Boolean ): Boolean;
+var
+  tarSize: Int64;
 begin
   Result:= False;
   try
@@ -792,7 +797,14 @@ begin
   finally
     if Assigned(FTargetStream) then begin
       FreeAndNil(FTargetStream);
-      if NOT Result then begin
+      if Result then begin
+        if FMemPack = 0 then begin
+          // calculate the exact value of TotalBytes
+          tarSize:= mbFileSize(FArchiveFileName);
+          Statistics.TotalBytes:= Statistics.TotalBytes div 2 + tarSize;
+          UpdateStatistics(Statistics);
+        end;
+      end else begin
         // There was some error, because not all files has been archived.
         // Delete the not completed target file.
         mbDeleteFile(FArchiveFileName)

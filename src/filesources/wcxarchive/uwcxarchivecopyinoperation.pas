@@ -627,7 +627,7 @@ function TWcxArchiveCopyInOperation.Tar: Boolean;
       try
         resultCode:= ProcessFilesWithMultiRootPath( SourceFiles, @self.doTarFiles );
       finally
-        Result:= FTarWriter.TarEnd( resultCode=0 );
+        Result:= FTarWriter.TarEnd( FStatistics, resultCode=0 );
       end;
     end;
   end;
