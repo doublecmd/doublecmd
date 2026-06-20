@@ -180,7 +180,7 @@ begin
     for I:= currentFullFiles.Count - 1 downto 0 do begin
       if oneByOne then begin
         aFile:= currentFullFiles[I];
-        UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
+        UpdateProgress(sRootPath + aFile.FullPath, FMultiArchiveFileSource.ArchiveFileName, 0);
         currentFiles:= nil;
         currentPath:= aFile.FullPath;
       end else begin
@@ -214,7 +214,7 @@ begin
       if NOT oneByOne then
         break;
 
-      UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
+      UpdateProgress(sRootPath + aFile.FullPath, FMultiArchiveFileSource.ArchiveFileName, aFile.Size);
     end
   finally
     if currentFullFiles <> FFullFilesTree then
@@ -246,7 +246,10 @@ begin
     removeFiles:= SourceFiles.Clone;
 
   // Put to TAR archive if needed
-  if FTarBefore then Tar;
+  if FTarBefore then begin
+    Tar;
+    UpdateProgress( SourceFiles[0].FullPath, FMultiArchiveFileSource.ArchiveFileName, 0);
+  end;
 
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(FCommandLine);
