@@ -6303,10 +6303,14 @@ begin
     Page.Terminal.Width := 400;
     Page.Terminal.Height := 176;
     Page.Terminal.ShowHint := False;
+    // Notify Page when Terminal is freed externally (e.g. parent panel
+    // destroyed during shutdown) so Page can nil its reference.
+    Page.Terminal.FreeNotification(Page);
     
     FontOptionsToFont(gFonts[dcfConsole], Page.Terminal.Font);
     
     Page.PtyDevice := TPtyDevice.Create(Self);
+    Page.PtyDevice.FreeNotification(Page);
     Page.Terminal.PtyDevice := Page.PtyDevice;
     Page.Terminal.Parent := AParent;
     

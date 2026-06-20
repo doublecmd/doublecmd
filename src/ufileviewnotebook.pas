@@ -87,6 +87,7 @@ type
     procedure DoActivate;
 
   protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure PaintWindow(DC: HDC); override;
 {$IF DEFINED(LCLWIN32)}
     procedure RealSetText(const AValue: TCaption); override;
@@ -247,9 +248,31 @@ end;
 
 destructor TFileViewPage.Destroy;
 begin
-  if Assigned(FTerminal) then FTerminal.Free;
-  if Assigned(FPtyDevice) then FPtyDevice.Free;
+  // Terminal and PtyDevice may already be freed if their parent panel was
+  // destroyed before us (the Notification override nils the references).
+  if Assigned(FPtyDevice) then
+  begin
+    FPtyDevice.RemoveFreeNotification(Self);
+    FreeAndNil(FPtyDevice);
+  end;
+  if Assigned(FTerminal) then
+  begin
+    FTerminal.RemoveFreeNotification(Self);
+    FreeAndNil(FTerminal);
+  end;
   inherited Destroy;
+end;
+
+procedure TFileViewPage.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if Operation = opRemove then
+  begin
+    if AComponent = FTerminal then
+      FTerminal := nil
+    else if AComponent = FPtyDevice then
+      FPtyDevice := nil;
+  end;
 end;
 
 {$IF DEFINED(LCLWIN32)}
