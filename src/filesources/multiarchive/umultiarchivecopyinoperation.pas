@@ -223,6 +223,19 @@ begin
 end;
 
 procedure TMultiArchiveCopyInOperation.MainExecute;
+
+  procedure tarAndPack;
+  begin
+    // Put to TAR archive if needed
+    if FTarBefore then begin
+      if NOT self.Tar() then
+        Exit;
+      UpdateProgress( SourceFiles[0].FullPath, FMultiArchiveFileSource.ArchiveFileName, 0);
+    end;
+
+    ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
+  end;
+
 var
   removeFiles: TFiles = nil;
 begin
@@ -242,28 +255,27 @@ begin
     SourceFiles.sort;
   end;
 
-  if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
-    removeFiles:= SourceFiles.Clone;
-
-  // Put to TAR archive if needed
-  if FTarBefore then begin
-    Tar;
-    UpdateProgress( SourceFiles[0].FullPath, FMultiArchiveFileSource.ArchiveFileName, 0);
-  end;
-
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(FCommandLine);
 
+  if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+    removeFiles:= SourceFiles.Clone;
+
   try
-    ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
+    tarAndPack;
   finally
     try
       // Delete temporary TAR archive if needed
       if FTarBefore then
         mbDeleteFile(FTarFileName);
+
       if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then begin
+        // if success, delete files need to be removed
         if Assigned(removeFiles) then
           DeleteFiles(EmptyStr, removeFiles);
+      end else begin
+        // if fail, delete Archive File
+        mbDeleteFile(FMultiArchiveFileSource.ArchiveFileName);
       end;
     finally
       FreeAndNil(FFullFilesTree);
@@ -315,19 +327,18 @@ end;
 
 function TMultiArchiveCopyInOperation.CheckForErrors(const FileName: String; ExitStatus: LongInt): Boolean;
 begin
-  if ExitStatus > FErrorLevel then
-    begin
-      Result:= False;
-      ShowError(Format(rsMsgLogError + rsMsgLogPack,
-                       [FileName +
-                        ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
-    end
-  else
-    begin
-      Result:= True;
-      LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
-                        [FileName]), [log_arc_op], lmtSuccess);
-    end;
+  if ExitStatus > FErrorLevel then begin
+    Result:= False;
+    ShowError(Format(rsMsgLogError + rsMsgLogPack,
+                     [FileName +
+                      ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
+  end else if ExitStatus < 0 then begin
+    Result:= False;
+  end else begin
+    Result:= True;
+    LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
+                      [FileName]), [log_arc_op], lmtSuccess);
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: String; aFile: TFile);
