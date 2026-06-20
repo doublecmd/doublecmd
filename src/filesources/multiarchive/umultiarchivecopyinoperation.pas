@@ -157,6 +157,8 @@ begin
   Result:= -1;
 
   oneByOne:= Pos('%F', FCommandLine) <> 0;  // pack file by file
+  if oneByOne then
+    FExProcess.OnOperationProgress:= nil;
 
   try
     if Assigned(FFullFilesTree) then begin
@@ -427,6 +429,16 @@ begin
     logWrite(Thread, str, lmtInfo, True, False);
 end;
 
+{
+  detecting changes to ArchiveFileName is not always effective,
+  it depends on the specific Archiver.
+
+  for example, 7z may saves the data to a temporary file first during compression,
+  and then replaces it with ArchiveFileName after successful compression.
+
+  additionally, in oneByOne mode, UpdateProgress() is called for each file to
+  update doneBytes, therefore OperationProgressHandler() should not be enabled.
+}
 procedure TMultiArchiveCopyInOperation.OperationProgressHandler;
 var
   ArchiveSize: Int64;
