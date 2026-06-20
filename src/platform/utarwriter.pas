@@ -127,7 +127,7 @@ type
                        );
     destructor Destroy; override;
 
-    function TarBegin: Boolean;
+    function TarBegin(var Statistics: TFileSourceCopyOperationStatistics): Boolean;
     function TarFiles(const Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
     function TarEnd(const beforeResult: Boolean): Boolean;
   end;
@@ -700,9 +700,35 @@ begin
   end;
 end;
 
-function TTarWriter.TarBegin: Boolean;
+function TTarWriter.TarBegin(
+  var Statistics: TFileSourceCopyOperationStatistics ): Boolean;
+
+  procedure initTar;
+  var
+    iTotalDiskSize, iFreeDiskSize: Int64;
+  begin
+    // Update progress
+    with Statistics do
+    begin
+      CurrentFileTo:= FArchiveFileName;
+      if FMemPack = 0 then
+        TotalBytes:= TotalBytes * 2;
+      UpdateStatistics(Statistics);
+    end;
+    //if FCheckFreeSpace = True then
+    begin
+      GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
+      if Statistics.TotalBytes > iFreeDiskSize then
+      begin
+        AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
+        AbortOperation;
+      end;
+    end;
+  end;
+
 begin
   Result:= False;
+  initTar;
   try
     FTargetStream:= TFileStreamEx.Create(FArchiveFileName, fmCreate);
     Result:= True;
@@ -719,40 +745,10 @@ function TTarWriter.TarFiles(
   var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 var
   aFile: TFile;
-  Divider: Int64 = 1;
   CurrentFileIndex: Integer;
-  iTotalDiskSize, iFreeDiskSize: Int64;
-
-  procedure initCurrentTar;
-  begin
-    // Set base path
-    FBasePath:= Files.Path;
-    if FMemPack = 0 then begin
-      Divider:= 2;
-    end;
-    // Update progress
-    with Statistics do
-    begin
-      CurrentFileTo:= FArchiveFileName;
-      TotalBytes:= TotalBytes * Divider;
-      UpdateStatistics(Statistics);
-    end;
-    // initCurrentTar disk free space
-    //if FCheckFreeSpace = True then
-    begin
-      GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
-      if Statistics.TotalBytes > iFreeDiskSize then
-      begin
-        AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
-        AbortOperation;
-      end;
-    end;
-  end;
-
 begin
   Result:= False;
-
-  initCurrentTar;
+  FBasePath:= Files.Path;
 
   for CurrentFileIndex := 0 to Files.Count - 1 do begin
     aFile := Files[CurrentFileIndex];

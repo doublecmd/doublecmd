@@ -594,7 +594,7 @@ function TWcxArchiveCopyInOperation.Tar: Boolean;
     resultCode: Integer;
   begin
     Result:= False;
-    tarBeginResult:= FTarWriter.TarBegin;
+    tarBeginResult:= FTarWriter.TarBegin( FStatistics );
     if tarBeginResult then begin
       resultCode:= -1;
       try
