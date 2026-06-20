@@ -139,8 +139,8 @@ begin
   ElevateAction:= dupError;
 end;
 
-function TMultiArchiveCopyInOperation.doMultiPackFiles(const files: TFiles
-  ): Integer;
+function TMultiArchiveCopyInOperation.doMultiPackFiles(
+  const files: TFiles): Integer;
 var
   currentFullFiles: TFiles = nil;
   currentFiles: TFiles;
@@ -151,18 +151,23 @@ var
   sRootPath: String;
   sDestPath: String;
   sReadyCommand: String;
+  uselessTotalFiles: Int64;
+  uselessTotalBytes: Int64;
 begin
   Result:= -1;
 
   oneByOne:= Pos('%F', FCommandLine) <> 0;  // pack file by file
 
-
   try
-    uFileSystemUtil.FillAndCount(
-      files, False, False,
-      currentFullFiles,
-      FStatistics.TotalFiles,
-      FStatistics.TotalBytes);     // gets full list of files (recursive)
+    if Assigned(FFullFilesTree) then begin
+      currentFullFiles:= FFullFilesTree;
+    end else begin
+      uFileSystemUtil.FillAndCount(
+        files, False, False,
+        currentFullFiles,
+        uselessTotalFiles,
+        uselessTotalBytes);     // gets full list of files (recursive)
+    end;
 
     sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
     sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
@@ -210,7 +215,8 @@ begin
       UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
     end
   finally
-    currentFullFiles.Free;
+    if currentFullFiles <> FFullFilesTree then
+      currentFullFiles.Free;
   end;
 end;
 
@@ -218,7 +224,21 @@ procedure TMultiArchiveCopyInOperation.MainExecute;
 var
   removeFiles: TFiles = nil;
 begin
-  SourceFiles.sort;
+  // 1. calc statistics
+  uFileSystemUtil.FillAndCount(
+    SourceFiles, False, False,
+    FFullFilesTree,
+    FStatistics.TotalFiles,
+    FStatistics.TotalBytes);     // gets full list of files (recursive)
+
+  // 2. if MultiRootPath, free FFullFilesTree, only retain statistics
+  if SourceFiles.Path = EmptyStr then begin
+    // in this case, FFullFilesTree is not useful, we will need to expand path by path
+    FreeAndNil( FFullFilesTree );
+    // sorting allows files from the same path to be grouped together,
+    // enabling the processing of more files at once.
+    SourceFiles.sort;
+  end;
 
   if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
     removeFiles:= SourceFiles.Clone;
@@ -241,6 +261,7 @@ begin
           DeleteFiles(EmptyStr, removeFiles);
       end;
     finally
+      FreeAndNil(FFullFilesTree);
       removeFiles.Free;
     end;
   end;
@@ -331,14 +352,21 @@ function TMultiArchiveCopyInOperation.doTarFiles(const files: TFiles): Integer;
 var
   success: Boolean;
   currentFullFiles: TFiles = nil;
+  uselessTotalFiles: Int64;
+  uselessTotalBytes: Int64;
 begin
   Result:= -1;
   try
-    FillAndCount(files,
-                 currentFullFiles,
-                 FStatistics.TotalFiles,
-                 FStatistics.TotalBytes);
-    success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
+    if Assigned(FFullFilesTree) then begin
+      success:= FTarWriter.TarFiles(FFullFilesTree, FStatistics);
+    end else begin
+      uFileSystemUtil.FillAndCount(
+        files, False, False,
+        currentFullFiles,
+        uselessTotalFiles,
+        uselessTotalBytes);     // gets full list of files (recursive)
+      success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
+    end;
     if success then
       Result:= 0;
   finally
@@ -382,6 +410,8 @@ begin
       SourceFiles.Clear;
       SourceFiles.Path:= ExtractFilePath(FTarFileName);
       SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+      // SourceFiles changed, FFullFilesTree becomes meaningless
+      FreeAndNil(FFullFilesTree);
 
       Result:= True;
     end;
