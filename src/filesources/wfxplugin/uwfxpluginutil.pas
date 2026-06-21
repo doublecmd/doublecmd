@@ -369,7 +369,10 @@ begin
       Result := ProcessDirectory(aSubNode, AbsoluteTargetFileName)
     else
       Result := ProcessFile(aSubNode, AbsoluteTargetFileName);
-  end;
+  end
+  else
+    // Link not followed — pass it to ProcessFile to handle (e.g. SFTP symlink creation).
+    Result := ProcessFile(aNode, AbsoluteTargetFileName);
 end;
 
 function TWfxPluginOperationHelper.ProcessFile(aNode: TFileTreeNode;
