@@ -671,7 +671,7 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      appValidates: True;
-     iconName: 'faceid';
+     iconName: 'finderTemplate';
      title: rsMFSTBIFinderRevealTitle;
      tips: rsMFSTBIFinderRevealTips;
      bordered: True;
