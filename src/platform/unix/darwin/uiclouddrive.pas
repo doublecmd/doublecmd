@@ -10,8 +10,8 @@ uses
   Graphics, Menus, Forms, Dialogs, System.UITypes,
   uiCloudDriveConfig, uiCloudDriveUtil,
   uFile, uDisplayFile,
-  uFileSource, uFileSourceOperationTypes, uFileSourceManager,
-  uFileSourceWatcher, uMountedFileSource, uVfsModule, uMultiArchiveFileSource,
+  uFileSource, uFileSourceOperationTypes, uFileSourceManager, uFileSourceWatcher,
+  uMountedFileSource, uVfsModule, uMultiArchiveFileSource, uStashFileSource,
   uDCUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
   uDarwinFile, uDarwinImage, uDarwinUtil,
@@ -107,6 +107,7 @@ type
       const realPath: String): String; override;
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
+    procedure confirmOperation(var params: TFileSourceConsultParams); override;
   end;
 
   { TiCloudDriveUIHandler }
@@ -194,6 +195,43 @@ begin
     Exit;
 
   inherited consultOperation(params);
+end;
+
+procedure TiCloudDriveProcessor.confirmOperation( var params: TFileSourceConsultParams );
+
+  {
+    when copying files from iCloud to Stash, it's more appropriate to set
+    the App MountPoint path to the App path. for examples:
+        ~/Library/Mobile Documents/com~apple~Pages/Documents
+    -->
+        ~/Library/Mobile Documents/com~apple~Pages
+  }
+  procedure setMountPointPathForStash;
+  var
+    mountedFS: TMountedFileSource;
+    mountPoint: TMountPoint;
+    files: TFiles;
+    f: TFile;
+    i: Integer;
+  begin
+    if params.phase <> TFileSourceConsultPhase.source then
+      Exit;
+    if NOT params.targetFS.IsClass(TStashFileSource) then
+      Exit;
+    mountedFS:= params.currentFS as TMountedFileSource;
+    files:= params.files;
+    for i:= 0 to files.Count-1 do begin
+      f:= files[i];
+      mountPoint:= mountedFS.getMountPointFromPath( f.FullPath );
+      if mountPoint <> nil then
+        f.FullPath:= mountedFS.GetParentDir( f.FullPath );
+    end;
+  end;
+
+begin
+  if params.operationType = fsoCopy then
+    setMountPointPathForStash;
+  inherited confirmOperation(params);
 end;
 
 { TiCloudDriveWatcher }
