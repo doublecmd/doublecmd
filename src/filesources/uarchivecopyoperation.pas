@@ -25,11 +25,13 @@ type
     FCreateNew: Boolean;  // Create new archive
     FTarBefore: Boolean;  // Create TAR archive first
     FTarFileName: String; // Temporary TAR archive name
+    FSetNewestFileTime: Boolean;
 
     procedure DoReloadFileSources; override;
   public
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     property CreateNew: Boolean read FCreateNew write FCreateNew;
+    property NewestFileTime: Boolean read FSetNewestFileTime write FSetNewestFileTime;
   end;
 
   { TArchiveCopyOutOperation }
@@ -47,13 +49,21 @@ type
 implementation
 
 uses
+  uArchiveFileSource, uArchiveFileSourceUtil, uGlobs,
   uLng;
 
 { TArchiveCopyInOperation }
 
 procedure TArchiveCopyInOperation.DoReloadFileSources;
+var
+  ArchiveFileSource: IArchiveFileSource;
 begin
   if not FCreateNew then inherited DoReloadFileSources;
+  if FSetNewestFileTime or gSetNewestFileTime then
+  begin
+    ArchiveFileSource:= TargetFileSource as IArchiveFileSource;
+    SetNewestFileTime(ArchiveFileSource.ArchiveFileName, ArchiveFileSource.GetFiles(PathDelim));
+  end;
 end;
 
 function TArchiveCopyInOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;

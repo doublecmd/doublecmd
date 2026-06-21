@@ -213,6 +213,14 @@ inherited frmPackDlg: TfrmPackDlg
         OnChange = cbCreateSeparateArchivesChange
         TabOrder = 6
       end
+      object cbSetNewestFileTime: TCheckBox
+        Left = 0
+        Height = 23
+        Top = 161
+        Width = 315
+        Caption = 'Set archive time to newest file time'
+        TabOrder = 7
+      end
     end
   end
   inherited pnlButtons: TPanel
