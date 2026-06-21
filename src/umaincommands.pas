@@ -2630,11 +2630,15 @@ var
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
+  MsgTrash, MsgNoTrash, MsgWipe: String;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
   bConfirmation, HasConfirmationParam: Boolean;
+  Confirmed: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
+  TrashAvailable, WipeAvailable: Boolean;
+  DeleteMode: TDeleteMode;
   QueueId: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   with frmMain.ActiveFrame do
@@ -2675,11 +2679,13 @@ begin
     end;
 
     // Save parameter for later use
+    TrashAvailable := FileSource.IsClass(TFileSystemFileSource) and
+                      mbCheckTrash(CurrentPath);
+    WipeAvailable  := fsoWipe in FileSource.GetOperationsTypes;
     BoolValue := bRecycle;
 
     if bRecycle then
-      bRecycle := FileSource.IsClass(TFileSystemFileSource) and
-                  mbCheckTrash(CurrentPath);
+      bRecycle := TrashAvailable;
 
     if not HasConfirmationParam then
     begin
@@ -2713,16 +2719,35 @@ begin
     try
       if (theFilesToDelete.Count = 0) then Exit;
       if (theFilesToDelete.Count = 1) then
-        Message:= Format(MsgDelSel, [theFilesToDelete[0].Name])
+      begin
+        MsgTrash   := Format(rsMsgDelSelT,  [theFilesToDelete[0].Name]);
+        MsgNoTrash := Format(rsMsgDelSel,   [theFilesToDelete[0].Name]);
+        MsgWipe    := Format(rsMsgWipeSel,  [theFilesToDelete[0].Name]);
+        Message    := Format(MsgDelSel,     [theFilesToDelete[0].Name]);
+      end
       else begin
-         Message:= Format(MsgDelFlDr, [theFilesToDelete.Count]) + LineEnding;
-         for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
-         begin
-           Message+= LineEnding + theFilesToDelete[I].Name;
-         end;
-         if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
+        // Build the file list suffix once and share it across all message variants
+        Message := LineEnding;
+        for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
+          Message += LineEnding + theFilesToDelete[I].Name;
+        if theFilesToDelete.Count > 5 then Message += LineEnding + '...';
+        MsgTrash   := Format(rsMsgDelFlDrT, [theFilesToDelete.Count]) + Message;
+        MsgNoTrash := Format(rsMsgDelFlDr,  [theFilesToDelete.Count]) + Message;
+        MsgWipe    := Format(rsMsgWipeFlDr, [theFilesToDelete.Count]) + Message;
+        Message    := Format(MsgDelFlDr,    [theFilesToDelete.Count]) + Message;
       end;
-      if (bConfirmation = False) or (ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
+      // Default delete mode based on current recycle setting
+      if bRecycle then DeleteMode := dmTrash else DeleteMode := dmDelete;
+      // Show confirmation dialog; choose extended or simple variant based on available modes
+      if not bConfirmation then
+        Confirmed := True
+      else if TrashAvailable or WipeAvailable then
+        Confirmed := ShowDeleteDialog(frmMain, MsgTrash, MsgNoTrash, MsgWipe,
+                                      FileSource, QueueId,
+                                      TrashAvailable, WipeAvailable, DeleteMode)
+      else
+        Confirmed := ShowDeleteDialog(frmMain, Message, FileSource, QueueId);
+      if Confirmed then
       begin
         // Restore focus to main window after confirmation dialog closes
         if bConfirmation and frmMain.ActiveFrame.CanSetFocus then
@@ -2757,25 +2782,27 @@ begin
           end;
         end;
 
-        Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
-
-        if Assigned(Operation) then
+        // Dispatch to wipe or delete based on dialog choice
+        if DeleteMode = dmWipe then
+          Operation := FileSource.CreateWipeOperation(theFilesToDelete)
+        else
         begin
+          bRecycle  := (DeleteMode = dmTrash);
+          Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
           // Special case for filesystem - 'recycle' parameter.
-          if Operation is TFileSystemDeleteOperation then
+          if Assigned(Operation) and (Operation is TFileSystemDeleteOperation) then
             with Operation as TFileSystemDeleteOperation do
             begin
               // 30.04.2009 - передаем параметр корзины в поток.
               Recycle := bRecycle;
             end;
-
-          // Start operation.
-          OperationsManager.AddOperation(Operation, QueueId, False);
-        end
-        else
-        begin
-          msgWarning(rsMsgNotImplemented);
         end;
+
+        if Assigned(Operation) then
+          // Start operation.
+          OperationsManager.AddOperation(Operation, QueueId, False)
+        else
+          msgWarning(rsMsgNotImplemented);
       end;
 
     finally

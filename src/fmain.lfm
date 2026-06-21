@@ -2970,6 +2970,9 @@ object frmMain: TfrmMain
     object mnuContextRenameOnly: TMenuItem
       Action = actRenameOnly
     end
+    object mnuContextWipe: TMenuItem
+      Action = actWipe
+    end
     object mnuContextDelete: TMenuItem
       Action = actDelete
     end

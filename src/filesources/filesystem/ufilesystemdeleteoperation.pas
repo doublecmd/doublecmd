@@ -11,7 +11,8 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uDescr, uGlobs, uLog;
+  uDescr, uGlobs, uLog
+  {$IF DEFINED(UNIX)}, uKde{$ENDIF};
 
 type
 
@@ -125,6 +126,13 @@ end;
 procedure TFileSystemDeleteOperation.MainExecute;
 begin
   ProcessList(FFullFilesTreeToDelete);
+{$IF DEFINED(UNIX)}
+  // Notify KDE trash widget to refresh after a recycle operation.
+  // kioclient5 move /dev/null trash:/ fails intentionally but triggers the
+  // KDE widget to pick up external changes to the trash directory.
+  // See: https://github.com/doublecmd/doublecmd/issues/2688
+  if FRecycle then RefreshKdeTrashWidget;
+{$ENDIF}
 end;
 
 procedure TFileSystemDeleteOperation.Finalize;
