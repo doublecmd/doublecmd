@@ -622,7 +622,7 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'airplayaudio';
+    iconName: 'airdropTemplate';
     title: rsMFSTBIAirDropTitle;
     tips: rsMFSTBIAirDropTips;
     bordered: True;
