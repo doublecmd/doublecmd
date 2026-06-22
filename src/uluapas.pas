@@ -45,6 +45,53 @@ uses
   uStashFilesBackend,
   uDefaultFilePropertyFormatter, DCDateTimeUtils, uShellExecute;
 
+function luaTableToStringArray(L: Plua_State; index: Integer): TStringArray;
+var
+  tableLength: Integer;
+  i: Integer;
+  currentPChar: PAnsiChar;
+  currentCharLen: size_t;
+begin
+  Result:= nil;
+
+  if NOT lua_istable(L, index) then
+    Exit;
+  tableLength:= lua_objlen(L, index);
+  if tableLength = 0 then
+    Exit;
+  SetLength(Result, tableLength);
+
+  for i := 1 to tableLength do begin
+    lua_rawgeti(L, index, i);
+
+    currentPChar:= lua_tolstring(L, -1, @currentCharLen);
+    if currentPChar <> nil then begin
+      SetString(Result[i-1], currentPChar, currentCharLen);
+    end else begin
+      Result[i-1]:= '';
+    end;
+
+    lua_pop(L, 1);
+  end;
+end;
+
+procedure luaStringArrayToTable(L: Plua_State; const stringArray: TStringArray);
+var
+  i: Integer;
+  arrayLength: Integer;
+begin
+  arrayLength := Length(stringArray);
+  lua_createtable(L, arrayLength, 0);
+
+  if arrayLength = 0 then
+    Exit;
+
+  for i := 0 to arrayLength - 1 do begin
+    lua_pushlstring(L, PChar(stringArray[i]), Length(stringArray[i]));
+    lua_rawseti(L, -2, i + 1);
+  end;
+end;
+
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
   lua_pushlightuserdata(L, Rec);
@@ -524,16 +571,40 @@ begin
   lua_pushstring(L, stashFilesBackend.ToString);
 end;
 
+function luaStashGetAsTable(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  luaStringArrayToTable(L, stashFilesBackend.toStringArray);
+end;
+
 function luaStashAddAsText(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   stashFilesBackend.addFromString(luaL_checkstring(L, 1));
 end;
 
+function luaStashAddAsTable(L : Plua_State) : Integer; cdecl;
+var
+  paths: TStringArray;
+begin
+  Result:= 0;
+  paths:= luaTableToStringArray(L, 1);
+  stashFilesBackend.addFromStringArray(paths);
+end;
+
 function luaStashSetAsText(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   stashFilesBackend.setFromString(luaL_checkstring(L, 1));
+end;
+
+function luaStashSetAsTable(L : Plua_State) : Integer; cdecl;
+var
+  paths: TStringArray;
+begin
+  Result:= 0;
+  paths:= luaTableToStringArray(L, 1);
+  stashFilesBackend.setFromStringArray(paths);
 end;
 
 function luaMessageBox(L : Plua_State) : Integer; cdecl;
@@ -944,8 +1015,11 @@ begin
 
   lua_newtable(L);
     luaP_register(L, 'GetAsText', @luaStashGetAsText);
+    luaP_register(L, 'GetAsTable', @luaStashGetAsTable);
     luaP_register(L, 'AddAsText', @luaStashAddAsText);
     luaP_register(L, 'SetAsText', @luaStashSetAsText);
+    luaP_register(L, 'AddAsTable', @luaStashAddAsTable);
+    luaP_register(L, 'SetAsTable', @luaStashSetAsTable);
   lua_setglobal(L, 'Stash');
 
   lua_newtable(L);

@@ -20,6 +20,7 @@ type
     procedure addPath( const path: String ); inline;
     procedure removePath( const path: String ); inline;
     procedure doAddFromString(const pathsStr: String);
+    procedure doAddFromStringArray(const pathsArray: TStringArray);
   public
     constructor Create;
     destructor Destroy; override;
@@ -32,10 +33,13 @@ type
     procedure removePaths( const files: TFiles );
 
     function toFiles: TFiles;
+    function toStringArray: TStringArray;
     function toString: String; override;
 
     procedure addFromString( const pathsStr: String );
     procedure setFromString( const pathsStr: String );
+    procedure addFromStringArray(const pathsArray: TStringArray);
+    procedure setFromStringArray(const pathsArray: TStringArray);
   end;
 
 var
@@ -153,6 +157,16 @@ begin
   Result:= files;
 end;
 
+function TStashFilesBackend.toStringArray: TStringArray;
+begin
+  _lockObject.Acquire;
+  try
+    Result:= _paths.ToStringArray;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
 function TStashFilesBackend.toString: String;
 var
   stringBuilder: TAnsiStringBuilder;
@@ -187,11 +201,33 @@ begin
   end;
 end;
 
+procedure TStashFilesBackend.doAddFromStringArray(const pathsArray: TStringArray);
+var
+  path: String;
+begin
+  for path in pathsArray do begin
+    if path.IsEmpty then
+      continue;
+    if mbFileSystemEntryExists(path) then
+      self.addPath( path );
+  end;
+end;
+
 procedure TStashFilesBackend.addFromString(const pathsStr: String);
 begin
   _lockObject.Acquire;
   try
     doAddFromString( pathsStr );
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+procedure TStashFilesBackend.addFromStringArray(const pathsArray: TStringArray);
+begin
+  _lockObject.Acquire;
+  try
+    doAddFromStringArray( pathsArray );
   finally
     _lockObject.Release;
   end;
@@ -203,6 +239,17 @@ begin
   try
     _paths.Clear;
     doAddFromString( pathsStr );
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+procedure TStashFilesBackend.setFromStringArray(const pathsArray: TStringArray);
+begin
+  _lockObject.Acquire;
+  try
+    _paths.Clear;
+    doAddFromStringArray( pathsArray );
   finally
     _lockObject.Release;
   end;
