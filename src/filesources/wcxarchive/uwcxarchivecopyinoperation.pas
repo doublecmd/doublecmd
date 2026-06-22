@@ -333,13 +333,21 @@ begin
     SourceFiles.sort;
   end;
 
-  if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
-    removeFiles:= SourceFiles.Clone;
-
   try
     // Put to TAR archive if needed
-    if FTarBefore and Tar then
-      Exit;
+    if FTarBefore then begin
+      // save SourceFiles first, it may be changed in Tar()
+      if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+        removeFiles:= SourceFiles.Clone;
+
+      // Result = True menas processing by Wcx already
+      if self.Tar() then
+        Exit;
+
+      // .tar created, don't need PK_PACK_MOVE_FILES anymore in Wcx
+      if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+        PackingFlags:= PackingFlags - PK_PACK_MOVE_FILES;
+    end;
 
     if NOT doPack() then
       Exit;
