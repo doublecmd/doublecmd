@@ -2786,8 +2786,10 @@ procedure TfrmViewer.AdjustImageSize;
 const
   fmtImageInfo = '%dx%d (%.0f %%)';
 var
+  AFactor: Double;
   AControl: TControl;
   ImgWidth, ImgHeight : Integer;
+  PicWidth, PicHeight : Integer;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
   if not (bImage or bAnimation) then
@@ -2796,17 +2798,21 @@ begin
   if bImage then
   begin
     if (Image.Picture = nil) then Exit;
-    ImgHeight:= Image.Picture.Height;
-    ImgWidth:= Image.Picture.Width;
+    PicHeight:= Image.Picture.Height;
+    PicWidth:= Image.Picture.Width;
     AControl:= Image;
   end
   else if (bAnimation) then
   begin
     if GifAnim.CurrentView = nil then Exit;
-    ImgHeight:= GifAnim.CurrentView.Height;
-    ImgWidth:= GifAnim.CurrentView.Width;
+    PicHeight:= GifAnim.CurrentView.Height;
+    PicWidth:= GifAnim.CurrentView.Width;
     AControl:= GifAnim;
   end;
+  AFactor:= AControl.GetCanvasScaleFactor;
+  // Display image with the real size
+  ImgWidth:= Round(PicWidth / AFactor);
+  ImgHeight:= Round(PicHeight / AFactor);
 
   if (ImgWidth = 0) or (ImgHeight = 0) then Exit;
 
@@ -2815,12 +2821,13 @@ begin
   // Place and resize image
   if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
-    FScaleFactor:= Min(sboxImage.ClientWidth / ImgWidth, sboxImage.ClientHeight / ImgHeight);
+    FScaleFactor:= Min(sboxImage.ClientWidth / PicWidth, sboxImage.ClientHeight / PicHeight);
     FScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (FScaleFactor > 1.0), 1.0, FScaleFactor);
   end;
 
-  iWidth:= Trunc(ImgWidth * FScaleFactor);
-  iHeight:= Trunc(ImgHeight * FScaleFactor);
+  iWidth:= Round(ImgWidth * FScaleFactor);
+  iHeight:= Round(ImgHeight * FScaleFactor);
+
   if (miCenter.Checked) then
   begin
     iLeft:= (sboxImage.ClientWidth - iWidth) div 2;
@@ -2831,7 +2838,7 @@ begin
     iLeft:= 0;
     iTop:= 0;
   end;
-  AControl.SetBounds(Max(iLeft,0), Max(iTop,0), iWidth , iHeight);
+  AControl.SetBounds(Max(iLeft,0), Max(iTop,0), iWidth, iHeight);
 
   // Update scrollbars
   // TODO: fix - calculations are correct but it seems like scroll bars
@@ -2845,8 +2852,10 @@ begin
   end;
 
   // Update status bar
+  iWidth:= Round(PicWidth * FScaleFactor);
+  iHeight:= Round(PicHeight * FScaleFactor);
   Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth, iHeight,  100.0 * FScaleFactor]);
-  Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [ImgWidth, ImgHeight, 100.0]);
+  Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [PicWidth, PicHeight, 100.0]);
 end;
 
 function TfrmViewer.GetListerRect: TRect;
