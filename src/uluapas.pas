@@ -42,6 +42,7 @@ uses
   uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData,
   DCBasicTypes, Variants, uFile, uFileProperty, uFileSource,
   uFileSourceProperty, uFileSourceUtil, uFileSystemFileSource,
+  uStashFilesBackend,
   uDefaultFilePropertyFormatter, DCDateTimeUtils, uShellExecute;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
@@ -517,6 +518,24 @@ begin
   Clipboard.SetAsHtml(luaL_checkstring(L, 1));
 end;
 
+function luaStashGetAsText(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushstring(L, stashFilesBackend.ToString);
+end;
+
+function luaStashAddAsText(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  stashFilesBackend.addFromString(luaL_checkstring(L, 1));
+end;
+
+function luaStashSetAsText(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  stashFilesBackend.setFromString(luaL_checkstring(L, 1));
+end;
+
 function luaMessageBox(L : Plua_State) : Integer; cdecl;
 var
   flags: Integer;
@@ -922,6 +941,12 @@ begin
     luaP_register(L, 'SetAsText', @luaClipbrdSetText);
     luaP_register(L, 'SetAsHtml', @luaClipbrdSetHtml);
   lua_setglobal(L, 'Clipbrd');
+
+  lua_newtable(L);
+    luaP_register(L, 'GetAsText', @luaStashGetAsText);
+    luaP_register(L, 'AddAsText', @luaStashAddAsText);
+    luaP_register(L, 'SetAsText', @luaStashSetAsText);
+  lua_setglobal(L, 'Stash');
 
   lua_newtable(L);
     luaP_register(L, 'MessageBox', @luaMessageBox);
