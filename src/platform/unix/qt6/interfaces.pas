@@ -163,7 +163,7 @@ var
     ClpH := Round(R.Bottom * Factor.y) - Round(R.Top * Factor.y);
 
     Result := PtInRect(R, Point(R.Left + 1, R.Top + 1)) and
-      (((ClpW <= TgtW) and (ClpH <= TgtH)) or ((TgtW < SrcWidth) and (TgtH < SrcHeight)));
+      (((ClpW < TgtW) and (ClpH < TgtH)) or ((TgtW < SrcWidth) and (TgtH < SrcHeight)));
   end;
 
   procedure RenderPixmap(APixmap: QPixmapH; AMaskImg: QImageH; const AHighQuality: boolean);
@@ -184,7 +184,7 @@ var
     if ARenderHint and (ARenderHints and QPainterSmoothPixmapTransform <> 0) then
       ARenderHint := False; // do not touch render hints
 
-    if NeedScaling(DstRect, SrcRect) then
+    if (AMaskImg <> nil) and NeedScaling(DstRect, SrcRect) then
       QPixmap_scaled(APixmap, ATempPixmap, Width, Height)
     else
       QPixmap_copy(APixmap, ATempPixmap, 0, 0, QPixmap_width(APixmap), QPixmap_height(APixmap));
