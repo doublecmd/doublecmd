@@ -459,6 +459,11 @@ begin
   frmMain.Commands.DoOpenVirtualFileSystemList( frmMain.ActiveFrame );
 end;
 
+procedure stashAction( const Sender: id );
+begin
+  frmMain.Commands.cm_OpenStash([]);
+end;
+
 procedure terminalAction( const Sender: id );
 begin
   frmMain.Commands.cm_RunTerm([]);
@@ -558,6 +563,17 @@ const
     tips: rsMFSTBINetworkTips;
     bordered: True;
     onAction: @networkAction;
+  );
+
+  stashItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Stash';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'square.stack';
+    title: rsStashName;
+    tips: rsStashName;
+    bordered: True;
+    onAction: @stashAction;
   );
 
 
@@ -817,6 +833,7 @@ const
 
         'MainForm.iCloud',
         'MainForm.network',
+        'MainForm.Stash',
         'NSToolbarFlexibleSpaceItem',
 
         'MainForm.ShowMode',
@@ -845,6 +862,7 @@ const
         'MainForm.GoBackward',
         'MainForm.GoForward',
 
+        'MainForm.Stash',
         'MainForm.iCloud',
         'MainForm.network',
         'MainForm.ShowMode',
@@ -874,6 +892,8 @@ procedure addMainFormShortCutTips;
 begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
 end;
 
 procedure joinPrivilegeTips;
@@ -902,6 +922,7 @@ procedure doInitMainFormConfig;
 begin
   loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
   loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
+
   addMainFormShortCutTips;
   joinPrivilegeTips;
 
@@ -936,6 +957,7 @@ begin
     TCocoaToolBarUtils.toClass(syncItemConfig),
     TCocoaToolBarUtils.toClass(editItemConfig),
 
+    TCocoaToolBarUtils.toClass(stashItemConfig),
     TCocoaToolBarUtils.toClass(iCloudItemConfig),
     TCocoaToolBarUtils.toClass(networkItemConfig)
   ];
