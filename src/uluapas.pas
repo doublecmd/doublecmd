@@ -49,7 +49,7 @@ function luaTableToStringArray(L: Plua_State; index: Integer): TStringArray;
 var
   tableLength: Integer;
   i: Integer;
-  currentPChar: PAnsiChar;
+  currentPChar: PChar;
   currentCharLen: size_t;
 begin
   Result:= nil;
@@ -566,9 +566,20 @@ begin
 end;
 
 function luaStashGetAsText(L : Plua_State) : Integer; cdecl;
+var
+  paths: TStringArray;
+  path: String;
+  stringBuilder: TAnsiStringBuilder;
 begin
   Result:= 1;
-  lua_pushstring(L, stashFilesBackend.ToString);
+  stringBuilder:= TAnsiStringBuilder.Create;
+  paths:= stashFilesBackend.toStringArray;
+  for path in paths do begin
+    stringBuilder.Append( path );
+    stringBuilder.Append( #10 );
+  end;
+  lua_pushstring(L, stringBuilder.ToString);
+  stringBuilder.Free;
 end;
 
 function luaStashGetAsTable(L : Plua_State) : Integer; cdecl;
@@ -578,9 +589,12 @@ begin
 end;
 
 function luaStashAddAsText(L : Plua_State) : Integer; cdecl;
+var
+  paths: TStringArray;
 begin
   Result:= 0;
-  stashFilesBackend.addFromString(luaL_checkstring(L, 1));
+  paths:= lua_tostring(L,1).split( #10 );
+  stashFilesBackend.addFromStringArray(paths);
 end;
 
 function luaStashAddAsTable(L : Plua_State) : Integer; cdecl;
@@ -593,9 +607,12 @@ begin
 end;
 
 function luaStashSetAsText(L : Plua_State) : Integer; cdecl;
+var
+  paths: TStringArray;
 begin
   Result:= 0;
-  stashFilesBackend.setFromString(luaL_checkstring(L, 1));
+  paths:= lua_tostring(L,1).split( #10 );
+  stashFilesBackend.setFromStringArray( paths );
 end;
 
 function luaStashSetAsTable(L : Plua_State) : Integer; cdecl;

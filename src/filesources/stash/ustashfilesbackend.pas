@@ -19,7 +19,6 @@ type
   private
     procedure addPath( const path: String ); inline;
     procedure removePath( const path: String ); inline;
-    procedure doAddFromString(const pathsStr: String);
     procedure doAddFromStringArray(const pathsArray: TStringArray);
   public
     constructor Create;
@@ -34,10 +33,7 @@ type
 
     function toFiles: TFiles;
     function toStringArray: TStringArray;
-    function toString: String; override;
 
-    procedure addFromString( const pathsStr: String );
-    procedure setFromString( const pathsStr: String );
     procedure addFromStringArray(const pathsArray: TStringArray);
     procedure setFromStringArray(const pathsArray: TStringArray);
   end;
@@ -167,40 +163,6 @@ begin
   end;
 end;
 
-function TStashFilesBackend.toString: String;
-var
-  stringBuilder: TAnsiStringBuilder;
-  path: String;
-begin
-  stringBuilder:= TAnsiStringBuilder.Create;
-
-  _lockObject.Acquire;
-  try
-    for path in _paths do begin
-      stringBuilder.Append( path );
-      stringBuilder.Append( #10 );
-    end;
-  finally
-    _lockObject.Release;
-  end;
-
-  Result:= stringBuilder.ToString;
-end;
-
-procedure TStashFilesBackend.doAddFromString(const pathsStr: String);
-var
-  pathsArray: TStringArray;
-  path: String;
-begin
-  pathsArray:= pathsStr.Split( #10 );
-  for path in pathsArray do begin
-    if path.IsEmpty then
-      continue;
-    if mbFileSystemEntryExists(path) then
-      self.addPath( path );
-  end;
-end;
-
 procedure TStashFilesBackend.doAddFromStringArray(const pathsArray: TStringArray);
 var
   path: String;
@@ -213,32 +175,11 @@ begin
   end;
 end;
 
-procedure TStashFilesBackend.addFromString(const pathsStr: String);
-begin
-  _lockObject.Acquire;
-  try
-    doAddFromString( pathsStr );
-  finally
-    _lockObject.Release;
-  end;
-end;
-
 procedure TStashFilesBackend.addFromStringArray(const pathsArray: TStringArray);
 begin
   _lockObject.Acquire;
   try
     doAddFromStringArray( pathsArray );
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-procedure TStashFilesBackend.setFromString(const pathsStr: String);
-begin
-  _lockObject.Acquire;
-  try
-    _paths.Clear;
-    doAddFromString( pathsStr );
   finally
     _lockObject.Release;
   end;
