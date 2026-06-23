@@ -376,11 +376,10 @@ begin
     if Assigned(FFullFilesTree) then begin
       success:= FTarWriter.TarFiles(FFullFilesTree, FStatistics);
     end else begin
-      uFileSystemUtil.FillAndCount(
-        files, False, False,
-        currentFullFiles,
-        uselessTotalFiles,
-        uselessTotalBytes);     // gets full list of files (recursive)
+      uArchiveFileSourceUtil.FillAndCount(files,
+                   currentFullFiles,
+                   uselessTotalFiles,
+                   uselessTotalBytes);    // gets full list of files (recursive)
       success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
     end;
     if success then
