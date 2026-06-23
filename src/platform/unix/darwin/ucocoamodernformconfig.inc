@@ -7,13 +7,12 @@ interface
 
 uses
   Classes, SysUtils,
-  LCLType, Forms, Menus, ComCtrls,
+  LCLType, Forms, Menus, ComCtrls, Graphics,
   fMain, fEditor, fDiffer, fViewer,
-  uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils,
+  uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils, uVectorImage,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSourceProperty,
-  uFileSystemFileSource,
-  uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil,
+  uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil, uDarwinImage,
   uDarwinFinder, uDarwinFinderModel,
   uDarwinFileView, uDarwinFileViewHistory,
   CocoaAll, CocoaConfig, CocoaToolBar, CocoaThemes, Cocoa_Extra,

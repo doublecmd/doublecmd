@@ -622,7 +622,7 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'airdropTemplate';
+    iconName: 'doublecmd.airdrop';
     title: rsMFSTBIAirDropTitle;
     tips: rsMFSTBIAirDropTips;
     bordered: True;
@@ -671,7 +671,7 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      appValidates: True;
-     iconName: 'finderTemplate';
+     iconName: 'doublecmd.finder';
      title: rsMFSTBIFinderRevealTitle;
      tips: rsMFSTBIFinderRevealTips;
      bordered: True;
@@ -883,8 +883,25 @@ begin
                            + rsMFSTBIPrivilegeTips3;
 end;
 
+
+procedure loadVectorImageWithName( const filename: String; const name: String );
+var
+  path: String;
+  bitmap: TBitmap;
+  image: NSImage;
+begin
+  path:= mbExpandFileName( '$COMMANDER_PATH/pixmaps/macOS/' + filename );
+  bitmap:= TScalableVectorGraphics.CreateBitmap( path, 192, 192 );
+  image:= TDarwinImageUtil.toNSImage( bitmap );
+  image.setTemplate( True );
+  image.setName( NSSTR(name) );
+  bitmap.Free;
+end;
+
 procedure doInitMainFormConfig;
 begin
+  loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
+  loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
   addMainFormShortCutTips;
   joinPrivilegeTips;
 
