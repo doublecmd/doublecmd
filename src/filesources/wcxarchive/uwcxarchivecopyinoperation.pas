@@ -340,7 +340,7 @@ begin
       if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
         removeFiles:= SourceFiles.Clone;
 
-      // Result = True menas processing by Wcx already
+      // Result = True means that Tar is processed by WCX
       if self.Tar() then
         Exit;
 
@@ -359,7 +359,7 @@ begin
     FreeAndNil(FFullFilesTree);
     removeFiles.Free;
     // Delete temporary TAR archive if needed
-    if FTarBefore then
+    if FTarFileName <> EmptyStr then
       mbDeleteFile(FTarFileName);
   end;
 end;
@@ -658,8 +658,7 @@ begin
   begin
     if Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
       begin
-        FTarFileName:= ArchiveFileName;
-        FTarWriter:= TTarWriter.Create(FTarFileName,
+        FTarWriter:= TTarWriter.Create(ArchiveFileName,
                                       @AskQuestion,
                                       @RaiseAbortOperation,
                                       @CheckOperationState,
@@ -684,6 +683,7 @@ begin
   try
     if TarFiles() then begin
       if Result = False then begin
+        // Result = False means that Tar is processed internally
         // Fill file list with tar archive file
         SourceFiles.Clear;
         SourceFiles.Path:= ExtractFilePath(FTarFileName);
