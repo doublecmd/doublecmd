@@ -43,7 +43,11 @@ type
 
     // Cache of displayed strings.
     FDisplayStrings: TStringList;
+    FDisplayName: String;
+    FDisplayNameNoExt: String;
+    FDisplayExt: String;
     procedure SetIcon(AValue: TBitmap);
+    procedure SetDisplayName(const name: String);
 
   public
     {en
@@ -79,6 +83,9 @@ type
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
     property TextColor: TColor read FTextColor write FTextColor;
     property DisplayStrings: TStringList read FDisplayStrings;
+    property DisplayName: String read FDisplayName write SetDisplayName;
+    property DisplayNameNoExt: String read FDisplayNameNoExt;
+    property DisplayExt: String read FDisplayExt;
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
     property Busy: TDisplayFileBusy read FBusy write FBusy;
     property Tag: PtrInt read FTag write FTag;
@@ -133,6 +140,18 @@ procedure TDisplayFile.SetIcon(AValue: TBitmap);
 begin
   FIcon.Free;
   FIcon:= AValue;
+end;
+
+procedure TDisplayFile.SetDisplayName(const name: String);
+begin
+  if name = EmptyStr then begin
+    FDisplayName:= FSFile.Name;
+    FDisplayNameNoExt:= FSFile.NameNoExt;
+    FDisplayExt:= FSFile.Extension;
+  end else begin
+    FDisplayName:= name;
+    TFile.SplitIntoNameAndExtension(FDisplayName, FDisplayNameNoExt, FDisplayExt);
+  end;
 end;
 
 constructor TDisplayFile.Create(ReferenceFile: TFile);
@@ -190,6 +209,7 @@ begin
     if Assigned(AFile.FFSFile) then
     begin
       AFile.FDisplayStrings.AddStrings(FDisplayStrings);
+      AFile.DisplayName:= FDisplayName;
     end;
   end;
 end;
