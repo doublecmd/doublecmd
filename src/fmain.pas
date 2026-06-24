@@ -6574,6 +6574,11 @@ begin
   LogSplitter.Visible:= bShow;
   seLogWindow.Visible:= bShow;
   LogSplitter.Top:= seLogWindow.Top - LogSplitter.Height;
+  // The log window is display-only. When it becomes visible (e.g. triggered
+  // by an FTP connection message), GTK2/LCL may give focus to the new widget.
+  // Return focus to the active file panel so keyboard navigation still works.
+  if bShow then
+    ActiveFrame.SetFocus;
 end;
 
 procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);
