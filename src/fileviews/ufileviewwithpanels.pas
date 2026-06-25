@@ -285,7 +285,11 @@ end;
 procedure TFileViewWithPanels.UpdatePositionIndex;
 begin
   // Base has no notion of the active index; ordered views override this.
-  if Assigned(lblPosition) then lblPosition.Caption := EmptyStr;
+  if Assigned(lblPosition) then
+  begin
+    lblPosition.Visible := gShowPositionIndex;
+    lblPosition.Caption := EmptyStr;
+  end;
 end;
 
 end.

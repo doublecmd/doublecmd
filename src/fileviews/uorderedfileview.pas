@@ -339,6 +339,12 @@ var
   hasDotDot: Boolean;
 begin
   if (csDestroying in ComponentState) or (lblPosition = nil) then Exit;
+  lblPosition.Visible := gShowPositionIndex;
+  if not gShowPositionIndex then
+  begin
+    lblPosition.Caption := EmptyStr;
+    Exit;
+  end;
   if not Assigned(FFiles) or (FFiles.Count = 0) then
   begin
     lblPosition.Caption := EmptyStr;
@@ -369,6 +375,7 @@ var
   total, cur, idx: Integer;
   hasDotDot: Boolean;
 begin
+  if not gShowPositionIndex then Exit;
   if not Assigned(FFiles) or (FFiles.Count = 0) then Exit;
   hasDotDot := (FFiles[0].FSFile.Name = '..');
   total := FFiles.Count;
@@ -445,6 +452,7 @@ end;
 
 procedure TOrderedFileView.cm_GoToPosition(const Params: array of string);
 begin
+  if not gShowPositionIndex then Exit;
   // Keyboard shortcut (default Ctrl+G). Open deferred so the triggering key event
   // finishes first - otherwise focus bounces back and the editor is dismissed at once.
   Application.QueueAsyncCall(@AsyncShowJumpEditor, 0);
