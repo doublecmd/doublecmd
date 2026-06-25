@@ -6,7 +6,7 @@ unit uiCloudDrive;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, fgl, LazMethodList,
+  Classes, SysUtils, syncobjs, fgl, LazMethodList, LazFileUtils,
   Graphics, Menus, Forms, Dialogs, System.UITypes,
   uiCloudDriveConfig, uiCloudDriveUtil,
   uFile, uDisplayFile,
@@ -827,10 +827,14 @@ end;
 
 function TiCloudDriveFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
-  if aFile.Name = '..' then
-    Result:= Inherited
-  else
+  if aFile.Name = '..' then begin
+    Result:= EmptyStr
+  end else begin
     Result:= TDarwinFileUtil.getDisplayName( aFile.FullPath );
+    Result:= GetDarwinNormalizedFilename( Result );
+    if Result = aFile.Name then
+      Result:= EmptyStr;
+  end;
 end;
 
 function TiCloudDriveFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
