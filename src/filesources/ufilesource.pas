@@ -8,7 +8,7 @@ uses
   Classes, SysUtils,
   syncobjs, URIParser,
   LCLProc, Menus, Graphics, ShellCtrls,
-  DCStrUtils,
+  DCStrUtils, DCOSUtils,
   uFile, uDisplayFile, uFileProperty,
   uFileSourceWatcher,
   uFileSourceOperation, uFileSourceOperationTypes, uFileSourceProperty;
@@ -1029,7 +1029,13 @@ end;
 
 function TFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
-  Result:= EmptyStr;
+  if aFile.Name = '..' then begin
+    Result:= EmptyStr
+  end else begin
+    Result:= NormalizeFileName( aFile.Name );
+    if Result = aFile.Name then
+      Result:= EmptyStr;
+  end;
 end;
 
 function TFileSource.GetFileName(aFile: TFile): String;
