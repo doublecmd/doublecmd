@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, fgl, DCXmlConfig,
-  uFile, uFileSource;
+  uFile, uDisplayFile, uFileSource;
 
 type
   { THintItem }
@@ -57,7 +57,7 @@ type
 
     procedure Clear;
 
-    function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
+    function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TDisplayFile): String;
 
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure LoadFromFile(const FileName: String);
@@ -69,7 +69,7 @@ type
     property  HintItemList: THintItemList read FHintItemList;
   end;
 
-function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
+function GetFileInfoToolTip(aFileSource: IFileSource; const aDisplayFile: TDisplayFile): String;
 
 implementation
 
@@ -81,10 +81,13 @@ uses
 {$ENDIF}
   ,DCClassesUtf8;
 
-function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
+function GetFileInfoToolTip(aFileSource: IFileSource; const aDisplayFile: TDisplayFile): String;
 
   function GetDefaultToolTip(const Hint: String): String;
+  var
+    aFile: TFile;
   begin
+    aFile:= aDisplayFile.FSFile;
     Result:= Hint;
     if (fpModificationTime in aFile.SupportedProperties) and aFile.ModificationTimeProperty.IsValid then
       with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
@@ -103,7 +106,7 @@ begin
   if fspDirectAccess in aFileSource.Properties then
   begin
     case gShowToolTipMode of
-      tttmCombineDcSystem, tttmDcSystemCombine, tttmDcIfPossThenSystem, tttmDcOnly: Result := StringReplace(gFileInfoToolTip.GetFileInfoToolTip(aFileSource, aFile), '\n', LineEnding, [rfReplaceAll]);
+      tttmCombineDcSystem, tttmDcSystemCombine, tttmDcIfPossThenSystem, tttmDcOnly: Result := StringReplace(gFileInfoToolTip.GetFileInfoToolTip(aFileSource, aDisplayFile), '\n', LineEnding, [rfReplaceAll]);
       tttmSystemOnly: Result := EmptyStr;
     end;
 
@@ -177,7 +180,7 @@ begin
 end;
 
 function TFileInfoToolTip.GetFileInfoToolTip(aFileSource: IFileSource;
-  const aFile: TFile): String;
+  const aFile: TDisplayFile): String;
 var
   I, J: Integer;
   HintItem: THintItem;
@@ -194,7 +197,7 @@ begin
          with gSearchTemplateList do
          begin
            if (Templates[J].TemplateName = PChar(HintItem.Mask)+1) and
-              Templates[J].CheckFile(AFile) then
+              Templates[J].CheckFile(AFile.FSFile) then
              begin
                Result:= FormatFileFunctions(HintItem.Hint, aFile, aFileSource);
                Exit;
@@ -202,7 +205,7 @@ begin
          end;
 
      // Get hint by file mask
-     if MatchesMaskList(AFile.Name, HintItem.Mask) then
+     if MatchesMaskList(AFile.FSFile.Name, HintItem.Mask) then
        begin
          Result:= FormatFileFunctions(HintItem.Hint, aFile, aFileSource);
          Exit;

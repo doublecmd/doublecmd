@@ -1095,7 +1095,7 @@ begin
   for ACol := 0 to ColumnsClass.Count - 1 do
   begin
     AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-      ACol, AFile.FSFile, FileSource));
+      ACol, AFile, FileSource));
   end;
 end;
 

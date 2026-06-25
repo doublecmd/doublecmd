@@ -1307,7 +1307,7 @@ begin
   if AFile.FSFile.Name = '..' then Exit;
 
   HintInfo^.HintStr:= FileSource.GetFileName( AFile.FSFile );
-  sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
+  sHint:= GetFileInfoToolTip(FileSource, AFile);
   if (sHint <> EmptyStr) then
     HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
 

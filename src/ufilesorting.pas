@@ -41,7 +41,7 @@ type
               @br  0 equal
               @br  1 greater)
       }
-      class function Compare(const FileSorting: TFileSorting; File1, File2: TFile): Integer;
+      class function Compare(const FileSorting: TFileSorting; displayFile1, displayFile2: TDisplayFile): Integer;
 
     public
       constructor Create(const Sortings: TFileSortings); reintroduce;
@@ -165,8 +165,8 @@ type
   function CloneSortings(const Sortings: TFileSortings): TFileSortings;
 
   function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
-  function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
-  function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByName(item1, item2: TDisplayFile; bSortNegative: Boolean):Integer;
+  function ICompareByNameNoExt(displayFile1, displayFile2: TDisplayFile; bSortNegative: Boolean):Integer;
   function ICompareByExt (item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByDate(date1, date2: TDateTime; bSortNegative: Boolean):Integer;
@@ -456,36 +456,31 @@ begin
     Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 end;
 
-function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
+function ICompareByName(item1, item2: TDisplayFile; bSortNegative: Boolean):Integer;
 var
   name1: String;
   name2: String;
 begin
-  name1:= item1.Name;
-  name2:= item2.Name;
-  if (name1=EmptyStr) and (name2=EmptyStr) then begin
-    name1:= item1.FullPath;
-    name2:= item2.FullPath;
-  end;
-
+  name1:= item1.DisplayName;
+  name2:= item2.DisplayName;
   Result := CompareStrings(name1, name2, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
 end;
 
-function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
+function ICompareByNameNoExt(displayFile1, displayFile2: TDisplayFile; bSortNegative: Boolean):Integer;
 begin
   // Don't sort directories only by name.
-  if item1.IsDirectory or item1.IsLinkToDirectory or
-     item2.IsDirectory or item2.IsLinkToDirectory then
+  if displayFile1.FSFile.IsDirectory or displayFile1.FSFile.IsLinkToDirectory or
+     displayFile2.FSFile.IsDirectory or displayFile2.FSFile.IsLinkToDirectory then
   begin
     // Sort by full name.
-    Result := ICompareByName(item1, item2, bSortNegative);
+    Result := ICompareByName(displayFile1, displayFile2, bSortNegative);
   end
   else
   begin
-    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortSpecial, gSortCaseSensitivity);
+    Result := CompareStrings(displayFile1.DisplayNameNoExt, displayFile2.DisplayNameNoExt, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
     if bSortNegative then
       Result := -Result;
@@ -637,11 +632,14 @@ begin
   end;
 end;
 
-class function TBaseSorter.Compare(const FileSorting: TFileSorting; File1, File2: TFile): Integer;
+class function TBaseSorter.Compare(
+  const FileSorting: TFileSorting;
+  displayFile1, displayFile2: TDisplayFile ): Integer;
 var
   i: Integer;
   bNegative: Boolean;
   AFileProp: TFilePropertyType;
+  File1, File2: TFile;
 begin
   Result := 0;
 
@@ -656,12 +654,15 @@ begin
       Exit;
   end;
 
+  File1:= displayFile1.FSFile;
+  File2:= displayFile2.FSFile;
+
   for i := 0 to Length(FileSorting.SortFunctions) - 1 do
   begin
     //------------------------------------------------------
     case FileSorting.SortFunctions[i] of
       fsfName:
-        Result := ICompareByName(File1, File2, bNegative);
+        Result := ICompareByName( displayFile1, displayFile2, bNegative);
       fsfExtension:
         Result := ICompareByExt(File1, File2, bNegative);
       fsfSize:
@@ -710,7 +711,7 @@ begin
           if bNegative then Result := -Result;
         end;
       fsfNameNoExtension:
-        Result := ICompareByNameNoExt(File1, File2, bNegative);
+        Result := ICompareByNameNoExt(displayFile1, displayFile2, bNegative);
       fsfType:
         begin
           Result := mbCompareText(File1.TypeProperty.Value,
@@ -1029,7 +1030,7 @@ begin
 
   for i := 0 to Length(FSortings) - 1 do
   begin
-    Result := Compare(FSortings[i], TDisplayFile(item1).FSFile, TDisplayFile(item2).FSFile);
+    Result := Compare(FSortings[i], TDisplayFile(item1), TDisplayFile(item2) );
     if Result <> 0 then Exit;
   end;
 end;
@@ -1176,18 +1177,18 @@ begin
   // Put directories first.
   if (gSortFolderMode <> sfmSortLikeFile) then
   begin
-    Result := ICompareByDirectory(TFile(item1), TFile(item2), False); // Ascending
+    Result := ICompareByDirectory(TDisplayFile(item1).FSFile, TDisplayFile(item2).FSFile, False); // Ascending
     if Result <> 0 then Exit;
   end
   else begin
     // Put '..' first.
-    if TFile(item1).Name = '..' then Exit(-1);
-    if TFile(item2).Name = '..' then Exit(+1);
+    if TDisplayFile(item1).FSFile.Name = '..' then Exit(-1);
+    if TDisplayFile(item2).FSFile.Name = '..' then Exit(+1);
   end;
 
   for i := 0 to Length(FSortings) - 1 do
   begin
-    Result := Compare(FSortings[i], TFile(item1), TFile(item2));
+    Result := Compare(FSortings[i], TDisplayFile(item1), TDisplayFile(item2) );
     if Result <> 0 then Exit;
   end;
 end;

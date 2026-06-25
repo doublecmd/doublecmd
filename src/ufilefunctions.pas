@@ -27,7 +27,7 @@ unit uFileFunctions;
 interface
 
 uses
-  Classes, SysUtils, Menus, uFile, uFileProperty, uFileSource;
+  Classes, SysUtils, Menus, uFile, uDisplayFile, uFileProperty, uFileSource;
 
 type
   TFileFunction = (fsfName = 0,
@@ -75,8 +75,8 @@ const
                ''                 // fsfInvalid
                );
 
-  function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource; RetrieveProperties: Boolean = False): string;
-  function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
+  function FormatFileFunction(FuncS: string; ADisplayFile: TDisplayFile; const AFileSource: IFileSource; RetrieveProperties: Boolean = False): string;
+  function FormatFileFunctions(FuncS: String; ADisplayFile: TDisplayFile; const AFileSource: IFileSource): String;
   function GetVariantFileProperty(const FuncS: String; AFile: TFile; const AFileSource: IFileSource): Variant;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
   function GetFilePropertyType(FileFunction: TFileFunction): TFilePropertiesTypes; inline;
@@ -180,33 +180,18 @@ begin
   Result := Copy(S, 1, I - 1);
 end;
 
-function FormatFileFunction(FuncS: string; AFile: TFile;
+function FormatFileFunction(FuncS: string; ADisplayFile: TDisplayFile;
   const AFileSource: IFileSource; RetrieveProperties: Boolean): string;
 var
   AIndex: Integer;
   AValue: Variant;
   FileFunction: TFileFunction;
   AType, AFunc, AParam: String;
+  AFile: TFile;
   AFileProperty: TFileVariantProperty;
   FilePropertiesNeeded: TFilePropertiesTypes;
-
-  ADisplayName: String;
-  ADisplayNameNoExtension: String;
-  ADisplayExtension: String;
-
-  procedure prepareDisplayFileName;
-  begin
-    ADisplayName := AFileSource.GetDisplayFileName(AFile);
-    if ADisplayName = EmptyStr then begin
-      ADisplayName := AFile.Name;
-      ADisplayNameNoExtension := AFile.NameNoExt;
-      ADisplayExtension := AFile.Extension;
-    end else begin
-      TFile.SplitIntoNameAndExtension(ADisplayName, ADisplayNameNoExtension, ADisplayExtension);
-    end;
-  end;
-
 begin
+  AFile:= ADisplayFile.FSFile;
   Result := EmptyStr;
   //---------------------
   AType  := upcase(GetModType(FuncS));
@@ -227,21 +212,20 @@ begin
       if aFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
         aFileSource.RetrieveProperties(AFile, FilePropertiesNeeded, []);
     end;
-    prepareDisplayFileName;
     case FileFunction of
       fsfName:
         begin
           // Show square brackets around directories
           if gDirBrackets and (AFile.IsDirectory or
             AFile.IsLinkToDirectory) then
-            Result := gFolderPrefix + ADisplayName + gFolderPostfix
+            Result := gFolderPrefix + ADisplayFile.DisplayName + gFolderPostfix
           else
-            Result := ADisplayName;
+            Result := ADisplayFile.DisplayName;
         end;
 
       fsfExtension:
         begin
-          Result := ADisplayExtension;
+          Result := ADisplayFile.DisplayExt;
         end;
 
       fsfSize:
@@ -357,9 +341,9 @@ begin
           // Show square brackets around directories
           if gDirBrackets and (AFile.IsDirectory or
             AFile.IsLinkToDirectory) then
-            Result := gFolderPrefix + ADisplayNameNoExtension + gFolderPostfix
+            Result := gFolderPrefix + ADisplayFile.DisplayNameNoExt + gFolderPostfix
           else
-            Result := ADisplayNameNoExtension;
+            Result := ADisplayFile.DisplayNameNoExt;
         end;
 
       fsfType:
@@ -416,7 +400,7 @@ begin
   //------------------------------------------------------
 end;
 
-function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
+function FormatFileFunctions(FuncS: String; ADisplayFile: TDisplayFile; const AFileSource: IFileSource): String;
 var
   P: Integer;
 begin
@@ -435,7 +419,7 @@ begin
     if P = 0 then
       Break
     else if P > 1 then
-      Result:= Result + FormatFileFunction(Copy(FuncS, 1, P - 1), AFile, AFileSource, True);
+      Result:= Result + FormatFileFunction(Copy(FuncS, 1, P - 1), ADisplayFile, AFileSource, True);
     Delete(FuncS, 1, P);
   end;
 

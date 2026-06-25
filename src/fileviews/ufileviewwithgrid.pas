@@ -549,7 +549,7 @@ begin
   AFile.DisplayStrings.BeginUpdate;
   try
     AFile.DisplayStrings.Clear;
-    AFile.DisplayStrings.Add(FormatFileFunction('DC().GETFILENAME{}', AFile.FSFile, FileSource));
+    AFile.DisplayStrings.Add(FormatFileFunction('DC().GETFILENAME{}', AFile, FileSource));
   finally
     AFile.DisplayStrings.EndUpdate;
   end;
@@ -781,7 +781,7 @@ end;
 
 procedure TFileViewWithGrid.UpdateFooterDetails;
 var
-  AFile: TFile;
+  AFile: TDisplayFile;
   AFileName: String;
 begin
   if not Assigned(FAllDisplayFiles) or (FAllDisplayFiles.Count = 0)
@@ -789,23 +789,26 @@ begin
     lblDetails.Caption:= EmptyStr
   else
     begin
-      AFile:= CloneActiveFile;
+      AFile:= GetActiveDisplayFile;
       if Assigned(AFile) then
-      try
-        // Get details info about file
-        AFileName:= #32#32 +FormatFileFunction('DC().GETFILEEXT{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILESIZE{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILETIME{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
-        lblDetails.Caption:= AFileName;
-        // Get file name
-        if not FlatView then
-        begin
-          AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
-          lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
+      begin
+        AFile:= AFile.Clone(True);
+        try
+          // Get details info about file
+          AFileName:= #32#32 +FormatFileFunction('DC().GETFILEEXT{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILESIZE{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILETIME{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
+          lblDetails.Caption:= AFileName;
+          // Get file name
+          if not FlatView then
+          begin
+            AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
+            lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile.FSFile, lblInfo.ClientWidth);
+          end;
+        finally
+          AFile.Free;
         end;
-      finally
-        AFile.Free;
       end;
     end;
 end;

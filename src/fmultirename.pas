@@ -47,8 +47,8 @@ uses
 
   //DC
   DCXmlConfig, uOSForms, uRegExprW, uFileProperty, uFormCommands,
-  uFileSourceSetFilePropertyOperation, DCStringHashListUtf8, uClassesEx, uFile,
-  uFileSource, DCClassesUtf8, uHotkeyManager;
+  uFileSourceSetFilePropertyOperation, DCStringHashListUtf8, uClassesEx,
+  uFile, uDisplayFile, uFileSource, DCClassesUtf8, uHotkeyManager;
 
 const
   HotkeysCategoryMultiRename = 'MultiRename'; // <--Not displayed to user, stored in .scf (Shortcut Configuration File)
@@ -2190,6 +2190,7 @@ end;
 function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: integer): string;
 var
   aFile: TFile;
+  aDisplayFile: TDisplayFile;
   Index: int64;
   Counter: int64;
   Dirs: TStringArray;
@@ -2254,7 +2255,11 @@ begin
 
       '=':
       begin
-        Result := sReplaceBadChars(FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True));
+        aDisplayFile:= TDisplayFile.Create(aFile);
+        aDisplayFile.DisplayName:= EmptyStr;
+        Result := sReplaceBadChars(FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), aDisplayFile, FFileSource, True));
+        aDisplayFile.FSFile:= nil;
+        aDisplayFile.Free;
       end;
 
       else
