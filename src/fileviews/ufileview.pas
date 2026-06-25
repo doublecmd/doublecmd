@@ -1105,6 +1105,7 @@ begin
         end;
     end;
     ADisplayFile := TDisplayFile.Create(AFile);
+    ADisplayFile.DisplayName:= FileSource.GetDisplayFileName(AFile);
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(AFileKey, ADisplayFile);
     InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);

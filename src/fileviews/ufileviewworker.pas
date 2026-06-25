@@ -825,9 +825,8 @@ begin
         else
         begin
           AFile := TDisplayFile.Create(aFileSourceFiles[i]);
-
+          AFile.DisplayName:= fs.GetDisplayFileName(aFileSourceFiles[i]);
           AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
-
           if HaveIcons then
           begin
             AFile.IconID := PixMapManager.GetIconByFile(fs,

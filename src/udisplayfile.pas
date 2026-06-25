@@ -144,7 +144,7 @@ end;
 
 procedure TDisplayFile.SetDisplayName(const name: String);
 begin
-  if name = EmptyStr then begin
+  if (name=EmptyStr) and Assigned(FSFile) then begin
     FDisplayName:= FSFile.Name;
     FDisplayNameNoExt:= FSFile.NameNoExt;
     FDisplayExt:= FSFile.Extension;
@@ -207,10 +207,8 @@ begin
     end;
 
     if Assigned(AFile.FFSFile) then
-    begin
       AFile.FDisplayStrings.AddStrings(FDisplayStrings);
-      AFile.DisplayName:= FDisplayName;
-    end;
+    AFile.DisplayName:= FDisplayName;
   end;
 end;
 
