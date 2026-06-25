@@ -439,6 +439,7 @@ begin
             begin
               OldIndex:= GetActiveFileIndex;
               FFiles[OldIndex].FSFile.Name:= NewFileName;
+              FFiles[OldIndex].DisplayName:= FileSource.GetDisplayFileName(FFiles[OldIndex].FSFile);
               DoFileUpdated(FFiles[OldIndex], [fpName]);
             end;
             SetActiveFile(Index);
