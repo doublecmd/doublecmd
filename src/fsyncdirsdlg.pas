@@ -1421,7 +1421,10 @@ var
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
             begin
               if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
-                dirs.Add(fn);
+                // Keep a clone of the directory's TFile (fs is freed below) so a
+                // one-sided directory can be turned into a single sync record
+                // instead of being recursed into. See the dir loops below.
+                dirs.AddObject(fn, f.Clone);
             end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
@@ -1455,6 +1458,23 @@ var
       end;
     end;
 
+    procedure AddOrphanDirRecord(it: TStringList; const dir: string; f: TFile);
+    var
+      r: TFileSyncRec;
+    begin
+      // A directory that exists on one side only. Record the whole folder as a
+      // single sync unit (FFileR set, FFileL nil -> UpdateState assigns
+      // srsDeleteRight in asymmetric mode) instead of recursing into it and
+      // deleting its files one by one. The delete operation removes the
+      // directory tree recursively, so the now-empty folder is gone too, and the
+      // whole subtree is one operation rather than one per file. Takes ownership
+      // of f.
+      r := TFileSyncRec.Create(Self, dir);
+      r.FFileR := f;
+      r.UpdateState(ignoreDate);
+      it.AddObject(NormalizeFileName(f.Name), r);
+    end;
+
   var
     i, j, tot: Integer;
     it: TStringList;
@@ -1484,6 +1504,13 @@ var
       ProcessOneSide(it, dirsRight, RightFirst, False);
       SortFoundItems(it);
       if not Subdirs then Exit;
+      // Left-side and two-sided directories are recursed into (compare contents
+      // / copy left->right). A directory present on the right side only is, in
+      // asymmetric (mirror) mode, deleted as a whole: record it as one unit and
+      // do NOT recurse - this both removes the directory itself (the per-file
+      // path left empty folders behind) and collapses the whole subtree into a
+      // single delete operation. Right-only dirs in non-asymmetric mode still
+      // recurse file by file (they are copies).
       tot := dirsLeft.Count + dirsRight.Count;
       for i := 0 to dirsLeft.Count - 1 do
       begin
@@ -1496,6 +1523,10 @@ var
         j := dirsRight.IndexOf(d);
         if j >= 0 then
         begin
+          // Present on both sides: the left-side recursion above already
+          // compared it. Drop the duplicate right entry (and its unused clone)
+          // so the right loop does not rescan it.
+          TObject(dirsRight.Objects[j]).Free;
           dirsRight.Delete(j);
           Dec(tot);
         end
@@ -1505,11 +1536,27 @@ var
         if dir = '' then
           StatusBar1.Panels[0].Text :=
             Format(rsComparingPercent, [(dirsLeft.Count + i) * 100 div tot]);
-        d := dirsRight[i];
-        ScanDir(dir + d);
-        if FCancel then Exit;
+        if chkAsymmetric.Checked then
+        begin
+          // Right-only directory in mirror mode: delete the whole folder as one
+          // unit. Ownership of the clone moves into the record, so clear the
+          // slot to avoid a double free below.
+          AddOrphanDirRecord(it, dir, TFile(dirsRight.Objects[i]));
+          dirsRight.Objects[i] := nil;
+        end
+        else
+        begin
+          d := dirsRight[i];
+          ScanDir(dir + d);
+          if FCancel then Exit;
+        end;
       end;
     finally
+      // Free any directory clones we did not hand off to a sync record.
+      for i := 0 to dirsLeft.Count - 1 do
+        TObject(dirsLeft.Objects[i]).Free;
+      for i := 0 to dirsRight.Count - 1 do
+        TObject(dirsRight.Objects[i]).Free;
       dirsLeft.Free;
       dirsRight.Free;
     end;
