@@ -82,12 +82,11 @@ uses
   ,DCClassesUtf8;
 
 function GetFileInfoToolTip(aFileSource: IFileSource; const aDisplayFile: TDisplayFile): String;
+var
+  aFile: TFile;
 
   function GetDefaultToolTip(const Hint: String): String;
-  var
-    aFile: TFile;
   begin
-    aFile:= aDisplayFile.FSFile;
     Result:= Hint;
     if (fpModificationTime in aFile.SupportedProperties) and aFile.ModificationTimeProperty.IsValid then
       with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
@@ -102,6 +101,7 @@ function GetFileInfoToolTip(aFileSource: IFileSource; const aDisplayFile: TDispl
 
 begin
   Result:= EmptyStr;
+  aFile:= aDisplayFile.FSFile;
 
   if fspDirectAccess in aFileSource.Properties then
   begin
