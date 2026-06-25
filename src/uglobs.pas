@@ -173,7 +173,9 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 72;
+  hkVersion = 73;
+  // 73 - In "Files Panel" context, added:
+  //      "Ctrl+G" for "cm_GoToPosition" (jump to a position in the listing)
   // 72 - In "Viewer" and "Editor" context, for macOS, added:
   //      "Cmd+G" for Find Next
   //      "Cmd+L" for Goto Line
@@ -1308,6 +1310,8 @@ begin
       AddIfNotExists(['Shift+Num-'],[],'cm_UnmarkCurrentExtension');
       AddIfNotExists(['Num*'],[],'cm_MarkInvert');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
+      if HotMan.Version < 73 then
+        AddIfNotExists(['Ctrl+G'],[],'cm_GoToPosition');
       AddIfNotExists(['Ctrl+Shift+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');

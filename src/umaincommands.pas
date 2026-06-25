@@ -208,6 +208,7 @@ type
    procedure cm_GoToNextEntry(const {%H-}Params: array of string);
    procedure cm_GoToPrevEntry(const {%H-}Params: array of string);
    procedure cm_GoToLastFile(const {%H-}Params: array of string);
+   procedure cm_GoToPosition(const {%H-}Params: array of string);
    procedure cm_Minimize(const {%H-}Params: array of string);
    procedure cm_Wipe(const {%H-}Params: array of string);
    procedure cm_Exit(const {%H-}Params: array of string);
@@ -1708,6 +1709,11 @@ end;
 procedure TMainCommands.cm_GoToPrevEntry(const Params: array of string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_GoToPrevEntry', []);
+end;
+
+procedure TMainCommands.cm_GoToPosition(const Params: array of string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToPosition', []);
 end;
 
 procedure TMainCommands.cm_GoToLastFile(const Params: array of string);

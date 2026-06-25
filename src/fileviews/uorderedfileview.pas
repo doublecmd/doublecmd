@@ -48,6 +48,7 @@ type
     procedure PositionLabelClick(Sender: TObject);  //<en Click index -> inline input -> jump
     procedure JumpEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure JumpEditExit(Sender: TObject);
+    procedure AsyncShowJumpEditor(Data: PtrInt);  //<en deferred open (after key handling)
     procedure pmOperationsCancelClick(Sender: TObject);
     procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
@@ -123,6 +124,7 @@ type
     procedure cm_GoToPrevEntry(const {%H-}Params: array of string);
     procedure cm_GoToFirstFile(const Params: array of string);
     procedure cm_GoToLastFile(const Params: array of string);
+    procedure cm_GoToPosition(const {%H-}Params: array of string);
   end;
 
 implementation
@@ -434,6 +436,18 @@ procedure TOrderedFileView.JumpEditExit(Sender: TObject);
 begin
   // Dismiss when focus is lost (e.g. clicking elsewhere).
   edtJump.Visible := False;
+end;
+
+procedure TOrderedFileView.AsyncShowJumpEditor(Data: PtrInt);
+begin
+  PositionLabelClick(Self);
+end;
+
+procedure TOrderedFileView.cm_GoToPosition(const Params: array of string);
+begin
+  // Keyboard shortcut (default Ctrl+G). Open deferred so the triggering key event
+  // finishes first - otherwise focus bounces back and the editor is dismissed at once.
+  Application.QueueAsyncCall(@AsyncShowJumpEditor, 0);
 end;
 
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
