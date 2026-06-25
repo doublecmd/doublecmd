@@ -276,7 +276,7 @@ begin
   if fullpath = self.GetRootDir() then
     Result:= rsStashName
   else
-    Result:= ExtractFileName( ExcludeTrailingPathDelimiter(fullpath) );
+    Result:= _fileSystemFS.GetDisplayFileName(aFile);
 end;
 
 function TStashFileSource.needReload(
