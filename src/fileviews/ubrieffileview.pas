@@ -474,7 +474,7 @@ var
       if (gShowIcons <> sim_none) then targetWidth:= targetWidth - gIconsSize - 2;
       if (not gBriefViewFileExtAligned) or (AFile.FSFile.Extension = '') then
         begin
-          s:= AFile.DisplayStrings[0];
+          s:= AFile.DisplayName;
           s:= FitFileName(s, Canvas, AFile.FSFile, targetWidth);
         end
       else
@@ -508,9 +508,6 @@ begin
       params.displayFile:= aFile;
       params.drawingRect:= aRect;
       params.focused:= (gdSelected in aState) and FBriefView.Active;
-
-      if AFile.DisplayStrings.Count = 0 then
-        FBriefView.MakeColumnsStrings(AFile);
 
       PrepareColors(aFile, aCol, aRow, aRect, aState);
 
