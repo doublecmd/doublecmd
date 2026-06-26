@@ -60,7 +60,7 @@ const
 
 function TThumbnailManager.GetPreviewFileExt(const sFileExt: String): String;
 begin
-  if (sFileExt = 'jpg') or (sFileExt = 'jpeg') or (sFileExt = 'bmp') then
+  if (sFileExt = 'jpg') or (sFileExt = 'jpeg') or (sFileExt = 'bmp') or (sFileExt = 'JPG') or (sFileExt = 'JPEG') or (sFileExt = 'BMP') then
     Result:= 'jpg'
   else
     Result:= 'png';
@@ -395,4 +395,3 @@ begin
 end;
 
 end.
-
