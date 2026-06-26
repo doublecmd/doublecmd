@@ -550,6 +550,9 @@ end;
 procedure TBriefFileView.ShowRenameFileEdit(
   var aFile: TFile; const withExt: Boolean);
 begin
+  if aFile.Name = EmptyStr then
+    Exit;;
+
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;
