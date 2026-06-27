@@ -1219,8 +1219,6 @@ begin
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
 
-  UpdateActionIcons;
-
   {$IF DEFINED(LCLCOCOA)}
   // 1. TCustomTabControl.GetControlClassDefaultSize() return 200 for Default Width
   // 2. on Cocoa, it is likely to cause TCocoaTabControl not wide enough to
@@ -4136,6 +4134,8 @@ begin
   LoadWindowState;
 
   inherited CreateWnd;
+
+  UpdateActionIcons;
 
   // Save real main form handle
   Application.MainForm.Tag:= Handle;
