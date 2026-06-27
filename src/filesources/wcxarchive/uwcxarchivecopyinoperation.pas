@@ -27,7 +27,6 @@ type
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
-    FTarWriter: TTarWriter;
     FFileList: TStringHashListUtf8;
 
     {en
@@ -40,7 +39,6 @@ type
     procedure DeleteFiles(const aFiles: TFiles);
 
     function doWcxPackFiles(const files: TFiles): Integer;
-    function doTarFiles(const files: TFiles): Integer;
 
   protected
     function Tar(var success: Boolean): Boolean;
@@ -608,51 +606,8 @@ begin
   Result:= TWcxArchiveCopyInOperationOptionsUI;
 end;
 
-function TWcxArchiveCopyInOperation.doTarFiles(const files: TFiles): Integer;
-var
-  success: Boolean;
-  currentFullFiles: TFiles = nil;
-  uselessTotalFiles: Int64;
-  uselessTotalBytes: Int64;
-begin
-  Result:= -1;
-  try
-    if Assigned(FFullFilesTree) then begin
-      success:= FTarWriter.TarFiles(FFullFilesTree, FStatistics);
-    end else begin
-      FillAndCount(files,
-                   currentFullFiles,
-                   uselessTotalFiles,
-                   uselessTotalBytes);
-      success:= FTarWriter.TarFiles(currentFullFiles, FStatistics);
-    end;
-    if success then
-      Result:= 0;
-  finally
-    currentFullFiles.Free;
-  end;
-end;
-
 // Result = True means that TarAndZip is processed by WCX or fail
 function TWcxArchiveCopyInOperation.Tar(var success: Boolean): Boolean;
-
-  function tarFiles: Boolean;
-  var
-    tarBeginResult: Boolean;
-    resultCode: Integer;
-  begin
-    Result:= False;
-    tarBeginResult:= FTarWriter.TarBegin( FStatistics );
-    if tarBeginResult then begin
-      resultCode:= -1;
-      try
-        resultCode:= ProcessFilesWithMultiRootPath( SourceFiles, @self.doTarFiles );
-      finally
-        Result:= FTarWriter.TarEnd( FStatistics, resultCode=0 );
-      end;
-    end;
-  end;
-
 begin
   with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
   begin
