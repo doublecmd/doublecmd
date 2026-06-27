@@ -3058,54 +3058,51 @@ end;
 procedure TfrmMain.UpdateActionIcons;
 var
   I: Integer;
+  ASize: Integer;
+  AFactor: Double;
   imgIndex: Integer;
-  iconsDir: String;
-  fileName: String;
-  iconImg: TPicture;
+  ABitmap: TCustomBitmap;
   actionName: TComponentName;
 begin
+  mnuMain.Images := nil;
+  pmTabMenu.Images := nil;
+  actionLst.Images := nil;
+
   if not gIconsInMenus then Exit;
 
-  actionLst.Images := nil;
-  pmTabMenu.Images := nil;
-  mnuMain.Images := nil;
   imgLstActions.Clear;
+  ASize:= gIconsInMenusSize;
+  AFactor:= GetCanvasScaleFactor;
 
-  // Temporarily while feature is not implemented
-  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
-  fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-  if not mbDirectoryExists(iconsDir) then Exit;
+  if (AFactor > 1.0) then
+  begin
+    ASize:= Round(ASize * AFactor);
+  end;
 
-  iconImg := TPicture.Create;
-  try
-    imgLstActions.Width := gIconsInMenusSize;
-    imgLstActions.Height := gIconsInMenusSize;
+  imgLstActions.Scaled := (AFactor > 1.0);
+  imgLstActions.Width := gIconsInMenusSize;
+  imgLstActions.Height := gIconsInMenusSize;
+  imgLstActions.RegisterResolutions([ASize]);
 
-    actionLst.Images := imgLstActions;
-    pmTabMenu.Images := imgLstActions;
-    mnuMain.Images := imgLstActions;
+  mnuMain.Images := imgLstActions;
+  pmTabMenu.Images := imgLstActions;
+  actionLst.Images := imgLstActions;
 
-    for I:= 0 to actionLst.ActionCount - 1 do
+  for I:= 0 to actionLst.ActionCount - 1 do
+  begin
+    actionName := UTF8LowerCase(actionLst.Actions[I].Name);
+    actionName:= 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3);
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, actionName, gIconsInMenusSize);
+
+    if Assigned(ABitmap) then
     begin
-      actionName := UTF8LowerCase(actionLst.Actions[I].Name);
-      fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
-        if imgIndex >= 0 then
-        begin
-           TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
-        end;
-      except
-        // Skip
+      imgIndex := imgLstActions.Add(ABitmap, nil);
+      if imgIndex >= 0 then
+      begin
+        TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
       end;
+      ABitmap.Free;
     end;
-
-  finally
-    FreeAndNil(iconImg);
   end;
 end;
 
