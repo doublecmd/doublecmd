@@ -49,6 +49,7 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT6}
   uQtWSControls,
+  uQtWSMenus,
   {$IFNDEF LCL_VER_499}
   uQtWSButtons,
   {$ENDIF}
