@@ -6,9 +6,12 @@ interface
 
 uses
   Classes, SysUtils,
+  DCStrUtils,
   uFileSourceOperation,
   uFileSourceCopyOperation,
-  uArchiveFileSourceUtil,
+  uArchiveFileSource, uArchiveFileSourceUtil,
+  uWcxArchiveFileSource, uWCXModule, WcxPlugin,
+  uFileSystemFileSource,
   uFileSource,
   uTarWriter,
   uFile;
@@ -32,6 +35,7 @@ type
     FTarFileName: String; // Temporary TAR archive name
 
     function tarFiles: Boolean;
+    function Tar(const archiveFS: IArchiveFileSource; var success: Boolean): Boolean;
     procedure DoReloadFileSources; override;
   public
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
@@ -96,6 +100,69 @@ begin
     finally
       Result:= FTarWriter.TarEnd( FStatistics, resultCode=0 );
     end;
+  end;
+end;
+
+// Result = True means that TarAndZip is processed by WCX or fail
+function TArchiveCopyInOperation.Tar(
+  const archiveFS: IArchiveFileSource;
+  var success: Boolean ): Boolean;
+var
+  wcxFS: IWcxArchiveFileSource Absolute archiveFS;
+  wcxModule: TWCXModule;
+  archiveFileName: String;
+
+  function needWcxModule: Boolean;
+  begin
+    Result:= False;
+    if NOT (archiveFS is IWcxArchiveFileSource) then
+      Exit;
+    if NOT Assigned(wcxFS.WcxModule.PackToMem) then
+      Exit;
+    if (wcxFS.PluginCapabilities and PK_CAPS_MEMPACK) = 0 then
+      Exit;
+    Result:= True;
+  end;
+
+begin
+  success:= False;
+  Result:= needWcxModule;
+
+  archiveFileName:= archiveFS.ArchiveFileName;
+  if Result then begin
+    wcxModule:= wcxFS.WcxModule;
+  end else begin
+    archiveFileName:= RemoveFileExt(archiveFileName);
+    FTarFileName:= archiveFileName;
+    wcxModule:= nil;
+  end;
+
+  FTarWriter:= TTarWriter.Create(
+    archiveFileName,
+    @AskQuestion,
+    @RaiseAbortOperation,
+    @CheckOperationState,
+    @UpdateStatistics,
+    wcxModule );
+
+  try
+    success:= TarFiles();
+    if success then begin
+      if Result = False then begin
+        // Result = False means that Tar is processed internally
+        // Fill file list with tar archive file
+        SourceFiles.Clear;
+        SourceFiles.Path:= ExtractFilePath(FTarFileName);
+        SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+        // SourceFiles changed, FFullFilesTree becomes meaningless
+        FreeAndNil(FFullFilesTree);
+      end;
+    end else begin
+      // tar fail, Exit MainExecute()
+      Result:= True;
+    end;
+  finally
+    FreeAndNil(FTarWriter);
   end;
 end;
 

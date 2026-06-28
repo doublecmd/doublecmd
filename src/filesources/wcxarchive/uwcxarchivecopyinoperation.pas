@@ -12,8 +12,8 @@ uses
   uFileSourceOperation,
   uFile,
   uWcxModule,
+  uArchiveFileSource,
   uWcxArchiveFileSource,
-  uTarWriter,
   uArchiveCopyOperation,
   uFileSourceOperationUI,
   uFileSourceOperationOptions,
@@ -41,7 +41,6 @@ type
     function doWcxPackFiles(const files: TFiles): Integer;
 
   protected
-    function Tar(var success: Boolean): Boolean;
     procedure SetProcessDataProc(hArcData: TArcHandle);
     procedure DoReloadFileSources; override;
 
@@ -339,8 +338,7 @@ begin
       if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
         removeFiles:= SourceFiles.Clone;
 
-      success:= False;
-      if self.Tar(success) then  // Result = True means that TarAndZip is processed by WCX or fail
+      if self.Tar(FWcxArchiveFileSource, success) then  // Result = True means that TarAndZip is processed by WCX or fail
         Exit;
 
       // .tar created, don't need PK_PACK_MOVE_FILES anymore in Wcx
@@ -604,56 +602,6 @@ end;
 class function TWcxArchiveCopyInOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
 begin
   Result:= TWcxArchiveCopyInOperationOptionsUI;
-end;
-
-// Result = True means that TarAndZip is processed by WCX or fail
-function TWcxArchiveCopyInOperation.Tar(var success: Boolean): Boolean;
-begin
-  with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
-  begin
-    if Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
-      begin
-        FTarWriter:= TTarWriter.Create(ArchiveFileName,
-                                      @AskQuestion,
-                                      @RaiseAbortOperation,
-                                      @CheckOperationState,
-                                      @UpdateStatistics,
-                                      WcxModule
-                                     );
-        Result:= True;
-      end
-    else
-      begin
-        FTarFileName:= RemoveFileExt(ArchiveFileName);
-        FTarWriter:= TTarWriter.Create(FTarFileName,
-                                      @AskQuestion,
-                                      @RaiseAbortOperation,
-                                      @CheckOperationState,
-                                      @UpdateStatistics
-                                     );
-        Result:= False;
-      end;
-  end;
-
-  try
-    success:= TarFiles();
-    if success then begin
-      if Result = False then begin
-        // Result = False means that Tar is processed internally
-        // Fill file list with tar archive file
-        SourceFiles.Clear;
-        SourceFiles.Path:= ExtractFilePath(FTarFileName);
-        SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
-        // SourceFiles changed, FFullFilesTree becomes meaningless
-        FreeAndNil(FFullFilesTree);
-      end;
-    end else begin
-      // tar fail, Exit MainExecute()
-      Result:= True;
-    end;
-  finally
-    FreeAndNil(FTarWriter);
-  end;
 end;
 
 end.

@@ -11,8 +11,7 @@ uses
   uFileSource,
   uFile,
   uArchiveCopyOperation,
-  uMultiArchiveFileSource,
-  uTarWriter;
+  uMultiArchiveFileSource;
 
 type
 
@@ -38,7 +37,6 @@ type
     FTempFile: String;
     FErrorLevel: LongInt;
     FCommandLine: String;
-    function Tar: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
     procedure OnQueryString(str: string);
@@ -223,10 +221,13 @@ end;
 procedure TMultiArchiveCopyInOperation.MainExecute;
 
   procedure tarAndPack;
+  var
+    success: Boolean;
   begin
     // Put to TAR archive if needed
     if FTarBefore then begin
-      if NOT self.Tar() then
+      self.Tar( FMultiArchiveFileSource, success );
+      if NOT success then
         Exit;
       UpdateProgress( SourceFiles[0].FullPath, FMultiArchiveFileSource.ArchiveFileName, 0);
     end;
@@ -359,34 +360,6 @@ begin
       DeleteDirectory(BasePath + aFile.FullPath, False)
     else
       mbDeleteFile(BasePath + aFile.FullPath);
-  end;
-end;
-
-function TMultiArchiveCopyInOperation.Tar: Boolean;
-begin
-  Result:= False;
-  FTarFileName:= RemoveFileExt(FMultiArchiveFileSource.ArchiveFileName);
-  FTarWriter:= TTarWriter.Create(FTarFileName,
-                                @AskQuestion,
-                                @RaiseAbortOperation,
-                                @CheckOperationState,
-                                @UpdateStatistics
-                               );
-
-  try
-    if tarFiles() then
-    begin
-      // Fill file list with tar archive file
-      SourceFiles.Clear;
-      SourceFiles.Path:= ExtractFilePath(FTarFileName);
-      SourceFiles.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
-      // SourceFiles changed, FFullFilesTree becomes meaningless
-      FreeAndNil(FFullFilesTree);
-
-      Result:= True;
-    end;
-  finally
-    FreeAndNil(FTarWriter);
   end;
 end;
 

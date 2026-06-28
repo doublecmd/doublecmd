@@ -116,12 +116,6 @@ type
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
-                       UpdateStatisticsFunction: TUpdateStatisticsFunction
-                       );
-    constructor Create(ArchiveFileName: String;
-                       AskQuestionFunction: TAskQuestionFunction;
-                       AbortOperationFunction: TAbortOperationFunction;
-                       CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
                        WcxModule: TWcxModule
                        );
@@ -220,29 +214,6 @@ constructor TTarWriter.Create(ArchiveFileName: String;
                               AskQuestionFunction: TAskQuestionFunction;
                               AbortOperationFunction: TAbortOperationFunction;
                               CheckOperationStateFunction: TCheckOperationStateFunction;
-                              UpdateStatisticsFunction: TUpdateStatisticsFunction);
-begin
-  AskQuestion := AskQuestionFunction;
-  AbortOperation := AbortOperationFunction;
-  CheckOperationState := CheckOperationStateFunction;
-  UpdateStatistics := UpdateStatisticsFunction;
-  DataWrite:= @WriteData;
-
-  FArchiveFileName:= ArchiveFileName;
-  FTargetPath:= ExtractFilePath(ArchiveFileName);
-  // Allocate buffers
-  FBufferSize := gCopyBlockSize;
-  GetMem(FBufferIn, FBufferSize);
-  FBufferOut:= nil;
-
-  FWcxModule:= nil;
-  FMemPack:= 0;
-end;
-
-constructor TTarWriter.Create(ArchiveFileName: String;
-                              AskQuestionFunction: TAskQuestionFunction;
-                              AbortOperationFunction: TAbortOperationFunction;
-                              CheckOperationStateFunction: TCheckOperationStateFunction;
                               UpdateStatisticsFunction: TUpdateStatisticsFunction;
                               WcxModule: TWcxModule);
 begin
@@ -250,18 +221,24 @@ begin
   AbortOperation := AbortOperationFunction;
   CheckOperationState := CheckOperationStateFunction;
   UpdateStatistics := UpdateStatisticsFunction;
-  DataWrite:= @CompressData;
 
   FArchiveFileName:= ArchiveFileName;
   FTargetPath:= ExtractFilePath(ArchiveFileName);
   // Allocate buffers
   FBufferSize := gCopyBlockSize;
   GetMem(FBufferIn, FBufferSize);
-  GetMem(FBufferOut, FBufferSize);
 
-  FWcxModule:= WcxModule;
-  // Starts packing into memory
-  FMemPack:= FWcxModule.WcxStartMemPack(MEM_OPTIONS_WANTHEADERS, ExtractFileName(ArchiveFileName));
+  if Assigned(WcxModule) then begin
+    FWcxModule:= WcxModule;
+    DataWrite:= @CompressData;
+    GetMem(FBufferOut, FBufferSize);
+    // Starts packing into memory
+    FMemPack:= FWcxModule.WcxStartMemPack(MEM_OPTIONS_WANTHEADERS, ExtractFileName(ArchiveFileName));
+  end else begin
+    DataWrite:= @WriteData;
+    FBufferOut:= nil;
+    FMemPack:= 0;
+  end;
 end;
 
 destructor TTarWriter.Destroy;
