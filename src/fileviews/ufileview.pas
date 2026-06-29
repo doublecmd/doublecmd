@@ -444,6 +444,13 @@ type
     function Reload(const PathToReload: String): Boolean; overload;
     procedure Reload(AForced: Boolean);
     procedure ReloadIfNeeded;
+    {en
+       Suspend/resume the directory watcher around an app-initiated bulk
+       operation. While suspended, inotify changes are not turned into
+       repeated full reloads (which is O(n²) for large folders); resuming
+       performs a single reconciling reload. No-op for non-filesystem views.
+    }
+    procedure SetWatcherEnabled(AEnabled: Boolean);
     procedure StopWorkers; virtual;
 
     // For now we use here the knowledge that there are tabs.
@@ -3407,6 +3414,22 @@ begin
     FileSource.GetWatcher.removeWatch(FWatchPath, @WatcherEvent);
     FWatchPath := EmptyStr;
   end;
+end;
+
+procedure TFileView.SetWatcherEnabled(AEnabled: Boolean);
+begin
+  if AEnabled then
+  begin
+    // Only the filesystem watcher causes the per-file reload storm, so only
+    // it was suspended; re-enable and do one reload to catch up on changes.
+    if Assigned(FileSource) and FileSource.IsClass(TFileSystemFileSource) then
+    begin
+      EnableWatcher(True);
+      Reload(True);
+    end;
+  end
+  else if WatcherActive then
+    EnableWatcher(False);
 end;
 
 procedure TFileView.SetFlatView(AFlatView: Boolean);
