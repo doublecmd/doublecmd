@@ -396,6 +396,7 @@ type
     FCommands: TFormCommands;
     FScaleFactor: Double;
     FZoomFactor: Integer;
+    FZoomed: Boolean;
     FExif: TExifReader;
     FWindowState: TWindowState;
     FElevate: TDuplicates;
@@ -1991,8 +1992,9 @@ end;
 
 procedure TfrmViewer.ZoomImage(ADelta: Double);
 begin
-  if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
+  if (not FZoomed) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
+    FZoomed:= True;
     // Calculate zoom factor at first zoom
     FZoomFactor:= Round(FScaleFactor * 100);
   end;
@@ -2990,7 +2992,7 @@ begin
   FScaleFactor:= FZoomFactor / 100;
 
   // Place and resize image
-  if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
+  if (not FZoomed) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
     FScaleFactor:= Min(sboxImage.ClientWidth / PicWidth, sboxImage.ClientHeight / PicHeight);
 
@@ -3153,6 +3155,7 @@ var
   fsFileStream: TFileStreamEx;
 begin
   Result:= True;
+  FZoomed:= False;
   FZoomFactor:= 100;
   sExt:= ExtractOnlyFileExt(sFilename);
   if not SameText(sExt, 'gif') then
@@ -3893,6 +3896,7 @@ begin
   miStretch.Checked:= not miStretch.Checked;
   if miStretch.Checked then
   begin
+    FZoomed:= False;
     FZoomFactor:= 100;
     miStretchOnlyLarge.Checked:= False
   end;
@@ -3902,7 +3906,12 @@ end;
 procedure TfrmViewer.cm_StretchOnlyLarge(const Params: array of string);
 begin
   miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
-  if miStretchOnlyLarge.Checked then miStretch.Checked:= False;
+  if miStretchOnlyLarge.Checked then
+  begin
+    FZoomed:= False;
+    FZoomFactor:= 100;
+    miStretch.Checked:= False;
+  end;
   UpdateImagePlacement;
 end;
 
