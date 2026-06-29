@@ -2818,6 +2818,11 @@ msgstr "&Bloccato"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Bloccato con modifiche alla &cartella consentite"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Condividi..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
 msgid "Open"
@@ -10988,10 +10993,6 @@ msgstr ""
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr ""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Condividi..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

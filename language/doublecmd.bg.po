@@ -2910,6 +2910,11 @@ msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Заключен, с разрешена смяна на &папката"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr ""
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
 msgid "Open"
@@ -11474,10 +11479,6 @@ msgstr ""
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
 msgstr ""
 
 #: ulng.rsmfstbiairdroptips

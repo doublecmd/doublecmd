@@ -2931,6 +2931,11 @@ msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Verrouillé avec les changements de &dossiers autorisés"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Partager..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
 msgid "Open"
@@ -11327,10 +11332,6 @@ msgstr ""
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr ""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Partager..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

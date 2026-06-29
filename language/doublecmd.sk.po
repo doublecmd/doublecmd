@@ -2808,6 +2808,11 @@ msgstr "Uzamknuté"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Uzamknuté s povolenou zmenou priečinka"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Zdieľať..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
 msgid "Open"
@@ -10983,10 +10988,6 @@ msgstr "Udeliť oprávnenie „Plný prístup k disku“ na podporu štítkov ap
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "Odstrániť \"%s\""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Zdieľať..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

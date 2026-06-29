@@ -2817,6 +2817,11 @@ msgstr "&Gesperrt, kein Verzeichniswechsel möglich"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Gesperrt, &Verzeichniswechsel möglich"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Teilen …"
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
 msgid "Open"
@@ -10981,10 +10986,6 @@ msgstr "Gewähren Sie »Volle Festplattenzugriffsrechte« zur Unterstützung von
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "\"%s\" entfernen"
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Teilen …"
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

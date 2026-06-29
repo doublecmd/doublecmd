@@ -2806,6 +2806,11 @@ msgstr "锁定(&L)"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "锁定，但允许更改文件夹(&D)"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "共享..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
 msgid "Open"
@@ -10980,10 +10985,6 @@ msgstr "授予“完全磁盘访问”权限以支持“访达”标签..."
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "移除“%s”"
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "共享..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

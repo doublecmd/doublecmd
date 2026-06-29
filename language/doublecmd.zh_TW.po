@@ -2849,6 +2849,11 @@ msgstr "鎖定 (&L)"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "鎖定並允許在目前分頁變更資料夾 (&D)"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "共享..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
 msgid "Open"
@@ -11226,10 +11231,6 @@ msgstr "授予「完全磁盤訪問」權限以支持「訪達」標籤..."
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "移除“%s”"
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "共享..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

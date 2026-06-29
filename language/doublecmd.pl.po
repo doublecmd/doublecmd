@@ -2810,6 +2810,11 @@ msgstr "&Zablokowana"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Zablokowana z możliwością zmiany &katalogu"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Udostępnij..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
 msgid "Open"
@@ -10952,10 +10957,6 @@ msgstr ""
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr ""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Udostępnij..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

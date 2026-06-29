@@ -2816,6 +2816,11 @@ msgstr "&Zárolt"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Zárolt, de &könyvtárváltás engedélyezett"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr "Megosztás..."
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
 msgid "Open"
@@ -10982,10 +10987,6 @@ msgstr "Adjon \"Teljes lemezhozzáférés\" engedélyt a Finder címkék támoga
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "\"%s\" eltávolítása"
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
-msgstr "Megosztás..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

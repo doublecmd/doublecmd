@@ -2833,6 +2833,11 @@ msgstr "&Zamknout tuto záložku"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Zamknout, ale dovolit změnit složku"
 
+#: tfrmmain.actshare.caption
+msgctxt "tfrmmain.actshare.caption"
+msgid "Share..."
+msgstr ""
+
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
 msgid "Open"
@@ -11025,10 +11030,6 @@ msgstr ""
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
-
-#: ulng.rsmenumacosshare
-msgid "Share..."
 msgstr ""
 
 #: ulng.rsmfstbiairdroptips
