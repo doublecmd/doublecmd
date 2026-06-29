@@ -2822,11 +2822,24 @@ begin
   if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
     FScaleFactor:= Min(sboxImage.ClientWidth / PicWidth, sboxImage.ClientHeight / PicHeight);
-    FScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (FScaleFactor > 1.0), 1.0, FScaleFactor);
-  end;
 
-  iWidth:= Round(ImgWidth * FScaleFactor);
-  iHeight:= Round(ImgHeight * FScaleFactor);
+    if (miStretchOnlyLarge.Checked) and (FScaleFactor > 1.0) then
+    begin
+      iWidth:= ImgWidth;
+      iHeight:= ImgHeight;
+      FScaleFactor:= 1.0;
+    end
+    else begin
+      iWidth:= Round(PicWidth * FScaleFactor);
+      iHeight:= Round(PicHeight * FScaleFactor);
+      FScaleFactor:= FScaleFactor * AFactor;
+    end;
+  end
+  else begin
+    FScaleFactor:= FZoomFactor / 100;
+    iWidth:= Round(ImgWidth * FScaleFactor);
+    iHeight:= Round(ImgHeight * FScaleFactor);
+  end;
 
   if (miCenter.Checked) then
   begin
