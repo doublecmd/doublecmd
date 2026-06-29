@@ -76,6 +76,7 @@ type
     actAddPlugin: TAction;
     actAddToStash: TAction;
     actEmptyStash: TAction;
+    actShare: TAction;
     actRemoveFromStash: TAction;
     actOpenStash: TAction;
     actMainFontZoomOut: TAction;

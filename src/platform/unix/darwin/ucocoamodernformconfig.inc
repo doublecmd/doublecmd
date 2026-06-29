@@ -51,7 +51,7 @@ end;
 procedure addShortCutTipsToItemConfig(
   const formName: String;
   const command: String;
-  var item: TCocoaConfigToolBarItemWithAction );
+  var item: TCocoaConfigToolBarItemWithUI );
 var
   form: THMForm;
   hotkey: THotKey;

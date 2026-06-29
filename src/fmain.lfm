@@ -2905,6 +2905,12 @@ object frmMain: TfrmMain
       Caption = 'Empty Stash'
       OnExecute = actExecute
     end
+    object actShare: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Share...'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

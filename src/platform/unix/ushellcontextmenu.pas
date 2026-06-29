@@ -61,7 +61,6 @@ type
     function FillOpenWithSubMenu: Boolean;
     {$IF DEFINED(DARWIN)}
     procedure FillMacOSMenu;
-    procedure SharingMenuItemAction(Sender: TObject);
     procedure EditFinderTagsAction(Sender: TObject);
     {$ENDIF}
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
@@ -643,8 +642,7 @@ begin
   // similar to MacOS 13, the Share MenuItem does not expand the submenu,
   // and the SharingServicePicker pops up after clicking Share MenuItem.
   mi:=TMenuItem.Create(Self);
-  mi.Caption:= uLng.rsMenuMacOsShare;
-  mi.OnClick:= self.SharingMenuItemAction;
+  mi.Action:= frmMain.actShare;
   Self.Items.Add(mi);
 
   addDelimiterMenuItem( self );
@@ -656,11 +654,6 @@ begin
   mi.Caption:= rsMenuMacOSEditFinderTags;
   mi.OnClick:= self.EditFinderTagsAction;
   Self.Items.Add(mi);
-end;
-
-procedure TShellContextMenu.SharingMenuItemAction(Sender: TObject);
-begin
-  TDarwinPanelUtil.showSharingService;
 end;
 
 procedure TShellContextMenu.EditFinderTagsAction(Sender: TObject);

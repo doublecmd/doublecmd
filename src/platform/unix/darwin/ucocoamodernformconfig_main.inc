@@ -627,7 +627,7 @@ const
     appValidates: True;
     iconName: '';
     title: rsMFSTBIShareTitle;
-    tips: '';
+    tips: rsMFSTBIShareTitle;
     bordered: True;
 
     onGetItems: @onGetSharingItems;
@@ -894,6 +894,7 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
 end;
 
 procedure joinPrivilegeTips;
