@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-09-07 22:10+0000\n"
-"Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
+"PO-Revision-Date: 2026-06-03 22:10+0000\n"
+"Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com> and Dawid Boissé <dawid.boisse@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -334,7 +334,7 @@ msgstr "Dla każdego pliku utwó&rz oddzielny plik sumy kontrolnej"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr ""
+msgstr "Utwórz oddzielny plik sumy kontrolnej dla każ&dego katalogu"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -354,7 +354,7 @@ msgstr "Windows"
 
 #: tfrmchecksumcalc.rghashalgorithm.caption
 msgid "Algorithm"
-msgstr ""
+msgstr "Algorytm"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "tfrmchecksumverify.btnclose.caption"
@@ -1012,7 +1012,7 @@ msgstr "Zaznacz wszystko"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "Czas/Data"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "tfrmeditor.acteditundo.caption"
@@ -1087,7 +1087,7 @@ msgstr "Zapisz jako"
 
 #: tfrmeditor.actwordwrap.caption
 msgid "&Word wrap"
-msgstr ""
+msgstr "Zawijanie &wierszy"
 
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
@@ -1611,7 +1611,7 @@ msgstr "&Pomoc"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "Dyski"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "tfrmfinddlg.btnsavetemplate.caption"
@@ -3377,11 +3377,11 @@ msgstr ""
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "Utwórz klucz"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Transformacja klucza"
 
 #: tfrmmasterkey.gbmasterkey.caption
 #, fuzzy
@@ -3391,39 +3391,39 @@ msgstr "Hasło główne"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Im więcej iteracji, tym trudniejsze są ataki słownikowe i odgadywanie, ale także ładowanie/zapisywanie hasła zajmuje więcej czasu."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "Funkcja wyprowadzania &klucza:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "Klucz jest przekształcany za pomocą funkcji wyprowadzania klucza. Zwiększa to współczynnik pracy i utrudnia ataki słownikowe oraz odgadywanie."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "&Iteracje:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "Pa&mięć:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "&Równoległość:"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "&Hasło:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "Powtó&rz hasło:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Określ nowy klucz, który zostanie użyty do zaszyfrowania magazynu haseł."
 
 #: tfrmmasterkey.lblunit.caption
 #, fuzzy
@@ -3610,7 +3610,7 @@ msgstr "Załaduj ostatnie ustawienie wstępne"
 
 #: tfrmmultirename.actloadnamesfromclipboard.caption
 msgid "Load Names from Clipboard"
-msgstr ""
+msgstr "Wczytaj nazwy ze schowka"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3762,7 +3762,7 @@ msgstr ""
 
 #: tfrmmultirename.cbrepext.hint
 msgid "Replace also in file extensions"
-msgstr ""
+msgstr "Zastąp również w rozszerzeniach plików"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
@@ -4044,7 +4044,7 @@ msgstr "Użyj nazwy archiwum bez rozszerzenia jako listy"
 
 #: tfrmoptionsarchivers.chkhide.caption
 msgid "Show as normal files"
-msgstr ""
+msgstr "Pokaż jako normalne pliki"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -6411,9 +6411,7 @@ msgstr "Domyślna wartość maski atrybutu do użycia:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
-
-#: tfrmoptionsfiletypescolors.btnaddcategory.caption
+msgstr "Dodatkowy odstęp wiersza:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
 msgstr "&Dodaj"
@@ -6582,12 +6580,12 @@ msgstr "Sterowanie"
 #: tfrmoptionsicloud.appslistview.columns[0].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
 msgid "Applications"
-msgstr ""
+msgstr "Aplikacje"
 
 #: tfrmoptionsicloud.appslistview.columns[1].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
 msgid "Count of Contents"
-msgstr ""
+msgstr "Liczba zawartości"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "tfrmoptionsicons.cbiconsexclude.caption"
@@ -6686,6 +6684,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"Wymuś traktowanie F1, F2, itp. jako klawiszy funkcyjnych\n"
+"ignorując ustawienia w System Settings > Keyboard"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6697,6 +6697,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"Ta funkcja wymaga dodatkowych uprawnień systemowych.\n"
+"\n"
+"Jej włączenie automatycznie przekieruje Cię do\n"
+"System Settings > Privacy & Security > Accessibility Panel.\n"
+"\n"
+"Każdorazowo po zainstalowaniu nowej wersji DC należy najpierw\n"
+"usunąć DC z listy, a następnie dodać je ponownie."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -6993,7 +7000,7 @@ msgstr "Przez &kliknięcie na ikonę"
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "Powiększanie za pomocą Ctrl + kółko myszy"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -7926,7 +7933,7 @@ msgstr "przed bieżącym zaznaczeniem"
 
 #: tfrmoptionstoolbarbase.rblinebreak.caption
 msgid "Line break"
-msgstr ""
+msgstr "Podział wiersza"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
@@ -8386,11 +8393,11 @@ msgstr "Uwzględniaj wielkość liter"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "ĄĆ"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "Znaki diakrytyczne i ligatury"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -10374,19 +10381,19 @@ msgstr "Przejdź do wiersza"
 
 #: ulng.rsedithintcursorpos
 msgid "Cursor Position"
-msgstr ""
+msgstr "Pozycja kursora"
 
 #: ulng.rsedithintinsertmode
 msgid "Insert Mode"
-msgstr ""
+msgstr "Tryb wstawiania"
 
 #: ulng.rsedithintmodified
 msgid "Modified"
-msgstr ""
+msgstr "Zmodyfikowany"
 
 #: ulng.rsedithintselectionmode
 msgid "Selection Mode"
-msgstr ""
+msgstr "Tryb zaznaczania"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10606,7 +10613,7 @@ msgstr "Znajdź pliki"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "Wybierz dyski"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
@@ -10859,12 +10866,12 @@ msgstr "Wg nazwy polecenia;Wg klawisza skrótu (pogrupowane);Wg klawisza skrótu
 #: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
 msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "Zaleca się najpierw pobrać pliki. W przeciwnym razie kopiowana jest nie zawartość plików, ale odpowiednie pliki zastępcze, co spowoduje ukryte pliki z rozszerzeniem .iCloud."
 
 #: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
 msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "Operacja może zawierać pliki, które nie zostały pobrane, czy kontynuować mimo to?"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10898,7 +10905,7 @@ msgstr "Lista okien \"Znajdź pliki\""
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "Przypisz tagi do %d elementów"
 
 #: ulng.rsmacosconnectserverprompt
 msgid ""
@@ -10906,57 +10913,32 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(n.p. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
 msgstr ""
 
-#: ulng.rsmarkminus
-msgid "Unselect mask"
-msgstr "Maska odznaczania"
-
-#: ulng.rsmarkplus
-msgid "Select mask"
-msgstr "Maska zaznaczania"
-
-#: ulng.rsmaskinput
-msgid "Input mask:"
-msgstr "Maska wejściowa:"
-
-#: ulng.rsmenuconfigurecolumnsalreadyexists
-msgid "A columns view with that name already exists."
-msgstr "Widok kolumn o tej nazwie już istnieje."
-
-#: ulng.rsmenuconfigurecolumnssavetochange
-msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr "Aby zmienić bieżącą edycję widoku kolmun, albo ZAPISAĆ, SKOPIOWAĆ lub USUNĄĆ obecną edycję"
-
-#: ulng.rsmenuconfigurecustomcolumns
-msgid "Configure custom columns"
-msgstr "Konfiguruj niestandardowe kolumny"
-
-#: ulng.rsmenuconfigureentercustomcolumnname
-msgid "Enter new custom columns name"
-msgstr "Wpisz nową nazwę kolumny niestandardowej"
-
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "Dodaj \"%s\""
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Edytuj tagi Findera..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
-msgstr ""
+msgstr "Przyznaj uprawnienie \"Full Disk Access\" do obsługi tagów Findera..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "Usuń \"%s\""
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
@@ -10992,7 +10974,7 @@ msgstr "Polecenie"
 
 #: ulng.rsmfstbicomparetips
 msgid "Compare by Contents..."
-msgstr ""
+msgstr "Porównaj zawartość..."
 
 #: ulng.rsmfstbicomparetitle
 #, fuzzy
@@ -11003,7 +10985,7 @@ msgstr "Porównaj"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Edytuj tagi Findera..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
@@ -11011,7 +10993,7 @@ msgstr ""
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
-msgstr ""
+msgstr "Edytuj..."
 
 #: ulng.rsmfstbiedittitle
 #, fuzzy
@@ -11021,7 +11003,7 @@ msgstr "Edytuj"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr ""
+msgstr "Pokaż w Finderze"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
@@ -11030,36 +11012,36 @@ msgstr ""
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "Wstecz"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "Wstecz"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "Dalej"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "Dalej"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
-msgstr ""
+msgstr "Idź"
 
 #: ulng.rsmfstbigotitle
 msgctxt "ulng.rsmfstbigotitle"
 msgid "Go"
-msgstr ""
+msgstr "Idź"
 
 #: ulng.rsmfstbihorzsplittips
 msgid "Toggle Horizontal Split Mode"
-msgstr ""
+msgstr "Przełącz tryb podziału poziomego"
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
@@ -11078,16 +11060,16 @@ msgstr ""
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "sieć"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "sieć"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr ""
+msgstr "Jako menedżer plików, Double Commander wymaga uprawnień do pełnego dostępu do dysku. Kliknięcie tego przycisku spowoduje wyświetlenie strony ustawień systemu macOS. Dodaj \"Double Commander.app\" do listy \"Full Disk Access\", aby zakończyć autoryzację."
 
 #: ulng.rsmfstbiprivilegetips2
 msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
@@ -11099,11 +11081,11 @@ msgstr ""
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
-msgstr ""
+msgstr "Uprawnienia"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr ""
+msgstr "Panel macOS Quick Look"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
@@ -11111,19 +11093,19 @@ msgstr ""
 
 #: ulng.rsmfstbirefreshtips
 msgid "Refresh File List"
-msgstr ""
+msgstr "Odśwież listę plików"
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "Szukaj połączonych tagów..."
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
-msgstr ""
+msgstr "Szukaj plików..."
 
 #: ulng.rsmfstbisearchtitle
 #, fuzzy
@@ -11133,19 +11115,19 @@ msgstr "Wyszukaj"
 
 #: ulng.rsmfstbisharetitle
 msgid "Share"
-msgstr ""
+msgstr "Udostępnij"
 
 #: ulng.rsmfstbishowbrieftitle
 msgid "as Brief"
-msgstr ""
+msgstr "jako Krótki"
 
 #: ulng.rsmfstbishowfulltitle
 msgid "as Full"
-msgstr ""
+msgstr "jako Pełny"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr ""
+msgstr "Pokaż informacje w Finderze"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
@@ -11153,7 +11135,7 @@ msgstr ""
 
 #: ulng.rsmfstbishowmodetips
 msgid "Show as Brief, Full or Thumbnails"
-msgstr ""
+msgstr "Pokaż jako Krótki, Pełny lub Miniatury"
 
 #: ulng.rsmfstbishowmodetitle
 msgid "ShowMode"
@@ -11161,11 +11143,11 @@ msgstr ""
 
 #: ulng.rsmfstbishowthumbnailstitle
 msgid "as Thumbnails"
-msgstr ""
+msgstr "jako Miniatury"
 
 #: ulng.rsmfstbiswappanelstips
 msgid "Swap Panels"
-msgstr ""
+msgstr "Zamień panele"
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
@@ -11173,7 +11155,7 @@ msgstr ""
 
 #: ulng.rsmfstbisynctips
 msgid "Synchronize Dirs..."
-msgstr ""
+msgstr "Synchronizuj katalogi..."
 
 #: ulng.rsmfstbisynctitle
 msgid "Sync"
@@ -11181,7 +11163,7 @@ msgstr ""
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
-msgstr ""
+msgstr "Otwórz w terminalu"
 
 #: ulng.rsmfstbiterminaltitle
 #, fuzzy
@@ -11191,11 +11173,11 @@ msgstr "Terminal"
 
 #: ulng.rsmfstbitreeviewtips
 msgid "Show Tree View Panel"
-msgstr ""
+msgstr "Pokaż panel widoku drzewa"
 
 #: ulng.rsmfstbitreeviewtitle
 msgid "TreeView"
-msgstr ""
+msgstr "WidokDrzewa"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11234,12 +11216,12 @@ msgstr "Wypakuj tutaj..."
 #: ulng.rsmnuiclouddrivedownloadnow
 msgctxt "ulng.rsmnuiclouddrivedownloadnow"
 msgid "Download Now"
-msgstr ""
+msgstr "Pobierz teraz"
 
 #: ulng.rsmnuiclouddriveremovedownload
 msgctxt "ulng.rsmnuiclouddriveremovedownload"
 msgid "Remove Download"
-msgstr ""
+msgstr "Usuń pobieranie"
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -11303,10 +11285,15 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"Niektóre wirtualne systemy plików zawierają określone struktury katalogów. Podczas kopiowania do skompresowanego archiwum można wybrać tylko jeden katalog na raz, chyba że rzeczywiste lokalizacje wybranych katalogów znajdują się w tym samym katalogu nadrzędnym.\n"
+"\n"
+"Na przykład dla iCloud Drive, podczas kopiowania katalogu z katalogu głównego do skompresowanego archiwum, być może należy wybrać tylko jeden katalog.\n"
+"\n"
+"Zaleca się postępować zgodnie z dotychczasową praktyką i spróbować wybrać tylko jeden katalog po wyświetleniu tego monitu."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "Operacja nie jest obsługiwana"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
@@ -11348,7 +11335,7 @@ msgstr "Czy na pewno chcesz anulować tę operację?"
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "Nie można zmienić lokalizacji docelowej!"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -12038,12 +12025,12 @@ msgstr "Nieprawidłowy wybór."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "Transformacja klucza nie powiodła się (kod błędu %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "Transformacja klucza zajęła %f sekund."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -13555,23 +13542,23 @@ msgstr "Wtyczki"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "Wtyczki wyszukiwania"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "Wtyczki archiwizatorów"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "Wtyczki zawartości"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "Wtyczki systemu plików"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "Wtyczki przeglądarki"
 
 #: ulng.rsoptionseditorquicksearch
 msgid "Quick search/filter"
