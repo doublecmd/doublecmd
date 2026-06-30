@@ -3084,7 +3084,8 @@ end;
 function TfrmViewer.GetListerRect: TRect;
 begin
   Result:= ClientRect;
-  Dec(Result.Bottom, Status.Height);
+  if Status.Visible then
+    Dec(Result.Bottom, Status.Height);
   if Splitter.Visible then
   begin
     Inc(Result.Left, Splitter.Left + Splitter.Width);
