@@ -2089,6 +2089,16 @@ msgstr "Добавить плагин"
 msgid "Add to Stash"
 msgstr "Добавить во временную панель"
 
+#: tfrmmain.actairdrop.caption
+msgctxt "tfrmmain.actairdrop.caption"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: tfrmmain.actairdrop.hint
+msgctxt "tfrmmain.actairdrop.hint"
+msgid "AirDrop"
+msgstr "AirDrop"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Тест производительности"

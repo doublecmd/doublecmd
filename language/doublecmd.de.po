@@ -2062,6 +2062,16 @@ msgstr "Plugin hinzufügen"
 msgid "Add to Stash"
 msgstr ""
 
+#: tfrmmain.actairdrop.caption
+msgctxt "tfrmmain.actairdrop.caption"
+msgid "AirDrop"
+msgstr "AirDrop (SnapDrop, PairDrop …)"
+
+#: tfrmmain.actairdrop.hint
+msgctxt "tfrmmain.actairdrop.hint"
+msgid "AirDrop"
+msgstr "AirDrop (SnapDrop, PairDrop …)"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "Benchmark"

@@ -2052,6 +2052,16 @@ msgstr "플러그인 추가"
 msgid "Add to Stash"
 msgstr "보관함에 추가"
 
+#: tfrmmain.actairdrop.caption
+msgctxt "tfrmmain.actairdrop.caption"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: tfrmmain.actairdrop.hint
+msgctxt "tfrmmain.actairdrop.hint"
+msgid "AirDrop"
+msgstr "AirDrop"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "벤치마크(&B)"

@@ -2094,6 +2094,16 @@ msgstr "Προσθήκη Προσθέτου"
 msgid "Add to Stash"
 msgstr "Προσθήκη στο Απόθεμα"
 
+#: tfrmmain.actairdrop.caption
+msgctxt "tfrmmain.actairdrop.caption"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: tfrmmain.actairdrop.hint
+msgctxt "tfrmmain.actairdrop.hint"
+msgid "AirDrop"
+msgstr "AirDrop"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "Benchmark"

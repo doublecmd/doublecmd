@@ -2051,6 +2051,16 @@ msgstr "添加插件"
 msgid "Add to Stash"
 msgstr "添加到暂存区"
 
+#: tfrmmain.actairdrop.caption
+msgctxt "tfrmmain.actairdrop.caption"
+msgid "AirDrop"
+msgstr "隔空投送"
+
+#: tfrmmain.actairdrop.hint
+msgctxt "tfrmmain.actairdrop.hint"
+msgid "AirDrop"
+msgstr "隔空投送"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基准测试(&B)"
