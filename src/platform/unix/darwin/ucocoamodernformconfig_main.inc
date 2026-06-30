@@ -138,7 +138,7 @@ end;
 
 procedure airdropAction( const Sender: id );
 begin
-  TDarwinPanelUtil.showAirDrop;
+  frmMain.Commands.cm_AirDrop([]);
 end;
 
 procedure quickLookAction( const Sender: id );
@@ -895,6 +895,7 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_AirDrop', airDropItemConfig );
 end;
 
 procedure joinPrivilegeTips;

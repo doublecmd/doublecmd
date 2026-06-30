@@ -76,6 +76,7 @@ type
     actAddPlugin: TAction;
     actAddToStash: TAction;
     actEmptyStash: TAction;
+    actAirDrop: TAction;
     actShare: TAction;
     actRemoveFromStash: TAction;
     actOpenStash: TAction;
