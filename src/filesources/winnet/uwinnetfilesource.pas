@@ -176,7 +176,9 @@ end;
 
 function TWinNetFileSource.IsNetworkPath(const Path: String): Boolean;
 begin
-  Result:= (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(Path)) < 3);
+  Result:= (Path = PathDelim) or
+           ((Pos(PathDelim + PathDelim, Path) = 1) and
+            (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(Path)) < 3));
 end;
 
 function TWinNetFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
