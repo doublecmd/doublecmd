@@ -67,7 +67,7 @@ type
     FRenameNameMask, FRenameExtMask: String;
     FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FDescription: TDescription;
+    FProcessComments: Boolean;
     FLogCaption: String;
     FRenamingFiles: Boolean;
     FRenamingRootDir: Boolean;
@@ -127,8 +127,8 @@ type
     procedure CopyProperties(SourceFile: TFile; TargetFileName: String);
 
     function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
-    function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
-    function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
+    function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String; ADescription: TDescription): Boolean;
+    function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String; ADescription: TDescription): Boolean;
     function ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 
     function TargetExists(aNode: TFileTreeNode; var AbsoluteTargetFileName: String)
@@ -433,6 +433,7 @@ begin
   FSkipAllBigFiles := False;
   FSkipReadError := False;
   FSkipWriteError := False;
+  FProcessComments := gProcessComments;
   FCopyAttributesOptions := CopyAttributesOptionCopyAll;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
@@ -444,11 +445,6 @@ begin
   FRenamingFiles := False;
   FRenamingRootDir := False;
   FRootDir := nil;
-
-  if gProcessComments then
-    FDescription := TDescription.Create(True)
-  else
-    FDescription := nil;
 
   case FMode of
     fsohmCopy:
@@ -476,12 +472,6 @@ begin
   begin
     FreeMem(FBuffer);
     FBuffer := nil;
-  end;
-
-  if Assigned(FDescription) then
-  begin
-    FDescription.SaveDescription;
-    FreeAndNil(FDescription);
   end;
 end;
 
@@ -1154,10 +1144,18 @@ var
   TargetName: String;
   ProcessedOk: Boolean;
   CurrentFileIndex: Integer;
+  ADescription: TDescription;
   CurrentSubNode: TFileTreeNode;
   AskResult: TFileSourceOperationUIResponse;
 begin
   Result := True;
+
+  if FProcessComments then
+  begin
+    ADescription:= TDescription.Create(True);
+  end;
+
+  try
 
   for CurrentFileIndex := 0 to aFileTreeNode.SubNodesCount - 1 do
   begin
@@ -1237,31 +1235,40 @@ begin
     end;
 {$ENDIF}
     if aFile.IsLink then
-      ProcessedOk := ProcessLink(CurrentSubNode, TargetName)
+      ProcessedOk := ProcessLink(CurrentSubNode, TargetName, ADescription)
     else if aFile.IsDirectory then
-      ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
+      ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName, ADescription)
     else
       ProcessedOk := ProcessFile(CurrentSubNode, TargetName);
 
     if not ProcessedOk then
       Result := False
     // Process comments if need
-    else if gProcessComments then
+    else if FProcessComments then
     begin
       case FMode of
         fsohmCopy:
-          FDescription.CopyDescription(CurrentSubNode.TheFile.FullPath, TargetName);
+          ADescription.CopyDescription(CurrentSubNode.TheFile.FullPath, TargetName);
         fsohmMove:
-          FDescription.MoveDescription(CurrentSubNode.TheFile.FullPath, TargetName);
+          ADescription.MoveDescription(CurrentSubNode.TheFile.FullPath, TargetName);
       end;
     end;
 
     AppProcessMessages;
     CheckOperationState;
   end;
+
+  finally
+    if FProcessComments then
+    begin
+      ADescription.SaveDescription;
+      ADescription.Free;
+    end;
+  end;
 end;
 
-function TFileSystemOperationHelper.ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
+function TFileSystemOperationHelper.ProcessDirectory(aNode: TFileTreeNode;
+  AbsoluteTargetFileName: String; ADescription: TDescription): Boolean;
 var
   bRenameDirectory: Boolean;
   bRemoveDirectory: Boolean;
@@ -1370,13 +1377,18 @@ begin
 
   if bRemoveDirectory and Result then
   begin
+    if FProcessComments then
+    begin
+      ADescription.RemoveDescription;
+    end;
     if FileIsReadOnly(aNode.TheFile.Attributes) then
       FileSetReadOnlyUAC(aNode.TheFile.FullPath, False);
     RemoveDirectoryUAC(aNode.TheFile.FullPath);
   end;
 end;
 
-function TFileSystemOperationHelper.ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
+function TFileSystemOperationHelper.ProcessLink(aNode: TFileTreeNode;
+  AbsoluteTargetFileName: String; ADescription: TDescription): Boolean;
 var
   LinkTarget, CorrectedLink: String;
   aFile: TFile;
@@ -1392,7 +1404,7 @@ begin
     //        + (aSubNode.TheFile as TFileSystemFile).FullPath
     //        + ' will be copied as: ' + AbsoluteTargetFileName);
     if aSubNode.TheFile.AttributesProperty.IsDirectory then
-      Result := ProcessDirectory(aSubNode, AbsoluteTargetFileName)
+      Result := ProcessDirectory(aSubNode, AbsoluteTargetFileName, ADescription)
     else
       Result := ProcessFile(aSubNode, AbsoluteTargetFileName);
 
@@ -1487,7 +1499,7 @@ begin
   OldTotalBytes := FStatistics.TotalBytes;
 
   // Skip descript.ion, it will be processed below
-  if gProcessComments and (FStatistics.TotalFiles > 1) and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
+  if FProcessComments and (FStatistics.TotalFiles > 1) and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
     Result:= True
   else begin
     Result:= False;
