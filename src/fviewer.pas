@@ -553,7 +553,7 @@ const
   HotkeysCategory = 'Viewer';
 
   // Status bar panels indexes.
-  sbpFileName             = 4;
+  sbpFileName             = 5;
   sbpFileNr               = 0;
   // Text
   sbpPosition             = 1;
@@ -562,9 +562,10 @@ const
   // WLX
   sbpPluginName           = 1;
   // Graphics
-  sbpCurrentResolution    = 1;
-  sbpFullResolution       = 2;
-  sbpImageSelection       = 3;
+  sbpFrameNumber          = 1;
+  sbpCurrentResolution    = 2;
+  sbpFullResolution       = 3;
+  sbpImageSelection       = 4;
 
 const
   WRAP_MODE: array[Boolean] of TViewerControlMode = (vcmText, vcmWrap);
@@ -2084,15 +2085,51 @@ begin
 end;
 
 procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
+var
+  AIcon: TIcon;
+  Index: Integer;
 begin
-  GifAnim.PriorFrame;
-  UpdateAnimState;
+  if bAnimation then
+  begin
+    GifAnim.PriorFrame;
+    UpdateAnimState;
+  end
+  else begin
+    AIcon:= Image.Picture.Icon;
+    Index:= AIcon.Current;
+    if (Index > 0) then
+      Dec(Index)
+    else begin
+      Index:= AIcon.Count - 1;
+    end;
+    AIcon.Current:= Index;
+    Status.Panels[sbpFrameNumber].Text:= Format('%d/%d', [Index + 1, AIcon.Count]);
+    AdjustImageSize;
+  end;
 end;
 
 procedure TfrmViewer.btnNextGifFrameClick(Sender: TObject);
+var
+  AIcon: TIcon;
+  Index: Integer;
 begin
-  GifAnim.NextFrame;
-  UpdateAnimState;
+  if bAnimation then
+  begin
+    GifAnim.NextFrame;
+    UpdateAnimState;
+  end
+  else begin
+    AIcon:= Image.Picture.Icon;
+    Index:= AIcon.Current;
+    if (Index < AIcon.Count - 1) then
+      Inc(Index)
+    else begin
+      Index:= 0;
+    end;
+    AIcon.Current:= Index;
+    Status.Panels[sbpFrameNumber].Text:= Format('%d/%d', [Index + 1, AIcon.Count]);
+    AdjustImageSize;
+  end;
 end;
 
 procedure TfrmViewer.sboxImageResize(Sender: TObject);
@@ -2952,6 +2989,8 @@ end;
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 
   procedure UpdateToolbar(bImage: Boolean);
+  var
+    bIcon: Boolean;
   begin
     btnHightlight.Enabled:= bImage and (not miFullScreen.Checked);
     btnPaint.Enabled:= bImage and (not miFullScreen.Checked);
@@ -2965,8 +3004,12 @@ function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
     btnGifMove.Enabled:= not bImage;
     btnGifToBmp.Enabled:= not bImage;
     btnGifSeparator.Enabled:= not bImage;
-    btnNextGifFrame.Enabled:= not bImage;
-    btnPrevGifFrame.Enabled:= not bImage;
+
+    with Image.Picture do
+    bIcon:= bImage and (Graphic is TIcon) and (Icon.Count > 1);
+
+    btnNextGifFrame.Enabled:= (not bImage) or (bIcon);
+    btnPrevGifFrame.Enabled:= (not bImage) or (bIcon);
   end;
 
 var
@@ -3004,6 +3047,11 @@ begin
           bImage:= True;
           bAnimation:= False;
           UpdateToolbar(True);
+          if Image.Picture.Graphic is TIcon then
+          begin
+            with Image.Picture.Icon do
+            Status.Panels[sbpFrameNumber].Text:= Format('%d/%d', [Current + 1, Count]);
+          end;
         finally
           FreeAndNil(fsFileStream);
         end;
