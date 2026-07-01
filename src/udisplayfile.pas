@@ -47,7 +47,7 @@ type
     FDisplayNameNoExt: String;
     FDisplayExt: String;
     procedure SetIcon(AValue: TBitmap);
-    procedure SetDisplayName(const name: String);
+    procedure SetDisplayName(const AName: String);
 
   public
     {en
@@ -142,14 +142,24 @@ begin
   FIcon:= AValue;
 end;
 
-procedure TDisplayFile.SetDisplayName(const name: String);
+procedure TDisplayFile.SetDisplayName(const AName: String);
 begin
-  if (name=EmptyStr) and Assigned(FSFile) then begin
+  if (AName = EmptyStr) and Assigned(FSFile) then
+  begin
     FDisplayName:= FSFile.Name;
     FDisplayNameNoExt:= FSFile.NameNoExt;
     FDisplayExt:= FSFile.Extension;
   end else begin
-    FDisplayName:= name;
+    FDisplayName:= AName;
+    if Assigned(FSFile) then
+    begin
+      if FSFile.IsDirectory or FSFile.IsLinkToDirectory or FSFile.IsSpecial then
+      begin
+        FDisplayExt:= '';
+        FDisplayNameNoExt:= FDisplayName;
+        Exit;
+      end;
+    end;
     TFile.SplitIntoNameAndExtension(FDisplayName, FDisplayNameNoExt, FDisplayExt);
   end;
 end;
