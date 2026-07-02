@@ -1,25 +1,3 @@
-diff --git a/isnt.cpp b/isnt.cpp
-index b89b2ce..42b231c 100644
---- a/isnt.cpp
-+++ b/isnt.cpp
-@@ -23,6 +23,9 @@ DWORD WinNT()
- }
- 
- 
-+#ifdef __GNUC__
-+  #define WMI_IsWindows10() false
-+#else
- // Replace it with documented Windows 11 check when available.
- #include <comdef.h>
- #include <Wbemidl.h>
-@@ -89,6 +92,7 @@ static bool WMI_IsWindows10()
- 
-   return Win10;
- }
-+#endif
- 
- 
- // Replace it with actual check when available.
 diff --git a/os.hpp b/os.hpp
 index f7e841b..78c5751 100644
 --- a/os.hpp
