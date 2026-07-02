@@ -345,6 +345,20 @@ uses
 const
   TMPF_FIXED_PITCH = $01;
 
+function SetScrollPos(Handle: HWND; nBar, nPos: Integer; bRedraw: Boolean): Integer;
+var
+  Info: TScrollInfo;
+begin
+  Info:= Default(TScrollInfo);
+  Info.cbSize:= SizeOf(TScrollInfo);
+  Info.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE;
+  GetScrollInfo(Handle, nBar, Info);
+  Result:= Info.nPos;
+  Info.nPos:= nPos;
+  Info.fMask:= SIF_POS;
+  SetScrollInfo(Handle, nBar, Info, bRedraw);
+end;
+
 (*****************************************
  * TComTermBuffer class                  *
  *****************************************)
@@ -1595,32 +1609,31 @@ var
     end;
   end;
 
-  procedure SetRange(Code, Max: Integer);
+  procedure SetRange(Code, Max, Page: Integer);
   var
     Info: TScrollInfo;
   begin
     Info:= Default(TScrollInfo);
+    Info.cbSize:= SizeOf(TScrollInfo);
     Info.fMask := SIF_RANGE or SIF_PAGE;
     Info.nMax := Max;
-    Info.nPage := 1;
+    Info.nPage := Page;
     SetScrollInfo(Handle, Code, Info, False);
   end;
 
   // set horizontal range
   procedure SetHorzRange;
   var
-    Max: Integer;
     AColumns: Integer;
   begin
     if OldScrollBars in [ssBoth, ssHorizontal] then
     begin
       AColumns := AWidth div FFontWidth;
       if AColumns >= FBuffer.Columns then
-        SetRange(SB_HORZ, 1) // screen is wide enough, hide scroll bar
+        SetRange(SB_HORZ, 1, AColumns) // screen is wide enough, hide scroll bar
       else
       begin
-        Max := FBuffer.Columns - (AColumns - 1);
-        SetRange(SB_HORZ, Max);
+        SetRange(SB_HORZ, FBuffer.Columns, AColumns);
       end;
     end;
   end;
@@ -1628,17 +1641,16 @@ var
   // set vertical range
   procedure SetVertRange;
   var
-    Max, ARows: Integer;
+    ARows: Integer;
   begin
     if OldScrollBars in [ssBoth, ssVertical] then
     begin
       ARows := AHeight div FFontHeight;
       if ARows >= FBuffer.Rows then
-        SetRange(SB_VERT, 1)  // screen is high enough, hide scroll bar
+        SetRange(SB_VERT, 1, ARows)  // screen is high enough, hide scroll bar
       else
       begin
-        Max := FBuffer.Rows - (ARows - 1);
-        SetRange(SB_VERT, Max);
+        SetRange(SB_VERT, FBuffer.Rows, ARows);
       end;
     end;
   end;
