@@ -2557,7 +2557,7 @@ begin
         end; { aaAdd ... }
       end; { case }
 
-      DoArchiveProgress(AbPercentage(succ(i), Count), Abort);
+      DoProcessItemContinue(CurItem, Abort);
       if Abort then
         raise EAbUserAbort.Create;
     end; { for i ... }

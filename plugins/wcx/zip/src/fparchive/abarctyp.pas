@@ -219,6 +219,9 @@ type
       ProcessType : TAbProcessType; var Confirm : Boolean) of object;
   TAbConfirmOverwriteEvent =
     procedure(var Name : string; var Confirm : Boolean) of object;
+  TAbArchiveItemContinueEvent =
+    procedure(Sender : TObject; Item : TAbArchiveItem;
+      var Abort : Boolean) of object;
   TAbArchiveItemFailureEvent =
     procedure(Sender : TObject; Item : TAbArchiveItem;
       ProcessType : TAbProcessType; ErrorClass : TAbErrorClass;
@@ -304,6 +307,7 @@ type
 
   protected {event variables}
     FOnProcessItemFailure  : TAbArchiveItemFailureEvent;
+    FOnProcessItemContinue : TAbArchiveItemContinueEvent;
     FOnArchiveProgress     : TAbArchiveProgressEvent;
     FOnArchiveSaveProgress : TAbArchiveProgressEvent;
     FOnArchiveItemProgress : TAbArchiveItemProgressEvent;
@@ -364,6 +368,8 @@ type
     procedure DoProcessItemFailure(Item : TAbArchiveItem;
       ProcessType : TAbProcessType; ErrorClass : TAbErrorClass;
       ErrorCode : Integer);
+      virtual;
+    procedure DoProcessItemContinue(Item : TAbArchiveItem; var Abort : Boolean);
       virtual;
     procedure DoArchiveSaveProgress(Progress : Byte; var Abort : Boolean);
       virtual;
@@ -517,6 +523,9 @@ type
     property OnProcessItemFailure : TAbArchiveItemFailureEvent
       read FOnProcessItemFailure
       write FOnProcessItemFailure;
+    property OnArchiveItemContinue : TAbArchiveItemContinueEvent
+      read FOnProcessItemContinue
+      write FOnProcessItemContinue;
     property OnArchiveProgress : TAbArchiveProgressEvent
       read FOnArchiveProgress
       write FOnArchiveProgress;
@@ -1324,6 +1333,14 @@ procedure TAbArchive.DoProcessItemFailure(Item : TAbArchiveItem;
 begin
   if Assigned(FOnProcessItemFailure) then
     FOnProcessItemFailure(Self, Item, ProcessType, ErrorClass, ErrorCode);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchive.DoProcessItemContinue(Item: TAbArchiveItem;
+  var Abort: Boolean);
+begin
+  Abort := False;
+  if Assigned(FOnProcessItemContinue) then
+    FOnProcessItemContinue(Self, Item, Abort);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DoArchiveSaveProgress(Progress : Byte; var Abort : Boolean);
