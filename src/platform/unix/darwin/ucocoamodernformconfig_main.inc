@@ -451,7 +451,7 @@ end;
 
 procedure iCloudAction( const Sender: id );
 begin
-  TDarwinFileViewUtil.addiCloudDrivePage;
+  frmMain.Commands.cm_OpeniCloud([]);
 end;
 
 procedure networkAction( const Sender: id );
@@ -548,8 +548,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'cloud';
-    title: rsMFSTBIiCloudDriveTitle;
-    tips: rsMFSTBIiCloudDriveTips;
+    title: 'iCloud Drive';
+    tips: 'iCloud Drive';
     bordered: True;
     onAction: @iCloudAction;
   );
@@ -888,10 +888,24 @@ const
     );
   );
 
+procedure translateMainFormToolbarItem;
+var
+  poFile: TPOFile;
+begin
+  if NOT (LRSTranslator is TTranslator) then
+    Exit;
+
+  poFile:= TTranslator(LRSTranslator).POFile;
+  iCloudItemConfig.title:= poFile.Translate( 'tfrmmain.actopenicloud.caption', iCloudItemConfig.title );
+  iCloudItemConfig.tips:= poFile.Translate( 'tfrmmain.actopenicloud.hint', iCloudItemConfig.tips );
+end;
+
+
 procedure addMainFormShortCutTips;
 begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpeniCloud', iCloudItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
@@ -925,6 +939,7 @@ begin
   loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
   loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
 
+  translateMainFormToolbarItem;
   addMainFormShortCutTips;
   joinPrivilegeTips;
 

@@ -2905,6 +2905,12 @@ object frmMain: TfrmMain
       Caption = 'Empty Stash'
       OnExecute = actExecute
     end
+    object actOpeniCloud: TAction
+      Category = 'File Operations'
+      Caption = 'iCloud Drive'
+      Hint = 'iCloud Drive'
+      OnExecute = actExecute
+    end
     object actShare: TAction
       Tag = 4
       Category = 'File Operations'

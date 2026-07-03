@@ -269,6 +269,8 @@
 {"hash":6278744,"name":"tfrmmain.actopenstash.caption","sourcebytes":[79,112,101,110,32,83,116,97,115,104],"value":"Open Stash"},
 {"hash":145114643,"name":"tfrmmain.actremovefromstash.caption","sourcebytes":[82,101,109,111,118,101,32,83,116,97,115,104,32,73,116,101,109,115],"value":"Remove Stash Items"},
 {"hash":186052392,"name":"tfrmmain.actemptystash.caption","sourcebytes":[69,109,112,116,121,32,83,116,97,115,104],"value":"Empty Stash"},
+{"hash":9553525,"name":"tfrmmain.actopenicloud.caption","sourcebytes":[105,67,108,111,117,100,32,68,114,105,118,101],"value":"iCloud Drive"},
+{"hash":9553525,"name":"tfrmmain.actopenicloud.hint","sourcebytes":[105,67,108,111,117,100,32,68,114,105,118,101],"value":"iCloud Drive"},
 {"hash":243828382,"name":"tfrmmain.actshare.caption","sourcebytes":[83,104,97,114,101,46,46,46],"value":"Share..."},
 {"hash":134658336,"name":"tfrmmain.actairdrop.caption","sourcebytes":[65,105,114,68,114,111,112],"value":"AirDrop"},
 {"hash":134658336,"name":"tfrmmain.actairdrop.hint","sourcebytes":[65,105,114,68,114,111,112],"value":"AirDrop"},

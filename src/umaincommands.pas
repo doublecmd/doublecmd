@@ -387,6 +387,7 @@ type
    procedure cm_AddToStash(const {%H-}Params: array of string);
    procedure cm_RemoveFromStash(const {%H-}Params: array of string);
    procedure cm_EmptyStash(const {%H-}Params: array of string);
+   procedure cm_OpeniCloud(const {%H-}Params: array of string);
    procedure cm_Share(const {%H-}Params: array of string);
    procedure cm_AirDrop(const {%H-}Params: array of string);
 
@@ -420,7 +421,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uColumnsFileView, uTypes,
      uStashFileSource, uStashFilesBackend
      {$IFDEF DARWIN}
-     , uDarwinPanel
+     , uDarwinPanel, uDarwinFileView
      {$ENDIF}
      ;
 
@@ -5796,6 +5797,13 @@ procedure TMainCommands.cm_AirDrop(const Params: array of string);
 begin
   {$IFDEF DARWIN}
   TDarwinPanelUtil.showAirDrop;
+  {$ENDIF}
+end;
+
+procedure TMainCommands.cm_OpeniCloud(const Params: array of string);
+begin
+  {$IFDEF DARWIN}
+  TDarwinFileViewUtil.addiCloudDrivePage;
   {$ENDIF}
 end;
 
