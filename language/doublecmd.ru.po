@@ -2656,6 +2656,16 @@ msgstr "Открыть пап&ку в новой вкладке"
 msgid "Open Drive by Index"
 msgstr "Открыть диск по индексу"
 
+#: tfrmmain.actopenicloud.caption
+msgctxt "tfrmmain.actopenicloud.caption"
+msgid "iCloud Drive"
+msgstr "Диск iCloud"
+
+#: tfrmmain.actopenicloud.hint
+msgctxt "tfrmmain.actopenicloud.hint"
+msgid "iCloud Drive"
+msgstr "Диск iCloud"
+
 #: tfrmmain.actopenstash.caption
 msgid "Open Stash"
 msgstr "Открыть временную панель"
@@ -11357,16 +11367,6 @@ msgstr "Переключить режим расположения панеле�
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Горизонтальное разделение"
-
-#: ulng.rsmfstbiiclouddrivetips
-msgctxt "ulng.rsmfstbiiclouddrivetips"
-msgid "iCloud Drive"
-msgstr "Диск iCloud"
-
-#: ulng.rsmfstbiiclouddrivetitle
-msgctxt "ulng.rsmfstbiiclouddrivetitle"
-msgid "iCloud Drive"
-msgstr "Диск iCloud"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

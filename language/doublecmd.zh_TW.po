@@ -2651,6 +2651,16 @@ msgstr "在新分頁開啟資料夾 (&F)"
 msgid "Open Drive by Index"
 msgstr "依索引開啟磁碟"
 
+#: tfrmmain.actopenicloud.caption
+msgctxt "tfrmmain.actopenicloud.caption"
+msgid "iCloud Drive"
+msgstr "iCloud雲碟"
+
+#: tfrmmain.actopenicloud.hint
+msgctxt "tfrmmain.actopenicloud.hint"
+msgid "iCloud Drive"
+msgstr "iCloud雲碟"
+
 #: tfrmmain.actopenstash.caption
 msgid "Open Stash"
 msgstr "開啟暫存區"
@@ -11343,16 +11353,6 @@ msgstr "切換水平/垂直分隔顯示模式"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "水平分隔"
-
-#: ulng.rsmfstbiiclouddrivetips
-msgctxt "ulng.rsmfstbiiclouddrivetips"
-msgid "iCloud Drive"
-msgstr "iCloud雲碟"
-
-#: ulng.rsmfstbiiclouddrivetitle
-msgctxt "ulng.rsmfstbiiclouddrivetitle"
-msgid "iCloud Drive"
-msgstr "iCloud雲碟"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

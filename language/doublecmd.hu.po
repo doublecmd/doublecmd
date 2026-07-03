@@ -2620,6 +2620,16 @@ msgstr "Mappa megnyitása ú&j lapon"
 msgid "Open Drive by Index"
 msgstr "Meghajtó megnyitása index alapján"
 
+#: tfrmmain.actopenicloud.caption
+msgctxt "tfrmmain.actopenicloud.caption"
+msgid "iCloud Drive"
+msgstr "iCloud meghajtó"
+
+#: tfrmmain.actopenicloud.hint
+msgctxt "tfrmmain.actopenicloud.hint"
+msgid "iCloud Drive"
+msgstr "iCloud meghajtó"
+
 #: tfrmmain.actopenstash.caption
 msgid "Open Stash"
 msgstr ""
@@ -11099,16 +11109,6 @@ msgstr "Vízszintes felosztás mód váltása"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "VízszFeloszt"
-
-#: ulng.rsmfstbiiclouddrivetips
-msgctxt "ulng.rsmfstbiiclouddrivetips"
-msgid "iCloud Drive"
-msgstr "iCloud meghajtó"
-
-#: ulng.rsmfstbiiclouddrivetitle
-msgctxt "ulng.rsmfstbiiclouddrivetitle"
-msgid "iCloud Drive"
-msgstr "iCloud meghajtó"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

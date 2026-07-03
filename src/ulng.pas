@@ -1034,9 +1034,6 @@ resourcestring
   rsMFSTBIGoForwardTitle = 'Forward';
   rsMFSTBIGoForwardTips = 'Forward';
 
-  rsMFSTBIiCloudDriveTitle = 'iCloud Drive';
-  rsMFSTBIiCloudDriveTips = 'iCloud Drive';
-
   rsMFSTBINetworkTitle = 'network';
   rsMFSTBINetworkTips = 'network';
 
