@@ -524,7 +524,7 @@ begin
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
 {$IFDEF LCL_VER_499}
-  edtRename.Edit.VerticalAlignment:= tlCenter;
+  edtRename.Edit.Options:= [teoEnableTextLayout];
 {$ENDIF}
 {$IFDEF LCLWIN32}
   edtRename.onKeyDown:=@edtRenameKeyDown;
