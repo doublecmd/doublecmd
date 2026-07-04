@@ -153,6 +153,7 @@ type
     FCaretCreated: Boolean;
     FTopLeft: TPoint;
     FCaretHeight: Integer;
+    FInvalidateRect: TRect;
     FSaveAttr: TTermAttributes;
     FBuffer: TComTermBuffer;
     FMainBuffer: TComTermBuffer;
@@ -175,7 +176,7 @@ type
     function GetConnected: Boolean;
     procedure HideCaret;
     procedure InitCaret;
-    procedure InvalidatePortion(ARect: TRect);
+    procedure InvalidatePortion(ARect: TRect; bErase: Boolean = True);
     procedure ModifyScrollBar(ScrollBar, ScrollCode, Pos: Integer);
     procedure SetColumns(const Value: Integer);
     procedure SetPtyDevice(const Value: TCustomPtyDevice);
@@ -842,7 +843,7 @@ var
   Ch: TUTF8Char;
   Res: TEscapeResult;
 begin
-  HideCaret;
+  FInvalidateRect.Top:= -1;
   try
     // show it on screen
     I:= 1;
@@ -876,7 +877,11 @@ begin
       I+= L;
     end;
   finally
-    ShowCaret;
+    if FInvalidateRect.Top > -1 then
+    begin
+      InvalidatePortion(FInvalidateRect, False);
+      FInvalidateRect.Top:= -1;
+    end;
   end;
 end;
 
@@ -1521,7 +1526,7 @@ begin
 end;
 
 // invalidate portion of screen
-procedure TCustomComTerminal.InvalidatePortion(ARect: TRect);
+procedure TCustomComTerminal.InvalidatePortion(ARect: TRect; bErase: Boolean);
 var
   Rect: TRect;
 begin
@@ -1529,7 +1534,7 @@ begin
   Rect.Right := Max((ARect.Right - FTopLeft.X + 1) * FFontWidth, 0);
   Rect.Top := Max((ARect.Top - FTopLeft.Y) * FFontHeight, 0);
   Rect.Bottom := Max((ARect.Bottom - FTopLeft.Y + 1) * FFontHeight, 0);
-  InvalidateRect(Handle, @Rect, True);
+  InvalidateRect(Handle, @Rect, bErase);
 end;
 
 // modify scroll bar
@@ -1972,6 +1977,7 @@ end;
 // put one character on screen
 procedure TCustomComTerminal.PutChar(Ch: TUTF8Char);
 var
+  ARect: TRect;
   AWidth: Integer;
   TermCh: TComTermChar;
 begin
@@ -2006,7 +2012,8 @@ begin
         if AWidth <= 0 then Exit;
         if FWrapLines then WrapLine(AWidth);
         FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
-        DrawChar(FCaretPos.X - FTopLeft.X + 1, FCaretPos.Y - FTopLeft.Y + 1, TermCh);
+        ARect.Top:= FCaretPos.Y;
+        ARect.Left:= FCaretPos.X;
         AdvanceCaret(acChar);
         Dec(AWidth);
         while (AWidth > 0) do
@@ -2015,6 +2022,14 @@ begin
           FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
           AdvanceCaret(acChar);
           Dec(AWidth);
+        end;
+        ARect.Right:= FCaretPos.X;
+        ARect.Bottom:= FCaretPos.Y;
+
+        if FInvalidateRect.Top < 0 then
+          FInvalidateRect:= ARect
+        else begin
+          Types.UnionRect(FInvalidateRect, FInvalidateRect, ARect);
         end;
       end;
   end;
