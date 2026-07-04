@@ -13,6 +13,7 @@ type
 
   TVectorReader = class(TFPCustomImageReader)
   public
+    class function CreateBitmap(AStream: TStream; AWidth, AHeight: Integer): TBitmap; virtual; abstract;
     class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; virtual; abstract;
   end;
 
@@ -24,6 +25,7 @@ type
   public
     class procedure RegisterReaderClass(AReaderClass: TFPCustomImageReaderClass); virtual; abstract;
     class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; virtual;
+    class function CreateBitmap(AStream: TStream; AWidth, AHeight: Integer): TBitmap; virtual;
   end;
 
   { TScalableVectorGraphics }
@@ -56,6 +58,12 @@ class function TVectorImage.CreateBitmap(const FileName: String; AWidth,
   AHeight: Integer): TBitmap;
 begin
   Result:= TVectorReaderClass(GetReaderClass).CreateBitmap(FileName, AWidth, AHeight);
+end;
+
+class function TVectorImage.CreateBitmap(AStream: TStream; AWidth,
+  AHeight: Integer): TBitmap;
+begin
+  Result:= TVectorReaderClass(GetReaderClass).CreateBitmap(AStream, AWidth, AHeight);
 end;
 
 { TScalableVectorGraphics }
