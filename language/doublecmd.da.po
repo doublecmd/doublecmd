@@ -2892,6 +2892,14 @@ msgstr "Gem seneste Favoritfaneblad"
 msgid "&Restore Selection"
 msgstr "&Gendan valg"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 # Vis
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"

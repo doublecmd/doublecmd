@@ -2748,6 +2748,14 @@ msgstr "重新儲存上次加載的「我的最愛」分頁"
 msgid "&Restore Selection"
 msgstr "回復所選項目 (&R)"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr "轉到档案管理器"
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr "在系統档案管理器中訪問"
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "反向排序 (&V)"
@@ -11310,7 +11318,7 @@ msgstr "編輯"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr "在「訪達」中訪問文件"
+msgstr "在「訪達」中訪問档案"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"

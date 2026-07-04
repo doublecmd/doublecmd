@@ -2716,6 +2716,14 @@ msgstr "Utoljára betöltött Kedvenc Lapok újramentése"
 msgid "&Restore Selection"
 msgstr "Kijelölés vissza&állítása"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Sorrend megfo&rdítása"

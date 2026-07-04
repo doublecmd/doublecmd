@@ -2743,6 +2743,14 @@ msgstr "Volver a guardar las últimas favoritas cargadas"
 msgid "&Restore Selection"
 msgstr "&Restaurar selección"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Orden in&verso"

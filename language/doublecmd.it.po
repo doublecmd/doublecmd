@@ -2718,6 +2718,14 @@ msgstr "Risalva le ultime schede preferite caricate"
 msgid "&Restore Selection"
 msgstr "&Ripristina selezione"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "In&verti ordine"

@@ -2919,6 +2919,14 @@ msgctxt "tfrmmain.actrestoreselection.caption"
 msgid "&Restore Selection"
 msgstr "&Povrati izbor"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgctxt "tfrmmain.actreverseorder.caption"
 msgid "Re&verse Order"

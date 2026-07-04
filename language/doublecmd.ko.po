@@ -2707,6 +2707,14 @@ msgstr "마지막으로 불러온 즐겨찾기 탭에 저장"
 msgid "&Restore Selection"
 msgstr "선택 항목 복원(&R)"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "순서 반전(&V)"

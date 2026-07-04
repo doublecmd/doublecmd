@@ -2829,6 +2829,14 @@ msgstr "Enregistrer les onglets courants dans un dernier groupe d'onglets favori
 msgid "&Restore Selection"
 msgstr "&Recharger la sélection"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Inverser l'ordre"

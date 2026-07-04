@@ -2822,6 +2822,14 @@ msgstr "Resalvar nas últimas guias Favoritos carregadas."
 msgid "&Restore Selection"
 msgstr "R&estaurar seleção"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "&Inverter ordem"

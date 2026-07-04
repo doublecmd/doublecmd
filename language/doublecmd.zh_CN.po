@@ -2706,6 +2706,14 @@ msgstr "重新保存上次载入的收藏夹标签"
 msgid "&Restore Selection"
 msgstr "恢复选择(&R)"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr "转到文件管理器"
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr "在系统文件管理器中访问"
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "反向排序(&V)"

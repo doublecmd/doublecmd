@@ -2777,6 +2777,14 @@ msgstr "最後に読み込まれたお気に入りタブに再保存"
 msgid "&Restore Selection"
 msgstr "選択を元に戻す(&R)"
 
+#: tfrmmain.actrevealinsystemfilemanager.caption
+msgid "Reveal in File Manager"
+msgstr ""
+
+#: tfrmmain.actrevealinsystemfilemanager.hint
+msgid "Reveal in System File Manager"
+msgstr ""
+
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "順序を逆転(&v)"
