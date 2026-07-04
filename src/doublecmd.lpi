@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="13"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -18,8 +18,9 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="1">
+      <Resources Count="2">
         <Resource_0 FileName="dmhigh.json" Type="RCDATA" ResourceName="HIGHLIGHTERS"/>
+        <Resource_1 FileName="doublecmd.svgz" Type="RCDATA" ResourceName="DOUBLECMD"/>
       </Resources>
     </General>
     <i18n>
