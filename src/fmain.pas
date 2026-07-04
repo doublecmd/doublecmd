@@ -3005,6 +3005,9 @@ begin
 
   if Assigned(Application.Icon) then begin
     MainTrayIcon.Icon.Assign(Application.Icon);
+  end
+  else begin
+    MainTrayIcon.Icon.LoadFromResourceName(HInstance, 'MAINICON');
   end;
 
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
