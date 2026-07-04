@@ -32,7 +32,7 @@ type
   private
     { private declarations }
   public
-    { public declarations }
+    procedure AfterConstruction; override;
   end;
 
 var
@@ -43,7 +43,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCVersion;
+  dmCommonData, uDCVersion;
 
 { TfrmStartingSplash }
 
@@ -68,7 +68,13 @@ end;
 
 procedure TfrmStartingSplash.FormHide(Sender: TObject);
 begin
-  close();
+  Close();
+end;
+
+procedure TfrmStartingSplash.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  TdmComData.LoadLogo(Self, imgLogo);
 end;
 
 end.
