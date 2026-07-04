@@ -1,4 +1,4 @@
-﻿{
+{
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
@@ -731,6 +731,18 @@ type
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
     cmdConsole: TVirtualTerminal;
+    pnlTermContainerLeft, pnlTermContainerRight: TPanel;
+    tlbTermLeft, tlbTermRight: TPanel;
+    cmdConsoleLeft, cmdConsoleRight: TVirtualTerminal;
+    splitTermLeft, splitTermRight: TSplitter;
+    btnTermLinkLeft, btnTermDirLeft: TSpeedButton;
+    btnTermLinkRight, btnTermDirRight: TSpeedButton;
+    FTerminalSyncTimer: TTimer;
+    FLastTermCwdLeft: String;
+    FLastTermCwdRight: String;
+    FLeftTermNeedInit: Boolean;
+    FRightTermNeedInit: Boolean;
+    FTermNeedInit: Boolean;
     FCommands: TMainCommands;
     FInitializedView: Boolean;
     {en
@@ -764,6 +776,12 @@ type
     FDelayedEventCtr: Integer;
     FDelayedWMMove, FDelayedWMSize: Boolean;
 
+    function GetActivePtyDevice: TCustomPtyDevice;
+    function GetActiveConsole: TVirtualTerminal;
+    procedure TerminalSyncTimerTimer(Sender: TObject);
+    procedure TermLinkButtonClick(Sender: TObject);
+    procedure TermDirButtonClick(Sender: TObject);
+    procedure UpdateTermSyncButtons(AIsLeft: Boolean);
     procedure DelayedEvent(Data: PtrInt);
 
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
@@ -928,6 +946,8 @@ type
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
     procedure ShowOptionsLayout(Data: PtrInt);
     procedure ToggleFullscreenConsole;
+    procedure GetOrCreateTabTerminal(Page: TFileViewPage; AParent: TWinControl);
+    procedure SwitchTabTerminal(Notebook: TFileViewNotebook);
 
     {en
        This function is called from various points to handle dropping files
@@ -960,6 +980,8 @@ var
   frmMain: TfrmMain;
   onFileViewUpdated: TFileViewUpdatedHandler;
   Cons: TCustomPtyDevice = nil;
+  ConsLeft: TCustomPtyDevice = nil;
+  ConsRight: TCustomPtyDevice = nil;
 
 implementation
 
@@ -985,6 +1007,9 @@ uses
 {$ENDIF}
 {$IFDEF DARWIN}
   , uCocoaModernFormConfig
+{$ENDIF}
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+  , BaseUnix
 {$ENDIF}
   ;
 
@@ -2520,6 +2545,55 @@ begin
     DCDebug('ActiveFrame = nil');
   end;
   HiddenToTray := False;
+
+  if gTermWindow then
+  begin
+    if gTermWindowMode >= twmPerPanel then
+    begin
+      if gTermWindowMode = twmPerPanel then
+      begin
+        if Assigned(ConsLeft) then
+        begin
+          if not ConsLeft.Connected then
+          begin
+            if Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+              ConsLeft.InitialDir := nbLeft.ActivePage.FileView.CurrentPath;
+            ConsLeft.Connected := True;
+            FLeftTermNeedInit := True;
+          end;
+        end;
+      end
+      else SwitchTabTerminal(nbLeft);
+      
+      if gTermWindowMode = twmPerPanel then
+      begin
+        if Assigned(ConsRight) then
+        begin
+          if not ConsRight.Connected then
+          begin
+            if Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+              ConsRight.InitialDir := nbRight.ActivePage.FileView.CurrentPath;
+            ConsRight.Connected := True;
+            FRightTermNeedInit := True;
+          end;
+        end;
+      end
+      else SwitchTabTerminal(nbRight);
+    end
+    else
+    begin
+      if Assigned(Cons) then
+      begin
+        if not Cons.Connected then
+        begin
+          if Assigned(ActiveFrame) then
+            Cons.InitialDir := ActiveFrame.CurrentPath;
+          Cons.Connected := True;
+          FTermNeedInit := True;
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
@@ -2688,6 +2762,12 @@ begin
   Page := Notebook.ActivePage;
   if Assigned(Page) then
   begin
+    if gTermWindowMode = twmPerTab then
+    begin
+      SwitchTabTerminal(Notebook);
+      UpdateTermSyncButtons(Notebook.Side = fpLeft);
+    end;
+
     if Page.LockState = tlsPathResets then // if locked with directory change
       ChooseFileSource(Page.FileView, Page.LockPath);
 
@@ -4898,11 +4978,38 @@ begin
       if Assigned(onFileViewUpdated) then
         onFileViewUpdated(FileView);
 
-      {if (fspDirectAccess in FileView.FileSource.GetProperties) then
+      if (fspDirectAccess in FileView.FileSource.GetProperties) then
+      begin
+        if gTermWindow and (gTermWindowMode >= twmPerPanel) then
         begin
-          if gTermWindow and Assigned(Cons) then
-            Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
-        end;}
+          if (TFileViewPage(FileView.NotebookPage).Notebook = nbLeft) then
+          begin
+            if gTermWindowMode = twmPerTab then
+            begin
+              if (gTermSyncModeLeft = 1) and
+                 Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+                 (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+                TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+            end
+            else if (gTermSyncModeLeft = 1) and TFileViewPage(FileView.NotebookPage).IsActive and
+                    Assigned(ConsLeft) and (not FLeftTermNeedInit) then
+              ConsLeft.SetCurrentDir(FileView.CurrentPath);
+          end
+          else if (TFileViewPage(FileView.NotebookPage).Notebook = nbRight) then
+          begin
+            if gTermWindowMode = twmPerTab then
+            begin
+              if (gTermSyncModeRight = 1) and
+                 Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+                 (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+                TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+            end
+            else if (gTermSyncModeRight = 1) and TFileViewPage(FileView.NotebookPage).IsActive and
+                    Assigned(ConsRight) and (not FRightTermNeedInit) then
+              ConsRight.SetCurrentDir(FileView.CurrentPath);
+          end;
+        end;
+      end;
     end;
 end;
 
@@ -4918,6 +5025,38 @@ begin
       UpdateFreeSpace(Page.Notebook.Side, False);
     end;
   UpdateFileView;
+
+  // Sync terminal on tab change when in Panel→Terminal mode
+  if gTermWindow and (gTermWindowMode >= twmPerPanel) and
+     (fspDirectAccess in FileView.FileSource.GetProperties) then
+  begin
+    if (FileView.NotebookPage is TFileViewPage) and
+       (TFileViewPage(FileView.NotebookPage).Notebook = nbLeft) then
+    begin
+      if gTermWindowMode = twmPerTab then
+      begin
+        if (gTermSyncModeLeft = 1) and
+           Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+           (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+          TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+      end
+      else if (gTermSyncModeLeft = 1) and Assigned(ConsLeft) and (not FLeftTermNeedInit) then
+        ConsLeft.SetCurrentDir(FileView.CurrentPath);
+    end
+    else if (FileView.NotebookPage is TFileViewPage) and
+            (TFileViewPage(FileView.NotebookPage).Notebook = nbRight) then
+    begin
+      if gTermWindowMode = twmPerTab then
+      begin
+        if (gTermSyncModeRight = 1) and
+           Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+           (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+          TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+      end
+      else if (gTermSyncModeRight = 1) and Assigned(ConsRight) and (not FRightTermNeedInit) then
+        ConsRight.SetCurrentDir(FileView.CurrentPath);
+    end;
+  end;
 end;
 
 procedure TfrmMain.FileViewFilesChanged(FileView: TFileView);
@@ -4946,7 +5085,34 @@ begin
   FileView.SetFocus;
   if (fspDirectAccess in FileView.FileSource.GetProperties) then
   begin
-    if gTermWindow and Assigned(Cons) then
+    if gTermWindow and (gTermWindowMode >= twmPerPanel) then
+    begin
+      if (TFileViewPage(FileView.NotebookPage).Notebook = nbLeft) then
+      begin
+        if gTermWindowMode = twmPerTab then
+        begin
+          if (gTermSyncModeLeft = 1) and
+             Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+             (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+            TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+        end
+        else if (gTermSyncModeLeft = 1) and Assigned(ConsLeft) and (not FLeftTermNeedInit) then
+          ConsLeft.SetCurrentDir(FileView.CurrentPath);
+      end
+      else if (TFileViewPage(FileView.NotebookPage).Notebook = nbRight) then
+      begin
+        if gTermWindowMode = twmPerTab then
+        begin
+          if (gTermSyncModeRight = 1) and
+             Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
+             (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
+            TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
+        end
+        else if (gTermSyncModeRight = 1) and Assigned(ConsRight) and (not FRightTermNeedInit) then
+          ConsRight.SetCurrentDir(FileView.CurrentPath);
+      end;
+    end
+    else if gTermWindow and Assigned(Cons) then
       Cons.SetCurrentDir(FileView.CurrentPath);
   end;
 end;
@@ -5488,37 +5654,727 @@ begin
   end; // if Destination<>tclNone then
 end;
 
-procedure TfrmMain.ToggleConsole;
+procedure TfrmMain.TerminalSyncTimerTimer(Sender: TObject);
+const
+  Ticks: Integer = 0;
+var
+  Target: String;
+  LeftPty, RightPty: TCustomPtyDevice;
+  Page: TFileViewPage;
+begin
+  // Note: Do NOT call CheckSynchronize here.
+  // The LCL event loop already processes pending TThread.Synchronize calls.
+  // Calling it explicitly inside a timer handler causes re-entrant message
+  // processing that can corrupt Qt6 widget state during paint operations
+  // (e.g. thumbnail rendering), leading to EAccessViolation crashes.
+
+  if FLeftTermNeedInit and Assigned(ConsLeft) and ConsLeft.Connected then
+  begin
+    ConsLeft.WriteStr(#13);
+    FLeftTermNeedInit := False;
+    if (gTermSyncModeLeft = 1) and Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+      ConsLeft.SetCurrentDir(nbLeft.ActivePage.FileView.CurrentPath);
+  end;
+  if FRightTermNeedInit and Assigned(ConsRight) and ConsRight.Connected then
+  begin
+    ConsRight.WriteStr(#13);
+    FRightTermNeedInit := False;
+    if (gTermSyncModeRight = 1) and Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+      ConsRight.SetCurrentDir(nbRight.ActivePage.FileView.CurrentPath);
+  end;
+  if FTermNeedInit and Assigned(Cons) and Cons.Connected then
+  begin
+    Cons.WriteStr(#13);
+    FTermNeedInit := False;
+    if (gTermSyncModeLeft = 1) and Assigned(ActiveFrame) then
+      Cons.SetCurrentDir(ActiveFrame.CurrentPath);
+  end;
+  if gTermWindowMode = twmPerTab then
+  begin
+    if Assigned(nbLeft.ActivePage) then
+    begin
+      Page := TFileViewPage(nbLeft.ActivePage);
+      if Page.TermNeedInit and Assigned(Page.PtyDevice) and Page.PtyDevice.Connected then
+      begin
+        Page.PtyDevice.WriteStr(#13);
+        Page.TermNeedInit := False;
+        if (gTermSyncModeLeft = 1) and Assigned(Page.FileView) then
+          Page.PtyDevice.SetCurrentDir(Page.FileView.CurrentPath);
+      end;
+    end;
+    if Assigned(nbRight.ActivePage) then
+    begin
+      Page := TFileViewPage(nbRight.ActivePage);
+      if Page.TermNeedInit and Assigned(Page.PtyDevice) and Page.PtyDevice.Connected then
+      begin
+        Page.PtyDevice.WriteStr(#13);
+        Page.TermNeedInit := False;
+        if (gTermSyncModeRight = 1) and Assigned(Page.FileView) then
+          Page.PtyDevice.SetCurrentDir(Page.FileView.CurrentPath);
+      end;
+    end;
+  end;
+  
+  if gTermWindowMode < twmPerPanel then Exit;
+
+  Inc(Ticks);
+  if Ticks mod 5 <> 0 then Exit;
+  Ticks := 0;
+
+  if gTermWindowMode = twmPerTab then
+  begin
+    if Assigned(nbLeft.ActivePage) then LeftPty := TFileViewPage(nbLeft.ActivePage).PtyDevice else LeftPty := nil;
+    if Assigned(nbRight.ActivePage) then RightPty := TFileViewPage(nbRight.ActivePage).PtyDevice else RightPty := nil;
+  end
+  else
+  begin
+    LeftPty := ConsLeft;
+    RightPty := ConsRight;
+  end;
+
+  if Assigned(LeftPty) and (gTermSyncModeLeft = 2) then
+  begin
+    {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+    Target := fpReadLink('/proc/' + IntToStr(LeftPty.ChildPid) + '/cwd');
+    if Target <> FLastTermCwdLeft then
+    begin
+      FLastTermCwdLeft := Target;
+      if (Target <> '') and Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+      begin
+        if Target <> nbLeft.ActivePage.FileView.CurrentPath then
+          nbLeft.ActivePage.FileView.CurrentPath := Target;
+      end;
+    end;
+    {$ENDIF}
+  end;
+  if Assigned(RightPty) and (gTermSyncModeRight = 2) then
+  begin
+    {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+    Target := fpReadLink('/proc/' + IntToStr(RightPty.ChildPid) + '/cwd');
+    if Target <> FLastTermCwdRight then
+    begin
+      FLastTermCwdRight := Target;
+      if (Target <> '') and Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+      begin
+        if Target <> nbRight.ActivePage.FileView.CurrentPath then
+          nbRight.ActivePage.FileView.CurrentPath := Target;
+      end;
+    end;
+    {$ENDIF}
+  end;
+end;
+
+procedure TfrmMain.UpdateTermSyncButtons(AIsLeft: Boolean);
+var
+  BtnLink, BtnDir: TSpeedButton;
+  SyncMode: Integer;
+begin
+  if AIsLeft then
+  begin
+    BtnLink := btnTermLinkLeft;
+    BtnDir := btnTermDirLeft;
+    SyncMode := gTermSyncModeLeft;
+  end
+  else
+  begin
+    BtnLink := btnTermLinkRight;
+    BtnDir := btnTermDirRight;
+    SyncMode := gTermSyncModeRight;
+  end;
+
+  if not Assigned(BtnLink) or not Assigned(BtnDir) then Exit;
+
+  // Set Down states based on SyncMode
+  case SyncMode of
+    1: // Panel to Terminal
+      begin
+        BtnLink.Down := True;
+        BtnDir.Down := False;
+      end;
+    2: // Terminal to Panel
+      begin
+        BtnLink.Down := True;
+        BtnDir.Down := True;
+      end;
+    else // Detached
+      begin
+        BtnLink.Down := False;
+      end;
+  end;
+
+  // Update Captions and Hints
+  if BtnLink.Down then
+  begin
+    BtnLink.Caption := #$F0#$9F#$94#$97; // '🔗' (Link)
+    BtnLink.Hint := 'Link Enabled (Click to Unlink)';
+  end
+  else
+  begin
+    BtnLink.Caption := #$E2#$9B#$93#$EF#$B8#$8F#$E2#$80#$8D#$F0#$9F#$92#$A5; // '⛓️‍💥' (Broken Chain / Unlink)
+    BtnLink.Hint := 'Link Disabled (Click to Link)';
+  end;
+
+  if BtnDir.Down then
+  begin
+    BtnDir.Caption := #$F0#$9F#$A1#$85; // '🡅' (Arrow Up)
+    BtnDir.Hint := 'Sync Direction: Terminal to Panel (Click to change)';
+  end
+  else
+  begin
+    BtnDir.Caption := #$F0#$9F#$A1#$87; // '🡇' (Arrow Down)
+    BtnDir.Hint := 'Sync Direction: Panel to Terminal (Click to change)';
+  end;
+end;
+
+procedure TfrmMain.TermLinkButtonClick(Sender: TObject);
+var
+  IsLeft: Boolean;
+  BtnLink, BtnDir: TSpeedButton;
+begin
+  IsLeft := (Sender = btnTermLinkLeft);
+  if IsLeft then
+  begin
+    BtnLink := btnTermLinkLeft;
+    BtnDir := btnTermDirLeft;
+  end
+  else
+  begin
+    BtnLink := btnTermLinkRight;
+    BtnDir := btnTermDirRight;
+  end;
+
+  if BtnLink.Down then
+  begin
+    // If Link was turned ON, determine state from Direction button
+    if BtnDir.Down then
+    begin
+      if IsLeft then gTermSyncModeLeft := 2 else gTermSyncModeRight := 2;
+    end
+    else
+    begin
+      if IsLeft then gTermSyncModeLeft := 1 else gTermSyncModeRight := 1;
+    end;
+    
+    // Initialize/sync immediately when turned on
+    if IsLeft then
+    begin
+      if gTermWindowMode = twmPerTab then
+      begin
+        if Assigned(nbLeft.ActivePage) then
+        begin
+          if (gTermSyncModeLeft = 1) and Assigned(TFileViewPage(nbLeft.ActivePage).PtyDevice) then
+            TFileViewPage(nbLeft.ActivePage).PtyDevice.SetCurrentDir(TFileViewPage(nbLeft.ActivePage).FileView.CurrentPath)
+          else if (gTermSyncModeLeft = 2) then
+            FLastTermCwdLeft := '';
+        end;
+      end
+      else
+      begin
+        if (gTermSyncModeLeft = 1) and Assigned(ConsLeft) then
+          ConsLeft.SetCurrentDir(nbLeft.ActivePage.FileView.CurrentPath)
+        else if (gTermSyncModeLeft = 2) then
+          FLastTermCwdLeft := '';
+      end;
+    end
+    else
+    begin
+      if gTermWindowMode = twmPerTab then
+      begin
+        if Assigned(nbRight.ActivePage) then
+        begin
+          if (gTermSyncModeRight = 1) and Assigned(TFileViewPage(nbRight.ActivePage).PtyDevice) then
+            TFileViewPage(nbRight.ActivePage).PtyDevice.SetCurrentDir(TFileViewPage(nbRight.ActivePage).FileView.CurrentPath)
+          else if (gTermSyncModeRight = 2) then
+            FLastTermCwdRight := '';
+        end;
+      end
+      else
+      begin
+        if (gTermSyncModeRight = 1) and Assigned(ConsRight) then
+          ConsRight.SetCurrentDir(nbRight.ActivePage.FileView.CurrentPath)
+        else if (gTermSyncModeRight = 2) then
+          FLastTermCwdRight := '';
+      end;
+    end;
+  end
+  else
+  begin
+    // Link turned OFF
+    if IsLeft then gTermSyncModeLeft := 0 else gTermSyncModeRight := 0;
+  end;
+
+  // In per-tab mode, persist the sync state to the active page
+  if gTermWindowMode = twmPerTab then
+  begin
+    if IsLeft and Assigned(nbLeft.ActivePage) then
+      TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
+    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+      TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
+  end;
+
+  UpdateTermSyncButtons(IsLeft);
+end;
+
+procedure TfrmMain.TermDirButtonClick(Sender: TObject);
+var
+  IsLeft: Boolean;
+  BtnLink, BtnDir: TSpeedButton;
+begin
+  IsLeft := (Sender = btnTermDirLeft);
+  if IsLeft then
+  begin
+    BtnLink := btnTermLinkLeft;
+    BtnDir := btnTermDirLeft;
+  end
+  else
+  begin
+    BtnLink := btnTermLinkRight;
+    BtnDir := btnTermDirRight;
+  end;
+
+  // If Link is ON, update sync mode and trigger immediate sync
+  if BtnLink.Down then
+  begin
+    if BtnDir.Down then
+    begin
+      if IsLeft then gTermSyncModeLeft := 2 else gTermSyncModeRight := 2;
+      // Sync immediately: Terminal to Panel
+      if IsLeft then FLastTermCwdLeft := '' else FLastTermCwdRight := '';
+    end
+    else
+    begin
+      if IsLeft then gTermSyncModeLeft := 1 else gTermSyncModeRight := 1;
+      // Sync immediately: Panel to Terminal
+      if IsLeft then
+      begin
+        if gTermWindowMode = twmPerTab then
+        begin
+          if Assigned(nbLeft.ActivePage) and Assigned(TFileViewPage(nbLeft.ActivePage).PtyDevice) then
+            TFileViewPage(nbLeft.ActivePage).PtyDevice.SetCurrentDir(nbLeft.ActivePage.FileView.CurrentPath);
+        end
+        else
+        begin
+          if Assigned(ConsLeft) then
+            ConsLeft.SetCurrentDir(nbLeft.ActivePage.FileView.CurrentPath);
+        end;
+      end
+      else
+      begin
+        if gTermWindowMode = twmPerTab then
+        begin
+          if Assigned(nbRight.ActivePage) and Assigned(TFileViewPage(nbRight.ActivePage).PtyDevice) then
+            TFileViewPage(nbRight.ActivePage).PtyDevice.SetCurrentDir(nbRight.ActivePage.FileView.CurrentPath);
+        end
+        else
+        begin
+          if Assigned(ConsRight) then
+            ConsRight.SetCurrentDir(nbRight.ActivePage.FileView.CurrentPath);
+        end;
+      end;
+    end;
+  end;
+
+  // In per-tab mode, persist the sync state to the active page
+  if gTermWindowMode = twmPerTab then
+  begin
+    if IsLeft and Assigned(nbLeft.ActivePage) then
+      TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
+    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+      TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
+  end;
+
+  UpdateTermSyncButtons(IsLeft);
+end;
+
+function TfrmMain.GetActivePtyDevice: TCustomPtyDevice;
 begin
   if gTermWindow then
+  begin
+    if gTermWindowMode = twmPerTab then
+      Result := TFileViewPage(ActiveFrame.NotebookPage).PtyDevice
+    else if gTermWindowMode = twmPerPanel then
     begin
-      if not Assigned(cmdConsole) then
-      begin
-        cmdConsole:= TVirtualTerminal.Create(pgConsole);
-        cmdConsole.Parent:= pgConsole;
-        cmdConsole.Align:= alClient;
-        cmdConsole.ShowHint:= False;
-      end;
-      FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font); //We set the font here because if we're coming back from configuration the font in options, we'll later pass here to affect that font if ever displayed.
-      if not Assigned(Cons) then
-        begin
-          Cons:= TPtyDevice.Create(Self);
-          cmdConsole.PtyDevice:= Cons;
-          Cons.Connected:= True;
-        end;
+      if TFileViewPage(ActiveFrame.NotebookPage).Notebook = nbLeft then
+        Result := ConsLeft
+      else
+        Result := ConsRight;
     end
+    else
+      Result := Cons;
+  end
   else
+    Result := nil;
+end;
+
+function TfrmMain.GetActiveConsole: TVirtualTerminal;
+begin
+  if gTermWindow then
+  begin
+    if gTermWindowMode = twmPerTab then
+      Result := TFileViewPage(ActiveFrame.NotebookPage).Terminal
+    else if gTermWindowMode = twmPerPanel then
     begin
-      if Assigned(cmdConsole) then
-      begin
-        cmdConsole.Hide;
-        FreeAndNil(cmdConsole);
-      end;
-      FreeAndNil(Cons);
+      if TFileViewPage(ActiveFrame.NotebookPage).Notebook = nbLeft then
+        Result := cmdConsoleLeft
+      else
+        Result := cmdConsoleRight;
+    end
+    else
+      Result := cmdConsole;
+  end
+  else
+    Result := nil;
+end;
+
+procedure TfrmMain.ToggleConsole;
+begin
+  if gTermWindow and (gTermWindowMode >= twmPerPanel) then
+  begin
+    // Split terminals enabled (per panel or per tab)
+    if not Assigned(pnlTermContainerLeft) then
+    begin
+      pnlTermContainerLeft := TPanel.Create(Self);
+      pnlTermContainerLeft.Parent := pnlLeft;
+      pnlTermContainerLeft.Align := alBottom;
+      pnlTermContainerLeft.Height := 200;
+      pnlTermContainerLeft.BevelOuter := bvNone;
+
+      splitTermLeft := TSplitter.Create(Self);
+      splitTermLeft.Parent := pnlLeft;
+      splitTermLeft.Align := alBottom;
+      splitTermLeft.Height := 5;
+      splitTermLeft.ResizeAnchor := akBottom;
+
+      tlbTermLeft := TPanel.Create(Self);
+      tlbTermLeft.Parent := pnlTermContainerLeft;
+      tlbTermLeft.Align := alTop;
+      tlbTermLeft.Height := 24;
+      tlbTermLeft.BevelOuter := bvNone;
+
+      btnTermLinkLeft := TSpeedButton.Create(Self);
+      btnTermLinkLeft.Parent := tlbTermLeft;
+      btnTermLinkLeft.Align := alRight;
+      btnTermLinkLeft.Width := 36;
+      btnTermLinkLeft.ShowHint := True;
+      btnTermLinkLeft.GroupIndex := 10;
+      btnTermLinkLeft.AllowAllUp := True;
+      btnTermLinkLeft.Flat := gInterfaceFlat;
+      btnTermLinkLeft.OnClick := @TermLinkButtonClick;
+
+      btnTermDirLeft := TSpeedButton.Create(Self);
+      btnTermDirLeft.Parent := tlbTermLeft;
+      btnTermDirLeft.Align := alRight;
+      btnTermDirLeft.Width := 36;
+      btnTermDirLeft.ShowHint := True;
+      btnTermDirLeft.GroupIndex := 11;
+      btnTermDirLeft.AllowAllUp := True;
+      btnTermDirLeft.Flat := gInterfaceFlat;
+      btnTermDirLeft.OnClick := @TermDirButtonClick;
+
+      // Initialize the button states and captions/hints based on the loaded sync mode
+      UpdateTermSyncButtons(True);
+
+      // Adjust Z-order: splitter needs to be above the container.
+      // So container must be backmost (processed first), then splitter.
+      splitTermLeft.SendToBack;
+      pnlTermContainerLeft.SendToBack;
     end;
 
-  nbConsole.Visible:= gTermWindow;
-  ConsoleSplitter.Visible:= gTermWindow;
+    if not Assigned(pnlTermContainerRight) then
+    begin
+      pnlTermContainerRight := TPanel.Create(Self);
+      pnlTermContainerRight.Parent := pnlRight;
+      pnlTermContainerRight.Align := alBottom;
+      pnlTermContainerRight.Height := 200;
+      pnlTermContainerRight.BevelOuter := bvNone;
+
+      splitTermRight := TSplitter.Create(Self);
+      splitTermRight.Parent := pnlRight;
+      splitTermRight.Align := alBottom;
+      splitTermRight.Height := 5;
+      splitTermRight.ResizeAnchor := akBottom;
+
+      tlbTermRight := TPanel.Create(Self);
+      tlbTermRight.Parent := pnlTermContainerRight;
+      tlbTermRight.Align := alTop;
+      tlbTermRight.Height := 24;
+      tlbTermRight.BevelOuter := bvNone;
+
+      btnTermLinkRight := TSpeedButton.Create(Self);
+      btnTermLinkRight.Parent := tlbTermRight;
+      btnTermLinkRight.Align := alRight;
+      btnTermLinkRight.Width := 36;
+      btnTermLinkRight.ShowHint := True;
+      btnTermLinkRight.GroupIndex := 20;
+      btnTermLinkRight.AllowAllUp := True;
+      btnTermLinkRight.Flat := gInterfaceFlat;
+      btnTermLinkRight.OnClick := @TermLinkButtonClick;
+
+      btnTermDirRight := TSpeedButton.Create(Self);
+      btnTermDirRight.Parent := tlbTermRight;
+      btnTermDirRight.Align := alRight;
+      btnTermDirRight.Width := 36;
+      btnTermDirRight.ShowHint := True;
+      btnTermDirRight.GroupIndex := 21;
+      btnTermDirRight.AllowAllUp := True;
+      btnTermDirRight.Flat := gInterfaceFlat;
+      btnTermDirRight.OnClick := @TermDirButtonClick;
+
+      // Initialize the button states and captions/hints based on the loaded sync mode
+      UpdateTermSyncButtons(False);
+
+      // Adjust Z-order: splitter needs to be above the container.
+      // So container must be backmost (processed first), then splitter.
+      splitTermRight.SendToBack;
+      pnlTermContainerRight.SendToBack;
+    end;
+
+    if gTermWindowMode = twmPerPanel then
+    begin
+      // Create left terminal
+      if not Assigned(cmdConsoleLeft) then
+      begin
+        cmdConsoleLeft := TVirtualTerminal.Create(pnlTermContainerLeft);
+        cmdConsoleLeft.Width := 400;
+        cmdConsoleLeft.Height := 176;
+        cmdConsoleLeft.Parent := pnlTermContainerLeft;
+        cmdConsoleLeft.Align := alClient;
+        cmdConsoleLeft.ShowHint := False;
+      end;
+      FontOptionsToFont(gFonts[dcfConsole], cmdConsoleLeft.Font);
+      if not Assigned(ConsLeft) then
+      begin
+        ConsLeft := TPtyDevice.Create(Self);
+        cmdConsoleLeft.PtyDevice := ConsLeft;
+        if FInitializedView then
+        begin
+          if Assigned(nbLeft.ActivePage) and Assigned(nbLeft.ActivePage.FileView) then
+            ConsLeft.InitialDir := nbLeft.ActivePage.FileView.CurrentPath;
+          ConsLeft.Connected := True;
+          FLeftTermNeedInit := True;
+        end;
+      end;
+
+      // Create right terminal
+      if not Assigned(cmdConsoleRight) then
+      begin
+        cmdConsoleRight := TVirtualTerminal.Create(pnlTermContainerRight);
+        cmdConsoleRight.Width := 400;
+        cmdConsoleRight.Height := 176;
+        cmdConsoleRight.Parent := pnlTermContainerRight;
+        cmdConsoleRight.Align := alClient;
+        cmdConsoleRight.ShowHint := False;
+      end;
+      FontOptionsToFont(gFonts[dcfConsole], cmdConsoleRight.Font);
+      if not Assigned(ConsRight) then
+      begin
+        ConsRight := TPtyDevice.Create(Self);
+        cmdConsoleRight.PtyDevice := ConsRight;
+        if FInitializedView then
+        begin
+          if Assigned(nbRight.ActivePage) and Assigned(nbRight.ActivePage.FileView) then
+            ConsRight.InitialDir := nbRight.ActivePage.FileView.CurrentPath;
+          ConsRight.Connected := True;
+          FRightTermNeedInit := True;
+        end;
+      end;
+    end
+    else
+    begin
+      // twmPerTab mode
+      // Destroy per-panel terminals if they exist
+      if Assigned(cmdConsoleLeft) then FreeAndNil(cmdConsoleLeft);
+      if Assigned(ConsLeft) then FreeAndNil(ConsLeft);
+      if Assigned(cmdConsoleRight) then FreeAndNil(cmdConsoleRight);
+      if Assigned(ConsRight) then FreeAndNil(ConsRight);
+      
+      SwitchTabTerminal(nbLeft);
+      SwitchTabTerminal(nbRight);
+    end;
+
+    pnlTermContainerLeft.Visible := True;
+    splitTermLeft.Visible := True;
+    pnlTermContainerRight.Visible := True;
+    splitTermRight.Visible := True;
+
+    // Start polling timer for terminal-to-panel sync
+    if not Assigned(FTerminalSyncTimer) then
+    begin
+      FTerminalSyncTimer := TTimer.Create(Self);
+      FTerminalSyncTimer.Interval := 200;
+      FTerminalSyncTimer.OnTimer := @TerminalSyncTimerTimer;
+    end;
+    FTerminalSyncTimer.Enabled := True;
+
+    // Destroy single terminal if it exists
+    if Assigned(cmdConsole) then
+    begin
+      cmdConsole.Hide;
+      FreeAndNil(cmdConsole);
+    end;
+    FreeAndNil(Cons);
+    nbConsole.Visible := False;
+    ConsoleSplitter.Visible := False;
+  end
+  else if gTermWindow and (gTermWindowMode = twmSingle) then
+  begin
+    // Single terminal enabled
+    if not Assigned(cmdConsole) then
+    begin
+      cmdConsole:= TVirtualTerminal.Create(pgConsole);
+      cmdConsole.Parent:= pgConsole;
+      cmdConsole.Align:= alClient;
+      cmdConsole.ShowHint:= False;
+    end;
+    FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font); //We set the font here because if we're coming back from configuration the font in options, we'll later pass here to affect that font if ever displayed.
+    if not Assigned(Cons) then
+    begin
+      Cons:= TPtyDevice.Create(Self);
+      cmdConsole.PtyDevice:= Cons;
+      if FInitializedView then
+      begin
+        if Assigned(ActiveFrame) then
+          Cons.InitialDir := ActiveFrame.CurrentPath;
+        Cons.Connected:= True;
+        FTermNeedInit := True;
+      end;
+    end;
+    nbConsole.Visible := True;
+    ConsoleSplitter.Visible := True;
+
+    // Keep polling timer enabled to wake up event loop
+    if not Assigned(FTerminalSyncTimer) then
+    begin
+      FTerminalSyncTimer := TTimer.Create(Self);
+      FTerminalSyncTimer.Interval := 200;
+      FTerminalSyncTimer.OnTimer := @TerminalSyncTimerTimer;
+    end;
+    FTerminalSyncTimer.Enabled := True;
+
+    // Hide/destroy split terminals
+    if Assigned(pnlTermContainerLeft) then
+    begin
+      pnlTermContainerLeft.Visible := False;
+      splitTermLeft.Visible := False;
+      pnlTermContainerRight.Visible := False;
+      splitTermRight.Visible := False;
+      if Assigned(cmdConsoleLeft) then FreeAndNil(cmdConsoleLeft);
+      if Assigned(ConsLeft) then FreeAndNil(ConsLeft);
+      if Assigned(cmdConsoleRight) then FreeAndNil(cmdConsoleRight);
+      if Assigned(ConsRight) then FreeAndNil(ConsRight);
+    end;
+  end
+  else
+  begin
+    // No terminal enabled
+    if Assigned(cmdConsole) then
+    begin
+      cmdConsole.Hide;
+      FreeAndNil(cmdConsole);
+    end;
+    FreeAndNil(Cons);
+    nbConsole.Visible := False;
+    ConsoleSplitter.Visible := False;
+
+    // Hide split terminals
+    if Assigned(pnlTermContainerLeft) then
+    begin
+      pnlTermContainerLeft.Visible := False;
+      splitTermLeft.Visible := False;
+      pnlTermContainerRight.Visible := False;
+      splitTermRight.Visible := False;
+      if Assigned(cmdConsoleLeft) then FreeAndNil(cmdConsoleLeft);
+      if Assigned(ConsLeft) then FreeAndNil(ConsLeft);
+      if Assigned(cmdConsoleRight) then FreeAndNil(cmdConsoleRight);
+      if Assigned(ConsRight) then FreeAndNil(ConsRight);
+    end;
+    if Assigned(FTerminalSyncTimer) then
+      FTerminalSyncTimer.Enabled := False;
+  end;
+end;
+
+procedure TfrmMain.GetOrCreateTabTerminal(Page: TFileViewPage; AParent: TWinControl);
+begin
+  if not Assigned(Page.Terminal) then
+  begin
+    // IMPORTANT: Do not use Page as the Owner here.
+    // TFileViewPage.GetFileView returns Components[0], assuming it is the
+    // FileView. If Terminal or PtyDevice are owned by Page, they get added
+    // to Page.Components[] and can displace the FileView from index 0,
+    // causing GetFileView to return the wrong component (EAccessViolation).
+    Page.Terminal := TVirtualTerminal.Create(Self);
+    Page.Terminal.Width := 400;
+    Page.Terminal.Height := 176;
+    Page.Terminal.ShowHint := False;
+    // Notify Page when Terminal is freed externally (e.g. parent panel
+    // destroyed during shutdown) so Page can nil its reference.
+    Page.Terminal.FreeNotification(Page);
+    
+    FontOptionsToFont(gFonts[dcfConsole], Page.Terminal.Font);
+    
+    Page.PtyDevice := TPtyDevice.Create(Self);
+    Page.PtyDevice.FreeNotification(Page);
+    Page.Terminal.PtyDevice := Page.PtyDevice;
+    Page.Terminal.Parent := AParent;
+    
+    if Assigned(Page.FileView) then
+      Page.PtyDevice.InitialDir := Page.FileView.CurrentPath;
+      
+    Page.PtyDevice.Connected := True;
+    Page.TermInitialized := True;
+    Page.TermNeedInit := True;
+  end;
+end;
+
+procedure TfrmMain.SwitchTabTerminal(Notebook: TFileViewNotebook);
+var
+  i: Integer;
+  Page: TFileViewPage;
+  Container: TPanel;
+begin
+  if not gTermWindow or (gTermWindowMode <> twmPerTab) then Exit;
+  if not Assigned(Notebook) or not Assigned(Notebook.ActivePage) then Exit;
+  
+  if Notebook = nbLeft then
+    Container := pnlTermContainerLeft
+  else
+    Container := pnlTermContainerRight;
+    
+  if not Assigned(Container) then Exit;
+
+  for i := 0 to Notebook.PageCount - 1 do
+  begin
+    Page := TFileViewPage(Notebook.Page[i]);
+    if Assigned(Page.Terminal) then
+    begin
+      // Do NOT set Parent := nil here. On Qt6, removing the parent destroys
+      // the native widget handle, but the PTY read thread keeps running and
+      // delivers data via TThread.Synchronize. When the LCL processes those
+      // calls, accessing Canvas/Handle on a handleless widget causes
+      // EAccessViolation. Instead, just hide the terminal.
+      Page.Terminal.Visible := False;
+    end;
+  end;
+  
+  Page := TFileViewPage(Notebook.ActivePage);
+  GetOrCreateTabTerminal(Page, Container);
+  if Page.Terminal.Parent <> Container then
+    Page.Terminal.Parent := Container;
+  Page.Terminal.Align := alClient;
+  Page.Terminal.Visible := True;
+
+  // Restore per-tab sync mode into the global so UpdateTermSyncButtons
+  // and the timer reflect this tab's state rather than the previous tab's.
+  if Notebook = nbLeft then
+  begin
+    gTermSyncModeLeft := Page.TermSyncMode;
+    UpdateTermSyncButtons(True);
+  end
+  else
+  begin
+    gTermSyncModeRight := Page.TermSyncMode;
+    UpdateTermSyncButtons(False);
+  end;
 end;
 
 procedure TfrmMain.ShowOptionsLayout(Data: PtrInt);
@@ -5532,6 +6388,10 @@ begin
   begin
     if MessageDlg(rsMsgTerminalDisabled, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
       Application.QueueAsyncCall(@ShowOptionsLayout, 0);
+  end
+  else if gTermWindowMode >= twmPerPanel then
+  begin
+    // Fullscreen toggle not currently supported for split/tab terminals
   end
   else if nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
   begin

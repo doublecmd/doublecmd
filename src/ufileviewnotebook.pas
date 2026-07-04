@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, Controls, ComCtrls, LMessages,
   LCLType, Forms,
-  uFileView, uFilePanelSelect, DCXmlConfig;
+  uFileView, uFilePanelSelect, DCXmlConfig, VTEmuCtl, VTEmuPty;
 
 type
 
@@ -61,6 +61,11 @@ type
     FBackupColumnSet: String;
     FOnChangeFileView: TNotifyEvent;
     FBackupViewClass: TFileViewClass;
+    FTerminal: TVirtualTerminal;
+    FPtyDevice: TCustomPtyDevice;
+    FTermInitialized: Boolean;
+    FTermNeedInit: Boolean;
+    FTermSyncMode: Integer;
 
     procedure AssignPage(OtherPage: TFileViewPage);
     procedure AssignProperties(OtherPage: TFileViewPage);
@@ -82,6 +87,7 @@ type
     procedure DoActivate;
 
   protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure PaintWindow(DC: HDC); override;
 {$IF DEFINED(LCLWIN32)}
     procedure RealSetText(const AValue: TCaption); override;
@@ -90,6 +96,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
 
     function IsActive: Boolean;
     procedure MakeActive;
@@ -109,6 +116,11 @@ type
     property BackupColumnSet: String read FBackupColumnSet write FBackupColumnSet;
     property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
     property OnChangeFileView: TNotifyEvent read FOnChangeFileView write FOnChangeFileView;
+    property Terminal: TVirtualTerminal read FTerminal write FTerminal;
+    property PtyDevice: TCustomPtyDevice read FPtyDevice write FPtyDevice;
+    property TermInitialized: Boolean read FTermInitialized write FTermInitialized;
+    property TermNeedInit: Boolean read FTermNeedInit write FTermNeedInit;
+    property TermSyncMode: Integer read FTermSyncMode write FTermSyncMode;
   end;
 
   { TFileViewNotebook }
@@ -230,7 +242,37 @@ constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
   FBackupViewClass := TColumnsFileView;
+  FTermSyncMode := 0;
   inherited Create(TheOwner);
+end;
+
+destructor TFileViewPage.Destroy;
+begin
+  // Terminal and PtyDevice may already be freed if their parent panel was
+  // destroyed before us (the Notification override nils the references).
+  if Assigned(FPtyDevice) then
+  begin
+    FPtyDevice.RemoveFreeNotification(Self);
+    FreeAndNil(FPtyDevice);
+  end;
+  if Assigned(FTerminal) then
+  begin
+    FTerminal.RemoveFreeNotification(Self);
+    FreeAndNil(FTerminal);
+  end;
+  inherited Destroy;
+end;
+
+procedure TFileViewPage.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if Operation = opRemove then
+  begin
+    if AComponent = FTerminal then
+      FTerminal := nil
+    else if AComponent = FPtyDevice then
+      FPtyDevice := nil;
+  end;
 end;
 
 {$IF DEFINED(LCLWIN32)}
