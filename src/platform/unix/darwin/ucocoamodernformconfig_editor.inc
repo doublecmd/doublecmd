@@ -182,12 +182,12 @@ begin
     Exit;
 
   poFile:= TTranslator(LRSTranslator).POFile;
-  translateItemConfig( poFile, 'tfrmeditor.actfilenew.hint', editorNewItemConfig );
-  translateItemConfig( poFile, 'tfrmeditor.actfileopen.hint', editorOpenItemConfig );
-  translateItemConfig( poFile, 'tfrmeditor.actfilesave.hint', editorSaveItemConfig );
-  translateItemConfig( poFile, 'tfrmeditor.acteditfind.hint', editorFindItemConfig );
-  translateItemConfig( poFile, 'tfrmeditor.acteditrplc.hint', editorReplaceItemConfig );
-  translateItemConfig( poFile, 'tfrmeditor.actconfhigh.hint', editorConfigurationItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.actfilenew.hint', editorNewItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.actfileopen.hint', editorOpenItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.actfilesave.hint', editorSaveItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.acteditfind.hint', editorFindItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.acteditrplc.hint', editorReplaceItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmeditor.actconfhigh.hint', editorConfigurationItemConfig );
 end;
 
 procedure addEditorFormShortCutTips;

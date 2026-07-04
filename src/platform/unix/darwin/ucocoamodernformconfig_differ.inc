@@ -340,17 +340,17 @@ begin
     Exit;
 
   poFile:= TTranslator(LRSTranslator).POFile;
-  translateItemConfig( poFile, 'tfrmdiffer.actreload.hint', differReloadItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actsave.hint', differSaveItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actsaveas.hint', differSaveAsItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actstartcompare.hint', differCompareItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actcancelcompare.hint', differCancelItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actnextdifference.hint', differNextDifferenceItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actprevdifference.hint', differPrevDifferenceItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actlastdifference.hint', differLastDifferenceItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actfirstdifference.hint', differFirstDifferenceItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actcopyrighttoleft.hint', differCopyRightToLeftItemConfig );
-  translateItemConfig( poFile, 'tfrmdiffer.actcopylefttoright.hint', differCopyLeftToRightItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actreload.hint', differReloadItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actsave.hint', differSaveItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actsaveas.hint', differSaveAsItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actstartcompare.hint', differCompareItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actcancelcompare.hint', differCancelItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actnextdifference.hint', differNextDifferenceItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actprevdifference.hint', differPrevDifferenceItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actlastdifference.hint', differLastDifferenceItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actfirstdifference.hint', differFirstDifferenceItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actcopyrighttoleft.hint', differCopyRightToLeftItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmdiffer.actcopylefttoright.hint', differCopyLeftToRightItemConfig );
 end;
 
 procedure addDifferFormShortCutTips;

@@ -34,6 +34,15 @@ procedure translateItemConfig(
   const poFile: TPOFile;
   const identifier: String;
   var item: TCocoaConfigToolBarItemWithUI );
+begin
+  item.title:= poFile.Translate( identifier+'.caption', item.title );
+  item.tips:= poFile.Translate( identifier+'.hint', item.tips );
+end;
+
+procedure translateItemConfigWithSameTitleTips(
+  const poFile: TPOFile;
+  const identifier: String;
+  var item: TCocoaConfigToolBarItemWithUI );
 var
   s: String;
 begin

@@ -896,8 +896,7 @@ begin
     Exit;
 
   poFile:= TTranslator(LRSTranslator).POFile;
-  iCloudItemConfig.title:= poFile.Translate( 'tfrmmain.actopenicloud.caption', iCloudItemConfig.title );
-  iCloudItemConfig.tips:= poFile.Translate( 'tfrmmain.actopenicloud.hint', iCloudItemConfig.tips );
+  translateItemConfig( poFile, 'tfrmmain.actopenicloud', iCloudItemConfig );
 end;
 
 procedure addMainFormShortCutTips;
