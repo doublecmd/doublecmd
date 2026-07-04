@@ -153,7 +153,7 @@ end;
 
 procedure finderRevealAction( const Sender: id );
 begin
-  TDarwinApplicationUtil.performService( 'Finder/Reveal' );
+  frmMain.Commands.cm_RevealInSystemFileManager([]);
 end;
 
 procedure finderInfoAction( const Sender: id );
@@ -900,7 +900,6 @@ begin
   iCloudItemConfig.tips:= poFile.Translate( 'tfrmmain.actopenicloud.hint', iCloudItemConfig.tips );
 end;
 
-
 procedure addMainFormShortCutTips;
 begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
@@ -910,6 +909,7 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_AirDrop', airDropItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_RevealInSystemFileManager', finderRevealItemConfig );
 end;
 
 procedure joinPrivilegeTips;

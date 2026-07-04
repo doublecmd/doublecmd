@@ -2906,6 +2906,7 @@ object frmMain: TfrmMain
       OnExecute = actExecute
     end
     object actOpeniCloud: TAction
+      Tag = 4
       Category = 'File Operations'
       Caption = 'iCloud Drive'
       Hint = 'iCloud Drive'
@@ -2922,6 +2923,13 @@ object frmMain: TfrmMain
       Category = 'File Operations'
       Caption = 'AirDrop'
       Hint = 'AirDrop'
+      OnExecute = actExecute
+    end
+    object actRevealInSystemFileManager: TAction
+      Tag = 4
+      Category = 'File Operations'
+      Caption = 'Reveal in File Manager'
+      Hint = 'Reveal in System File Manager'
       OnExecute = actExecute
     end
   end

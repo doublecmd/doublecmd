@@ -274,6 +274,8 @@
 {"hash":243828382,"name":"tfrmmain.actshare.caption","sourcebytes":[83,104,97,114,101,46,46,46],"value":"Share..."},
 {"hash":134658336,"name":"tfrmmain.actairdrop.caption","sourcebytes":[65,105,114,68,114,111,112],"value":"AirDrop"},
 {"hash":134658336,"name":"tfrmmain.actairdrop.hint","sourcebytes":[65,105,114,68,114,111,112],"value":"AirDrop"},
+{"hash":215072338,"name":"tfrmmain.actrevealinsystemfilemanager.caption","sourcebytes":[82,101,118,101,97,108,32,105,110,32,70,105,108,101,32,77,97,110,97,103,101,114],"value":"Reveal in File Manager"},
+{"hash":152616354,"name":"tfrmmain.actrevealinsystemfilemanager.hint","sourcebytes":[82,101,118,101,97,108,32,105,110,32,83,121,115,116,101,109,32,70,105,108,101,32,77,97,110,97,103,101,114],"value":"Reveal in System File Manager"},
 {"hash":310020,"name":"tfrmmain.tbedit.caption","sourcebytes":[69,100,105,116],"value":"Edit"},
 {"hash":78392485,"name":"tfrmmain.tbdelete.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
 {"hash":1140,"name":"tfrmmain.tbchangedir.caption","sourcebytes":[67,68],"value":"CD"},

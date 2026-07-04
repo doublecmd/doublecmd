@@ -390,6 +390,7 @@ type
    procedure cm_OpeniCloud(const {%H-}Params: array of string);
    procedure cm_Share(const {%H-}Params: array of string);
    procedure cm_AirDrop(const {%H-}Params: array of string);
+   procedure cm_RevealInSystemFileManager(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -421,7 +422,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uColumnsFileView, uTypes,
      uStashFileSource, uStashFilesBackend
      {$IFDEF DARWIN}
-     , uDarwinPanel, uDarwinFileView
+     , uDarwinApplication, uDarwinPanel, uDarwinFileView
      {$ENDIF}
      ;
 
@@ -5786,6 +5787,13 @@ begin
   stashFilesBackend.clear;
 end;
 
+procedure TMainCommands.cm_OpeniCloud(const Params: array of string);
+begin
+  {$IFDEF DARWIN}
+  TDarwinFileViewUtil.addiCloudDrivePage;
+  {$ENDIF}
+end;
+
 procedure TMainCommands.cm_Share(const Params: array of string);
 begin
   {$IFDEF DARWIN}
@@ -5800,10 +5808,10 @@ begin
   {$ENDIF}
 end;
 
-procedure TMainCommands.cm_OpeniCloud(const Params: array of string);
+procedure TMainCommands.cm_RevealInSystemFileManager(const Params: array of string);
 begin
   {$IFDEF DARWIN}
-  TDarwinFileViewUtil.addiCloudDrivePage;
+  TDarwinApplicationUtil.performService( 'Finder/Reveal' );
   {$ENDIF}
 end;
 

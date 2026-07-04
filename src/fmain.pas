@@ -77,6 +77,7 @@ type
     actAddToStash: TAction;
     actEmptyStash: TAction;
     actAirDrop: TAction;
+    actRevealInSystemFileManager: TAction;
     actOpeniCloud: TAction;
     actShare: TAction;
     actRemoveFromStash: TAction;
