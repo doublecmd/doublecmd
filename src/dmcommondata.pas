@@ -26,7 +26,7 @@ unit dmCommonData;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Dialogs; 
+  Classes, SysUtils, LResources, Forms, Controls, Dialogs, ExtCtrls, Graphics;
 
 type
 
@@ -43,7 +43,7 @@ type
     procedure LoadIcons(Images: TImageList; const ANames: array of String);
     procedure LoadImages(Images: TImageList; const ANames: array of String);
   public
-    { public declarations }
+    class function LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
   end; 
 
 var
@@ -52,7 +52,8 @@ var
 implementation
 
 uses
-  LCLVersion, Graphics, Generics.Collections, uPixMapManager, uGlobs, uDCUtils;
+  Math, Types, LCLVersion, Generics.Collections, uVectorImage, uPixMapManager,
+  uGlobs, uDCUtils;
 
 {$R *.lfm}
 
@@ -246,6 +247,45 @@ begin
     for I:= 0 to High(ABitmaps) do
     begin
       ABitmaps[I].Free;
+    end;
+  end;
+end;
+
+class function TdmComData.LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
+var
+  AIcon: TIcon;
+  ASize: Integer;
+  AFactor: Double;
+  AStream: TStream;
+  ABitmap: TBitmap;
+begin
+  Form.HandleNeeded;
+  AFactor:= Form.GetCanvasScaleFactor;
+
+  if SameValue(AFactor, 1.0) then
+  begin
+    AIcon:= TIcon.Create;
+    try
+      ASize:= Image.ClientWidth;
+      AIcon.LoadFromResourceName(HInstance, 'MAINICON');
+      AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(ASize, ASize));
+      Image.Picture.Assign(AIcon);
+    finally
+      AIcon.Free;
+    end;
+  end
+  else begin
+    ASize:= Round(Image.ClientWidth * AFactor);
+    AStream:= TResourceStream.Create(HInstance, 'DOUBLECMD', RT_RCDATA);
+    try
+      ABitmap:= TScalableVectorGraphics.CreateBitmap(AStream, ASize, ASize);
+      try
+        Image.Picture.Assign(ABitmap);
+      finally
+        ABitmap.Free;
+      end;
+    finally
+      AStream.Free;
     end;
   end;
 end;
