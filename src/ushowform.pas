@@ -35,9 +35,9 @@ type
 
   TWaitData = class
   private
-    procedure ShowOnTopAsync(Data: PtrInt);
+    procedure ShowAsync(Data: PtrInt);
   public
-    procedure ShowOnTop(AForm: TCustomForm);
+    procedure Show(AForm: TCustomForm);
     procedure ShowWaitForm; virtual; abstract;
     procedure Done; virtual; abstract;
   end;
@@ -351,18 +351,18 @@ end;
 
 { TWaitData }
 
-procedure TWaitData.ShowOnTopAsync(Data: PtrInt);
+procedure TWaitData.ShowAsync(Data: PtrInt);
 var
   Form: TCustomForm absolute Data;
 begin
-  Form.ShowOnTop;
+  Form.Show;
 end;
 
-procedure TWaitData.ShowOnTop(AForm: TCustomForm);
+procedure TWaitData.Show(AForm: TCustomForm);
 var
   Data: PtrInt absolute AForm;
 begin
-  Application.QueueAsyncCall(@ShowOnTopAsync, Data);
+  Application.QueueAsyncCall(@ShowAsync, Data);
 end;
 
 { TViewerWaitData }

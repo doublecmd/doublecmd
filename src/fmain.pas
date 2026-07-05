@@ -821,7 +821,6 @@ type
 
   protected
     procedure CreateWnd; override;
-    procedure DoFirstShow; override;
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 
@@ -4167,31 +4166,20 @@ begin
 end;
 
 procedure TfrmMain.CreateWnd;
+var
+  bFirst: Boolean;
 begin
+  bFirst:= (Application.MainForm.Tag = 0);
+
   // Must be before CreateWnd
-  LoadWindowState;
+  if bFirst then LoadWindowState;
 
   inherited CreateWnd;
 
-  UpdateActionIcons;
+  if bFirst then UpdateActionIcons;
 
   // Save real main form handle
   Application.MainForm.Tag:= Handle;
-end;
-
-procedure TfrmMain.DoFirstShow;
-var
-  ANode: TXmlNode;
-begin
-  inherited DoFirstShow;
-
-  // Load window state
-  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-
-  if gConfig.GetValue(ANode, 'Maximized', True) then
-    Self.WindowState := wsMaximized;
-
-  lastWindowState := WindowState;
 end;
 
 procedure TfrmMain.WMMove(var Message: TLMMove);
@@ -6521,10 +6509,12 @@ begin
     end;
     if gConfig.GetValue(ANode, 'Maximized', True) then
       lastWindowState:= TWindowState.wsMaximized
-    else
+    else begin
       lastWindowState:= TWindowState.wsNormal;
+    end;
     SetBounds(FRestoredLeft, FRestoredTop, FRestoredWidth, FRestoredHeight);
   end;
+  WindowState:= lastWindowState;
 end;
 
 procedure TfrmMain.SaveWindowState;

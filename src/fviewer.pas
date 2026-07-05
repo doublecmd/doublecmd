@@ -662,9 +662,9 @@ begin
   Viewer.LoadFile(0);
 
   if (WaitData = nil) then
-    Viewer.ShowOnTop
+    Viewer.Show
   else begin
-    WaitData.ShowOnTop(Viewer);
+    WaitData.Show(Viewer);
   end;
 end;
 
