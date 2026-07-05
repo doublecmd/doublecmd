@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   LCLType, Forms, Menus, ComCtrls, Graphics,
   fMain, fEditor, fDiffer, fViewer,
-  uHotkeyManager, uEarlyConfig, uGlobs, uLng, uDCUtils, uVectorImage,
+  uHotkeyManager, uKeyboard, uEarlyConfig, uGlobs, uLng, uDCUtils, uVectorImage,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   uFileSourceProperty,
   uDarwinApplication, uDarwinPanel, uDarwinFile, uDarwinUtil, uDarwinImage,
@@ -51,10 +51,70 @@ begin
   item.tips:= s;
 end;
 
-function shortCutToMacOSName( const shortCutString: String ): String;
+function shortCutToMacOSString( const shortCut: TShortCut ): String;
+
+  function shiftToString( const shift: TShiftState ): String;
+  begin
+    Result:= '';
+    if ssAltGr in shift then
+      Result:= Result + #$F0#$9F#$8C#$90#$EF#$B8#$8E;    // Fn 🌐
+    if ssCtrl in shift then
+      Result:= Result + '⌃';
+    if ssAlt in shift then
+      Result:= Result + '⌥';
+    if ssShift in shift then
+      Result:= Result + '⇧';
+    if ssMeta in shift then
+      Result:= Result + '⌘';
+  end;
+
+  function keyToString( const key: Word ): String;
+  begin
+    Result:= '';
+    case key of
+      VK_F1..VK_F24:
+        Result:= 'F' + IntToStr(key-VK_F1+1);
+      VK_0..VK_9, VK_A..VK_Z:
+        Result:= Char(key);
+      VK_SPACE:
+        Result:= '␣';
+      VK_TAB:
+        Result:= '⇥';
+      VK_RETURN:
+        Result:= '↩';
+      VK_ESCAPE:
+        Result:= '⎋';
+      VK_BACK:
+        Result:= '⌫';
+      VK_DELETE:
+        Result:= '⌦';
+      VK_UP:
+        Result:= '↑';
+      VK_DOWN:
+        Result:= '↓';
+      VK_LEFT:
+        Result:= '←';
+      VK_RIGHT:
+        Result:= '→';
+      VK_PRIOR:
+        Result:= '⇞';
+      VK_NEXT:
+        Result:= '⇟';
+      VK_HOME:
+        Result:= '↖';
+      VK_END:
+        Result:= '↘';
+      else
+        Result:= UpperCase( Char(Key) );
+    end;
+  end;
+
+var
+  key: Word;
+  shift: TShiftState;
 begin
-  Result:= shortCutString.Replace( 'Cmd+', 'Command+' );
-  Result:= Result.Replace( 'Alt+', 'Option+' );
+  ShortCutToKey( shortCut, key, shift );
+  Result:= shiftToString(shift) + keyToString(key);
 end;
 
 procedure addShortCutTipsToItemConfig(
@@ -64,6 +124,7 @@ procedure addShortCutTipsToItemConfig(
 var
   form: THMForm;
   hotkey: THotKey;
+  shortCutString: String;
 begin
   form:= HotMan.Forms.Find( formName );
   if form = nil then
@@ -76,7 +137,8 @@ begin
   if Length(hotkey.Shortcuts) = 0 then
     Exit;
 
-  item.tips:= item.tips + ' (' + shortCutToMacOSName(hotkey.Shortcuts[0]) + ')';
+  shortCutString:= shortCutToMacOSString( TextToShortCutEx(hotkey.Shortcuts[0]) );
+  item.tips:= item.tips + '      ' + shortCutString;
 end;
 
 {$i ucocoamodernformconfig_main.inc}
