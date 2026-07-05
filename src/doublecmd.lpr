@@ -245,7 +245,7 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      frmMain.ShowOnTop;
+      frmMain.Show;
       Application.ProcessMessages;
       Application.Run;
 

@@ -268,9 +268,9 @@ begin
       Exit;
   end;
   if (WaitData = nil) then
-    Editor.ShowOnTop
+    Editor.Show
   else begin
-    WaitData.ShowOnTop(Editor);
+    WaitData.Show(Editor);
   end;
   LastEditorUsedForConfiguration := Editor;
 end;
