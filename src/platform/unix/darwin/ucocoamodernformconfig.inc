@@ -118,13 +118,19 @@ begin
 end;
 
 procedure addShortCutTipsToItemConfig(
+  const shortCut: TShortCut;
+  var item: TCocoaConfigToolBarItemWithUI );
+begin
+  item.tips:= item.tips + '      ' + shortCutToMacOSString(shortCut);
+end;
+
+procedure addShortCutTipsToItemConfig(
   const formName: String;
   const command: String;
   var item: TCocoaConfigToolBarItemWithUI );
 var
   form: THMForm;
   hotkey: THotKey;
-  shortCutString: String;
 begin
   form:= HotMan.Forms.Find( formName );
   if form = nil then
@@ -137,8 +143,7 @@ begin
   if Length(hotkey.Shortcuts) = 0 then
     Exit;
 
-  shortCutString:= shortCutToMacOSString( TextToShortCutEx(hotkey.Shortcuts[0]) );
-  item.tips:= item.tips + '      ' + shortCutString;
+  addShortCutTipsToItemConfig( TextToShortCutEx(hotkey.Shortcuts[0]), item );
 end;
 
 {$i ucocoamodernformconfig_main.inc}

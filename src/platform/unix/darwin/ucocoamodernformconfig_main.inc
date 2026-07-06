@@ -1,3 +1,6 @@
+var
+  QuickLookShortCut: TShortCut;
+
 procedure toggleTreeViewAction( const Sender: id );
 begin
   frmMain.Commands.cm_TreeView([]);
@@ -355,7 +358,7 @@ procedure onGetCommandMenu( const menu: TMenu );
     Result:= TMenuItem.Create( menu );
     Result.Caption:= rsMFSTBICommandMenuQuickLook;
     Result.OnClick:= @toolBarMenuHandler.showQuickLookPanel;
-    Result.ShortCut:= ShortCut( Word(' '), [ssAlt] );
+    Result.ShortCut:= QuickLookShortCut;
   end;
 
   function createTagMenuItem: TMenuItem;
@@ -909,6 +912,8 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_AirDrop', airDropItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_RevealInSystemFileManager', finderRevealItemConfig );
+
+  addShortCutTipsToItemConfig( QuickLookShortCut, quickLookItemConfig );
 end;
 
 procedure joinPrivilegeTips;
@@ -935,6 +940,8 @@ end;
 
 procedure doInitMainFormConfig;
 begin
+  QuickLookShortCut:= ShortCut( Word(' '), [ssAlt] );
+
   loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
   loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
 
