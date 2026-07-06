@@ -20,6 +20,9 @@ type
 
 implementation
 
+var
+  DARWIN_FILE_PROPERTY_KEY_ARRAY: NSArray;
+
 class function TDarwinFilePropertyUtil.getSpecificProperty(const path: String
   ): TFileMacOSSpecificProperty;
 var
@@ -71,34 +74,52 @@ var
     Result:= toPrimaryColors( tagNames );
   end;
 
-  function isSeedFile: Boolean;
+  function getTraits: TFileMacOSTraits;
   var
     name: NSString;
-    status: NSString;
     error: NSError = nil;
-    ok: Boolean;
+    resourceValues: NSDictionary;
+    iCloudDownloadingStatus: NSString;
+    package: NSNumber;
   begin
+    Result:= [];
     name:= url.lastPathComponent;
     if name.isEqualToString(NSSTR('..')) then
-      Exit( False );
+      Exit;
     if name.hasPrefix(NSSTR('.')) and name.hasSuffix(NSSTR('.icloud')) then
-      Exit( True );
+      Include( Result, TFileMacOSTrait.isiCloudSeedFile );
 
-    ok:= url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, @error );
-    if NOT ok then
-      logDarwinError( 'TDarwinFileUtil.getSpecificProperty.isSeedFile()', error );
-    if status = nil then
-      Exit( False );
+    resourceValues:= url.resourceValuesForKeys_error( DARWIN_FILE_PROPERTY_KEY_ARRAY, @error );
+    if resourceValues = nil then begin
+      logDarwinError( 'TDarwinFileUtil.getSpecificProperty.getTraits()', error );
+      Exit;
+    end;
 
-    Result:= NOT status.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent );
+    iCloudDownloadingStatus:= resourceValues.valueForKey( NSURLUbiquitousItemDownloadingStatusKey );
+    if Assigned(iCloudDownloadingStatus) then begin
+      if NOT iCloudDownloadingStatus.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent ) then
+        Include( Result, TFileMacOSTrait.isiCloudSeedFile );
+    end;
+
+    package:= resourceValues.valueForKey( NSURLIsPackageKey );
+    if Assigned(package) then begin
+      if package.boolValue then
+        Include( Result, TFileMacOSTrait.isPackage );
+    end;
   end;
 
 begin
   Result:= TFileMacOSSpecificProperty.Create;
   url:= NSURL.fileURLWithPath( StringToNSString(path) );
   Result.FinderTagPrimaryColors:= getTagPrimaryColors;
-  Result.IsiCloudSeedFile:= isSeedFile;
+  Result.Traits:= getTraits;
 end;
+
+initialization
+  DARWIN_FILE_PROPERTY_KEY_ARRAY:= NSArray.alloc.initWithObjects(
+    NSURLUbiquitousItemDownloadingStatusKey,
+    NSURLIsPackageKey,
+    nil );
 
 end.
 
