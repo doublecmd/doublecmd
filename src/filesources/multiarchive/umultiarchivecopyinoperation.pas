@@ -219,6 +219,8 @@ begin
 end;
 
 procedure TMultiArchiveCopyInOperation.MainExecute;
+var
+  removeFiles: TFiles = nil;
 
   procedure tarAndPack;
   var
@@ -235,8 +237,35 @@ procedure TMultiArchiveCopyInOperation.MainExecute;
     ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doMultiPackFiles );
   end;
 
-var
-  removeFiles: TFiles = nil;
+  procedure cleanup;
+  var
+    success: Boolean;
+  begin
+    success:= False;
+    try
+      // Delete temporary TAR archive if needed
+      if FTarBefore then
+        mbDeleteFile(FTarFileName);
+
+      try
+        success:= CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus);
+      except
+        // if abort or exception, delete Archive File
+        mbDeleteFile(FMultiArchiveFileSource.ArchiveFileName);
+        raise;
+      end;
+
+      if success then begin
+        // if success, delete files need to be removed
+        if Assigned(removeFiles) then
+          DeleteFiles(EmptyStr, removeFiles);
+      end;
+    finally
+      FreeAndNil(FFullFilesTree);
+      removeFiles.Free;
+    end;
+  end;
+
 begin
   // 1. calc statistics
   uFileSystemUtil.FillAndCount(
@@ -263,23 +292,7 @@ begin
   try
     tarAndPack;
   finally
-    try
-      // Delete temporary TAR archive if needed
-      if FTarBefore then
-        mbDeleteFile(FTarFileName);
-
-      if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then begin
-        // if success, delete files need to be removed
-        if Assigned(removeFiles) then
-          DeleteFiles(EmptyStr, removeFiles);
-      end else begin
-        // if fail, delete Archive File
-        mbDeleteFile(FMultiArchiveFileSource.ArchiveFileName);
-      end;
-    finally
-      FreeAndNil(FFullFilesTree);
-      removeFiles.Free;
-    end;
+    cleanup;
   end;
 end;
 
@@ -295,7 +308,7 @@ procedure TMultiArchiveCopyInOperation.ShowError(sMessage: String; logOptions: T
 begin
   if not gSkipFileOpError then
   begin
-    if AskQuestion(sMessage, '', [fsourSkip, fsourCancel],
+    if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       RaiseAbortOperation;
@@ -326,13 +339,11 @@ end;
 
 function TMultiArchiveCopyInOperation.CheckForErrors(const FileName: String; ExitStatus: LongInt): Boolean;
 begin
-  if ExitStatus > FErrorLevel then begin
+  if (ExitStatus>FErrorLevel) or (ExitStatus<0) then begin
     Result:= False;
     ShowError(Format(rsMsgLogError + rsMsgLogPack,
                      [FileName +
                       ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
-  end else if ExitStatus < 0 then begin
-    Result:= False;
   end else begin
     Result:= True;
     LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
