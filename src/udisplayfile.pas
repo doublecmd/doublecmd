@@ -218,7 +218,10 @@ begin
 
     if Assigned(AFile.FFSFile) then
       AFile.FDisplayStrings.AddStrings(FDisplayStrings);
-    AFile.DisplayName:= FDisplayName;
+
+    AFile.FDisplayExt:= FDisplayExt;
+    AFile.FDisplayName:= FDisplayName;
+    AFile.FDisplayNameNoExt:= FDisplayNameNoExt;
   end;
 end;
 
