@@ -471,10 +471,7 @@ end;
 
 class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
 begin
-  if aFile.MacOSSpecificProperty <> nil then
-    Result:= aFile.MacOSSpecificProperty.IsiCloudSeedFile
-  else
-    Result:= False;
+  Result:= aFile.MacOSSpecificProperty.IsiCloudSeedFile
 end;
 
 class function TSeedFileUtil.isSeedFiles(const aFiles: TFiles): Boolean;

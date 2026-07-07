@@ -187,9 +187,6 @@ begin
     Exit;
 
   macOSProperty:= params.displayFile.FSFile.MacOSSpecificProperty;
-  if macOSProperty = nil then
-    Exit;
-
   drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, params.decorationRect, params.focused );
 end;
 
