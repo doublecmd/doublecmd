@@ -147,8 +147,14 @@ begin
   if (AName = EmptyStr) and Assigned(FSFile) then
   begin
     FDisplayName:= FSFile.Name;
-    FDisplayNameNoExt:= FSFile.NameNoExt;
-    FDisplayExt:= FSFile.Extension;
+    {$IFDEF DARWIN}
+    if NOT FSFile.MacOSSpecificProperty.IsPackage then
+    {$ENDIF}
+    begin
+      FDisplayNameNoExt:= FSFile.NameNoExt;
+      FDisplayExt:= FSFile.Extension;
+      Exit;
+    end;
   end else begin
     FDisplayName:= AName;
     if Assigned(FSFile) then
@@ -160,8 +166,8 @@ begin
         Exit;
       end;
     end;
-    TFile.SplitIntoNameAndExtension(FDisplayName, FDisplayNameNoExt, FDisplayExt);
   end;
+  TFile.SplitIntoNameAndExtension(FDisplayName, FDisplayNameNoExt, FDisplayExt);
 end;
 
 constructor TDisplayFile.Create(ReferenceFile: TFile);
