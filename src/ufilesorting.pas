@@ -435,9 +435,19 @@ end;
 function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
   IsDir1, IsDir2: Boolean;
+
+  function isDir(const f: TFile): Boolean;
+  begin
+    Result:= f.IsDirectory or f.IsLinkToDirectory;
+    {$IFDEF DARWIN}
+    if f.MacOSSpecificProperty.IsPackage then
+      Result:= False;
+    {$ENDIF}
+  end;
+
 begin
-  IsDir1 := item1.IsDirectory or item1.IsLinkToDirectory;
-  IsDir2 := item2.IsDirectory or item2.IsLinkToDirectory;
+  IsDir1 := isDir(item1);
+  IsDir2 := isDir(item2);
 
   if (not IsDir1) and (not IsDir2) then
     Result := 0
