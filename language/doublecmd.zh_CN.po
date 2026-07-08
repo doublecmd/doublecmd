@@ -5974,7 +5974,7 @@ msgstr "编辑器中编辑"
 
 #: tfrmoptionsfileassoc.mieditwith.caption
 msgid "Edit with..."
-msgstr "编辑器..."
+msgstr "编辑方式..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgid "Get output from command"
@@ -6029,7 +6029,7 @@ msgstr "默认动作（查看/编辑）"
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
-msgstr "通过系统外壳执行"
+msgstr "通过 shell 执行"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
@@ -6310,7 +6310,7 @@ msgstr "默认(&F)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
-msgstr "正在格式化"
+msgstr "格式"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
 msgid "Personalized abbreviations to use:"
@@ -6318,7 +6318,7 @@ msgstr "使用的个性化缩写："
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
-msgstr "正在排序"
+msgstr "排序"
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -13025,12 +13025,12 @@ msgstr "已结束"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr "列表"
+msgstr "正在读取文件夹"
 
 #: ulng.rsoperlistingin
 #, object-pascal-format
 msgid "Listing \"%s\""
-msgstr "正在列表 \"%s\""
+msgstr "正在读取文件夹 \"%s\""
 
 #: ulng.rsopermoving
 msgid "Moving"
