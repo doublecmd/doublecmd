@@ -3113,41 +3113,39 @@ end;
 procedure TfrmMain.UpdateHotDirIcons;
 var
   I: Integer;
-  iconsDir: String;
-  fileName: String;
-  iconImg: TPicture;
+  ASize: Integer;
+  AFactor: Double;
+  ABitmap: TCustomBitmap;
 begin
-  pmHotList.Images:=nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
+  pmHotList.Images:= nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
   imgLstDirectoryHotlist.Clear;
 
-  fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-  if not mbDirectoryExists(iconsDir) then Exit;
+  if not gIconsInMenus then Exit;
 
-  iconImg := TPicture.Create;
-  try
-    fileName := IntToStr(gIconsInMenusSize);
-    iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-    iconsDir := iconsDir + 'x' + fileName + PathDelim + 'dirhotlist';
-    imgLstDirectoryHotlist.Width := gIconsInMenusSize;
-    imgLstDirectoryHotlist.Height := gIconsInMenusSize;
-    pmHotList.Images:=imgLstDirectoryHotlist;
+  ASize:= gIconsInMenusSize;
+  AFactor:= GetCanvasScaleFactor;
 
-    for I:=0 to pred(length(ICONINDEXNAME)) do
+  if (AFactor > 1.0) then
+  begin
+    ASize:= Round(ASize * AFactor);
+  end;
+
+  imgLstDirectoryHotlist.Scaled := (AFactor > 1.0);
+  imgLstDirectoryHotlist.Width := gIconsInMenusSize;
+  imgLstDirectoryHotlist.Height := gIconsInMenusSize;
+  imgLstDirectoryHotlist.RegisterResolutions([ASize]);
+
+  pmHotList.Images:= imgLstDirectoryHotlist;
+
+  for I:= 0 to High(ICONINDEXNAME) do
+  begin
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, ICONINDEXNAME[I], gIconsInMenusSize);
+
+    if Assigned(ABitmap) then
     begin
-      filename:=iconsDir+PathDelim+ICONINDEXNAME[I]+'.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgLstDirectoryHotlist.Add(iconImg.Bitmap, nil);
-      except
-        // Skip
-      end;
+      imgLstDirectoryHotlist.Add(ABitmap, nil);
+      ABitmap.Free;
     end;
-
-  finally
-    FreeAndNil(iconImg);
   end;
 end;
 
