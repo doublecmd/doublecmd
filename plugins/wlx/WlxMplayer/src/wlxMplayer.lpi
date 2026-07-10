@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
         <LRSInOutputDirectory Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="MPlayer WLX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
+      <MinorVersionNr Value="2"/>
+      <StringTable FileDescription="MPlayer WLX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -29,19 +32,19 @@
             <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType);..\..\..\..\sdk"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
-          <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+          <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro';
+  LinkerOptions += &apos; -z relro&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -79,20 +82,27 @@ end;"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IgnoreBinaries Value="False"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="doublecmd_common"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="1">
       <Unit0>
@@ -112,19 +122,19 @@ end;"/>
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType);..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro --as-needed';
+  LinkerOptions += &apos; -z relro --as-needed&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>
