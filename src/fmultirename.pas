@@ -388,7 +388,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Dialogs, Math, Clipbrd,
+  LCLVersion, Dialogs, Math, Clipbrd,
 
   //DC
   fMain, uFileSourceOperation, uOperationsManager, uOSUtils, uDCUtils, uDebug,
@@ -2397,6 +2397,9 @@ procedure TfrmMultiRename.cm_LoadNamesFromFile(const {%H-}Params: array of strin
 begin
   dmComData.OpenDialog.FileName := EmptyStr;
   dmComData.OpenDialog.Filter := EmptyStr;
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     LoadNamesFromFile(dmComData.OpenDialog.FileName);
 end;

@@ -61,7 +61,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, LCLProc, Forms, Dialogs, DynLibs,
+  StrUtils, LCLVersion, LCLProc, Forms, Dialogs, DynLibs,
 
   //DC
   uLng, uGlobs, dmCommonData, DCStrUtils, DCConvertEncoding, uDefaultPlugins;
@@ -154,6 +154,9 @@ end;
 procedure TfrmOptionsPluginsWLX.btnAddPluginClick(Sender: TObject);
 begin
   dmComData.OpenDialog.Filter := Format('Viewer plugins (%s)|%s', [WlxMask, WlxMask]);
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     ActualAddPlugin(dmComData.OpenDialog.FileName);
 end;

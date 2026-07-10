@@ -60,7 +60,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, Forms, Dialogs,
+  LCLVersion, LCLProc, Forms, Dialogs,
 
   //DC
   uShowMsg, fOptions, lua, uLng, uGlobs, dmCommonData, DCStrUtils, uDefaultPlugins;
@@ -153,6 +153,9 @@ end;
 procedure TfrmOptionsPluginsWDX.btnAddPluginClick(Sender: TObject);
 begin
   dmComData.OpenDialog.Filter := Format('Content plugins (%s;*.lua)|%s;*.lua', [WdxMask, WdxMask]);
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     ActualAddPlugin(dmComData.OpenDialog.FileName);
 end;
