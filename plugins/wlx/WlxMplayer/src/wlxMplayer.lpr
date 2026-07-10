@@ -52,6 +52,10 @@ function gdk_x11_window_get_xid(window: PGdkWindow): TWindow; cdecl; external La
 {$ENDIF}
 
 function CheckParent(ParentWin: HWND): Boolean;
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+var
+  APlatform: WideString;
+{$ENDIF}
 begin
 {$IF DEFINED(LCLGTK2)}
   if not GTK_IS_WIDGET(Pointer(ParentWin)) then
@@ -82,6 +86,14 @@ begin
   if not g_type_check_instance_is_a(PGTypeInstance(gtk_widget_get_window(PGtkWidget(ParentWin))), gdk_x11_window_get_type) then
   begin
     WriteLn('wlxMplayer: invalid window system');
+    Exit(False);
+  end;
+{$ELSEIF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  QGuiApplication_platformName(@APlatform);
+  // Plugin is X11 only
+  if (APlatform <> 'xcb') then
+  begin
+    WriteLn('wlxMplayer: invalid window system - ', APlatform);
     Exit(False);
   end;
 {$ENDIF}
