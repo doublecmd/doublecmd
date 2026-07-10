@@ -10,7 +10,6 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperationTypes,
-  uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
   uGioFileSourceUtil;
@@ -53,6 +52,8 @@ type
 
   protected
     function GetID: TFileSourceOperationType; override;
+  public
+    procedure Initialize; override;
 
   end;
 
@@ -68,7 +69,7 @@ type
 implementation
 
 uses
-  fGioCopyMoveOperationOptions, uGio2;
+  fGioCopyMoveOperationOptions, uGio2, uTempFileSystemFileSource, uFileProperty;
 
 constructor TGioCopyOperation.Create(aSourceFileSource: IFileSource;
                                             aTargetFileSource: IFileSource;
@@ -143,6 +144,30 @@ end;
 function TGioCopyInOperation.GetID: TFileSourceOperationType;
 begin
   Result:= fsoCopyIn;
+end;
+
+procedure TGioCopyInOperation.Initialize;
+var
+  aFile: TFile;
+  Index: Integer;
+  aLinkProperty: TFileLinkProperty;
+begin
+  // Special case: replace invalid TGioLinkProperty
+  if SourceFileSource.IsClass(TTempFileSystemFileSource) then
+  begin
+    for Index := 0 to SourceFiles.Count - 1 do
+    begin
+      aFile:= SourceFiles[Index];
+      if (fpLink in aFile.AssignedProperties) and
+         (aFile.LinkProperty is TGioLinkProperty) then
+      begin
+        aLinkProperty:= TFileLinkProperty.Create;
+        aFile.LinkProperty.CloneTo(aLinkProperty);
+        aFile.Properties[fpLink]:= aLinkProperty;
+      end;
+    end;
+  end;
+  inherited Initialize;
 end;
 
 { TGioCopyOutOperation }
