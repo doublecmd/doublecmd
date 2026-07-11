@@ -690,8 +690,12 @@ begin
       end
     else  // file not found
       begin
-        bmStandartBitmap := GetBitmap(FiDefaultIconID);
-        if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlFiDefaultIconID;
+        if gIconsSize = iIconSize then
+          bmStandartBitmap := GetBitmap(FiDefaultIconID)
+        else begin
+          bmStandartBitmap := LoadIconThemeBitmap('unknown', iIconSize);
+        end;
+        if Assigned(fromWhatItWasLoaded) then fromWhatItWasLoaded^ := fwbwlFiDefaultIconID;
       end;
   end;
 
