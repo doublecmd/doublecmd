@@ -59,6 +59,7 @@ uses
   {$ENDIF}
   {$IFDEF LCLGTK3}
   uGtk3WSControls,
+  uGtk3WSMenus,
   {$ENDIF}
   {$IFDEF darwin}
   uDarwinApplication,
