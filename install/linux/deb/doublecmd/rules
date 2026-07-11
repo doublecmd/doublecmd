@@ -7,8 +7,6 @@ export HOME=$(CURDIR)/tmphome
 	dh $@
 
 override_dh_install:
-	# Remove convenience copy of Free Pascal Qt4 binding, use libqt4pas-dev instead
-	rm -f plugins/wlx/WlxMplayer/src/qt4.pas
 
 	# Build GTK2 version
 	./build.sh release gtk2
