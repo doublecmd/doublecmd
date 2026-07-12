@@ -874,11 +874,14 @@ begin
   end;
 end;
 
+// TFile and TDisplayFile each perform their respective functions.
+// in TFile, `Extension` and `NameNoExt` retain their underlying meanings,
+// while display-related adjustments are handled in TDisplayFile.
 procedure TFile.UpdateNameAndExtension(const FileName: string);
 begin
   // Cache Extension and NameNoExt.
 
-  if (FileName = '') or IsDirectory or IsLinkToDirectory or IsSpecial
+  if FileName = ''
   then
   begin
     // For directories there is no extension.
