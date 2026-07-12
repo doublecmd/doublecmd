@@ -2691,7 +2691,7 @@ msgstr "貼上 (&P)"
 
 #: tfrmmain.actpreviousfavoritetabs.caption
 msgid "Load the Previous Favorite Tabs in the list"
-msgstr "载入清單中的上一个「我的最愛」分頁"
+msgstr "載入清單中的上一個「我的最愛」分頁"
 
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
@@ -2750,11 +2750,11 @@ msgstr "回復所選項目 (&R)"
 
 #: tfrmmain.actrevealinsystemfilemanager.caption
 msgid "Reveal in File Manager"
-msgstr "轉到档案管理器"
+msgstr "轉到檔案管理器"
 
 #: tfrmmain.actrevealinsystemfilemanager.hint
 msgid "Reveal in System File Manager"
-msgstr "在系統档案管理器中訪問"
+msgstr "在系統檔案管理器中訪問"
 
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
@@ -2814,7 +2814,7 @@ msgstr "開啟終端機 (&T)"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
-msgstr "将当前分页保存到新的「我的最愛」分页"
+msgstr "將當前分頁保存到新的「我的最愛」分頁"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
@@ -2830,7 +2830,7 @@ msgstr "儲存所選項目到檔案... (&E)"
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr "保存分頁到档案 (&S)"
+msgstr "保存分頁到檔案 (&S)"
 
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
