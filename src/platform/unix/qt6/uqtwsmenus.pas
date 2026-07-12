@@ -36,7 +36,9 @@ var
   Menu: TQtWidget absolute Result;
   AResolution: TCustomImageListResolution;
 begin
-  if AMenuItem.IsLine then
+  ImgList:= AMenuItem.GetImageList;
+
+  if (ImgList = nil) or AMenuItem.IsLine then
   begin
     Result:= inherited CreateHandle(AMenuItem);
     Exit;
@@ -56,8 +58,6 @@ begin
 {$POP}
 
   if not (Menu is TQtMenu) then Exit;
-
-  ImgList:= AMenuItem.GetImageList;
 
   if (ImgList <> nil) and (AMenuItem.ImageIndex >= 0) and
      (AMenuItem.ImageIndex < ImgList.Count) then
