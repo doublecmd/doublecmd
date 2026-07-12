@@ -38,7 +38,7 @@ var
 begin
   ImgList:= AMenuItem.GetImageList;
 
-  if (ImgList = nil) or AMenuItem.IsLine then
+  if (ImgList = nil) or AMenuItem.IsLine or (not AMenuItem.HasIcon) then
   begin
     Result:= inherited CreateHandle(AMenuItem);
     Exit;
