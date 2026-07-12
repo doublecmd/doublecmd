@@ -766,7 +766,8 @@ begin
       end;
       if fpOwner in SupportedProperties then
       begin
-        if (OriginalUser <> cbxUsers.Text) or (OriginalGroup <> cbxGroups.Text) then
+        if (chkRecursive.Checked) or
+           (OriginalUser <> cbxUsers.Text) or (OriginalGroup <> cbxGroups.Text) then
         begin
           TFileOwnerProperty(theNewProperties[fpOwner]).Owner:= StrToUID(cbxUsers.Text);
           TFileOwnerProperty(theNewProperties[fpOwner]).Group:= StrToGID(cbxGroups.Text);
