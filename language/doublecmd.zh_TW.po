@@ -2952,11 +2952,11 @@ msgstr "建立符號連結... (&L)"
 
 #: tfrmmain.actsyncchangedir.caption
 msgid "Synchronous navigation"
-msgstr ""
+msgstr "同步導航"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr ""
+msgstr "同步切換兩個面板的資料夾"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -2981,7 +2981,7 @@ msgstr "縮圖檢視"
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
-msgstr ""
+msgstr "切換終端機全螢幕模式"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -9210,47 +9210,47 @@ msgstr "連結名稱 (&L)"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr ""
+msgstr "兩側均刪除"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
-msgstr ""
+msgstr "<- 刪除左側"
 
 #: tfrmsyncdirsdlg.actdeleteright.caption
 msgid "-> Delete right"
-msgstr ""
+msgstr "-> 刪除右側"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
-msgstr ""
+msgstr "取消選擇"
 
 #: tfrmsyncdirsdlg.actselectcopydefault.caption
 msgid "Select for copying (default direction)"
-msgstr ""
+msgstr "選擇複製 (預設方向)"
 
 #: tfrmsyncdirsdlg.actselectcopylefttoright.caption
 msgid "Select for copying -> (left to right)"
-msgstr ""
+msgstr "選擇複製 -> (從左到右)"
 
 #: tfrmsyncdirsdlg.actselectcopyreverse.caption
 msgid "Reverse copy direction"
-msgstr ""
+msgstr "反轉複製方向"
 
 #: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
 msgid "Select for copying <- (right to left)"
-msgstr ""
+msgstr "選擇複製 <- (從右到左)"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
 msgid "Select for deleting <-> (both)"
-msgstr ""
+msgstr "選擇刪除 <-> (兩側)"
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
-msgstr ""
+msgstr "選擇刪除 <- (左側)"
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
-msgstr ""
+msgstr "選擇刪除 -> (右側)"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -9279,31 +9279,31 @@ msgstr "同步資料夾"
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
 msgid "*"
-msgstr "*.*"
+msgstr "*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr ""
+msgstr "非對稱"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr ""
+msgstr "按內容"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
-msgstr ""
+msgstr "忽略日期"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
-msgstr ""
+msgstr "僅選中的"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
-msgstr ""
+msgstr "子資料夾"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
-msgstr ""
+msgstr "顯示:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
@@ -9341,7 +9341,7 @@ msgstr "名稱"
 
 #: tfrmsyncdirsdlg.label1.caption
 msgid "(in main window)"
-msgstr ""
+msgstr "(在主視窗)"
 
 #: tfrmsyncdirsdlg.menuitemcompare.caption
 msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
@@ -9350,11 +9350,11 @@ msgstr "比較"
 
 #: tfrmsyncdirsdlg.menuitemviewleft.caption
 msgid "View left"
-msgstr ""
+msgstr "檢視左側"
 
 #: tfrmsyncdirsdlg.menuitemviewright.caption
 msgid "View right"
-msgstr ""
+msgstr "檢視右側"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -9368,7 +9368,7 @@ msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr ""
+msgstr "重複項"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgctxt "tfrmsyncdirsdlg.sbequal.caption"
@@ -9382,11 +9382,11 @@ msgstr ""
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
-msgstr ""
+msgstr "單獨項"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr ""
+msgstr "請按「比較」開始"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
@@ -9395,7 +9395,7 @@ msgstr "同步"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
-msgstr ""
+msgstr "確認覆蓋"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -10569,7 +10569,7 @@ msgstr "覆蓋全部 (&A)"
 
 #: ulng.rsdlgbuttonoverwritelarger
 msgid "Overwrite All &Larger"
-msgstr ""
+msgstr "覆蓋全部更大的 (&L)"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
@@ -10577,7 +10577,7 @@ msgstr "覆蓋全部舊檔 (&D)"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr ""
+msgstr "覆蓋全部更小的 (&M)"
 
 #: ulng.rsdlgbuttonrename
 msgctxt "ulng.rsdlgbuttonrename"
@@ -10923,7 +10923,7 @@ msgstr "開始"
 
 #: ulng.rsfontusageconsole
 msgid "&Console Font"
-msgstr ""
+msgstr "終端機字型 (&C)"
 
 #: ulng.rsfontusageeditor
 msgid "&Editor Font"
@@ -11938,11 +11938,11 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name for this new Favorite Tabs entry:"
-msgstr ""
+msgstr "輸入「我的最愛」分页名稱"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
-msgstr ""
+msgstr "保存新的「我的最愛」分页"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 #, object-pascal-format
