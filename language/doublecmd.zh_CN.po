@@ -2910,7 +2910,7 @@ msgstr "同步导航"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr "两个面板中的同步目录更改"
+msgstr "同步切换两个面板中的文件夹"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -8987,15 +8987,15 @@ msgstr "-> 删除右边"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
-msgstr "删除选择"
+msgstr "取消选择"
 
 #: tfrmsyncdirsdlg.actselectcopydefault.caption
 msgid "Select for copying (default direction)"
-msgstr "选择复制方向（默认方向）"
+msgstr "选择复制（默认方向）"
 
 #: tfrmsyncdirsdlg.actselectcopylefttoright.caption
 msgid "Select for copying -> (left to right)"
-msgstr "选择复制方向 ->（从左到右）"
+msgstr "选择复制 ->（从左到右）"
 
 #: tfrmsyncdirsdlg.actselectcopyreverse.caption
 msgid "Reverse copy direction"
@@ -9003,19 +9003,19 @@ msgstr "反转复制方向"
 
 #: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
 msgid "Select for copying <- (right to left)"
-msgstr "选择复制方向 <- （从右到左）"
+msgstr "选择复制 <-（从右到左）"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
 msgid "Select for deleting <-> (both)"
-msgstr "选择删除<-> (两边都有)"
+msgstr "选择删除 <-> (两边)"
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
-msgstr "选择删除方向 <- (左）"
+msgstr "选择删除 <- (左边）"
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
-msgstr "选择删除方向 ->（右）"
+msgstr "选择删除 ->（右边）"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
