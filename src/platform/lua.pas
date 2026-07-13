@@ -638,7 +638,18 @@ procedure lua_getref(L : Plua_State; ref : Integer);
 
 var
   LuaLibD: TLibHandle = NilHandle;
+
+const
+  LUAJIT_MODE_ENGINE    = 0;
+  LUAJIT_MODE_FUNC      = 2;
+
+  LUAJIT_MODE_OFF       = $0000;
+  LUAJIT_MODE_ON        = $0100;
+  LUAJIT_MODE_FLUSH     = $0200;
+
+var
   luaJIT: Boolean;
+  luaJIT_setmode: function (L: Plua_State; idx: Integer; mode: Integer): Integer; cdecl;
 
 implementation
 
@@ -897,7 +908,8 @@ begin
   @lua_newuserdatauv := GetProcAddress(LuaLibD, 'lua_newuserdatauv');
 
   // luaJIT specific stuff
-  luaJIT := GetProcAddress(LuaLibD, 'luaJIT_setmode') <> nil;
+  @luaJIT_setmode := GetProcAddress(LuaLibD, 'luaJIT_setmode');
+  luaJIT := @luaJIT_setmode <> nil;
 
   LUA_VERSION_DYN:= LuaVersion;
 

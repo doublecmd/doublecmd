@@ -33,6 +33,10 @@ procedure SetPackagePath(L: Plua_State; const Path: String);
 function LuaPCall(L : Plua_State; nargs, nresults : Integer): Boolean;
 function ExecuteScript(const FileName: String; Args: array of String; var sErrorToReportIfAny:string): Boolean;
 
+{$IFDEF TURN_OFF_LUA_JIT}
+procedure TurnOffLuaJit(L : Plua_State);
+{$ENDIF}
+
 implementation
 
 uses
@@ -1149,6 +1153,15 @@ begin
     Result:= (Status = 0);
   end;
 end;
+
+{$IFDEF TURN_OFF_LUA_JIT}
+procedure TurnOffLuaJit(L : Plua_State);
+begin
+  if NOT luaJIT then
+    Exit;
+  luaJIT_setmode(L, 0, LUAJIT_MODE_ENGINE or LUAJIT_MODE_OFF);
+end;
+{$ENDIF}
 
 end.
 

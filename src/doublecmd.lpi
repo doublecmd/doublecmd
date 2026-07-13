@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="13"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -2224,6 +2224,11 @@ end;"/>
     <Conditionals Value="if (Laz_FullVersion >= 4990000) then
 begin
   CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;
+
+if UNIX or LINUX then
+begin
+  CustomOptions += &apos; -dTURN_OFF_LUA_JIT&apos;;
 end;
 
 if TargetOS = &apos;darwin&apos; then begin
