@@ -35,17 +35,24 @@ function ContentGetValue(FileName, FieldIndex, UnitIndex, flags)
 end
 
 function GetDesc(Path,Name)
-   local f=io.open(Path..'descript.ion',"r");
-   if not f then 
+  local f=io.open(Path..'descript.ion',"r");
+  if not f then
     return nil;
-   end
+  end
+
+  local first=true;
   
-    for line in f:lines() do
-       if string.find(line,Name..' ') then
-        f:close();
-	return string.sub(line,string.len(Name..' ')+1,-1);
-       end
-    end  
+  for line in f:lines() do
+    if first then
+      line=string.gsub(line,"^\239\187\191","");
+      first=false;
+    end
+
+    if string.find(line,Name..' ') then
+      f:close();
+      return string.sub(line,string.len(Name..' ')+1,-1);
+    end
+  end
 
   f:close();
      
