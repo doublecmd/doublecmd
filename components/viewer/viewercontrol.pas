@@ -276,6 +276,8 @@ type
 
     function GetBomLength: Integer;
 
+    function GetOffsetOfMode(const mode: TViewerControlMode): Integer;
+
     procedure UpdateLimits;
 
     {en
@@ -708,25 +710,9 @@ procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
 
   procedure adjustPosByBOM;
   var
-    prevOffset: Integer;
-    newOffset: Integer;
     offset: Integer;
   begin
-    case FViewerControlMode of
-      vcmText, vcmWrap, vcmBook:
-        prevOffset:= FBOMLength;
-      else
-        prevOffset:= 0;
-    end;
-
-    case Value of
-      vcmText, vcmWrap, vcmBook:
-        newOffset:= FBOMLength;
-      else
-        newOffset:= 0;
-    end;
-
-    offset:= prevOffset - newOffset;
+    offset:= GetOffsetOfMode(FViewerControlMode) - GetOffsetOfMode(Value);
     Inc( FBlockBeg, offset );
     Inc( FBlockEnd, offset );
     Inc( FCaretPos, offset );
@@ -2013,12 +1999,7 @@ end;
 
 function TViewerControl.GetDataAdr: Pointer;
 begin
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      Result := FMappedFile + FBOMLength;
-    else
-      Result := FMappedFile;
-  end;
+  Result := FMappedFile + GetOffsetOfMode(FViewerControlMode);
 end;
 
 procedure TViewerControl.SetPosition(Value: PtrInt);
@@ -3819,6 +3800,16 @@ begin
   end;
 end;
 
+function TViewerControl.GetOffsetOfMode(const mode: TViewerControlMode): Integer;
+begin
+  case mode of
+    vcmText, vcmWrap, vcmBook:
+      Result:= FBOMLength;
+    else
+      Result:= 0;
+  end;
+end;
+
 procedure TViewerControl.UpdateLimits;
 begin
   if FEncoding = veAutoDetect then
@@ -3826,18 +3817,8 @@ begin
 
   FBOMLength := GetBomLength;
 
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize - FBOMLength;
-      end;
-    else
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize;
-      end;
-  end;
+  FLowLimit  := 0;
+  FHighLimit := FFileSize - GetOffsetOfMode(FViewerControlMode);
 end;
 
 procedure TViewerControl.UpdateSelectionAndCaret;
