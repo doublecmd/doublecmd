@@ -705,10 +705,39 @@ begin
 end;
 
 procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
+
+  procedure adjustPosByBOM;
+  var
+    prevOffset: Integer;
+    newOffset: Integer;
+    offset: Integer;
+  begin
+    case FViewerControlMode of
+      vcmText, vcmWrap, vcmBook:
+        prevOffset:= FBOMLength;
+      else
+        prevOffset:= 0;
+    end;
+
+    case Value of
+      vcmText, vcmWrap, vcmBook:
+        newOffset:= FBOMLength;
+      else
+        newOffset:= 0;
+    end;
+
+    offset:= prevOffset - newOffset;
+    Inc( FBlockBeg, offset );
+    Inc( FBlockEnd, offset );
+    Inc( FCaretPos, offset );
+  end;
+
 begin
   if not (csDesigning in ComponentState) then
   begin
     FLineList.Clear; // do not use cache from previous mode
+
+    adjustPosByBOM;
 
     FViewerControlMode := Value;
     case FViewerControlMode of
