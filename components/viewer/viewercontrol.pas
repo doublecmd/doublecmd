@@ -402,7 +402,7 @@ type
        Checks if current selection is still valid given current viewer mode and encoding.
        For example checks if selection is not in the middle of a unicode character.
     }
-    procedure UpdateSelection;
+    procedure UpdateSelectionAndCaret;
 
     procedure ScrollBarSetPosition(Which, Value: Integer);
     function  ScrollBarGetPosition(Which: Integer): Integer;
@@ -762,7 +762,7 @@ begin
     FBlockBeg := FBlockBeg - (GetDataAdr - FMappedFile);
     FBlockEnd := FBlockEnd - (GetDataAdr - FMappedFile);
 
-    UpdateSelection;
+    UpdateSelectionAndCaret;
 
     // Force recalculating position.
     SetPosition(FPosition, True);
@@ -3840,7 +3840,7 @@ begin
   end;
 end;
 
-procedure TViewerControl.UpdateSelection;
+procedure TViewerControl.UpdateSelectionAndCaret;
 
   procedure Check(var aPosition: PtrInt; Backwards: Boolean);
   var
@@ -3909,6 +3909,7 @@ begin
     case FViewerControlMode of
       vcmText, vcmWrap, vcmBook:
         begin
+          Check(FCaretPos, True);
           Check(FBlockBeg, False);
           Check(FBlockEnd, True);
 
