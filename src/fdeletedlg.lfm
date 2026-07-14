@@ -12,7 +12,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   Constraints.MinWidth = 400
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   inherited pnlContent: TPanel
     Height = 1
     Width = 399
@@ -33,6 +33,48 @@ inherited frmDeleteDlg: TfrmDeleteDlg
       ParentColor = False
       ShowAccelChar = False
       WordWrap = True
+    end
+    object rbTrash: TRadioButton[1]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = lblMessage
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 1
+      Width = 399
+      Anchors = [akTop, akLeft]
+      Caption = 'Move to &Recycle Bin'
+      TabOrder = 1
+      Visible = False
+      OnChange = rbModeChange
+    end
+    object rbDelete: TRadioButton[2]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = rbTrash
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 24
+      Width = 399
+      Anchors = [akTop, akLeft]
+      Caption = 'Delete &permanently'
+      TabOrder = 2
+      Visible = False
+      OnChange = rbModeChange
+    end
+    object rbWipe: TRadioButton[3]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = rbDelete
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 47
+      Width = 399
+      Anchors = [akTop, akLeft]
+      Caption = '&Wipe (secure erase)'
+      TabOrder = 3
+      Visible = False
+      OnChange = rbModeChange
     end
   end
   inherited pnlButtons: TPanel
