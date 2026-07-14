@@ -166,6 +166,9 @@ type
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
     FCmpFilePathL, FCmpFilePathR: string;
     FAddressL, FAddressR: string;
+    // The two source panels, kept so their directory watchers can be
+    // suspended during bulk copy/delete (avoids the per-file reload storm).
+    FFileView1, FFileView2: TFileView;
     hCols: array [0..6] of record Left, Width: Integer end;
     CheckContentThread: TObject;
     Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
@@ -189,6 +192,7 @@ type
     procedure SetSyncRecState(AState: TSyncRecState);
     procedure DeleteFiles(ALeft, ARight: Boolean);
     function DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
+    procedure SetPanelWatchers(AEnabled: Boolean);
     procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
@@ -783,6 +787,8 @@ begin
       pnlCopyProgress.Visible:= CopyLeft or CopyRight;
       pnlDeleteProgress.Visible:= DeleteLeft or DeleteRight;
 
+      SetPanelWatchers(False);
+      try
       i := 0;
       while i < FVisibleItems.Count do
       begin
@@ -833,6 +839,9 @@ begin
         end
         else DeleteRightFiles.Free;
         if not pnlProgress.Visible then Break;
+      end;
+      finally
+        SetPanelWatchers(True);
       end;
       EnableControls(True);
       btnCompare.Click;
@@ -1836,6 +1845,16 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.SetPanelWatchers(AEnabled: Boolean);
+begin
+  // Suspend the source panels' directory watchers while we copy/delete, so a
+  // large local operation does not trigger one full O(n) panel reload per ~100
+  // changes (which makes a big delete behave as O(n²), ~1 file/sec). Resuming
+  // does a single reconciling reload of each panel.
+  if Assigned(FFileView1) then FFileView1.SetWatcherEnabled(AEnabled);
+  if Assigned(FFileView2) then FFileView2.SetWatcherEnabled(AEnabled);
+end;
+
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
 var
   Message: String;
@@ -1883,8 +1902,13 @@ begin
       EnableControls(False);
       pnlCopyProgress.Visible:= False;
       pnlDeleteProgress.Visible:= True;
-      if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
-      if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
+      SetPanelWatchers(False);
+      try
+        if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
+        if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
+      finally
+        SetPanelWatchers(True);
+      end;
       UpdateList(nil, nil, ALeft, ARight);
       EnableControls(True);
     end;
@@ -2049,6 +2073,8 @@ begin
   FFoundItems := TStringListEx.Create;
   FFoundItems.CaseSensitive := FileNameCaseSensitive;
   FFoundItems.Sorted := True;
+  FFileView1 := FileView1;
+  FFileView2 := FileView2;
   FFileSourceL := FileView1.FileSource;
   FFileSourceR := FileView2.FileSource;
   FAddressL := FileView1.CurrentAddress;
