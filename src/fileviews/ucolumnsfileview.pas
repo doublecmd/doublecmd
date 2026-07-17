@@ -65,6 +65,8 @@ type
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState); override;
 
+    procedure AutoAdjustColumn(aCol: Integer); override;
+
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
   public
@@ -1362,7 +1364,8 @@ begin
   Align := alClient;
 
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
-              goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
+              goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook,
+              goDblClickAutoSize];
 
   TitleStyle := gColumnsTitleStyle;
   TabStop := False;
@@ -2015,6 +2018,46 @@ begin
     Canvas.Brush.Color := Self.Color;
     Canvas.FillRect(aRect);
   end;
+end;
+
+procedure TDrawGridEx.AutoAdjustColumn(aCol: Integer);
+var
+  displayFiles: TDisplayFiles;
+  aRow: Integer;
+  maxWidth: Integer;
+  currentWidth: Integer;
+
+  procedure initCanvas; inline;
+  var
+    ColumnsSet: TPanelColumnsClass;
+  begin
+    ColumnsSet := self.ColumnsView.GetColumnsClass;
+    Canvas.Font.Name    := ColumnsSet.GetColumnFontName(aCol);
+    Canvas.Font.Size    := ColumnsSet.GetColumnFontSize(aCol);
+    Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(aCol);
+    Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(aCol);
+  end;
+
+  function calcCurrentWidth: Integer; inline;
+  var
+    currentText: String;
+  begin
+    currentText:= displayFiles[aRow-self.FixedRows].DisplayStrings[aCol];
+    Result:= Canvas.TextWidth(currentText) + 2*CELL_PADDING + CELL_PADDING;
+    if (gShowIcons <> sim_none) and (aCol=0) then
+      Result:= Result + gIconsSize + 2*CELL_PADDING;
+  end;
+
+begin
+  initCanvas;
+  displayFiles:= self.ColumnsView.FFiles;
+  maxWidth:= 0;
+  for aRow:= GCache.VisibleGrid.Top to GCache.VisibleGrid.Bottom do begin
+    currentWidth:= calcCurrentWidth;
+    if currentWidth > maxWidth then
+      maxWidth:= currentWidth;
+  end;
+  self.ColWidths[aCol]:= maxWidth;
 end;
 
 procedure TDrawGridEx.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
