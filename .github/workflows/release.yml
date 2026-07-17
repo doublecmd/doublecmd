@@ -19,7 +19,7 @@ jobs:
         lazarus-version: "stable"
 
     - name: Get Lazarus source
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
             repository: 'fpc/Lazarus'
             ref: 'fixes_4'
@@ -36,12 +36,12 @@ jobs:
            sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
 
     - name: Checkout source
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
 
     - name: Download unrar source code
-      run: wget https://www.rarlab.com/rar/unrarsrc-7.0.9.tar.gz -O /tmp/unrarsrc.tar.gz
+      run: wget https://www.rarlab.com/rar/unrarsrc-7.2.7.tar.gz -O /tmp/unrarsrc.tar.gz
       
     - name: Extract unrar source code
       run: cd /tmp && tar xzf unrarsrc.tar.gz
@@ -56,3 +56,31 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
         file_glob: true
+
+  publish-bin:
+    needs: build-mac
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release
+        run: |
+             gh release download $TAG -R doublecmd/doublecmd -D doublecmd-release
+             rm -f doublecmd-release/doublecmd-*-src.tar.gz
+        env:
+          TAG: ${{ github.ref_name }}
+
+      - name: Publish release
+        run: |
+             trap "rm -f ssh_key" EXIT
+             echo "$SSH_PRIVATE_KEY" > ssh_key && chmod 0600 ssh_key
+             echo "cd '/home/frs/project/doublecmd/Double Commander'" > upload_release.txt
+             echo "lcd doublecmd-release" >> upload_release.txt
+             echo "-mkdir $TAG" >> upload_release.txt
+             echo "cd $TAG" >> upload_release.txt
+             echo "put *" >> upload_release.txt
+             echo "quit" >> upload_release.txt
+             sftp -o StrictHostKeyChecking=no -i ssh_key -b upload_release.txt $REMOTE_USER@$REMOTE_HOST
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TAG: ${{ github.ref_name }}
