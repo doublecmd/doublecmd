@@ -676,13 +676,16 @@ begin
         AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
         try
           iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe);
-          bmStandartBitmap := GetBitmap(iIndex);
-          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlFileIconByExtension;
+          if (iIndex > -1) then
+          begin
+            bmStandartBitmap := GetBitmap(iIndex);
+            if Assigned(fromWhatItWasLoaded) then fromWhatItWasLoaded^ := fwbwlFileIconByExtension;
+          end;
         finally
           FreeAndNil(AFile);
         end;
-      end
-    else  // file not found
+      end;
+    if (bmStandartBitmap = nil) then
       begin
         if gIconsSize = iIconSize then
           bmStandartBitmap := GetBitmap(FiDefaultIconID)
