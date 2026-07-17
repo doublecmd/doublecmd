@@ -945,6 +945,13 @@ begin
         SetLength(RawFileName, (Length(RawFileName)-1));
       end;
     end { end long filename link flag }
+    else if PHeader.LinkFlag in ([AB_TAR_LF_LONGLINK] + AB_UNSUPPORTED_MD_HEADERS) then
+    begin
+      { Skip meta data header body }
+      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NumMHeaders := Ceil(NameLength / AB_TAR_RECORDSIZE);
+      I := I + 1 + NumMHeaders;
+    end { end meta data header }
     else
       I := I + 1;
   end; { End While }
@@ -1009,6 +1016,13 @@ begin
         SetLength(RawLinkName, (Length(RawLinkName)-1));
       end;
     end { end long filename link flag }
+    else if PHeader.LinkFlag in ([AB_TAR_LF_LONGNAME] + AB_UNSUPPORTED_MD_HEADERS) then
+    begin
+      { Skip meta data header body }
+      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NumMHeaders := Ceil(NameLength / AB_TAR_RECORDSIZE);
+      I := I + 1 + NumMHeaders;
+    end { end meta data header }
     else
       I := I + 1;
   end; { End While }
