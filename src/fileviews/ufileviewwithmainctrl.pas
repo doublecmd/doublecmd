@@ -88,6 +88,12 @@ type
 {$IFDEF LCLGTK2}
     FLastDoubleClickTime : TDateTime;
 {$ENDIF}
+{$IFDEF LCLWIN32}
+    {en Last left-button-down timestamp and client position, used to detect
+       touch/pen double-taps that LCL's 3 px double-click threshold rejected. }
+    FLastTouchClickTime : QWord;
+    FLastTouchClickPoint: TPoint;
+{$ENDIF}
     FMainControl: TWinControl;
 
     { Events for drag&drop from external applications }
@@ -514,6 +520,14 @@ begin
   FHintFileIndex := -1;
 {$IFDEF LCLGTK2}
   FLastDoubleClickTime := Now;
+{$ENDIF}
+{$IFDEF LCLWIN32}
+  // Touch/pen input on Windows generates finger/nib wobble that easily
+  // exceeds the LCL default drag threshold (5px), turning simple taps into
+  // accidental drag operations. 10 logical pixels is still tiny for a mouse
+  // (sub-millimetre) but absorbs normal touch jitter at 1080p/2K/4K.
+  if Mouse.DragThreshold < 10 then
+    Mouse.DragThreshold := 10;
 {$ENDIF}
   FStartDrag := False;
 
@@ -987,6 +1001,27 @@ begin
 {$IF DEFINED(LCLWIN32)}
   FMouseFocus:= MainControl.Focused;
   SetFocus;
+  // Touch/pen double-tap fix: LCL's CheckMouseButtonDownUp (controls.pp)
+  // applies its own 3px position check on top of Windows' WM_LBUTTONDBLCLK,
+  // silently downgrading it to LM_LBUTTONDOWN when two taps land >3px apart
+  // (very common with fingers/pen). We compensate with 10 logical pixels,
+  // which is DPI-invariant and correct at 1080p, 2K and 4K.
+  // Only acts when ssDouble is absent (LCL rejected the dblclick) and we are
+  // in double-click mode; single-click mode already opens items on MouseUp so
+  // the fix is not needed there and would cause a double execution.
+  if (Button = mbLeft) and (not (ssDouble in Shift)) and (gMouseSingleClickStart = 0) then
+  begin
+    if (GetTickCount64 - FLastTouchClickTime <= QWord(GetDoubleClickTime)) and
+       (Abs(X - FLastTouchClickPoint.X) <= 10) and
+       (Abs(Y - FLastTouchClickPoint.Y) <= 10) then
+    begin
+      FLastTouchClickTime := 0; // consume - prevent accidental triple-fire
+      DoMainControlFileWork;
+      Exit;
+    end;
+    FLastTouchClickTime := GetTickCount64;
+    FLastTouchClickPoint := Classes.Point(X, Y);
+  end;
 {$ELSEIF DEFINED(LCLCOCOA)}
   FMouseFocus:= MainControl.Focused;
   MainControl.Invalidate;
