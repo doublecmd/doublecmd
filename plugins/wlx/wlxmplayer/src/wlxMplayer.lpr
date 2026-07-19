@@ -37,6 +37,7 @@ uses
   x,
   {$IFDEF LCLGTK2} gtk2, gdk2, glib2, gdk2x, {$ENDIF}
   {$IFDEF LCLGTK3} LazGtk3, LazGdk3, LazGlib2, LazGObject2, {$ENDIF}
+  {$IFDEF LCLQT} qt4, {$ENDIF}
   {$IFDEF LCLQT5} qt5, {$ENDIF}
   {$IFDEF LCLQT6} qt6, {$ENDIF}
   Process,
