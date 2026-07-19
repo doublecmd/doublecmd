@@ -6904,6 +6904,10 @@ msgstr "Indstil personlige forkortelser:"
 msgid "Sorting"
 msgstr "Sortering"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 # Opsætning  - Indstillinger - Visning
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6987,6 +6991,14 @@ msgstr "&Terabyte: "
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "F&lyt ændrede filer:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 # Opsætning - Indstillinger - Visning_ekstra
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption

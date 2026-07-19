@@ -2823,6 +2823,7 @@ begin
       gOperationSizeFormat := TFileSizeFormat(GetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat)));
       gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
       gOperationSizeDigits := GetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+      SetGlob1KBase( GetValue(Node, 'KBase', Int64(g1KBase)) );
       gSizeDisplayUnits[fsfPersonalizedByte] := Trim(GetValue(Node, 'PersonalizedByte', gSizeDisplayUnits[fsfPersonalizedByte]));
       if gSizeDisplayUnits[fsfPersonalizedByte]<>'' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
       gSizeDisplayUnits[fsfPersonalizedKilo] := ' ' + Trim(GetValue(Node, 'PersonalizedKilo', gSizeDisplayUnits[fsfPersonalizedKilo]));
@@ -3565,6 +3566,7 @@ begin
     SetValue(Node, 'HeaderDigits', gHeaderDigits);
     SetValue(Node, 'FooterDigits', gFooterDigits);
     SetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+    SetValue(Node, 'KBase', Int64(g1KBase));
     SetValue(Node, 'PersonalizedByte', Trim(gSizeDisplayUnits[fsfPersonalizedByte]));
     SetValue(Node, 'PersonalizedKilo', Trim(gSizeDisplayUnits[fsfPersonalizedKilo]));
     SetValue(Node, 'PersonalizedMega', Trim(gSizeDisplayUnits[fsfPersonalizedMega]));

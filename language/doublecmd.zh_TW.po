@@ -4990,9 +4990,10 @@ msgid "Inactive Cursor Color:"
 msgstr "非現用指標顏色:"
 
 #: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
+#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "非現用標記顏色:"
 
 #: tfrmoptionscustomcolumns.lblmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
@@ -5394,9 +5395,10 @@ msgid "Target"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption
+#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "路徑"
 
 #: tfrmoptionsdirectoryhotlistextra.lbdirectoryhotlistfilenamestyle.caption
 msgid "Way to set paths when adding them:"
@@ -5408,9 +5410,10 @@ msgid "Do this for paths of:"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption
+#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "相對路徑:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
@@ -6440,6 +6443,10 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "排序"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr "位元組 (&B):"
@@ -6505,6 +6512,14 @@ msgstr "太位元組 (&T):"
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "移動更新檔案 (&M):"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -7417,9 +7432,10 @@ msgid "Lua library file to use:"
 msgstr ""
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+#, fuzzy
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "相對路徑:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
@@ -8211,9 +8227,10 @@ msgid "Apply current settings to all configured filenames and paths"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "指令"
 
 #: tfrmoptionstoolbarextra.ckbtoolbaricons.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbaricons.caption"
@@ -8221,28 +8238,32 @@ msgid "Icons"
 msgstr "圖示"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "起始路徑"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "路徑"
 
 #: tfrmoptionstoolbarextra.lblapplysettingsfor.caption
 msgid "Do this for files and paths for:"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "相對路徑:"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr ""
+msgstr "新增圖示、指令和起始路徑等元素時設定路徑的方法:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
@@ -10751,19 +10772,22 @@ msgid "with internal editor"
 msgstr "使用內部編輯器"
 
 #: ulng.rsexecuteviashell
+#, fuzzy
 msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
-msgstr ""
+msgstr "透過 shell 執行"
 
 #: ulng.rsexecuteviaterminalclose
+#, fuzzy
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "透過終端執行並關閉"
 
 #: ulng.rsexecuteviaterminalstayopen
+#, fuzzy
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "透過終端執行並保持開啟狀態"
 
 #: ulng.rsextsclosedbracketnofound
 #, object-pascal-format

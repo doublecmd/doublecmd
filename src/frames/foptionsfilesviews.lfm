@@ -508,6 +508,46 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Layout = tlCenter
       ParentColor = False
     end
+    object lbl1K: TLabel
+      AnchorSideTop.Control = lblOperationSizeFormat
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 16
+      Top = 112
+      Width = 26
+      BorderSpacing.Top = 8
+      Caption = '1K ='
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object rb1024: TRadioButton
+      AnchorSideLeft.Control = lbl1K
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbl1K
+      AnchorSideTop.Side = asrCenter
+      Left = 42
+      Height = 18
+      Top = 111
+      Width = 54
+      BorderSpacing.Left = 4
+      Caption = '1024'
+      TabOrder = 9
+      TabStop = True
+    end
+    object rb1000: TRadioButton
+      AnchorSideLeft.Control = rb1024
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rb1024
+      AnchorSideTop.Side = asrCenter
+      Left = 102
+      Height = 18
+      Top = 111
+      Width = 57
+      BorderSpacing.Left = 6
+      Caption = '1000'
+      TabOrder = 10
+      TabStop = True
+    end
   end
   object gbPersonalizedAbbreviationToUse: TGroupBox[2]
     AnchorSideLeft.Control = Owner

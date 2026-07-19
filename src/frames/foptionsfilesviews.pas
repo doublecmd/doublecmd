@@ -57,6 +57,7 @@ type
     lblKilobyte: TLabel;
     lblMegabyte: TLabel;
     lblGigabyte: TLabel;
+    lbl1K: TLabel;
     lblTerabyte: TLabel;
     lblHeaderSizeExample: TLabel;
     lblHeaderSizeFormat: TLabel;
@@ -74,6 +75,8 @@ type
     lblSortMethod: TLabel;
     lblFileSizeFormat: TLabel;
     pnlDateTime: TPanel;
+    rb1024: TRadioButton;
+    rb1000: TRadioButton;
     speNumberOfDigitsFile: TSpinEdit;
     speNumberOfDigitsHeader: TSpinEdit;
     speNumberOfDigitsFooter: TSpinEdit;
@@ -193,6 +196,10 @@ begin
   speNumberOfDigitsHeader.Value := gHeaderDigits;
   speNumberOfDigitsFooter.Value := gFooterDigits;
   speNumberOfDigitsOperation.Value := gOperationSizeDigits;
+  if g1KBase = 1000 then
+    rb1000.Checked:= True
+  else
+    rb1024.Checked:= True;
   edByte.Text := Trim(gSizeDisplayUnits[fsfPersonalizedByte]);
   edKilo.Text := Trim(gSizeDisplayUnits[fsfPersonalizedKilo]);
   edMega.Text := Trim(gSizeDisplayUnits[fsfPersonalizedMega]);
@@ -242,6 +249,11 @@ begin
   gHeaderDigits := speNumberOfDigitsHeader.Value;
   gFooterDigits := speNumberOfDigitsFooter.Value;
   gOperationSizeDigits := speNumberOfDigitsOperation.Value;
+  if rb1000.Checked then begin
+    SetGlob1KBase(1000);
+  end else begin
+    SetGlob1KBase(1024);
+  end;
   TransferUnitsToOfficialUnits;
   gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);
 
