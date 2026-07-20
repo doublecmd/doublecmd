@@ -194,12 +194,14 @@ begin
   CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedKilo], gFileSizeBases[fsfPersonalizedKilo]);
   CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedMega], gFileSizeBases[fsfPersonalizedMega]);
   CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedGiga], gFileSizeBases[fsfPersonalizedGiga]);
+  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedTera], gFileSizeBases[fsfPersonalizedTera]);
 
   //4.Let's check if there are single letter multiplier or byte suffix.
   CheckIfMemSizeAndSetMultiplicator(rsLegacyOperationByteSuffixLetter, gFileSizeBases[fsfByte]);
   CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterKilo, gFileSizeBases[fsfKilo]);
   CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterMega, gFileSizeBases[fsfMega]);
   CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterGiga, gFileSizeBases[fsfGiga]);
+  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterTera, gFileSizeBases[fsfTera]);
 
   //5. Well... It looks like the pre-defined disk size strings has not been translated in all languages so let's simplify with english values...
   //NO NEED TO TRANSLATE THESE ONES! Either translate all disk size strings and/or accept that english abbreviation always work here.
@@ -207,6 +209,7 @@ begin
   CheckIfMemSizeAndSetMultiplicator('K', gFileSizeBases[fsfKilo]);
   CheckIfMemSizeAndSetMultiplicator('M', gFileSizeBases[fsfMega]);
   CheckIfMemSizeAndSetMultiplicator('G', gFileSizeBases[fsfGiga]);
+  CheckIfMemSizeAndSetMultiplicator('T', gFileSizeBases[fsfTera]);
 
   //5.We remove the spaces since they are irrevelant.
   sExpression := UTF8StringReplace(sExpression, ' ', '', [rfReplaceAll]);
