@@ -3866,9 +3866,10 @@ begin
     end
     else if GetParamValue(Param, 'column', sValue) then
     begin
-      if sValue='ext' then WantedSortFunction:=fsfExtension else
-        if sValue='size' then WantedSortFunction:=fsfSize else
-          if sValue='datetime' then WantedSortFunction:=fsfModificationTime;
+      if sValue='namenoext' then WantedSortFunction:=fsfNameNoExtension else
+        if sValue='ext' then WantedSortFunction:=fsfExtension else
+          if sValue='size' then WantedSortFunction:=fsfSize else
+            if sValue='datetime' then WantedSortFunction:=fsfModificationTime;
     end
     else if GetParamValue(Param, 'order', sValue) then
     begin
