@@ -190,23 +190,23 @@ begin
 
   //2.Let's check first if we have the personalized unit in the expression.
   //  We check first since they may include spaces and byte suffix.
-  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedByte], 1);
-  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedKilo], 1024);
-  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedMega], 1024*1024);
-  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedGiga], 1024*1024*1024);
+  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedByte], gFileSizeBases[fsfPersonalizedByte]);
+  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedKilo], gFileSizeBases[fsfPersonalizedKilo]);
+  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedMega], gFileSizeBases[fsfPersonalizedMega]);
+  CheckIfMemSizeAndSetMultiplicator(gSizeDisplayUnits[fsfPersonalizedGiga], gFileSizeBases[fsfPersonalizedGiga]);
 
   //4.Let's check if there are single letter multiplier or byte suffix.
-  CheckIfMemSizeAndSetMultiplicator(rsLegacyOperationByteSuffixLetter, 1);
-  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterKilo, 1024);
-  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterMega, 1024*1024);
-  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterGiga, 1024*1024*1024);
+  CheckIfMemSizeAndSetMultiplicator(rsLegacyOperationByteSuffixLetter, gFileSizeBases[fsfByte]);
+  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterKilo, gFileSizeBases[fsfKilo]);
+  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterMega, gFileSizeBases[fsfMega]);
+  CheckIfMemSizeAndSetMultiplicator(rsLegacyDisplaySizeSingleLetterGiga, gFileSizeBases[fsfGiga]);
 
   //5. Well... It looks like the pre-defined disk size strings has not been translated in all languages so let's simplify with english values...
   //NO NEED TO TRANSLATE THESE ONES! Either translate all disk size strings and/or accept that english abbreviation always work here.
-  CheckIfMemSizeAndSetMultiplicator('B', 1);
-  CheckIfMemSizeAndSetMultiplicator('K', 1024);
-  CheckIfMemSizeAndSetMultiplicator('M', 1024*1024);
-  CheckIfMemSizeAndSetMultiplicator('G', 1024*1024*1024);
+  CheckIfMemSizeAndSetMultiplicator('B', gFileSizeBases[fsfByte]);
+  CheckIfMemSizeAndSetMultiplicator('K', gFileSizeBases[fsfKilo]);
+  CheckIfMemSizeAndSetMultiplicator('M', gFileSizeBases[fsfMega]);
+  CheckIfMemSizeAndSetMultiplicator('G', gFileSizeBases[fsfGiga]);
 
   //5.We remove the spaces since they are irrevelant.
   sExpression := UTF8StringReplace(sExpression, ' ', '', [rfReplaceAll]);
@@ -223,9 +223,9 @@ begin
   //7.If we return a number here, let's disable the unit selector below.
   if bUseRadioButtons then
   begin
-    if rbtnKiloB.Checked then iMult:=1024;
-    if rbtnMegaB.Checked then iMult:=1024*1024;
-    if rbtnGigaB.Checked then iMult:=1024*1024*1024;
+    if rbtnKiloB.Checked then iMult:=gFileSizeBases[fsfKilo];
+    if rbtnMegaB.Checked then iMult:=gFileSizeBases[fsfMega];
+    if rbtnGigaB.Checked then iMult:=gFileSizeBases[fsfGiga];
   end;
 
   //7.Since we're now supposed to have just numbers in our string, we should be ready to do our conversion.
