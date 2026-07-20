@@ -215,13 +215,10 @@ begin
   sExpression := UTF8StringReplace(sExpression, ' ', '', [rfReplaceAll]);
 
   //6.If we return a number here, let's disable the unit selector below.
-  if cmbxSize.Focused then
-  begin
-    rbtnByte.Enabled := bUseRadioButtons;
-    rbtnKiloB.Enabled := bUseRadioButtons;
-    rbtnMegaB.Enabled := bUseRadioButtons;
-    rbtnGigaB.Enabled := bUseRadioButtons;
-  end;
+  rbtnByte.Enabled := bUseRadioButtons;
+  rbtnKiloB.Enabled := bUseRadioButtons;
+  rbtnMegaB.Enabled := bUseRadioButtons;
+  rbtnGigaB.Enabled := bUseRadioButtons;
 
   //7.If we return a number here, let's disable the unit selector below.
   if bUseRadioButtons then
