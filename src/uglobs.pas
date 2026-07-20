@@ -171,6 +171,7 @@ type
   tHotDirPathModifierElement = (hdpmSource, hdpmTarget);
   tHotDirPathModifierElements = set of tHotDirPathModifierElement;
 
+function g1KBase: UInt64; inline;
 procedure SetGlob1KBase(const value: UInt64);
 
 const
@@ -413,7 +414,6 @@ var
   gFooterDigits: Integer;
   gOperationSizeDigits: Integer;
   gSizeDisplayUnits: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of string;
-  g1KBase: UInt64;
   gFileSizeBases: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of UInt64;
 
   gDateTimeFormat : String;
@@ -796,6 +796,9 @@ var
   gPreviousVersion: String = '';
   FInitList: array of TProcedure;
   CustomDecimalSeparator: String = #$EF#$BF#$BD;
+
+var
+  _g1KBase: UInt64;
 
 function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
                                ConfigFileName: String;
@@ -2823,7 +2826,7 @@ begin
       gOperationSizeFormat := TFileSizeFormat(GetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat)));
       gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
       gOperationSizeDigits := GetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
-      SetGlob1KBase( GetValue(Node, 'KBase', Int64(g1KBase)) );
+      SetGlob1KBase( GetValue(Node, 'KBase', Int64(_g1KBase)) );
       gSizeDisplayUnits[fsfPersonalizedByte] := Trim(GetValue(Node, 'PersonalizedByte', gSizeDisplayUnits[fsfPersonalizedByte]));
       if gSizeDisplayUnits[fsfPersonalizedByte]<>'' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
       gSizeDisplayUnits[fsfPersonalizedKilo] := ' ' + Trim(GetValue(Node, 'PersonalizedKilo', gSizeDisplayUnits[fsfPersonalizedKilo]));
@@ -3566,7 +3569,7 @@ begin
     SetValue(Node, 'HeaderDigits', gHeaderDigits);
     SetValue(Node, 'FooterDigits', gFooterDigits);
     SetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
-    SetValue(Node, 'KBase', Int64(g1KBase));
+    SetValue(Node, 'KBase', Int64(_g1KBase));
     SetValue(Node, 'PersonalizedByte', Trim(gSizeDisplayUnits[fsfPersonalizedByte]));
     SetValue(Node, 'PersonalizedKilo', Trim(gSizeDisplayUnits[fsfPersonalizedKilo]));
     SetValue(Node, 'PersonalizedMega', Trim(gSizeDisplayUnits[fsfPersonalizedMega]));
@@ -4076,9 +4079,14 @@ begin
   gConfig.SetValue(Node,'PluginPathToBeRelativeTo', gPluginPathToBeRelativeTo);  
 end;
 
+function g1KBase: UInt64;
+begin
+  Result:= _g1KBase;
+end;
+
 procedure SetGlob1KBase(const value: UInt64);
 begin
-  g1KBase:= value;
+  _g1KBase:= value;
   gFileSizeBases[fsfFloat]:= 1;
   gFileSizeBases[fsfByte]:= 1;
   gFileSizeBases[fsfKilo]:= g1KBase;
