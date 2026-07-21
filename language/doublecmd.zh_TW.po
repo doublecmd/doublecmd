@@ -4990,7 +4990,6 @@ msgid "Inactive Cursor Color:"
 msgstr "非現用指標顏色:"
 
 #: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
 msgstr "非現用標記顏色:"
@@ -5395,7 +5394,6 @@ msgid "Target"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption"
 msgid "Paths"
 msgstr "路徑"
@@ -5410,7 +5408,6 @@ msgid "Do this for paths of:"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相對路徑:"
@@ -7432,7 +7429,6 @@ msgid "Lua library file to use:"
 msgstr ""
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相對路徑:"
@@ -8227,7 +8223,6 @@ msgid "Apply current settings to all configured filenames and paths"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
 msgstr "指令"
@@ -8238,13 +8233,11 @@ msgid "Icons"
 msgstr "圖示"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr "起始路徑"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
 msgstr "路徑"
@@ -8254,13 +8247,11 @@ msgid "Do this for files and paths for:"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相對路徑:"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
 msgstr "新增圖示、指令和起始路徑等元素時設定路徑的方法:"
@@ -10772,19 +10763,16 @@ msgid "with internal editor"
 msgstr "使用內部編輯器"
 
 #: ulng.rsexecuteviashell
-#, fuzzy
 msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
 msgstr "透過 shell 執行"
 
 #: ulng.rsexecuteviaterminalclose
-#, fuzzy
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
 msgstr "透過終端執行並關閉"
 
 #: ulng.rsexecuteviaterminalstayopen
-#, fuzzy
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "透過終端執行並保持開啟狀態"
