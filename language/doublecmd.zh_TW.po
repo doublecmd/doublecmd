@@ -2651,20 +2651,6 @@ msgstr "在新分頁開啟資料夾 (&F)"
 msgid "Open Drive by Index"
 msgstr "依索引開啟磁碟"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr "iCloud雲碟"
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr "iCloud雲碟"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr "開啟暫存區"
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "開啟虛擬檔案系統清單 (&V)"
@@ -3280,6 +3266,11 @@ msgstr "標記 (&M)"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "網路"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr "開啟暫存區"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -11373,6 +11364,16 @@ msgstr "切換水平/垂直分隔顯示模式"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "水平分隔"
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr "iCloud雲碟"
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
+msgstr "iCloud雲碟"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

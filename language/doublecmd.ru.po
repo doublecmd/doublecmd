@@ -2656,20 +2656,6 @@ msgstr "Открыть пап&ку в новой вкладке"
 msgid "Open Drive by Index"
 msgstr "Открыть диск по индексу"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr "Диск iCloud"
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr "Диск iCloud"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr "Открыть временную панель"
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -3287,6 +3273,11 @@ msgstr "&Выделение"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "&Сеть"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr "Открыть временную панель"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -11387,6 +11378,16 @@ msgstr "Переключить режим расположения панеле�
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Горизонтальное разделение"
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr "Диск iCloud"
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
+msgstr "Диск iCloud"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

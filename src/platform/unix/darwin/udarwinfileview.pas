@@ -33,7 +33,6 @@ type
       const fs: ISearchResultFileSource;
       const files: TStringArray;
       const newPage: Boolean );
-    class procedure addiCloudDrivePage;
   end;
 
   { TDarwinSearchResultHandler }
@@ -265,15 +264,6 @@ begin
 
   fileView.AddFileSource(fs, fs.GetRootDir);
   fileView.FlatView := True;
-end;
-
-class procedure TDarwinFileViewUtil.addiCloudDrivePage;
-var
-  iCloudFS: TiCloudDriveFileSource;
-begin
-  iCloudFS := TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
-  _activeFrameFunc().AddFileSource(iCloudFS, iCloudFS.GetRootDir);
-  _activeFrameFunc().SetFocus;
 end;
 
 initialization

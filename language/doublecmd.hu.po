@@ -2620,20 +2620,6 @@ msgstr "Mappa megnyitása ú&j lapon"
 msgid "Open Drive by Index"
 msgstr "Meghajtó megnyitása index alapján"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr "iCloud meghajtó"
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr "iCloud meghajtó"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr ""
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "&VFS lista megnyitása"
@@ -3242,6 +3228,11 @@ msgstr "Jelö&lés"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "Háló&zat"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -11129,6 +11120,16 @@ msgstr "Vízszintes felosztás mód váltása"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "VízszFeloszt"
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr "iCloud meghajtó"
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
+msgstr "iCloud meghajtó"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

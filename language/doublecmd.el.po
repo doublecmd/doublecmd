@@ -2661,20 +2661,6 @@ msgstr "Άνοιγμα Φακέλου σε Νέα Καρτέλα"
 msgid "Open Drive by Index"
 msgstr "Άνοιγμα Οδηγού με βάση το Ευρετήριο"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr "Οδηγός iCloud"
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr "Οδηγός iCloud"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr "Άνοιγμα Αποθέματος"
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -3295,6 +3281,11 @@ msgstr "Επιλογή"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "Δίκτυο"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr "Άνοιγμα Αποθέματος"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -11356,6 +11347,16 @@ msgstr "Εναλλαγή σε Λειτουργία Οριζοντίου Διαχ
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "HorzSplit"
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr "Οδηγός iCloud"
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
+msgstr "Οδηγός iCloud"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

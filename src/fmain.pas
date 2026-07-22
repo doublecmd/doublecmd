@@ -78,10 +78,8 @@ type
     actEmptyStash: TAction;
     actAirDrop: TAction;
     actRevealInSystemFileManager: TAction;
-    actOpeniCloud: TAction;
     actShare: TAction;
     actRemoveFromStash: TAction;
-    actOpenStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
     actMapNetworkDrive: TAction;

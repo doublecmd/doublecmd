@@ -2612,20 +2612,6 @@ msgstr "Otvoriť priečinok v novej karte"
 msgid "Open Drive by Index"
 msgstr "Otvoriť disk podľa indexu"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr "iCloud Disk"
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr "iCloud Disk"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr ""
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
 msgstr "Otvoriť VFS zoznam"
@@ -3234,6 +3220,11 @@ msgstr "&Označiť"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "S&ieť"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -11130,6 +11121,16 @@ msgstr "Prepnúť režim s horizontálnymi panelmi"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Horizontálne rozdelenie"
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr ""
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
+msgstr ""
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"

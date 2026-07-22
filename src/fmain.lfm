@@ -1217,7 +1217,7 @@ object frmMain: TfrmMain
         Action = actOpenVirtualFileSystemList
       end
       object mnuOpenStash: TMenuItem
-        Action = actOpenStash
+        Caption = 'Open Stash'
       end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange
@@ -2887,12 +2887,6 @@ object frmMain: TfrmMain
       Caption = 'Add to Stash'
       OnExecute = actExecute
     end
-    object actOpenStash: TAction
-      Tag = 4
-      Category = 'File Operations'
-      Caption = 'Open Stash'
-      OnExecute = actExecute
-    end
     object actRemoveFromStash: TAction
       Tag = 4
       Category = 'File Operations'
@@ -2903,13 +2897,6 @@ object frmMain: TfrmMain
       Tag = 4
       Category = 'File Operations'
       Caption = 'Empty Stash'
-      OnExecute = actExecute
-    end
-    object actOpeniCloud: TAction
-      Tag = 4
-      Category = 'File Operations'
-      Caption = 'iCloud Drive'
-      Hint = 'iCloud Drive'
       OnExecute = actExecute
     end
     object actShare: TAction

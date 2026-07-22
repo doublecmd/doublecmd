@@ -2785,20 +2785,6 @@ msgstr "Åbn mappe i ny &fane"
 msgid "Open Drive by Index"
 msgstr "Åbn drev efter indeks"
 
-#: tfrmmain.actopenicloud.caption
-msgctxt "tfrmmain.actopenicloud.caption"
-msgid "iCloud Drive"
-msgstr ""
-
-#: tfrmmain.actopenicloud.hint
-msgctxt "tfrmmain.actopenicloud.hint"
-msgid "iCloud Drive"
-msgstr ""
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr ""
-
 # Kommandoer
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
@@ -3465,6 +3451,11 @@ msgstr "&Marker"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "&Netværk"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 # Vis
 #: tfrmmain.mnushow.caption
@@ -12223,6 +12214,16 @@ msgstr ""
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
+msgstr ""
+
+#: ulng.rsmfstbiiclouddrivetips
+msgctxt "ulng.rsmfstbiiclouddrivetips"
+msgid "iCloud Drive"
+msgstr ""
+
+#: ulng.rsmfstbiiclouddrivetitle
+msgctxt "ulng.rsmfstbiiclouddrivetitle"
+msgid "iCloud Drive"
 msgstr ""
 
 #: ulng.rsmfstbinetworktips
