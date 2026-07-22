@@ -5803,6 +5803,12 @@ begin
       TDarwinPanelUtil.showAirDrop;
     'RevealInFinder':
       TDarwinApplicationUtil.performService( 'Finder/Reveal' );
+    'ShowInfoInFinder':
+      TDarwinApplicationUtil.performService( 'Finder/Show Info' );
+    'QuickLook':
+      TDarwinPanelUtil.showQuickLook;
+    'EditFinderTags':
+      TDarwinPanelUtil.showEditFinderTags( nil, frmMain );
   end;
   {$ENDIF}
 end;

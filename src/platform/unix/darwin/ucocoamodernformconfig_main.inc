@@ -146,7 +146,7 @@ end;
 
 procedure quickLookAction( const Sender: id );
 begin
-  TDarwinPanelUtil.showQuickLook;
+  frmMain.Commands.cm_CallPlatformFunctions(['func=QuickLook']);
 end;
 
 procedure editTagAction( const Sender: id );
@@ -161,7 +161,7 @@ end;
 
 procedure finderInfoAction( const Sender: id );
 begin
-  TDarwinApplicationUtil.performService( 'Finder/Show Info' );
+  frmMain.Commands.cm_CallPlatformFunctions(['func=ShowInfoInFinder']);
 end;
 
 procedure compareAction( const Sender: id );
@@ -911,7 +911,9 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin='+rsstashname], stashItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=Share'], shareItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=AirDrop'], airDropItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=EditFinderTags'], tagItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=RevealInFinder'], finderRevealItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=ShowInfoInFinder'], finderInfoItemConfig );
 
   addShortCutTipsToItemConfig( QuickLookShortCut, quickLookItemConfig );
 end;
