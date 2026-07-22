@@ -1484,8 +1484,20 @@ begin
 end;
 
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
+var
+  plugin: String;
+  f: TFile;
 begin
   DoOpenVirtualFileSystemList(frmMain.ActiveFrame);
+  if NOT GetParamValue(Params, 'plugin', plugin) then
+    Exit;
+  if plugin.IsEmpty then
+    Exit;
+
+  f:= TFile.Create(EmptyStr);
+  f.Name:= plugin;
+  ChooseFileSource(frmMain.ActiveFrame, frmMain.ActiveFrame.FileSource, f );
+  f.Free;
 end;
 
 procedure TMainCommands.cm_OpenStash(const Params: array of string);
