@@ -2104,6 +2104,14 @@ msgstr "Seznam"
 msgid "Calculate &Occupied Space"
 msgstr "Spočítat &obsazené místo..."
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Změnit složku"

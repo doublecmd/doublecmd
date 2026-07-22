@@ -2170,6 +2170,14 @@ msgstr "Съкратен изглед"
 msgid "Calculate &Occupied Space"
 msgstr "Изчисляване на &заетото място..."
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Смяна на папката"

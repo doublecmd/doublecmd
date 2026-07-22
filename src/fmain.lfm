@@ -2919,6 +2919,13 @@ object frmMain: TfrmMain
       Hint = 'Reveal in System File Manager'
       OnExecute = actExecute
     end
+    object actCallPlatformFunctions: TAction
+      Tag = 18
+      Category = 'Tools'
+      Caption = 'Call platform functions'
+      Hint = 'Call platform functions (the function to be called is specified by the parameter ''func'')'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

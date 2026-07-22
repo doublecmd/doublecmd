@@ -2095,6 +2095,14 @@ msgstr "Datotečni pogled"
 msgid "Calculate &Occupied Space"
 msgstr "Preračunaj &zasedenost prostora"
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Zamenjaj mapo"

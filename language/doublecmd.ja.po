@@ -2139,6 +2139,14 @@ msgstr "概要表示"
 msgid "Calculate &Occupied Space"
 msgstr "占有スペースを計算(&O)"
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "ディレクトリを変更"

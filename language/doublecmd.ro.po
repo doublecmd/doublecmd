@@ -2150,6 +2150,14 @@ msgstr "Vizualizare pe Scurt"
 msgid "Calculate &Occupied Space"
 msgstr "Calculează spațiul &ocupat"
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Schimbă directorul"

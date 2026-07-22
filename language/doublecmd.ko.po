@@ -2078,6 +2078,14 @@ msgstr "간단히 보기"
 msgid "Calculate &Occupied Space"
 msgstr "점유된 공간 계산(&O)"
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "디렉터리 변경"

@@ -2077,6 +2077,14 @@ msgstr "列表视图"
 msgid "Calculate &Occupied Space"
 msgstr "计算占用空间(&O)..."
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "更改文件夹"

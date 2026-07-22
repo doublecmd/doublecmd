@@ -77,6 +77,7 @@ type
     actAddToStash: TAction;
     actEmptyStash: TAction;
     actAirDrop: TAction;
+    actCallPlatformFunctions: TAction;
     actRevealInSystemFileManager: TAction;
     actShare: TAction;
     actRemoveFromStash: TAction;

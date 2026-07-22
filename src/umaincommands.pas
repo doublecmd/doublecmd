@@ -385,6 +385,7 @@ type
    procedure cm_AddToStash(const {%H-}Params: array of string);
    procedure cm_RemoveFromStash(const {%H-}Params: array of string);
    procedure cm_EmptyStash(const {%H-}Params: array of string);
+   procedure cm_CallPlatformFunctions(const {%H-}Params: array of string);
    procedure cm_Share(const {%H-}Params: array of string);
    procedure cm_AirDrop(const {%H-}Params: array of string);
    procedure cm_RevealInSystemFileManager(const {%H-}Params: array of string);
@@ -5785,6 +5786,25 @@ end;
 procedure TMainCommands.cm_EmptyStash(const Params: array of string);
 begin
   stashFilesBackend.clear;
+end;
+
+procedure TMainCommands.cm_CallPlatformFunctions(const Params: array of string);
+var
+  func: String;
+begin
+  {$IFDEF DARWIN}
+  if NOT GetParamValue(Params, 'func', func) then
+    Exit;
+
+  case func of
+    'Share':
+      TDarwinPanelUtil.showSharingService;
+    'AirDrop':
+      TDarwinPanelUtil.showAirDrop;
+    'RevealInFinder':
+      TDarwinApplicationUtil.performService( 'Finder/Reveal' );
+  end;
+  {$ENDIF}
 end;
 
 procedure TMainCommands.cm_Share(const Params: array of string);
