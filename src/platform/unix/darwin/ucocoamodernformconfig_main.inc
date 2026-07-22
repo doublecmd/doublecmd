@@ -454,7 +454,7 @@ end;
 
 procedure iCloudAction( const Sender: id );
 begin
-  frmMain.Commands.cm_OpeniCloud([]);
+  frmMain.Commands.cm_OpenVirtualFileSystemList( ['plugin=iCloud'] );
 end;
 
 procedure networkAction( const Sender: id );
@@ -464,7 +464,7 @@ end;
 
 procedure stashAction( const Sender: id );
 begin
-  frmMain.Commands.cm_OpenStash([]);
+  frmMain.Commands.cm_OpenVirtualFileSystemList( ['plugin='+rsstashname] );
 end;
 
 procedure terminalAction( const Sender: id );
@@ -551,8 +551,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'cloud';
-    title: 'iCloud Drive';
-    tips: 'iCloud Drive';
+    title: rsMFSTBIiCloudDriveTitle;
+    tips: rsMFSTBIiCloudDriveTips;
     bordered: True;
     onAction: @iCloudAction;
   );
@@ -906,9 +906,9 @@ procedure addMainFormShortCutTips;
 begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
-  addShortCutTipsToItemConfig( 'Main', 'cm_OpeniCloud', iCloudItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin=iCloud'], iCloudItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
-  addShortCutTipsToItemConfig( 'Main', 'cm_OpenStash', stashItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin='+rsstashname], stashItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_AirDrop', airDropItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_RevealInSystemFileManager', finderRevealItemConfig );

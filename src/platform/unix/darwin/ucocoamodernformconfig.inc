@@ -8,6 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus, ComCtrls, Graphics,
+  DCBasicTypes,
   fMain, fEditor, fDiffer, fViewer,
   uHotkeyManager, uKeyboard, uEarlyConfig, uGlobs, uLng, uDCUtils, uVectorImage,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
@@ -127,6 +128,7 @@ end;
 procedure addShortCutTipsToItemConfig(
   const formName: String;
   const command: String;
+  const params: TDynamicStringArray;
   var item: TCocoaConfigToolBarItemWithUI );
 var
   form: THMForm;
@@ -136,7 +138,7 @@ begin
   if form = nil then
     Exit;
 
-  hotkey:= form.Hotkeys.FindByCommand( command );
+  hotkey:= form.Hotkeys.FindByCommand( command, params );
   if hotkey = nil then
     Exit;
 
@@ -144,6 +146,14 @@ begin
     Exit;
 
   addShortCutTipsToItemConfig( TextToShortCutEx(hotkey.Shortcuts[0]), item );
+end;
+
+procedure addShortCutTipsToItemConfig(
+  const formName: String;
+  const command: String;
+  var item: TCocoaConfigToolBarItemWithUI ); inline;
+begin
+  addShortCutTipsToItemConfig( formName, command, nil, item );
 end;
 
 {$i ucocoamodernformconfig_main.inc}
