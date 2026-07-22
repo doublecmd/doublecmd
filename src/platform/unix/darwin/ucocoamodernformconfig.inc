@@ -52,6 +52,30 @@ begin
   item.tips:= s;
 end;
 
+function getShortCutOfCommand(
+  const formName: String;
+  const command: String;
+  const params: TDynamicStringArray ): TShortCut;
+var
+  form: THMForm;
+  hotkey: THotKey;
+begin
+  Result:= 0;
+
+  form:= HotMan.Forms.Find( formName );
+  if form = nil then
+    Exit;
+
+  hotkey:= form.Hotkeys.FindByCommand( command, params );
+  if hotkey = nil then
+    Exit;
+
+  if Length(hotkey.Shortcuts) = 0 then
+    Exit;
+
+  Result:= TextToShortCutEx( hotkey.Shortcuts[0] );
+end;
+
 function shortCutToMacOSString( const shortCut: TShortCut ): String;
 
   function shiftToString( const shift: TShiftState ): String;
@@ -131,21 +155,11 @@ procedure addShortCutTipsToItemConfig(
   const params: TDynamicStringArray;
   var item: TCocoaConfigToolBarItemWithUI );
 var
-  form: THMForm;
-  hotkey: THotKey;
+  shortCut: TShortCut;
 begin
-  form:= HotMan.Forms.Find( formName );
-  if form = nil then
-    Exit;
-
-  hotkey:= form.Hotkeys.FindByCommand( command, params );
-  if hotkey = nil then
-    Exit;
-
-  if Length(hotkey.Shortcuts) = 0 then
-    Exit;
-
-  addShortCutTipsToItemConfig( TextToShortCutEx(hotkey.Shortcuts[0]), item );
+  shortCut:= getShortCutOfCommand( formName, command, params );
+  if shortCut <> 0 then
+    addShortCutTipsToItemConfig( shortCut, item );
 end;
 
 procedure addShortCutTipsToItemConfig(

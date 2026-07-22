@@ -942,7 +942,9 @@ end;
 
 procedure doInitMainFormConfig;
 begin
-  QuickLookShortCut:= ShortCut( Word(' '), [ssAlt] );
+  QuickLookShortCut:= getShortCutOfCommand( 'Main', 'cm_CallPlatformFunctions', ['func=QuickLook'] );
+  if QuickLookShortCut = 0 then
+    QuickLookShortCut:= ShortCut( Word(' '), [ssAlt] );
 
   loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
   loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
