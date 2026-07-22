@@ -141,7 +141,7 @@ end;
 
 procedure airdropAction( const Sender: id );
 begin
-  frmMain.Commands.cm_AirDrop([]);
+  frmMain.Commands.cm_CallPlatformFunctions(['func=AirDrop']);
 end;
 
 procedure quickLookAction( const Sender: id );
@@ -156,7 +156,7 @@ end;
 
 procedure finderRevealAction( const Sender: id );
 begin
-  frmMain.Commands.cm_RevealInSystemFileManager([]);
+  frmMain.Commands.cm_CallPlatformFunctions(['func=RevealInFinder']);
 end;
 
 procedure finderInfoAction( const Sender: id );
@@ -909,9 +909,9 @@ begin
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin=iCloud'], iCloudItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin='+rsstashname], stashItemConfig );
-  addShortCutTipsToItemConfig( 'Main', 'cm_Share', shareItemConfig );
-  addShortCutTipsToItemConfig( 'Main', 'cm_AirDrop', airDropItemConfig );
-  addShortCutTipsToItemConfig( 'Main', 'cm_RevealInSystemFileManager', finderRevealItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=Share'], shareItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=AirDrop'], airDropItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=RevealInFinder'], finderRevealItemConfig );
 
   addShortCutTipsToItemConfig( QuickLookShortCut, quickLookItemConfig );
 end;
