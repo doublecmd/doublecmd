@@ -386,9 +386,6 @@ type
    procedure cm_RemoveFromStash(const {%H-}Params: array of string);
    procedure cm_EmptyStash(const {%H-}Params: array of string);
    procedure cm_CallPlatformFunctions(const {%H-}Params: array of string);
-   procedure cm_Share(const {%H-}Params: array of string);
-   procedure cm_AirDrop(const {%H-}Params: array of string);
-   procedure cm_RevealInSystemFileManager(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -5810,27 +5807,6 @@ begin
     'EditFinderTags':
       TDarwinPanelUtil.showEditFinderTags( nil, frmMain );
   end;
-  {$ENDIF}
-end;
-
-procedure TMainCommands.cm_Share(const Params: array of string);
-begin
-  {$IFDEF DARWIN}
-  TDarwinPanelUtil.showSharingService;
-  {$ENDIF}
-end;
-
-procedure TMainCommands.cm_AirDrop(const Params: array of string);
-begin
-  {$IFDEF DARWIN}
-  TDarwinPanelUtil.showAirDrop;
-  {$ENDIF}
-end;
-
-procedure TMainCommands.cm_RevealInSystemFileManager(const Params: array of string);
-begin
-  {$IFDEF DARWIN}
-  TDarwinApplicationUtil.performService( 'Finder/Reveal' );
   {$ENDIF}
 end;
 

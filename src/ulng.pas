@@ -369,6 +369,7 @@ resourcestring
   rsMnuiCloudDriveRemoveDownload = 'Remove Download';
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
+  rsMenuMacOSShare = 'Share...';
   rsMenuMacOSGrantPermissionToSupportFinderTags = 'Grant "Full Disk Access" permission to support Finder Tags...';
   rsMenuMacOSEditFinderTags = 'Edit Finder Tags...';
   rsMenuMacOSAddFinderTag = 'Add "%s"';

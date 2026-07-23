@@ -76,10 +76,7 @@ type
     actAddPlugin: TAction;
     actAddToStash: TAction;
     actEmptyStash: TAction;
-    actAirDrop: TAction;
     actCallPlatformFunctions: TAction;
-    actRevealInSystemFileManager: TAction;
-    actShare: TAction;
     actRemoveFromStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;

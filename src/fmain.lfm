@@ -2899,26 +2899,6 @@ object frmMain: TfrmMain
       Caption = 'Empty Stash'
       OnExecute = actExecute
     end
-    object actShare: TAction
-      Tag = 4
-      Category = 'File Operations'
-      Caption = 'Share...'
-      OnExecute = actExecute
-    end
-    object actAirDrop: TAction
-      Tag = 4
-      Category = 'File Operations'
-      Caption = 'AirDrop'
-      Hint = 'AirDrop'
-      OnExecute = actExecute
-    end
-    object actRevealInSystemFileManager: TAction
-      Tag = 4
-      Category = 'File Operations'
-      Caption = 'Reveal in File Manager'
-      Hint = 'Reveal in System File Manager'
-      OnExecute = actExecute
-    end
     object actCallPlatformFunctions: TAction
       Tag = 18
       Category = 'Tools'

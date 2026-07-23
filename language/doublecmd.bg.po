@@ -2143,16 +2143,6 @@ msgstr ""
 msgid "Add to Stash"
 msgstr ""
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr ""
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr ""
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2802,14 +2792,6 @@ msgstr "Съхраняване на текущите подпрозорци в �
 msgid "&Restore Selection"
 msgstr "Въз&становяване на отбелязването"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr ""
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr ""
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "О&бръщане на реда"
@@ -2931,11 +2913,6 @@ msgstr "&Заключен"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Заключен, с разрешена смяна на &папката"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr ""
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -11518,6 +11495,10 @@ msgstr ""
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmfstbiairdroptips

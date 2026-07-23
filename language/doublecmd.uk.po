@@ -2117,16 +2117,6 @@ msgstr "Додати плагін"
 msgid "Add to Stash"
 msgstr ""
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr ""
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr ""
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Тест продуктивності"
@@ -2777,14 +2767,6 @@ msgstr "Перезберегти останні завантажені обра�
 msgid "&Restore Selection"
 msgstr "Ві&дновити виділення"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr ""
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr ""
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "О&бернений порядок"
@@ -2906,11 +2888,6 @@ msgstr "Заб&локувати"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Заблоку&вати, але дозволити зміну каталогу"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr ""
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -11388,6 +11365,10 @@ msgstr ""
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmfstbiairdroptips

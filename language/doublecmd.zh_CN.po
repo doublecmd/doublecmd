@@ -2051,16 +2051,6 @@ msgstr "添加插件"
 msgid "Add to Stash"
 msgstr "添加到暂存区"
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr "隔空投送"
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr "隔空投送"
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基准测试(&B)"
@@ -2700,14 +2690,6 @@ msgstr "重新保存上次载入的收藏夹标签"
 msgid "&Restore Selection"
 msgstr "恢复选择(&R)"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr "转到文件管理器"
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr "在系统文件管理器中访问"
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "反向排序(&V)"
@@ -2827,11 +2809,6 @@ msgstr "锁定(&L)"
 #: tfrmmain.actsettaboptionpathresets.caption
 msgid "Locked with &Directory Changes Allowed"
 msgstr "锁定，但允许更改文件夹(&D)"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr "共享..."
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -11024,6 +11001,10 @@ msgstr "授予“完全磁盘访问”权限以支持“访达”标签..."
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "移除“%s”"
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
+msgstr "共享..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

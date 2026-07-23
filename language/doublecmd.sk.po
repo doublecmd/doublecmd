@@ -2053,16 +2053,6 @@ msgstr "Pridať zásuvný modul"
 msgid "Add to Stash"
 msgstr ""
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr "AirDrop"
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr "AirDrop"
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Benchmark"
@@ -2702,14 +2692,6 @@ msgstr "Znovuuložiť na posledné otvorené obľúbené karty"
 msgid "&Restore Selection"
 msgstr "Obnoviť výbe&r"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr ""
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr ""
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Obrátiť poradie"
@@ -2829,11 +2811,6 @@ msgstr "Uzamknuté"
 #: tfrmmain.actsettaboptionpathresets.caption
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Uzamknuté s povolenou zmenou priečinka"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr "Zdieľať..."
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
@@ -11027,6 +11004,10 @@ msgstr "Udeliť oprávnenie „Plný prístup k disku“ na podporu štítkov ap
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr "Odstrániť \"%s\""
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
+msgstr "Zdieľať..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

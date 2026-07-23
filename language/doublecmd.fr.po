@@ -2164,16 +2164,6 @@ msgstr "Ajouter un \"Plugin\""
 msgid "Add to Stash"
 msgstr ""
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr ""
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr ""
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "Étalonnage"
@@ -2823,14 +2813,6 @@ msgstr "Enregistrer les onglets courants dans un dernier groupe d'onglets favori
 msgid "&Restore Selection"
 msgstr "&Recharger la sélection"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr ""
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr ""
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Inverser l'ordre"
@@ -2952,11 +2934,6 @@ msgstr "&Verrouillé"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Verrouillé avec les changements de &dossiers autorisés"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr "Partager..."
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -11371,6 +11348,10 @@ msgstr ""
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
+msgstr "Partager..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"

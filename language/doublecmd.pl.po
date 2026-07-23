@@ -2055,16 +2055,6 @@ msgstr "Dodaj wtyczkę"
 msgid "Add to Stash"
 msgstr ""
 
-#: tfrmmain.actairdrop.caption
-msgctxt "tfrmmain.actairdrop.caption"
-msgid "AirDrop"
-msgstr ""
-
-#: tfrmmain.actairdrop.hint
-msgctxt "tfrmmain.actairdrop.hint"
-msgid "AirDrop"
-msgstr ""
-
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Test wydajności"
@@ -2704,14 +2694,6 @@ msgstr "Zapisz w ostatnio załadowanych ulubionych zakładkach"
 msgid "&Restore Selection"
 msgstr "P&rzywróć zaznaczenie"
 
-#: tfrmmain.actrevealinsystemfilemanager.caption
-msgid "Reveal in File Manager"
-msgstr ""
-
-#: tfrmmain.actrevealinsystemfilemanager.hint
-msgid "Reveal in System File Manager"
-msgstr ""
-
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Od&wrotny porządek"
@@ -2831,11 +2813,6 @@ msgstr "&Zablokowana"
 #: tfrmmain.actsettaboptionpathresets.caption
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Zablokowana z możliwością zmiany &katalogu"
-
-#: tfrmmain.actshare.caption
-msgctxt "tfrmmain.actshare.caption"
-msgid "Share..."
-msgstr "Udostępnij..."
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -10996,6 +10973,10 @@ msgstr ""
 #, object-pascal-format
 msgid "Remove \"%s\""
 msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share..."
+msgstr "Udostępnij..."
 
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
