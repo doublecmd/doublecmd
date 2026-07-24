@@ -2672,12 +2672,12 @@ begin
     try
       if (theFilesToDelete.Count = 0) then Exit;
       if (theFilesToDelete.Count = 1) then
-        Message:= Format(MsgDelSel, [theFilesToDelete[0].Name])
+        Message:= Format(MsgDelSel, [WrapTextSimple(theFilesToDelete[0].Name)])
       else begin
          Message:= Format(MsgDelFlDr, [theFilesToDelete.Count]) + LineEnding;
          for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
          begin
-           Message+= LineEnding + theFilesToDelete[I].Name;
+           Message+= LineEnding + Format('"%s"', [WrapTextSimple(theFilesToDelete[I].Name)]);
          end;
          if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
       end;
