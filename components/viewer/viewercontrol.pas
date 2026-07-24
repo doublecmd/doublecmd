@@ -225,6 +225,7 @@ type
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FExtraLineSpacing:   Integer;
     FLeftMargin:         Integer;
+    FRightToLeft:        Boolean; // text contains RTL characters (e.g. Hebrew) - lines are right-aligned
     FOnGuessEncoding:    TGuessEncodingEvent;
     FOnFileOpen:         TFileOpenEvent;
     FCaretVisible:       Boolean;
@@ -254,6 +255,7 @@ type
     procedure SetTabSpaces(const AValue: Integer);
     procedure SetShowCaret(AValue: Boolean);
     procedure SetCaretPos(AValue: PtrInt);
+    function DetectRightToLeft: Boolean;
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -1886,11 +1888,12 @@ begin
   FBOMLength := 0;
   FBlockBeg  := 0;
   FBlockEnd  := 0;
+  FRightToLeft := False;
 end;
 
 procedure TViewerControl.WriteText;
 var
-  yIndex, xIndex, w, i: Integer;
+  yIndex, xIndex, w, i, X: Integer;
   LineStart, iPos: PtrInt;
   CharLenInBytes: Integer;
   DataLength: PtrInt;
@@ -1903,6 +1906,14 @@ var
       FCaretPoint.X:= X;
       FCaretPoint.Y:= Y;
     end;
+  end;
+
+  function EmptyLineX: Integer;
+  begin
+    if FRightToLeft then
+      Result := ClientWidth - FLeftMargin
+    else
+      Result := 0;
   end;
 
 begin
@@ -1924,7 +1935,7 @@ begin
       begin
         if GetPrevCharAsAscii(iPos, CharLenInBytes) = 10 then
         begin
-          DrawCaret(0, yIndex * FTextHeight, iPos);
+          DrawCaret(EmptyLineX, yIndex * FTextHeight, iPos);
         end;
         Break;
       end;
@@ -1937,7 +1948,7 @@ begin
       if i > FHLowEnd then FHLowEnd:= i;
 
       if DataLength = 0 then
-        DrawCaret(0, yIndex * FTextHeight, LineStart)
+        DrawCaret(EmptyLineX, yIndex * FTextHeight, LineStart)
       else begin
         if (Mode = vcmText) and (FHPosition > 0) then
         begin
@@ -1951,7 +1962,14 @@ begin
         end;
         sText := GetText(LineStart, DataLength, 0);
 
-        OutText(FLeftMargin + xIndex * w, yIndex * FTextHeight, sText, LineStart, DataLength);
+        if not FRightToLeft then
+          X := FLeftMargin + xIndex * w
+        else if Mode = vcmBook then
+          X := (xIndex + 1) * w - FLeftMargin - Canvas.TextWidth(sText)
+        else
+          X := ClientWidth - FLeftMargin - Canvas.TextWidth(sText);
+
+        OutText(X, yIndex * FTextHeight, sText, LineStart, DataLength);
       end;
     end;
   end;
@@ -2245,8 +2263,20 @@ end;
 procedure TViewerControl.OutText(x, y: Integer; const sText: String;
   StartPos: PtrInt; DataLength: Integer);
 var
+  sTmpText: String;
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
+
+  // For right-to-left text lines are right-aligned, so a logical prefix of
+  // the line is drawn aligned to the same right edge as the whole line.
+  function PieceX(const sPiece: String): Integer;
+  begin
+    if FRightToLeft then
+      Result := X + Canvas.TextWidth(sText) - Canvas.TextWidth(sPiece)
+    else
+      Result := X;
+  end;
+
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
@@ -2256,7 +2286,11 @@ begin
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
     FCaretPoint.Y:= Y;
-    FCaretPoint.X:= X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0));
+    sTmpText:= GetText(StartPos, FCaretPos - pBegLine, 0);
+    if FRightToLeft then
+      FCaretPoint.X:= PieceX(sTmpText)
+    else
+      FCaretPoint.X:= X + Canvas.TextWidth(sTmpText);
   end;
 
   // Out of selection, draw normal
@@ -2286,7 +2320,8 @@ begin
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
 
-  Canvas.TextOut(X, Y, GetText(StartPos, iEndDrawIndex - pBegLine, 0));
+  sTmpText := GetText(StartPos, iEndDrawIndex - pBegLine, 0);
+  Canvas.TextOut(PieceX(sTmpText), Y, sTmpText);
 
   // Restore previous canvas settings
   Canvas.Brush.Color := Color;
@@ -2294,7 +2329,10 @@ begin
 
   // Text before selection
   if iBegDrawIndex - pBegLine > 0 then
-    Canvas.TextOut(X, Y, GetText(StartPos, iBegDrawIndex - pBegLine, 0));
+  begin
+    sTmpText := GetText(StartPos, iBegDrawIndex - pBegLine, 0);
+    Canvas.TextOut(PieceX(sTmpText), Y, sTmpText);
+  end;
 end;
 
 procedure TViewerControl.OutCustom(x, y: Integer; const sText: String;
@@ -3071,7 +3109,15 @@ begin
   if FLineList.Count = 0 then
     Exit(-1);
 
-  if (x < FLeftMargin) then
+  if FRightToLeft and (FViewerControlMode in [vcmText, vcmWrap, vcmBook]) then
+  begin
+    // Lines are right-aligned: the distance from the right edge corresponds
+    // to the accumulated logical text width for right-to-left text.
+    x := (ClientWidth - FLeftMargin) - x;
+    if x < 0 then
+      x := 0;
+  end
+  else if (x < FLeftMargin) then
     x := 0
   else begin
     x := x - FLeftMargin;
@@ -3685,6 +3731,8 @@ begin
   FBOMLength := GetBomLength;
   UpdateLimits;
 
+  FRightToLeft := DetectRightToLeft;
+
   UpdateScrollbars;
   Invalidate;
 end;
@@ -3738,6 +3786,32 @@ begin
   end
   else
     Result := veAutoDetect;
+end;
+
+function TViewerControl.DetectRightToLeft: Boolean;
+var
+  DetectLength: PtrInt = 4096; // take first 4kB of the text like DetectEncoding
+  S: String;
+  I: Integer;
+begin
+  Result := False;
+  if not IsFileOpen then
+    Exit;
+
+  if DetectLength > FHighLimit - FLowLimit then
+    DetectLength := FHighLimit - FLowLimit;
+
+  // Decoded to UTF-8 with the current encoding.
+  S := GetText(FLowLimit, DetectLength, 0);
+
+  // Hebrew block U+0590..U+05FF is encoded as $D6 $90..$D7 $BF in UTF-8.
+  for I := 1 to Length(S) - 1 do
+  begin
+    case S[I] of
+      #$D6: if S[I + 1] in [#$90..#$BF] then Exit(True);
+      #$D7: if S[I + 1] in [#$80..#$BF] then Exit(True);
+    end;
+  end;
 end;
 
 procedure TViewerControl.GetSupportedEncodings(List: TStrings);
