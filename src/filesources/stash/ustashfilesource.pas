@@ -248,7 +248,7 @@ end;
 
 class function TStashFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= 'cm_openstash';
+  Path:= 'stash';
   Result:= True;
 end;
 
