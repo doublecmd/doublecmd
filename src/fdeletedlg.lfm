@@ -24,14 +24,12 @@ inherited frmDeleteDlg: TfrmDeleteDlg
       AnchorSideTop.Control = pnlContent
       AnchorSideRight.Control = pnlContent
       AnchorSideRight.Side = asrBottom
-      Constraints.MaxWidth = 800
       Left = 0
       Height = 1
       Top = 0
       Width = 399
       ParentColor = False
       ShowAccelChar = False
-      WordWrap = True
     end
   end
   inherited pnlButtons: TPanel
