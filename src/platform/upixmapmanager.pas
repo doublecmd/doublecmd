@@ -36,7 +36,7 @@ interface
   If this problem will be fixed then GTK2 specific code could be dropped.
 }
 {$IF DEFINED(LCLGTK2) AND DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  {$DEFINE GTK2_FIX}
+  {.$DEFINE GTK2_FIX}
 {$ENDIF}
 
 // Use freedesktop.org specifications
