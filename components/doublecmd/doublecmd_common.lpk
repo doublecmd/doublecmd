@@ -36,8 +36,8 @@ end"/>
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="4" Release="3"/>
-    <Files Count="13">
+    <Version Minor="4" Release="4"/>
+    <Files Count="14">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -90,6 +90,10 @@ end"/>
         <Filename Value="dcclasses.pas"/>
         <UnitName Value="DCClasses"/>
       </Item13>
+      <Item14>
+        <Filename Value="dcstringhashtable.pas"/>
+        <UnitName Value="DCStringHashTable"/>
+      </Item14>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
