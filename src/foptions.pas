@@ -213,6 +213,9 @@ begin
   // Initialize property storage
   InitPropStorage(Self);
   TreeFilterEdit.Visible:= (OptionsSearchCache.Count > 0);
+  // Qt6/Wayland: tooltip popups can steal the input grab and leave the
+  // window unresponsive; the options pages are full of hinted controls.
+  ShowHint:= False;
 {$IFDEF DARWIN}
   self.BorderIcons:= self.BorderIcons - [biMinimize];
 {$ENDIF}
