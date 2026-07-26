@@ -4506,57 +4506,71 @@ end;
 
 procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
   const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
-const OccupiedThresholdPercent = 90;
+const
+  OccupiedThresholdPercent = 90;
 var
-  pbxDrive: TPaintBox absolute Sender;
-  FillPercentage: PtrInt;
-  i: Integer;
-  AColor, AColor2: TColor;
+  I: Integer;
   ARect: TRect;
+  AFactor: Double;
+  ABitmap: TBitmap;
+  FillPercentage: PtrInt;
+  AColor, AColor2: TColor;
+  pbxDrive: TPaintBox absolute Sender;
 begin
   FillPercentage:= pbxDrive.Tag;
-  if FillPercentage <> -1 then
-  begin
-    pbxDrive.Canvas.Brush.Color:= clBlack;
-    pbxDrive.Canvas.FrameRect(0, 0, pbxDrive.Width - 1, pbxDrive.Height - 1);
+  if FillPercentage < 0 then Exit;
+
+  ABitmap:= TBitmap.Create;
+  try
+    ARect:= pbxDrive.ClientRect;
+    AFactor:= pbxDrive.GetCanvasScaleFactor;
+    ABitmap.SetSize(Round(ARect.Width * AFactor), Round(ARect.Height * AFactor));
+
+    ABitmap.Canvas.Brush.Color:= clBlack;
+    ABitmap.Canvas.FrameRect(0, 0, ABitmap.Width - 1, ABitmap.Height - 1);
 
     ARect.Top    := 1;
-    ARect.Bottom := pbxDrive.Height - 2;
+    ARect.Bottom := ABitmap.Height - 2;
 
     if not bIndUseGradient then
       begin
         ARect.Left  := 1;
-        ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
+        ARect.Right := 1 + FillPercentage * (ABitmap.Width - 2) div 100;
         if FillPercentage <= OccupiedThresholdPercent then
           AColor := pIndForeColor
-        else
+        else begin
           AColor := pIndThresholdForeColor;
-        pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
+        end;
+        ABitmap.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
         ARect.Left  := ARect.Right + 1;
-        ARect.Right := pbxDrive.Width - 2;
+        ARect.Right := ABitmap.Width - 2;
         AColor := pIndBackColor;
-        pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
+        ABitmap.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
       end
     else
       begin
         ARect.Right := 1;
-        for i := 0 to FillPercentage - 1 do
+        for I := 0 to FillPercentage - 1 do
         begin
-          if i <= OccupiedThresholdPercent then
-            AColor:= RGB((i * 255) div OccupiedThresholdPercent, 255, 0)
-          else
-            AColor:= RGB(255, ((100 - i) * 255) div (100 - OccupiedThresholdPercent), 0);
+          if I <= OccupiedThresholdPercent then
+            AColor:= RGB((I * 255) div OccupiedThresholdPercent, 255, 0)
+          else begin
+            AColor:= RGB(255, ((100 - I) * 255) div (100 - OccupiedThresholdPercent), 0);
+          end;
           AColor2:= DarkColor(AColor, 50);
 
           ARect.Left  := ARect.Right;
-          ARect.Right := 1 + (i + 1) * (pbxDrive.Width - 2) div 100;
+          ARect.Right := 1 + (I + 1) * (ABitmap.Width - 2) div 100;
 
-          pbxDrive.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
+          ABitmap.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
         end;
         ARect.Left  := ARect.Right;
-        ARect.Right := pbxDrive.Width - 2;
-        pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
+        ARect.Right := ABitmap.Width - 2;
+        ABitmap.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
       end;
+    pbxDrive.Canvas.StretchDraw(pbxDrive.ClientRect, ABitmap);
+  finally
+    ABitmap.Free;
   end;
 end;
 
