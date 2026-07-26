@@ -3782,7 +3782,9 @@ function TViewerControl.DetectRightToLeft: Boolean;
 var
   DetectLength: PtrInt = 4096; // take first 4kB of the text like DetectEncoding
   S: String;
-  I: Integer;
+  I, CharLen: Integer;
+  HebrewCount: Integer = 0;
+  OtherCount: Integer = 0;
 begin
   Result := False;
   if not IsFileOpen then
@@ -3795,13 +3797,20 @@ begin
   S := GetText(FLowLimit, DetectLength, 0);
 
   // Hebrew block U+0590..U+05FF is encoded as $D6 $90..$D7 $BF in UTF-8.
-  for I := 1 to Length(S) - 1 do
+  I := 1;
+  while I <= Length(S) do
   begin
-    case S[I] of
-      #$D6: if S[I + 1] in [#$90..#$BF] then Exit(True);
-      #$D7: if S[I + 1] in [#$80..#$BF] then Exit(True);
-    end;
+    CharLen := UTF8CodepointSize(@S[I]);
+    if (CharLen = 2) and (I < Length(S)) and
+       (((S[I] = #$D6) and (S[I + 1] in [#$90..#$BF])) or
+        ((S[I] = #$D7) and (S[I + 1] in [#$80..#$BF]))) then
+      Inc(HebrewCount)
+    else
+      Inc(OtherCount);
+    Inc(I, CharLen);
   end;
+
+  Result := HebrewCount > OtherCount;
 end;
 
 procedure TViewerControl.GetSupportedEncodings(List: TStrings);
