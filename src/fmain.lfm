@@ -193,7 +193,8 @@ object frmMain: TfrmMain
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
-          ClientHeight = 24
+          ChildSizing.TopBottomSpacing = 2
+          ClientHeight = 28
           ClientWidth = 511
           TabOrder = 0
           Visible = False
@@ -276,7 +277,7 @@ object frmMain: TfrmMain
             AnchorSideLeft.Control = btnLeftDrive
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = pnlLeftTools
-            AnchorSideRight.Side = asrBottom
+            AnchorSideRight.Control = btnLeftDirectoryHotlist
             Left = 50
             Height = 1
             Top = 0
@@ -346,7 +347,8 @@ object frmMain: TfrmMain
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
-          ClientHeight = 24
+          ChildSizing.TopBottomSpacing = 2
+          ClientHeight = 28
           ClientWidth = 123
           TabOrder = 0
           Visible = False
@@ -426,7 +428,7 @@ object frmMain: TfrmMain
             AnchorSideLeft.Control = btnRightDrive
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = pnlRightTools
-            AnchorSideRight.Side = asrBottom
+            AnchorSideRight.Control = btnRightDirectoryHotlist
             Left = 50
             Height = 1
             Top = 0
