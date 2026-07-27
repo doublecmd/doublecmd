@@ -187,21 +187,21 @@ object frmMain: TfrmMain
         end
         object pnlLeftTools: TPanel
           Left = 0
-          Height = 24
+          Height = 32
           Top = 10
           Width = 511
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
           ChildSizing.TopBottomSpacing = 2
-          ClientHeight = 28
+          ClientHeight = 32
           ClientWidth = 511
           TabOrder = 0
           Visible = False
           object btnLeftDrive: TSpeedButton
             Left = 0
-            Height = 24
-            Top = 0
+            Height = 28
+            Top = 2
             Width = 48
             Action = actLeftOpenDrives
             Align = alLeft
@@ -209,53 +209,74 @@ object frmMain: TfrmMain
             OnMouseUp = btnDriveMouseUp
           end
           object btnLeftHome: TSpeedButton
+            AnchorSideTop.Control = pnlLeftTools
+            AnchorSideRight.Control = btnLeftEqualRight
+            AnchorSideBottom.Control = pnlLeftTools
+            AnchorSideBottom.Side = asrBottom
             Left = 465
-            Height = 24
+            Height = 28
             Hint = 'Go to home directory'
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '~'
             OnClick = btnLeftClick
           end
           object btnLeftUp: TSpeedButton
+            AnchorSideTop.Control = pnlLeftTools
+            AnchorSideRight.Control = btnLeftHome
+            AnchorSideBottom.Control = pnlLeftTools
+            AnchorSideBottom.Side = asrBottom
             Left = 442
-            Height = 24
+            Height = 28
             Hint = 'Go to parent directory'
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '..'
             OnClick = btnLeftClick
           end
           object btnLeftRoot: TSpeedButton
+            AnchorSideTop.Control = pnlLeftTools
+            AnchorSideRight.Control = btnLeftUp
+            AnchorSideBottom.Control = pnlLeftTools
+            AnchorSideBottom.Side = asrBottom
             Left = 419
-            Height = 24
+            Height = 28
             Hint = 'Go to root directory'
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '/'
             OnClick = btnLeftClick
           end
           object btnLeftDirectoryHotlist: TSpeedButton
+            AnchorSideTop.Control = pnlLeftTools
+            AnchorSideRight.Control = btnLeftRoot
+            AnchorSideBottom.Control = pnlLeftTools
+            AnchorSideBottom.Side = asrBottom
             Left = 396
-            Height = 24
+            Height = 28
             Hint = 'Directory Hotlist'
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '*'
             OnClick = btnLeftDirectoryHotlistClick
           end
           object btnLeftEqualRight: TSpeedButton
+            AnchorSideTop.Control = pnlLeftTools
+            AnchorSideRight.Control = pnlLeftTools
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = pnlLeftTools
+            AnchorSideBottom.Side = asrBottom
             Left = 488
-            Height = 24
+            Height = 28
             Hint = 'Show current directory of the right panel in the left panel'
-            Top = 0
+            Top = 2
             Width = 23
             Action = actLeftEqualRight
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '<'
           end
           object pbxLeftDrive: TPaintBox
@@ -266,8 +287,8 @@ object frmMain: TfrmMain
             AnchorSideRight.Side = asrBottom
             Left = 52
             Height = 10
-            Top = 1
-            Width = 342
+            Top = 3
+            Width = 340
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 2
             BorderSpacing.Right = 2
@@ -280,8 +301,8 @@ object frmMain: TfrmMain
             AnchorSideRight.Control = btnLeftDirectoryHotlist
             Left = 50
             Height = 1
-            Top = 0
-            Width = 346
+            Top = 2
+            Width = 344
             Alignment = taCenter
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 2
@@ -341,21 +362,21 @@ object frmMain: TfrmMain
         end
         object pnlRightTools: TPanel
           Left = 0
-          Height = 24
+          Height = 32
           Top = 10
-          Width = 123
+          Width = 103
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
           ChildSizing.TopBottomSpacing = 2
-          ClientHeight = 28
-          ClientWidth = 123
+          ClientHeight = 32
+          ClientWidth = 103
           TabOrder = 0
           Visible = False
           object btnRightDrive: TSpeedButton
             Left = 0
-            Height = 24
-            Top = 0
+            Height = 28
+            Top = 2
             Width = 48
             Action = actRightOpenDrives
             Align = alLeft
@@ -363,50 +384,71 @@ object frmMain: TfrmMain
             OnMouseUp = btnDriveMouseUp
           end
           object btnRightHome: TSpeedButton
-            Left = 77
+            AnchorSideTop.Control = pnlRightTools
+            AnchorSideRight.Control = btnRightEqualLeft
+            AnchorSideBottom.Control = pnlRightTools
+            AnchorSideBottom.Side = asrBottom
+            Left = 57
             Height = 24
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight]
             Caption = '~'
             OnClick = btnRightClick
           end
           object btnRightUp: TSpeedButton
-            Left = 54
-            Height = 24
-            Top = 0
+            AnchorSideTop.Control = pnlRightTools
+            AnchorSideRight.Control = btnRightHome
+            AnchorSideBottom.Control = pnlRightTools
+            AnchorSideBottom.Side = asrBottom
+            Left = 34
+            Height = 28
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '..'
             OnClick = btnRightClick
           end
           object btnRightRoot: TSpeedButton
-            Left = 31
-            Height = 24
-            Top = 0
+            AnchorSideTop.Control = pnlRightTools
+            AnchorSideRight.Control = btnRightUp
+            AnchorSideBottom.Control = pnlRightTools
+            AnchorSideBottom.Side = asrBottom
+            Left = 11
+            Height = 28
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '/'
             OnClick = btnRightClick
           end
           object btnRightDirectoryHotlist: TSpeedButton
-            Left = 25
-            Height = 24
+            AnchorSideTop.Control = pnlRightTools
+            AnchorSideRight.Control = btnRightRoot
+            AnchorSideBottom.Control = pnlRightTools
+            AnchorSideBottom.Side = asrBottom
+            Left = -12
+            Height = 28
             Hint = 'Directory Hotlist'
-            Top = 0
+            Top = 2
             Width = 23
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '*'
             OnClick = btnRightDirectoryHotlistClick
           end
           object btnRightEqualLeft: TSpeedButton
-            Left = 100
-            Height = 24
+            AnchorSideTop.Control = pnlRightTools
+            AnchorSideRight.Control = pnlRightTools
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = pnlRightTools
+            AnchorSideBottom.Side = asrBottom
+            Left = 80
+            Height = 28
             Hint = 'Show current directory of the left panel in the right panel'
-            Top = 0
+            Top = 2
             Width = 23
             Action = actRightEqualLeft
-            Align = alRight
+            Anchors = [akTop, akRight, akBottom]
             Caption = '>'
           end
           object pbxRightDrive: TPaintBox
@@ -417,7 +459,7 @@ object frmMain: TfrmMain
             AnchorSideRight.Side = asrBottom
             Left = 52
             Height = 10
-            Top = 1
+            Top = 3
             Width = 0
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 2
@@ -431,7 +473,7 @@ object frmMain: TfrmMain
             AnchorSideRight.Control = btnRightDirectoryHotlist
             Left = 50
             Height = 1
-            Top = 0
+            Top = 2
             Width = 0
             Alignment = taCenter
             Anchors = [akTop, akLeft, akRight]
@@ -3220,20 +3262,20 @@ object frmMain: TfrmMain
     Enabled = False
     Interval = 100
     OnTimer = AllProgressOnUpdateTimer
-    left = 704
-    top = 152
+    Left = 704
+    Top = 152
   end
   object imgLstActions: TImageList
-    left = 64
-    top = 224
+    Left = 64
+    Top = 224
   end
   object imgLstDirectoryHotlist: TImageList
-    left = 200
-    top = 224
+    Left = 200
+    Top = 224
   end
   object pmFavoriteTabs: TPopupMenu
     Images = imgLstActions
-    left = 128
-    top = 152
+    Left = 128
+    Top = 152
   end
 end
