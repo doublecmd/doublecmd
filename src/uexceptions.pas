@@ -85,6 +85,7 @@ begin
                  ' ---------------');
       WriteLn(f, '| DC v', dcVersion, ' Rev. ', dcRevision,
                  ' -- ', TargetCPU + '-' + TargetOS + '-' + TargetWS);
+      WriteLn(f, '| Free Pascal ', fpcVersion, ', Lazarus ', dcLazVersion);
       if WSVersion <> EmptyStr then
         Write(f, '| ', OSVersion, ' -- ', WSVersion)
       else
