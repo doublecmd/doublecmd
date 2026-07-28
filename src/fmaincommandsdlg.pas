@@ -446,6 +446,9 @@ begin
         LoadCategoryListbox(CommandRec^.Action.Category);
       LoadCommandsListbox(CommandToShow);
     end;
+  end
+  else begin
+    LoadCategoryListbox('');
   end;
 end;
 
