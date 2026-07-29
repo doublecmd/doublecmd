@@ -24,7 +24,7 @@ implementation
 
 uses
   Windows, ShlObj, ComObj, JwaShlGuid, Variants, DCOSUtils, DCDateTimeUtils,
-  ActiveX, uFile, uShellFolder, uShlObjAdditional, uShowMsg;
+  ActiveX, uFile, uShellFolder, uShlObjAdditional, uShowMsg, uShellFileSourceUtil;
 
 const
   SID_DISPLACED = '{9B174B33-40FF-11d2-A27E-00C04FC30871}';
@@ -64,6 +64,7 @@ begin
 
         aFile:= TRecycleBinFileSource.CreateFile(Path);
         AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
+        TFileShellProperty(AFile.LinkProperty).Item:= ILCombine(TrashPIDL, PIDL);
         AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
 
         if mbFileGetAttr(AFile.LinkProperty.LinkTo, Attr) then
