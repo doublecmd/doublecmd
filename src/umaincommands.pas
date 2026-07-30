@@ -891,6 +891,11 @@ begin
       end
       else
       begin
+        if FileIsLinkToFolder(aFile.FullPath, NewPath) then
+        begin
+          TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, NewPath);
+        end
+        else
         // Change file source, if the file under cursor can be opened as another file source.
         try
           if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
