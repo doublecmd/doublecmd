@@ -50,6 +50,11 @@ msgstr ""
 msgid "Cmd"
 msgstr ""
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -819,6 +824,10 @@ msgstr ""
 msgid "Show All"
 msgstr ""
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr ""
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr ""
@@ -1358,6 +1367,10 @@ msgstr ""
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
+msgstr ""
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
 msgstr ""
 
 #: lclstrconsts.smkchome

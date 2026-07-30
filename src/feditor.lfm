@@ -862,6 +862,21 @@ object frmEditor: TfrmEditor
         end
       end
     end
+    object miView: TMenuItem
+      Caption = '&View'
+      object miZoomIn: TMenuItem
+        Action = actZoomIn
+      end
+      object miZoomOut: TMenuItem
+        Action = actZoomOut
+      end
+      object miSeparator3: TMenuItem
+        Caption = '-'
+      end
+      object miWordWrap: TMenuItem
+        Action = actWordWrap
+      end
+    end
     object miEncoding: TMenuItem
       Caption = 'En&coding'
       object miEncodingIn: TMenuItem
@@ -883,7 +898,7 @@ object frmEditor: TfrmEditor
   end
   object ActListEdit: TActionList
     Images = dmComData.ilEditorImages
-    Left = 112
+    Left = 120
     Top = 32
     object actAbout: TAction
       Category = 'Help'
@@ -1072,11 +1087,18 @@ object frmEditor: TfrmEditor
       OnExecute = actExecute
     end
     object actZoomIn: TAction
+      Category = 'View'
       Caption = 'Zoom In'
       OnExecute = actExecute
     end
     object actZoomOut: TAction
+      Category = 'View'
       Caption = 'Zoom Out'
+      OnExecute = actExecute
+    end
+    object actWordWrap: TAction
+      Category = 'View'
+      Caption = '&Word wrap'
       OnExecute = actExecute
     end
   end

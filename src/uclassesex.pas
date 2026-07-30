@@ -73,6 +73,7 @@ type
     procedure Clear;
     function Clone: TObjectList;
     function Add(AObject: TObjectEx): Integer;
+    function Count: Integer;
     function  LockList: TObjectList;
     procedure UnlockList;
   end;
@@ -141,6 +142,12 @@ begin
   Result:= FList.Add(AObject);
 end;
 
+function TThreadObjectList.Count: Integer;
+begin
+  // no need to lock
+  Result:= FList.Count;
+end;
+
 function TThreadObjectList.LockList: TObjectList;
 begin
   Result:= FList;
@@ -179,11 +186,14 @@ var
 begin
   with TCustomForm(Sender) do
   begin
-    // Refresh monitor list
-    Screen.UpdateMonitors;
+    if (WindowState < wsMaximized) then
+    begin
+      // Refresh monitor list
+      Screen.UpdateMonitors;
 
-    AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
-    if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
+      AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
+      if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
+    end;
   end;
 end;
 

@@ -60,6 +60,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -829,6 +834,10 @@ msgstr "Servizii"
 msgid "Show All"
 msgstr "Tuttu affissà"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Attivà/disattivà u schermu pienu"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Cerriu"
@@ -1369,6 +1378,10 @@ msgstr "Entrée"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Scap"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"

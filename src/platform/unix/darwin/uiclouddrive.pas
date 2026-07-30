@@ -6,12 +6,12 @@ unit uiCloudDrive;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, fgl, LazMethodList,
+  Classes, SysUtils, syncobjs, fgl, LazMethodList, LazFileUtils,
   Graphics, Menus, Forms, Dialogs, System.UITypes,
   uiCloudDriveConfig, uiCloudDriveUtil,
   uFile, uDisplayFile,
-  uFileSource, uFileSourceOperationTypes, uFileSourceManager,
-  uFileSourceWatcher, uMountedFileSource, uVfsModule,
+  uFileSource, uFileSourceOperationTypes, uFileSourceManager, uFileSourceWatcher,
+  uMountedFileSource, uVfsModule, uMultiArchiveFileSource, uStashFileSource,
   uDCUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
   uDarwinFile, uDarwinImage, uDarwinUtil,
@@ -30,6 +30,7 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
+    class function GetFileSource: IFileSource; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
 
@@ -37,8 +38,6 @@ type
     function getAppIconByPath( const path: String ): NSImage;
     function getDefaultPointForPath( const path: String ): String; override;
   public
-    class function GetFileSource: TiCloudDriveFileSource;
-
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
     function GetUIHandler: TFileSourceUIHandler; override;
@@ -101,8 +100,14 @@ type
   { TiCloudDriveProcessor }
 
   TiCloudDriveProcessor = class( TMountedFileSourceProcessor )
+  protected
+    function calcSourcePath(
+      const mountedFS: TMountedFileSource;
+      const targetFS: IFileSource;
+      const realPath: String): String; override;
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
+    procedure confirmOperation(var params: TFileSourceConsultParams); override;
   end;
 
   { TiCloudDriveUIHandler }
@@ -138,6 +143,26 @@ var
 
 { TiCloudDriveProcessor }
 
+function TiCloudDriveProcessor.calcSourcePath(
+  const mountedFS: TMountedFileSource;
+  const targetFS: IFileSource;
+  const realPath: String): String;
+var
+  mountPoint: TMountPoint;
+begin
+  mountPoint:= mountedFS.getMountPointFromPath( realPath );
+  {
+    '%R' is usually not specified in TMultiArchiveFileSource
+    this means that specifying subdir in MultiArchive/7z is not supported.
+    therefore, it falls back to the base path of iCloud to indirectly
+    achieve the effect of the subdir.
+  }
+  if (mountPoint<>nil) and targetFS.IsClass(TMultiArchiveFileSource) then
+    Result:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.base )
+  else
+    Result:= inherited;
+end;
+
 procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsultParams );
 
   procedure confirmIfSeedFiles;
@@ -163,13 +188,50 @@ procedure TiCloudDriveProcessor.consultOperation( var params: TFileSourceConsult
   end;
 
 begin
-  if params.operationType = fsoCopy then
+  if params.operationType in [fsoCopy, fsoPack] then
     confirmIfSeedFiles;
 
   if params.handled then
     Exit;
 
   inherited consultOperation(params);
+end;
+
+procedure TiCloudDriveProcessor.confirmOperation( var params: TFileSourceConsultParams );
+
+  {
+    when copying files from iCloud to Stash, it's more appropriate to set
+    the App MountPoint path to the App path. for examples:
+        ~/Library/Mobile Documents/com~apple~Pages/Documents
+    -->
+        ~/Library/Mobile Documents/com~apple~Pages
+  }
+  procedure setMountPointPathForStash;
+  var
+    mountedFS: TMountedFileSource;
+    mountPoint: TMountPoint;
+    files: TFiles;
+    f: TFile;
+    i: Integer;
+  begin
+    if params.phase <> TFileSourceConsultPhase.source then
+      Exit;
+    if NOT params.targetFS.IsClass(TStashFileSource) then
+      Exit;
+    mountedFS:= params.currentFS as TMountedFileSource;
+    files:= params.files;
+    for i:= 0 to files.Count-1 do begin
+      f:= files[i];
+      mountPoint:= mountedFS.getMountPointFromPath( f.FullPath );
+      if mountPoint <> nil then
+        f.FullPath:= mountedFS.GetParentDir( f.FullPath );
+    end;
+  end;
+
+begin
+  if params.operationType = fsoCopy then
+    setMountPointPathForStash;
+  inherited confirmOperation(params);
 end;
 
 { TiCloudDriveWatcher }
@@ -229,12 +291,15 @@ end;
 
 function TiCloudDriveWatcher.toFileSourceEvent(event: TDarwinFSWatchEvent;
   var fileSourceEvent: TFSWatcherEventData ): Boolean;
+var
+  fs: TiCloudDriveFileSource;
 begin
   Result:= TDarwinFSWatcherUtil.convertToFileSourceEvent( event, fileSourceEvent );
   if Result = false then
     Exit;
 
-  if TiCloudDriveFileSource.GetFileSource.getMountPointFromPath(event.fullPath)<>nil then begin
+  fs:= TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
+  if fs.getMountPointFromPath(event.fullPath)<>nil then begin
     fileSourceEvent.Path:= event.fullPath;
     fileSourceEvent.FileName:= '';
   end else begin
@@ -253,8 +318,10 @@ var
   virtualPath: String;
   item: TWatcherItem;
   fileSourceEvent: TFSWatcherEventData;
+  fs: TiCloudDriveFileSource;
 begin
-  virtualPath:= TiCloudDriveFileSource.GetFileSource.GetVirtualPath( event.fullPath );
+  fs:= TiCloudDriveFileSource.GetFileSource as TiCloudDriveFileSource;
+  virtualPath:= fs.GetVirtualPath( event.fullPath );
   virtualPath:= ExtractFilePath( ExcludeTrailingPathDelimiter(virtualPath) );
   ok:= Self.toFileSourceEvent( event, fileSourceEvent );
   if NOT ok then
@@ -404,10 +471,7 @@ end;
 
 class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
 begin
-  if aFile.MacOSSpecificProperty <> nil then
-    Result:= aFile.MacOSSpecificProperty.IsiCloudSeedFile
-  else
-    Result:= False;
+  Result:= aFile.MacOSSpecificProperty.IsiCloudSeedFile
 end;
 
 class function TSeedFileUtil.isSeedFiles(const aFiles: TFiles): Boolean;
@@ -711,15 +775,11 @@ begin
   Result:= TDarwinFileUtil.getDisplayName( path );
 end;
 
-class function TiCloudDriveFileSource.GetFileSource: TiCloudDriveFileSource;
-var
-  aFileSource: IFileSource;
+class function TiCloudDriveFileSource.GetFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TiCloudDriveFileSource, iCloudDriveConfig.scheme );
-  if not Assigned(aFileSource) then
-    Result:= TiCloudDriveFileSource.Create
-  else
-    Result:= aFileSource as TiCloudDriveFileSource;
+  Result:= FileSourceManager.Find( TiCloudDriveFileSource, iCloudDriveConfig.scheme );
+  if not Assigned(Result) then
+    Result:= TiCloudDriveFileSource.Create;
 end;
 
 function TiCloudDriveFileSource.GetWatcher: TFileSourceWatcher;
@@ -764,10 +824,14 @@ end;
 
 function TiCloudDriveFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
-  if aFile.Name = '..' then
-    Result:= Inherited
-  else
+  if aFile.Name = '..' then begin
+    Result:= EmptyStr
+  end else begin
     Result:= TDarwinFileUtil.getDisplayName( aFile.FullPath );
+    Result:= GetDarwinNormalizedFilename( Result );
+    if Result = aFile.Name then
+      Result:= EmptyStr;
+  end;
 end;
 
 function TiCloudDriveFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
@@ -815,7 +879,7 @@ initialization
   iCloudDriveWatcher:= TiCloudDriveWatcher.Create;
   iCloudDriveProcessor:= TiCloudDriveProcessor.Create;
   iCloudDriveUIProcessor:= TiCloudDriveUIHandler.Create;
-  RegisterVirtualFileSource( 'iCloud', TiCloudDriveFileSource, True );
+  RegisterVirtualFileSource( 'iCloud', 'iCloud://', TiCloudDriveFileSource, True );
 
 finalization
   FreeAndNil( iCloudDriveWatcher );

@@ -139,6 +139,9 @@ procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const ne
 begin
   if cancel then
     Exit;
+  if newTagNames.isEqualToArray(_oldTagNames) then
+    Exit;
+
   if _urls.count = 1 then begin
     TDarwinFinderModelUtil.setTagNamesOfFile( NSURL(_urls.objectAtIndex(0)), newTagNames );
   end else begin

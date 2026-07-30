@@ -56,8 +56,7 @@ type
     lblArchiverDescription: TLabel;
     edtArchiverDescription: TEdit;
     lblArchiverArchiver: TLabel;
-    edtArchiverArchiver: TEdit;
-    btnArchiverSelectFileArchiver: TSpeedButton;
+    edtArchiverArchiver: TFileNameEdit;
     btnArchiverRelativer: TSpeedButton;
     lblArchiverExtension: TLabel;
     edtArchiverExtension: TEdit;
@@ -149,7 +148,6 @@ type
     procedure miArchiverImportClick(Sender: TObject);
     procedure miHelperClick(Sender: TObject);
     procedure btnHelperClick(Sender: TObject);
-    procedure btnArchiverSelectFileArchiverClick(Sender: TObject);
     procedure btnArchiverRelativerClick(Sender: TObject);
     procedure PopulateParamHelperMenu;
   private
@@ -192,6 +190,11 @@ var
 { TfrmOptionsArchivers.Init }
 procedure TfrmOptionsArchivers.Init;
 begin
+  edtArchiverArchiver.ButtonHint := rsOptArchiverArchiver;
+  edtArchiverArchiver.DialogTitle := rsOptArchiverArchiver;
+{$if lcl_fullversion >= 4990000}
+  edtArchiverArchiver.DialogOptionsEx := [ofShowsFilePackagesSwitch];
+{$endif}
   OpenArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini;*.addon', rsFilterAnyFiles, AllFilesMask]);
   SaveArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini', rsFilterAnyFiles, AllFilesMask]);
 end;
@@ -201,7 +204,6 @@ procedure TfrmOptionsArchivers.Load;
 begin
   bCurrentlyLoadingSettings := True;
   bCurrentlyFilling := True;
-  btnArchiverSelectFileArchiver.Hint := rsOptArchiverArchiver;
   FreeAndNil(MultiArcListTemp);
   MultiArcListTemp := gMultiArcList.Clone;
   FillListBoxWithArchiverList;
@@ -823,21 +825,6 @@ procedure TfrmOptionsArchivers.btnHelperClick(Sender: TObject);
 begin
   edtHelperRequested := TEdit(TSpeedButton(Sender).AnchorSideTop.Control);
   pmArchiverParamHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
-end;
-
-{ TfrmOptionsArchivers.btnArchiverSlectFileArchiverClick }
-procedure TfrmOptionsArchivers.btnArchiverSelectFileArchiverClick(Sender: TObject);
-begin
-  OpenArchiverDialog.DefaultExt := '*.*';
-  OpenArchiverDialog.FilterIndex := 2;
-{$if lcl_fullversion >= 4990000}
-  OpenArchiverDialog.OptionsEx := [ofShowsFilePackagesSwitch];
-{$endif}
-  OpenArchiverDialog.Title := rsOptArchiverArchiver;
-  if OpenArchiverDialog.Execute then
-  begin
-    edtArchiverArchiver.Text := OpenArchiverDialog.FileName;
-  end;
 end;
 
 { TfrmOptionsArchivers.btnArchiverRelativerClick }

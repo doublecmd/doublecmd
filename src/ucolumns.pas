@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, Graphics, uFile, uFileSource,
+  Classes, SysUtils, Graphics, uFile, uDisplayFile, uFileSource,
   DCXmlConfig, FpJson, DCBasicTypes, uFileFunctions, uColors;
 
 const
@@ -68,7 +68,7 @@ type
     procedure SetUnique(const AValue: String);
     procedure SetFuncString(NewValue: String);
 
-    function GetColumnResultString(AFile: TFile; const AFileSource: IFileSource): String;
+    function GetColumnResultString(AFile: TDisplayFile; const AFileSource: IFileSource): String;
 
   public
     //---------------------
@@ -167,7 +167,7 @@ type
     }
     function GetColumnFunctions(const Index: Integer): TFileFunctions;
     function GetColumnItemResultString(const Index: Integer;
-      const AFile: TFile; const AFileSource: IFileSource): String;
+      const AFile: TDisplayFile; const AFileSource: IFileSource): String;
     //--------------------------------------------------------------------------
     function GetColumnItem(const Index: Integer): TPanelColumn;
     function GetCount: Integer;
@@ -565,7 +565,7 @@ begin
 end;
 
 function TPanelColumnsClass.GetColumnItemResultString(const Index: Integer;
-  const AFile: TFile; const AFileSource: IFileSource): String;
+  const AFile: TDisplayFile; const AFileSource: IFileSource): String;
 begin
   if Index >= Flist.Count then
     Exit(EmptyStr);
@@ -1231,7 +1231,7 @@ begin
   inherited Destroy;
 end;
 
-function TPanelColumn.GetColumnResultString(AFile: TFile; const AFileSource: IFileSource): String;
+function TPanelColumn.GetColumnResultString(AFile: TDisplayFile; const AFileSource: IFileSource): String;
 var
   i: Integer;
   s: String;

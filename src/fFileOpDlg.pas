@@ -746,12 +746,12 @@ end;
 
 procedure TfrmFileOp.SetPauseGlyph;
 begin
-  dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
+  btnPauseStart.ImageIndex:= 11;
 end;
 
 procedure TfrmFileOp.SetPlayGlyph;
 begin
-  dmComData.ImageList.GetBitmap(0, btnPauseStart.Glyph);
+  btnPauseStart.ImageIndex:= 12;
 end;
 
 procedure TfrmFileOp.SetLabelCaption(ALabel: TLabel; const AText: String);

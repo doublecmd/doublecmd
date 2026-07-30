@@ -71,7 +71,6 @@ type
     procedure UpdateFooterDetails;
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
   protected
-    procedure MakeColumnsStrings(AFile: TDisplayFile);
     function GetFileViewGridClass: TFileViewGridClass; virtual; abstract;
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
@@ -88,7 +87,6 @@ type
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
     procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean; aLastTopRowIndex: PtrInt = -1); override;
-    procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure UpdateFlatFileName; override;
     procedure UpdateInfoPanel; override;
@@ -544,17 +542,6 @@ begin
   dgPanel.Invalidate;
 end;
 
-procedure TFileViewWithGrid.MakeColumnsStrings(AFile: TDisplayFile);
-begin
-  AFile.DisplayStrings.BeginUpdate;
-  try
-    AFile.DisplayStrings.Clear;
-    AFile.DisplayStrings.Add(FormatFileFunction('DC().GETFILENAME{}', AFile.FSFile, FileSource));
-  finally
-    AFile.DisplayStrings.EndUpdate;
-  end;
-end;
-
 procedure TFileViewWithGrid.RedrawFile(FileIndex: PtrInt);
 var
   ACol, ARow: Integer;
@@ -711,13 +698,6 @@ var
   I: Integer;
 begin
   inherited Create(AOwner, AFileView, AFlags);
-
-  if (not (AFileView is TFileViewWithGrid)) and Assigned(FAllDisplayFiles) then
-  begin
-    // Update display strings in case FileView type have changed.
-    for I := 0 to FAllDisplayFiles.Count - 1 do
-      MakeColumnsStrings(FAllDisplayFiles[I]);
-  end;
   TabHeader.UpdateSorting(Sorting);
 end;
 
@@ -781,7 +761,7 @@ end;
 
 procedure TFileViewWithGrid.UpdateFooterDetails;
 var
-  AFile: TFile;
+  AFile: TDisplayFile;
   AFileName: String;
 begin
   if not Assigned(FAllDisplayFiles) or (FAllDisplayFiles.Count = 0)
@@ -789,23 +769,26 @@ begin
     lblDetails.Caption:= EmptyStr
   else
     begin
-      AFile:= CloneActiveFile;
+      AFile:= GetActiveDisplayFile;
       if Assigned(AFile) then
-      try
-        // Get details info about file
-        AFileName:= #32#32 +FormatFileFunction('DC().GETFILEEXT{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILESIZE{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILETIME{}', AFile, FileSource);
-        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
-        lblDetails.Caption:= AFileName;
-        // Get file name
-        if not FlatView then
-        begin
-          AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
-          lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
+      begin
+        AFile:= AFile.Clone(True);
+        try
+          // Get details info about file
+          AFileName:= #32#32 +FormatFileFunction('DC().GETFILEEXT{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILESIZE{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILETIME{}', AFile, FileSource);
+          AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
+          lblDetails.Caption:= AFileName;
+          // Get file name
+          if not FlatView then
+          begin
+            AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
+            lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile.FSFile, lblInfo.ClientWidth);
+          end;
+        finally
+          AFile.Free;
         end;
-      finally
-        AFile.Free;
       end;
     end;
 end;
@@ -872,12 +855,6 @@ constructor TFileViewWithGrid.Create(AOwner: TWinControl;
   AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags);
 begin
   inherited Create(AOwner, AFileSource, APath, AFlags);
-end;
-
-procedure TFileViewWithGrid.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
-begin
-  MakeColumnsStrings(AFile);
-  inherited DoFileUpdated(AFile, UpdatedProperties);
 end;
 
 procedure TFileViewWithGrid.DoHandleKeyDown(var Key: Word; Shift: TShiftState);

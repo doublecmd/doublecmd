@@ -43,7 +43,11 @@ type
 
     // Cache of displayed strings.
     FDisplayStrings: TStringList;
+    FDisplayName: String;
+    FDisplayNameNoExt: String;
+    FDisplayExt: String;
     procedure SetIcon(AValue: TBitmap);
+    procedure SetDisplayName(const AName: String);
 
   public
     {en
@@ -79,6 +83,9 @@ type
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
     property TextColor: TColor read FTextColor write FTextColor;
     property DisplayStrings: TStringList read FDisplayStrings;
+    property DisplayName: String read FDisplayName write SetDisplayName;
+    property DisplayNameNoExt: String read FDisplayNameNoExt;
+    property DisplayExt: String read FDisplayExt;
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
     property Busy: TDisplayFileBusy read FBusy write FBusy;
     property Tag: PtrInt read FTag write FTag;
@@ -135,6 +142,42 @@ begin
   FIcon:= AValue;
 end;
 
+// TFile and TDisplayFile each perform their respective functions.
+// in TDisplayFile, `Extension` and `NameNoExt` no longer depend on TFile.
+// display-related adjustments are made based on factors such as whether the
+// item is a directory.
+procedure TDisplayFile.SetDisplayName(const AName: String);
+
+  function isDir: Boolean; inline;
+  begin
+    Result:= Assigned(FSFile);
+    if NOT Result then
+      Exit;
+    Result:= FSFile.IsDirectory or FSFile.IsLinkToDirectory or FSFile.IsSpecial;
+    if NOT Result then
+      Exit;
+    {$IFDEF DARWIN}
+    Result:= NOT FSFile.MacOSSpecificProperty.IsPackage;
+    if NOT Result then
+      Exit;
+    {$ENDIF}
+    Result:= True;
+  end;
+
+begin
+  if (AName = EmptyStr) and Assigned(FSFile) then
+    FDisplayName:= FSFile.Name
+  else
+    FDisplayName:= AName;
+
+  if isDir then begin
+    FDisplayExt:= '';
+    FDisplayNameNoExt:= FDisplayName;
+  end else begin
+    TFile.SplitIntoNameAndExtension(FDisplayName, FDisplayNameNoExt, FDisplayExt);
+  end;
+end;
+
 constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
   FTag := -1;
@@ -188,9 +231,11 @@ begin
     end;
 
     if Assigned(AFile.FFSFile) then
-    begin
       AFile.FDisplayStrings.AddStrings(FDisplayStrings);
-    end;
+
+    AFile.FDisplayExt:= FDisplayExt;
+    AFile.FDisplayName:= FDisplayName;
+    AFile.FDisplayNameNoExt:= FDisplayNameNoExt;
   end;
 end;
 

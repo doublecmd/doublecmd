@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    General icons loaded at launch based on screen resolution
 
-   Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2026 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit dmCommonData;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Dialogs; 
+  Classes, SysUtils, LResources, Forms, Controls, Dialogs, ExtCtrls, Graphics;
 
 type
 
@@ -35,14 +35,15 @@ type
   TdmComData = class(TDataModule)
     ilEditorImages: TImageList;
     ilViewerImages: TImageList;
-    ImageList: TImageList;
+    ilButtons: TImageList;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;
     procedure DataModuleCreate(Sender: TObject);
   private
+    procedure LoadIcons(Images: TImageList; const ANames: array of String);
     procedure LoadImages(Images: TImageList; const ANames: array of String);
   public
-    { public declarations }
+    class function LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
   end; 
 
 var
@@ -51,7 +52,8 @@ var
 implementation
 
 uses
-  LCLVersion, Graphics, uPixMapManager, uGlobs, uDCUtils;
+  Math, Types, LCLVersion, Generics.Collections, uVectorImage, uPixMapManager,
+  uGlobs, uDCUtils;
 
 {$R *.lfm}
 
@@ -134,14 +136,61 @@ const
     'choose-encoding'
   );
 
+  ButtonNames: array[0..8] of String = (
+    'list-add',
+    'list-remove',
+    'auto-complete',
+    'choose-filter',
+    'choose-variable',
+    'open-picture-dialog',
+    'media-playback-start',
+    'input-keyboard',
+    'choose-hotkey'
+  );
+
+type
+  TIntegerArrayHelper = specialize TArrayHelper<Integer>;
+
 { TdmComData }
 
 procedure TdmComData.DataModuleCreate(Sender: TObject);
 begin
   if Assigned(PixMapManager) then
   begin
+    LoadIcons(ilButtons, ButtonNames);
     LoadImages(ilViewerImages, ViewerNames);
     LoadImages(ilEditorImages, EditorNames);
+  end;
+end;
+
+procedure TdmComData.LoadIcons(Images: TImageList; const ANames: array of String);
+var
+  AName: String;
+  ASize: Integer;
+  AFactor: Double;
+  ABitmap: TCustomBitmap;
+begin
+  Images.Clear;
+  ASize:= Images.Width;
+  AFactor:= findScaleFactorByFirstForm;
+
+  if (AFactor > 1.0) then
+  begin
+    ASize:= Round(ASize * AFactor);
+  end;
+
+  Images.RegisterResolutions([ASize]);
+
+  for AName in ANames do
+  begin
+    // GetThemeIcon takes into account
+    // CanvasScaleFactor, so use original icon size here
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, AName, Images.Width);
+    if (ABitmap = nil) then ABitmap:= TBitmap.Create;
+
+    Images.AddMultipleResolutions([ABitmap]);
+
+    ABitmap.Free;
   end;
 end;
 
@@ -167,6 +216,7 @@ begin
     SetLength(ABitmaps, 4);
     SetLength(AResolutions, 4);
     AResolutions[3]:= gToolIconsSize;
+    TIntegerArrayHelper.Sort(AResolutions);
   end;
 
   AResolutions2:= Copy(AResolutions);
@@ -197,6 +247,45 @@ begin
     for I:= 0 to High(ABitmaps) do
     begin
       ABitmaps[I].Free;
+    end;
+  end;
+end;
+
+class function TdmComData.LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
+var
+  AIcon: TIcon;
+  ASize: Integer;
+  AFactor: Double;
+  AStream: TStream;
+  ABitmap: TBitmap;
+begin
+  Form.HandleNeeded;
+  AFactor:= Form.GetCanvasScaleFactor;
+
+  if SameValue(AFactor, 1.0) then
+  begin
+    AIcon:= TIcon.Create;
+    try
+      ASize:= Image.ClientWidth;
+      AIcon.LoadFromResourceName(HInstance, 'MAINICON');
+      AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(ASize, ASize));
+      Image.Picture.Assign(AIcon);
+    finally
+      AIcon.Free;
+    end;
+  end
+  else begin
+    ASize:= Round(Image.ClientWidth * AFactor);
+    AStream:= TResourceStream.Create(HInstance, 'DOUBLECMD', RT_RCDATA);
+    try
+      ABitmap:= TScalableVectorGraphics.CreateBitmap(AStream, ASize, ASize);
+      try
+        Image.Picture.Assign(ABitmap);
+      finally
+        ABitmap.Free;
+      end;
+    finally
+      AStream.Free;
     end;
   end;
 end;

@@ -1077,6 +1077,10 @@ msgstr ""
 msgid "Save As"
 msgstr ""
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1127,6 +1131,11 @@ msgstr ""
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
+msgstr ""
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
 msgstr ""
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
@@ -2037,6 +2046,10 @@ msgstr ""
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2051,6 +2064,14 @@ msgstr ""
 
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
 msgstr ""
 
 #: tfrmmain.actchangedir.caption
@@ -2292,6 +2313,10 @@ msgstr ""
 
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
+msgstr ""
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
 msgstr ""
 
 #: tfrmmain.actexchange.caption
@@ -2634,6 +2659,10 @@ msgstr ""
 msgid "Reload the last Favorite Tabs loaded"
 msgstr ""
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2758,6 +2787,10 @@ msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
+msgstr ""
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
 msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
@@ -3168,6 +3201,11 @@ msgstr ""
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
+msgstr ""
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
 msgstr ""
 
 #: tfrmmain.mnushow.caption
@@ -6258,6 +6296,10 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr ""
@@ -6322,6 +6364,14 @@ msgstr ""
 msgid "&Move updated files:"
 msgstr ""
 
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
+
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
 msgid "&Add"
@@ -6382,6 +6432,11 @@ msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgid "Default attribute mask value to use:"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -11051,6 +11106,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -13978,6 +14041,10 @@ msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
+msgstr ""
+
+#: ulng.rsstashname
+msgid "Stash"
 msgstr ""
 
 #: ulng.rsstrpreviewjustpreview

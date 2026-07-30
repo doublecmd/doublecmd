@@ -50,6 +50,11 @@ msgstr ""
 msgid "Cmd"
 msgstr ""
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -822,6 +827,10 @@ msgstr "Υπηρεσίες"
 msgid "Show All"
 msgstr "Προβολή όλων"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Εναλλαγή πλήρους οθόνης"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr ""
@@ -1361,6 +1370,10 @@ msgstr ""
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
+msgstr ""
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
 msgstr ""
 
 #: lclstrconsts.smkchome

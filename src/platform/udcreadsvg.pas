@@ -51,7 +51,8 @@ type
     constructor Create; override;
     destructor Destroy; override;
   public
-    class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override;
+    class function CreateBitmap(AStream: TStream; AWidth, AHeight: Integer): TBitmap; override; overload;
+    class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override; overload;
   end;
 
 implementation
@@ -115,12 +116,56 @@ begin
   end;
 end;
 
-function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap;
+function Rasterize(SvgReader: TSvgReaderEx; AWidth, AHeight: Integer): TBitmap;
 var
   Image32: TImage32;
   Image: TLazIntfImage;
-  SvgReader: TSvgReaderEx;
   Description: TRawImageDescription;
+begin
+  Image32:= TImage32.Create(AWidth, AHeight);
+  try
+    SvgReader.DrawImage(Image32, True);
+
+    AWidth:= Image32.Width;
+    AHeight:= Image32.Height;
+
+    Image:= TLazIntfImage.Create(AWidth, AHeight);
+    try
+      Description.Init_BPP32_B8G8R8A8_BIO_TTB(AWidth, AHeight);
+      Image.DataDescription:= Description;
+
+      Move(Image32.PixelBase^, Image.PixelData^, AWidth * AHeight * SizeOf(TColor32));
+
+      Result:= TBitmap.Create;
+      BitmapAssign(Result, Image);
+    finally
+      Image.Free;
+    end;
+  finally
+    Image32.Free;
+  end;
+end;
+
+function BitmapLoadFromScalable(AStream: TStream; AWidth, AHeight: Integer): TBitmap; overload;
+var
+  SvgReader: TSvgReaderEx;
+begin
+  Result:= nil;
+
+  SvgReader:= TSvgReaderEx.Create;
+  try
+    if SvgReader.LoadFromStream(AStream) then
+    begin
+      Result:= Rasterize(SvgReader, AWidth, AHeight);
+    end;
+  finally
+    SvgReader.Free;
+  end;
+end;
+
+function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap; overload;
+var
+  SvgReader: TSvgReaderEx;
 begin
   Result:= nil;
 
@@ -128,28 +173,7 @@ begin
   try
     if SvgReader.LoadFromFile(FileName) then
     begin
-      Image32:= TImage32.Create(AWidth, AHeight);
-      try
-        SvgReader.DrawImage(Image32, True);
-
-        AWidth:= Image32.Width;
-        AHeight:= Image32.Height;
-
-        Image:= TLazIntfImage.Create(AWidth, AHeight);
-        try
-          Description.Init_BPP32_B8G8R8A8_BIO_TTB(AWidth, AHeight);
-          Image.DataDescription:= Description;
-
-          Move(Image32.PixelBase^, Image.PixelData^, AWidth * AHeight * SizeOf(TColor32));
-
-          Result:= TBitmap.Create;
-          BitmapAssign(Result, Image);
-        finally
-          Image.Free;
-        end;
-      finally
-        Image32.Free;
-      end;
+      Result:= Rasterize(SvgReader, AWidth, AHeight);
     end;
   finally
     SvgReader.Free;
@@ -240,6 +264,12 @@ destructor TDCReaderSVG.Destroy;
 begin
   inherited Destroy;
   FSvgReader.Free;
+end;
+
+class function TDCReaderSVG.CreateBitmap(AStream: TStream; AWidth,
+  AHeight: Integer): TBitmap;
+begin
+  Result:= BitmapLoadFromScalable(AStream, AWidth, AHeight);
 end;
 
 class function TDCReaderSVG.CreateBitmap(const FileName: String; AWidth,

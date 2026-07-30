@@ -122,7 +122,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, DCFileAttributes, DCStrUtils, uDCUtils, uFileProperty, uKeyboard;
+  LCLType, ImgList, EditBtn, DCFileAttributes, DCStrUtils, uDCUtils, uFileProperty, uKeyboard;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
@@ -231,8 +231,19 @@ begin
 end;
 
 procedure TfrmSetFileProperties.FormCreate(Sender: TObject);
+var
+  AGlyphs: TLCLGlyphs;
+  AIndex: TImageIndex;
 begin
+  AGlyphs:= LCLGlyphs;
+  AIndex:= AGlyphs.GetImageIndex(ResBtnTime);
 
+  btnCreationTime.Images:= AGlyphs;
+  btnLastWriteTime.Images:= AGlyphs;
+  btnLastAccessTime.Images:= AGlyphs;
+  btnCreationTime.ImageIndex:= AIndex;
+  btnLastWriteTime.ImageIndex:= AIndex;
+  btnLastAccessTime.ImageIndex:= AIndex;
 end;
 
 procedure TfrmSetFileProperties.ShowMode(Mode: TFileAttrs);

@@ -26,9 +26,10 @@ unit fPackDlg;
 interface
 
 uses
-  SysUtils, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls, Buttons,
-  Menus, DividerBevel, uWcxArchiveFileSource, uArchiveFileSource, uFile,
-  uFileSource, Classes, fButtonForm, uFileSourceOperation;
+  SysUtils, Classes, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls,
+  Buttons, Menus, DividerBevel, fButtonForm,
+  uWcxArchiveFileSource, uArchiveFileSource, uFile,
+  uFileSource, uFileSourceManager, uFileSourceOperation;
 
 type
 
@@ -74,6 +75,7 @@ type
     FPassword: String;
     FVolumeSize: String;
     FCustomParams: String;
+    FTargetPath: String;
     FTargetPathInArchive: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
     procedure ChangeArchiveExt(const NewArcExt: String);
@@ -86,12 +88,9 @@ type
   end;
 
   // Frees 'Files'.
-  procedure ShowPackDlg(TheOwner: TComponent;
-                       const SourceFileSource: IFileSource;
-                       const TargetFileSource: IFileSource;
-                       var Files: TFiles;
-                       TargetArchivePath: String;
-                       TargetPathInArchive: String);
+  procedure ShowPackDlg(const TheOwner: TComponent;
+                        var params: TFileSourceConsultParams;
+                        const TargetPathInArchive: String);
 
 implementation
 
@@ -104,15 +103,13 @@ uses
   DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
   uFileSourceCopyOperation, uShowForm, uShowMsg, uGlobsPaths;
 
-procedure ShowPackDlg(TheOwner: TComponent;
-                     const SourceFileSource: IFileSource;
-                     const TargetFileSource: IFileSource;
-                     var Files: TFiles;
-                     TargetArchivePath: String;
-                     TargetPathInArchive: String);
+procedure ShowPackDlg(const TheOwner: TComponent;
+                      var params: TFileSourceConsultParams;
+                      const TargetPathInArchive: String);
 var
   I: Integer;
   PackDialog: TfrmPackDlg;
+  f: TFile;
 begin
   PackDialog := TfrmPackDlg.Create(TheOwner);
 {$IF DEFINED(LCLGTK2)}
@@ -123,46 +120,50 @@ begin
 {$ENDIF}
   with PackDialog do
   try
-    FCount:= Files.Count;
+    FCount:= params.files.Count;
     FArchiveType:= 'none';
-    FSourceFileSource:= SourceFileSource;
-    FTargetFileSource:= TargetFileSource;
+    FSourceFileSource:= params.sourceFS;
+    FTargetFileSource:= params.targetFS;
     FTargetPathInArchive:= TargetPathInArchive;
     FArchiveExt:= ExtensionSeparator + FArchiveType;
 
-    if Files.Count = 1 then // if one file selected
+    if params.files.Count = 1 then // if one file selected
       begin
-        FArchiveName:= Files[0].NameNoExt;
-        FHasFolder:= Files[0].IsDirectory or Files[0].IsLinkToDirectory;
-        edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
+        f:= params.files[0];
+        FArchiveName:= ExtractOnlyFileName( params.sourceFS.GetFileName(f) );
+        FHasFolder:= f.IsDirectory or f.IsLinkToDirectory;
+        edtPackCmd.Text := params.targetPath + FArchiveName + ExtensionSeparator + FArchiveType;
       end
     else   // if some files selected
       begin
         FHasFolder:= False;
-        for I:= 0 to Files.Count - 1 do
+        for I:= 0 to params.files.Count - 1 do
         begin
-          if Files[I].IsDirectory or Files[I].IsLinkToDirectory then
+          f:= params.files[I];
+          if f.IsDirectory or f.IsLinkToDirectory then
           begin
             FHasFolder:= True;
             Break;
           end;
         end;
-        FArchiveName:= MakeFileName(Files.Path, 'archive');
-        edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
+        FArchiveName:= MakeFileName(params.files.Path, 'archive');
+        edtPackCmd.Text := params.targetPath + FArchiveName + ExtensionSeparator + FArchiveType;
       end;
 
     if (ShowModal = mrOK) then
     begin
-      case PrepareData(SourceFileSource, Files, @OnPackCopyOutStateChanged) of
+      params.targetPath:= edtPackCmd.Text;
+      FileSourceManager.confirmOperation( params );
+      FTargetPath:= params.resultTargetPath;
+      case PrepareData(params.sourceFS, params.files, @OnPackCopyOutStateChanged) of
         pdrInCallback:
           PackDialog:= nil;
         pdrSynchronous:
-          PackFiles(SourceFileSource, Files);
+          PackFiles(params.sourceFS, params.files);
       end;
     end;
   finally
     FreeAndNil(PackDialog);
-    FreeAndNil(Files);
   end;
 end;
 
@@ -611,7 +612,7 @@ begin
           aFiles:= TFiles.Create(Files.Path);
           try
             aFiles.Add(Files[I].Clone);
-            FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+            FArchiveName:= GetAbsoluteFileName(Files.Path, FTargetPath);
             try
               // Check if there is an ArchiveFileSource for possible archive.
               aFile := FTargetFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
@@ -642,7 +643,7 @@ begin
       end
     else
       begin
-        FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+        FArchiveName:= GetAbsoluteFileName(Files.Path, FTargetPath);
         try
           // Check if there is an ArchiveFileSource for possible archive.
           aFile := FTargetFileSource.CreateFileObject(ExtractFilePath(FArchiveName));

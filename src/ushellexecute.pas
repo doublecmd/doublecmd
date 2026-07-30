@@ -487,7 +487,7 @@ type
       sShellCmdLine := state.sSubParam + ' > ' + QuoteStr(sTmpFilename);
       Process := TProcessUTF8.Create(nil);
       try
-        Process.CommandLine := FormatShell(sShellCmdLine);
+        FormatShell(Process, sShellCmdLine);
         Process.Options := [poNoConsole, poWaitOnExit];
         Process.Execute;
       finally
@@ -898,10 +898,11 @@ begin
 
     leftFile:= frmMain.FrameLeft.CloneActiveFile;
     rightFile:= frmMain.FrameRight.CloneActiveFile;
+    // ".." should be interpreted as the parent directory
     if Assigned(leftFile) and (not leftFile.IsNameValid) then
-      FreeAndNil(leftFile);
+      leftFile.FullPath:= leftFile.Path;
     if Assigned(rightFile) and (not rightFile.IsNameValid) then
-      FreeAndNil(rightFile);
+      rightFile.FullPath:= rightFile.Path;
 
     if frmMain.ActiveFrame = frmMain.FrameLeft then
     begin
@@ -958,7 +959,7 @@ begin
       sShellCmdLine := Copy(sParams, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
       Process := TProcessUTF8.Create(nil);
       try
-        Process.CommandLine := FormatShell(sShellCmdLine);
+        FormatShell(Process, sShellCmdLine);
         Process.CurrentDirectory := sWorkPath;
         Process.Options := [poWaitOnExit];
         Process.ShowWindow := swoHide;

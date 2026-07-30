@@ -173,6 +173,7 @@ object frmFindDlg: TfrmFindDlg
             Top = 45
             Width = 200
             Anchors = [akTop, akRight]
+            AutoSize = True
             BevelOuter = bvNone
             ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
@@ -441,6 +442,8 @@ object frmFindDlg: TfrmFindDlg
             Width = 24
             Anchors = [akTop, akLeft, akBottom]
             BorderSpacing.Left = 2
+            Images = dmComData.ilEditorImages
+            ImageIndex = 44
             TabOrder = 8
             TabStop = True
             OnClick = btnEncodingClick

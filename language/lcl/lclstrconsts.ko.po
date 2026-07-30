@@ -58,6 +58,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -827,6 +832,10 @@ msgstr "서비스"
 msgid "Show All"
 msgstr "모두 보이기"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "전체 화면 전환"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "적갈색"
@@ -1367,6 +1376,10 @@ msgstr "Enter"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"

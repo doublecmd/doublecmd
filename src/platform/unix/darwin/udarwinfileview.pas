@@ -33,7 +33,6 @@ type
       const fs: ISearchResultFileSource;
       const files: TStringArray;
       const newPage: Boolean );
-    class procedure addiCloudDrivePage;
   end;
 
   { TDarwinSearchResultHandler }
@@ -187,9 +186,6 @@ begin
     Exit;
 
   macOSProperty:= params.displayFile.FSFile.MacOSSpecificProperty;
-  if macOSProperty = nil then
-    Exit;
-
   drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, params.decorationRect, params.focused );
 end;
 
@@ -261,21 +257,13 @@ begin
 
   if newPage then begin
     page:= Notebook.NewPage(fileView);
-    page.MakeActive;
     fileView:= page.FileView;
+    fileView.clearFilesOnly;
+    page.MakeActive;
   end;
 
   fileView.AddFileSource(fs, fs.GetRootDir);
   fileView.FlatView := True;
-end;
-
-class procedure TDarwinFileViewUtil.addiCloudDrivePage;
-var
-  iCloudFS: TiCloudDriveFileSource;
-begin
-  iCloudFS := TiCloudDriveFileSource.GetFileSource;
-  _activeFrameFunc().AddFileSource(iCloudFS, iCloudFS.GetRootDir);
-  _activeFrameFunc().SetFocus;
 end;
 
 initialization

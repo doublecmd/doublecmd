@@ -49,12 +49,17 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT6}
   uQtWSControls,
+  uQtWSMenus,
   {$IFNDEF LCL_VER_499}
   uQtWSButtons,
   {$ENDIF}
   {$ENDIF}
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
+  {$ENDIF}
+  {$IFDEF LCLGTK3}
+  uGtk3WSControls,
+  uGtk3WSMenus,
   {$ENDIF}
   {$IFDEF darwin}
   uDarwinApplication,
@@ -99,10 +104,8 @@ uses
   , uMyUnix
   {$ENDIF}
   {$IFDEF LclCocoa}
-{$if NOT defined(DisableCocoaModernForm)}
-  ,uCocoaModernFormConfig
-{$endif}
-  ,CocoaConfig
+  , uCocoaModernFormConfig
+  , CocoaConfig
   {$ENDIF}
   ;
 
@@ -222,7 +225,7 @@ begin
       InitPasswordStore;
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
-      initCocoaModernFormConfig;
+      TDCCocoaModernFormUtils.initConfig;
       iCloudDriveConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
@@ -241,7 +244,7 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      frmMain.ShowOnTop;
+      frmMain.Show;
       Application.ProcessMessages;
       Application.Run;
 

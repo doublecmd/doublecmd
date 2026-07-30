@@ -8,7 +8,6 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   BorderStyle = bsDialog
   ClientHeight = 86
   ClientWidth = 415
-  Constraints.MaxWidth = 800
   Constraints.MinWidth = 400
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -29,10 +28,8 @@ inherited frmDeleteDlg: TfrmDeleteDlg
       Height = 1
       Top = 0
       Width = 399
-      Anchors = [akTop, akLeft, akRight]
       ParentColor = False
       ShowAccelChar = False
-      WordWrap = True
     end
   end
   inherited pnlButtons: TPanel

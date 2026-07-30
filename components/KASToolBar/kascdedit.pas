@@ -26,7 +26,7 @@ unit KASCDEdit;
 interface
 
 uses
-  Classes, SysUtils, LResources, Controls, Graphics, Dialogs, Types,
+  Classes, SysUtils, LazVersion, LResources, Controls, Graphics, Dialogs, Types,
   Menus, CustomDrawnControls, CustomDrawnDrawers, CustomDrawn_Common;
 
 type
@@ -411,6 +411,12 @@ begin
   if (Button = mbLeft) or (GetSelLength = 0) then
   begin
     inherited MouseDown(Button, Shift, X, Y);
+
+    {$IF Laz_FullVersion >= 4990000}
+    // see also LCL 4b41b7a:
+    // customdrawn: remove redundant SetFocus from TCDControl.MouseDown
+    SetFocus();
+    {$ENDIF}
 
     FDragDropStarted := True;
 

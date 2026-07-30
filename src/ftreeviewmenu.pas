@@ -434,7 +434,7 @@ begin
     end;
   end;
 
-  if ssALT in Shift then
+  if (Shift * [ssAlt, ssCtrl] = [ssAlt]) then
   begin
     case Key of
       VK_0..VK_9, VK_A..VK_Z: if WasAbleToSelectShortCutLetter(char(Key)) then

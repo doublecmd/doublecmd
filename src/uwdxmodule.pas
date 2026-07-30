@@ -977,6 +977,13 @@ begin
 
     luaL_openlibs(L);
 
+    {$IFDEF TURN_OFF_LUA_JIT}
+    // in Unix-like OS, there is a conflict between LuaJIT and cthreads
+    // regarding multi-threading. under high concurrency, this may trigger
+    // eg. EXC_BAD_INSTRUCTION error.
+    TurnOffLuaJit(L);
+    {$ENDIF}
+
     RegisterPackages(L);
 
     sAbsolutePathFilename := mbExpandFileName(FFilename);

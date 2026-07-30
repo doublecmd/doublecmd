@@ -1102,6 +1102,10 @@ msgstr "Uložit & jako..."
 msgid "Save As"
 msgstr "Uložit jako"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1153,6 +1157,12 @@ msgstr "Zvýraznění syntaxe"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Ukončení řádku"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Zobrazit"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2064,6 +2074,10 @@ msgstr "Kopírovat cestu do příkazového řádku"
 msgid "Add Plugin"
 msgstr "Přidat doplněk"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Benchmark"
@@ -2079,6 +2093,14 @@ msgstr "Seznam"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "Spočítat &obsazené místo..."
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2320,6 +2342,10 @@ msgstr "Editovat nový soubor"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Upravit cestu pole nad souborem seznamu"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2661,6 +2687,10 @@ msgstr "&Obnovit"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Načíst uložený stav záložek"
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2786,6 +2816,10 @@ msgstr "Zamknout všechny záložky, ale dovolit změnu složky"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "Změnit &atributy..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3196,6 +3230,11 @@ msgstr "&Výběr"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "Síť"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6294,6 +6333,10 @@ msgstr "Vlastní zkratky velikostí souboru:"
 msgid "Sorting"
 msgstr "Řazení"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr "Byte:"
@@ -6357,6 +6400,14 @@ msgstr "&Terabyte:"
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Přesun aktualizovaných souborů:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6432,6 +6483,11 @@ msgstr "Výběr položek"
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
 msgstr "Výchozí hodnota atributové masky:"
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -11127,6 +11183,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -14100,6 +14164,10 @@ msgstr "Automaticky;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High D
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Výběr adresáře:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

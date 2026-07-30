@@ -73,11 +73,19 @@ type
 
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
-    procedure detectIfSupportOperation(var params: TFileSourceConsultParams);
-    procedure consultCopyOperation(var params: TFileSourceConsultParams);
-    procedure consultMoveOperation(var params: TFileSourceConsultParams);
+    procedure detectIfOperateDiffPaths(var params: TFileSourceConsultParams);
+    procedure detectIfCopyDiffPaths(var params: TFileSourceConsultParams);
     procedure resolveRealPath( var params: TFileSourceConsultParams );
     procedure calcTargetPath( var params: TFileSourceConsultParams );
+  private
+    procedure consultCopyOperation(var params: TFileSourceConsultParams);
+    procedure consultMoveOperation(var params: TFileSourceConsultParams);
+    procedure consultPackOperation(var params: TFileSourceConsultParams);
+  protected
+    function calcSourcePath(
+      const mountedFS: TMountedFileSource;
+      const targetFS: IFileSource;
+      const realPath: String ): String; virtual;
   public
     procedure consultOperation(var params: TFileSourceConsultParams); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
@@ -258,20 +266,7 @@ var
   mountedFS: TMountedFileSource;
   pathType: TPathType;
   targetPath: String;
-
-  function calcBasePath: String;
-  var
-    realPath: String;
-    mountPoint: TMountPoint;
-  begin
-    realPath:= params.files[0].FullPath;
-    mountPoint:= mountedFS.getMountPointFromPath( realPath );
-    if mountPoint <> nil then
-      Result:= mountPoint.path
-    else
-      Result:= GetParentDir( realPath );
-  end;
-
+  realPath: String;
 begin
   mountedFS:= params.currentFS as TMountedFileSource;
   targetPath:= params.targetPath;
@@ -286,8 +281,10 @@ begin
     params.resultTargetPath:= mountedFS.getRealPath( targetPath );
   end;
 
-  if params.phase=TFileSourceConsultPhase.source then
-    params.files.Path:= calcBasePath;
+  if params.phase=TFileSourceConsultPhase.source then begin
+    realPath:= params.files[0].FullPath;
+    params.files.Path:= calcSourcePath( mountedFS, params.targetFS, realPath );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.calcTargetPath(var params: TFileSourceConsultParams);
@@ -310,43 +307,38 @@ begin
   params.targetPath:= IncludeTrailingPathDelimiter(params.targetPath) + mountPoint.name + PathDelim;
 end;
 
-procedure TMountedFileSourceProcessor.detectIfSupportOperation(
+procedure TMountedFileSourceProcessor.detectIfOperateDiffPaths(
   var params: TFileSourceConsultParams);
-var
-  files: TFiles;
-  i: Integer;
-  path: String;
 begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
-  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
+
+  if params.files.allFilesAtSamePath then
     Exit;
 
-  files:= params.files;
-  if files.Count = 1 then
+  MessageDlg(
+    rsMountedFileSourceCopyMultiFilesToWcxDlgTitle,
+    rsMountedFileSourceCopyMultiFilesToWcxDlgMessage,
+    mtInformation,
+    [mbOK],
+    0 );
+
+  params.consultResult:= fscrCancel;
+  params.handled:= True;
+end;
+
+procedure TMountedFileSourceProcessor.detectIfCopyDiffPaths(
+  var params: TFileSourceConsultParams);
+begin
+  if fspDirectAccess in params.partnerFS.Properties then
     Exit;
 
-  path:= files[0].Path;
-  for i:=1 to files.Count-1 do begin
-    if files[i].Path = path then
-      continue;
-
-    MessageDlg(
-      rsMountedFileSourceCopyMultiFilesToWcxDlgTitle,
-      rsMountedFileSourceCopyMultiFilesToWcxDlgMessage,
-      mtInformation,
-      [mbOK],
-      0 );
-
-    params.consultResult:= fscrCancel;
-    params.handled:= True;
-    Exit;
-  end;
+  self.detectIfOperateDiffPaths( params );
 end;
 
 procedure TMountedFileSourceProcessor.consultCopyOperation(var params: TFileSourceConsultParams);
 begin
-  detectIfSupportOperation( params );
+  detectIfCopyDiffPaths( params );
   if params.handled then
     Exit;
 
@@ -360,10 +352,35 @@ begin
   params.handled:= True;
   if params.phase=TFileSourceConsultPhase.source then
     Exit;
-  if params.sourceFS.GetClass.ClassType <> TFileSystemFileSource then
+  if NOT (fspDirectAccess in params.sourceFS.Properties) then
     Exit;
 
   params.consultResult:= fscrSuccess;
+end;
+
+procedure TMountedFileSourceProcessor.consultPackOperation(var params: TFileSourceConsultParams);
+begin
+  detectIfOperateDiffPaths( params );
+  if params.handled then
+    Exit;
+
+  inherited consultOperation( params );
+  self.calcTargetPath( params );
+end;
+
+function TMountedFileSourceProcessor.calcSourcePath(
+  const mountedFS: TMountedFileSource;
+  const targetFS: IFileSource;
+  const realPath: String ): String;
+var
+  mountPoint: TMountPoint;
+begin
+  mountPoint:= mountedFS.getMountPointFromPath( realPath );
+  if mountPoint <> nil then begin
+    Result:= mountPoint.path
+  end else begin
+    Result:= GetParentDir( realPath );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.consultOperation(
@@ -374,18 +391,15 @@ begin
       consultCopyOperation( params );
     fsoMove:
       consultMoveOperation( params );
-    else
-      inherited consultOperation( params );
+    fsoPack:
+      consultPackOperation( params );
   end;
 end;
 
 procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
   inherited confirmOperation( params );
-  case params.operationType of
-    fsoCopy, fsoMove:
-      self.resolveRealPath( params );
-  end;
+  self.resolveRealPath( params );
 end;
 
 initialization

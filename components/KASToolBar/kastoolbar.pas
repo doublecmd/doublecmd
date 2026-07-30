@@ -56,6 +56,7 @@ type
   TKASToolButton = class(TSpeedButton)
   private
     FOverlay: TBitmap;
+    FOverlaySize: Integer;
     FToolItem: TKASToolItem;
     function GetToolBar: TKASToolBar;
     function GetGlyphBitmap: TBitmap;
@@ -778,7 +779,8 @@ begin
       if Assigned(Bitmap) and Assigned(FOnLoadButtonOverlay) and (not (ToolButton.ToolItem is TKASSeparatorItem)) then
       begin
         FreeAndNil(ToolButton.FOverlay);
-        ToolButton.FOverlay := FOnLoadButtonOverlay(ToolButton.ToolItem, FGlyphSize div 2, clBtnFace);
+        ToolButton.FOverlaySize := FGlyphSize div 2;
+        ToolButton.FOverlay := FOnLoadButtonOverlay(ToolButton.ToolItem, ToolButton.FOverlaySize, clBtnFace);
       end;
 
       if Assigned(Bitmap) then
@@ -1138,16 +1140,16 @@ function TKASToolButton.DrawGlyph(ACanvas: TCanvas; const AClient: TRect;
   const AOffset: TPoint; AState: TButtonState; ATransparent: Boolean;
   BiDiFlags: Longint): TRect;
 var
-  X, Y: Integer;
-  AWidth : Integer;
+  ARect: TRect;
 begin
   Result := inherited DrawGlyph(ACanvas, AClient, AOffset, AState, ATransparent, BiDiFlags);
   if Assigned(FOverlay) then
   begin
-    AWidth := FOverlay.Width;
-    X := AClient.Left + AOffset.X + ToolBar.FGlyphSize - AWidth;
-    Y := AClient.Top + AOffset.Y + ToolBar.FGlyphSize - AWidth;
-    Canvas.Draw(X, Y, FOverlay);
+    ARect.Left := (AClient.Left + AOffset.X + ToolBar.FGlyphSize) - FOverlaySize;
+    ARect.Top := (AClient.Top + AOffset.Y + ToolBar.FGlyphSize) - FOverlaySize;
+    ARect.Right := ARect.Left + FOverlaySize;
+    ARect.Bottom := ARect.Top + FOverlaySize;
+    ACanvas.StretchDraw(ARect, FOverlay);
   end;
 end;
 

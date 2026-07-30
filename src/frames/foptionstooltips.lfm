@@ -225,7 +225,8 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtFieldsMask
         AnchorSideBottom.Side = asrBottom
-        Caption = '..'
+        Images = dmComData.ilButtons
+        ImageIndex = 3
         Left = 663
         Height = 23
         Hint = 'Template...'

@@ -63,6 +63,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -879,6 +884,10 @@ msgstr "Voorzieningen"
 msgid "Show All"
 msgstr "Toon alle"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Volledig scherm in-/uitschakelen"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Kastanje"
@@ -1473,6 +1482,10 @@ msgstr "Enter"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"

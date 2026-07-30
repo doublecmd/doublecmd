@@ -552,7 +552,7 @@ var
 begin
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
-  Idx := PixMapManager.GetIconByFile(FFiles[iIndex], isFileSystem, True, sim_all_and_exe, True);
+  Idx := PixMapManager.GetIconByFile(FFiles[iIndex], isFileSystem, True, sim_all_and_exe);
   if Idx < 0 then Idx:= PixMapManager.GetDefaultIcon(FFiles[iIndex]);
   ABitmap:= PixMapManager.GetBitmap(Idx);
   imgFileIcon.Picture.Bitmap := ABitmap;
@@ -560,8 +560,8 @@ begin
 
   with FFiles[iIndex] do
   begin
-    lblFileName.Caption:= Name;
-    lblFile.Caption:= Name;
+    lblFileName.Caption:= FFileSource.GetFileName(FFiles[iIndex]);
+    lblFile.Caption:= lblFileName.Caption;
     lblFolder.Caption:= Path;
 
     if not (fpCreationTime in SupportedProperties) then
@@ -766,7 +766,8 @@ begin
       end;
       if fpOwner in SupportedProperties then
       begin
-        if (OriginalUser <> cbxUsers.Text) or (OriginalGroup <> cbxGroups.Text) then
+        if (chkRecursive.Checked) or
+           (OriginalUser <> cbxUsers.Text) or (OriginalGroup <> cbxGroups.Text) then
         begin
           TFileOwnerProperty(theNewProperties[fpOwner]).Owner:= StrToUID(cbxUsers.Text);
           TFileOwnerProperty(theNewProperties[fpOwner]).Group:= StrToGID(cbxGroups.Text);

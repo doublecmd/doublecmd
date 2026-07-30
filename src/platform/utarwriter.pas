@@ -116,19 +116,14 @@ type
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
-                       UpdateStatisticsFunction: TUpdateStatisticsFunction
-                       );
-    constructor Create(ArchiveFileName: String;
-                       AskQuestionFunction: TAskQuestionFunction;
-                       AbortOperationFunction: TAbortOperationFunction;
-                       CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
                        WcxModule: TWcxModule
                        );
     destructor Destroy; override;
 
-    function ProcessTree(var Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
-
+    function TarBegin(var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+    function TarFiles(const Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+    function TarEnd(var Statistics: TFileSourceCopyOperationStatistics; const beforeResult: Boolean): Boolean;
   end;
 
 implementation
@@ -219,29 +214,6 @@ constructor TTarWriter.Create(ArchiveFileName: String;
                               AskQuestionFunction: TAskQuestionFunction;
                               AbortOperationFunction: TAbortOperationFunction;
                               CheckOperationStateFunction: TCheckOperationStateFunction;
-                              UpdateStatisticsFunction: TUpdateStatisticsFunction);
-begin
-  AskQuestion := AskQuestionFunction;
-  AbortOperation := AbortOperationFunction;
-  CheckOperationState := CheckOperationStateFunction;
-  UpdateStatistics := UpdateStatisticsFunction;
-  DataWrite:= @WriteData;
-
-  FArchiveFileName:= ArchiveFileName;
-  FTargetPath:= ExtractFilePath(ArchiveFileName);
-  // Allocate buffers
-  FBufferSize := gCopyBlockSize;
-  GetMem(FBufferIn, FBufferSize);
-  FBufferOut:= nil;
-
-  FWcxModule:= nil;
-  FMemPack:= 0;
-end;
-
-constructor TTarWriter.Create(ArchiveFileName: String;
-                              AskQuestionFunction: TAskQuestionFunction;
-                              AbortOperationFunction: TAbortOperationFunction;
-                              CheckOperationStateFunction: TCheckOperationStateFunction;
                               UpdateStatisticsFunction: TUpdateStatisticsFunction;
                               WcxModule: TWcxModule);
 begin
@@ -249,18 +221,24 @@ begin
   AbortOperation := AbortOperationFunction;
   CheckOperationState := CheckOperationStateFunction;
   UpdateStatistics := UpdateStatisticsFunction;
-  DataWrite:= @CompressData;
 
   FArchiveFileName:= ArchiveFileName;
   FTargetPath:= ExtractFilePath(ArchiveFileName);
   // Allocate buffers
   FBufferSize := gCopyBlockSize;
   GetMem(FBufferIn, FBufferSize);
-  GetMem(FBufferOut, FBufferSize);
 
-  FWcxModule:= WcxModule;
-  // Starts packing into memory
-  FMemPack:= FWcxModule.WcxStartMemPack(MEM_OPTIONS_WANTHEADERS, ExtractFileName(ArchiveFileName));
+  if Assigned(WcxModule) then begin
+    FWcxModule:= WcxModule;
+    DataWrite:= @CompressData;
+    GetMem(FBufferOut, FBufferSize);
+    // Starts packing into memory
+    FMemPack:= FWcxModule.WcxStartMemPack(MEM_OPTIONS_WANTHEADERS, ExtractFileName(ArchiveFileName));
+  end else begin
+    DataWrite:= @WriteData;
+    FBufferOut:= nil;
+    FMemPack:= 0;
+  end;
 end;
 
 destructor TTarWriter.Destroy;
@@ -699,29 +677,22 @@ begin
   end;
 end;
 
-function TTarWriter.ProcessTree(var Files: TFiles;
-                                 var Statistics: TFileSourceCopyOperationStatistics): Boolean;
-var
-  aFile: TFile;
-  Divider: Int64 = 1;
-  CurrentFileIndex: Integer;
-  iTotalDiskSize, iFreeDiskSize: Int64;
-begin
-  try
-    Result:= False;
-    // Set base path
-    FBasePath:= Files.Path;
-    if FMemPack = 0 then begin
-      Divider:= 2;
-    end;
+function TTarWriter.TarBegin(
+  var Statistics: TFileSourceCopyOperationStatistics ): Boolean;
+
+  procedure initTar;
+  var
+    iTotalDiskSize, iFreeDiskSize: Int64;
+  begin
     // Update progress
     with Statistics do
     begin
       CurrentFileTo:= FArchiveFileName;
-      TotalBytes:= TotalBytes * Divider;
+      Statistics.TotalFiles:= Statistics.TotalFiles + 1;  // add .tar file
+      if FMemPack = 0 then
+        TotalBytes:= TotalBytes * 2;  // take TotalBytes as an approximation of the tar file
       UpdateStatistics(Statistics);
     end;
-    // Check disk free space
     //if FCheckFreeSpace = True then
     begin
       GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
@@ -731,60 +702,91 @@ begin
         AbortOperation;
       end;
     end;
+  end;
 
-    // Create destination file
-    FTargetStream := TFileStreamEx.Create(FArchiveFileName, fmCreate);
-    try
-      for CurrentFileIndex := 0 to Files.Count - 1 do
-      begin
-        aFile := Files[CurrentFileIndex];
-
-        if aFile.IsDirectory or aFile.IsLink then
-        begin
-          // Add file record only
-          AddFile(aFile.FullPath);
-        end
-        else
-          begin
-            // Update progress
-            with Statistics do
-            begin
-              CurrentFileFrom := aFile.FullPath;
-              CurrentFileTotalBytes := aFile.Size;
-              CurrentFileDoneBytes := 0;
-            end;
-            UpdateStatistics(Statistics);
-
-            // Add file record
-            AddFile(aFile.FullPath);
-            // TAR current file
-            if not WriteFile(aFile.FullPath, Statistics) then Break;
-          end;
-
-        CheckOperationState;
-      end;
-      // Finish TAR archive with two null records
-      FillByte(FBufferIn^, RECORDSIZE * 2, 0);
-      DataWrite(FBufferIn, RECORDSIZE * 2);
-      // Finish compression if needed
-      if (FMemPack <> 0) then CompressData(FBufferIn, 0);
-    finally
-      if Assigned(FTargetStream) then
-        begin
-          FreeAndNil(FTargetStream);
-          if (Statistics.DoneBytes <> Statistics.TotalBytes div Divider) then
-            // There was some error, because not all files has been archived.
-            // Delete the not completed target file.
-            mbDeleteFile(FArchiveFileName)
-          else
-            Result:= True;
-        end;
-    end;
+begin
+  Result:= False;
+  initTar;
+  try
+    FTargetStream:= TFileStreamEx.Create(FArchiveFileName, fmCreate);
+    Result:= True;
   except
     on EFCreateError do
       begin
         ShowError(rsMsgLogError + rsMsgErrECreate + ': ' + FArchiveFileName);
       end;
+  end;
+end;
+
+function TTarWriter.TarFiles(
+  const Files: TFiles;
+  var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+var
+  aFile: TFile;
+  CurrentFileIndex: Integer;
+begin
+  Result:= False;
+  FBasePath:= Files.Path;
+
+  for CurrentFileIndex := 0 to Files.Count - 1 do begin
+    aFile := Files[CurrentFileIndex];
+
+    if aFile.IsDirectory or aFile.IsLink then begin
+      // Add file record only
+      AddFile(aFile.FullPath);
+    end else begin
+      // Update progress
+      with Statistics do
+      begin
+        CurrentFileFrom := aFile.FullPath;
+        CurrentFileTotalBytes := aFile.Size;
+        CurrentFileDoneBytes := 0;
+      end;
+      UpdateStatistics(Statistics);
+
+      // Add file record
+      AddFile(aFile.FullPath);
+      // TAR current file
+      if not WriteFile(aFile.FullPath, Statistics) then
+        Exit;
+    end;
+
+    CheckOperationState;
+  end;
+
+  Result:= True;
+end;
+
+function TTarWriter.TarEnd(
+  var Statistics: TFileSourceCopyOperationStatistics;
+  const beforeResult: Boolean ): Boolean;
+var
+  tarSize: Int64;
+begin
+  Result:= False;
+  try
+    // Finish TAR archive with two null records
+    FillByte(FBufferIn^, RECORDSIZE * 2, 0);
+    DataWrite(FBufferIn, RECORDSIZE * 2);
+    // Finish compression if needed
+    if (FMemPack <> 0) then CompressData(FBufferIn, 0);
+    Result:= beforeResult;
+  finally
+    if Assigned(FTargetStream) then begin
+      FreeAndNil(FTargetStream);
+      if Result then begin
+        if FMemPack = 0 then begin
+          // calculate the exact value of TotalBytes
+          tarSize:= mbFileSize(FArchiveFileName);
+          Statistics.TotalBytes:= Statistics.TotalBytes div 2 + tarSize;
+          UpdateStatistics(Statistics);
+        end;
+      end else begin
+        // There was some error, because not all files has been archived.
+        // Delete the not completed target file.
+        mbDeleteFile(FArchiveFileName)
+      end;
+    end;
   end;
 end;
 

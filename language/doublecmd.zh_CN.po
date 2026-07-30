@@ -1078,6 +1078,10 @@ msgstr "另存为(&A)..."
 msgid "Save As"
 msgstr "另存为"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr "自动换行(&W)"
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1129,6 +1133,11 @@ msgstr "语法高亮"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "行末"
+
+#: tfrmeditor.miview.caption
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "查看(&V)"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2038,6 +2047,10 @@ msgstr "复制路径到命令行"
 msgid "Add Plugin"
 msgstr "添加插件"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr "添加到暂存区"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "基准测试(&B)"
@@ -2053,6 +2066,14 @@ msgstr "列表视图"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "计算占用空间(&O)..."
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2294,6 +2315,10 @@ msgstr "编辑新文件"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "编辑文件列表上方的路径字段"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr "清空暂存区"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2635,6 +2660,10 @@ msgstr "刷新(&R)"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "重新加载上次加载的收藏夹标签"
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr "从暂存区移除"
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2761,6 +2790,10 @@ msgstr "将所有标签设置为允许更改文件夹的锁定状态"
 msgid "Change &Attributes..."
 msgstr "更改属性(&A)..."
 
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr "设置排序模式"
+
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
 msgstr "锁定，并在新标签中打开文件夹(&T)"
@@ -2784,7 +2817,7 @@ msgstr "打开"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr "使用系统关联打开"
+msgstr "使用系统默认关联应用程序打开"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
@@ -2848,7 +2881,7 @@ msgstr "同步导航"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr "两个面板中的同步目录更改"
+msgstr "同步切换两个面板中的文件夹"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -3170,6 +3203,11 @@ msgstr "标记(&M)"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "网络(&N)"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr "打开暂存区"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -5912,7 +5950,7 @@ msgstr "编辑器中编辑"
 
 #: tfrmoptionsfileassoc.mieditwith.caption
 msgid "Edit with..."
-msgstr "编辑器..."
+msgstr "编辑方式..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgid "Get output from command"
@@ -5967,7 +6005,7 @@ msgstr "默认动作（查看/编辑）"
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
-msgstr "通过系统外壳执行"
+msgstr "通过 shell 执行"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
@@ -6248,7 +6286,7 @@ msgstr "默认(&F)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
-msgstr "正在格式化"
+msgstr "格式"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
 msgid "Personalized abbreviations to use:"
@@ -6256,7 +6294,11 @@ msgstr "使用的个性化缩写："
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
-msgstr "正在排序"
+msgstr "排序"
+
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6322,6 +6364,14 @@ msgstr "太字节(&T)："
 msgid "&Move updated files:"
 msgstr "移动更新的文件(&M)："
 
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
+
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
 msgid "&Add"
@@ -6334,7 +6384,7 @@ msgstr "帮助(&H)"
 
 #: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "双击文件视图的空白区域时，启用变更到父文件夹(&P)"
+msgstr "双击文件视图的空白区域时，切换到父文件夹(&P)"
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
@@ -6350,7 +6400,7 @@ msgstr "高亮显示新建和更新的文件(&G)"
 
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "双击文件名时启用就地重命名"
+msgstr "两次点按文件名时，启用就地重命名"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
 msgid "Load &file list in separate thread"
@@ -6370,7 +6420,7 @@ msgstr "使用空格键选择文件时, 自动移动到下一文件（相当于�
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "标记文件时使用 Windows 样式过滤器（\"*.*\" 同时选择没有扩展名的文件等。）"
+msgstr "标记文件时使用 Windows 样式过滤器（\"*.*\" 同时选择没有扩展名的文件等）"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgid "Use an independent attribute filter in mask input dialog each time"
@@ -6378,11 +6428,16 @@ msgstr "每次在掩码输入对话框中使用独立的属性过滤器"
 
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
 msgid "Marking/Unmarking entries"
-msgstr "正在标记/取消标记条目"
+msgstr "标记/取消标记"
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgid "Default attribute mask value to use:"
-msgstr "要使用的默认属性掩码值："
+msgstr "默认属性掩码值："
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr "补充行间距："
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8920,15 +8975,15 @@ msgstr "-> 删除右边"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
-msgstr "删除选择"
+msgstr "取消选择"
 
 #: tfrmsyncdirsdlg.actselectcopydefault.caption
 msgid "Select for copying (default direction)"
-msgstr "选择复制方向（默认方向）"
+msgstr "选择复制（默认方向）"
 
 #: tfrmsyncdirsdlg.actselectcopylefttoright.caption
 msgid "Select for copying -> (left to right)"
-msgstr "选择复制方向 ->（从左到右）"
+msgstr "选择复制 ->（从左到右）"
 
 #: tfrmsyncdirsdlg.actselectcopyreverse.caption
 msgid "Reverse copy direction"
@@ -8936,19 +8991,19 @@ msgstr "反转复制方向"
 
 #: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
 msgid "Select for copying <- (right to left)"
-msgstr "选择复制方向 <- （从右到左）"
+msgstr "选择复制 <-（从右到左）"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
 msgid "Select for deleting <-> (both)"
-msgstr "选择删除<-> (两边都有)"
+msgstr "选择删除 <-> (两边)"
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
-msgstr "选择删除方向 <- (左）"
+msgstr "选择删除 <- (左边）"
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
-msgstr "选择删除方向 ->（右）"
+msgstr "选择删除 ->（右边）"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -9485,7 +9540,7 @@ msgstr "文本方式显示(&T)"
 
 #: tfrmviewer.actshowaswraptext.caption
 msgid "Show as &Wrap text"
-msgstr "换行文本方式显示(&W)"
+msgstr "自动换行(&W)"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
@@ -9537,7 +9592,7 @@ msgstr "撤销"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr "文本换行(&W)"
+msgstr "自动换行(&W)"
 
 #: tfrmviewer.actzoom.caption
 msgctxt "tfrmviewer.actzoom.caption"
@@ -11081,6 +11136,14 @@ msgstr "网络连接"
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Double Command作为文件管理器，需要获得完全磁盘访问权限。点击此按钮将弹出macOS系统设置页，请添加“Double Commander.app”到“完全磁盘访问权限”列表中完成授权。"
+
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr "如果你能看到我，说明DC仍未获得授权。DC会在成功授权后隐藏我。"
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr "每次安装DC的新版本，你都必须重新进行授权。这种情况你需要先将DC从列表中移除，再重新将DC加入到列表中。因为新版本有不同的指纹，单纯启用复选框是无效的。"
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -12964,12 +13027,12 @@ msgstr "已结束"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr "列表"
+msgstr "正在读取文件夹"
 
 #: ulng.rsoperlistingin
 #, object-pascal-format
 msgid "Listing \"%s\""
-msgstr "正在列表 \"%s\""
+msgstr "正在读取文件夹 \"%s\""
 
 #: ulng.rsopermoving
 msgid "Moving"
@@ -14072,6 +14135,10 @@ msgstr "自动;1457664B - 3.5\" 高密度 1.44M;1213952B - 5.25\" 高密度 1.2M
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "选中的文件夹："
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr "暂存区"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

@@ -60,11 +60,4 @@ inherited frmOptionsPluginsWCX: TfrmOptionsPluginsWCX
       OnClick = btnConfigPluginClick
     end
   end
-  inherited ImgSwitchEnable: TImage
-    Top = 20
-  end
-  inherited ImgSwitchDisable: TImage
-    Left = 16
-    Top = 20
-  end
 end

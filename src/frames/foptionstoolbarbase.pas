@@ -1348,6 +1348,7 @@ begin
     // Drop to a different toolbar.
     if SourceButton.ToolBar <> TargetButton.ToolBar then
     begin
+      if (SourceButton = FCurrentButton) then FCurrentButton := nil;
       SourceButton.ToolBar.MoveButton(SourceButton, TargetButton.ToolBar, TargetButton);
     end;
   end;

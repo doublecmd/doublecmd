@@ -52,6 +52,7 @@ type
                                          var Abort : Boolean);
     procedure AbArchiveProgressEvent (Sender : TObject; Progress : Byte; var Abort : Boolean);
     procedure AbNeedPasswordEvent(Sender : TObject; var NewPassword : AnsiString);
+    procedure AbProcessItemContinueEvent(Sender : TObject; Item : TAbArchiveItem; var Abort : Boolean);
     procedure AbProcessItemFailureEvent(Sender: TObject; Item: TAbArchiveItem; ProcessType: TAbProcessType;
                                         ErrorClass: TAbErrorClass; ErrorCode: Integer);
     procedure AbRequestImageEvent(Sender : TObject; ImageNumber : Integer;
@@ -452,8 +453,9 @@ begin
       Arc.ZipArchive.CompressionLevel:= PluginConfig[ArchiveFormat].Level;
       Arc.ZipArchive.CompressionMethod:= PluginConfig[ArchiveFormat].Method;
 
-      Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
       Arc.StoreOptions := Arc.StoreOptions + [soReplace];
+      Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
+      Arc.ZipArchive.OnArchiveItemContinue:= @Arc.AbProcessItemContinueEvent;
 
       Arc.BaseDirectory := UTF16ToUTF8(UnicodeString(SrcPath));
 
@@ -713,6 +715,19 @@ begin
       FItemProgress := Progress;
     end;
     Abort := (FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Item.FileName)), ASize) = 0);
+  end;
+end;
+
+procedure TAbZipKitEx.AbProcessItemContinueEvent(Sender: TObject;
+  Item: TAbArchiveItem; var Abort: Boolean);
+begin
+  try
+    if Assigned(FProcessDataProcW) then
+    begin
+      Abort := (FProcessDataProcW(nil, 0) = 0)
+    end;
+  except
+    Abort := True;
   end;
 end;
 

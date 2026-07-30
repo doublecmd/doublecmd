@@ -216,6 +216,7 @@ type
     FTextWidth:          Integer; // max char count or width in window
     FTextHeight:         Integer; // measured values of font, rec calc at font changed
     FOnPositionChanged:  TNotifyEvent;
+    FScrollBarsLock:     Integer;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
     FHScrollBarPosition: Integer;  // for updating horizontal scrollbar based on HPosition
@@ -274,6 +275,8 @@ type
     function GetLinesTillEnd(FromPosition: PtrInt; out LastLineReached: Boolean): Integer;
 
     function GetBomLength: Integer;
+
+    function GetOffsetOfMode(const mode: TViewerControlMode): Integer;
 
     procedure UpdateLimits;
 
@@ -401,7 +404,7 @@ type
        Checks if current selection is still valid given current viewer mode and encoding.
        For example checks if selection is not in the middle of a unicode character.
     }
-    procedure UpdateSelection;
+    procedure UpdateSelectionAndCaret;
 
     procedure ScrollBarSetPosition(Which, Value: Integer);
     function  ScrollBarGetPosition(Which: Integer): Integer;
@@ -704,10 +707,23 @@ begin
 end;
 
 procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
+
+  procedure adjustPosByBOM;
+  var
+    offset: Integer;
+  begin
+    offset:= GetOffsetOfMode(FViewerControlMode) - GetOffsetOfMode(Value);
+    Inc( FBlockBeg, offset );
+    Inc( FBlockEnd, offset );
+    Inc( FCaretPos, offset );
+  end;
+
 begin
   if not (csDesigning in ComponentState) then
   begin
     FLineList.Clear; // do not use cache from previous mode
+
+    adjustPosByBOM;
 
     FViewerControlMode := Value;
     case FViewerControlMode of
@@ -732,7 +748,7 @@ begin
     FBlockBeg := FBlockBeg - (GetDataAdr - FMappedFile);
     FBlockEnd := FBlockEnd - (GetDataAdr - FMappedFile);
 
-    UpdateSelection;
+    UpdateSelectionAndCaret;
 
     // Force recalculating position.
     SetPosition(FPosition, True);
@@ -845,15 +861,19 @@ var
 begin
   if HandleAllocated then
   begin
-    ScrollInfo:= Default(TScrollInfo);
-    ScrollInfo.cbSize:= SizeOf(ScrollInfo);
     ScrollVisible:= (Which = SB_VERT) or (FViewerControlMode = vcmText);
     ShowScrollBar(Handle, Which, ScrollVisible);
-    ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE;
-    ScrollInfo.nPage:= 1;
-    ScrollInfo.nMax:= 100;
-    ScrollInfo.nPos:= Value;
-    SetScrollInfo(Handle, Which, ScrollInfo, ScrollVisible);
+
+    if ScrollVisible then
+    begin
+      ScrollInfo:= Default(TScrollInfo);
+      ScrollInfo.cbSize:= SizeOf(ScrollInfo);
+      ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE;
+      ScrollInfo.nPage:= 1;
+      ScrollInfo.nMax:= 100;
+      ScrollInfo.nPos:= Value;
+      SetScrollInfo(Handle, Which, ScrollInfo, ScrollVisible);
+    end;
   end;
 end;
 
@@ -1979,12 +1999,7 @@ end;
 
 function TViewerControl.GetDataAdr: Pointer;
 begin
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      Result := FMappedFile + FBOMLength;
-    else
-      Result := FMappedFile;
-  end;
+  Result := FMappedFile + GetOffsetOfMode(FViewerControlMode);
 end;
 
 procedure TViewerControl.SetPosition(Value: PtrInt);
@@ -3624,22 +3639,32 @@ var
   ScrollVisibleH: Boolean;
   ScrollInfo: TScrollInfo;
 begin
-  if HandleAllocated then
+  // ShowScrollBar may send a resize message
+  // and trigger DoOnResize -> UpdateScrollbars
+  if HandleAllocated and (FScrollBarsLock = 0) then
   begin
-    ScrollInfo:= Default(TScrollInfo);
-    ScrollInfo.cbSize:= SizeOf(ScrollInfo);
-    ScrollVisibleH:= (FViewerControlMode = vcmText);
-    ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE or SIF_DISABLENOSCROLL;
-    ScrollInfo.nPage:= 1;
-    ScrollInfo.nMax:= 100;
-    // Vertical
-    ScrollInfo.nPos:= FScrollBarPosition;
-    ShowScrollBar(Handle, SB_Vert, True);
-    SetScrollInfo(Handle, SB_Vert, ScrollInfo, True);
-    // Horizontal
-    ScrollInfo.nPos:= FHScrollBarPosition;
-    ShowScrollBar(Handle, SB_Horz, ScrollVisibleH);
-    SetScrollInfo(Handle, SB_Horz, ScrollInfo, ScrollVisibleH);
+    Inc(FScrollBarsLock);
+    try
+      ScrollInfo:= Default(TScrollInfo);
+      ScrollInfo.cbSize:= SizeOf(ScrollInfo);
+      ScrollInfo.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE or SIF_DISABLENOSCROLL;
+      ScrollInfo.nPage:= 1;
+      ScrollInfo.nMax:= 100;
+      // Vertical
+      ScrollInfo.nPos:= FScrollBarPosition;
+      ShowScrollBar(Handle, SB_Vert, True);
+      SetScrollInfo(Handle, SB_Vert, ScrollInfo, True);
+      // Horizontal
+      ScrollVisibleH:= (FViewerControlMode = vcmText);
+      ShowScrollBar(Handle, SB_Horz, ScrollVisibleH);
+      if ScrollVisibleH then
+      begin
+        ScrollInfo.nPos:= FHScrollBarPosition;
+        SetScrollInfo(Handle, SB_Horz, ScrollInfo, ScrollVisibleH);
+      end;
+    finally
+      Dec(FScrollBarsLock);
+    end;
   end;
 end;
 
@@ -3775,6 +3800,16 @@ begin
   end;
 end;
 
+function TViewerControl.GetOffsetOfMode(const mode: TViewerControlMode): Integer;
+begin
+  case mode of
+    vcmText, vcmWrap, vcmBook:
+      Result:= FBOMLength;
+    else
+      Result:= 0;
+  end;
+end;
+
 procedure TViewerControl.UpdateLimits;
 begin
   if FEncoding = veAutoDetect then
@@ -3782,21 +3817,11 @@ begin
 
   FBOMLength := GetBomLength;
 
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize - FBOMLength;
-      end;
-    else
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize;
-      end;
-  end;
+  FLowLimit  := 0;
+  FHighLimit := FFileSize - GetOffsetOfMode(FViewerControlMode);
 end;
 
-procedure TViewerControl.UpdateSelection;
+procedure TViewerControl.UpdateSelectionAndCaret;
 
   procedure Check(var aPosition: PtrInt; Backwards: Boolean);
   var
@@ -3865,6 +3890,7 @@ begin
     case FViewerControlMode of
       vcmText, vcmWrap, vcmBook:
         begin
+          Check(FCaretPos, True);
           Check(FBlockBeg, False);
           Check(FBlockEnd, True);
 

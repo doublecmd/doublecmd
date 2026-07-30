@@ -189,7 +189,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       Top = 190
       Width = 23
       Anchors = [akTop, akRight, akBottom]
-      Caption = '..'
+      Images = dmComData.ilButtons
+      ImageIndex = 3
       ParentShowHint = False
       ShowHint = True
       TabOrder = 3

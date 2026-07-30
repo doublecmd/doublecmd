@@ -47,8 +47,8 @@ type
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
-    procedure ShowRenameFileEdit(var aFile: TFile); override;
-    procedure UpdateRenameFileEditPosition; override;
+    procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); override;
     function GetVisibleFilesIndexes: TRange; override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
@@ -462,23 +462,19 @@ var
                                    );
 
         // Draw overlay icon for a file if needed
-        if gIconOverlays then
-        begin
-          PixMapManager.DrawBitmapOverlay(AFile,
-                                          FileSourceDirectAccess,
-                                          Canvas,
-                                          params.iconRect.Left,
-                                          params.iconRect.Top
-                                          );
-        end;
-
+        PixMapManager.DrawBitmapOverlay(AFile,
+                                        FileSourceDirectAccess,
+                                        Canvas,
+                                        params.iconRect.Left,
+                                        params.iconRect.Top
+                                        );
       end;
       // Print filename with align
       targetWidth:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
       if (gShowIcons <> sim_none) then targetWidth:= targetWidth - gIconsSize - 2;
       if (not gBriefViewFileExtAligned) or (AFile.FSFile.Extension = '') then
         begin
-          s:= AFile.DisplayStrings[0];
+          s:= AFile.DisplayName;
           s:= FitFileName(s, Canvas, AFile.FSFile, targetWidth);
         end
       else
@@ -512,9 +508,6 @@ begin
       params.displayFile:= aFile;
       params.drawingRect:= aRect;
       params.focused:= (gdSelected in aState) and FBriefView.Active;
-
-      if AFile.DisplayStrings.Count = 0 then
-        FBriefView.MakeColumnsStrings(AFile);
 
       PrepareColors(aFile, aCol, aRow, aRect, aState);
 
@@ -554,8 +547,12 @@ begin
   Result:= TBriefDrawGrid;
 end;
 
-procedure TBriefFileView.ShowRenameFileEdit(var aFile: TFile);
+procedure TBriefFileView.ShowRenameFileEdit(
+  var aFile: TFile; const withExt: Boolean);
 begin
+  if aFile.Name = EmptyStr then
+    Exit;;
+
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;
@@ -564,17 +561,17 @@ begin
 
     dgPanel.LeftCol:= dgPanel.Col;
 
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(withExt);
   end;
 
-  inherited ShowRenameFileEdit(AFile);
+  inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
-procedure TBriefFileView.UpdateRenameFileEditPosition;
+procedure TBriefFileView.UpdateRenameFileEditPosition(const withExt: Boolean);
 var
   ARect: TRect;
 begin
-  inherited UpdateRenameFileEditPosition;
+  inherited UpdateRenameFileEditPosition(withExt);
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   Dec(ARect.Top, 2);
@@ -585,6 +582,11 @@ begin
 
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);
+
+  {$IFDEF LCLCOCOA}
+  Dec( ARect.Top );
+  Dec( ARect.Left, 2 );
+  {$ENDIF}
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;

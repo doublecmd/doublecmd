@@ -1140,6 +1140,10 @@ msgstr "Gem &som..."
 msgid "Save As"
 msgstr "Gem som"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1191,6 +1195,12 @@ msgstr "Fremhæv syntaks"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Linjeafslutning"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Vis"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
@@ -2137,6 +2147,10 @@ msgstr "Kopiér sti til kommandolinje"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Benchmark"
@@ -2154,6 +2168,14 @@ msgstr "Kort visning"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "B&eregn brugt plads..."
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2426,6 +2448,10 @@ msgstr "Rediger ny fil"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Rediger stifeltet over fillisten"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 # Kommandoer
 #: tfrmmain.actexchange.caption
@@ -2817,6 +2843,10 @@ msgstr "&Opdatér vindue"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Genindlæs seneste anvendte Favoritfaneblad"
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2965,6 +2995,10 @@ msgstr "Alle faneblade låste. Tillad ændring af mappe"
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
 msgstr "&Ændre attributter..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 # Faner - Indstillinger
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
@@ -3402,6 +3436,11 @@ msgstr "&Marker"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "&Netværk"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 # Vis
 #: tfrmmain.mnushow.caption
@@ -6841,6 +6880,10 @@ msgstr "Indstil personlige forkortelser:"
 msgid "Sorting"
 msgstr "Sortering"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 # Opsætning  - Indstillinger - Visning
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6925,6 +6968,14 @@ msgstr "&Terabyte: "
 msgid "&Move updated files:"
 msgstr "F&lyt ændrede filer:"
 
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
+
 # Opsætning - Indstillinger - Visning_ekstra
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -7001,6 +7052,11 @@ msgstr "Markering/fjernelse af markeringer"
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgid "Default attribute mask value to use:"
 msgstr "Anvend disse standardattributter i maske: "
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
 
 # Opsætning - Indstillinger - Visning_ekstra
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -12173,6 +12229,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -15252,6 +15316,10 @@ msgstr "Automatisk;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High De
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Vælg mappe:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 # Opsætning - Indstillinger - Layout - Mappeoversigt_Layout og Farver
 #: ulng.rsstrpreviewjustpreview

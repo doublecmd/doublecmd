@@ -401,9 +401,9 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
+  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, ImgList, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uOfficeXML,
-   uFile, uFileProperty, uColumnsFileView,
+  uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils,
   DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
   uColumns, uFileFunctions, uFileSorting,
@@ -545,8 +545,7 @@ begin
           FreeAndNil(ASelectedFiles);
         end;
 
-      (FileView.FileSource as ILocalFileSource).AddSearchPath(
-        FileView.CurrentRealPath, FSelectedFiles );
+      FileView.FileSource.AddSearchPath( FileView.CurrentRealPath, FSelectedFiles );
 
       FindInArchive(FileView);
 
@@ -738,6 +737,9 @@ begin
   if (ListOffrmFindDlgInstance.Count = 0) then
     Application.AddOnKeyDownBeforeHandler(@FormKeyDown);
 {$ENDIF}
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 { TfrmFindDlg.cbUsePluginChange }
@@ -770,8 +772,6 @@ end;
 
 { TfrmFindDlg.Create }
 constructor TfrmFindDlg.Create(TheOwner: TComponent);
-var
-  C: TPortableNetworkGraphic;
 begin
   FSelectedFiles := TStringList.Create;
   inherited Create(TheOwner);
@@ -780,15 +780,8 @@ begin
   FUpdateTimer.Enabled := False;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
 
-  try
-    C := TPortableNetworkGraphic.Create;
-    C.LoadFromResourceName(hInstance, ResBtnSelDir);
-    btnChooseFolder.Glyph.Assign(C);
-  finally
-    C.Free;
-  end;
-
-  dmComData.ilEditorImages.GetBitmap(44, btnEncoding.Glyph);
+  btnChooseFolder.Images:= LCLGlyphs;
+  btnChooseFolder.ImageIndex:= LCLGlyphs.GetImageIndex(ResBtnSelDir);
 
   FCommands := TFormCommands.Create(Self, actList);
 end;
@@ -1747,15 +1740,18 @@ begin
 
   if cbFindInArchive.Enabled then
   begin
-    if (cmbFindPathStart.Text = '') then begin
-      cmbFindPathStart.Text:= mbGetCurrentDir;
-    end;
-    for sPath in SplitPath(cmbFindPathStart.Text) do
+    if FFileSource.IsClass(TFileSystemFileSource) then
     begin
-      if not mbDirectoryExists(sPath) then
+      if (cmbFindPathStart.Text = '') then begin
+        cmbFindPathStart.Text:= mbGetCurrentDir;
+      end;
+      for sPath in SplitPath(cmbFindPathStart.Text) do
       begin
-        ShowMessage(Format(rsFindDirNoEx, [sPath]));
-        Exit;
+        if not mbDirectoryExists(sPath) then
+        begin
+          ShowMessage(Format(rsFindDirNoEx, [sPath]));
+          Exit;
+        end;
       end;
     end;
   end;
@@ -1980,14 +1976,21 @@ end;
 { TfrmFindDlg.cm_GoToFile }
 procedure TfrmFindDlg.cm_GoToFile(const Params: array of string);
 var
+  AValue: String;
   AFile: TFile = nil;
   TargetFile: string;
   ArchiveFile: string;
+  AClose: Boolean = True;
   FileSource: IFileSource;
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
     try
-      StopSearch;
+      if (Length(Params) > 0) then
+      begin
+        if GetParamValue(Params, 'close', AValue) then
+          GetBoolValue(AValue, AClose);
+      end;
+      if AClose then StopSearch;
       TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
       if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
       begin
@@ -2015,7 +2018,7 @@ begin
         frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
       end;
       frmMain.RestoreWindow;
-      Close;
+      if AClose then Close;
     except
       on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
     end;
@@ -2073,6 +2076,7 @@ begin
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
+  NewPage.FileView.clearFilesOnly;
 
   if FLastSearchTemplate.SearchRecord.Duplicates then
   begin
@@ -2392,7 +2396,10 @@ begin
     if cmbFindFileMask.CanSetFocus then
       cmbFindFileMask.SetFocus;
 
-  cbSelectedFiles.Checked := FSelectedFiles.Count > 0;
+  if cbSelectedFiles.Checked <> (FSelectedFiles.Count > 0) then
+    cbSelectedFiles.Checked := NOT cbSelectedFiles.Checked
+  else
+    cbSelectedFilesChange( cbSelectedFiles );
   cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 
@@ -2568,6 +2575,12 @@ begin
           cm_GotoFile([]);
           Key := 0;
         end;
+      end;
+
+      VK_SPACE:
+      begin
+        cm_GotoFile(['close=0']);
+        Key := 0;
       end;
 
       VK_RIGHT, VK_LEFT:

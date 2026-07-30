@@ -59,7 +59,7 @@ type
     procedure cm_SaveDescription(const {%H-}Params: array of string);
   end; 
 
-function ShowDescrEditDlg(const sFileName: String; FileView: TFileView): Boolean;
+function ShowDescrEditDlg(TheOwner: TComponent; const sFileName: String; FileView: TFileView): Boolean;
 
 implementation
 
@@ -72,7 +72,7 @@ uses
 const
   HotkeysCategory = 'Edit Comment Dialog';
 
-function ShowDescrEditDlg(const sFileName: String; FileView: TFileView): Boolean;
+function ShowDescrEditDlg(TheOwner: TComponent; const sFileName: String; FileView: TFileView): Boolean;
 const
   nbsp = #194#160;
 var
@@ -80,7 +80,7 @@ var
 begin
   Result:= False;
   FileSystem:= FileView.FileSource.IsClass(TFileSystemFileSource);
-  with TfrmDescrEdit.Create(Application) do
+  with TfrmDescrEdit.Create(TheOwner) do
   try
     if not FileSystem then
       FDescr:= TDescription.Create(False)

@@ -95,8 +95,8 @@ type
     procedure EnsureDisplayProperties; override;
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
-    procedure ShowRenameFileEdit(var aFile: TFile); override;
-    procedure UpdateRenameFileEditPosition(); override;
+    procedure ShowRenameFileEdit(var aFile: TFile; const withExt: Boolean); override;
+    procedure UpdateRenameFileEditPosition(const withExt: Boolean); override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
     procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); override;
@@ -546,17 +546,14 @@ var
       end;
 
     // Draw overlay icon for a file if needed
-    if gIconOverlays then
-    begin
-      PixMapManager.DrawBitmapOverlay(AFile,
-                                      FileSourceDirectAccess,
-                                      Canvas,
-                                      aRect.Left + 2,
-                                      iTextTop - gIconsSize - 2
-                                      );
-    end;
+    PixMapManager.DrawBitmapOverlay(AFile,
+                                    FileSourceDirectAccess,
+                                    Canvas,
+                                    aRect.Left + 2,
+                                    iTextTop - gIconsSize - 2
+                                    );
 
-    s:= AFile.DisplayStrings[0];
+    s:= AFile.DisplayName;
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
@@ -581,9 +578,6 @@ begin
       params.row:= aRow;
       params.displayFile:= aFile;
       params.focused:= (gdSelected in aState) and FThumbView.Active;
-
-      if AFile.DisplayStrings.Count = 0 then
-        FThumbView.MakeColumnsStrings(AFile);
 
       PrepareColors(AFile, aCol, aRow, aRect, aState);
 
@@ -779,31 +773,40 @@ begin
   end;
 end;
 
-procedure TThumbFileView.ShowRenameFileEdit(var aFile: TFile);
+procedure TThumbFileView.ShowRenameFileEdit(
+  var aFile: TFile; const withExt: Boolean);
 begin
+  if aFile.Name = EmptyStr then
+    Exit;;
+
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;
     edtRename.Font.Size  := gFonts[dcfMain].Size;
     edtRename.Font.Style := gFonts[dcfMain].Style;
 
-    UpdateRenameFileEditPosition;
+    UpdateRenameFileEditPosition(withExt);
   end;
 
-  inherited ShowRenameFileEdit(AFile);
+  inherited ShowRenameFileEdit(AFile, withExt);
 end;
 
-procedure TThumbFileView.UpdateRenameFileEditPosition();
+procedure TThumbFileView.UpdateRenameFileEditPosition(const withExt: Boolean);
 var
   ARect: TRect;
 begin
-  inherited UpdateRenameFileEditPosition;
+  inherited UpdateRenameFileEditPosition(withExt);
 
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   ARect.Top := ARect.Bottom - dgPanel.calcTextHeight - 4;
 
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);
+
+  {$IFDEF LCLCOCOA}
+  Dec( ARect.Left, 2 );
+  Inc( ARect.Top, 2 );
+  {$ENDIF}
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;

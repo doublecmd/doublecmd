@@ -103,8 +103,13 @@ begin
   end;
 
   if ((c < '0') or (c > '9')) and (c <> 'e') then
-    bdecodeHash:= nil
-  else  bdecodeHash := r;
+  begin
+    r.Free;
+    bdecodeHash := nil;
+  end
+  else begin
+    bdecodeHash := r;
+  end;
 end;
 
 function bdecodeList(s: TStream): TObjectList;

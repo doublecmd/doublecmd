@@ -59,6 +59,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Komend (cmd)"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -874,6 +879,10 @@ msgstr "Usługi"
 msgid "Show All"
 msgstr "Pokaż wszystko"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "przełącz na pełny ekran"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Bordowy"
@@ -1468,6 +1477,10 @@ msgstr "Enter"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 #, fuzzy

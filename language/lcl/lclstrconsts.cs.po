@@ -60,6 +60,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -875,6 +880,10 @@ msgstr "Služby"
 msgid "Show All"
 msgstr "Ukázat vše"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Přepnout na celou obrazovku"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Kaštanová"
@@ -1468,6 +1477,10 @@ msgstr "Enter"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"

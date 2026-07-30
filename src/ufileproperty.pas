@@ -256,6 +256,8 @@ type
     // Is it a symbolic link.
     function IsLink: Boolean; virtual;
 
+    function IsReadOnly: Boolean; virtual;
+
     // Retrieves raw attributes.
     function GetAttributes: TFileAttrs; virtual;
 
@@ -283,7 +285,8 @@ type
     // Is it a symbolic link.
     function IsLink: Boolean; override;
 
-    function IsReadOnly: Boolean;
+    function IsReadOnly: Boolean; override;
+
     function IsHidden: Boolean;
 
     class function GetDescription: String; override;
@@ -305,6 +308,8 @@ type
 
     // Is it a symbolic link.
     function IsLink: Boolean; override;
+
+    function IsReadOnly: Boolean; override;
 
     function IsOwnerRead: Boolean;
     function IsOwnerWrite: Boolean;
@@ -436,14 +441,20 @@ type
       1: (indexes: array [0..2] of int8);
   end;
 
+  {$scopedEnums ON}
+  TFileMacOSTrait = ( isiCloudSeedFile, isPackage );
+  TFileMacOSTraits = set of TFileMacOSTrait;
+
   { TFileMacOSSpecificProperty }
 
   TFileMacOSSpecificProperty = class(TFileProperty)
 
   private
     FFinderTagPrimaryColors: TFileFinderTagPrimaryColors;
-    FIsiCloudSeedFile: Boolean;
+    FTraits: TFileMacOSTraits;
 
+    function GetIsiCloudSeedFile: Boolean; inline;
+    function GetIsPackage: Boolean; inline;
   public
     constructor Create; override;
 
@@ -458,8 +469,9 @@ type
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
     property FinderTagPrimaryColors: TFileFinderTagPrimaryColors read FFinderTagPrimaryColors write FFinderTagPrimaryColors;
-    property IsiCloudSeedFile: Boolean read FIsiCloudSeedFile write FIsiCloudSeedFile;
-
+    property Traits: TFileMacOSTraits read FTraits write FTraits;
+    property IsiCloudSeedFile: Boolean read GetIsiCloudSeedFile;
+    property IsPackage: Boolean read GetIsPackage;
   end;
   {$ENDIF}
 
@@ -944,6 +956,11 @@ begin
   Result := fpS_ISLNK(FAttributes);
 end;
 
+function TFileAttributesProperty.IsReadOnly: Boolean;
+begin
+  Result:= False;
+end;
+
 // ----------------------------------------------------------------------------
 
 function TNtfsFileAttributesProperty.Clone: TNtfsFileAttributesProperty;
@@ -977,7 +994,7 @@ end;
 
 function TNtfsFileAttributesProperty.IsReadOnly: Boolean;
 begin
-  Result := (FAttributes and FILE_ATTRIBUTE_READONLY) <> 0;
+  Result := (FAttributes and (FILE_ATTRIBUTE_READONLY or FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM)) <> 0;
 end;
 
 function TNtfsFileAttributesProperty.IsHidden: Boolean;
@@ -1016,6 +1033,11 @@ end;
 function TUnixFileAttributesProperty.IsLink: Boolean;
 begin
   Result:= ((FAttributes and S_IFMT) = S_IFLNK);
+end;
+
+function TUnixFileAttributesProperty.IsReadOnly: Boolean;
+begin
+  Result:= (((FAttributes and S_IRUGO) <> 0) and ((FAttributes and S_IWUGO) = 0));
 end;
 
 function TUnixFileAttributesProperty.IsOwnerRead: Boolean;
@@ -1256,6 +1278,16 @@ end;
 
 { TFileMacOSSpecificProperty }
 
+function TFileMacOSSpecificProperty.GetIsiCloudSeedFile: Boolean;
+begin
+  Result:= TFileMacOSTrait.isiCloudSeedFile in FTraits;
+end;
+
+function TFileMacOSSpecificProperty.GetIsPackage: Boolean;
+begin
+  Result:= TFileMacOSTrait.isPackage in FTraits;
+end;
+
 constructor TFileMacOSSpecificProperty.Create;
 begin
   inherited Create;
@@ -1277,7 +1309,7 @@ begin
     with FileProperty as TFileMacOSSpecificProperty do
     begin
       FFinderTagPrimaryColors := Self.FFinderTagPrimaryColors;
-      FIsiCloudSeedFile := Self.FIsiCloudSeedFile;
+      FTraits := Self.FTraits;
     end;
   end;
 end;
@@ -1297,7 +1329,7 @@ begin
   Result:= false;
   if not (p is TFileMacOSSpecificProperty) then exit;
   if self.FFinderTagPrimaryColors.intValue <> TFileMacOSSpecificProperty(p).FFinderTagPrimaryColors.intValue then exit;
-  if self.FIsiCloudSeedFile <> TFileMacOSSpecificProperty(p).FIsiCloudSeedFile then Exit;
+  if self.FTraits <> TFileMacOSSpecificProperty(p).FTraits then Exit;
   Result:= true;
 end;
 

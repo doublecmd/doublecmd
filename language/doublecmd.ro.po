@@ -1116,6 +1116,10 @@ msgstr "Salvare C&a.."
 msgid "Save As"
 msgstr "Salvează Ca"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1167,6 +1171,12 @@ msgstr "Evidențiere sintaxă"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Sfârșit de linie"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Vizualizare"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2109,6 +2119,10 @@ msgstr "Copiază calea la linia de comandă"
 msgid "Add Plugin"
 msgstr ""
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -2125,6 +2139,14 @@ msgstr "Vizualizare pe Scurt"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "Calculează spațiul &ocupat"
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2371,6 +2393,10 @@ msgstr "Editează un fișier nou"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Editează calea deasupra fișierului listă"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2716,6 +2742,10 @@ msgstr "&Reîmprospătează"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr ""
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2842,6 +2872,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Schimbă &Atributele..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3261,6 +3295,11 @@ msgstr "&Marchează"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "Rețea"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6416,6 +6455,10 @@ msgstr ""
 msgid "Sorting"
 msgstr "Sortare"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr ""
@@ -6479,6 +6522,14 @@ msgstr ""
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Mută fișierele actualizate:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6553,6 +6604,11 @@ msgstr ""
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -11403,6 +11459,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -14366,6 +14430,10 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Selectați directorul:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

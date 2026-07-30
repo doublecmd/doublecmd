@@ -87,7 +87,7 @@ var
 begin
   Result:= False;
   try
-    TempFileSource:= TTempFileSystemFileSource.GetFileSource;
+    TempFileSource:= TTempFileSystemFileSource.Create;
     if bWithAll then
       begin
         FileName:= TempFileSource.FileSystemRoot + ExcludeFrontPathDelimiter(aFile.FullPath);

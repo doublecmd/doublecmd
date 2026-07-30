@@ -35,12 +35,13 @@ type
     function GetProperties: TFileSourceProperties; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
   end;
 
 implementation
 
 uses
-  uRecycleBinListOperation, uLng;
+  uRecycleBinListOperation, uShellDeleteOperation, uShellFileSourceUtil, uLng;
 
 { TRecycleBinFileSource }
 
@@ -65,7 +66,7 @@ begin
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
     ChangeTimeProperty:= TFileChangeDateTimeProperty.Create;
-    LinkProperty := TFileLinkProperty.Create;
+    LinkProperty := TFileShellProperty.Create;
     CommentProperty := TFileCommentProperty.Create;
   end;
 end;
@@ -79,6 +80,7 @@ end;
 function TRecycleBinFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList];
+  if (Win32MajorVersion > 5) then Result+= [fsoDelete];
 end;
 
 function TRecycleBinFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -117,6 +119,14 @@ var
 begin
   TargetFileSource := Self;
   Result:= TRecycleBinListOperation.Create(TargetFileSource, TargetPath);
+end;
+
+function TRecycleBinFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result:= TShellDeleteOperation.Create(TargetFileSource, FilesToDelete);
 end;
 
 end.

@@ -184,6 +184,11 @@ function DC_FileSetTime(const FileName: String;
                         const birthtime: TFileTimeEx;
                         const atime    : TFileTimeEx ): Boolean;
 
+// nanoseconds supported, does not follow symbolic links
+function DC_SymLinkSetTime(const FileName: String;
+                           const mtime    : TFileTimeEx;
+                           const atime    : TFileTimeEx ): Boolean;
+
 
 {en
    Set the close-on-exec flag to all
@@ -371,6 +376,7 @@ end;
 {$ENDIF}
 
 function fputimes( path:pchar; times:Array of UnixType.timeval ): cint; cdecl; external clib name 'utimes';
+function flutimes( path:pchar; times:Array of UnixType.timeval ): cint; cdecl; external clib name 'lutimes';
 
 function DC_FileSetTime(const FileName: String;
                         const mtime    : TFileTimeEx;
@@ -394,6 +400,23 @@ begin
   {$ELSE}
   Result:= MacosFileSetCreationTime( FileName, birthtime );
   {$ENDIF}
+end;
+
+// Like DC_FileSetTime but uses lutimes() instead of utimes(), so the
+// timestamp is set on the symlink itself rather than its target.
+function DC_SymLinkSetTime(const FileName: String;
+                           const mtime    : TFileTimeEx;
+                           const atime    : TFileTimeEx ): Boolean;
+var
+  timevals: Array[0..1] of UnixType.timeval;
+begin
+  // last access time
+  timevals[0].tv_sec:= atime.sec;
+  timevals[0].tv_usec:= round( Extended(atime.nanosec) / 1000.0 );
+  // last modification time
+  timevals[1].tv_sec:= mtime.sec;
+  timevals[1].tv_usec:= round( Extended(mtime.nanosec) / 1000.0 );
+  Result:= flutimes(pchar(UTF8ToSys(FileName)), timevals) = 0;
 end;
 
 {$IF DEFINED(BSD)}

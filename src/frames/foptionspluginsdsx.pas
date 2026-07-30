@@ -60,7 +60,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, Forms, Dialogs,
+  LCLVersion, LCLProc, Forms, Dialogs,
 
   //DC
   uLng, uGlobs, dmCommonData, DCStrUtils, uDefaultPlugins;
@@ -162,6 +162,9 @@ end;
 procedure TfrmOptionsPluginsDSX.btnAddPluginClick(Sender: TObject);
 begin
   dmComData.OpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     ActualAddPlugin(dmComData.OpenDialog.FileName);
 end;

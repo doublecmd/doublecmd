@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="13"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -18,17 +18,19 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="1">
+      <Resources Count="2">
         <Resource_0 FileName="dmhigh.json" Type="RCDATA" ResourceName="HIGHLIGHTERS"/>
+        <Resource_1 FileName="doublecmd.svgz" Type="RCDATA" ResourceName="DOUBLECMD"/>
       </Resources>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="..\language"/>
-      <ExcludedOriginals Count="3">
-        <Item1 Value=".."/>
-        <Item2 Value=">>"/>
-        <Item3 Value="=>"/>
+      <ExcludedOriginals Count="4">
+        <Item1 Value="▾"/>
+        <Item2 Value=".."/>
+        <Item3 Value=">>"/>
+        <Item4 Value="=>"/>
       </ExcludedOriginals>
     </i18n>
     <VersionInfo>
@@ -36,7 +38,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="3"/>
       <Attributes pvaPreRelease="True" pvaPrivateBuild="True"/>
-      <StringTable FileDescription="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2025 Alexander Koblov" ProductName="Double Commander"/>
+      <StringTable FileDescription="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov" ProductName="Double Commander"/>
     </VersionInfo>
     <BuildModes Count="5">
       <Item1 Name="Debug" Default="True"/>
@@ -49,7 +51,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -96,7 +98,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -139,7 +141,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -169,9 +171,14 @@ begin
   UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
 end;
 
-if (LCLWidgetType = &apos;gtk2&apos;) and (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
+if ((LCLWidgetType = &apos;gtk2&apos;) or (LCLWidgetType = &apos;gtk3&apos;)) and (SrcOS = &apos;unix&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
+end;
+
+if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
+begin
+  CustomOptions += &apos; -dXDG -dRabbitVCS&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -223,7 +230,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;..\components\DDetours\Source;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;..\components\DDetours\Source;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -320,7 +327,7 @@ end;"/>
       </Item8>
       <Item9>
         <PackageName Value="LCL"/>
-        <MinVersion Major="4" Minor="0" Valid="True"/>
+        <MinVersion Major="4" Valid="True"/>
       </Item9>
       <Item10>
         <PackageName Value="SynEdit"/>
@@ -337,7 +344,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="303">
+    <Units Count="306">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1460,6 +1467,7 @@ end;"/>
       <Unit183>
         <Filename Value="filesources\wfxplugin\uwfxplugindeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginDeleteOperation"/>
       </Unit183>
       <Unit184>
         <Filename Value="filesources\wfxplugin\uwfxpluginexecuteoperation.pas"/>
@@ -2183,6 +2191,22 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinFNKey"/>
       </Unit302>
+      <Unit303>
+        <Filename Value="filesources\stash\ustashfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStashFileSource"/>
+      </Unit303>
+      <Unit304>
+        <Filename Value="filesources\stash\ustashfilesourceoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStashFileSourceOperation"/>
+      </Unit304>
+      <Unit305>
+        <Filename Value="filesources\stash\ustashfilesbackend.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uStashFilesBackend"/>
+      </Unit305>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -2193,13 +2217,18 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
     <Conditionals Value="if (Laz_FullVersion >= 4990000) then
 begin
   CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;
+
+if UNIX or LINUX then
+begin
+  CustomOptions += &apos; -dTURN_OFF_LUA_JIT&apos;;
 end;
 
 if TargetOS = &apos;darwin&apos; then begin
@@ -2210,6 +2239,16 @@ end;
 if (LCLWidgetType = &apos;qt6&apos;) and (TargetOS &lt;> &apos;darwin&apos;) then
 begin
   UnitPath += &apos;platform/$(SrcOS)/qt6;platform/$(SrcOS)/wayland;&apos;;
+end;
+
+if ((LCLWidgetType = &apos;gtk2&apos;) or (LCLWidgetType = &apos;gtk3&apos;)) and (SrcOS = &apos;unix&apos;) then
+begin
+  UnitPath += &apos;platform/$(SrcOS)/$(LCLWidgetType);&apos;;
+end;
+
+if (SrcOS = &apos;unix&apos;) and (TargetOS &lt;> &apos;darwin&apos;) and (TargetOS &lt;> &apos;haiku&apos;) then
+begin
+  CustomOptions += &apos; -dXDG -dRabbitVCS&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>

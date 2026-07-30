@@ -608,20 +608,20 @@ begin
   // Register shell folder file source
   if (Win32MajorVersion > 5) then
   begin
-    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource);
+    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource.RootName, TShellFileSource);
   end;
   // Register recycle bin file source
   if CheckWin32Version(5, 1) then
   begin
-    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
+    RegisterVirtualFileSource(rsVfsRecycleBin, rsVfsRecycleBin, TRecycleBinFileSource);
   end;
   // Register Windows Subsystem for Linux (WSL) file source
   if CheckWin32Version(10) then
   begin
-    RegisterVirtualFileSource('Linux', TWslFileSource, TWslFileSource.Available);
+    RegisterVirtualFileSource('Linux', 'Linux', TWslFileSource, TWslFileSource.Available);
   end;
   // Register network file source
-  RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  RegisterVirtualFileSource(rsVfsNetwork, rsVfsNetwork, TWinNetFileSource);
 
   // If run under administrator
   if (IsUserAdmin = dupAccept) then
@@ -694,11 +694,11 @@ begin
   if HasGio then
   begin
     if TGioFileSource.IsSupportedPath('trash://') then
-      RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
+      RegisterVirtualFileSource(rsVfsRecycleBin, rsVfsRecycleBin, TTrashFileSource, True);
     if TGioFileSource.IsSupportedPath('network://') then
-      RegisterVirtualFileSource(rsVfsNetwork, TNetworkFileSource, True);
-    RegisterVirtualFileSource('Google', TGoogleFileSource, False);
-    RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+      RegisterVirtualFileSource(rsVfsNetwork, rsVfsNetwork, TNetworkFileSource, True);
+    RegisterVirtualFileSource('Google', 'Google', TGoogleFileSource, False);
+    RegisterVirtualFileSource('GVfs', 'GVfs', TGioFileSource, False);
   end;
   {$ENDIF}
 
@@ -744,6 +744,8 @@ end;
 procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
                           Background: Boolean; CloseEvent: TNotifyEvent; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
 {$IF DEFINED(MSWINDOWS)}
+var
+  contextFiles: TFiles;
 begin
   if Assigned(Files) and (Files.Count = 0) then
   begin
@@ -752,8 +754,13 @@ begin
   end;
 
   try
+    contextFiles:= Files;
     // Create new context menu
     ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background, UserWishForContextMenu);
+    if UserWishForContextMenu = uwcmComplete then
+    begin
+      frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, ShellContextMenu.PopupMenu);
+    end;
     ShellContextMenu.OnClose := CloseEvent;
     // Show context menu
     ShellContextMenu.PopUp(X, Y);
@@ -798,6 +805,8 @@ begin
   end;
 end;
 {$ELSE}
+var
+  contextFiles: TFiles;
 begin
   if Files.Count = 0 then
   begin
@@ -808,7 +817,9 @@ begin
   // Free previous created menu
   FreeAndNil(ShellContextMenu);
   // Create new context menu
+  contextFiles:= Files;
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
+  frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
   ShellContextMenu.OnClose := CloseEvent;
   ShellContextMenu.PopUp(X, Y);
 end;

@@ -45,10 +45,6 @@ type
     btnRemovePlugin: TBitBtn;
     btnTweakPlugin: TBitBtn;
     btnConfigPlugin: TBitBtn;
-    ImgSwitchEnable: TImage;
-    ImgSwitchDisable: TImage;
-    ImgByPlugin: TImage;
-    ImgByExtension: TImage;
     procedure btnPluginsNotImplementedClick(Sender: TObject);
     procedure btnRemovePluginClick(Sender: TObject);
     procedure btnTweakPluginClick(Sender: TObject);

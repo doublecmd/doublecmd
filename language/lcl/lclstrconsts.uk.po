@@ -61,6 +61,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr "Cmd"
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -864,6 +869,10 @@ msgstr "Служби"
 msgid "Show All"
 msgstr "Показати все"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "перемикання на весь екран"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr "Коричнево-малиновий"
@@ -1451,6 +1460,10 @@ msgstr "Enter"
 #: lclstrconsts.smkcesc
 msgid "Esc"
 msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"

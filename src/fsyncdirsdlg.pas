@@ -968,6 +968,10 @@ begin
   HMSync := HotMan.Register(Self, HotkeysCategory);
   HMSync.RegisterActionList(ActionList);
   FCommands := TFormCommands.Create(Self, ActionList);
+
+{$IFDEF DARWIN}
+  self.BorderIcons:= self.BorderIcons - [biMinimize];
+{$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.FormResize(Sender: TObject);
@@ -1525,7 +1529,10 @@ begin
   end
   else begin
     Template := nil;
-    MaskList := TMaskList.Create(cbExtFilter.Text);
+    if cbExtFilter.Text <> EmptyStr then
+      MaskList := TMaskList.Create(cbExtFilter.Text)
+    else
+      MaskList := TMaskList.Create( '*' );
   end;
   if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
     Delete(BaseDirL, 1, Length(FAddressL));

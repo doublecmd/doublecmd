@@ -39,7 +39,7 @@ if [ -z $(uname | grep Darwin) ]; then
   $lazbuild wfx/samba/src/samba.lpi $DC_ARCH
 
   # WLX plugins
-  $lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
+  $lazbuild wlx/wlxmplayer/src/wlxMplayer.lpi $DC_ARCH
 
 else
 

@@ -32,7 +32,7 @@ type
   private
     { private declarations }
   public
-    { public declarations }
+    procedure AfterConstruction; override;
   end;
 
 var
@@ -43,7 +43,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCVersion;
+  dmCommonData, uDCVersion;
 
 { TfrmStartingSplash }
 
@@ -53,7 +53,7 @@ begin
   lblRevision.Caption        := lblRevision.Caption + #32 + dcRevision;
   lblCommit.Caption          := lblCommit.Caption + #32 + dcCommit;
   lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
-  lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + lazVersion;
+  lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + dcLazVersion;
   lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
@@ -68,7 +68,13 @@ end;
 
 procedure TfrmStartingSplash.FormHide(Sender: TObject);
 begin
-  close();
+  Close();
+end;
+
+procedure TfrmStartingSplash.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  TdmComData.LoadLogo(Self, imgLogo);
 end;
 
 end.

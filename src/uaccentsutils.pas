@@ -38,8 +38,8 @@ var
   gslAccents, gslAccentsStripped: TStringList;
 
 const
-  cStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;Ú;Û;Ù;Ü;Ÿ;¿;¡;æ;œ;ß;Æ;Œ;ẞ;ě;š;č;ř;ž;ý;ň;ď;ť;ů;Ě;Š;Č;Ř;Ž;Ý;Ň;Ď;Ť;Ů';
-  cStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;U;U;U;U;Y;?;!;ae;oe;ss;AE;OE;SS;e;s;c;r;z;y;n;d;t;u;E;S;C;R;Z;Y;N;D;T;U';
+  cStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;Ú;Û;Ù;Ü;Ÿ;¿;¡;æ;œ;ß;Æ;Œ;ẞ;ě;š;č;ř;ž;ý;ň;ď;ť;ů;Ě;Š;Č;Ř;Ž;Ý;Ň;Ď;Ť;Ů;ę;ą;ś;ł;ż;ź;ć;ń;Ę;Ą;Ś;Ł;Ż;Ź;Ć;Ń';
+  cStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;U;U;U;U;Y;?;!;ae;oe;ss;AE;OE;SS;e;s;c;r;z;y;n;d;t;u;E;S;C;R;Z;Y;N;D;T;U;e;a;s;l;z;z;c;n;E;A;S;L;Z;Z;C;N';
 
 implementation
 
@@ -64,7 +64,7 @@ begin
     ParseLineToList(cStrAccentsStripped, slTempoAccentsStripped);
 
     if slTempoAccents.Count <> slTempoAccentsStripped.Count then
-      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!' + #$0A + 'Most probably problem in language file regarding conversion string with accents...');
+      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!');
 
     gslAccents := TStringList.Create;
     gslAccents.Assign(slTempoAccents);
@@ -100,19 +100,52 @@ end;
 { NormalizeAccentedChar }
 function NormalizeAccentedChar(sInput: string): string;
 var
-  iIndexChar, iPosChar: integer;
-  cWorkingChar: string;
+  AInputCharPointer, AOutputBufferPointer: PChar;
+  AByteLengthOfChar, AAllocatedBufferSize: Integer;
+  ACurrentCharAsString: String;
+  AIndexInAccentList: Integer;
+  AReplacementString: String;
 begin
-  Result := '';
-  for iIndexChar := 1 to UTF8length(sInput) do
-  begin
-    cWorkingChar := UTF8Copy(sInput, iIndexChar, 1);
-    iPosChar := gslAccents.IndexOf(cWorkingChar);
-    if iPosChar = -1 then
-      Result := Result + cWorkingChar
+  if sInput = '' then
+    Exit('');
+  AAllocatedBufferSize := Length(sInput) * 2; // worst scenario: every character expands (e.g., 'œ' -> 'oe' doubles length)
+  SetLength(Result, AAllocatedBufferSize);
+  AOutputBufferPointer := PChar(Result);
+  AInputCharPointer := PChar(sInput);
+
+  while AInputCharPointer^ <> #0 do begin
+    AByteLengthOfChar := UTF8CodepointSize(AInputCharPointer);
+    if (AByteLengthOfChar = 1) and (Byte(AInputCharPointer^) < 128) then begin
+      // if byte < 128, it is standard ASCII and definitely NOT with accent
+      AOutputBufferPointer^ := AInputCharPointer^;
+      Inc(AOutputBufferPointer);
+      Inc(AInputCharPointer);
+      Continue;
+    end;
+
+    // extract current character using pointers
+    SetString(ACurrentCharAsString, AInputCharPointer, AByteLengthOfChar);
+
+    // lookup using IndexOf (Find causes crash) works regardless of sorting and is fast enough for this small list
+    AIndexInAccentList := gslAccents.IndexOf(ACurrentCharAsString);
+    if AIndexInAccentList <> -1 then begin
+      AReplacementString := gslAccentsStripped[AIndexInAccentList];
+      if AReplacementString <> '' then begin
+        Move(AReplacementString[1], AOutputBufferPointer^, Length(AReplacementString));
+        Inc(AOutputBufferPointer, Length(AReplacementString));
+      end;
+    end
     else
-      Result := Result + gslAccentsStripped.Strings[iPosChar];
+    begin
+      // not found in accent list, copy original character to buffer
+      Move(AInputCharPointer^, AOutputBufferPointer^, AByteLengthOfChar);
+      Inc(AOutputBufferPointer, AByteLengthOfChar);
+    end;
+
+    Inc(AInputCharPointer, AByteLengthOfChar);
   end;
+  // trim the buffer to the actual size used.
+  SetLength(Result, AOutputBufferPointer - PChar(Result));
 end;
 
 { PosOfSubstrWithVersatileOptions }

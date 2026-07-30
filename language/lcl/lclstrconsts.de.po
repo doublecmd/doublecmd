@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-11-27 15:45+0100\n"
+"PO-Revision-Date: 2026-04-04 15:25+0200\n"
 "Last-Translator: Swen Heinig <swen@heinig.email>\n"
 "Language-Team: Deutsch <lazarus@miraclec.com>\n"
 "Language: de_DE\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
@@ -32,10 +32,9 @@ msgid "Unable to find a HTML browser."
 msgstr "Kann den HTML-Browser nicht finden."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-#, object-pascal-format, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
-msgstr "Kein HTML-Browser gefunden.%sBitte legen Sie einen fest unter Werkzeuge -> Einstellungen -> Hilfe -> Hilfeeinstellungen"
+msgstr "Kein HTML-Browser gefunden.%sBitte legen Sie einen fest unter \"Werkzeuge\" -> \"Einstellungen\" ->\" Hilfe\" -> \"Hilfeeinstellungen\"."
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 #, object-pascal-format
@@ -57,6 +56,11 @@ msgstr "Strg"
 
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
+msgstr ""
+
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
 msgstr ""
 
 #: lclstrconsts.ifsvk_help
@@ -122,7 +126,7 @@ msgstr "Aquamarin"
 #: lclstrconsts.rsascannothaveasparent
 #, object-pascal-format
 msgid "Class %s cannot have %s as parent."
-msgstr ""
+msgstr "Klasse %s kann %s nicht als Vorfahren haben."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -154,7 +158,7 @@ msgstr "Schalterfläche"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
-msgstr "Schalter-Hervorheb."
+msgstr "Schalter-Hervorhebung"
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
@@ -192,7 +196,7 @@ msgstr "Schreibweisenabhängig"
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 #, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr ""
+msgstr "Ein Steuerelement der Klasse %s kann nicht ein Steuerelement der Klasse %s als Nachfahren haben."
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
 #, object-pascal-format
@@ -202,17 +206,15 @@ msgstr ""
 #: lclstrconsts.rscontrolisnotaparent
 #, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
-msgstr ""
+msgstr "'%s' ist kein Vorfahre von '%s'"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr "Cremefarbig"
 
 #: lclstrconsts.rscursor
-#, fuzzy
-#| msgid "Cursor"
 msgid "Cursor Files"
-msgstr "Zeiger"
+msgstr "Cursor-Dateien"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
@@ -221,12 +223,12 @@ msgstr "Eigene ..."
 #: lclstrconsts.rsdatetoolarge
 #, object-pascal-format
 msgid "Date cannot be past %s"
-msgstr ""
+msgstr "Datum darf nicht nach dem %s liegen"
 
 #: lclstrconsts.rsdatetoosmall
 #, object-pascal-format
 msgid "Date cannot be before %s"
-msgstr ""
+msgstr "Datum darf nicht vor dem %s liegen"
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
@@ -438,11 +440,11 @@ msgstr "--g-fatal-warnings    Von Gtk+/GDK generierte Warnungen und Fehler halte
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr "Gradient der aktiven Titelleiste"
+msgstr "Farbverlauf der aktiven Titelleiste"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr "Gradient der inaktiven Titelleiste"
+msgstr "Farbverlauf der inaktiven Titelleiste"
 
 #: lclstrconsts.rsgraphic
 msgid "Graphic"
@@ -546,7 +548,7 @@ msgstr "Hilfe"
 #: lclstrconsts.rshelpalreadyregistered
 #, object-pascal-format
 msgid "%s: already registered."
-msgstr "%s: Bereits registriert,"
+msgstr "%s: Bereits registriert."
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
@@ -642,7 +644,7 @@ msgstr "Hilfebetrachter nicht gefunden"
 
 #: lclstrconsts.rshidedetails
 msgid "Hide details"
-msgstr ""
+msgstr "Details verbergen"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -705,12 +707,12 @@ msgstr "Inaktive Titelleiste"
 #: lclstrconsts.rsindexoutofbounds
 #, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
-msgstr "%s Index %d außerhalb des Bereichs 0 .. %d"
+msgstr "%s Index %d außerhalb des Bereichs 0 ... %d"
 
 #: lclstrconsts.rsindexoutofboundsminusone
 #, object-pascal-format
 msgid "%s Index %d out of bounds -1 .. %d"
-msgstr ""
+msgstr "%s Index %d außerhalb des Bereichs -1 ... %d"
 
 #: lclstrconsts.rsindexoutofrange
 #, object-pascal-format
@@ -776,7 +778,7 @@ msgstr "Listenindex überschreitet Grenzen (%d)"
 
 #: lclstrconsts.rsmacoscolordialogmbpick
 msgid "Pick"
-msgstr ""
+msgstr "Auswählen"
 
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
@@ -811,19 +813,19 @@ msgstr "Rückgängig"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtips
 msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
-msgstr ""
+msgstr "Dateipakete (etwa *.app-Dateien) als Verzeichnisse behandeln beim Zugriff auf die enthaltenen Dateien"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtitle
 msgid "Show File Package Contents"
-msgstr ""
+msgstr "Inhalt des Dateipakets anzeigen"
 
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
-msgstr ""
+msgstr "Dateiformat:"
 
 #: lclstrconsts.rsmacosfontdialogmbselect
 msgid "Select"
-msgstr ""
+msgstr "Auswhählen"
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
@@ -855,6 +857,10 @@ msgstr "Dienste"
 #: lclstrconsts.rsmacosmenushowall
 msgid "Show All"
 msgstr "Alle anzeigen"
+
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Vollbildmodus umschalten"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -1019,7 +1025,7 @@ msgstr "Übertragen"
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
 #, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
-msgstr ""
+msgstr "%s%s\"OK\" klicken zum Ignorieren des Fehlers unter möglichem Datenverlust.%s \"Abbruch\" klicken, um das Programm zu beenden."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1207,7 +1213,7 @@ msgstr "Himmelblau"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr ""
+msgstr "Ein Steuerelement mit Reitern"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1223,7 +1229,7 @@ msgstr "TGA-Bilddateien"
 
 #: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
 msgid "The built-in URL is read only. Change the BaseURL instead."
-msgstr ""
+msgstr "Die eingebaute URL ist schreibgeschützt. Bitte stattdessen die Basis-URL ändern."
 
 #: lclstrconsts.rstiff
 #, fuzzy
@@ -1239,12 +1245,12 @@ msgstr ""
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
+msgstr "Ein Greifer zum Steuern, welche Größe zwei Teile einer Fläche bekommen sollen"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
 msgid "A tree of items"
-msgstr ""
+msgstr "Eine Baumstruktur von Einträgen"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1411,6 +1417,10 @@ msgstr "Enter"
 msgid "Esc"
 msgstr "Esc"
 
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr ""
+
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
 msgid "Home"
@@ -1427,7 +1437,7 @@ msgstr "Links"
 
 #: lclstrconsts.smkcmeta
 msgid "Meta+"
-msgstr ""
+msgstr "Meta+"
 
 #: lclstrconsts.smkcpgdn
 msgid "PgDn"
@@ -1523,7 +1533,7 @@ msgstr "Ordner"
 #: lclstrconsts.sshellctrlsgb
 #, object-pascal-format
 msgid "%s GB"
-msgstr ""
+msgstr "%s GB"
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format
@@ -1542,7 +1552,7 @@ msgid ""
 "\"%s\"\n"
 "in relation to rootpath:\n"
 "\"%s\""
-msgstr ""
+msgstr "Ungültiger relativer Pfadname \"%s\" in Bezug auf den Wurzelpfad \"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidroot
 #, object-pascal-format
@@ -1557,16 +1567,14 @@ msgstr ""
 #: lclstrconsts.sshellctrlskb
 #, object-pascal-format
 msgid "%s kB"
-msgstr ""
+msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #: lclstrconsts.sshellctrlsmodificationdate
-#, fuzzy
-#| msgid "Modif.Date"
 msgid "Date modified"
 msgstr "Änderungsdatum"
 
@@ -1579,7 +1587,7 @@ msgstr "Name"
 msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\""
-msgstr ""
+msgstr "Der ausgewählte Eintrag existiert nicht auf Platte: \"%s\""
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"

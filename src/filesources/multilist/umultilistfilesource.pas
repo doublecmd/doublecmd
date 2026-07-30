@@ -21,10 +21,8 @@ type
     procedure AddList(var aFileList: TFileTree; aFileSource: IFileSource);
 
     function GetFileList: TFileTree;
-    function GetFileSource: IFileSource;
 
     property FileList: TFileTree read GetFileList;
-    property FileSource: IFileSource read GetFileSource;
   end;
 
   {en
@@ -62,7 +60,6 @@ type
 
   protected
     function GetFileList: TFileTree;
-    function GetFileSource: IFileSource;
     procedure DoReload(const PathsToReload: TPathsArray); override;
 
   public
@@ -212,11 +209,6 @@ end;
 function TMultiListFileSource.GetFileList: TFileTree;
 begin
   Result := FFileList;
-end;
-
-function TMultiListFileSource.GetFileSource: IFileSource;
-begin
-  Result := FFileSource;
 end;
 
 procedure TMultiListFileSource.DoReload(const PathsToReload: TPathsArray);

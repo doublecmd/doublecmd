@@ -60,6 +60,11 @@ msgstr "Ctrl"
 msgid "Cmd"
 msgstr ""
 
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr ""
+
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
@@ -888,6 +893,10 @@ msgstr "Perkhidmatan"
 msgid "Show All"
 msgstr "Tunjukkan Al"
 
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Beralih ke layar penuh"
+
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
 msgstr ""
@@ -1432,6 +1441,10 @@ msgstr ""
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
+msgstr ""
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
 msgstr ""
 
 #: lclstrconsts.smkchome

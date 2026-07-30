@@ -7,6 +7,7 @@ interface
 
 uses
   Classes, SysUtils, Menus, uLng,
+  BaseUnix,
   MacOSAll, CocoaAll,
   CocoaPrivate, CocoaApplication, CocoaEvent, CocoaThemes, CocoaMenus,
   CocoaUtils, CocoaConst, Cocoa_Extra,
@@ -51,8 +52,10 @@ type
       const isReadyFunc: TDarwinServiceMenuIsReadyFunc;
       const getFilenamesFunc: TDarwinServiceMenuGetFilenamesFunc );
     class procedure popUpMenuWithServiceSubmenu( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
+    class procedure openWithDefaultApp( const filePath: String );
     class procedure performService( const serviceName: String );
     class procedure openSystemSecurityPreferences_PrivacyAllFiles;
+    class function hasFullDiskAccess: Boolean;
   public
     class procedure installFNKeyTap;
     class procedure uninstallFNKeyTap;
@@ -225,6 +228,11 @@ begin
   menuManager.Free;
 end;
 
+class procedure TDarwinApplicationUtil.openWithDefaultApp( const filePath: String );
+begin
+  NSWorkspace.sharedWorkspace.openFile( StringToNSString(filePath) );
+end;
+
 class procedure TDarwinApplicationUtil.performService(const serviceName: String
   );
 var
@@ -256,6 +264,21 @@ var
 begin
   url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
   NSWorkspace.sharedWorkspace.openURL( url );
+end;
+
+class function TDarwinApplicationUtil.hasFullDiskAccess: Boolean;
+const
+  testFile = '/Library/Application Support/com.apple.TCC/TCC.db';
+var
+  fd: cInt;
+begin
+  fd:= fpopen( pchar(testFile), O_RDONLY );
+  if fd = -1 then begin
+    Result:= False;
+  end else begin
+    fpclose( fd );
+    Result:= True;
+  end;
 end;
 
 procedure TDarwinServiceMenuManager.attachSystemMenu(Sender: TObject);

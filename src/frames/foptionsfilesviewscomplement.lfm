@@ -13,8 +13,8 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 235
     Top = 121
+    Height = 251
     Width = 628
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -24,8 +24,8 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 215
     ClientWidth = 624
+    ClientHeight = 232
     TabOrder = 1
     object cbSpaceMovesDown: TCheckBox
       Left = 6
@@ -98,6 +98,32 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       Width = 459
       Caption = 'Enable changing to &parent folder when double-clicking on empty part of file view'
       TabOrder = 8
+    end
+    object lblExtraLineSpan: TLabel
+      AnchorSideLeft.Control = cbDblClickToParent
+      AnchorSideTop.Control = cbDblClickToParent
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 16
+      Top = 208
+      Width = 92
+      BorderSpacing.Left = 2
+      BorderSpacing.Top = 8
+      Caption = 'Extra line span:'
+    end
+    object speExtraLineSpan: TSpinEdit
+      AnchorSideLeft.Control = lblExtraLineSpan
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblExtraLineSpan
+      AnchorSideTop.Side = asrCenter
+      Left = 106
+      Height = 20
+      Top = 206
+      Width = 50
+      BorderSpacing.Left = 6
+      MaxValue = 32
+      TabOrder = 9
+      Value = 8
     end
   end
   object gbMarking: TGroupBox[1]

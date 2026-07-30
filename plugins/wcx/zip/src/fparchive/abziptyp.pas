@@ -2289,7 +2289,6 @@ var
   NewStream          : TStream;
   WorkingStream      : TAbVirtualMemoryStream;
   CurrItem           : TAbZipItem;
-  Progress           : Byte;
   ATempName          : String;
   CreateArchive      : Boolean;
   AttrEx             : TAbAttrExRec;
@@ -2452,9 +2451,7 @@ begin
         ((CurrItem.GeneralPurposeBitFlag and AbHasDataDescriptorFlag) <> 0);
       if (CurrItem.Action <> aaDelete) and HasDataDescriptor then
         CurrItem.SaveDDToStream(NewStream);
-      Progress := AbPercentage(9 * succ( i ), 10 * Count);
-      DoArchiveSaveProgress(Progress, Abort);
-      DoArchiveProgress(Progress, Abort);
+      DoProcessItemContinue(CurrItem, Abort);
       if Abort then
         raise EAbUserAbort.Create;
     end;

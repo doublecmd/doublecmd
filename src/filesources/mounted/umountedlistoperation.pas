@@ -87,11 +87,15 @@ var
   end;
 
 begin
+  FFiles.Clear;
+
   mountedFS:= FFileSource as TMountedFileSource;
   logicPath:= self.Path.Substring( FFileSource.GetRootDir.Length - 1 );
   realPath:= mountedFS.getRealPath( self.Path );
 
-  FFiles.Clear;
+  if logicPath.IsEmpty or realPath.IsEmpty then
+    Exit;
+
   addMountedPaths;
   addRegularFiles;
 end;

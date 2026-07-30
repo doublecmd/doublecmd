@@ -133,10 +133,6 @@ Files: plugins/wcx/zip/src/fparchive/abxz.pas
 Copyright: 2014-2015 Alexander Koblov <alexx2000@mail.ru>
 License: X11
 
-Files: plugins/wlx/WlxMplayer/src/qt4.pas
-Copyright: 2005-2011 Jan Van hijfte
-License: LGPL-3.0+
-
 Files: scripts/rabbit-vcs.py
 Copyright: 2009 Jason Heeris <jason.heeris@gmail.com>
            2009 Bruce van der Kooij <brucevdkooij@gmail.com>

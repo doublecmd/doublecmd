@@ -5,14 +5,14 @@ unit uFileViewHeader;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, LCLVersion,
+  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, ShellCtrls, LCLVersion,
   uPathLabel, uFileView, KASPathEdit, uFileSorting;
 
 type
 
   { TFileViewHeader }
 
-  TFileViewHeader = class(TPanel)
+  TFileViewHeader = class(TPanel, IKASPathEditMate)
   private
     FFileView: TFileView;
     FAddressLabel: TPathLabel;
@@ -35,6 +35,11 @@ type
     procedure HeaderShowHint(Sender: TObject; HintInfo: PHintInfo);
 
     procedure EachViewUpdateHeader(AFileView: TFileView; {%H-}UserData: Pointer);
+
+    function getFilesAtPath(
+      const path: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
 
   protected
     tmViewHistoryMenu: TTimer;
@@ -89,7 +94,7 @@ type
 implementation
 
 uses
-  LCLType, ShellCtrls, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
+  LCLType, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
   uArchiveFileSource, uFileViewWithPanels, uVfsModule;
 
@@ -218,6 +223,14 @@ begin
   TFileViewWithPanels(AFileView).Header.UpdateFont;
 end;
 
+function TFileViewHeader.getFilesAtPath(
+  const path: String;
+  const types: TObjectTypes;
+  const sort: TFileSortType ): TStringList;
+begin
+  Result:= FFileView.FileSource.GetFilesForPathAndType( path, types, sort );
+end;
+
 procedure TFileViewHeader.PathLabelSetColor(APathLabel: TPathLabel);
 begin
   with gColors.Path^ do
@@ -287,6 +300,9 @@ begin
 
   FPathEdit:= TKASPathEdit.Create(FPathLabel);
   FPathEdit.Parent:= Self;
+  FPathEdit.Mate:= Self;
+  FPathEdit.Align:= alCustom;
+  FPathEdit.AutoSize:= False;
   FPathEdit.Visible:= False;
   FPathEdit.TabStop:= False;
   FPathEdit.BorderStyle:= bsNone;

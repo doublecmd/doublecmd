@@ -64,7 +64,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, LCLProc, Forms, Dialogs,
+  StrUtils, LCLVersion, LCLProc, Forms, Dialogs,
 
   //DC
   uLng, uGlobs, uShowMsg, fTweakPlugin, dmCommonData, DCStrUtils,
@@ -134,14 +134,12 @@ begin
     wcvmByPlugin:
     begin
       btnToggleOptionPlugins.Caption := rsOptPluginShowByExtension;
-      btnToggleOptionPlugins.Glyph.Assign(ImgByExtension.Picture.Bitmap);
       stgPlugins.RowCount := stgPlugins.FixedRows;
     end;
 
     wcvmByExtension:
     begin
       btnToggleOptionPlugins.Caption := rsOptPluginShowByPlugin;
-      btnToggleOptionPlugins.Glyph.Assign(ImgByPlugin.Picture.Bitmap);
       stgPlugins.RowCount := succ(tmpWCXPlugins.Count);
     end;
   end;
@@ -200,10 +198,6 @@ begin
   begin
     bEnabled := (stgPlugins.Cells[COLNO_ACTIVE, aRow][1] = '-');
     btnEnablePlugin.Caption := IfThen(bEnabled, rsOptPluginEnable, rsOptPluginDisable);
-    if bEnabled then
-      btnEnablePlugin.Glyph.Assign(ImgSwitchDisable.Picture.Bitmap)
-    else
-      btnEnablePlugin.Glyph.Assign(ImgSwitchEnable.Picture.Bitmap);
     bEnable := True;
   end;
   btnEnablePlugin.Enabled := bEnable;
@@ -250,6 +244,9 @@ end;
 procedure TfrmOptionsPluginsWCX.btnAddPluginClick(Sender: TObject);
 begin
   dmComData.OpenDialog.Filter := Format('Archive plugins (%s)|%s', [WcxMask, WcxMask]);
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     ActualAddPlugin(dmComData.OpenDialog.FileName);
 end;

@@ -26,7 +26,7 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
+  SysUtils, Classes, Controls, Forms, StdCtrls, ShellCtrls, Buttons, ExtCtrls, Menus,
   ActnList, KASPathEdit, uFileSource, uFileViewNotebook, uFileSourceOperation,
   uFileSourceOperationOptionsUI, uOperationsManager, uFormCommands;
 
@@ -38,7 +38,7 @@ type
 
   { TfrmCopyDlg }
 
-  TfrmCopyDlg = class(TForm, IFormCommands)
+  TfrmCopyDlg = class(TForm, IFormCommands, IKASPathEditMate)
     btnCancel: TBitBtn;
     btnOK: TBitBtn;
     btnAddToQueue: TBitBtn;
@@ -77,6 +77,7 @@ type
     FDialogType: TCopyMoveDlgType;
     noteb: TFileViewNotebook;
     FFileSource: IFileSource;
+    FDestFileSource: IFileSource;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
     FCurrentCopyDlgNameSelectionStep: TCurrentCopyDlgNameSelectionStep;
@@ -90,11 +91,16 @@ type
     procedure ShowOptions(bShow: Boolean);
     procedure UpdateSize;
 
+    function getFilesAtPath(
+      const path: String;
+      const types: TObjectTypes;
+      const sort: TFileSortType ): TStringList;
+
     property {%H-}Commands: TFormCommands read FCommands implements IFormCommands;
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
-                       AFileSource: IFileSource;
+                       AFileSource: IFileSource; ADestFileSource: IFileSource;
                        AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass); reintroduce;
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
@@ -121,11 +127,12 @@ var
   FQueueIdentifier: TOperationsManagerQueueIdentifier = SingleQueueId;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
-                               AFileSource: IFileSource;
+                               AFileSource: IFileSource; ADestFileSource: IFileSource;
                                AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
 begin
   FDialogType := DialogType;
   FFileSource := AFileSource;
+  FDestFileSource := ADestFileSource;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
   FCommands := TFormCommands.Create(Self);
   inherited Create(TheOwner);
@@ -133,7 +140,7 @@ end;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent);
 begin
-  Create(TheOwner, cmdtCopy, nil, nil);
+  Create(TheOwner, cmdtCopy, nil, nil, nil);
 end;
 
 procedure TfrmCopyDlg.SetOperationOptions(Operation: TFileSourceOperation);
@@ -458,6 +465,8 @@ begin
 
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
+
+  edtDst.Mate:= self;
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
@@ -478,6 +487,14 @@ begin
                    pnlOptions.BorderSpacing.Top + pnlOptions.BorderSpacing.Bottom
   else
     Self.Height := pnlOptions.Top;
+end;
+
+function TfrmCopyDlg.getFilesAtPath(
+  const path: String;
+  const types: TObjectTypes;
+  const sort: TFileSortType ): TStringList;
+begin
+  Result:= FDestFileSource.GetFilesForPathAndType( path, types, sort );
 end;
 
 initialization

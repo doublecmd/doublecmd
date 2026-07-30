@@ -197,7 +197,7 @@ begin
       VfsModule:= gVfsModuleList.VfsModule[aFile.Name];
       if Assigned(VfsModule) then
       begin
-        FileSource := FileSourceManager.Find(VfsModule.FileSourceClass, aFile.Name);
+        FileSource := FileSourceManager.Find(VfsModule.FileSourceClass, VfsModule.Address);
         if not Assigned(FileSource) then
           FileSource := VfsModule.FileSourceClass.Create;
       end;

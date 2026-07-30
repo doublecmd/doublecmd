@@ -64,7 +64,7 @@ type
     procedure UpdateStyle;
     procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
-    { Public declarations }
+    procedure AfterConstruction; override;
   end;
 
 
@@ -75,7 +75,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Clipbrd, dmHelpManager, uDCVersion, uClipboard, uOSForms;
+  Clipbrd, dmHelpManager, dmCommonData, uDCVersion, uClipboard, uOSForms;
 
 const
   cIndention = LineEnding + #32#32;
@@ -173,7 +173,7 @@ begin
   lblRevision.Caption        := lblRevision.Caption + #32 + dcRevision;
   lblCommit.Caption          := lblCommit.Caption + #32 + dcCommit;
   lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
-  lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + lazVersion;
+  lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + dcLazVersion;
   lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
@@ -199,6 +199,12 @@ end;
 procedure TfrmAbout.CMThemeChanged(var Message: TLMessage);
 begin
   UpdateStyle;
+end;
+
+procedure TfrmAbout.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  TdmComData.LoadLogo(Self, imgLogo);
 end;
 
 end.

@@ -5,17 +5,32 @@ unit Interfaces;
 interface
 
 uses
-  InitC, InterfaceBase, LCLType, QtInt, Types, uWayland;
+  Classes, InterfaceBase, LCLType, Themes, QtInt, QtThemes, Types, LCLVersion,
+  uWayland;
 
 type
+
+  { TQtThemeServicesEx }
+
+  TQtThemeServicesEx = class(TQtThemeServices)
+  public
+    function GetStockImage(StockID: LongInt; out Image, Mask: HBitmap): Boolean; override;
+{$if lcl_fullversion < 4990000}
+    procedure DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect = nil); override;
+{$endif}
+  end;
 
   { TQtWidgetSetEx }
 
   TQtWidgetSetEx = Class(TQtWidgetSet)
   private
     FWayland: TWaylandClient;
+  protected
+    function CreateThemeServices: TThemeServices; override;
   public
     constructor Create; override;
+    function ClipboardGetData(ClipboardType: TClipboardType;
+      FormatID: TClipboardFormat; Stream: TStream): Boolean; override;
     function StretchMaskBlt(DestDC: HDC; X, Y, Width, Height: Integer;
       SrcDC: HDC; XSrc, YSrc, SrcWidth, SrcHeight: Integer; Mask: HBITMAP;
       XMask, YMask: Integer; Rop: DWORD): Boolean; override;
@@ -28,11 +43,40 @@ var
 implementation
 
 uses
-  CTypes, SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils;
+  SysUtils, Forms, Graphics, GraphUtil, qtobjects, qt6, DCStrUtils, DCUnix, LazUTF8
+{$if lcl_fullversion < 4990000}
+  , LCLIntf, TmSchema
+{$endif}
+  ;
 
-function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
+{ TQtThemeServicesEx }
+
+function TQtThemeServicesEx.GetStockImage(StockID: LongInt; out Image, Mask: HBitmap): Boolean;
+begin
+  Result:= False;
+end;
+
+{$if lcl_fullversion < 4990000}
+procedure TQtThemeServicesEx.DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect);
+var
+  ARect: TRect;
+begin
+  inherited DrawElement(DC, Details, R, ClipRect);
+
+  if (Details.Element = teToolBar) and (Details.Part = TP_SPLITBUTTONDROPDOWN) then
+  begin
+    ARect:= R;
+    DrawText(DC, Details, '▾', ARect, DT_CENTER or DT_VCENTER or DT_SINGLELINE, 0);
+  end;
+end;
+{$endif}
 
 { TQtWidgetSetEx }
+
+function TQtWidgetSetEx.CreateThemeServices: TThemeServices;
+begin
+  Result:= TQtThemeServicesEx.Create;
+end;
 
 constructor TQtWidgetSetEx.Create;
 begin
@@ -40,6 +84,76 @@ begin
   setenv('QT_SCALE_FACTOR_ROUNDING_POLICY', 'PassThrough', 1);
   inherited Create;
   QtWidgetSetEx:= Self
+end;
+
+function TQtWidgetSetEx.ClipboardGetData(ClipboardType: TClipboardType;
+  FormatID: TClipboardFormat; Stream: TStream): Boolean;
+const
+  ClipbBoardTypeToQtClipboard: array[TClipboardType] of QClipboardMode =
+  (
+{ctPrimarySelection  } QClipboardSelection,
+{ctSecondarySelection} QClipboardSelection,
+{ctClipboard         } QClipboardClipboard
+  );
+var
+  QtMimeData: QMimeDataH;
+  MimeType: WideString;
+  Data: QByteArrayH;
+  p: PAnsiChar;
+  s: Integer;
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  i: integer;
+  Str: String;
+  WStr: WideString;
+  AFormats: QStringListH;
+  {$ENDIF}
+begin
+  Result := False;
+  QtMimeData := Clipboard.getMimeData(ClipbBoardTypeToQtClipboard[ClipBoardType]);
+  if QtMimeData = nil then Exit;
+  MimeType := UTF8ToUTF16(Clipboard.FormatToMimeType(FormatID));
+
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  // Lazarus issue #40423
+  if (MimeType = 'text/plain') then // do not translate
+  begin
+    QGuiApplication_platformName(@WStr);
+    if WideSameText(WStr, 'xcb') or
+       WideSameText(Copy(WStr, 1, 7), 'wayland') then  // do not translate
+    begin
+      AFormats := QStringList_Create;
+      QMimeData_formats(QtMimeData, AFormats);
+      for i := 0 to QStringList_size(AFormats) - 1 do
+      begin
+        QStringList_at(AFormats, @WStr, i);
+        // Lazarus issue #42099
+        if (WStr = 'UTF8_STRING') or (WStr = 'text/plain;charset=utf-8') then // do not translate
+        begin
+          MimeType := WStr;
+          break;
+        end;
+      end;
+      QStringlist_destroy(AFormats);
+
+      // Lazarus issue #42099
+      if (MimeType = 'text/plain') then // do not translate
+      begin
+        QMimeData_text(QtMimeData, @WStr);
+        Str := UTF16ToUTF8(WStr);
+        Stream.Write(PAnsiChar(Str)^, Length(Str));
+        Exit(True);
+      end;
+    end;
+  end;
+  {$ENDIF}
+  Data := QByteArray_create();
+  QMimeData_data(QtMimeData, Data, @MimeType);
+  s := QByteArray_size(Data);
+  p := QByteArray_constData(Data);
+  Stream.Write(p^, s);
+  QByteArray_destroy(Data);
+
+  Result := True;
 end;
 
 function TQtWidgetSetEx.StretchMaskBlt(DestDC: HDC; X, Y, Width,
@@ -122,7 +236,7 @@ var
     ClpH := Round(R.Bottom * Factor.y) - Round(R.Top * Factor.y);
 
     Result := PtInRect(R, Point(R.Left + 1, R.Top + 1)) and
-      (((ClpW <= TgtW) and (ClpH <= TgtH)) or ((TgtW < SrcWidth) and (TgtH < SrcHeight)));
+      (((ClpW < TgtW) and (ClpH < TgtH)) or ((TgtW < SrcWidth) and (TgtH < SrcHeight)));
   end;
 
   procedure RenderPixmap(APixmap: QPixmapH; AMaskImg: QImageH; const AHighQuality: boolean);
@@ -143,7 +257,7 @@ var
     if ARenderHint and (ARenderHints and QPainterSmoothPixmapTransform <> 0) then
       ARenderHint := False; // do not touch render hints
 
-    if NeedScaling(DstRect, SrcRect) then
+    if (AMaskImg <> nil) and NeedScaling(DstRect, SrcRect) then
       QPixmap_scaled(APixmap, ATempPixmap, Width, Height)
     else
       QPixmap_copy(APixmap, ATempPixmap, 0, 0, QPixmap_width(APixmap), QPixmap_height(APixmap));
@@ -427,7 +541,7 @@ begin
         Exit;
       end;
     end;
-    APlatform:= LowerCase(GetEnvironmentVariable('QT_QPA_PLATFORM'));
+    APlatform:= LowerCase(getenv('QT_QPA_PLATFORM'));
     Result:= (APlatform = '') or StrBegins(APlatform, 'wayland');
   end;
 end;

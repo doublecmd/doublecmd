@@ -153,6 +153,7 @@ type
     FCaretCreated: Boolean;
     FTopLeft: TPoint;
     FCaretHeight: Integer;
+    FInvalidateRect: TRect;
     FSaveAttr: TTermAttributes;
     FBuffer: TComTermBuffer;
     FMainBuffer: TComTermBuffer;
@@ -175,7 +176,7 @@ type
     function GetConnected: Boolean;
     procedure HideCaret;
     procedure InitCaret;
-    procedure InvalidatePortion(ARect: TRect);
+    procedure InvalidatePortion(ARect: TRect; bErase: Boolean = True);
     procedure ModifyScrollBar(ScrollBar, ScrollCode, Pos: Integer);
     procedure SetColumns(const Value: Integer);
     procedure SetPtyDevice(const Value: TCustomPtyDevice);
@@ -344,6 +345,20 @@ uses
 
 const
   TMPF_FIXED_PITCH = $01;
+
+function SetScrollPos(Handle: HWND; nBar, nPos: Integer; bRedraw: Boolean): Integer;
+var
+  Info: TScrollInfo;
+begin
+  Info:= Default(TScrollInfo);
+  Info.cbSize:= SizeOf(TScrollInfo);
+  Info.fMask:= SIF_POS or SIF_RANGE or SIF_PAGE;
+  GetScrollInfo(Handle, nBar, Info);
+  Result:= Info.nPos;
+  Info.nPos:= nPos;
+  Info.fMask:= SIF_POS;
+  SetScrollInfo(Handle, nBar, Info, bRedraw);
+end;
 
 (*****************************************
  * TComTermBuffer class                  *
@@ -785,7 +800,9 @@ end;
 procedure TCustomComTerminal.ClearScreen;
 begin
   FBuffer.Init(0, 0);
+  FTopLeft := Classes.Point(1, 1);
   MoveCaret(1, 1);
+  UpdateScrollRange;
   Invalidate;
 end;
 
@@ -826,7 +843,7 @@ var
   Ch: TUTF8Char;
   Res: TEscapeResult;
 begin
-  HideCaret;
+  FInvalidateRect.Top:= -1;
   try
     // show it on screen
     I:= 1;
@@ -860,7 +877,11 @@ begin
       I+= L;
     end;
   finally
-    ShowCaret;
+    if FInvalidateRect.Top > -1 then
+    begin
+      InvalidatePortion(FInvalidateRect, False);
+      FInvalidateRect.Top:= -1;
+    end;
   end;
 end;
 
@@ -1361,7 +1382,7 @@ begin
   end;
   if FAutoFollow then
   begin
-    if (FCaretPos.Y - FTopLeft.Y) > FVisibleRows then
+    if (FCaretPos.Y - FTopLeft.Y) >= FVisibleRows then
     begin
       I:= FCaretPos.Y - FVisibleRows + 1;
       ModifyScrollBar(SB_Vert, SB_THUMBPOSITION, I);
@@ -1505,7 +1526,7 @@ begin
 end;
 
 // invalidate portion of screen
-procedure TCustomComTerminal.InvalidatePortion(ARect: TRect);
+procedure TCustomComTerminal.InvalidatePortion(ARect: TRect; bErase: Boolean);
 var
   Rect: TRect;
 begin
@@ -1513,7 +1534,7 @@ begin
   Rect.Right := Max((ARect.Right - FTopLeft.X + 1) * FFontWidth, 0);
   Rect.Top := Max((ARect.Top - FTopLeft.Y) * FFontHeight, 0);
   Rect.Bottom := Max((ARect.Bottom - FTopLeft.Y + 1) * FFontHeight, 0);
-  InvalidateRect(Handle, @Rect, True);
+  InvalidateRect(Handle, @Rect, bErase);
 end;
 
 // modify scroll bar
@@ -1593,32 +1614,31 @@ var
     end;
   end;
 
-  procedure SetRange(Code, Max: Integer);
+  procedure SetRange(Code, Max, Page: Integer);
   var
     Info: TScrollInfo;
   begin
     Info:= Default(TScrollInfo);
+    Info.cbSize:= SizeOf(TScrollInfo);
     Info.fMask := SIF_RANGE or SIF_PAGE;
     Info.nMax := Max;
-    Info.nPage := 1;
+    Info.nPage := Page;
     SetScrollInfo(Handle, Code, Info, False);
   end;
 
   // set horizontal range
   procedure SetHorzRange;
   var
-    Max: Integer;
     AColumns: Integer;
   begin
     if OldScrollBars in [ssBoth, ssHorizontal] then
     begin
       AColumns := AWidth div FFontWidth;
       if AColumns >= FBuffer.Columns then
-        SetRange(SB_HORZ, 1) // screen is wide enough, hide scroll bar
+        SetRange(SB_HORZ, 1, AColumns) // screen is wide enough, hide scroll bar
       else
       begin
-        Max := FBuffer.Columns - (AColumns - 1);
-        SetRange(SB_HORZ, Max);
+        SetRange(SB_HORZ, FBuffer.Columns, AColumns);
       end;
     end;
   end;
@@ -1626,17 +1646,16 @@ var
   // set vertical range
   procedure SetVertRange;
   var
-    Max, ARows: Integer;
+    ARows: Integer;
   begin
     if OldScrollBars in [ssBoth, ssVertical] then
     begin
       ARows := AHeight div FFontHeight;
       if ARows >= FBuffer.Rows then
-        SetRange(SB_VERT, 1)  // screen is high enough, hide scroll bar
+        SetRange(SB_VERT, 1, ARows)  // screen is high enough, hide scroll bar
       else
       begin
-        Max := FBuffer.Rows - (ARows - 1);
-        SetRange(SB_VERT, Max);
+        SetRange(SB_VERT, FBuffer.Rows, ARows);
       end;
     end;
   end;
@@ -1773,7 +1792,9 @@ begin
       ecEraseScreen:
       begin
         FBuffer.EraseScreenRight(1, 1);
-        MoveCaret(1, 1)
+        FTopLeft := Classes.Point(1, 1);
+        MoveCaret(1, 1);
+        UpdateScrollRange;
       end;
       ecEraseChar: FBuffer.EraseChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
       ecDeleteChar: FBuffer.DeleteChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
@@ -1956,6 +1977,7 @@ end;
 // put one character on screen
 procedure TCustomComTerminal.PutChar(Ch: TUTF8Char);
 var
+  ARect: TRect;
   AWidth: Integer;
   TermCh: TComTermChar;
 begin
@@ -1990,7 +2012,8 @@ begin
         if AWidth <= 0 then Exit;
         if FWrapLines then WrapLine(AWidth);
         FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
-        DrawChar(FCaretPos.X - FTopLeft.X + 1, FCaretPos.Y - FTopLeft.Y + 1, TermCh);
+        ARect.Top:= FCaretPos.Y;
+        ARect.Left:= FCaretPos.X;
         AdvanceCaret(acChar);
         Dec(AWidth);
         while (AWidth > 0) do
@@ -1999,6 +2022,14 @@ begin
           FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
           AdvanceCaret(acChar);
           Dec(AWidth);
+        end;
+        ARect.Right:= FCaretPos.X;
+        ARect.Bottom:= FCaretPos.Y;
+
+        if FInvalidateRect.Top < 0 then
+          FInvalidateRect:= ARect
+        else begin
+          Types.UnionRect(FInvalidateRect, FInvalidateRect, ARect);
         end;
       end;
   end;

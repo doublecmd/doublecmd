@@ -1104,6 +1104,10 @@ msgstr "Сачувај &као..."
 msgid "Save As"
 msgstr "Сачувај као"
 
+#: tfrmeditor.actwordwrap.caption
+msgid "&Word wrap"
+msgstr ""
+
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
@@ -1155,6 +1159,12 @@ msgstr "Истицање синтаксе"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Завршетак линије"
+
+#: tfrmeditor.miview.caption
+#, fuzzy
+msgctxt "tfrmeditor.miview.caption"
+msgid "&View"
+msgstr "&Преглед"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
@@ -2088,6 +2098,10 @@ msgstr "Умножи путању у наредбену линију"
 msgid "Add Plugin"
 msgstr "Додај прикључак"
 
+#: tfrmmain.actaddtostash.caption
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Опит"
@@ -2104,6 +2118,14 @@ msgstr "Сажети преглед"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "Израчунај заузеће простора"
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2350,6 +2372,10 @@ msgstr "Уреди нову датотеку"
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
 msgstr "Уреди поље путање изнад списка"
+
+#: tfrmmain.actemptystash.caption
+msgid "Empty Stash"
+msgstr ""
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2695,6 +2721,10 @@ msgstr "&Освежи"
 msgid "Reload the last Favorite Tabs loaded"
 msgstr "Поново учитај последње учитане омиљене листове"
 
+#: tfrmmain.actremovefromstash.caption
+msgid "Remove Stash Items"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2821,6 +2851,10 @@ msgstr "Све закључане листове са измењеним фас�
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
 msgstr "Промени &својства..."
+
+#: tfrmmain.actsetsortmode.caption
+msgid "Set Sort Mode"
+msgstr ""
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3240,6 +3274,11 @@ msgstr "Ознака&"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "Мрежа"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6387,6 +6426,10 @@ msgstr "Личне скраћенице за употребу:"
 msgid "Sorting"
 msgstr "Ређање"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr "&Бајта:"
@@ -6450,6 +6493,14 @@ msgstr "&Терабајта:"
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Премести освежене датотеке:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6525,6 +6576,11 @@ msgstr "Означавање/одзначавање ставки"
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
 msgstr "Подразумеване вредности маске својстава за коришћење:"
+
+#: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
+msgid "Extra line span:"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -11325,6 +11381,14 @@ msgstr ""
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr ""
 
+#: ulng.rsmfstbiprivilegetips2
+msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips3
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
 msgstr ""
@@ -14325,6 +14389,10 @@ msgstr "Самостално;1457664B - 3.5\" висока густина 1.44M;
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Изаберите фасциклу:"
+
+#: ulng.rsstashname
+msgid "Stash"
+msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

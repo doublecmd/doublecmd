@@ -30,7 +30,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLType, uDrive, DCBasicTypes, uFindEx
+    SysUtils, Classes, Process, LCLType, uDrive, DCBasicTypes, uFindEx
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
@@ -57,8 +57,10 @@ const
   faFolder = S_IFDIR;
   ReversePathDelim = '\';
   {$IF DEFINED(DARWIN)}
-  RunTermCmd: String = '/Applications/Utilities/Terminal.app';  // default terminal
-  RunTermParams = '%D';
+  // default terminal
+  RunTermCmd: String = '/Applications/Utilities/Terminal.app';
+  // it's more suitable than %D, especially in Stash, iCloud, SearchResult etc.
+  RunTermParams = '%d0';
   RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
   RunInTermStayOpenParams = '''{command}''';
   RunInTermCloseCmd = ''; // default run in terminal command AND Close after command
@@ -149,9 +151,9 @@ function GetSfxExt: String;
 function IsAvailable(Drive: PDrive; TryMount: Boolean = True) : Boolean;
 function GetShell : String;
 {en
-   Formats a string which will execute Command via shell.
+   Formats parameters which will execute Command via shell.
 }
-function FormatShell(const Command: String): String;
+procedure FormatShell(Process: TProcess; const Command: String);
 {en
    Formats a string which will execute Command in a terminal.
 }
@@ -605,13 +607,13 @@ begin
 end;
 {$ENDIF}
 
-function FormatShell(const Command: String): String;
+procedure FormatShell(Process: TProcess; const Command: String);
+const
+  EXEC_CMD = {$IF DEFINED(MSWINDOWS)}'/C'{$ELSE}'-c'{$ENDIF};
 begin
-{$IF DEFINED(UNIX)}
-  Result := Format('%s -c %s', [GetShell, QuoteSingle(Command)]);
-{$ELSEIF DEFINED(MSWINDOWS)}
-  Result := Format('%s /C %s', [GetShell, QuoteDouble(Command)]);
-{$ENDIF}
+  Process.Executable:= GetShell;
+  Process.Parameters.Add(EXEC_CMD);
+  Process.Parameters.Add(Command);
 end;
 
 procedure FormatTerminal(var sCmd: String; var sParams: String; bKeepTerminalOpen: tTerminalEndindMode);

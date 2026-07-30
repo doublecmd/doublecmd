@@ -61,7 +61,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, LCLProc, Forms, Dialogs, DynLibs,
+  StrUtils, LCLVersion, LCLProc, Forms, Dialogs, DynLibs,
 
   //DC
   uLng, uGlobs, dmCommonData, DCStrUtils, DCConvertEncoding, uDefaultPlugins;
@@ -141,10 +141,6 @@ begin
   begin
     bEnabled := (stgPlugins.Cells[COLNO_ACTIVE, aRow] = '-');
     btnEnablePlugin.Caption := IfThen(bEnabled, rsOptPluginEnable, rsOptPluginDisable);
-    if bEnabled then
-      btnEnablePlugin.Glyph.Assign(ImgSwitchDisable.Picture.Bitmap)
-    else
-      btnEnablePlugin.Glyph.Assign(ImgSwitchEnable.Picture.Bitmap);
     bEnable := True;
   end;
 
@@ -158,6 +154,9 @@ end;
 procedure TfrmOptionsPluginsWLX.btnAddPluginClick(Sender: TObject);
 begin
   dmComData.OpenDialog.Filter := Format('Viewer plugins (%s)|%s', [WlxMask, WlxMask]);
+{$if lcl_fullversion >= 4990000}
+  dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
   if dmComData.OpenDialog.Execute then
     ActualAddPlugin(dmComData.OpenDialog.FileName);
 end;

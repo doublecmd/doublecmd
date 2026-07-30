@@ -772,17 +772,15 @@ begin
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
-
+      AFile.DisplayName:= fs.GetDisplayFileName(aFileSourceFiles[i]);
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
-
       if HaveIcons then
       begin
         AFile.IconID := PixMapManager.GetIconByFile(fs,
                                                     AFile,
                                                     DirectAccess,
                                                     not gLoadIconsSeparately,
-                                                    gShowIcons,
-                                                    not gIconOverlays);
+                                                    gShowIcons);
       end;
 
       aDisplayFiles.Add(AFile);
@@ -827,17 +825,15 @@ begin
         else
         begin
           AFile := TDisplayFile.Create(aFileSourceFiles[i]);
-
+          AFile.DisplayName:= fs.GetDisplayFileName(aFileSourceFiles[i]);
           AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
-
           if HaveIcons then
           begin
             AFile.IconID := PixMapManager.GetIconByFile(fs,
                                                         AFile,
                                                         DirectAccess,
                                                         not gLoadIconsSeparately,
-                                                        gShowIcons,
-                                                        not gIconOverlays);
+                                                        gShowIcons);
           end;
 
           // New file.
@@ -955,10 +951,9 @@ begin
               FWorkingFile,
               DirectAccess,
               True,
-              gShowIcons,
-              not gIconOverlays);
+              gShowIcons);
 
-        {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
+        {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS) OR DEFINED(XDG)}
         if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
           FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
               FWorkingFile.FSFile,

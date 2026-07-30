@@ -60,7 +60,12 @@ end;
 
 class function TWslFileSource.Available: Boolean;
 begin
-  Result:= GetServiceStatus('LxssManager') <> 0;
+  // Windows 11, version 25H2
+  if (Win32BuildNumber >= 26200) then
+    Result:= (GetServiceStatus('WSLService') <> 0)
+  else begin
+    Result:= (GetServiceStatus('LxssManager') <> 0);
+  end;
 end;
 
 class function TWslFileSource.IsSupportedPath(const Path: String): Boolean;
