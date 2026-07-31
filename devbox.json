@@ -1,11 +1,16 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
   "packages": {
-    "fpc": "latest",
+    "fpc": {
+      "version":   "",
+      "platforms": ["x86_64-linux", "aarch64-linux"]
+    },
     "lazarus": {
-      "version": "latest",
       "platforms": ["x86_64-linux", "aarch64-linux"]
     }
+  },
+  "nixpkgs": {
+    "commit": "8623c4c20aa4ca2f5fb81510d2944066c3fb0d96"
   },
   "shell": {
     "init_hook": [
