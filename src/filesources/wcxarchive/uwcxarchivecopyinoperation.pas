@@ -32,13 +32,11 @@ type
     {en
       Convert TFiles into a string separated with #0 (format used by WCX).
     }
-    function GetFileList(const theFiles: TFiles): String;
+    function GetFileList(pathInArchive: String; const theFiles: TFiles): String;
     procedure SetTarBefore(const AValue: Boolean);
     procedure ShowError(const sMessage: String; iError: Integer; logOptions: TLogOptions = []);
     procedure LogMessage(const sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     procedure DeleteFiles(const aFiles: TFiles);
-
-    function doWcxPackFiles(const files: TFiles): Integer;
 
   protected
     procedure SetProcessDataProc(hArcData: TArcHandle);
@@ -77,6 +75,20 @@ uses
   fWcxArchiveCopyOperationOptions, uFileSystemFileSource, DCOSUtils,
   uClassesEx, DCConvertEncoding, DCDateTimeUtils,
   uArchiveFileSourceUtil;
+
+type
+
+  { TWcxPacker }
+
+  TWcxPacker = class
+  private
+    _wcxOperation: TWcxArchiveCopyInOperation;
+    _fullFilesTree: TFiles;
+    _pathInArchive: String;
+
+    function doPackFilesInDirectoriesByLinks(const currentFullFiles: TFiles): Integer;
+    function packFiles(const files: TFiles): Integer;
+  end;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -229,55 +241,13 @@ begin
   end;
 end;
 
-function TWcxArchiveCopyInOperation.doWcxPackFiles(const files: TFiles): Integer;
-var
-  sDestPath: String;
-  currentFullFiles: TFiles = nil;
-  sFileList: String;
-  uselessTotalFiles: Int64;
-  uselessTotalBytes: Int64;
-begin
-  Result:= E_UNKNOWN;
-  sDestPath := ExcludeFrontPathDelimiter(TargetPath);
-  sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
-
-  try
-    if Assigned(FFullFilesTree) then begin
-      currentFullFiles:= FFullFilesTree;
-    end else begin
-      FillAndCount(files,
-                   currentFullFiles,
-                   uselessTotalFiles,
-                   uselessTotalBytes);
-    end;
-
-    // Convert TFiles into String;
-    sFileList:= GetFileList(currentFullFiles);
-    // Nothing to pack (user skip all files)
-    if sFileList = #0 then Exit;
-
-    Result:= FWcxArchiveFileSource.WcxModule.WcxPackFiles(
-      FWcxArchiveFileSource.ArchiveFileName,
-      sDestPath, // no trailing path delimiter here
-      IncludeTrailingPathDelimiter(files.Path), // end with path delimiter here
-      sFileList,
-      PackingFlags);
-
-    // User aborted operation.
-    if Result = E_EABORTED then
-      RaiseAbortOperation;
-  finally
-    if currentFullFiles <> FFullFilesTree then
-      currentFullFiles.Free;
-  end;
-end;
-
 procedure TWcxArchiveCopyInOperation.MainExecute;
 
   function doPack: Boolean;
   var
     resultCode: Integer;
     WcxModule: TWcxModule;
+    wcxPacker: TWcxPacker;
   begin
     Result:= False;
     WcxModule := FWcxArchiveFileSource.WcxModule;
@@ -292,7 +262,15 @@ procedure TWcxArchiveCopyInOperation.MainExecute;
     SetProcessDataProc(wcxInvalidHandle);
     WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
 
-    resultCode:= ProcessFilesWithMultiRootPath( self.SourceFiles, @self.doWcxPackFiles );
+    wcxPacker:= TWcxPacker.Create;
+    wcxPacker._wcxOperation:= self;
+    wcxPacker._fullFilesTree:= self.FFullFilesTree;
+    wcxPacker._pathInArchive:= self.TargetPath;
+    try
+      resultCode:= ProcessFilesWithMultiRootPath( self.SourceFiles, @wcxPacker.packFiles );
+    finally
+      FreeAndNil(wcxPacker);
+    end;
 
     // Check for errors.
     if resultCode <> 0 then
@@ -364,18 +342,20 @@ begin
   ClearCurrentOperation;
 end;
 
-function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;
+function TWcxArchiveCopyInOperation.GetFileList(
+  pathInArchive: String;
+  const theFiles: TFiles): String;
 var
   I: Integer;
-  SubPath: String;
   FileName: String;
   Header: TWCXHeader;
   ArchiveExists: Boolean;
+  fullPathInArchive: String;
 begin
   Result := '';
 
   ArchiveExists := FFileList.Count > 0;
-  SubPath := UTF8LowerCase(ExcludeFrontPathDelimiter(TargetPath));
+  pathInArchive := UTF8LowerCase(ExcludeFrontPathDelimiter(pathInArchive));
 
   for I := 0 to theFiles.Count - 1 do
     begin
@@ -393,7 +373,10 @@ begin
       // Need to check file existence
       else if ArchiveExists then
       begin
-        Header := TWcxHeader(FFileList[SubPath + UTF8LowerCase(FileName)]);
+        fullPathInArchive:= UTF8LowerCase(FileName);
+        if pathInArchive <> EmptyStr then
+          fullPathInArchive:= IncludeTrailingPathDelimiter(pathInArchive) + fullPathInArchive;
+        Header := TWcxHeader(FFileList[fullPathInArchive]);
         if Assigned(Header) then
         begin
           if FileExists(theFiles[I], Header) = fsoofeSkip then
@@ -602,6 +585,90 @@ end;
 class function TWcxArchiveCopyInOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
 begin
   Result:= TWcxArchiveCopyInOperationOptionsUI;
+end;
+
+function TWcxPacker.doPackFilesInDirectoriesByLinks(const currentFullFiles: TFiles): Integer;
+var
+  i: Integer;
+  f: TFile;
+  wcxPacker: TWcxPacker;
+  currentFile: TFile;
+  currentFiles: TFiles;
+  subPathInArchive: String;
+begin
+  Result:= E_SUCCESS;
+  for i:= 0 to currentFullFiles.Count-1 do begin
+    f:= currentFullFiles[i];
+    if NOT f.IsLinkToDirectory then
+      continue;
+
+    subPathInArchive:= ExtractDirLevel(currentFullFiles.Path, f.FullPath);
+    currentFiles:= TFiles.Create( f.LinkProperty.LinkTo );
+    currentFile:= TFileSystemFileSource.CreateFileFromFile( currentFiles.Path  );
+    currentFiles.Add( currentFile );
+    wcxPacker:= TWcxPacker.Create;
+    wcxPacker._wcxOperation:= _wcxOperation;
+    wcxPacker._pathInArchive:= IncludeTrailingPathDelimiter(_pathInArchive) + subPathInArchive;
+    try
+      Result:= ProcessFilesWithMultiRootPath( currentFiles, @wcxPacker.packFiles );
+    finally
+      FreeAndNil(currentFiles);
+      FreeAndNil(wcxPacker);
+    end;
+  end;
+end;
+
+function TWcxPacker.packFiles(const files: TFiles): Integer;
+var
+  wcxFS: IWcxArchiveFileSource;
+  sDestPath: String;
+  currentFullFiles: TFiles = nil;
+  sFileList: String;
+  uselessTotalFiles: Int64;
+  uselessTotalBytes: Int64;
+begin
+  Result:= E_UNKNOWN;
+  sDestPath := ExcludeFrontPathDelimiter(_pathInArchive);
+  sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
+
+  try
+    if Assigned(_fullFilesTree) then begin
+      currentFullFiles:= _fullFilesTree;
+    end else begin
+      FillAndCount(files,
+                   currentFullFiles,
+                   uselessTotalFiles,
+                   uselessTotalBytes);
+    end;
+
+    // Convert TFiles into String;
+    sFileList:= _wcxOperation.GetFileList(
+      _pathInArchive,
+      currentFullFiles);
+    // Nothing to pack (user skip all files)
+    if sFileList = #0 then Exit;
+
+    wcxFS:= _wcxOperation.FWcxArchiveFileSource;
+    Result:= wcxFS.WcxModule.WcxPackFiles(
+      wcxFS.ArchiveFileName,
+      sDestPath, // no trailing path delimiter here
+      IncludeTrailingPathDelimiter(files.Path), // end with path delimiter here
+      sFileList,
+      _wcxOperation.PackingFlags);
+
+    // User aborted operation.
+    if Result = E_EABORTED then
+      _wcxOperation.RaiseAbortOperation;
+
+    Result:= self.doPackFilesInDirectoriesByLinks(currentFullFiles);
+
+    // User aborted operation.
+    if Result = E_EABORTED then
+      _wcxOperation.RaiseAbortOperation;
+  finally
+    if currentFullFiles <> _fullFilesTree then
+      currentFullFiles.Free;
+  end;
 end;
 
 end.
