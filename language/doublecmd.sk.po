@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.2.5\n"
+"Project-Id-Version: Double Commander 1.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-04-17 22:13+0200\n"
+"PO-Revision-Date: 2026-07-30 16:02+0200\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Slovenčina\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -1081,7 +1081,7 @@ msgstr "Uložiť ako"
 
 #: tfrmeditor.actwordwrap.caption
 msgid "&Word wrap"
-msgstr ""
+msgstr "&Zalomiť text"
 
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
@@ -1106,7 +1106,7 @@ msgstr "&Pomoc"
 #: tfrmeditor.miedit.caption
 msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
-msgstr "&Editovať"
+msgstr "&Upraviť"
 
 #: tfrmeditor.miencoding.caption
 msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
@@ -1136,10 +1136,9 @@ msgid "End Of Line"
 msgstr "Koniec riadku"
 
 #: tfrmeditor.miview.caption
-#, fuzzy
 msgctxt "tfrmeditor.miview.caption"
 msgid "&View"
-msgstr "&Zobrazenie"
+msgstr "&Zobraziť"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
@@ -2051,7 +2050,7 @@ msgstr "Pridať zásuvný modul"
 
 #: tfrmmain.actaddtostash.caption
 msgid "Add to Stash"
-msgstr ""
+msgstr "Pridať do Stash"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2071,11 +2070,11 @@ msgstr "Vypočítať &obsadené miesto"
 
 #: tfrmmain.actcallplatformfunctions.caption
 msgid "Call platform functions"
-msgstr ""
+msgstr "Vyvolať funkcie platformy"
 
 #: tfrmmain.actcallplatformfunctions.hint
 msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
-msgstr ""
+msgstr "Vyvolať funkcie platformy (vyvolávaná funkcia je špecifikovaná parametrom „func“)"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2320,7 +2319,7 @@ msgstr "Upraviť cestu nad zoznamom súborov"
 
 #: tfrmmain.actemptystash.caption
 msgid "Empty Stash"
-msgstr ""
+msgstr "Vyprázdniť Stash"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2664,7 +2663,7 @@ msgstr "Znovunačítať posledné otvorené obľúbené karty"
 
 #: tfrmmain.actremovefromstash.caption
 msgid "Remove Stash Items"
-msgstr ""
+msgstr "Odobrať položky Stash"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2794,7 +2793,7 @@ msgstr "Zmena &atribútov..."
 
 #: tfrmmain.actsetsortmode.caption
 msgid "Set Sort Mode"
-msgstr ""
+msgstr "Nastaviť režim triedenia"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3209,7 +3208,7 @@ msgstr "S&ieť"
 #: tfrmmain.mnuopenstash.caption
 msgctxt "tfrmmain.mnuopenstash.caption"
 msgid "Open Stash"
-msgstr ""
+msgstr "Otvoriť Stash"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6301,7 +6300,7 @@ msgstr "Triedenie"
 
 #: tfrmoptionsfilesviews.lbl1k.caption
 msgid "1K ="
-msgstr ""
+msgstr "1K ="
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6369,11 +6368,11 @@ msgstr "Presunúť aktualizované súbory:"
 
 #: tfrmoptionsfilesviews.rb1000.caption
 msgid "1000"
-msgstr ""
+msgstr "1000"
 
 #: tfrmoptionsfilesviews.rb1024.caption
 msgid "1024"
-msgstr ""
+msgstr "1024"
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6440,7 +6439,7 @@ msgstr "Predvolená hodnota atribútu masky, ktorá sa má použiť:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
+msgstr "Rozsah ďalšieho riadku:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -11114,12 +11113,12 @@ msgstr "Horizontálne rozdelenie"
 #: ulng.rsmfstbiiclouddrivetips
 msgctxt "ulng.rsmfstbiiclouddrivetips"
 msgid "iCloud Drive"
-msgstr ""
+msgstr "iCloud Disk"
 
 #: ulng.rsmfstbiiclouddrivetitle
 msgctxt "ulng.rsmfstbiiclouddrivetitle"
 msgid "iCloud Drive"
-msgstr ""
+msgstr "iCloud Disk"
 
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
@@ -11137,11 +11136,11 @@ msgstr "Double Commander ako správca súborov vyžaduje plné oprávnenie na pr
 
 #: ulng.rsmfstbiprivilegetips2
 msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
-msgstr ""
+msgstr "Ak ma vidíte, znamená to, že DC ešte nebolo autorizované. Akonáhle bude autorizácia dokončená, DC ma skryje."
 
 #: ulng.rsmfstbiprivilegetips3
 msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
-msgstr ""
+msgstr "Pri každej inštalácii novej verzie je potrebné vykonať opätovnú autorizáciu. V tomto prípade je potrebné najskôr odstrániť DC zo zoznamu a potom ho opäť pridať. Keďže nová verzia má odlišné identifikačné údaje, nestačí len zaškrtnúť príslušné políčka."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -14118,7 +14117,7 @@ msgstr "Zvoľte priečinok:"
 
 #: ulng.rsstashname
 msgid "Stash"
-msgstr ""
+msgstr "Stash"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
