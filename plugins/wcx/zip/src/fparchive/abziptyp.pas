@@ -1973,9 +1973,10 @@ begin
     MakeFullNames(SourceFileName, ArchiveDirectory,
                   FullSourceFileName, FullArchiveFileName);
 
-    if mbDirectoryExists(FullSourceFileName) then begin
-      FullSourceFileName := IncludeTrailingPathDelimiter(FullSourceFileName);
-    end;
+    if ReadSymLink(FullSourceFileName)<>EmptyStr then
+      FullArchiveFileName:= ExcludeTrailingPathDelimiter(FullArchiveFileName)
+    else if mbDirectoryExists(FullSourceFileName) then
+      FullArchiveFileName := IncludeTrailingPathDelimiter(FullArchiveFileName);
 
     Result.FileName     := FullArchiveFileName;
     Result.DiskFileName := FullSourceFileName;
