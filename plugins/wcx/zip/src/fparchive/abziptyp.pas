@@ -2370,7 +2370,7 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
-            if not AbFileGetAttrEx(CurrItem.DiskFileName, AttrEx) then
+            if not AbFileGetAttrEx(CurrItem.DiskFileName, AttrEx, False) then
               Raise EAbFileNotFound.Create;
 
             {$IFDEF UNIX}

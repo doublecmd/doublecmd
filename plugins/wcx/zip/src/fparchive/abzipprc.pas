@@ -58,6 +58,7 @@ uses
   AbZipxPrc,
   DCcrc32,
   DCClassesUtf8,
+  DCOSUtils,
   DCDateTimeUtils;
 
 
@@ -294,12 +295,16 @@ procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream;
+  symLink: String;
 begin
-  if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
+  symLink:= ReadSymLink(Item.DiskFileName);
+  if symLink <> EmptyStr then
+    UncompressedStream := TStringStream.Create(symLink)
+  else if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
     UncompressedStream := TMemoryStream.Create
-  else begin
+  else
     UncompressedStream := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
-  end;
+
   try {UncompressedStream}
     DoZipFromStream(Sender, Item, OutStream, UncompressedStream);
   finally {UncompressedStream}
