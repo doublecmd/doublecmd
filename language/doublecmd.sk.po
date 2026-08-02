@@ -14517,3 +14517,4 @@ msgstr "Žiadne nahradenie nebolo vykonané."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Žiadne nastavenie s názvom \"%s\""
+
