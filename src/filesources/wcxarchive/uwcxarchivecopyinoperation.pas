@@ -595,7 +595,6 @@ var
   currentFile: TFile;
   currentFiles: TFiles;
   subPathInArchive: String;
-  realPath: String;
 begin
   Result:= E_SUCCESS;
   for i:= 0 to currentFullFiles.Count-1 do begin
@@ -603,13 +602,9 @@ begin
     if NOT f.IsLinkToDirectory then
       continue;
 
-    realPath:= mbReadAllLinks( f.FullPath );
-    if realPath = EmptyStr then
-      continue;
-
     subPathInArchive:= ExtractDirLevel(currentFullFiles.Path, f.FullPath);
-    currentFiles:= TFiles.Create( realPath );
-    currentFile:= TFileSystemFileSource.CreateFileFromFile( realPath );
+    currentFiles:= TFiles.Create( f.LinkProperty.LinkTo );
+    currentFile:= TFileSystemFileSource.CreateFileFromFile( currentFiles.Path  );
     currentFiles.Add( currentFile );
     wcxPacker:= TWcxPacker.Create;
     wcxPacker._wcxOperation:= _wcxOperation;
