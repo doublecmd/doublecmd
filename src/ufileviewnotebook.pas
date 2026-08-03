@@ -334,6 +334,11 @@ begin
        (tb_show_asterisk_for_locked in gDirTabOptions) then
       NewCaption := '*' + NewCaption;
 
+    // Mark tabs whose current path is currently unavailable
+    // (e.g. unplugged removable media or disconnected network share).
+    if (not FileView.PathAvailable) and (tb_show_unavailable_marker in gDirTabOptions) then
+      NewCaption := '?' + NewCaption;
+
     if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
       NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '..';
 

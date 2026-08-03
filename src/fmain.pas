@@ -833,6 +833,7 @@ type
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
     procedure ForEachView(CallbackFunction: TForEachViewFunction; UserData: Pointer);
+    procedure UpdateAvailabilityForViewsUnderPath(AFileView: TFileView; AUserData: Pointer);
     procedure GetListOpenedPaths(const APaths:TStringList);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
@@ -7330,6 +7331,12 @@ begin
   end;
 end;
 
+procedure TfrmMain.UpdateAvailabilityForViewsUnderPath(AFileView: TFileView; AUserData: Pointer);
+begin
+  if IsInPath(PDrive(AUserData)^.Path, AFileView.CurrentPath, True, True) then
+    AFileView.UpdatePathAvailability;
+end;
+
 procedure TfrmMain.OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 begin
   // Update disk panel does not work correctly when main
@@ -7343,7 +7350,13 @@ begin
 
   if (FrameLeft = nil) or (FrameRight = nil) then Exit;
 
-  if (EventType = dweDriveRemoved) and Assigned(ADrive) then
+  if (EventType = dweDriveAdded) and Assigned(ADrive) then
+  begin
+    // Refresh tab markers for views whose path is on the new drive,
+    // e.g. a previously unplugged removable drive became available again.
+    ForEachView(@UpdateAvailabilityForViewsUnderPath, ADrive);
+  end
+  else if (EventType = dweDriveRemoved) and Assigned(ADrive) then
   begin
     if IsInPath(ADrive^.Path, ActiveFrame.CurrentPath, True, True) then
       ActiveFrame.CurrentPath:= GetHomeDir

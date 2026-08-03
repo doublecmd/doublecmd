@@ -54,6 +54,7 @@ type
     cbTabsReuseTabWhenPossible: TCheckBox;
     cbTabsShowDriveLetter: TCheckBox;
     cbTabsCloseDuplicateWhenClosing: TCheckBox;
+    cbTabsUnavailableMarker: TCheckBox;
   private
     FPageControl: TPageControl; // For checking Tabs capabilities
   protected
@@ -108,6 +109,7 @@ begin
   cbKeepRenamedNameBackToNormal.Checked := tb_keep_renamed_when_back_normal in gDirTabOptions;
   cbTabsActivateOnClick.Checked := tb_activate_panel_on_click in gDirTabOptions;
   cbTabsShowDriveLetter.Checked := tb_show_drive_letter in gDirTabOptions;
+  cbTabsUnavailableMarker.Checked := tb_show_unavailable_marker in gDirTabOptions;
   cbTabsActionOnDoubleClick.ItemIndex := integer(gDirTabActionOnDoubleClick);
   if cbTabsActionOnDoubleClick.ItemIndex = -1 then cbTabsActionOnDoubleClick.ItemIndex := 1; // Because with r6597 to r6599 we saved incorrect value for "gDirTabActionOnDoubleClick"...
   cbTabsActionOnDoubleClick.Refresh;
@@ -163,6 +165,8 @@ begin
     gDirTabOptions := gDirTabOptions + [tb_activate_panel_on_click];
   if cbTabsShowDriveLetter.Checked then
     gDirTabOptions := gDirTabOptions + [tb_show_drive_letter];
+  if cbTabsUnavailableMarker.Checked then
+    gDirTabOptions := gDirTabOptions + [tb_show_unavailable_marker];
   if cbTabsShowCloseButton.Checked then
     gDirTabOptions := gDirTabOptions + [tb_show_close_button];
 
