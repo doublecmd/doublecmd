@@ -59,7 +59,7 @@ uses
     , CocoaAll, MacOSAll
     , uDarwinImage, uDarwinUtil, uDarwinFile
     {$ELSEIF NOT DEFINED(HAIKU)}
-    , Math, Contnrs, uGio, uXdg
+    , Math, Contnrs, FileUtil, uGio, uXdg
       {$IFDEF GTK2_FIX}
       , gtk2
       {$ELSE}
@@ -132,6 +132,7 @@ type
     FiShortcutIconID: PtrInt;
     FOneDrivePath: TStringList;
     {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+    FPixmaps: TStringList;
     {en
        Maps file extension to MIME icon name(s).
     }
@@ -230,6 +231,11 @@ type
   {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     function GetSystemFolderIcon: PtrInt;
     function GetSystemArchiveIcon: PtrInt;
+    {en
+       Loads legacy pixmaps from /usr/share/pixmaps
+    }
+    procedure LoadLegacyPixmaps;
+    function LoadLegacyIcon(const AIconName: String; AIconSize: Integer): TBitmap;
     {en
        Loads MIME icons names and creates a mapping: file extension -> MIME icon name.
        Doesn't need to be synchronized as long as it's only called from Load().
@@ -1143,6 +1149,65 @@ begin
   Result:= CheckAddThemePixmap('package-x-generic');
 end;
 
+procedure TPixMapManager.LoadLegacyPixmaps;
+var
+  Index: Integer;
+  AObject: IntPtr;
+  AName, AExt: String;
+  AFiles: TStringList;
+begin
+  AFiles:= FindAllFiles('/usr/share/pixmaps', '', False);
+  try
+    AFiles.Sorted:= True;
+    for Index:= 0 to AFiles.Count - 1 do
+    begin
+      AExt:= ExtractOnlyFileExt(AFiles[Index]);
+      if (AExt = 'png') then
+        AObject:= 0
+      else if (AExt = 'xpm') then
+        AObject:= 1
+      else if (AExt = 'svg') then
+        AObject:= 2
+      else begin
+        Continue;
+      end;
+      AName:= ExtractOnlyFileName(AFiles[Index]);
+      FPixmaps.AddObject(AName, TObject(AObject));
+    end;
+    FPixmaps.Sorted:= True;
+  finally
+    AFiles.Free;
+  end;
+end;
+
+function TPixMapManager.LoadLegacyIcon(const AIconName: String; AIconSize: Integer): TBitmap;
+const
+  ICON_EXT: array[0..2] of String = ('png', 'xpm', 'svg');
+var
+  AExt: String;
+  Index: Integer;
+  FileName: String;
+  bitmapSize: Integer;
+begin
+  Result:= nil;
+  if FPixmaps.Find(AIconName, Index) then
+  begin
+    AExt:= ICON_EXT[IntPtr(FPixmaps.Objects[Index])];
+    FileName:= '/usr/share/pixmaps/' + AIconName + '.' + AExt;
+    bitmapSize:= Round(AIconSize * findScaleFactorByFirstForm());
+
+    if TScalableVectorGraphics.IsFileExtensionSupported(AExt) then
+      Result:= TScalableVectorGraphics.CreateBitmap(FileName, bitmapSize, bitmapSize)
+    else
+    begin
+      Result:= CheckLoadPixmapFromFile(FileName);
+      if Assigned(Result) then begin
+        Result:= StretchBitmap(Result, bitmapSize, clNone, True);
+      end;
+    end;
+  end;
+end;
+
 function TPixMapManager.GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
 var
   I: PtrInt;
@@ -1343,6 +1408,7 @@ begin
       Result := PixBufToBitmap(pbPicture);
   {$ELSE}
   Result:= LoadThemeIcon(FIconTheme, AIconName, AIconSize);
+  if (Result = nil) then Result:= LoadLegacyIcon(AIconName, AIconSize);
   {$ENDIF}
   end;
   if not Assigned(Result) then
@@ -1619,6 +1685,7 @@ begin
   FPixmapList := TFPList.Create;
 
   {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  FPixmaps := TStringList.Create;
   FExtToMimeIconName := TFPDataHashTable.Create;
   FHomeFolder := IncludeTrailingBackslash(GetHomeDir);
   {$ENDIF}
@@ -1698,6 +1765,7 @@ begin
           TStringList(THtDataNode(nodeList.Items[J]).Data).Free;
     end;
 
+  FPixmaps.Free;
   FreeAndNil(FExtToMimeIconName);
   {$ENDIF}
 
@@ -1733,6 +1801,7 @@ begin
       LoadMimeIconNames; // For use with GetMimeIcon
   {$IFNDEF GTK2_FIX}
       FIconTheme.Load; // Load system icon theme.
+      LoadLegacyPixmaps;
   {$ENDIF}
     end;
   {$ENDIF}
