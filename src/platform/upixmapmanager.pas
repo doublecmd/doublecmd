@@ -561,9 +561,9 @@ begin
       //Picture.Graphic.Transparent := True;
       ABitmap.Assign(Picture.Graphic);
 
-      // if unsupported BitsPerPixel then exit
+      // if unsupported BitsPerPixel
       if ABitmap.RawImage.Description.BitsPerPixel > 32 then
-        raise EInvalidGraphic.Create('Unsupported bits per pixel');
+        BitmapConvert(ABitmap);
 
       Result:= True;
     except
