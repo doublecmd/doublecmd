@@ -73,6 +73,7 @@ begin
         PluginConfig[ArchiveFormat].Level:= Ini.ReadInteger(Section, 'Level', DefaultConfig[ArchiveFormat].Level);
         PluginConfig[ArchiveFormat].Method:= Ini.ReadInteger(Section, 'Method', DefaultConfig[ArchiveFormat].Method);
       end;
+      gFollowLinks:= Ini.ReadBool('Configuration', 'FollowLinks', False);
       gTarAutoHandle:= Ini.ReadBool('Configuration', 'TarAutoHandle', True);
       // Backward compatibility
       case Ini.ReadInteger('Configuration', 'DeflationOption', -1) of
@@ -111,6 +112,7 @@ begin
       end;
       Ini.DeleteKey('Configuration', 'DeflationOption');
       Ini.DeleteKey('Configuration', 'CompressionMethodToUse');
+      Ini.WriteBool('Configuration', 'FollowLinks', gFollowLinks);
       Ini.WriteBool('Configuration', 'TarAutoHandle', gTarAutoHandle);
       Ini.UpdateFile;
     finally

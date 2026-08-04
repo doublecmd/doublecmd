@@ -512,9 +512,10 @@ type
 { TAbZipArchive interface ================================================== }
   TAbZipArchive = class( TAbArchive )
   protected {private}
-    FSymlinkProcessor: TAbSymlinkProcessor;
+    FSymlinkProcessor       : TAbSymlinkProcessor;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
+    FFollowLinks            : Boolean;
     FInfo                   : TAbZipDirectoryFileFooter;
     FIsExecutable           : Boolean;
     FPassword               : AnsiString;
@@ -532,6 +533,7 @@ type
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
 
   protected {methods}
+    procedure SetFollowLinks(const aFollowLinks: Boolean);
     procedure DoExtractHelper(Index : Integer; const NewName : string);
     procedure DoExtractToStreamHelper(Index : Integer; aStream : TStream);
     procedure DoTestHelper(Index : Integer);
@@ -590,6 +592,9 @@ type
     property DeflationOption : TAbZipDeflationOption
       read FDeflationOption
       write FDeflationOption;
+    property FollowLinks : Boolean
+      read FFollowLinks
+      write SetFollowLinks;
     property ExtractHelper : TAbArchiveItemExtractEvent
       read FExtractHelper
       write FExtractHelper;
@@ -2033,6 +2038,18 @@ procedure TAbZipArchive.Add(aItem: TAbArchiveItem);
 begin
   inherited Add(aItem);
   FSymlinkProcessor.onAddItem(aItem);
+end;
+
+procedure TAbZipArchive.SetFollowLinks(const aFollowLinks: Boolean);
+begin
+  if FFollowLinks = aFollowLinks then
+    Exit;
+  FFollowLinks:= aFollowLinks;
+  FSymlinkProcessor.Free;
+  if NOT FFollowLinks then
+    FSymlinkProcessor:= TAbSymlinkNotFollowProcessor.Create(self)
+  else
+    FSymlinkProcessor:= TAbSymlinkFollowProcessor.Create(self);
 end;
 
 { -------------------------------------------------------------------------- }

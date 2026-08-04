@@ -88,6 +88,7 @@ const
 
 var
   gStartupInfo: TExtensionStartupInfo;
+  gFollowLinks: Boolean;
   gTarAutoHandle : Boolean;
   
 implementation
@@ -407,6 +408,7 @@ begin
   try
     Arc.AutoSave := False;
     Arc.OpenMode := opModify;
+    Arc.FollowLinks := gFollowLinks;
     Arc.TarAutoHandle:= True;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
