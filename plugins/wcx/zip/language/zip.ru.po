@@ -25,6 +25,10 @@ msgstr "Метод сжатия:"
 msgid "Compression level:"
 msgstr "Уровень сжатия:"
 
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr ""
+
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
 msgstr "Открывать архивы *.tar.xyz за один шаг (медленно с большими архивами)"

@@ -25,6 +25,10 @@ msgstr "压缩方式:"
 msgid "Compression level:"
 msgstr "压缩级别:"
 
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr ""
+
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
 msgstr "一步打开 *.tar.xyz 文件（大文件打开慢）"

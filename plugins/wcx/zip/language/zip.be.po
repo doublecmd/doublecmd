@@ -36,6 +36,10 @@ msgstr "Метад сціскання:"
 msgid "Compression level:"
 msgstr "Узровень сціскання:"
 
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr ""
+
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
 msgstr "Адкрываць архівы *.tar.xyz за адзін крок (павольна з вялікімі архівамі)"

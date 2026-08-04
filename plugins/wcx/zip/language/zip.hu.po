@@ -35,6 +35,10 @@ msgstr "Tömörítési módszer:"
 msgid "Compression level:"
 msgstr "Tömörítési szint:"
 
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr ""
+
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
 msgstr "Nyissa meg a * .tar.xyz archívumokat egy lépésben (nagy archívumokkal lassú)"
