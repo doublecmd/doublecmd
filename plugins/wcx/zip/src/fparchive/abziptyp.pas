@@ -492,6 +492,23 @@ type
       write SetVersionNeededToExtract;
   end;
 
+  { TAbSymlinkProcessor }
+
+  TAbSymlinkProcessor = class
+  private
+    _abArc: TAbArchive;
+    _followLinks: Boolean;
+  public
+    constructor Create(const abArc: TAbArchive; const followLinks: Boolean); virtual;
+    function getAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
+    property abArc: TAbArchive read _abArc;
+    property followLinks: Boolean read _followLinks;
+  public
+    function getStream(const Item: TAbArchiveItem): TStream; virtual; abstract;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); virtual; abstract;
+    procedure onAddItem(const aItem: TAbArchiveItem); virtual; abstract;
+  end;
+
 { TAbZipArchive interface ================================================== }
   TAbZipArchive = class( TAbArchive )
   protected {private}
@@ -2582,6 +2599,21 @@ end;
 procedure TAbZipArchive.TestItemAt(Index : Integer);
 begin
   DoTestHelper(Index);
+end;
+
+{ TAbSymlinkProcessor }
+
+constructor TAbSymlinkProcessor.Create(
+  const abArc: TAbArchive; const followLinks: Boolean);
+begin
+  _abArc:= abArc;
+  _followLinks:= followLinks;
+end;
+
+function TAbSymlinkProcessor.getAttrEx(
+  const aFileName: string; out aAttr: TAbAttrExRec): Boolean;
+begin
+  Result:= AbFileGetAttrEx(aFileName, aAttr, followLinks);
 end;
 
 end.
