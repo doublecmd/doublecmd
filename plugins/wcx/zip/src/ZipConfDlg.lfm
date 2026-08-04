@@ -113,17 +113,28 @@ object DialogBox: TDialogBox
       Style = csDropDownList
       TabOrder = 2
     end
+    object chkFollowLinks: TCheckBox
+      AnchorSideLeft.Control = gbCompression
+      AnchorSideTop.Control = lblCompressionLevel
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 18
+      Top = 85
+      Width = 95
+      BorderSpacing.Top = 8
+      Caption = 'Follow Links'
+      TabOrder = 3
+    end
     object chkTarAutoHandle: TCheckBox
       AnchorSideLeft.Control = gbCompression
-      AnchorSideTop.Control = cbCompressionLevel
+      AnchorSideTop.Control = chkFollowLinks
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 23
       Top = 135
       Width = 395
-      BorderSpacing.Top = 10
       Caption = 'Open *.tar.xyz archives at one step (slowly with big archives)'
-      TabOrder = 3
+      TabOrder = 4
     end
   end
   object btnOK: TBitBtn
