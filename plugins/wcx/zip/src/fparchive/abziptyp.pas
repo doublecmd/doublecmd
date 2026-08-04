@@ -696,6 +696,20 @@ type
     procedure onAddItem(const aItem: TAbArchiveItem); override;
   end;
 
+  { TAbSymlinkFollowProcessor }
+
+  TAbSymlinkFollowProcessor = class(TAbSymlinkProcessor)
+  private
+    _symlinkDirLevel: Integer;
+    procedure addDirectory(diskPath: String; const archivePath: String);
+  public
+    constructor Create(const abArc: TAbArchive); reintroduce;
+    function getStream(const Item: TAbArchiveItem): TStream; override;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); override;
+    procedure onAddItem(const aItem: TAbArchiveItem); override;
+  end;
+
+
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
@@ -2677,6 +2691,81 @@ end;
 
 procedure TAbSymlinkNotFollowProcessor.onAddItem(const aItem: TAbArchiveItem);
 begin
+end;
+
+{ TAbSymlinkFollowProcessor }
+
+constructor TAbSymlinkFollowProcessor.Create(const abArc: TAbArchive);
+begin
+  inherited Create(abArc, True);
+end;
+
+function TAbSymlinkFollowProcessor.getStream(const Item: TAbArchiveItem): TStream;
+begin
+  if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
+    Result := TMemoryStream.Create
+  else
+    Result := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+end;
+
+procedure TAbSymlinkFollowProcessor.adjustFileName(
+  var sourceFileName: String; var archiveFileName: String);
+begin
+  if mbDirectoryExists(sourceFileName) then
+    archiveFileName:= IncludeTrailingPathDelimiter(archiveFileName);
+end;
+
+procedure TAbSymlinkFollowProcessor.onAddItem(const aItem: TAbArchiveItem);
+var
+  diskFileName: String;
+begin
+  diskFileName:= aItem.DiskFileName;
+
+  // Wcx has expanded the regular directories, but not the directories in Symlinks
+  // when _symlinkDirLevel=0
+  //   only Symlinks point to Directories need to be processed
+  // otherwise
+  //   both Symlinks and Regular Directories need to be processed
+  if _symlinkDirLevel = 0 then
+    if ReadSymLink(diskFileName) = EmptyStr then
+      Exit;
+  if NOT mbDirectoryExists(diskFileName) then
+    Exit;
+
+  Inc( _symlinkDirLevel );
+  self.addDirectory( mbReadAllLinks(diskFileName), aItem.FileName );
+  Dec( _symlinkDirLevel );
+end;
+
+procedure TAbSymlinkFollowProcessor.addDirectory(
+  diskPath: String; const archivePath: String);
+var
+  sr: TSearchRec;
+  oldBaseDirectory: String;
+  currentDiskPath: String;
+  currentArchivePath: String;
+begin
+  diskPath:= IncludeTrailingPathDelimiter(diskPath);
+  if FindFirst(diskPath+'*', faAnyFile, sr) <> 0 then
+    Exit;
+
+  oldBaseDirectory:= _abArc.BaseDirectory;
+  _abArc.BaseDirectory:= diskPath;
+
+  repeat
+    if (sr.Name = '.') or (sr.Name = '..') then
+      Continue;
+    currentDiskPath:= diskPath + sr.Name;
+    _abArc.AddEntry( currentDiskPath, archivePath );
+    if (sr.Attr and faDirectory) <> 0 then begin
+      currentArchivePath:= archivePath + IncludeTrailingPathDelimiter(sr.Name);
+      self.addDirectory( currentDiskPath, currentArchivePath );
+    end;
+  until FindNext(sr) <> 0;
+
+  _abArc.BaseDirectory:= oldBaseDirectory;
+
+  FindClose(sr);
 end;
 
 end.
