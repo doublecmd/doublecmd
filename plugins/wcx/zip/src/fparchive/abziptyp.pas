@@ -512,6 +512,7 @@ type
 { TAbZipArchive interface ================================================== }
   TAbZipArchive = class( TAbArchive )
   protected {private}
+    FSymlinkProcessor: TAbSymlinkProcessor;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
     FInfo                   : TAbZipDirectoryFileFooter;
@@ -571,14 +572,18 @@ type
       var ImageName: string; var Abort: Boolean);
 
   public {methods}
+    constructor Create(const FileName: string; Mode: Word); override;
     constructor CreateFromStream( aStream : TStream; const ArchiveName : string );
       override;
     destructor Destroy;
       override;
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem; override;
+    procedure Add(aItem: TAbArchiveItem); override;
 
   public {properties}
+    property SymlinkProcessor : TAbSymlinkProcessor
+      read FSymlinkProcessor;
     property CompressionMethodToUse : TAbZipSupportedMethod
       read FCompressionMethodToUse
       write FCompressionMethodToUse;
@@ -1982,6 +1987,7 @@ destructor TAbZipArchive.Destroy;
 begin
   FInfo.Free;
   FInfo := nil;
+  FreeAndNil(FSymlinkProcessor);
   inherited Destroy;
   FSuspiciousLinks.Free;
 end;
@@ -2002,15 +2008,19 @@ begin
     MakeFullNames(SourceFileName, ArchiveDirectory,
                   FullSourceFileName, FullArchiveFileName);
 
-    if ReadSymLink(FullSourceFileName)<>EmptyStr then
-      FullArchiveFileName:= ExcludeTrailingPathDelimiter(FullArchiveFileName)
-    else if mbDirectoryExists(FullSourceFileName) then
-      FullArchiveFileName := IncludeTrailingPathDelimiter(FullArchiveFileName);
+    FSymlinkProcessor.adjustFileName(FullSourceFileName, FullArchiveFileName);
 
     Result.FileName     := FullArchiveFileName;
     Result.DiskFileName := FullSourceFileName;
   end;
 end;
+
+procedure TAbZipArchive.Add(aItem: TAbArchiveItem);
+begin
+  inherited Add(aItem);
+  FSymlinkProcessor.onAddItem(aItem);
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipArchive.DoExtractHelper(Index : Integer; const NewName : string);
 begin
@@ -2111,6 +2121,13 @@ begin
   if Assigned(FOnRequestImage) then
     FOnRequestImage(Self, ImageNumber, ImageName, Abort);
 end;
+
+constructor TAbZipArchive.Create(const FileName: string; Mode: Word);
+begin
+  inherited Create(FileName, Mode);
+  FSymlinkProcessor:= TAbSymlinkNotFollowProcessor.Create(self);
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipArchive.ExtractItemAt(Index : Integer; const UseName : string);
 begin
@@ -2399,7 +2416,7 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
-            if not AbFileGetAttrEx(CurrItem.DiskFileName, AttrEx, False) then
+            if not FSymlinkProcessor.getAttrEx(CurrItem.DiskFileName, AttrEx) then
               Raise EAbFileNotFound.Create;
 
             {$IFDEF UNIX}

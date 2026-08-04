@@ -295,16 +295,8 @@ procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream;
-  symLink: String;
 begin
-  symLink:= ReadSymLink(Item.DiskFileName);
-  if symLink <> EmptyStr then
-    UncompressedStream := TStringStream.Create(symLink)
-  else if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
-    UncompressedStream := TMemoryStream.Create
-  else
-    UncompressedStream := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
-
+  UncompressedStream := Sender.SymlinkProcessor.getStream(Item);
   try {UncompressedStream}
     DoZipFromStream(Sender, Item, OutStream, UncompressedStream);
   finally {UncompressedStream}
