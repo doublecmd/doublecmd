@@ -48,6 +48,7 @@ object DialogBox: TDialogBox
     ChildSizing.ControlsPerLine = 2
     ClientHeight = 183
     ClientWidth = 415
+    Constraints.MinWidth = 280
     TabOrder = 0
     object lblArchiveFormat: TLabel
       Left = 10
@@ -65,6 +66,7 @@ object DialogBox: TDialogBox
       Width = 166
       ItemHeight = 0
       OnChange = ComboBoxChange
+      Constraints.MinWidth = 130
       Style = csDropDownList
       TabOrder = 0
     end
@@ -122,7 +124,7 @@ object DialogBox: TDialogBox
       Top = 85
       Width = 95
       BorderSpacing.Top = 8
-      Caption = 'Follow Links'
+      Caption = 'Follow Links (pack the target files)'
       TabOrder = 3
     end
     object chkTarAutoHandle: TCheckBox
