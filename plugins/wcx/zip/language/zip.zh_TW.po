@@ -1,0 +1,70 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr "Zip 插件設定"
+
+#: tdialogbox.lblAbout.caption
+msgid "Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving."
+msgstr "Zip 插件支援 PKZIP 相容、TAR、XZ、GZip、Zstandard 以及 BZip2 數據壓縮與封存。"
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr "壓縮"
+
+#: tdialogbox.gbCompression.lblArchiveFormat.caption
+msgid "Archive format:"
+msgstr "封存格式："
+
+#: tdialogbox.gbCompression.lblCompressionMethod.caption
+msgid "Compression method:"
+msgstr "壓縮方法："
+
+#: tdialogbox.gbCompression.lblCompressionLevel.caption
+msgid "Compression level:"
+msgstr "壓縮等級："
+
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr "跟隨符號連結（打包連結指向的目標檔案）"
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr "一步式開啟 *.tar.xyz 封存檔（大型封存檔處理速度較慢）"
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr "取消"
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr "確定"
+
+#: ziplng.rscompressionmethodstore
+msgid "Store"
+msgstr "僅儲存"
+
+#: ziplng.rscompressionmethodoptimal
+msgid "Optimal (2x slower)"
+msgstr "最佳（慢2倍）"
+
+#: ziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "最快"
+
+#: ziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "快"
+
+#: ziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "標準"
+
+#: ziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "最大"
+
+#: ziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "極致"
