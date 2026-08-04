@@ -679,6 +679,18 @@ uses
   DCDateTimeUtils,
   DCConvertEncoding;
 
+type
+
+  { TAbSymlinkNotFollowProcessor }
+
+  TAbSymlinkNotFollowProcessor = class(TAbSymlinkProcessor)
+  public
+    constructor Create(const abArc: TAbArchive); reintroduce;
+    function getStream(const Item: TAbArchiveItem): TStream; override;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); override;
+    procedure onAddItem(const aItem: TAbArchiveItem); override;
+  end;
+
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
@@ -2614,6 +2626,40 @@ function TAbSymlinkProcessor.getAttrEx(
   const aFileName: string; out aAttr: TAbAttrExRec): Boolean;
 begin
   Result:= AbFileGetAttrEx(aFileName, aAttr, followLinks);
+end;
+
+{ TAbSymlinkNotFollowProcessor }
+
+constructor TAbSymlinkNotFollowProcessor.Create(const abArc: TAbArchive);
+begin
+  inherited Create(abArc, False);
+end;
+
+function TAbSymlinkNotFollowProcessor.getStream(const Item: TAbArchiveItem
+  ): TStream;
+var
+  symLink: String;
+begin
+  symLink:= ReadSymLink(Item.DiskFileName);
+  if symLink <> EmptyStr then
+    Result := TStringStream.Create(symLink)
+  else if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
+    Result := TMemoryStream.Create
+  else
+    Result := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+end;
+
+procedure TAbSymlinkNotFollowProcessor.adjustFileName(
+  var sourceFileName: String; var archiveFileName: String);
+begin
+  if ReadSymLink(sourceFileName) <> EmptyStr then
+    archiveFileName:= ExcludeTrailingPathDelimiter(archiveFileName)
+  else if mbDirectoryExists(sourceFileName) then
+    archiveFileName:= IncludeTrailingPathDelimiter(archiveFileName);
+end;
+
+procedure TAbSymlinkNotFollowProcessor.onAddItem(const aItem: TAbArchiveItem);
+begin
 end;
 
 end.
