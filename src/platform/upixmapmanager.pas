@@ -357,6 +357,7 @@ type
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
     function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
+    function GetThemeIcon(const AIconName: String; AIconSize: Integer; AScaleSize: Boolean) : Graphics.TBitmap; overload;
     function GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer) : Graphics.TBitmap; overload;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean = True) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -2707,6 +2708,16 @@ begin
   Result:= GetThemeIcon(ittSystemOrInternal, AIconName, AIconSize);
 end;
 
+function TPixMapManager.GetThemeIcon(const AIconName: String; AIconSize: Integer; AScaleSize: Boolean): Graphics.TBitmap;
+begin
+  FPixmapsLock.Acquire;
+  try
+    Result:= FDCIconTheme.LoadThemeIcon(AIconName, AIconSize, AScaleSize);
+  finally
+    FPixmapsLock.Release;
+  end;
+end;
+
 function TPixMapManager.GetThemeIcon(AThemeType: TIconThemeType; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   ABitmap: Graphics.TBitmap;
@@ -2714,12 +2725,7 @@ begin
   if AThemeType > ittInternal then
     Result:= LoadIconThemeBitmap(AIconName, AIconSize)
   else begin
-    FPixmapsLock.Acquire;
-    try
-      Result:= FDCIconTheme.LoadThemeIcon(AIconName, AIconSize);
-    finally
-      FPixmapsLock.Release;
-    end;
+    Result:= GetThemeIcon(AIconName, AIconSize, True);
   end;
 
   if Assigned(Result) then

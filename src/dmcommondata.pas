@@ -43,7 +43,7 @@ type
     procedure LoadIcons(Images: TImageList; const ANames: array of String);
     procedure LoadImages(Images: TImageList; const ANames: array of String);
   public
-    class function LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
+    class procedure LoadLogo(Form: TCustomForm; Image: TImage);
   end; 
 
 var
@@ -172,10 +172,11 @@ var
 begin
   Images.Clear;
   ASize:= Images.Width;
-  AFactor:= findScaleFactorByFirstForm;
+  AFactor:= findScaleFactorByFirstFormEx;
 
   if (AFactor > 1.0) then
   begin
+    Images.Scaled:= True;
     ASize:= Round(ASize * AFactor);
   end;
 
@@ -183,9 +184,7 @@ begin
 
   for AName in ANames do
   begin
-    // GetThemeIcon takes into account
-    // CanvasScaleFactor, so use original icon size here
-    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, AName, Images.Width);
+    ABitmap:= PixMapManager.GetThemeIcon(AName, ASize, False);
     if (ABitmap = nil) then ABitmap:= TBitmap.Create;
 
     Images.AddMultipleResolutions([ABitmap]);
@@ -228,6 +227,7 @@ begin
     begin
       AResolutions2[I]:= Round(AResolutions2[I] * AFactor);
     end;
+    Images.Scaled:= True;
   end;
 
   Images.RegisterResolutions(AResolutions2);
@@ -251,7 +251,7 @@ begin
   end;
 end;
 
-class function TdmComData.LoadLogo(Form: TWinControl; Image: TImage): TBitmap;
+class procedure TdmComData.LoadLogo(Form: TCustomForm; Image: TImage);
 var
   AIcon: TIcon;
   ASize: Integer;
@@ -262,7 +262,7 @@ begin
   Form.HandleNeeded;
   AFactor:= Form.GetCanvasScaleFactor;
 
-  if SameValue(AFactor, 1.0) then
+  if SameValue(AFactor, 1.0) and (Form.PixelsPerInch = 96) then
   begin
     AIcon:= TIcon.Create;
     try
