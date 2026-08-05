@@ -783,19 +783,10 @@ begin
             {$IFDEF DARWIN}
             bmpBitmap := LoadImageFileBitmap(AIconName, AIconSize);
             {$ELSE}
-            bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, False, clNone, nil);
+            bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, True, clNone, nil);
             {$ENDIF}
             if Assigned(bmpBitmap) then
             begin
-              // MacOS' high resolution screen parameters are different from other operating systems
-              {$IF NOT DEFINED(DARWIN)}
-              // Shrink big bitmaps before putting them into PixmapManager,
-              // to speed up later drawing.
-              if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
-              begin
-                bmpBitmap := StretchBitmap(bmpBitmap, AIconSize, clBlack, True);
-              end;
-              {$ENDIF}
               Result := FPixmapList.Add(bmpBitmap);
               FPixmapsFileNames.Add(AIconName, Pointer(Result));
             end;
