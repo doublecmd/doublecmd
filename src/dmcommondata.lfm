@@ -16,17 +16,14 @@ object dmComData: TdmComData
     Top = 24
   end
   object ilEditorImages: TImageList
-    Scaled = True
     Left = 320
     Top = 24
   end
   object ilViewerImages: TImageList
-    Scaled = True
     Left = 224
     Top = 96
   end
   object ilButtons: TImageList
-    Scaled = True
     Left = 224
     Top = 160
   end

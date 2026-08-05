@@ -64,7 +64,7 @@ type
     function CreateParentTheme(const sThemeName: String): TIconTheme; override;
     function LoadThemeWithInherited(AInherits: TStringList): Boolean; override;
   public
-    function LoadThemeIcon(const AIconName: String; AIconSize: Integer): TBitmap;
+    function LoadThemeIcon(const AIconName: String; AIconSize: Integer; AScaleSize: Boolean = True): TBitmap;
   end;
 
 implementation
@@ -366,13 +366,17 @@ begin
   end;
 end;
 
-function TDCIconTheme.LoadThemeIcon(const AIconName: String; AIconSize: Integer): TBitmap;
+function TDCIconTheme.LoadThemeIcon(const AIconName: String; AIconSize: Integer; AScaleSize: Boolean): TBitmap;
 var
   FileName: String;
   bitmapSize: Integer;
   AIconTheme: TDCIconTheme;
 begin
-  bitmapSize:= Round(AIconSize * findScaleFactorByFirstForm());
+  if not AScaleSize then
+    bitmapSize:= AIconSize
+  else begin
+    bitmapSize:= Round(AIconSize * findScaleFactorByFirstForm());
+  end;
   FileName:= FindIcon(AIconName, bitmapSize, 1);
   if FileName = EmptyStr then Exit(nil);
 
