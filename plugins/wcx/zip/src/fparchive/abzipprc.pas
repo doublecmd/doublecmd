@@ -58,7 +58,6 @@ uses
   AbZipxPrc,
   DCcrc32,
   DCClassesUtf8,
-  DCOSUtils,
   DCDateTimeUtils;
 
 

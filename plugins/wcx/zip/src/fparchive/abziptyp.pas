@@ -2700,7 +2700,7 @@ end;
 procedure TAbSymlinkNotFollowProcessor.adjustFileName(
   var sourceFileName: String; var archiveFileName: String);
 begin
-  if ReadSymLink(sourceFileName) <> EmptyStr then
+  if AbIsSymlink(sourceFileName) then
     archiveFileName:= ExcludeTrailingPathDelimiter(archiveFileName)
   else if mbDirectoryExists(sourceFileName) then
     archiveFileName:= IncludeTrailingPathDelimiter(archiveFileName);
@@ -2744,7 +2744,7 @@ begin
   // otherwise
   //   both Symlinks and Regular Directories need to be processed
   if _symlinkDirLevel = 0 then
-    if ReadSymLink(diskFileName) = EmptyStr then
+    if NOT AbIsSymlink(diskFileName) then
       Exit;
   if NOT mbDirectoryExists(diskFileName) then
     Exit;
