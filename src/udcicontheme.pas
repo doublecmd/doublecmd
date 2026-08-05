@@ -325,11 +325,6 @@ begin
   end;
 end;
 
-function TDCIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
-begin
-  Result:= TDCIconTheme.Create(sThemeName, FBaseDirListAtCreate);
-end;
-
 function TDCIconTheme.LoadIconFromFile(const FileName: String; ASize: Integer): TBitmap;
 begin
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
@@ -340,6 +335,11 @@ begin
       Result:= StretchBitmap(Result, ASize, clNone, True);
     end;
   end;
+end;
+
+function TDCIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
+begin
+  Result:= TDCIconTheme.Create(sThemeName, FBaseDirListAtCreate);
 end;
 
 function TDCIconTheme.LoadThemeWithInherited(AInherits: TStringList): Boolean;
