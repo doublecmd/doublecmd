@@ -48,7 +48,7 @@ uses
   Classes, SysUtils,
   Graphics, ImgList, Controls, ExtCtrls, Buttons, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils, FPImage,
-  LCLVersion, uVectorImage, uMultiArc, uFileSource, WfxPlugin
+  LCLVersion, uVectorImage, uMultiArc, uFileSource, WfxPlugin, uDCIconTheme
   {$IF DEFINED(MSWINDOWS)}
   , ShlObj
   {$ELSEIF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -148,7 +148,7 @@ type
        Maps theme icon name to index of bitmap (in FPixmapList) for this icon.
     }
     FThemePixmapsFileNames: TStringHashListUtf8;
-    FDCIconTheme: TIconTheme;
+    FDCIconTheme: TDCIconTheme;
     {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
     type
       TPtrIntMap = specialize TFPGMap<PtrInt, PtrInt>;
@@ -391,6 +391,9 @@ procedure AssignRetinaBitmapForControl(
   const imageControl: TCustomImage;
   const imageSize: Integer;
   bitmap: Graphics.TBitmap);
+
+function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 
 implementation
 
@@ -844,7 +847,7 @@ begin
     AddString(DirList, IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps');
   end;
   AddString(DirList, ExcludeTrailingPathDelimiter(gpPixmapPath));
-  FDCIconTheme := TIconTheme.Create(gIconTheme, DirList, DC_THEME_NAME);
+  FDCIconTheme := TDCIconTheme.Create(gIconTheme, DirList, DC_THEME_NAME);
 end;
 
 procedure TPixMapManager.DestroyIconTheme;
@@ -1359,7 +1362,7 @@ begin
   if Length(sIconFileName) = 0 then Exit(-1);
   bmpBitmap := gdk_pixbuf_new_from_file_at_size(PChar(sIconFileName), AIconSize, AIconSize, nil);
 {$ELSE}
-  bmpBitmap := LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+  bmpBitmap := FDCIconTheme.LoadThemeIcon(AIconName, AIconSize);
 {$ENDIF}
   if (bmpBitmap = nil) then
     Result := -1
@@ -1413,7 +1416,7 @@ begin
   end;
   if not Assigned(Result) then
 {$ENDIF}
-    Result:= LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+    Result:= FDCIconTheme.LoadThemeIcon(AIconName, AIconSize);
 end;
 
 function TPixMapManager.GetPluginIcon(const AIconName: String; ADefaultIcon: PtrInt): PtrInt;
@@ -2722,7 +2725,7 @@ begin
   else begin
     FPixmapsLock.Acquire;
     try
-      Result:= LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+      Result:= FDCIconTheme.LoadThemeIcon(AIconName, AIconSize);
     finally
       FPixmapsLock.Release;
     end;
