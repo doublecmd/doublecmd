@@ -227,6 +227,8 @@ begin
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
+var
+  percent: Double;
 begin
   FStatisticsLock.Acquire;
   try
@@ -244,8 +246,14 @@ begin
                                 BytesPerSecond);
 
         // Update overall progress.
-        if TotalBytes <> 0 then
-          UpdateProgress(Abs(DoneBytes / TotalBytes));
+        if TotalBytes <> 0 then begin
+          percent:= Abs(DoneBytes / TotalBytes);
+          if percent > 0.99 then begin
+            if DoneBytes < TotalBytes then
+              percent:= 0.99;
+          end;
+          UpdateProgress(percent);
+        end;
       end;
     end;
 

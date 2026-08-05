@@ -111,6 +111,15 @@ begin
       if Size > 0 then
       begin
         DoneBytes := DoneBytes + Size;
+
+        {
+          the calculation in FillAndCount() does not necessarily match that in plugins,
+          particularly regarding the handling of symlinks, so this check has been added
+          to prevent reporting an erroneous progress exceeding 100%
+        }
+        if DoneBytes > TotalBytes then
+          TotalBytes:= DoneBytes + 1;
+
         if TotalFiles = 1 then begin
           CurrentFileDoneBytes := DoneBytes;
           CurrentFileTotalBytes := TotalBytes;

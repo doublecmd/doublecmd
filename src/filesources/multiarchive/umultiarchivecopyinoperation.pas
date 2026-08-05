@@ -401,6 +401,13 @@ begin
     ArchiveSize := mbFileSize(FMultiArchiveFileSource.ArchiveFileName);
     if ArchiveSize > DoneBytes then
       DoneBytes := ArchiveSize;
+    {
+      the calculation in FillAndCount() does not match the size of the generated archive file,
+      especially when accounting for symlink handling, so this check has been added
+      to prevent reporting an erroneous progress exceeding 100%
+    }
+    if DoneBytes > TotalBytes then
+      TotalBytes:= DoneBytes + 1;
 
     UpdateStatistics(FStatistics);
   end;
