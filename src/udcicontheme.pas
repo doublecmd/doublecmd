@@ -61,6 +61,7 @@ type
     function LoadIconFromFile(const FileName: String; ASize: Integer): TBitmap;
     function LoadIconFromArchive(const FileName: String; ASize: Integer): TBitmap;
   protected
+    function CreateParentTheme(const sThemeName: String): TIconTheme; override;
     function LoadThemeWithInherited(AInherits: TStringList): Boolean; override;
   public
     function LoadThemeIcon(const AIconName: String; AIconSize: Integer): TBitmap;
@@ -324,6 +325,11 @@ begin
   end;
 end;
 
+function TDCIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
+begin
+  Result:= TDCIconTheme.Create(sThemeName, FBaseDirListAtCreate);
+end;
+
 function TDCIconTheme.LoadIconFromFile(const FileName: String; ASize: Integer): TBitmap;
 begin
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
@@ -342,18 +348,21 @@ var
   FileName: String;
 begin
   Result:= inherited LoadThemeWithInherited(AInherits);
-  FBasePath:= FBaseDirList[FCacheIndex] + PathDelim + FTheme + PathDelim;
-  FileName:= FBasePath + 'icon-theme.zip';
-  if mbFileExists(FileName) then
-  try
-    FArchive:= TZipArchive.Create(FileName);
-    DCDebug('Loading theme icons from zip');
-    for I:= 0 to FDirectories.Count - 1 do
-    begin
-      FDirectories.Items[I]^.FileListCache[FCacheIndex]:= FArchive.GetIcons(FDirectories[I]);
+  if Result then
+  begin
+    FBasePath:= FBaseDirList[FCacheIndex] + PathDelim + FTheme + PathDelim;
+    FileName:= FBasePath + 'icon-theme.zip';
+    if mbFileExists(FileName) then
+    try
+      FArchive:= TZipArchive.Create(FileName);
+      DCDebug('Loading theme icons from zip');
+      for I:= 0 to FDirectories.Count - 1 do
+      begin
+        FDirectories.Items[I]^.FileListCache[FCacheIndex]:= FArchive.GetIcons(FDirectories[I]);
+      end;
+    except
+      DCDebug('ERROR: Invalid archive - ', FileName);
     end;
-  except
-    DCDebug('ERROR: Invalid archive - ', FileName);
   end;
 end;
 
