@@ -1625,7 +1625,13 @@ var
         begin
           if FileIsReadOnly(Attrs) then
             FileSetReadOnlyUAC(AbsoluteTargetFileName, False);
-          if FPS_ISLNK(Attrs) or (FMode = fsohmMove) then
+          // Delete the existing target first when it cannot be overwritten in
+          // place: an existing link, a move, or — crucially — when the source
+          // is an (unfollowed) symlink. A symlink source is recreated via
+          // CreateSymbolicLink, which fails with "file exists" if the target
+          // path is still occupied by the old regular file.
+          if FPS_ISLNK(Attrs) or (FMode = fsohmMove) or
+             (SourceFile.AttributesProperty.IsLink and (aNode.SubNodesCount = 0)) then
           begin
             DeleteFileUAC(AbsoluteTargetFileName);
             Exit(fsoterDeleted);
