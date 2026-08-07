@@ -135,6 +135,18 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Caption = 'Show locked tabs &with an asterisk *'
       TabOrder = 11
     end
+    object cbTabsUnavailableMarker: TCheckBox
+      AnchorSideLeft.Control = cbTabsAlwaysVisible
+      AnchorSideTop.Control = cbTabsLockedAsterisk
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 19
+      Top = 281
+      Width = 300
+      BorderSpacing.Top = 6
+      Caption = 'Mark unavailable path in tab title with &a question mark ?'
+      TabOrder = 12
+    end
     object cbTabsActivateOnClick: TCheckBox
       AnchorSideLeft.Control = cbTabsAlwaysVisible
       AnchorSideTop.Control = cbKeepRenamedNameBackToNormal
@@ -145,7 +157,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Width = 302
       BorderSpacing.Top = 6
       Caption = 'Activate target &panel when clicking on one of its Tabs'
-      TabOrder = 13
+      TabOrder = 14
     end
     object cbTabsShowCloseButton: TCheckBox
       AnchorSideLeft.Control = cbTabsAlwaysVisible
@@ -177,7 +189,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
         'Bottom'
       )
       Style = csDropDownList
-      TabOrder = 15
+      TabOrder = 16
     end
     object cbTabsOpenNearCurrent: TCheckBox
       AnchorSideLeft.Control = cbTabsAlwaysVisible
@@ -213,7 +225,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Width = 203
       BorderSpacing.Top = 6
       Caption = 'Always show drive letter in tab title'
-      TabOrder = 14
+      TabOrder = 15
       Visible = False
     end
     object cbTabsReuseTabWhenPossible: TCheckBox
@@ -242,15 +254,15 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     end
     object cbKeepRenamedNameBackToNormal: TCheckBox
       AnchorSideLeft.Control = cbTabsAlwaysVisible
-      AnchorSideTop.Control = cbTabsLockedAsterisk
+      AnchorSideTop.Control = cbTabsUnavailableMarker
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 19
-      Top = 281
+      Top = 306
       Width = 246
       BorderSpacing.Top = 6
       Caption = 'Keep renamed name when unlocking a tab'
-      TabOrder = 12
+      TabOrder = 13
     end
     object lblTabsActionOnDoubleClick: TLabel
       AnchorSideLeft.Control = cbTabsAlwaysVisible
@@ -287,7 +299,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
         'Tabs popup menu'
       )
       Style = csDropDownList
-      TabOrder = 16
+      TabOrder = 17
     end
   end
 end

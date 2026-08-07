@@ -71,7 +71,8 @@ type
                          tb_close_on_doubleclick, tb_show_drive_letter,
                          tb_reusing_tab_when_possible,
                          tb_confirm_close_locked_tab,
-                         tb_keep_renamed_when_back_normal);
+                         tb_keep_renamed_when_back_normal,
+                         tb_show_unavailable_marker);
 
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
@@ -2126,7 +2127,8 @@ begin
                      tb_activate_panel_on_click,
                      tb_close_on_doubleclick,
                      tb_reusing_tab_when_possible,
-                     tb_confirm_close_locked_tab];
+                     tb_confirm_close_locked_tab,
+                     tb_show_unavailable_marker];
   gDirTabActionOnDoubleClick := tadc_FavoriteTabs;
   gDirTabLimit := 32;
   gDirTabPosition := tbpos_top;
