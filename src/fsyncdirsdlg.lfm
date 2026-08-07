@@ -197,7 +197,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Width = 82
         Caption = 'asymmetric'
         Enabled = False
+        Hint = 'One-way mirror: right panel becomes an exact copy of the left. Right-only files are deleted; right-newer files are overwritten by left.'
         ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 0
       end
       object chkSubDirs: TCheckBox
