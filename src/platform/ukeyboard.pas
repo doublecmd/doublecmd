@@ -194,7 +194,9 @@ type
   end;
 
 const
-  ModifiersMap: array [0..4] of TModifiersMap =
+  MAP_HIGH = {$IF DEFINED(DARWIN)}4{$ELSE}3{$ENDIF};
+
+  ModifiersMap: array [0..MAP_HIGH] of TModifiersMap =
    (
      {$IFDEF DARWIN}
      (Shift: ssAltGr; Shortcut: scAltGr; Text: mkcAltGr),
