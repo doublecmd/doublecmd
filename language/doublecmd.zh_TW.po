@@ -7007,12 +7007,12 @@ msgstr "顯示兩個磁碟按鈕列 (&X)"
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"
-msgstr ""
+msgstr "顯示中間工具列"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
 msgid " Screen layout "
-msgstr " 畫面佈置 "
+msgstr " 螢幕佈局 "
 
 #: tfrmoptionslog.btnrelativelogfile.hint
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
@@ -8352,73 +8352,73 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr ""
+msgstr "雙擊檔案面板頂部的工具列時"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "透過選單和內部命令時"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
-msgstr ""
+msgstr "雙擊進行選擇並退出"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "透過選單和內部命令時"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr ""
+msgstr "雙擊分頁時（如果已配置）"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr ""
+msgstr "使用鍵盤快捷鍵時，退出視窗並返回當前選擇"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
-msgstr ""
+msgstr "單擊進行選擇並退出"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr ""
+msgstr "用於命令列歷史記錄"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr ""
+msgstr "用於資料夾歷史記錄"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr ""
+msgstr "用於查看歷史記錄（活動檢視的已存取路徑）"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
-msgstr ""
+msgstr "與選擇相關的行為:"
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr ""
+msgstr "樹形檢視選單選項:"
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
-msgstr ""
+msgstr "使用場景:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr ""
+msgstr "*注意：關於區分大小寫、重音符號等選項，會針對每個上下文單獨保存，並在不同的使用場景和會話之間進行恢復。"
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
-msgstr ""
+msgstr "常用資料夾清單:"
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
-msgstr ""
+msgstr "「我的最愛」:"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr ""
+msgstr "歷史記錄:"
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
@@ -8427,75 +8427,75 @@ msgstr "..."
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr ""
+msgstr "使用並顯示用於選擇項目的快速鍵"
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
-msgstr ""
+msgstr "字型"
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
 msgid "Layout and colors options:"
-msgstr ""
+msgstr "顏色選項:"
 
 #: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
 msgid "Background color:"
-msgstr ""
+msgstr "背景顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr "指標行背景顏色:"
+msgstr "背景顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
-msgstr ""
+msgstr "找到文字顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
 msgid "Found text under cursor:"
-msgstr ""
+msgstr "找到文字顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
 msgid "Normal text color:"
-msgstr ""
+msgstr "普通文字顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
 msgid "Normal text under cursor:"
-msgstr ""
+msgstr "普通文字顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.lblpreview.caption
 msgid "Tree View Menu Preview:"
-msgstr ""
+msgstr "預覽:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
 msgid "Secondary text color:"
-msgstr ""
+msgstr "輔助文字顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
 msgid "Secondary text under cursor:"
-msgstr ""
+msgstr "輔助文字顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
 msgid "Shortcut color:"
-msgstr ""
+msgstr "快捷鍵顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
 msgid "Shortcut under cursor:"
-msgstr ""
+msgstr "快捷鍵顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
-msgstr ""
+msgstr "無法選擇文字的顏色:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
 msgid "Unselectable under cursor:"
-msgstr ""
+msgstr "無法選擇文字的顏色 (遊標所在行):"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr ""
+msgstr "變更左側的顏色，您將在此處看到預覽效果。"
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "選項"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
@@ -13792,7 +13792,7 @@ msgstr "語言"
 #: ulng.rsoptionseditorlayout
 msgctxt "ulng.rsoptionseditorlayout"
 msgid "Layout"
-msgstr "佈置"
+msgstr "佈局"
 
 #: ulng.rsoptionseditorlog
 msgctxt "ulng.rsoptionseditorlog"
