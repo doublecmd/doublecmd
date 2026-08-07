@@ -575,10 +575,12 @@ begin
         // Restore attributes
         mbFileSetAttr(TargetDir, Header.FileAttr);
 
-        Time := DateTimeToFileTimeEx(Header.DateTime);
-
-        // Set creation, modification time
-        mbFileSetTimeEx(TargetDir, Time, Time, Time);
+        if (Header.DateTime <= SysUtils.MaxDateTime) then
+        begin
+          Time := DateTimeToFileTimeEx(Header.DateTime);
+          // Set creation, modification time
+          mbFileSetTimeEx(TargetDir, Time, Time, Time);
+        end;
 
       except
         Result := False;

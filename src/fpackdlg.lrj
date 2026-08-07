@@ -10,5 +10,6 @@
 {"hash":149668741,"name":"tfrmpackdlg.cbcreatesfx.caption","sourcebytes":[67,114,101,97,116,101,32,115,101,108,102,32,101,38,120,116,114,97,99,116,105,110,103,32,97,114,99,104,105,118,101],"value":"Create self e&xtracting archive"},
 {"hash":77915316,"name":"tfrmpackdlg.cbencrypt.caption","sourcebytes":[69,110,99,114,38,121,112,116],"value":"Encr&ypt"},
 {"hash":235944836,"name":"tfrmpackdlg.cbputintarfirst.caption","sourcebytes":[80,38,117,116,32,105,110,32,116,104,101,32,84,65,82,32,97,114,99,104,105,118,101,32,102,105,114,115,116],"value":"P&ut in the TAR archive first"},
-{"hash":150077090,"name":"tfrmpackdlg.cbcreateseparatearchives.caption","sourcebytes":[67,38,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,97,114,99,104,105,118,101,115,44,32,111,110,101,32,112,101,114,32,115,101,108,101,99,116,101,100,32,102,105,108,101,47,100,105,114],"value":"C&reate separate archives, one per selected file/dir"}
+{"hash":150077090,"name":"tfrmpackdlg.cbcreateseparatearchives.caption","sourcebytes":[67,38,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,97,114,99,104,105,118,101,115,44,32,111,110,101,32,112,101,114,32,115,101,108,101,99,116,101,100,32,102,105,108,101,47,100,105,114],"value":"C&reate separate archives, one per selected file/dir"},
+{"hash":258855813,"name":"tfrmpackdlg.cbsetnewestfiletime.caption","sourcebytes":[83,101,116,32,97,114,99,104,105,118,101,32,116,105,109,101,32,116,111,32,110,101,119,101,115,116,32,102,105,108,101,32,116,105,109,101],"value":"Set archive time to newest file time"}
 ]}
