@@ -195,12 +195,20 @@ type
 
 const
   ModifiersMap: array [0..4] of TModifiersMap =
-   ((Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
-    (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
-    (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
-    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta),
-    (Shift: ssAltGr; Shortcut: scAltGr; Text: mkcAltGr)
-    );
+   (
+     {$IFDEF DARWIN}
+     (Shift: ssAltGr; Shortcut: scAltGr; Text: mkcAltGr),
+     (Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
+     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
+     (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
+     (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta)
+     {$ELSE}
+     (Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
+     (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta),
+     (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
+     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt)
+     {$ENDIF}
+   );
 
 {$IF DEFINED(X11)}
 var
