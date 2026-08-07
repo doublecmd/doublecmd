@@ -1253,9 +1253,6 @@ var
 begin
   if IsLoadingFileList then Exit;
 
-  FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
-  if not AtFileList then Exit;
-
   FStartDrag := False;
   FRangeSelecting := False;
 
@@ -1273,6 +1270,7 @@ begin
     // A single click only opens folders. For files, a double click is needed.
     if (gMouseSingleClickStart and 2 <> 0) then
     begin
+      FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
       if IsFileIndexInRange(FileIndex) then
       begin
         with FFiles[FileIndex].FSFile do
