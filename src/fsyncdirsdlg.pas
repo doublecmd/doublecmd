@@ -236,6 +236,7 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
+  uOSForms,
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
@@ -289,13 +290,22 @@ type
   end;
 
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
+var
+  Dlg: TfrmSyncDirsDlg;
 begin
   if not Assigned(FileView1) then
     raise Exception.Create('ShowSyncDirsDlg: FileView1=nil');
   if not Assigned(FileView2) then
     raise Exception.Create('ShowSyncDirsDlg: FileView2=nil');
-  with TfrmSyncDirsDlg.Create(Application, FileView1, FileView2) do
-    Show;
+  Dlg := TfrmSyncDirsDlg.Create(Application, FileView1, FileView2);
+  { Center on the same monitor as the main DC window. }
+  if Assigned(frmMain) then
+  with GetFrmMainMonitor do
+    Dlg.SetBounds(
+      Left + (Width  - Dlg.Width)  div 2,
+      Top  + (Height - Dlg.Height) div 2,
+      Dlg.Width, Dlg.Height);
+  Dlg.Show;
 end;
 
 { TDrawGrid }
@@ -465,7 +475,12 @@ begin
             end;
             if R.FAction = srsUnknown then
             begin
-              R.FAction := R.FState;
+              // Mirror asymmetric logic from TFileSyncRec.Recalc:
+              // in asymmetric mode srsNotEq means left wins → srsCopyRight.
+              if chkAsymmetric.Checked and (R.FState = srsNotEq) then
+                R.FAction := srsCopyRight
+              else
+                R.FAction := R.FState;
             end;
           except
             on E: Exception do
@@ -543,6 +558,38 @@ end;
 procedure TFileSyncRec.UpdateState(ignoreDate: Boolean);
 var
   FileTimeDiff: Integer;
+
+  function AreEquivalentLinks: Boolean;
+  var
+    LeftTarget, RightTarget: String;
+    LeftResolved, RightResolved: String;
+  begin
+    Result := False;
+
+    if not (FFileL.IsLink and FFileR.IsLink) then Exit;
+
+    LeftTarget := FFileL.LinkProperty.LinkTo;
+    RightTarget := FFileR.LinkProperty.LinkTo;
+
+    // Fast path: identical link text means semantically identical link.
+    if LeftTarget = RightTarget then Exit(True);
+
+    if (LeftTarget = EmptyStr) or (RightTarget = EmptyStr) then
+    begin
+      // One side doesn't expose the link target (e.g. WFX/SFTP plugin).
+      // SFTP file size for a symlink equals the byte length of its target
+      // string, so equal sizes strongly imply equal targets. This is a
+      // best-effort check for the copy-then-verify use case.
+      Result := FFileL.Size = FFileR.Size;
+      Exit;
+    end;
+
+    // Also accept different textual forms that resolve to the same target.
+    LeftResolved := GetAbsoluteFileName(FFileL.Path, LeftTarget);
+    RightResolved := GetAbsoluteFileName(FFileR.Path, RightTarget);
+
+    Result := mbCompareFileNames(LeftResolved, RightResolved);
+  end;
 begin
   FState := srsNotEq;
   if Assigned(FFileR) and not Assigned(FFileL) then
@@ -552,7 +599,8 @@ begin
     FState := srsCopyRight
   else begin
     FileTimeDiff := FileTimeCompare(FFileL.ModificationTime, FFileR.ModificationTime, FForm.FNtfsShift);
-    if ((FileTimeDiff = 0) or ignoreDate) and (FFileL.Size = FFileR.Size) then
+    if (((FileTimeDiff = 0) or ignoreDate) and (FFileL.Size = FFileR.Size))
+       or AreEquivalentLinks then
       FState := srsEqual
     else
     if not ignoreDate then
@@ -562,11 +610,18 @@ begin
       if FileTimeDiff < 0 then
         FState := srsCopyLeft;
   end;
-  if FForm.chkAsymmetric.Checked and (FState = srsCopyLeft) then
-    FAction := srsDoNothing
-  else begin
+  if FForm.chkAsymmetric.Checked then
+  begin
+    // In asymmetric/mirror mode left is unconditionally authoritative.
+    // srsCopyLeft means right is newer — left still wins (overwrite right).
+    // srsNotEq means ambiguous diff (e.g. content check) — left still wins.
+    if FState in [srsCopyLeft, srsNotEq] then
+      FAction := srsCopyRight
+    else
+      FAction := FState;
+  end
+  else
     FAction := FState;
-  end;
 end;
 
 { TfrmSyncDirsDlg }
