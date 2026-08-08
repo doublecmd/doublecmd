@@ -2314,7 +2314,7 @@ end;
 function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
                                       IconsMode: TShowIconsMode): PtrInt;
 var
-  Ext: String;
+  Ext: String = '';
 {$IFDEF MSWINDOWS}
   sFileName: String;
   FileInfo: TSHFileInfoW;
@@ -2411,7 +2411,16 @@ begin
     end
     else // not directory
     begin
-      if (Extension = '') then
+      if IsLink then begin
+        Ext := ExtractOnlyFileExt( mbReadAllLinks(FullPath) );
+        if Ext = EmptyStr then
+          Ext := ExtractOnlyFileExt( LinkProperty.LinkTo );
+      end;
+      if Ext = EmptyStr then
+        Ext := Extension;
+      Ext := UTF8LowerCase(Ext);
+
+      if (Ext = '') then
       begin
         {$IF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
         if IconsMode = sim_all_and_exe then
@@ -2437,8 +2446,6 @@ begin
         {$ENDIF}
         Exit(FiDefaultIconID);
       end;
-
-      Ext := UTF8LowerCase(Extension);
 
       {$IF DEFINED(MSWINDOWS)}
       if (IconsMode > sim_standart) and (Win32MajorVersion >= 10) then
