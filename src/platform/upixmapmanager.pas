@@ -1999,7 +1999,11 @@ begin
 {$ELSE}
     // Make a new copy.
     Result := Graphics.TBitmap.Create;
+  {$IF DEFINED(LCLGTK2)}
+    Result.LoadFromRawImage(TBitmap(PPixmap).RawImage, False);
+  {$ELSE}
     Result.Assign(Graphics.TBitmap(PPixmap));
+  {$ENDIF}
 {$ENDIF}
   end
   else
