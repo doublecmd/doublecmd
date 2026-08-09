@@ -314,6 +314,7 @@ procedure InitializeVersionInfo;
 {$IF DEFINED(MSWINDOWS)}
 const
   PROCESSOR_ARCHITECTURE_AMD64 = 9;
+  PROCESSOR_ARCHITECTURE_ARM64 = 12;
   CURRENT_VERSION = 'SOFTWARE\Microsoft\Windows NT\CurrentVersion';
 var
   si: SYSTEM_INFO;
@@ -460,6 +461,8 @@ begin
 
       if si.wProcessorArchitecture in [PROCESSOR_ARCHITECTURE_AMD64] then
         OSVersion := OSVersion + ' x86_64'
+      else if si.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_ARM64 then
+        OSVersion := OSVersion + ' aarch64'
       else
         OSVersion := OSVersion + ' i386';
     end
