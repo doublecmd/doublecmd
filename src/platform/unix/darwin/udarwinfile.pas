@@ -135,6 +135,8 @@ end;
 
 class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
   function hasUniqueIcon( const path: String ): Boolean;
+  const
+    ICON_FLAGS = kHasCustomIcon or kIsAlias or kHasBundle;
   var
     pathRef: FSRef;
     catalogInfo: FSCatalogInfo;
@@ -143,7 +145,7 @@ class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
     FSPathMakeRef( pchar(path), pathRef, nil );
     FSGetCatalogInfo( pathRef, kFSCatInfoFinderInfo, @catalogInfo, nil, nil, nil );
     pFinderInfo:= FileInfoPtr( @catalogInfo.finderInfo );
-    Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
+    Result:= (pFinderInfo^.finderFlags and ICON_FLAGS) <> 0;
   end;
 
   function hasSpecialFolderExt( const path: String ): Boolean;
