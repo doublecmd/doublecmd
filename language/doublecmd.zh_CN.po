@@ -1427,7 +1427,7 @@ msgstr "大小："
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
-msgstr "符号链接："
+msgstr "链接指向："
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
