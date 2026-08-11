@@ -166,7 +166,11 @@ uses
   uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs, uWdxModule,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager, WdxPlugin,
   uFileSourceOperationOptions, uKeyboard, DCStrUtils, uPixMapManager,
-  uFileSourceProperty, DCDateTimeUtils, uTypes;
+  uFileSourceProperty, DCDateTimeUtils, uTypes
+  {$IFDEF DARWIN}
+  , uDarwinFile
+  {$ENDIF}
+  ;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
@@ -549,6 +553,34 @@ var
   Attrs: TFileAttrs;
   AMimeType: String;
   isFileSystem: Boolean;
+
+  procedure setSymlinkRelated(const f: TFile);
+  var
+    isLink: Boolean;
+    target: String;
+  begin
+    isLink := FPS_ISLNK(Attrs);
+    target := EmptyStr;
+    if isLink then begin
+      if isFileSystem then
+        target := ReadSymLink(f.FullPath)
+      else if (Assigned(f.LinkProperty) and f.LinkProperty.IsValid) then
+        target := f.LinkProperty.LinkTo
+      else begin
+        isLink := False;
+        target := EmptyStr;
+      end;
+{$IFDEF DARWIN}
+    end else begin
+      isLink:= TDarwinFileUtil.resolveAlias( f.FullPath, target );
+{$ENDIF}
+    end;
+
+    lblSymlinkStr.Visible := isLink;
+    lblSymlink.Visible := isLink;
+    lblSymlink.Caption := target;
+  end;
+
 begin
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
@@ -684,19 +716,7 @@ begin
       chkRecursive.Visible := IsDirectory;
       DividerBevel4.Visible:= chkRecursive.Visible;
 
-      lblSymlink.Visible := FPS_ISLNK(Attrs);
-      lblSymlinkStr.Visible := lblSymlink.Visible;
-      if lblSymlink.Visible then
-      begin
-        if isFileSystem then
-          lblSymlink.Caption := ReadSymLink(FullPath)
-        else if (Assigned(LinkProperty) and LinkProperty.IsValid) then
-          lblSymlink.Caption := LinkProperty.LinkTo
-        else begin
-          lblSymlink.Visible := False;
-          lblSymlinkStr.Visible := False;
-        end;
-      end;
+      setSymlinkRelated( FFiles[iIndex] );
     end
     else
     begin
