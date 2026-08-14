@@ -4984,7 +4984,7 @@ begin
           begin
             if gTermWindowMode = twmPerTab then
             begin
-              if (gTermSyncModeLeft = 1) and
+              if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
                  Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
                  (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
                 TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -4997,7 +4997,7 @@ begin
           begin
             if gTermWindowMode = twmPerTab then
             begin
-              if (gTermSyncModeRight = 1) and
+              if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
                  Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
                  (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
                 TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -5033,7 +5033,7 @@ begin
     begin
       if gTermWindowMode = twmPerTab then
       begin
-        if (gTermSyncModeLeft = 1) and
+        if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
            Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
            (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
           TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -5046,7 +5046,7 @@ begin
     begin
       if gTermWindowMode = twmPerTab then
       begin
-        if (gTermSyncModeRight = 1) and
+        if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
            Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
            (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
           TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -5696,7 +5696,7 @@ begin
       begin
         Page.PtyDevice.WriteStr(#13);
         Page.TermNeedInit := False;
-        if (gTermSyncModeLeft = 1) and Assigned(Page.FileView) then
+        if (Page.TermSyncMode = 1) and Assigned(Page.FileView) then
           Page.PtyDevice.SetCurrentDir(Page.FileView.CurrentPath);
       end;
     end;
@@ -5707,7 +5707,7 @@ begin
       begin
         Page.PtyDevice.WriteStr(#13);
         Page.TermNeedInit := False;
-        if (gTermSyncModeRight = 1) and Assigned(Page.FileView) then
+        if (Page.TermSyncMode = 1) and Assigned(Page.FileView) then
           Page.PtyDevice.SetCurrentDir(Page.FileView.CurrentPath);
       end;
     end;
@@ -5730,7 +5730,8 @@ begin
     RightPty := ConsRight;
   end;
 
-  if Assigned(LeftPty) and (gTermSyncModeLeft = 2) then
+  if Assigned(LeftPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbLeft.ActivePage) and (TFileViewPage(nbLeft.ActivePage).TermSyncMode = 2)) or
+                            ((gTermWindowMode < twmPerTab) and (gTermSyncModeLeft = 2))) then
   begin
     {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
     Target := fpReadLink('/proc/' + IntToStr(LeftPty.ChildPid) + '/cwd');
@@ -5745,7 +5746,8 @@ begin
     end;
     {$ENDIF}
   end;
-  if Assigned(RightPty) and (gTermSyncModeRight = 2) then
+  if Assigned(RightPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbRight.ActivePage) and (TFileViewPage(nbRight.ActivePage).TermSyncMode = 2)) or
+                             ((gTermWindowMode < twmPerTab) and (gTermSyncModeRight = 2))) then
   begin
     {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
     Target := fpReadLink('/proc/' + IntToStr(RightPty.ChildPid) + '/cwd');
@@ -5787,16 +5789,20 @@ begin
     1: // Panel to Terminal
       begin
         BtnLink.Down := True;
+        BtnDir.Enabled := True;
         BtnDir.Down := False;
       end;
     2: // Terminal to Panel
       begin
         BtnLink.Down := True;
+        BtnDir.Enabled := True;
         BtnDir.Down := True;
       end;
     else // Detached
       begin
         BtnLink.Down := False;
+        BtnDir.Down := False;
+        BtnDir.Enabled := False;
       end;
   end;
 
