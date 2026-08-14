@@ -816,8 +816,6 @@ begin
 
   inherited Create(AOwner);
 
-  Parent:= TWinControl(AOwner);
-
   BorderStyle := bsSingle;
   Color := clBlack;
   DoubleBuffered := True;
@@ -847,6 +845,7 @@ begin
     FAlternateBuffer.Init(FVisibleRows, FColumns);
   end;
 
+  Parent:= TWinControl(AOwner);
   SetBounds(Left, Top, 400, 250);
 end;
 
@@ -1098,19 +1097,24 @@ begin
     AdjustSize;
     if not ((csLoading in ComponentState) or (csDesigning in ComponentState)) then
     begin
-      FMainBuffer.Init(FRows, FColumns);
-      FAlternateBuffer.Init(FVisibleRows, FColumns);
+      if Assigned(FMainBuffer) then
+        FMainBuffer.Init(FRows, FColumns);
+      if Assigned(FAlternateBuffer) then
+        FAlternateBuffer.Init(FVisibleRows, FColumns);
       if Assigned(FPtyDevice) then
         FPtyDevice.SetScreenSize(FColumns, FVisibleRows);
       Invalidate;
     end;
     UpdateScrollRange;
 
-    if (FCaretPos.Y = FBuffer.Rows) or
-       ((FCaretPos.Y - FTopLeft.Y) >= FVisibleRows) then
+    if Assigned(FBuffer) then
     begin
-      ARows:= FCaretPos.Y - FVisibleRows;
-      ModifyScrollBar(SB_Vert, SB_THUMBPOSITION, ARows);
+      if (FCaretPos.Y = FBuffer.Rows) or
+         ((FCaretPos.Y - FTopLeft.Y) >= FVisibleRows) then
+      begin
+        ARows:= FCaretPos.Y - FVisibleRows;
+        ModifyScrollBar(SB_Vert, SB_THUMBPOSITION, ARows);
+      end;
     end;
   end;
 end;
