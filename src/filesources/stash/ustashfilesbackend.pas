@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
-  uFile, uFileSystemFileSource;
+  uFile, uFileSystemFileSource, DCOSUtils;
 
 type
 
@@ -19,6 +19,7 @@ type
   private
     procedure addPath( const path: String ); inline;
     procedure removePath( const path: String ); inline;
+    procedure doAddFromStringArray(const pathsArray: TStringArray);
   public
     constructor Create;
     destructor Destroy; override;
@@ -29,7 +30,12 @@ type
     function count: Integer;
     procedure addPaths( const files: TFiles );
     procedure removePaths( const files: TFiles );
+
     function toFiles: TFiles;
+    function toStringArray: TStringArray;
+
+    procedure addFromStringArray(const pathsArray: TStringArray);
+    procedure setFromStringArray(const pathsArray: TStringArray);
   end;
 
 var
@@ -145,6 +151,49 @@ begin
   end;
 
   Result:= files;
+end;
+
+function TStashFilesBackend.toStringArray: TStringArray;
+begin
+  _lockObject.Acquire;
+  try
+    Result:= _paths.ToStringArray;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+procedure TStashFilesBackend.doAddFromStringArray(const pathsArray: TStringArray);
+var
+  path: String;
+begin
+  for path in pathsArray do begin
+    if path.IsEmpty then
+      continue;
+    if mbFileSystemEntryExists(path) then
+      self.addPath( path );
+  end;
+end;
+
+procedure TStashFilesBackend.addFromStringArray(const pathsArray: TStringArray);
+begin
+  _lockObject.Acquire;
+  try
+    doAddFromStringArray( pathsArray );
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+procedure TStashFilesBackend.setFromStringArray(const pathsArray: TStringArray);
+begin
+  _lockObject.Acquire;
+  try
+    _paths.Clear;
+    doAddFromStringArray( pathsArray );
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 initialization

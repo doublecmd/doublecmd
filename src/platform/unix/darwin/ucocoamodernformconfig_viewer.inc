@@ -783,33 +783,33 @@ begin
     Exit;
 
   poFile:= TTranslator(LRSTranslator).POFile;
-  translateItemConfig( poFile, 'tfrmviewer.actreload.hint', viewerReloadItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actloadprevfile.hint', viewerPrevItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actloadnextfile.hint', viewerNextItemConfig );
-  translateItemConfig( poFile, 'tfrmmain.actshellexecute.hint', viewerOpenWithItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actcopyfile.hint', viewerCopyFileItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actdeletefile.hint', viewerDeleteFileItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actreload.hint', viewerReloadItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actloadprevfile.hint', viewerPrevItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actloadnextfile.hint', viewerNextItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmmain.actshellexecute.hint', viewerOpenWithItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnslideshow.caption', viewerSlideItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actcopyfile.hint', viewerCopyFileItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actmovefile.hint', viewerMoveFileItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actdeletefile.hint', viewerDeleteFileItemConfig );
 
-  translateItemConfig( poFile, 'tfrmviewer.actzoomin.hint', viewerZoomInItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actzoomout.hint', viewerZoomOutItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actrotate270.hint', viewerRotate270ItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actrotate90.hint', viewerRotate90ItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.actmirrorhorz.hint', viewerMirrorItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnresize.hint', viewerResizeItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actzoomin.hint', viewerZoomInItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actzoomout.hint', viewerZoomOutItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actrotate270.hint', viewerRotate270ItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actrotate90.hint', viewerRotate90ItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.actmirrorhorz.hint', viewerMirrorItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnresize.hint', viewerResizeItemConfig );
 
-  translateItemConfig( poFile, 'tfrmviewer.btnprevgifframe.hint', viewerGifPrevItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnnextgifframe.hint', viewerGifNextItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btngiftobmp.hint', viewerGifExportItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnprevgifframe.hint', viewerGifPrevItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnnextgifframe.hint', viewerGifNextItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btngiftobmp.hint', viewerGifExportItemConfig );
 
-  translateItemConfig( poFile, 'tfrmviewer.btnhightlight.hint', viewerHighLightItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btncuttuimage.hint', viewerCropItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnredeye.hint', viewerRedEyesItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.btnpaint.hint', viewerPaintItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.mipen.hint', viewerPenModePenItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.mirect.hint', viewerPenModeRectItemConfig );
-  translateItemConfig( poFile, 'tfrmviewer.miellipse.caption', viewerPenModeEllipseItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnhightlight.hint', viewerHighLightItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btncuttuimage.hint', viewerCropItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnredeye.hint', viewerRedEyesItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.btnpaint.hint', viewerPaintItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.mipen.hint', viewerPenModePenItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.mirect.hint', viewerPenModeRectItemConfig );
+  translateItemConfigWithSameTitleTips( poFile, 'tfrmviewer.miellipse.caption', viewerPenModeEllipseItemConfig );
 end;
 
 procedure addViewerFormShortCutTips;

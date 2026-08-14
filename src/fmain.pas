@@ -76,8 +76,8 @@ type
     actAddPlugin: TAction;
     actAddToStash: TAction;
     actEmptyStash: TAction;
+    actCallPlatformFunctions: TAction;
     actRemoveFromStash: TAction;
-    actOpenStash: TAction;
     actMainFontZoomOut: TAction;
     actMainFontZoomIn: TAction;
     actMapNetworkDrive: TAction;
@@ -835,7 +835,6 @@ type
 
   protected
     procedure CreateWnd; override;
-    procedure DoFirstShow; override;
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 
@@ -852,6 +851,7 @@ type
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
     procedure ForEachView(CallbackFunction: TForEachViewFunction; UserData: Pointer);
+    procedure UpdateAvailabilityForViewsUnderPath(AFileView: TFileView; AUserData: Pointer);
     procedure GetListOpenedPaths(const APaths:TStringList);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
@@ -1268,8 +1268,6 @@ begin
   // Register action list for main form hotkeys.
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
-
-  UpdateActionIcons;
 
   {$IF DEFINED(LCLCOCOA)}
   // 1. TCustomTabControl.GetControlClassDefaultSize() return 200 for Default Width
@@ -3115,6 +3113,9 @@ begin
 
   if Assigned(Application.Icon) then begin
     MainTrayIcon.Icon.Assign(Application.Icon);
+  end
+  else begin
+    MainTrayIcon.Icon.LoadFromResourceName(HInstance, 'MAINICON');
   end;
 
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
@@ -3138,95 +3139,90 @@ end;
 procedure TfrmMain.UpdateActionIcons;
 var
   I: Integer;
+  ASize: Integer;
+  AFactor: Double;
   imgIndex: Integer;
-  iconsDir: String;
-  fileName: String;
-  iconImg: TPicture;
+  ABitmap: TCustomBitmap;
   actionName: TComponentName;
 begin
+  mnuMain.Images := nil;
+  pmTabMenu.Images := nil;
+  actionLst.Images := nil;
+
   if not gIconsInMenus then Exit;
 
-  actionLst.Images := nil;
-  pmTabMenu.Images := nil;
-  mnuMain.Images := nil;
   imgLstActions.Clear;
+  ASize:= gIconsInMenusSize;
+  AFactor:= GetCanvasScaleFactor;
 
-  // Temporarily while feature is not implemented
-  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
-  fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-  if not mbDirectoryExists(iconsDir) then Exit;
+  if (AFactor > 1.0) then
+  begin
+    ASize:= Round(ASize * AFactor);
+  end;
 
-  iconImg := TPicture.Create;
-  try
-    imgLstActions.Width := gIconsInMenusSize;
-    imgLstActions.Height := gIconsInMenusSize;
+  imgLstActions.Scaled := (AFactor > 1.0);
+  imgLstActions.Width := gIconsInMenusSize;
+  imgLstActions.Height := gIconsInMenusSize;
+  imgLstActions.RegisterResolutions([ASize]);
 
-    actionLst.Images := imgLstActions;
-    pmTabMenu.Images := imgLstActions;
-    mnuMain.Images := imgLstActions;
+  mnuMain.Images := imgLstActions;
+  pmTabMenu.Images := imgLstActions;
+  actionLst.Images := imgLstActions;
 
-    for I:= 0 to actionLst.ActionCount - 1 do
+  for I:= 0 to actionLst.ActionCount - 1 do
+  begin
+    actionName := UTF8LowerCase(actionLst.Actions[I].Name);
+    actionName:= 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3);
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, actionName, gIconsInMenusSize);
+
+    if Assigned(ABitmap) then
     begin
-      actionName := UTF8LowerCase(actionLst.Actions[I].Name);
-      fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
-        if imgIndex >= 0 then
-        begin
-           TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
-        end;
-      except
-        // Skip
+      imgIndex := imgLstActions.Add(ABitmap, nil);
+      if imgIndex >= 0 then
+      begin
+        TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
       end;
+      ABitmap.Free;
     end;
-
-  finally
-    FreeAndNil(iconImg);
   end;
 end;
 
 procedure TfrmMain.UpdateHotDirIcons;
 var
   I: Integer;
-  iconsDir: String;
-  fileName: String;
-  iconImg: TPicture;
+  ASize: Integer;
+  AFactor: Double;
+  ABitmap: TCustomBitmap;
 begin
-  pmHotList.Images:=nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
+  pmHotList.Images:= nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
   imgLstDirectoryHotlist.Clear;
 
-  fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-  if not mbDirectoryExists(iconsDir) then Exit;
+  if not gIconsInMenus then Exit;
 
-  iconImg := TPicture.Create;
-  try
-    fileName := IntToStr(gIconsInMenusSize);
-    iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-    iconsDir := iconsDir + 'x' + fileName + PathDelim + 'dirhotlist';
-    imgLstDirectoryHotlist.Width := gIconsInMenusSize;
-    imgLstDirectoryHotlist.Height := gIconsInMenusSize;
-    pmHotList.Images:=imgLstDirectoryHotlist;
+  ASize:= gIconsInMenusSize;
+  AFactor:= GetCanvasScaleFactor;
 
-    for I:=0 to pred(length(ICONINDEXNAME)) do
+  if (AFactor > 1.0) then
+  begin
+    ASize:= Round(ASize * AFactor);
+  end;
+
+  imgLstDirectoryHotlist.Scaled := (AFactor > 1.0);
+  imgLstDirectoryHotlist.Width := gIconsInMenusSize;
+  imgLstDirectoryHotlist.Height := gIconsInMenusSize;
+  imgLstDirectoryHotlist.RegisterResolutions([ASize]);
+
+  pmHotList.Images:= imgLstDirectoryHotlist;
+
+  for I:= 0 to High(ICONINDEXNAME) do
+  begin
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, ICONINDEXNAME[I], gIconsInMenusSize);
+
+    if Assigned(ABitmap) then
     begin
-      filename:=iconsDir+PathDelim+ICONINDEXNAME[I]+'.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgLstDirectoryHotlist.Add(iconImg.Bitmap, nil);
-      except
-        // Skip
-      end;
+      imgLstDirectoryHotlist.Add(ABitmap, nil);
+      ABitmap.Free;
     end;
-
-  finally
-    FreeAndNil(iconImg);
   end;
 end;
 
@@ -4245,29 +4241,20 @@ begin
 end;
 
 procedure TfrmMain.CreateWnd;
+var
+  bFirst: Boolean;
 begin
+  bFirst:= (Application.MainForm.Tag = 0);
+
   // Must be before CreateWnd
-  LoadWindowState;
+  if bFirst then LoadWindowState;
 
   inherited CreateWnd;
 
+  if bFirst then UpdateActionIcons;
+
   // Save real main form handle
   Application.MainForm.Tag:= Handle;
-end;
-
-procedure TfrmMain.DoFirstShow;
-var
-  ANode: TXmlNode;
-begin
-  inherited DoFirstShow;
-
-  // Load window state
-  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-
-  if gConfig.GetValue(ANode, 'Maximized', True) then
-    Self.WindowState := wsMaximized;
-
-  lastWindowState := WindowState;
 end;
 
 procedure TfrmMain.WMMove(var Message: TLMMove);
@@ -4600,57 +4587,71 @@ end;
 
 procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
   const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
-const OccupiedThresholdPercent = 90;
+const
+  OccupiedThresholdPercent = 90;
 var
-  pbxDrive: TPaintBox absolute Sender;
-  FillPercentage: PtrInt;
-  i: Integer;
-  AColor, AColor2: TColor;
+  I: Integer;
   ARect: TRect;
+  AFactor: Double;
+  ABitmap: TBitmap;
+  FillPercentage: PtrInt;
+  AColor, AColor2: TColor;
+  pbxDrive: TPaintBox absolute Sender;
 begin
   FillPercentage:= pbxDrive.Tag;
-  if FillPercentage <> -1 then
-  begin
-    pbxDrive.Canvas.Brush.Color:= clBlack;
-    pbxDrive.Canvas.FrameRect(0, 0, pbxDrive.Width - 1, pbxDrive.Height - 1);
+  if FillPercentage < 0 then Exit;
+
+  ABitmap:= TBitmap.Create;
+  try
+    ARect:= pbxDrive.ClientRect;
+    AFactor:= pbxDrive.GetCanvasScaleFactor;
+    ABitmap.SetSize(Round(ARect.Width * AFactor), Round(ARect.Height * AFactor));
+
+    ABitmap.Canvas.Brush.Color:= clBlack;
+    ABitmap.Canvas.FrameRect(0, 0, ABitmap.Width - 1, ABitmap.Height - 1);
 
     ARect.Top    := 1;
-    ARect.Bottom := pbxDrive.Height - 2;
+    ARect.Bottom := ABitmap.Height - 2;
 
     if not bIndUseGradient then
       begin
         ARect.Left  := 1;
-        ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
+        ARect.Right := 1 + FillPercentage * (ABitmap.Width - 2) div 100;
         if FillPercentage <= OccupiedThresholdPercent then
           AColor := pIndForeColor
-        else
+        else begin
           AColor := pIndThresholdForeColor;
-        pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
+        end;
+        ABitmap.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
         ARect.Left  := ARect.Right + 1;
-        ARect.Right := pbxDrive.Width - 2;
+        ARect.Right := ABitmap.Width - 2;
         AColor := pIndBackColor;
-        pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
+        ABitmap.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
       end
     else
       begin
         ARect.Right := 1;
-        for i := 0 to FillPercentage - 1 do
+        for I := 0 to FillPercentage - 1 do
         begin
-          if i <= OccupiedThresholdPercent then
-            AColor:= RGB((i * 255) div OccupiedThresholdPercent, 255, 0)
-          else
-            AColor:= RGB(255, ((100 - i) * 255) div (100 - OccupiedThresholdPercent), 0);
+          if I <= OccupiedThresholdPercent then
+            AColor:= RGB((I * 255) div OccupiedThresholdPercent, 255, 0)
+          else begin
+            AColor:= RGB(255, ((100 - I) * 255) div (100 - OccupiedThresholdPercent), 0);
+          end;
           AColor2:= DarkColor(AColor, 50);
 
           ARect.Left  := ARect.Right;
-          ARect.Right := 1 + (i + 1) * (pbxDrive.Width - 2) div 100;
+          ARect.Right := 1 + (I + 1) * (ABitmap.Width - 2) div 100;
 
-          pbxDrive.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
+          ABitmap.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
         end;
         ARect.Left  := ARect.Right;
-        ARect.Right := pbxDrive.Width - 2;
-        pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
+        ARect.Right := ABitmap.Width - 2;
+        ABitmap.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
       end;
+    pbxDrive.Canvas.StretchDraw(pbxDrive.ClientRect, ABitmap);
+  finally
+    ABitmap.Free;
   end;
 end;
 
@@ -7377,10 +7378,12 @@ begin
     end;
     if gConfig.GetValue(ANode, 'Maximized', True) then
       lastWindowState:= TWindowState.wsMaximized
-    else
+    else begin
       lastWindowState:= TWindowState.wsNormal;
+    end;
     SetBounds(FRestoredLeft, FRestoredTop, FRestoredWidth, FRestoredHeight);
   end;
+  WindowState:= lastWindowState;
 end;
 
 procedure TfrmMain.SaveWindowState;
@@ -8188,6 +8191,12 @@ begin
   end;
 end;
 
+procedure TfrmMain.UpdateAvailabilityForViewsUnderPath(AFileView: TFileView; AUserData: Pointer);
+begin
+  if IsInPath(PDrive(AUserData)^.Path, AFileView.CurrentPath, True, True) then
+    AFileView.UpdatePathAvailability;
+end;
+
 procedure TfrmMain.OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 begin
   // Update disk panel does not work correctly when main
@@ -8201,7 +8210,13 @@ begin
 
   if (FrameLeft = nil) or (FrameRight = nil) then Exit;
 
-  if (EventType = dweDriveRemoved) and Assigned(ADrive) then
+  if (EventType = dweDriveAdded) and Assigned(ADrive) then
+  begin
+    // Refresh tab markers for views whose path is on the new drive,
+    // e.g. a previously unplugged removable drive became available again.
+    ForEachView(@UpdateAvailabilityForViewsUnderPath, ADrive);
+  end
+  else if (EventType = dweDriveRemoved) and Assigned(ADrive) then
   begin
     if IsInPath(ADrive^.Path, ActiveFrame.CurrentPath, True, True) then
       ActiveFrame.CurrentPath:= GetHomeDir

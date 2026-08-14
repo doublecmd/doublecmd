@@ -103,7 +103,7 @@ install -m 644 plugins/wfx/ftp/ftp.wfx              $DC_INSTALL_DIR/plugins/wfx/
 install -m 644 plugins/wfx/ftp/src/ftp.ico          $DC_INSTALL_DIR/plugins/wfx/ftp/
 install -m 644 plugins/wfx/samba/samba.wfx          $DC_INSTALL_DIR/plugins/wfx/samba/
 # WLX
-install -m 644 plugins/wlx/WlxMplayer/wlxmplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/wlxmplayer/
+install -m 644 plugins/wlx/wlxmplayer/wlxmplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/wlxmplayer/
 # DSX
 install -m 644 plugins/dsx/DSXLocate/dsxlocate.dsx    $DC_INSTALL_DIR/plugins/dsx/dsxlocate/
 

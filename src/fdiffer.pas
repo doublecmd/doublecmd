@@ -928,9 +928,9 @@ begin
   if FModal then
     ShowModal
   else if (FWaitData = nil) then
-    ShowOnTop
+    Show
   else
-    FWaitData.ShowOnTop(Self);
+    FWaitData.Show(Self);
 end;
 
 procedure TfrmDiffer.ShowIdentical;
@@ -1038,9 +1038,9 @@ begin
     if FModal then
       ShowModal
     else if (FWaitData = nil) then
-      ShowOnTop
+      Show
     else
-      FWaitData.ShowOnTop(frmProgress);
+      FWaitData.Show(frmProgress);
   end;
 end;
 

@@ -186,11 +186,14 @@ var
 begin
   with TCustomForm(Sender) do
   begin
-    // Refresh monitor list
-    Screen.UpdateMonitors;
+    if (WindowState < wsMaximized) then
+    begin
+      // Refresh monitor list
+      Screen.UpdateMonitors;
 
-    AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
-    if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
+      AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
+      if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
+    end;
   end;
 end;
 

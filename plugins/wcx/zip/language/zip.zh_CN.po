@@ -15,7 +15,7 @@ msgstr "压缩"
 
 #: tdialogbox.gbCompression.lblArchiveFormat.caption
 msgid "Archive format:"
-msgstr ""
+msgstr "档案格式:"
 
 #: tdialogbox.gbCompression.lblCompressionMethod.caption
 msgid "Compression method:"
@@ -24,6 +24,10 @@ msgstr "压缩方式:"
 #: tdialogbox.gbCompression.lblCompressionLevel.caption
 msgid "Compression level:"
 msgstr "压缩级别:"
+
+#: tdialogbox.chkFollowLinks.caption
+msgid "Follow Links (pack the target files)"
+msgstr "追踪符号连接（打包连接指向的目标文件）"
 
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
@@ -36,3 +40,31 @@ msgstr "取消"
 #: tdialogbox.btnOK.caption
 msgid "OK"
 msgstr "确定"
+
+#: ziplng.rscompressionmethodstore
+msgid "Store"
+msgstr "仅储存"
+
+#: ziplng.rscompressionmethodoptimal
+msgid "Optimal (2x slower)"
+msgstr "最佳 (慢2倍)"
+
+#: ziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "最快"
+
+#: ziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "快"
+
+#: ziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "标准"
+
+#: ziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "最大"
+
+#: ziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "极致"

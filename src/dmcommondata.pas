@@ -26,7 +26,7 @@ unit dmCommonData;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Dialogs; 
+  Classes, SysUtils, LResources, Forms, Controls, Dialogs, ExtCtrls, Graphics;
 
 type
 
@@ -43,7 +43,7 @@ type
     procedure LoadIcons(Images: TImageList; const ANames: array of String);
     procedure LoadImages(Images: TImageList; const ANames: array of String);
   public
-    { public declarations }
+    class procedure LoadLogo(Form: TCustomForm; Image: TImage);
   end; 
 
 var
@@ -52,7 +52,8 @@ var
 implementation
 
 uses
-  LCLVersion, Graphics, Generics.Collections, uPixMapManager, uGlobs, uDCUtils;
+  Math, Types, LCLVersion, Generics.Collections, uVectorImage, uPixMapManager,
+  uGlobs, uDCUtils;
 
 {$R *.lfm}
 
@@ -171,10 +172,11 @@ var
 begin
   Images.Clear;
   ASize:= Images.Width;
-  AFactor:= findScaleFactorByFirstForm;
+  AFactor:= findScaleFactorByFirstFormEx;
 
   if (AFactor > 1.0) then
   begin
+    Images.Scaled:= True;
     ASize:= Round(ASize * AFactor);
   end;
 
@@ -182,9 +184,7 @@ begin
 
   for AName in ANames do
   begin
-    // GetThemeIcon takes into account
-    // CanvasScaleFactor, so use original icon size here
-    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, AName, Images.Width);
+    ABitmap:= PixMapManager.GetThemeIcon(AName, ASize, False);
     if (ABitmap = nil) then ABitmap:= TBitmap.Create;
 
     Images.AddMultipleResolutions([ABitmap]);
@@ -227,6 +227,7 @@ begin
     begin
       AResolutions2[I]:= Round(AResolutions2[I] * AFactor);
     end;
+    Images.Scaled:= True;
   end;
 
   Images.RegisterResolutions(AResolutions2);
@@ -246,6 +247,45 @@ begin
     for I:= 0 to High(ABitmaps) do
     begin
       ABitmaps[I].Free;
+    end;
+  end;
+end;
+
+class procedure TdmComData.LoadLogo(Form: TCustomForm; Image: TImage);
+var
+  AIcon: TIcon;
+  ASize: Integer;
+  AFactor: Double;
+  AStream: TStream;
+  ABitmap: TBitmap;
+begin
+  Form.HandleNeeded;
+  AFactor:= Form.GetCanvasScaleFactor;
+
+  if SameValue(AFactor, 1.0) and (Form.PixelsPerInch = 96) then
+  begin
+    AIcon:= TIcon.Create;
+    try
+      ASize:= Image.ClientWidth;
+      AIcon.LoadFromResourceName(HInstance, 'MAINICON');
+      AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(ASize, ASize));
+      Image.Picture.Assign(AIcon);
+    finally
+      AIcon.Free;
+    end;
+  end
+  else begin
+    ASize:= Round(Image.ClientWidth * AFactor);
+    AStream:= TResourceStream.Create(HInstance, 'DOUBLECMD', RT_RCDATA);
+    try
+      ABitmap:= TScalableVectorGraphics.CreateBitmap(AStream, ASize, ASize);
+      try
+        Image.Picture.Assign(ABitmap);
+      finally
+        ABitmap.Free;
+      end;
+    finally
+      AStream.Free;
     end;
   end;
 end;

@@ -209,6 +209,7 @@ begin
 
           UpdateMethod(pDlg);
 
+          SendDlgMsg(pDlg, 'chkFollowLinks', DM_SETCHECK, PtrInt(gFollowLinks), 0);
           SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_SETCHECK, PtrInt(gTarAutoHandle), 0);
         end;
       DN_CHANGE:
@@ -228,6 +229,7 @@ begin
             AFormat:= TArchiveFormat(GetComboBox(pDlg, 'cbArchiveFormat'));
             PluginConfig[AFormat].Level:= GetComboBox(pDlg, 'cbCompressionLevel');
             PluginConfig[AFormat].Method:= GetComboBox(pDlg, 'cbCompressionMethod');
+            gFollowLinks:= Boolean(SendDlgMsg(pDlg, 'chkFollowLinks', DM_GETCHECK, 0, 0));
             gTarAutoHandle:= Boolean(SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_GETCHECK, 0, 0));
             SaveConfiguration;
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);

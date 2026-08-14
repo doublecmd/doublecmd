@@ -19,7 +19,7 @@ type
 implementation
 
 uses
-  Forms, LazGLib2, LazGdk3;
+  XLib, SysUtils, Forms, LazGLib2, LazGdk3;
 
 { TGtk3WidgetSetEx }
 
@@ -85,7 +85,23 @@ begin
   end;
 end;
 
+function IsX11: Boolean;
+var
+  AValue: String;
+begin
+  AValue:= LowerCase(GetEnvironmentVariable('XDG_SESSION_TYPE'));
+  Result:= (AValue = 'x11');
+  if not Result then
+  begin
+    AValue:= LowerCase(GetEnvironmentVariable('GDK_BACKEND'));
+    Result:= (AValue = 'x11');
+  end;
+end;
+
 initialization
+  if IsX11 then begin
+    WriteLn('XInitThreads: ', XInitThreads);
+  end;
   CreateWidgetset(TGtk3WidgetSetEx);
 
 finalization

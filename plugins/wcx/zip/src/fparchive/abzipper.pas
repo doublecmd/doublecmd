@@ -45,6 +45,7 @@ type
     FAutoSave               : Boolean;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
+    FFollowLinks : Boolean;
     FDOSMode : Boolean;
     FOnConfirmSave          : TAbArchiveConfirmEvent;
     FOnSave                 : TAbArchiveEvent;
@@ -93,6 +94,10 @@ type
       read  FDeflationOption
       write SetDeflationOption
       default AbDefDeflationOption;
+    property FollowLinks : Boolean
+      read  FFollowLinks
+      write FFollowLinks
+      default False;
     property DOSMode : Boolean
       read  FDOSMode
       write SetDOSMode;
@@ -314,6 +319,7 @@ begin
     ZipArchive.AutoSave                              := FAutoSave;
     TAbZipArchive(ZipArchive).CompressionMethodToUse := FCompressionMethodToUse;
     TAbZipArchive(ZipArchive).DeflationOption        := FDeflationOption;
+    TAbZipArchive(ZipArchive).FollowLinks            := FFollowLinks;
     FArchive.DOSMode                                 := FDOSMode;
     ZipArchive.StoreOptions                          := FStoreOptions;
     {events}

@@ -2085,6 +2085,14 @@ msgstr "Datotečni pogled"
 msgid "Calculate &Occupied Space"
 msgstr "Preračunaj &zasedenost prostora"
 
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr ""
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr ""
+
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Zamenjaj mapo"
@@ -2617,10 +2625,6 @@ msgstr "O&dpri mapo v novem zavihku"
 #: tfrmmain.actopendrivebyindex.caption
 msgid "Open Drive by Index"
 msgstr "Odpri seznam pogona po določilu"
-
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
@@ -3217,6 +3221,11 @@ msgstr "&Izbor"
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
 msgstr "Omrežje"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6309,6 +6318,10 @@ msgstr "Poosebljena okrajšava za uporabo:"
 msgid "Sorting"
 msgstr "Razvrščanje"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr "&Bajti"
@@ -6372,6 +6385,14 @@ msgstr "&Terabajt:"
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Premakni posodobljene datoteke:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr ""
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr ""
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6719,7 +6740,7 @@ msgid ""
 "This feature requires additional system permission.\n"
 "\n"
 "Enabling it will automatically guide you to the\n"
-"System Settings > Privacy & Security > Accessibility Panel.\n"
+"System Settings > Privacy && Security > Accessibility Panel.\n"
 "\n"
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."

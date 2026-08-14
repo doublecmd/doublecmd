@@ -439,6 +439,7 @@ begin
             begin
               OldIndex:= GetActiveFileIndex;
               FFiles[OldIndex].FSFile.Name:= NewFileName;
+              FFiles[OldIndex].DisplayName:= FileSource.GetDisplayFileName(FFiles[OldIndex].FSFile);
               DoFileUpdated(FFiles[OldIndex], [fpName]);
             end;
             SetActiveFile(Index);
@@ -523,7 +524,7 @@ begin
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
 {$IFDEF LCL_VER_499}
-  edtRename.Edit.VerticalAlignment:= tlCenter;
+  edtRename.Edit.Options:= [teoEnableTextLayout];
 {$ENDIF}
 {$IFDEF LCLWIN32}
   edtRename.onKeyDown:=@edtRenameKeyDown;
@@ -983,7 +984,7 @@ begin
   if not AtFileList then
     Exit;
 
-{$IF DEFINED(LCLWIN32)}
+{$IF DEFINED(LCLWIN32) OR DEFINED(LCLGTK3) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
   FMouseFocus:= MainControl.Focused;
   SetFocus;
 {$ELSEIF DEFINED(LCLCOCOA)}
@@ -1307,7 +1308,7 @@ begin
   if AFile.FSFile.Name = '..' then Exit;
 
   HintInfo^.HintStr:= FileSource.GetFileName( AFile.FSFile );
-  sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
+  sHint:= GetFileInfoToolTip(FileSource, AFile);
   if (sHint <> EmptyStr) then
     HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
 

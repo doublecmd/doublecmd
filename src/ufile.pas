@@ -783,13 +783,12 @@ end;
 {$IFDEF DARWIN}
 function TFile.GetMacOSSpecificProperty: TFileMacOSSpecificProperty;
 begin
-  if self.Name = '..' then
-    Exit( nil );
-
   if FProperties[fpMacOSSpecific] = nil then begin
-    if FPropertyLazyLoader <> nil then
+    if (self.Name<>'..') and (FPropertyLazyLoader<>nil) then
       FProperties[fpMacOSSpecific] := FPropertyLazyLoader(self.FullPath, fpMacOSSpecific);
   end;
+  if FProperties[fpMacOSSpecific] = nil then
+    FProperties[fpMacOSSpecific] := TFileMacOSSpecificProperty.Create;
   Result := TFileMacOSSpecificProperty(FProperties[fpMacOSSpecific]);
 end;
 
@@ -875,11 +874,14 @@ begin
   end;
 end;
 
+// TFile and TDisplayFile each perform their respective functions.
+// in TFile, `Extension` and `NameNoExt` retain their underlying meanings,
+// while display-related adjustments are handled in TDisplayFile.
 procedure TFile.UpdateNameAndExtension(const FileName: string);
 begin
   // Cache Extension and NameNoExt.
 
-  if (FileName = '') or IsDirectory or IsLinkToDirectory or IsSpecial
+  if FileName = ''
   then
   begin
     // For directories there is no extension.

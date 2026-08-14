@@ -43,6 +43,7 @@ type
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
+    procedure SetCanvasColumnFont(const aCol: Integer);
 
   protected
     function getFileView: TFileView; override;
@@ -64,6 +65,8 @@ type
 
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState); override;
+
+    procedure AutoAdjustColumn(aCol: Integer); override;
 
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
@@ -1095,7 +1098,7 @@ begin
   for ACol := 0 to ColumnsClass.Count - 1 do
   begin
     AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-      ACol, AFile.FSFile, FileSource));
+      ACol, AFile, FileSource));
   end;
 end;
 
@@ -1362,7 +1365,8 @@ begin
   Align := alClient;
 
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
-              goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
+              goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook,
+              goDblClickAutoSize];
 
   TitleStyle := gColumnsTitleStyle;
   TabStop := False;
@@ -1404,10 +1408,7 @@ procedure TDrawGridEx.UpdateView;
     // Search columns settings for the biggest font (in height).
     for i := 0 to ColumnsSet.Count - 1 do
     begin
-      Canvas.Font.Name  := ColumnsSet.GetColumnFontName(i);
-      Canvas.Font.Style := ColumnsSet.GetColumnFontStyle(i);
-      Canvas.Font.Size  := ColumnsSet.GetColumnFontSize(i);
-
+      SetCanvasColumnFont(i);
       CurrentHeight := Canvas.GetTextHeight('Wg');
       MaxFontHeight := Max(MaxFontHeight, CurrentHeight);
     end;
@@ -1658,10 +1659,7 @@ var
     IsCursorInactive: Boolean;
   //---------------------
   begin
-    Canvas.Font.Name    := ColumnsSet.GetColumnFontName(ACol);
-    Canvas.Font.Size    := ColumnsSet.GetColumnFontSize(ACol);
-    Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(ACol);
-    Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(ACol);
+    SetCanvasColumnFont(ACol);
 
     IsCursor := (gdSelected in aState) and ColumnsView.Active and (not ColumnsSet.UseFrameCursor);
     IsCursorInactive := (gdSelected in aState) and (not ColumnsView.Active) and (not ColumnsSet.UseFrameCursor);
@@ -2017,6 +2015,35 @@ begin
   end;
 end;
 
+procedure TDrawGridEx.AutoAdjustColumn(aCol: Integer);
+var
+  displayFiles: TDisplayFiles;
+  aRow: Integer;
+  maxWidth: Integer;
+  currentWidth: Integer;
+
+  function calcCurrentWidth: Integer; inline;
+  var
+    currentText: String;
+  begin
+    currentText:= displayFiles[aRow-self.FixedRows].DisplayStrings[aCol];
+    Result:= Canvas.TextWidth(currentText) + 2*CELL_PADDING + CELL_PADDING;
+    if (gShowIcons <> sim_none) and (aCol=0) then
+      Result:= Result + gIconsSize + 2*CELL_PADDING;
+  end;
+
+begin
+  self.SetCanvasColumnFont( aCol );
+  displayFiles:= self.ColumnsView.FFiles;
+  maxWidth:= 0;
+  for aRow:= GCache.VisibleGrid.Top to GCache.VisibleGrid.Bottom do begin
+    currentWidth:= calcCurrentWidth;
+    if currentWidth > maxWidth then
+      maxWidth:= currentWidth;
+  end;
+  self.ColWidths[aCol]:= maxWidth;
+end;
+
 procedure TDrawGridEx.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
@@ -2221,6 +2248,18 @@ begin
   else
     Options := Options - [goVertLine];
 end;
+
+procedure TDrawGridEx.SetCanvasColumnFont(const aCol: Integer);
+var
+  ColumnsSet: TPanelColumnsClass;
+begin
+  ColumnsSet := self.ColumnsView.GetColumnsClass;
+  Canvas.Font.Name    := ColumnsSet.GetColumnFontName(aCol);
+  Canvas.Font.Size    := ColumnsSet.GetColumnFontSize(aCol);
+  Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(aCol);
+  Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(aCol);
+end;
+
 
 function TDrawGridEx.getFileView: TFileView;
 begin

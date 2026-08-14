@@ -5,7 +5,7 @@
     (http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html)
     (https://gitlab.gnome.org/GNOME/gtk/blob/main/docs/iconcache.txt)
 
-    Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2026 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +17,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, write to the Free Software Foundation, Inc.,
-    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uIconTheme;
@@ -30,6 +29,11 @@ interface
 
 uses
   SysUtils, Classes, DCOSUtils, DCStringHashListUtf8, DCClassesUtf8;
+
+const
+  EXT_IDX_PNG = 0;
+  EXT_IDX_XPM = 1;
+  EXT_IDX_SVG = 2;
 
 type
 
@@ -82,15 +86,17 @@ type
     FComment: String;
     FCache: TIconCache;
     FCacheIndex: Integer;
+    FParentIndex: Integer;
     FDefaultTheme: String;
     FInherits: TStringList;
+    FBaseDirIndex: Integer;
     FOwnsInheritsObject: Boolean;
     FDirectories: TIconDirList;
     FBaseDirList: array of String;         //en> List of directories that have this theme's icons.
     FBaseDirListAtCreate: array of String; //en> Base dir list passed to Create
     function LoadIconDirInfo(const IniFile: TIniFileEx; const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize, AIconScale: Integer): String;
-    function LoadThemeWithInherited(AInherits: TStringList): Boolean;
+    function LoadThemeWithInherited(AInherits: TStringList): Boolean; virtual;
     procedure LoadParentTheme(AThemeName: String);
     procedure CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
   protected
@@ -114,11 +120,6 @@ implementation
 
 uses
   LCLProc, StrUtils, uDebug, uFindEx, DCBasicTypes, DCStrUtils;
-
-const
-  EXT_IDX_PNG = 0;
-  EXT_IDX_XPM = 1;
-  EXT_IDX_SVG = 2;
 
 const
   HAS_SUFFIX_XPM = 1;
@@ -583,6 +584,8 @@ begin
 
         if FoundIndex >= 0 then
         begin
+          FBaseDirIndex:= J;
+
           ExtIdx:= PtrInt(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data);
 
           Result:= FBaseDirList[J] + PathDelim + FTheme + PathDelim +
@@ -648,7 +651,10 @@ var
 begin
   Result:= LookupIcon(AIconName, AIconSize, AIconScale);
   if Result <> EmptyStr then
+  begin
+    FParentIndex:= -1;
     Exit;
+  end;
 
   if Assigned(FInherits) then
     begin
@@ -657,7 +663,10 @@ begin
         begin
           Result:= TIconTheme(FInherits.Objects[I]).LookupIcon(aIconName, AIconSize, AIconScale);
           if Result <> EmptyStr then
+          begin
+            FParentIndex:= I;
             Exit;
+          end;
         end;
     end;
 

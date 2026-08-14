@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.3.0 alpha\n"
-"POT-Creation-Date: 2026-06-09 17:30+0300\n"
-"PO-Revision-Date: 2026-06-09 19:30+0300\n"
+"POT-Creation-Date: 2026-07-23 15:10+0300\n"
+"PO-Revision-Date: 2026-07-23 18:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2087,7 +2087,7 @@ msgstr "Добавить плагин"
 
 #: tfrmmain.actaddtostash.caption
 msgid "Add to Stash"
-msgstr "Добавить во временную панель"
+msgstr "Добавить в хранилище"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2105,6 +2105,14 @@ msgstr "Краткий вид"
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr "Подсчитать &занимаемое место..."
+
+#: tfrmmain.actcallplatformfunctions.caption
+msgid "Call platform functions"
+msgstr "Вызвать функции платформы"
+
+#: tfrmmain.actcallplatformfunctions.hint
+msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
+msgstr "Вызвать функции платформы (функция указывается с помощью параметра \"func\")"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2354,7 +2362,7 @@ msgstr "Редактировать путь в заголовке панели"
 
 #: tfrmmain.actemptystash.caption
 msgid "Empty Stash"
-msgstr "Очистить временную панель"
+msgstr "Очистить хранилище"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2646,10 +2654,6 @@ msgstr "Открыть пап&ку в новой вкладке"
 msgid "Open Drive by Index"
 msgstr "Открыть диск по индексу"
 
-#: tfrmmain.actopenstash.caption
-msgid "Open Stash"
-msgstr "Открыть временную панель"
-
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
@@ -2706,7 +2710,7 @@ msgstr "Перезагрузить последние загруженные и�
 
 #: tfrmmain.actremovefromstash.caption
 msgid "Remove Stash Items"
-msgstr "Удалить из временной панели"
+msgstr "Удалить из хранилища"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -3254,6 +3258,11 @@ msgstr "&Выделение"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
 msgstr "&Сеть"
+
+#: tfrmmain.mnuopenstash.caption
+msgctxt "tfrmmain.mnuopenstash.caption"
+msgid "Open Stash"
+msgstr "Открыть хранилище"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -6416,6 +6425,10 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "Сортировка"
 
+#: tfrmoptionsfilesviews.lbl1k.caption
+msgid "1K ="
+msgstr "1К ="
+
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
 msgstr "&Байт:"
@@ -6481,6 +6494,14 @@ msgstr "Тераба&йт:"
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "П&еремещать изменённые файлы:"
+
+#: tfrmoptionsfilesviews.rb1000.caption
+msgid "1000"
+msgstr "1000"
+
+#: tfrmoptionsfilesviews.rb1024.caption
+msgid "1024"
+msgstr "1024"
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6858,7 +6879,7 @@ msgid ""
 "This feature requires additional system permission.\n"
 "\n"
 "Enabling it will automatically guide you to the\n"
-"System Settings > Privacy & Security > Accessibility Panel.\n"
+"System Settings > Privacy && Security > Accessibility Panel.\n"
 "\n"
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
@@ -14383,7 +14404,7 @@ msgstr "Выберите каталог:"
 
 #: ulng.rsstashname
 msgid "Stash"
-msgstr "Временная панель"
+msgstr "Хранилище"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"

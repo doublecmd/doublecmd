@@ -1,3 +1,6 @@
+var
+  QuickLookShortCut: TShortCut;
+
 procedure toggleTreeViewAction( const Sender: id );
 begin
   frmMain.Commands.cm_TreeView([]);
@@ -138,12 +141,12 @@ end;
 
 procedure airdropAction( const Sender: id );
 begin
-  TDarwinPanelUtil.showAirDrop;
+  frmMain.Commands.cm_CallPlatformFunctions(['func=AirDrop']);
 end;
 
 procedure quickLookAction( const Sender: id );
 begin
-  TDarwinPanelUtil.showQuickLook;
+  frmMain.Commands.cm_CallPlatformFunctions(['func=QuickLook']);
 end;
 
 procedure editTagAction( const Sender: id );
@@ -153,12 +156,12 @@ end;
 
 procedure finderRevealAction( const Sender: id );
 begin
-  TDarwinApplicationUtil.performService( 'Finder/Reveal' );
+  frmMain.Commands.cm_CallPlatformFunctions(['func=RevealInFinder']);
 end;
 
 procedure finderInfoAction( const Sender: id );
 begin
-  TDarwinApplicationUtil.performService( 'Finder/Show Info' );
+  frmMain.Commands.cm_CallPlatformFunctions(['func=ShowInfoInFinder']);
 end;
 
 procedure compareAction( const Sender: id );
@@ -355,7 +358,7 @@ procedure onGetCommandMenu( const menu: TMenu );
     Result:= TMenuItem.Create( menu );
     Result.Caption:= rsMFSTBICommandMenuQuickLook;
     Result.OnClick:= @toolBarMenuHandler.showQuickLookPanel;
-    Result.ShortCut:= ShortCut( Word(' '), [ssAlt] );
+    Result.ShortCut:= QuickLookShortCut;
   end;
 
   function createTagMenuItem: TMenuItem;
@@ -451,12 +454,17 @@ end;
 
 procedure iCloudAction( const Sender: id );
 begin
-  TDarwinFileViewUtil.addiCloudDrivePage;
+  frmMain.Commands.cm_OpenVirtualFileSystemList( ['plugin=iCloud'] );
 end;
 
 procedure networkAction( const Sender: id );
 begin
   frmMain.Commands.DoOpenVirtualFileSystemList( frmMain.ActiveFrame );
+end;
+
+procedure stashAction( const Sender: id );
+begin
+  frmMain.Commands.cm_OpenVirtualFileSystemList( ['plugin='+rsstashname] );
 end;
 
 procedure terminalAction( const Sender: id );
@@ -560,6 +568,17 @@ const
     onAction: @networkAction;
   );
 
+  stashItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Stash';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'square.stack';
+    title: rsStashName;
+    tips: rsStashName;
+    bordered: True;
+    onAction: @stashAction;
+  );
+
 
   showBriefItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.ShowMode.Brief';
@@ -611,7 +630,7 @@ const
     appValidates: True;
     iconName: '';
     title: rsMFSTBIShareTitle;
-    tips: '';
+    tips: rsMFSTBIShareTitle;
     bordered: True;
 
     onGetItems: @onGetSharingItems;
@@ -622,7 +641,7 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     appValidates: True;
-    iconName: 'airplayaudio';
+    iconName: 'doublecmd.airdrop';
     title: rsMFSTBIAirDropTitle;
     tips: rsMFSTBIAirDropTips;
     bordered: True;
@@ -671,7 +690,7 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      appValidates: True;
-     iconName: 'faceid';
+     iconName: 'doublecmd.finder';
      title: rsMFSTBIFinderRevealTitle;
      tips: rsMFSTBIFinderRevealTips;
      bordered: True;
@@ -817,6 +836,7 @@ const
 
         'MainForm.iCloud',
         'MainForm.network',
+        'MainForm.Stash',
         'NSToolbarFlexibleSpaceItem',
 
         'MainForm.ShowMode',
@@ -845,6 +865,7 @@ const
         'MainForm.GoBackward',
         'MainForm.GoForward',
 
+        'MainForm.Stash',
         'MainForm.iCloud',
         'MainForm.network',
         'MainForm.ShowMode',
@@ -870,10 +891,31 @@ const
     );
   );
 
+procedure translateMainFormToolbarItem;
+var
+  poFile: TPOFile;
+begin
+  if NOT (LRSTranslator is TTranslator) then
+    Exit;
+
+  poFile:= TTranslator(LRSTranslator).POFile;
+  translateItemConfig( poFile, 'tfrmmain.actopenicloud', iCloudItemConfig );
+end;
+
 procedure addMainFormShortCutTips;
 begin
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryPrev', goBackwardItemConfig );
   addShortCutTipsToItemConfig( 'Main', 'cm_ViewHistoryNext', goForwardItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin=iCloud'], iCloudItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', networkItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_OpenVirtualFileSystemList', ['plugin='+rsstashname], stashItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=Share'], shareItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=AirDrop'], airDropItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=EditFinderTags'], tagItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=RevealInFinder'], finderRevealItemConfig );
+  addShortCutTipsToItemConfig( 'Main', 'cm_CallPlatformFunctions', ['func=ShowInfoInFinder'], finderInfoItemConfig );
+
+  addShortCutTipsToItemConfig( QuickLookShortCut, quickLookItemConfig );
 end;
 
 procedure joinPrivilegeTips;
@@ -883,8 +925,31 @@ begin
                            + rsMFSTBIPrivilegeTips3;
 end;
 
+
+procedure loadVectorImageWithName( const filename: String; const name: String );
+var
+  path: String;
+  bitmap: TBitmap;
+  image: NSImage;
+begin
+  path:= mbExpandFileName( '$COMMANDER_PATH/pixmaps/macOS/' + filename );
+  bitmap:= TScalableVectorGraphics.CreateBitmap( path, 192, 192 );
+  image:= TDarwinImageUtil.toNSImage( bitmap );
+  image.setTemplate( True );
+  image.setName( NSSTR(name) );
+  bitmap.Free;
+end;
+
 procedure doInitMainFormConfig;
 begin
+  QuickLookShortCut:= getShortCutOfCommand( 'Main', 'cm_CallPlatformFunctions', ['func=QuickLook'] );
+  if QuickLookShortCut = 0 then
+    QuickLookShortCut:= ShortCut( Word(' '), [ssAlt] );
+
+  loadVectorImageWithName( 'airdrop.svg', 'doublecmd.airdrop' );
+  loadVectorImageWithName( 'finder.svg', 'doublecmd.finder' );
+
+  translateMainFormToolbarItem;
   addMainFormShortCutTips;
   joinPrivilegeTips;
 
@@ -919,6 +984,7 @@ begin
     TCocoaToolBarUtils.toClass(syncItemConfig),
     TCocoaToolBarUtils.toClass(editItemConfig),
 
+    TCocoaToolBarUtils.toClass(stashItemConfig),
     TCocoaToolBarUtils.toClass(iCloudItemConfig),
     TCocoaToolBarUtils.toClass(networkItemConfig)
   ];

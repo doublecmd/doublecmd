@@ -542,11 +542,17 @@ end;
 
 function TEscapeCodesVT100.DetectOscCode(Str: string): TEscapeCode;
 var
+  Len: Integer;
   LastCh: Char;
 begin
+  Len := Length(Str);
+  LastCh := Str[Len];
   Result := ecNotCompleted;
-  LastCh := Str[Length(Str)];
   if (LastCh = #7) then
+  begin
+    Result:= ecSetTextParams;
+  end
+  else if (LastCh = '\') and (Str[Len - 1] = #27) then
   begin
     Result:= ecSetTextParams;
   end;

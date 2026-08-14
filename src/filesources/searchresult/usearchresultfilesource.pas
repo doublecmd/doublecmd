@@ -244,7 +244,7 @@ begin
   if aFile.FullPath = self.GetRootDir() then
     Result:= _displayName
   else
-    Result:= aFile.Name;
+    Result:= FileSource.GetDisplayFileName(aFile);
 end;
 
 procedure TSearchResultFileSource.AddSearchPath(

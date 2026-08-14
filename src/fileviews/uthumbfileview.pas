@@ -553,7 +553,7 @@ var
                                     iTextTop - gIconsSize - 2
                                     );
 
-    s:= AFile.DisplayStrings[0];
+    s:= AFile.DisplayName;
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
@@ -578,9 +578,6 @@ begin
       params.row:= aRow;
       params.displayFile:= aFile;
       params.focused:= (gdSelected in aState) and FThumbView.Active;
-
-      if AFile.DisplayStrings.Count = 0 then
-        FThumbView.MakeColumnsStrings(AFile);
 
       PrepareColors(AFile, aCol, aRow, aRect, aState);
 
@@ -779,6 +776,9 @@ end;
 procedure TThumbFileView.ShowRenameFileEdit(
   var aFile: TFile; const withExt: Boolean);
 begin
+  if aFile.Name = EmptyStr then
+    Exit;;
+
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;

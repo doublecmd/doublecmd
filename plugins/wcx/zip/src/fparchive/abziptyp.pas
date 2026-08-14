@@ -492,11 +492,30 @@ type
       write SetVersionNeededToExtract;
   end;
 
+  { TAbSymlinkProcessor }
+
+  TAbSymlinkProcessor = class
+  private
+    _abArc: TAbArchive;
+    _followLinks: Boolean;
+  public
+    constructor Create(const abArc: TAbArchive; const followLinks: Boolean); virtual;
+    function getAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
+    property abArc: TAbArchive read _abArc;
+    property followLinks: Boolean read _followLinks;
+  public
+    function getStream(const Item: TAbArchiveItem): TStream; virtual; abstract;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); virtual; abstract;
+    procedure onAddItem(const aItem: TAbArchiveItem); virtual; abstract;
+  end;
+
 { TAbZipArchive interface ================================================== }
   TAbZipArchive = class( TAbArchive )
   protected {private}
+    FSymlinkProcessor       : TAbSymlinkProcessor;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
+    FFollowLinks            : Boolean;
     FInfo                   : TAbZipDirectoryFileFooter;
     FIsExecutable           : Boolean;
     FPassword               : AnsiString;
@@ -514,6 +533,7 @@ type
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
 
   protected {methods}
+    procedure SetFollowLinks(const aFollowLinks: Boolean);
     procedure DoExtractHelper(Index : Integer; const NewName : string);
     procedure DoExtractToStreamHelper(Index : Integer; aStream : TStream);
     procedure DoTestHelper(Index : Integer);
@@ -554,20 +574,27 @@ type
       var ImageName: string; var Abort: Boolean);
 
   public {methods}
+    constructor Create(const FileName: string; Mode: Word); override;
     constructor CreateFromStream( aStream : TStream; const ArchiveName : string );
       override;
     destructor Destroy;
       override;
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem; override;
+    procedure Add(aItem: TAbArchiveItem); override;
 
   public {properties}
+    property SymlinkProcessor : TAbSymlinkProcessor
+      read FSymlinkProcessor;
     property CompressionMethodToUse : TAbZipSupportedMethod
       read FCompressionMethodToUse
       write FCompressionMethodToUse;
     property DeflationOption : TAbZipDeflationOption
       read FDeflationOption
       write FDeflationOption;
+    property FollowLinks : Boolean
+      read FFollowLinks
+      write SetFollowLinks;
     property ExtractHelper : TAbArchiveItemExtractEvent
       read FExtractHelper
       write FExtractHelper;
@@ -661,6 +688,32 @@ uses
   DCClassesUtf8,
   DCDateTimeUtils,
   DCConvertEncoding;
+
+type
+
+  { TAbSymlinkNotFollowProcessor }
+
+  TAbSymlinkNotFollowProcessor = class(TAbSymlinkProcessor)
+  public
+    constructor Create(const abArc: TAbArchive); reintroduce;
+    function getStream(const Item: TAbArchiveItem): TStream; override;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); override;
+    procedure onAddItem(const aItem: TAbArchiveItem); override;
+  end;
+
+  { TAbSymlinkFollowProcessor }
+
+  TAbSymlinkFollowProcessor = class(TAbSymlinkProcessor)
+  private
+    _symlinkDirLevel: Integer;
+    procedure addDirectory(diskPath: String; const archivePath: String);
+  public
+    constructor Create(const abArc: TAbArchive); reintroduce;
+    function getStream(const Item: TAbArchiveItem): TStream; override;
+    procedure adjustFileName(var sourceFileName: String; var archiveFileName: String); override;
+    procedure onAddItem(const aItem: TAbArchiveItem); override;
+  end;
+
 
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
@@ -1953,6 +2006,7 @@ destructor TAbZipArchive.Destroy;
 begin
   FInfo.Free;
   FInfo := nil;
+  FreeAndNil(FSymlinkProcessor);
   inherited Destroy;
   FSuspiciousLinks.Free;
 end;
@@ -1973,14 +2027,31 @@ begin
     MakeFullNames(SourceFileName, ArchiveDirectory,
                   FullSourceFileName, FullArchiveFileName);
 
-    if mbDirectoryExists(FullSourceFileName) then begin
-      FullSourceFileName := IncludeTrailingPathDelimiter(FullSourceFileName);
-    end;
+    FSymlinkProcessor.adjustFileName(FullSourceFileName, FullArchiveFileName);
 
     Result.FileName     := FullArchiveFileName;
     Result.DiskFileName := FullSourceFileName;
   end;
 end;
+
+procedure TAbZipArchive.Add(aItem: TAbArchiveItem);
+begin
+  inherited Add(aItem);
+  FSymlinkProcessor.onAddItem(aItem);
+end;
+
+procedure TAbZipArchive.SetFollowLinks(const aFollowLinks: Boolean);
+begin
+  if FFollowLinks = aFollowLinks then
+    Exit;
+  FFollowLinks:= aFollowLinks;
+  FSymlinkProcessor.Free;
+  if NOT FFollowLinks then
+    FSymlinkProcessor:= TAbSymlinkNotFollowProcessor.Create(self)
+  else
+    FSymlinkProcessor:= TAbSymlinkFollowProcessor.Create(self);
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipArchive.DoExtractHelper(Index : Integer; const NewName : string);
 begin
@@ -2081,6 +2152,13 @@ begin
   if Assigned(FOnRequestImage) then
     FOnRequestImage(Self, ImageNumber, ImageName, Abort);
 end;
+
+constructor TAbZipArchive.Create(const FileName: string; Mode: Word);
+begin
+  inherited Create(FileName, Mode);
+  FSymlinkProcessor:= TAbSymlinkNotFollowProcessor.Create(self);
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipArchive.ExtractItemAt(Index : Integer; const UseName : string);
 begin
@@ -2289,7 +2367,6 @@ var
   NewStream          : TStream;
   WorkingStream      : TAbVirtualMemoryStream;
   CurrItem           : TAbZipItem;
-  Progress           : Byte;
   ATempName          : String;
   CreateArchive      : Boolean;
   AttrEx             : TAbAttrExRec;
@@ -2370,7 +2447,7 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
-            if not AbFileGetAttrEx(CurrItem.DiskFileName, AttrEx) then
+            if not FSymlinkProcessor.getAttrEx(CurrItem.DiskFileName, AttrEx) then
               Raise EAbFileNotFound.Create;
 
             {$IFDEF UNIX}
@@ -2452,9 +2529,7 @@ begin
         ((CurrItem.GeneralPurposeBitFlag and AbHasDataDescriptorFlag) <> 0);
       if (CurrItem.Action <> aaDelete) and HasDataDescriptor then
         CurrItem.SaveDDToStream(NewStream);
-      Progress := AbPercentage(9 * succ( i ), 10 * Count);
-      DoArchiveSaveProgress(Progress, Abort);
-      DoArchiveProgress(Progress, Abort);
+      DoProcessItemContinue(CurrItem, Abort);
       if Abort then
         raise EAbUserAbort.Create;
     end;
@@ -2584,6 +2659,130 @@ end;
 procedure TAbZipArchive.TestItemAt(Index : Integer);
 begin
   DoTestHelper(Index);
+end;
+
+{ TAbSymlinkProcessor }
+
+constructor TAbSymlinkProcessor.Create(
+  const abArc: TAbArchive; const followLinks: Boolean);
+begin
+  _abArc:= abArc;
+  _followLinks:= followLinks;
+end;
+
+function TAbSymlinkProcessor.getAttrEx(
+  const aFileName: string; out aAttr: TAbAttrExRec): Boolean;
+begin
+  Result:= AbFileGetAttrEx(aFileName, aAttr, followLinks);
+end;
+
+{ TAbSymlinkNotFollowProcessor }
+
+constructor TAbSymlinkNotFollowProcessor.Create(const abArc: TAbArchive);
+begin
+  inherited Create(abArc, False);
+end;
+
+function TAbSymlinkNotFollowProcessor.getStream(const Item: TAbArchiveItem
+  ): TStream;
+var
+  symLink: String;
+begin
+  symLink:= ReadSymLink(Item.DiskFileName);
+  if symLink <> EmptyStr then
+    Result := TStringStream.Create(symLink)
+  else if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
+    Result := TMemoryStream.Create
+  else
+    Result := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+end;
+
+procedure TAbSymlinkNotFollowProcessor.adjustFileName(
+  var sourceFileName: String; var archiveFileName: String);
+begin
+  if AbIsSymlink(sourceFileName) then
+    archiveFileName:= ExcludeTrailingPathDelimiter(archiveFileName)
+  else if mbDirectoryExists(sourceFileName) then
+    archiveFileName:= IncludeTrailingPathDelimiter(archiveFileName);
+end;
+
+procedure TAbSymlinkNotFollowProcessor.onAddItem(const aItem: TAbArchiveItem);
+begin
+end;
+
+{ TAbSymlinkFollowProcessor }
+
+constructor TAbSymlinkFollowProcessor.Create(const abArc: TAbArchive);
+begin
+  inherited Create(abArc, True);
+end;
+
+function TAbSymlinkFollowProcessor.getStream(const Item: TAbArchiveItem): TStream;
+begin
+  if ((Item.ExternalFileAttributes and faDirectory) <> 0) then
+    Result := TMemoryStream.Create
+  else
+    Result := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+end;
+
+procedure TAbSymlinkFollowProcessor.adjustFileName(
+  var sourceFileName: String; var archiveFileName: String);
+begin
+  if mbDirectoryExists(sourceFileName) then
+    archiveFileName:= IncludeTrailingPathDelimiter(archiveFileName);
+end;
+
+procedure TAbSymlinkFollowProcessor.onAddItem(const aItem: TAbArchiveItem);
+var
+  diskFileName: String;
+begin
+  diskFileName:= aItem.DiskFileName;
+
+  // Wcx has expanded the regular directories, but not the directories in Symlinks
+  // when _symlinkDirLevel=0
+  //   only Symlinks point to Directories need to be processed
+  // otherwise
+  //   both Symlinks and Regular Directories need to be processed
+  if _symlinkDirLevel = 0 then
+    if NOT AbIsSymlink(diskFileName) then
+      Exit;
+  if NOT mbDirectoryExists(diskFileName) then
+    Exit;
+
+  Inc( _symlinkDirLevel );
+  self.addDirectory( mbReadAllLinks(diskFileName), aItem.FileName );
+  Dec( _symlinkDirLevel );
+end;
+
+procedure TAbSymlinkFollowProcessor.addDirectory(
+  diskPath: String; const archivePath: String);
+var
+  sr: TSearchRec;
+  oldBaseDirectory: String;
+  currentDiskPath: String;
+  currentArchivePath: String;
+begin
+  diskPath:= IncludeTrailingPathDelimiter(diskPath);
+  if FindFirst(diskPath+'*', faAnyFile, sr) <> 0 then
+    Exit;
+
+  oldBaseDirectory:= _abArc.BaseDirectory;
+  _abArc.BaseDirectory:= diskPath;
+
+  repeat
+    if (sr.Name = '.') or (sr.Name = '..') then
+      Continue;
+    currentDiskPath:= diskPath + sr.Name;
+    _abArc.AddEntry( currentDiskPath, archivePath );
+    if (sr.Attr and faDirectory) <> 0 then begin
+      currentArchivePath:= archivePath + IncludeTrailingPathDelimiter(sr.Name);
+      self.addDirectory( currentDiskPath, currentArchivePath );
+    end;
+  until FindNext(sr) <> 0;
+
+  _abArc.BaseDirectory:= oldBaseDirectory;
+
+  FindClose(sr);
 end;
 
 end.

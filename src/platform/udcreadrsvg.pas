@@ -40,7 +40,8 @@ type
     function  InternalCheck (Stream: TStream): Boolean; override;
     procedure InternalRead({%H}Stream: TStream; Img: TFPCustomImage); override;
   public
-    class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override;
+    class function CreateBitmap(AStream: TStream; AWidth, AHeight: Integer): TBitmap; override; overload;
+    class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override; overload;
   end;
 
 implementation
@@ -120,36 +121,65 @@ begin
   end;
 end;
 
-function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap;
+function Rasterize(RsvgHandle: Pointer; AWidth, AHeight: Integer): TBitmap;
 var
   Cairo: Pcairo_t;
-  RsvgHandle: Pointer;
   Image: TLazIntfImage;
   CairoSurface: Pcairo_surface_t;
   RsvgDimensionData: TRsvgDimensionData;
+begin
+  Image:= TLazIntfImage.Create(AWidth, AHeight);
+  try
+    // Get the SVG's size
+    rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
+    // Creates an image surface of the specified format and dimensions
+    CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, Image.Width, Image.Height);
+    Cairo:= cairo_create(CairoSurface);
+    // Scale image if needed
+    if (Image.Width <> RsvgDimensionData.width) or (Image.Height <> RsvgDimensionData.height) then
+    begin
+      cairo_scale(Cairo, Image.Width / RsvgDimensionData.width, Image.Height / RsvgDimensionData.height);
+    end;
+    RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
+    Result:= TBitmap.Create;
+    BitmapAssign(Result, Image);
+  finally
+    Image.Free;
+  end;
+end;
+
+function BitmapLoadFromScalable(AStream: TStream; AWidth, AHeight: Integer): TBitmap; overload;
+var
+  RsvgHandle: Pointer;
+  MemoryStream: TCustomMemoryStream;
+begin
+  Result:= nil;
+  if (AStream is TCustomMemoryStream) then
+    MemoryStream:= TCustomMemoryStream(AStream)
+  else begin
+    MemoryStream:= TMemoryStream.Create;
+    MemoryStream.CopyFrom(AStream, AStream.Size);
+  end;
+  RsvgHandle:= rsvg_handle_new_from_data(MemoryStream.Memory, MemoryStream.Size, nil);
+  if Assigned(RsvgHandle) then
+  begin
+    Result:= Rasterize(RsvgHandle, AWidth, AHeight);
+  end;
+  if (AStream <> MemoryStream) then
+  begin
+    MemoryStream.Free;
+  end;
+end;
+
+function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap; overload;
+var
+  RsvgHandle: Pointer;
 begin
   Result:= nil;
   RsvgHandle:= rsvg_handle_new_from_file(PAnsiChar(UTF8ToSys(FileName)), nil);
   if Assigned(RsvgHandle) then
   begin
-    Image:= TLazIntfImage.Create(AWidth, AHeight);
-    try
-      // Get the SVG's size
-      rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
-      // Creates an image surface of the specified format and dimensions
-      CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, Image.Width, Image.Height);
-      Cairo:= cairo_create(CairoSurface);
-      // Scale image if needed
-      if (Image.Width <> RsvgDimensionData.width) or (Image.Height <> RsvgDimensionData.height) then
-      begin
-        cairo_scale(Cairo, Image.Width / RsvgDimensionData.width, Image.Height / RsvgDimensionData.height);
-      end;
-      RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
-      Result:= TBitmap.Create;
-      BitmapAssign(Result, Image);
-    finally
-      Image.Free;
-    end;
+    Result:= Rasterize(RsvgHandle, AWidth, AHeight);
   end;
 end;
 
@@ -203,7 +233,7 @@ end;
 
 { TDCReaderRSVG }
 
-function TDCReaderRSVG.InternalCheck(Stream: TStream): boolean;
+function TDCReaderRSVG.InternalCheck(Stream: TStream): Boolean;
 var
   MemoryStream: TMemoryStream;
 begin
@@ -231,6 +261,12 @@ begin
   Cairo:= cairo_create(CairoSurface);
   // Render vector graphics to raster image
   RsvgHandleRender(FRsvgHandle, CairoSurface, Cairo, Img);
+end;
+
+class function TDCReaderRSVG.CreateBitmap(AStream: TStream; AWidth,
+  AHeight: Integer): TBitmap;
+begin
+  Result:= BitmapLoadFromScalable(AStream, AWidth, AHeight);
 end;
 
 class function TDCReaderRSVG.CreateBitmap(const FileName: String; AWidth,

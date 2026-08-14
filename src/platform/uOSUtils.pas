@@ -217,12 +217,9 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  LinkTarget:= TDarwinFileUtil.resolveAlias(FileName);
-  if mbCompareFileNames(FileName, LinkTarget) then
-    Result:= False
-  else begin
+  Result:= TDarwinFileUtil.resolveAlias(FileName, LinkTarget);
+  if Result then
     Result:= mbDirectoryExists(LinkTarget);
-  end;
 end;
 {$ELSEIF DEFINED(UNIX)}
 begin

@@ -248,8 +248,7 @@ end;
 
 class function TStashFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= EnvVarCommanderPath + PathDelim + 'pixmaps' + PathDelim + 'stuff' + PathDelim + 'stash.png';
-  Path:= mbExpandFileName( Path );
+  Path:= 'stash';
   Result:= True;
 end;
 
@@ -277,7 +276,7 @@ begin
   if fullpath = self.GetRootDir() then
     Result:= rsStashName
   else
-    Result:= ExtractFileName( ExcludeTrailingPathDelimiter(fullpath) );
+    Result:= _fileSystemFS.GetDisplayFileName(aFile);
 end;
 
 function TStashFileSource.needReload(
@@ -325,6 +324,7 @@ end;
 function TStashFileSource.GetProperties: TFileSourceProperties;
 begin
   Result:= _fileSystemFS.Properties;
+  Result-= [fspListFlatView];
   Result+= [fspLinksToLocalFiles, fspDontChangePath, fspDontCreateDirectory];
 end;
 

@@ -118,6 +118,10 @@ type
     }
     procedure SaveDescription;
     {en
+       Remove description file
+    }
+    procedure RemoveDescription;
+    {en
        Reset last description file name
     }
     procedure Reset;
@@ -153,8 +157,14 @@ begin
   if sDescrFile <> FLastDescrFile then
     try
       // save previous decription file if need
-      if FModified and (FLastDescrFile <> EmptyStr) and (Count > 0) then
-        SaveToFile(FLastDescrFile);
+      if FModified and (FLastDescrFile <> EmptyStr) then
+      begin
+        if (Count > 0) then
+          SaveToFile(FLastDescrFile)
+        else begin
+          mbDeleteFile(FLastDescrFile);
+        end;
+      end;
       // load description file if exists
       FLastDescrFile:= sDescrFile;
       if not mbFileExists(FLastDescrFile) then
@@ -419,7 +429,13 @@ begin
   if Find(FileName, I) then
   begin
     Delete(I);
-    FModified:= True;
+    if (Count > 0) then
+    begin
+      FModified:= True;
+    end
+    else begin
+      mbDeleteFile(FLastDescrFile);
+    end;
     Result:= True;
   end;
 end;
@@ -432,7 +448,7 @@ begin
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
   begin
-    DCDebug(FileNameFrom, '=', DescrByIndex[I]);
+    // DCDebug(FileNameFrom, '=', DescrByIndex[I]);
     FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
     Result:= True;
   end;
@@ -446,10 +462,16 @@ begin
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
   begin
-    DCDebug(FileNameFrom, '=', DescrByIndex[I]);
+    // DCDebug(FileNameFrom, '=', DescrByIndex[I]);
     FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
     Delete(I);
-    FModified:= True;
+    if (Count > 0) then
+    begin
+      FModified:= True;
+    end
+    else begin
+      mbDeleteFile(FLastDescrFile);
+    end;
     Result:= True;
   end;
 end;
@@ -485,6 +507,16 @@ begin
   except
     on E: Exception do
       DCDebug('TDescription.SaveDescription - ' + E.Message);
+  end;
+end;
+
+procedure TDescription.RemoveDescription;
+begin
+  if FModified then
+  begin
+    FModified:= False;
+    mbDeleteFile(FLastDescrFile);
+    FLastDescrFile:= EmptyStr;
   end;
 end;
 

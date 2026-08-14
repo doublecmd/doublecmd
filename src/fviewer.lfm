@@ -308,6 +308,9 @@ object frmViewer: TfrmViewer
         Width = 50
       end    
       item
+        Width = 50
+      end    
+      item
         Width = 100
       end    
       item

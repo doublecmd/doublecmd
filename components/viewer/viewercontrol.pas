@@ -276,6 +276,8 @@ type
 
     function GetBomLength: Integer;
 
+    function GetOffsetOfMode(const mode: TViewerControlMode): Integer;
+
     procedure UpdateLimits;
 
     {en
@@ -402,7 +404,7 @@ type
        Checks if current selection is still valid given current viewer mode and encoding.
        For example checks if selection is not in the middle of a unicode character.
     }
-    procedure UpdateSelection;
+    procedure UpdateSelectionAndCaret;
 
     procedure ScrollBarSetPosition(Which, Value: Integer);
     function  ScrollBarGetPosition(Which: Integer): Integer;
@@ -705,10 +707,23 @@ begin
 end;
 
 procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
+
+  procedure adjustPosByBOM;
+  var
+    offset: Integer;
+  begin
+    offset:= GetOffsetOfMode(FViewerControlMode) - GetOffsetOfMode(Value);
+    Inc( FBlockBeg, offset );
+    Inc( FBlockEnd, offset );
+    Inc( FCaretPos, offset );
+  end;
+
 begin
   if not (csDesigning in ComponentState) then
   begin
     FLineList.Clear; // do not use cache from previous mode
+
+    adjustPosByBOM;
 
     FViewerControlMode := Value;
     case FViewerControlMode of
@@ -733,7 +748,7 @@ begin
     FBlockBeg := FBlockBeg - (GetDataAdr - FMappedFile);
     FBlockEnd := FBlockEnd - (GetDataAdr - FMappedFile);
 
-    UpdateSelection;
+    UpdateSelectionAndCaret;
 
     // Force recalculating position.
     SetPosition(FPosition, True);
@@ -1984,12 +1999,7 @@ end;
 
 function TViewerControl.GetDataAdr: Pointer;
 begin
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      Result := FMappedFile + FBOMLength;
-    else
-      Result := FMappedFile;
-  end;
+  Result := FMappedFile + GetOffsetOfMode(FViewerControlMode);
 end;
 
 procedure TViewerControl.SetPosition(Value: PtrInt);
@@ -3790,6 +3800,16 @@ begin
   end;
 end;
 
+function TViewerControl.GetOffsetOfMode(const mode: TViewerControlMode): Integer;
+begin
+  case mode of
+    vcmText, vcmWrap, vcmBook:
+      Result:= FBOMLength;
+    else
+      Result:= 0;
+  end;
+end;
+
 procedure TViewerControl.UpdateLimits;
 begin
   if FEncoding = veAutoDetect then
@@ -3797,21 +3817,11 @@ begin
 
   FBOMLength := GetBomLength;
 
-  case FViewerControlMode of
-    vcmText, vcmWrap, vcmBook:
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize - FBOMLength;
-      end;
-    else
-      begin
-        FLowLimit  := 0;
-        FHighLimit := FFileSize;
-      end;
-  end;
+  FLowLimit  := 0;
+  FHighLimit := FFileSize - GetOffsetOfMode(FViewerControlMode);
 end;
 
-procedure TViewerControl.UpdateSelection;
+procedure TViewerControl.UpdateSelectionAndCaret;
 
   procedure Check(var aPosition: PtrInt; Backwards: Boolean);
   var
@@ -3880,6 +3890,7 @@ begin
     case FViewerControlMode of
       vcmText, vcmWrap, vcmBook:
         begin
+          Check(FCaretPos, True);
           Check(FBlockBeg, False);
           Check(FBlockEnd, True);
 

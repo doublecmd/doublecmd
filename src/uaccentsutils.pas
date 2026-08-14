@@ -38,8 +38,8 @@ var
   gslAccents, gslAccentsStripped: TStringList;
 
 const
-  cStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;Ú;Û;Ù;Ü;Ÿ;¿;¡;æ;œ;ß;Æ;Œ;ẞ;ě;š;č;ř;ž;ý;ň;ď;ť;ů;Ě;Š;Č;Ř;Ž;Ý;Ň;Ď;Ť;Ů';
-  cStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;U;U;U;U;Y;?;!;ae;oe;ss;AE;OE;SS;e;s;c;r;z;y;n;d;t;u;E;S;C;R;Z;Y;N;D;T;U';
+  cStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;Ú;Û;Ù;Ü;Ÿ;¿;¡;æ;œ;ß;Æ;Œ;ẞ;ě;š;č;ř;ž;ý;ň;ď;ť;ů;Ě;Š;Č;Ř;Ž;Ý;Ň;Ď;Ť;Ů;ę;ą;ś;ł;ż;ź;ć;ń;Ę;Ą;Ś;Ł;Ż;Ź;Ć;Ń';
+  cStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;U;U;U;U;Y;?;!;ae;oe;ss;AE;OE;SS;e;s;c;r;z;y;n;d;t;u;E;S;C;R;Z;Y;N;D;T;U;e;a;s;l;z;z;c;n;E;A;S;L;Z;Z;C;N';
 
 implementation
 
@@ -64,7 +64,7 @@ begin
     ParseLineToList(cStrAccentsStripped, slTempoAccentsStripped);
 
     if slTempoAccents.Count <> slTempoAccentsStripped.Count then
-      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!' + #$0A + 'Most probably problem in language file regarding conversion string with accents...');
+      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!');
 
     gslAccents := TStringList.Create;
     gslAccents.Assign(slTempoAccents);

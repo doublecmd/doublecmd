@@ -24,7 +24,6 @@ type
   protected
     FFileOp: IFileOperation;
     FSourceFilesTree: TItemList;
-    FShellFileSource: IShellFileSource;
     FStatistics: TFileSourceDeleteOperationStatistics;
 
     procedure ShowError(const sMessage: String);
@@ -60,7 +59,6 @@ end;
 constructor TShellDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);
 begin
-  FShellFileSource:= aTargetFileSource as IShellFileSource;
   FFileOp:= CreateComObject(CLSID_FileOperation) as IFileOperation;
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;

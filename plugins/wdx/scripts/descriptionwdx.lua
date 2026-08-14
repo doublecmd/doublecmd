@@ -16,14 +16,39 @@ function ContentGetDetectString()
   return 'EXT="*"'; -- return detect string
 end
 
+local function GetDesc(Path,Name)
+  local f=io.open(Path..'descript.ion',"r");
+  if not f then
+    return nil;
+  end
+
+  local first=true;
+
+  for line in f:lines() do
+    if first then
+      line=string.gsub(line,"^\239\187\191","");
+      first=false;
+    end
+
+    if string.find(line,Name..' ') then
+      f:close();
+      return string.sub(line,string.len(Name..' ')+1,-1);
+    end
+  end
+
+  f:close();
+
+  return nil;
+end
+
 function ContentGetValue(FileName, FieldIndex, UnitIndex, flags)
  if FieldIndex==0 then
    --Linux paths only
    local pat="/.*/"
-   i,j=string.find(FileName,pat);
+   local i,j=string.find(FileName,pat);
    if i~=nil then
      local path=string.sub(FileName,i,j);
-     fn=string.sub(FileName,string.len(path)+1,-1);
+     local fn=string.sub(FileName,string.len(path)+1,-1);
      if fn~=".." then
        return GetDesc(path,fn);
      else 
@@ -32,22 +57,4 @@ function ContentGetValue(FileName, FieldIndex, UnitIndex, flags)
    end
  end
  return nil;
-end
-
-function GetDesc(Path,Name)
-   local f=io.open(Path..'descript.ion',"r");
-   if not f then 
-    return nil;
-   end
-  
-    for line in f:lines() do
-       if string.find(line,Name..' ') then
-        f:close();
-	return string.sub(line,string.len(Name..' ')+1,-1);
-       end
-    end  
-
-  f:close();
-     
-  return nil;
 end

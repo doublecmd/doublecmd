@@ -28,7 +28,7 @@ type
   public
     class function mount( const serverAddress: String ): Boolean;
     class function unmountAndEject( const path: String ): Boolean;
-    class function resolveAlias( const path: String ): String;
+    class function resolveAlias( const path: String; out target: String ): Boolean;
   public
     class function getDisplayName( const path: String ): String;
     class function getIconForFile( const path: String ): NSImage;
@@ -135,6 +135,8 @@ end;
 
 class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
   function hasUniqueIcon( const path: String ): Boolean;
+  const
+    ICON_FLAGS = kHasCustomIcon or kIsAlias or kHasBundle;
   var
     pathRef: FSRef;
     catalogInfo: FSCatalogInfo;
@@ -143,7 +145,7 @@ class function TDarwinFileUtil.getUniqueIcon(const path: String): NSImage;
     FSPathMakeRef( pchar(path), pathRef, nil );
     FSGetCatalogInfo( pathRef, kFSCatInfoFinderInfo, @catalogInfo, nil, nil, nil );
     pFinderInfo:= FileInfoPtr( @catalogInfo.finderInfo );
-    Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
+    Result:= (pFinderInfo^.finderFlags and ICON_FLAGS) <> 0;
   end;
 
   function hasSpecialFolderExt( const path: String ): Boolean;
@@ -227,20 +229,26 @@ begin
   CFRelease(FileNameRef);
 end;
 
-class function TDarwinFileUtil.resolveAlias(const path: String): String;
+// return True: path is Alias/Symlink
+class function TDarwinFileUtil.resolveAlias(
+  const path: String;
+  out target: String ): Boolean;
 var
   ASource: NSURL;
   ATarget: NSURL;
   error: NSError = nil;
 begin
-  Result:= EmptyStr;
+  Result:= False;
   ASource:= NSURL.fileURLWithPath(StringToNSString(path));
   ATarget:= NSURL.URLByResolvingAliasFileAtURL_options_error(
     ASource, NSURLBookmarkResolutionWithoutUI, @error );
-  if Assigned(ATarget) then
-    Result:= ATarget.fileSystemRepresentation
-  else
+  if Assigned(ATarget) then begin
+    target:= ATarget.fileSystemRepresentation;
+    if ATarget <> ASource then
+      Result:= True;
+  end else begin
     logDarwinError( 'TDarwinFileUtil.resolveAlias', error );
+  end;
 end;
 
 procedure Initialize;

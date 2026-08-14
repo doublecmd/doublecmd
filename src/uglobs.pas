@@ -71,7 +71,8 @@ type
                          tb_close_on_doubleclick, tb_show_drive_letter,
                          tb_reusing_tab_when_possible,
                          tb_confirm_close_locked_tab,
-                         tb_keep_renamed_when_back_normal);
+                         tb_keep_renamed_when_back_normal,
+                         tb_show_unavailable_marker);
 
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
@@ -170,6 +171,9 @@ type
 
   tHotDirPathModifierElement = (hdpmSource, hdpmTarget);
   tHotDirPathModifierElements = set of tHotDirPathModifierElement;
+
+function g1KBase: UInt64; inline;
+procedure SetGlob1KBase(const value: UInt64);
 
 const
   { Default hotkey list version number }
@@ -420,6 +424,8 @@ var
   gFooterDigits: Integer;
   gOperationSizeDigits: Integer;
   gSizeDisplayUnits: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of string;
+  gFileSizeBases: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of UInt64;
+
   gDateTimeFormat : String;
   gDriveBlackList: String;
   gDriveBlackListUnmounted: Boolean; // Automatically black list unmounted devices
@@ -800,6 +806,9 @@ var
   gPreviousVersion: String = '';
   FInitList: array of TProcedure;
   CustomDecimalSeparator: String = #$EF#$BF#$BD;
+
+var
+  _g1KBase: UInt64;
 
 function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
                                ConfigFileName: String;
@@ -1860,6 +1869,7 @@ begin
   gHeaderDigits := 1;
   gFooterDigits := 1;
   gOperationSizeDigits := 1;
+  SetGlob1KBase(1024);
   //NOTES: We're intentionnaly not setting our default memory immediately because language file has not been loaded yet.
   //       We'll set them *after* after language has been loaded since we'll know the correct default to use.
   gConfirmQuit := False;
@@ -2129,7 +2139,8 @@ begin
                      tb_activate_panel_on_click,
                      tb_close_on_doubleclick,
                      tb_reusing_tab_when_possible,
-                     tb_confirm_close_locked_tab];
+                     tb_confirm_close_locked_tab,
+                     tb_show_unavailable_marker];
   gDirTabActionOnDoubleClick := tadc_FavoriteTabs;
   gDirTabLimit := 32;
   gDirTabPosition := tbpos_top;
@@ -2829,6 +2840,7 @@ begin
       gOperationSizeFormat := TFileSizeFormat(GetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat)));
       gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
       gOperationSizeDigits := GetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+      SetGlob1KBase( GetValue(Node, 'KBase', Int64(_g1KBase)) );
       gSizeDisplayUnits[fsfPersonalizedByte] := Trim(GetValue(Node, 'PersonalizedByte', gSizeDisplayUnits[fsfPersonalizedByte]));
       if gSizeDisplayUnits[fsfPersonalizedByte]<>'' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
       gSizeDisplayUnits[fsfPersonalizedKilo] := ' ' + Trim(GetValue(Node, 'PersonalizedKilo', gSizeDisplayUnits[fsfPersonalizedKilo]));
@@ -3577,6 +3589,7 @@ begin
     SetValue(Node, 'HeaderDigits', gHeaderDigits);
     SetValue(Node, 'FooterDigits', gFooterDigits);
     SetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+    SetValue(Node, 'KBase', Int64(_g1KBase));
     SetValue(Node, 'PersonalizedByte', Trim(gSizeDisplayUnits[fsfPersonalizedByte]));
     SetValue(Node, 'PersonalizedKilo', Trim(gSizeDisplayUnits[fsfPersonalizedKilo]));
     SetValue(Node, 'PersonalizedMega', Trim(gSizeDisplayUnits[fsfPersonalizedMega]));
@@ -4087,6 +4100,28 @@ begin
   gConfig.SetValue(Node, 'WCXConfigViewMode', Integer(gWCXConfigViewMode));
   gConfig.SetValue(Node, 'PluginFilenameStyle', ord(gPluginFilenameStyle));
   gConfig.SetValue(Node,'PluginPathToBeRelativeTo', gPluginPathToBeRelativeTo);  
+end;
+
+function g1KBase: UInt64;
+begin
+  Result:= _g1KBase;
+end;
+
+procedure SetGlob1KBase(const value: UInt64);
+begin
+  _g1KBase:= value;
+  gFileSizeBases[fsfFloat]:= 1;
+  gFileSizeBases[fsfByte]:= 1;
+  gFileSizeBases[fsfKilo]:= g1KBase;
+  gFileSizeBases[fsfMega]:= gFileSizeBases[fsfKilo] * g1KBase;
+  gFileSizeBases[fsfGiga]:= gFileSizeBases[fsfMega] * g1KBase;
+  gFileSizeBases[fsfTera]:= gFileSizeBases[fsfGiga] * g1KBase;
+  gFileSizeBases[fsfPersonalizedFloat]:= gFileSizeBases[fsfFloat];
+  gFileSizeBases[fsfPersonalizedByte]:= gFileSizeBases[fsfByte];
+  gFileSizeBases[fsfPersonalizedKilo]:= gFileSizeBases[fsfKilo];
+  gFileSizeBases[fsfPersonalizedMega]:= gFileSizeBases[fsfMega];
+  gFileSizeBases[fsfPersonalizedGiga]:= gFileSizeBases[fsfGiga];
+  gFileSizeBases[fsfPersonalizedTera]:= gFileSizeBases[fsfTera];
 end;
 
 function LoadConfig: Boolean;

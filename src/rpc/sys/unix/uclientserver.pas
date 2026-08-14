@@ -37,6 +37,7 @@ type
     FEvent: TEvent;
   protected
     procedure Bind; override;
+    function Accept: LongInt; override;
   public
     constructor Create(AFileName: String); reintroduce;
     destructor Destroy; override;
@@ -85,7 +86,7 @@ type
 implementation
 
 uses 
-  BaseUnix, Unix, uLocalSockets, uDebug;
+  BaseUnix, Unix, Sockets, uLocalSockets, uDebug;
 
 { TUnixServer }
 
@@ -93,6 +94,18 @@ procedure TUnixServer.Bind;
 begin
   inherited Bind;
   fpChmod(FileName, &0666);
+end;
+
+function TUnixServer.Accept: LongInt;
+begin
+  repeat
+    try
+      Result:= inherited Accept;
+      Break;
+    except
+      if (SocketError <> ESysEINTR) then raise;
+    end;
+  until False;
 end;
 
 constructor TUnixServer.Create(AFileName: String);
@@ -237,7 +250,10 @@ end;
 destructor TServerListnerThread.Destroy;
 begin
   DCDebug('TServerListnerThread.Destroy');
-  FSocketObject.Terminate;
+  if Assigned(FSocketObject) then
+  begin
+    FSocketObject.Terminate;
+  end;
   inherited Destroy;
 end;
 

@@ -338,6 +338,8 @@ const
   function AbGetFileTime(const aFileName: string): TWinFileTime;
   function AbSetFileTime(const aFileName: string; aValue: TWinFileTime): Boolean;
 
+  function AbIsSymlink(const aFileName: String): Boolean; inline;
+
 { file attributes }
   function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
   function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
@@ -1144,6 +1146,12 @@ begin
   for i := 3 downto 0 do
     TCastArray(Result)[3-i] := TCastArray(Value)[i];
 end;
+
+function AbIsSymlink(const aFileName: String): Boolean;
+begin
+  Result:= ReadSymLink(aFileName) <> EmptyStr
+end;
+
 { -------------------------------------------------------------------------- }
 function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
 begin

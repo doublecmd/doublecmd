@@ -18,8 +18,9 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="1">
+      <Resources Count="2">
         <Resource_0 FileName="dmhigh.json" Type="RCDATA" ResourceName="HIGHLIGHTERS"/>
+        <Resource_1 FileName="doublecmd.svgz" Type="RCDATA" ResourceName="DOUBLECMD"/>
       </Resources>
     </General>
     <i18n>
@@ -37,7 +38,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="3"/>
       <Attributes pvaPreRelease="True" pvaPrivateBuild="True"/>
-      <StringTable FileDescription="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2025 Alexander Koblov" ProductName="Double Commander"/>
+      <StringTable FileDescription="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov" ProductName="Double Commander"/>
     </VersionInfo>
     <BuildModes Count="5">
       <Item1 Name="Debug" Default="True"/>
@@ -2223,6 +2224,11 @@ end;"/>
     <Conditionals Value="if (Laz_FullVersion >= 4990000) then
 begin
   CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;
+
+if UNIX or LINUX then
+begin
+  CustomOptions += &apos; -dTURN_OFF_LUA_JIT&apos;;
 end;
 
 if TargetOS = &apos;darwin&apos; then begin

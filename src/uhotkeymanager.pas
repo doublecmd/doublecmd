@@ -112,7 +112,7 @@ type
        of Shortcuts parameter.
     }
     function FindByBeginning(const Shortcuts: TDynamicStringArray; BothWays: Boolean): THotkey;
-    function FindByCommand(Command: String): THotkey;
+    function FindByCommand(Command: String; const Params: TDynamicStringArray = nil): THotkey;
     function FindByContents(Hotkey: THotkey): THotkey;
     {en
        Should be called whenever a hotkey has shortcut updated to update the
@@ -447,13 +447,18 @@ begin
   Result := nil;
 end;
 
-function THotkeys.FindByCommand(Command: String): THotkey;
+function THotkeys.FindByCommand(Command: String; const Params: TDynamicStringArray = nil): THotkey;
 var
   i: Integer;
+  hotkey: THotkey;
 begin
-  for i := 0 to Count - 1 do
-    if Items[i].Command = Command then
-      Exit(Items[i]);
+  for i := 0 to Count - 1 do begin
+    hotkey:= Items[i];
+    if hotkey.Command <> Command then
+      continue;
+    if ArrBegins(hotkey.Params, Params, False) then
+      Exit(hotkey);
+  end;
   Result := nil;
 end;
 

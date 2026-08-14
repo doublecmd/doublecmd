@@ -140,14 +140,8 @@ implementation
 
 uses
   StrUtils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
-  DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8,
+  DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uTypes, uWDXModule, LazUTF8,
   Math, WdxPlugin, Variants, uRegExprW, uFileSystemFileSource;
-
-const
-  cKilo = 1024;
-  cMega = 1024 * cKilo;
-  cGiga = 1024 * cMega;
-  cTera = 1024 * cGiga;
 
 procedure FileMaskOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                   var FileChecks: TFindFileChecks);
@@ -243,13 +237,13 @@ procedure FileSizeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
       suBytes:
         Result := Size;
       suKilo:
-        Result := Size * cKilo;
+        Result := Size * gFileSizeBases[fsfKilo];
       suMega:
-        Result := Size * cMega;
+        Result := Size * gFileSizeBases[fsfMega];
       suGiga:
-        Result := Size * cGiga;
+        Result := Size * gFileSizeBases[fsfGiga];
       suTera:
-        Result := Size * cTera;
+        Result := Size * gFileSizeBases[fsfTera];
     end;
   end;
 

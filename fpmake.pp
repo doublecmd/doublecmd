@@ -41,7 +41,7 @@ const
   (
     'plugins/wcx/cpio/src/cpio.lpi',
     'plugins/wfx/samba/src/samba.lpi',
-    'plugins/wlx/WlxMplayer/src/wlxMplayer.lpi',
+    'plugins/wlx/wlxmplayer/src/wlxMplayer.lpi',
     'plugins/dsx/DSXLocate/src/DSXLocate.lpi'
   );
 

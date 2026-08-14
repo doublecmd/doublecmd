@@ -1976,14 +1976,21 @@ end;
 { TfrmFindDlg.cm_GoToFile }
 procedure TfrmFindDlg.cm_GoToFile(const Params: array of string);
 var
+  AValue: String;
   AFile: TFile = nil;
   TargetFile: string;
   ArchiveFile: string;
+  AClose: Boolean = True;
   FileSource: IFileSource;
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
     try
-      StopSearch;
+      if (Length(Params) > 0) then
+      begin
+        if GetParamValue(Params, 'close', AValue) then
+          GetBoolValue(AValue, AClose);
+      end;
+      if AClose then StopSearch;
       TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
       if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
       begin
@@ -2011,7 +2018,7 @@ begin
         frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
       end;
       frmMain.RestoreWindow;
-      Close;
+      if AClose then Close;
     except
       on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
     end;
@@ -2568,6 +2575,12 @@ begin
           cm_GotoFile([]);
           Key := 0;
         end;
+      end;
+
+      VK_SPACE:
+      begin
+        cm_GotoFile(['close=0']);
+        Key := 0;
       end;
 
       VK_RIGHT, VK_LEFT:

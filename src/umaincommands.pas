@@ -71,7 +71,6 @@ type
    // parameters would have to be converted to and from strings).
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
-   procedure DoOpenStash(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
    procedure DoUpdateFileView(AFileView: TFileView; {%H-}UserData: Pointer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
@@ -187,7 +186,6 @@ type
    procedure cm_Open(const {%H-}Params: array of string);
    procedure cm_ShellExecute(const Params: array of string);
    procedure cm_OpenVirtualFileSystemList(const {%H-}Params: array of string);
-   procedure cm_OpenStash(const {%H-}Params: array of string);
    procedure cm_TargetEqualSource(const {%H-}Params: array of string);
    procedure cm_LeftEqualRight(const {%H-}Params: array of string);
    procedure cm_RightEqualLeft(const {%H-}Params: array of string);
@@ -387,6 +385,7 @@ type
    procedure cm_AddToStash(const {%H-}Params: array of string);
    procedure cm_RemoveFromStash(const {%H-}Params: array of string);
    procedure cm_EmptyStash(const {%H-}Params: array of string);
+   procedure cm_CallPlatformFunctions(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -416,7 +415,11 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
      uColumnsFileView, uTypes,
-     uStashFileSource, uStashFilesBackend
+     uStashFileSource, uStashFilesBackend,
+     LCLVersion
+     {$IFDEF DARWIN}
+     , uDarwinApplication, uDarwinPanel, uDarwinFileView
+     {$ENDIF}
      ;
 
 resourcestring
@@ -741,18 +744,6 @@ begin
   end;
 end;
 
-procedure TMainCommands.DoOpenStash(Panel: TFileView);
-var
-  FileSource: IFileSource;
-begin
-  FileSource:= TStashFileSource.GetFileSource;
-  if Assigned(FileSource) then
-  begin
-    Panel.AddFileSource(FileSource, FileSource.GetRootDir);
-    frmMain.ActiveFrame.SetFocus;
-  end;
-end;
-
 procedure TMainCommands.DoPanelsSplitterPerPos(SplitPos: Integer);
 begin
   with frmMain do
@@ -910,6 +901,11 @@ begin
       end
       else
       begin
+        if FileIsLinkToFolder(aFile.FullPath, NewPath) then
+        begin
+          TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, NewPath);
+        end
+        else
         // Change file source, if the file under cursor can be opened as another file source.
         try
           if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
@@ -1271,6 +1267,13 @@ begin
       AFileView.Reload;
     Exit;
   end;
+
+  if not (fspListFlatView in AFileSource.GetProperties) then
+  begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
+
   AFileList := TFileTree.Create;
   AFiles := AFileView.CloneSelectedFiles;
   for J := 0 to AFiles.Count - 1 do
@@ -1469,13 +1472,20 @@ begin
 end;
 
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
+var
+  plugin: String;
+  f: TFile;
 begin
   DoOpenVirtualFileSystemList(frmMain.ActiveFrame);
-end;
+  if NOT GetParamValue(Params, 'plugin', plugin) then
+    Exit;
+  if plugin.IsEmpty then
+    Exit;
 
-procedure TMainCommands.cm_OpenStash(const Params: array of string);
-begin
-  DoOpenStash(frmMain.ActiveFrame);
+  f:= TFile.Create(EmptyStr);
+  f.Name:= plugin;
+  ChooseFileSource(frmMain.ActiveFrame, frmMain.ActiveFrame.FileSource, f );
+  f.Free;
 end;
 
 //------------------------------------------------------
@@ -2014,6 +2024,9 @@ begin
   if sInputTabsFilename='' then
   begin
     dmComData.OpenDialog.Filter:= '*.tab|*.tab';
+{$if lcl_fullversion >= 4990000}
+    dmComData.OpenDialog.OptionsEx:= [];
+{$endif}
     dmComData.OpenDialog.FileName:= GetDefaultParam(Params);
     if dmComData.OpenDialog.Execute then
       sInputTabsFilename:=dmComData.OpenDialog.FileName;
@@ -2706,12 +2719,12 @@ begin
     try
       if (theFilesToDelete.Count = 0) then Exit;
       if (theFilesToDelete.Count = 1) then
-        Message:= Format(MsgDelSel, [theFilesToDelete[0].Name])
+        Message:= Format(MsgDelSel, [WrapTextSimple(theFilesToDelete[0].Name)])
       else begin
          Message:= Format(MsgDelFlDr, [theFilesToDelete.Count]) + LineEnding;
          for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
          begin
-           Message+= LineEnding + theFilesToDelete[I].Name;
+           Message+= LineEnding + Format('"%s"', [WrapTextSimple(theFilesToDelete[I].Name)]);
          end;
          if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
       end;
@@ -3848,9 +3861,10 @@ begin
     end
     else if GetParamValue(Param, 'column', sValue) then
     begin
-      if sValue='ext' then WantedSortFunction:=fsfExtension else
-        if sValue='size' then WantedSortFunction:=fsfSize else
-          if sValue='datetime' then WantedSortFunction:=fsfModificationTime;
+      if sValue='namenoext' then WantedSortFunction:=fsfNameNoExtension else
+        if sValue='ext' then WantedSortFunction:=fsfExtension else
+          if sValue='size' then WantedSortFunction:=fsfSize else
+            if sValue='datetime' then WantedSortFunction:=fsfModificationTime;
     end
     else if GetParamValue(Param, 'order', sValue) then
     begin
@@ -5577,6 +5591,9 @@ begin
   if Length(Params) = 0 then
   begin
     dmComData.OpenDialog.Filter:= ParseLineToFileFilter([rsFilterPluginFiles, '*.dsx;*.wcx;*.wdx;*.wfx;*.wlx;*.dsx64;*.wcx64;*.wdx64;*.wfx64;*.wlx64', rsFilterAnyFiles, AllFilesMask]);
+{$if lcl_fullversion >= 4990000}
+    dmComData.OpenDialog.OptionsEx:= [ofAllowsFilePackagesContents];
+{$endif}
     dmComData.OpenDialog.InitialDir := frmMain.ActiveNotebook.ActivePage.FileView.CurrentPath;
     if dmComData.OpenDialog.Execute then
       sPluginFilename := dmComData.OpenDialog.FileName;
@@ -5771,6 +5788,31 @@ end;
 procedure TMainCommands.cm_EmptyStash(const Params: array of string);
 begin
   stashFilesBackend.clear;
+end;
+
+procedure TMainCommands.cm_CallPlatformFunctions(const Params: array of string);
+var
+  func: String;
+begin
+  {$IFDEF DARWIN}
+  if NOT GetParamValue(Params, 'func', func) then
+    Exit;
+
+  case func of
+    'Share':
+      TDarwinPanelUtil.showSharingService;
+    'AirDrop':
+      TDarwinPanelUtil.showAirDrop;
+    'RevealInFinder':
+      TDarwinApplicationUtil.performService( 'Finder/Reveal' );
+    'ShowInfoInFinder':
+      TDarwinApplicationUtil.performService( 'Finder/Show Info' );
+    'QuickLook':
+      TDarwinPanelUtil.showQuickLook;
+    'EditFinderTags':
+      TDarwinPanelUtil.showEditFinderTags( nil, frmMain );
+  end;
+  {$ENDIF}
 end;
 
 end.
