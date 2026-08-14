@@ -816,6 +816,8 @@ begin
 
   inherited Create(AOwner);
 
+  Parent:= TWinControl(AOwner);
+
   BorderStyle := bsSingle;
   Color := clBlack;
   DoubleBuffered := True;
@@ -845,7 +847,6 @@ begin
     FAlternateBuffer.Init(FVisibleRows, FColumns);
   end;
 
-  Parent:= TWinControl(AOwner);
   SetBounds(Left, Top, 400, 250);
 end;
 
