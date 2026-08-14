@@ -1569,9 +1569,9 @@ var
   EditorClass: TOptionsEditorClass;
 begin
   if ToolBar = MainToolBar then
-    EditorClass := TfrmOptionsToolbar
+    EditorClass := TOptionsEditorClass(Pointer(TfrmOptionsToolbar))
   else begin
-    EditorClass := TfrmOptionsToolbarMiddle;
+    EditorClass := TOptionsEditorClass(Pointer(TfrmOptionsToolbarMiddle));
   end;
   Options := ShowOptions(EditorClass);
   Application.ProcessMessages;
