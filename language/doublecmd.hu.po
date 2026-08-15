@@ -9982,11 +9982,11 @@ msgstr ""
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
-msgstr "<MAPPA>"
+msgstr "<DIR>"
 
 #: ulng.rsabbrevdisplaylink
 msgid "<LNK>"
-msgstr "<LINK>"
+msgstr "<LNK>"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
