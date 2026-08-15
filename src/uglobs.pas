@@ -177,7 +177,9 @@ procedure SetGlob1KBase(const value: UInt64);
 
 const
   { Default hotkey list version number }
-  hkVersion = 72;
+  hkVersion = 73;
+  // 73 - In "Files Panel" context, added:
+  //      "Ctrl+G" for "cm_GoToPosition" (jump to a position in the listing)
   // 72 - In "Viewer" and "Editor" context, for macOS, added:
   //      "Cmd+G" for Find Next
   //      "Cmd+L" for Goto Line
@@ -299,6 +301,7 @@ var
   gCurDir,
   gTabHeader,
   gStatusBar,
+  gShowPositionIndex,
   gCmdLine,
   gLogWindow,
   gTermWindow,
@@ -1317,6 +1320,8 @@ begin
       AddIfNotExists(['Shift+Num-'],[],'cm_UnmarkCurrentExtension');
       AddIfNotExists(['Num*'],[],'cm_MarkInvert');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
+      if HotMan.Version < 73 then
+        AddIfNotExists(['Ctrl+G'],[],'cm_GoToPosition');
       AddIfNotExists(['Ctrl+Shift+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
@@ -2031,6 +2036,7 @@ begin
   gCurDir := True;
   gTabHeader := True;
   gStatusBar := True;
+  gShowPositionIndex := True;
   gCmdLine := True;
   gLogWindow := False;
   gTermWindow := False;
@@ -2969,6 +2975,7 @@ begin
       gCurDir := GetValue(Node, 'CurrentDirectory', gCurDir);
       gTabHeader := GetValue(Node, 'TabHeader', gTabHeader);
       gStatusBar := GetValue(Node, 'StatusBar', gStatusBar);
+      gShowPositionIndex := GetValue(Node, 'ShowPositionIndex', gShowPositionIndex);
       gCmdLine := GetValue(Node, 'CmdLine', gCmdLine);
       gLogWindow := GetValue(Node, 'LogWindow', gLogWindow);
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
@@ -3688,6 +3695,7 @@ begin
     SetValue(Node, 'CurrentDirectory', gCurDir);
     SetValue(Node, 'TabHeader', gTabHeader);
     SetValue(Node, 'StatusBar', gStatusBar);
+    SetValue(Node, 'ShowPositionIndex', gShowPositionIndex);
     SetValue(Node, 'CmdLine', gCmdLine);
     SetValue(Node, 'LogWindow', gLogWindow);
     SetValue(Node, 'TermWindow', gTermWindow);
