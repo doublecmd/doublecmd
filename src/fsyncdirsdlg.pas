@@ -543,6 +543,30 @@ end;
 procedure TFileSyncRec.UpdateState(ignoreDate: Boolean);
 var
   FileTimeDiff: Integer;
+
+  function AreEquivalentLinks: Boolean;
+  var
+    LeftTarget, RightTarget: String;
+    LeftResolved, RightResolved: String;
+  begin
+    Result := False;
+
+    if not (FFileL.IsLink and FFileR.IsLink) then Exit;
+
+    LeftTarget := FFileL.LinkProperty.LinkTo;
+    RightTarget := FFileR.LinkProperty.LinkTo;
+
+    // Fast path: identical link text means semantically identical link.
+    if LeftTarget = RightTarget then Exit(True);
+
+    if (LeftTarget = EmptyStr) or (RightTarget = EmptyStr) then Exit;
+
+    // Also accept different textual forms that resolve to the same target.
+    LeftResolved := GetAbsoluteFileName(FFileL.Path, LeftTarget);
+    RightResolved := GetAbsoluteFileName(FFileR.Path, RightTarget);
+
+    Result := mbCompareFileNames(LeftResolved, RightResolved);
+  end;
 begin
   FState := srsNotEq;
   if Assigned(FFileR) and not Assigned(FFileL) then
@@ -552,7 +576,8 @@ begin
     FState := srsCopyRight
   else begin
     FileTimeDiff := FileTimeCompare(FFileL.ModificationTime, FFileR.ModificationTime, FForm.FNtfsShift);
-    if ((FileTimeDiff = 0) or ignoreDate) and (FFileL.Size = FFileR.Size) then
+    if ((FileTimeDiff = 0) or ignoreDate) and
+       ((FFileL.Size = FFileR.Size) or AreEquivalentLinks) then
       FState := srsEqual
     else
     if not ignoreDate then
