@@ -266,7 +266,10 @@ Begin
   case MsgType of
     msgtype_connect:
       begin
-        bLogWindow:= True;
+        // Only show the log if the user enabled it in Layout settings.
+        // Previously this was hardcoded True, which forced the log panel open
+        // on every FTP connect even when the user had "Show log window" off.
+        bLogWindow:= gLogWindow;
         if Assigned(CallbackDataClass) then
         begin
           if Length(LogString) > 0 then

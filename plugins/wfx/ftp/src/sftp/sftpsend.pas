@@ -69,7 +69,7 @@ implementation
 
 uses
   LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, CTypes,
-  DCClassesUtf8, DCFileAttributes, DCConvertEncoding;
+  DCClassesUtf8, DCFileAttributes, DCConvertEncoding{$IFDEF UNIX}, BaseUnix{$ENDIF};
 
 const
   READ_BUFFER_SIZE  = 131072;
@@ -228,6 +228,10 @@ var
   TotalBytesToWrite: Int64 = 0;
   TargetHandle: PLIBSSH2_SFTP_HANDLE = nil;
   Flags: cint = LIBSSH2_FXF_CREAT or LIBSSH2_FXF_WRITE;
+{$IFDEF UNIX}
+  LocalStat: BaseUnix.TStat;
+  UploadAttrs: LIBSSH2_SFTP_ATTRIBUTES;
+{$ENDIF}
 begin
   if FCopySCP then begin
     Result:= inherited StoreFile(FileName, Restore);
@@ -304,6 +308,22 @@ begin
     FreeMem(FBuffer);
     Result:= FileClose(TargetHandle) and Result;
     libssh2_session_set_blocking(FSession, 1);
+{$IFDEF UNIX}
+    if Result then
+    begin
+      if FpStat(FDirectFileName, LocalStat) = 0 then
+      begin
+        FillChar(UploadAttrs, SizeOf(UploadAttrs), 0);
+        UploadAttrs.permissions := LocalStat.st_mode;
+        UploadAttrs.flags       := LIBSSH2_SFTP_ATTR_PERMISSIONS;
+        libssh2_sftp_setstat(FSFTPSession, PAnsiChar(FileName), @UploadAttrs);
+        UploadAttrs.uid   := LocalStat.st_uid;
+        UploadAttrs.gid   := LocalStat.st_gid;
+        UploadAttrs.flags := LIBSSH2_SFTP_ATTR_UIDGID;
+        libssh2_sftp_setstat(FSFTPSession, PAnsiChar(FileName), @UploadAttrs);
+      end;
+    end;
+{$ENDIF}
   end;
 end;
 
@@ -315,6 +335,9 @@ var
   RetrStream: TFileStreamEx;
   TotalBytesToRead: Int64 = 0;
   SourceHandle: PLIBSSH2_SFTP_HANDLE;
+{$IFDEF UNIX}
+  DownloadAttrs: LIBSSH2_SFTP_ATTRIBUTES;
+{$ENDIF}
 begin
   if FCopySCP then begin
     Result:= inherited RetrieveFile(FileName, FileSize, Restore);
@@ -380,6 +403,20 @@ begin
   finally
     RetrStream.Free;
     libssh2_session_set_blocking(FSession, 1);
+{$IFDEF UNIX}
+    if Result then
+    begin
+      if libssh2_sftp_stat(FSFTPSession, PAnsiChar(FileName), @DownloadAttrs) = 0 then
+      begin
+        if (DownloadAttrs.flags and LIBSSH2_SFTP_ATTR_PERMISSIONS) <> 0 then
+        begin
+          FpChmod(FDirectFileName, DownloadAttrs.permissions and $0FFF);
+          if (DownloadAttrs.flags and LIBSSH2_SFTP_ATTR_UIDGID) <> 0 then
+            FpChown(FDirectFileName, DownloadAttrs.uid, DownloadAttrs.gid);
+        end;
+      end;
+    end;
+{$ENDIF}
   end;
 end;
 
