@@ -137,7 +137,7 @@ begin
   TreeBuilder := TFileSystemTreeBuilder.Create(@AskQuestion, @CheckOperationState);
   try
     ElevateAction:= dupError;
-    TreeBuilder.SymLinkOption:= fsooslFollow;
+    TreeBuilder.SymLinkOption:= fsooslDontFollow;
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
