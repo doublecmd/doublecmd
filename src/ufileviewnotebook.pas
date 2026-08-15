@@ -66,6 +66,7 @@ type
     FTermInitialized: Boolean;
     FTermNeedInit: Boolean;
     FTermSyncMode: Integer;
+    FTermSyncDir: Integer;
 
     procedure AssignPage(OtherPage: TFileViewPage);
     procedure AssignProperties(OtherPage: TFileViewPage);
@@ -121,6 +122,7 @@ type
     property TermInitialized: Boolean read FTermInitialized write FTermInitialized;
     property TermNeedInit: Boolean read FTermNeedInit write FTermNeedInit;
     property TermSyncMode: Integer read FTermSyncMode write FTermSyncMode;
+    property TermSyncDir: Integer read FTermSyncDir write FTermSyncDir;
   end;
 
   { TFileViewNotebook }
@@ -243,6 +245,7 @@ begin
   FLockState := tlsNormal;
   FBackupViewClass := TColumnsFileView;
   FTermSyncMode := 0;
+  FTermSyncDir := 1;
   inherited Create(TheOwner);
 end;
 

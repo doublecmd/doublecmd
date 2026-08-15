@@ -5089,7 +5089,7 @@ begin
       begin
         if gTermWindowMode = twmPerTab then
         begin
-          if (gTermSyncModeLeft = 1) and
+          if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
              Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
              (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
             TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -5101,7 +5101,7 @@ begin
       begin
         if gTermWindowMode = twmPerTab then
         begin
-          if (gTermSyncModeRight = 1) and
+          if (TFileViewPage(FileView.NotebookPage).TermSyncMode = 1) and
              Assigned(TFileViewPage(FileView.NotebookPage).PtyDevice) and
              (not TFileViewPage(FileView.NotebookPage).TermNeedInit) then
             TFileViewPage(FileView.NotebookPage).PtyDevice.SetCurrentDir(FileView.CurrentPath);
@@ -5801,8 +5801,21 @@ begin
     else // Detached
       begin
         BtnLink.Down := False;
-        BtnDir.Down := False;
-        BtnDir.Enabled := False;
+        BtnDir.Enabled := True;
+        if gTermWindowMode = twmPerTab then
+        begin
+          if AIsLeft and Assigned(nbLeft.ActivePage) then
+            BtnDir.Down := (TFileViewPage(nbLeft.ActivePage).TermSyncDir = 2)
+          else if (not AIsLeft) and Assigned(nbRight.ActivePage) then
+            BtnDir.Down := (TFileViewPage(nbRight.ActivePage).TermSyncDir = 2);
+        end
+        else
+        begin
+          if AIsLeft then
+            BtnDir.Down := (gTermSyncDirLeft = 2)
+          else
+            BtnDir.Down := (gTermSyncDirRight = 2);
+        end;
       end;
   end;
 
@@ -5936,6 +5949,25 @@ begin
     BtnDir := btnTermDirRight;
   end;
 
+  // Save the direction regardless of Link state
+  if BtnDir.Down then
+  begin
+    if IsLeft then gTermSyncDirLeft := 2 else gTermSyncDirRight := 2;
+  end
+  else
+  begin
+    if IsLeft then gTermSyncDirLeft := 1 else gTermSyncDirRight := 1;
+  end;
+
+  // In per-tab mode, persist the direction to the active page
+  if gTermWindowMode = twmPerTab then
+  begin
+    if IsLeft and Assigned(nbLeft.ActivePage) then
+      TFileViewPage(nbLeft.ActivePage).TermSyncDir := gTermSyncDirLeft
+    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+      TFileViewPage(nbRight.ActivePage).TermSyncDir := gTermSyncDirRight;
+  end;
+
   // If Link is ON, update sync mode and trigger immediate sync
   if BtnLink.Down then
   begin
@@ -5976,17 +6008,18 @@ begin
         end;
       end;
     end;
+    
+    // In per-tab mode, persist the sync mode to the active page
+    if gTermWindowMode = twmPerTab then
+    begin
+      if IsLeft and Assigned(nbLeft.ActivePage) then
+        TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
+      else if (not IsLeft) and Assigned(nbRight.ActivePage) then
+        TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
+    end;
   end;
 
-  // In per-tab mode, persist the sync state to the active page
-  if gTermWindowMode = twmPerTab then
-  begin
-    if IsLeft and Assigned(nbLeft.ActivePage) then
-      TFileViewPage(nbLeft.ActivePage).TermSyncMode := gTermSyncModeLeft
-    else if (not IsLeft) and Assigned(nbRight.ActivePage) then
-      TFileViewPage(nbRight.ActivePage).TermSyncMode := gTermSyncModeRight;
-  end;
-
+  // Link is OFF, just update the visual buttons without syncing
   UpdateTermSyncButtons(IsLeft);
 end;
 
@@ -6372,11 +6405,13 @@ begin
   if Notebook = nbLeft then
   begin
     gTermSyncModeLeft := Page.TermSyncMode;
+    gTermSyncDirLeft := Page.TermSyncDir;
     UpdateTermSyncButtons(True);
   end
   else
   begin
     gTermSyncModeRight := Page.TermSyncMode;
+    gTermSyncDirRight := Page.TermSyncDir;
     UpdateTermSyncButtons(False);
   end;
 end;

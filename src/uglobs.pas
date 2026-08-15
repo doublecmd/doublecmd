@@ -321,6 +321,8 @@ var
   // 0 = Detach, 1 = Sync Panel->Terminal, 2 = Sync Terminal->Panel
   gTermSyncModeLeft: Integer;
   gTermSyncModeRight: Integer;
+  gTermSyncDirLeft: Integer;
+  gTermSyncDirRight: Integer;
 
   gTermWindowMode: Integer;
 
@@ -2046,6 +2048,8 @@ begin
   gTermWindowMode := twmSingle;
   gTermSyncModeLeft := 0; // Detach
   gTermSyncModeRight := 0; // Detach
+  gTermSyncDirLeft := 1;
+  gTermSyncDirRight := 1;
   gKeyButtons := True;
   gInterfaceFlat := True;
   gDriveInd := False;
@@ -2990,6 +2994,8 @@ begin
         gTermWindowMode := GetValue(Node, 'TermWindowMode', gTermWindowMode);
       gTermSyncModeLeft := GetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
       gTermSyncModeRight := GetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
+      gTermSyncDirLeft := GetValue(Node, 'TermSyncDirLeft', gTermSyncDirLeft);
+      gTermSyncDirRight := GetValue(Node, 'TermSyncDirRight', gTermSyncDirRight);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
       gInterfaceFlat := GetValue(Node, 'InterfaceFlat', gInterfaceFlat);
       gDriveFreeSpace := GetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
@@ -3712,6 +3718,8 @@ begin
     SetValue(Node, 'TermWindowMode', gTermWindowMode);
     SetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
     SetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
+    SetValue(Node, 'TermSyncDirLeft', gTermSyncDirLeft);
+    SetValue(Node, 'TermSyncDirRight', gTermSyncDirRight);
     SetValue(Node, 'KeyButtons', gKeyButtons);
     SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
     SetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
