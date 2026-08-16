@@ -153,7 +153,7 @@ implementation
 uses
   LCLProc, LCLIntf, LazUTF8
 {$IF DEFINED(MSWINDOWS)}
-  , Windows
+  , Windows, uMyWindows
 {$ENDIF}
 {$IF DEFINED(LCLGTK)}
   , Gdk, GLib
@@ -959,6 +959,25 @@ procedure UpdateKeyboardLayoutAltGrFlag;
       cbLgEntry: Byte;
       pLigature: Pointer;
     end;
+{$IFDEF WIN32}
+    PKBDTABLES64 = ^KBDTABLES64;
+    KBDTABLES64 = record // not packed
+      pCharModifers: UInt64;
+      pVkToWCharTable: UInt64;
+      pDeadKey: UInt64;
+      pKeyNames: UInt64;
+      pKeyNamesExt: UInt64;
+      pKeyNamesDead: UInt64;
+      pUsVscToVk: UInt64;
+      MaxVscToVk: Byte;
+      pVSCToVk_E0: UInt64;
+      pVSCToVk_E1: UInt64;
+      LocalFlags: DWORD;    // <-- we only need this
+      LgMaxD: Byte;
+      cbLgEntry: Byte;
+      pLigature: UInt64;
+    end;
+{$ENDIF}
 
   const
     KBDTABLE_VERSION = 1;
@@ -1000,28 +1019,49 @@ procedure UpdateKeyboardLayoutAltGrFlag;
     end;
   end;
 
-  function GetKeyboardLayoutAltGrFlag(LayoutDllFileName: WideString): Boolean;
+  function GetKeyboardLayoutAltGrFlag(const LayoutDllFileName: UnicodeString): Boolean;
   type
     TKbdLayerDescriptor = function: PKBDTABLES; stdcall;
   var
     Handle: HMODULE;
-    KbdLayerDescriptor: TKbdLayerDescriptor;
     Tables: PKBDTABLES;
+{$IFDEF WIN32}
+    Tables64: PKBDTABLES64;
+{$ENDIF}
+    SystemDirectory: UnicodeString;
+    KbdLayerDescriptor: TKbdLayerDescriptor;
   begin
     Result := False;
     // Load the keyboard layout dll.
-    Handle := LoadLibraryW(PWChar(LayoutDllFileName));
+    SetLength(SystemDirectory, MaxSmallint + 1);
+    SetLength(SystemDirectory, GetSystemDirectoryW(Pointer(SystemDirectory), MaxSmallint));
+    Handle := LoadLibraryW(PWideChar(SystemDirectory + PathDelim + LayoutDllFileName));
     if Handle <> 0 then
     begin
       KbdLayerDescriptor := TKbdLayerDescriptor(GetProcAddress(Handle, 'KbdLayerDescriptor'));
       if Assigned(KbdLayerDescriptor) then
       begin
-        // Get the layout tables.
-        Tables := KbdLayerDescriptor();
-        if Assigned(Tables) and (Hi(Tables^.LocalFlags) = KBDTABLE_VERSION) then
+{$IFDEF WIN32}
+        if IsWow64 then
         begin
-          // Read AltGr flag.
-          Result := Boolean(Tables^.LocalFlags and KLLF_ALTGR);
+          // Get the layout tables.
+          Tables64 := PKBDTABLES64(KbdLayerDescriptor());
+          if Assigned(Tables64) and (Hi(Tables64^.LocalFlags) = KBDTABLE_VERSION) then
+          begin
+            // Read AltGr flag.
+            Result := Boolean(Tables64^.LocalFlags and KLLF_ALTGR);
+          end;
+        end
+        else
+{$ENDIF}
+        begin
+          // Get the layout tables.
+          Tables := KbdLayerDescriptor();
+          if Assigned(Tables) and (Hi(Tables^.LocalFlags) = KBDTABLE_VERSION) then
+          begin
+            // Read AltGr flag.
+            Result := Boolean(Tables^.LocalFlags and KLLF_ALTGR);
+          end;
         end;
       end;
 
