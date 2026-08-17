@@ -2,6 +2,9 @@
 
 set -e
 
+# Check zip tool
+ZIP=$(which zip)
+
 # Set processor architecture
 if [ -z $CPU_TARGET ]; then
    export CPU_TARGET=$(fpc -iTP)
@@ -110,6 +113,7 @@ install -m 644 plugins/dsx/DSXLocate/dsxlocate.dsx    $DC_INSTALL_DIR/plugins/ds
 if [ -z $CK_PORTABLE ]
   then
     # Share directory
+    USR_SHARE=$DC_INSTALL_PREFIX/usr/share
     DC_USR_SHARE=$DC_INSTALL_PREFIX/usr/share/doublecmd
     # Copy libraries
     install -d                $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
@@ -119,8 +123,8 @@ if [ -z $CK_PORTABLE ]
     # Create directory for platform independed files
     install -d                $DC_USR_SHARE
     # Copy man files
-    install -d -m 755                      $DC_INSTALL_PREFIX/usr/share/man/man1
-    install -c -m 644 install/linux/*.1    $DC_INSTALL_PREFIX/usr/share/man/man1
+    install -d -m 755                      $USR_SHARE/man/man1
+    install -c -m 644 install/linux/*.1    $USR_SHARE/man/man1
     # Copy documentation
     install -d                $DC_USR_SHARE/doc
     install -m 644 doc/*.txt  $DC_USR_SHARE/doc
@@ -132,9 +136,16 @@ if [ -z $CK_PORTABLE ]
     cp -r language $DC_USR_SHARE
     ln -sf ../../share/doublecmd/language $DC_INSTALL_DIR/language
     # Copy pixmaps
-    cp -r pixmaps $DC_USR_SHARE
+    install -d $DC_USR_SHARE/pixmaps/dctheme
+    cp -r pixmaps/mainicon $DC_USR_SHARE/pixmaps
+    if [ -n "$ZIP" ]; then
+      install -m 644 pixmaps/dctheme/index.theme $DC_USR_SHARE/pixmaps/dctheme/
+      (cd pixmaps/dctheme && zip -0 -q -rD $DC_USR_SHARE/pixmaps/dctheme/icon-theme.zip * -x *theme*)
+    else
+      cp -r pixmaps/dctheme $DC_USR_SHARE/pixmaps
+      touch -r $DC_USR_SHARE/pixmaps/dctheme $DC_USR_SHARE/pixmaps/dctheme/icon-theme.cache
+    fi
     ln -sf ../../share/doublecmd/pixmaps $DC_INSTALL_DIR/pixmaps
-    touch -r $DC_USR_SHARE/pixmaps/dctheme $DC_USR_SHARE/pixmaps/dctheme/icon-theme.cache
     # Copy highlighters
     cp -r highlighters $DC_USR_SHARE
     ln -sf ../../share/doublecmd/highlighters $DC_INSTALL_DIR/highlighters
@@ -145,11 +156,11 @@ if [ -z $CK_PORTABLE ]
     install -d $DC_INSTALL_PREFIX/usr/share/icons/hicolor/scalable/apps
     ln -sf  ../lib$LIB_SUFFIX/doublecmd/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
-    install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
+    install -m 644 install/linux/doublecmd.desktop $USR_SHARE/applications/doublecmd.desktop
     ln -sf ../../../../doublecmd/pixmaps/mainicon/alt/dcfinal.svg \
-           $DC_INSTALL_PREFIX/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
+           $USR_SHARE/icons/hicolor/scalable/apps/doublecmd.svg
     install -d $DC_INSTALL_PREFIX/usr/share/polkit-1/actions
-    install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
+    install -m 644 install/linux/org.doublecmd.root.policy $USR_SHARE/polkit-1/actions/
   else
     # Make portable version
     mkdir $DC_INSTALL_DIR/settings
