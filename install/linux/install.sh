@@ -140,7 +140,7 @@ if [ -z $CK_PORTABLE ]
     cp -r pixmaps/mainicon $DC_USR_SHARE/pixmaps
     if [ -n "$ZIP" ]; then
       install -m 644 pixmaps/dctheme/index.theme $DC_USR_SHARE/pixmaps/dctheme/
-      (cd pixmaps/dctheme && zip -0 -q -rD $DC_USR_SHARE/pixmaps/dctheme/icon-theme.zip * -x *theme*)
+      (cd pixmaps/dctheme && zip -0 -qrDX $DC_USR_SHARE/pixmaps/dctheme/icon-theme.zip * -x *theme*)
     else
       cp -r pixmaps/dctheme $DC_USR_SHARE/pixmaps
       touch -r $DC_USR_SHARE/pixmaps/dctheme $DC_USR_SHARE/pixmaps/dctheme/icon-theme.cache
