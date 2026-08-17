@@ -3,7 +3,7 @@
 set -e
 
 # Check zip tool
-ZIP=$(which zip)
+ZIP=$(which zip || true)
 
 # Set processor architecture
 if [ -z $CPU_TARGET ]; then
