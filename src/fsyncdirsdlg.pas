@@ -451,7 +451,7 @@ begin
         begin
           if Terminated then Exit;
           R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
-          if Assigned(R) and (R.FState = srsUnknown) then
+          if NOT R.isDir and (R.FState = srsUnknown) then
           begin
             Statistics.TotalBytes+= R.FFileL.Size;
           end;
@@ -467,7 +467,7 @@ begin
       begin
         if Terminated then Exit;
         R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
-        if Assigned(R) and (R.FState = srsUnknown) then
+        if NOT R.isDir and (R.FState = srsUnknown) then
         begin
           try
             B:= CompareFiles(R.FFileL.FullPath, R.FFileR.FullPath, R.FFileL.Size);
@@ -745,9 +745,9 @@ begin
   CopyLeftSize := 0;  CopyRightSize := 0;
 
   for i := 0 to FVisibleItems.Count - 1 do
-    if Assigned(FVisibleItems.Objects[i]) then
+    fsr := TFileSyncRec(FVisibleItems.Objects[i]);
+    if NOT fsr.isDir then
     begin
-      fsr := TFileSyncRec(FVisibleItems.Objects[i]);
       case fsr.FAction of
       srsCopyLeft:
         begin
@@ -834,9 +834,9 @@ begin
         CopyRightFiles := TFiles.Create('');
         DeleteLeftFiles := TFiles.Create('');
         DeleteRightFiles := TFiles.Create('');
-        if FVisibleItems.Objects[i] <> nil then
+        fsr := TFileSyncRec(FVisibleItems.Objects[i]);
+        if NOT fsr.isDir then
           repeat
-            fsr := TFileSyncRec(FVisibleItems.Objects[i]);
             Dest := fsr.FRelPath;
             case fsr.FAction of
             srsCopyRight:
@@ -854,7 +854,8 @@ begin
               end;
             end;
             i := i + 1;
-          until (i = FVisibleItems.Count) or (FVisibleItems.Objects[i] = nil);
+            fsr := TFileSyncRec(FVisibleItems.Objects[i]);
+          until (i = FVisibleItems.Count) or fsr.isDir;
         i := i + 1;
         if CopyLeftFiles.Count > 0 then
         begin
@@ -1034,7 +1035,7 @@ begin
   x := MainDrawGrid.ScreenToClient(Mouse.CursorPos).X;
   if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
   sr := TFileSyncRec(FVisibleItems.Objects[r]);
-  if not Assigned(sr)
+  if sr.isDir
   or not Assigned(sr.FFileR) or not Assigned(sr.FFileL) or (sr.FState = srsEqual)
   then
     Exit;
@@ -1052,7 +1053,7 @@ begin
   with MainDrawGrid.Canvas do
   begin
     r := TFileSyncRec(FVisibleItems.Objects[aRow]);
-    if r = nil then
+    if r.isDir then
     begin
       Brush.Color := clBtnFace;
       FillRect(aRect);
@@ -1199,7 +1200,7 @@ begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FVisibleItems.Count) then Exit;
   sr := TFileSyncRec(FVisibleItems.Objects[r]);
-  if Assigned(sr) then
+  if NOT sr.isDir then
   begin
     if Sender = MenuItemViewLeft then
       f := sr.FFileL
@@ -1310,7 +1311,7 @@ procedure TfrmSyncDirsDlg.FillFoundItemsDG;
     for i := 0 to FVisibleItems.Count - 1 do
     begin
       r := TFileSyncRec(FVisibleItems.Objects[i]);
-      if Assigned(r) then
+      if NOT r.isDir then
       begin
         Inc(Ftotal);
         if Assigned(r.FFileL) and not Assigned(r.FFileR) then Inc(FuniqueL) else
@@ -1349,7 +1350,7 @@ var
     dup, single: Boolean;
   end;
   r: TFileSyncRec;
-
+  dirSyncObject: TDirSyncObject;
 begin
   if Assigned(FVisibleItems) then
     FVisibleItems.Clear
@@ -1370,9 +1371,10 @@ begin
   end;
   for i := 0 to FFoundItems.Count - 1 do
   begin
+    dirSyncObject := TDirSyncObject(FFoundItems.Objects[i]);
     if FFoundItems[i] <> '' then
-      FVisibleItems.Add(AppendPathDelim(FFoundItems[i]));
-    with TStringList(FFoundItems.Objects[i]) do
+      FVisibleItems.AddObject(AppendPathDelim(FFoundItems[i]), dirSyncObject.FDirSyncRec);
+    with dirSyncObject do
       for j := 0 to Count - 1 do
       begin
         { check filter }
@@ -1388,14 +1390,21 @@ begin
             (r.FState = srsNotEq) and AFilter.neq or
             (r.FState = srsUnknown) and AFilter.unkn)
         then
-          FVisibleItems.AddObject(Strings[j], Objects[j]);
+          FVisibleItems.AddObject(Strings[j], r);
       end;
   end;
   { remove empty dirs after filtering }
-  for i := FVisibleItems.Count - 1 downto 0 do
-    if (FVisibleItems.Objects[i] = nil)
-    and ((i + 1 >= FVisibleItems.Count) or (FVisibleItems.Objects[i + 1] = nil)) then
-      FVisibleItems.Delete(i);
+  for i := FVisibleItems.Count - 1 downto 0 do begin
+    r := TFileSyncRec(FVisibleItems.Objects[i]);
+    if NOT r.isDir then
+      continue;
+    if (i + 1 < FVisibleItems.Count) then begin
+      r := TFileSyncRec(FVisibleItems.Objects[i+1]);
+      if NOT r.isDir then
+        continue;
+    end;
+    FVisibleItems.Delete(i);
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.RecalcHeaderCols;
@@ -1495,11 +1504,13 @@ var
     it: TStringList;
     dirsLeft, dirsRight: TStringListEx;
     d: string;
+    dirSyncRec: TDirSyncRec;
   begin
     i := FFoundItems.IndexOf(dir);
     if i < 0 then
     begin
-      it := TStringListEx.Create;
+      dirSyncRec := TDirSyncRec.Create(Self, dir);
+      it := TDirSyncObject.Create(dirSyncRec);
       it.OwnsObjects:= True;
       it.CaseSensitive := FileNameCaseSensitive;
       it.Sorted := True;
@@ -1743,7 +1754,7 @@ var
   ca: TSyncRecState;
 begin
   sr := TFileSyncRec(FVisibleItems.Objects[r]);
-  if not Assigned(sr) or (sr.FState = srsEqual) then Exit;
+  if sr.isDir or (sr.FState = srsEqual) then Exit;
   ca := sr.FAction;
   case ca of
   srsNotEq:
@@ -1851,7 +1862,7 @@ begin
       for R := Selection.Top to Selection.Bottom do
       begin
         SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if Assigned(SyncRec) then UpdateAction(AState);
+        if NOT SyncRec.isDir then UpdateAction(AState);
       end;
     end;
     Exit;
@@ -1859,7 +1870,7 @@ begin
   R := MainDrawGrid.Row;
   if (R < 0) or (R >= FVisibleItems.Count) then Exit;
   SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
-  if Assigned(SyncRec) then
+  if NOT SyncRec.isDir then
   begin
     UpdateAction(AState);
   end
@@ -1868,7 +1879,7 @@ begin
     while R < FVisibleItems.Count do
     begin
       SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if (SyncRec = nil) then Break;
+      if SyncRec.isDir then Break;
       UpdateAction(AState);
       Inc(R);
     end;
@@ -2002,7 +2013,7 @@ begin
       for R := Selection.Bottom downto Selection.Top do
       begin
         SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if Assigned(SyncRec) then AddRemoveItem;
+        if NOT SyncRec.isDir then AddRemoveItem;
       end;
     end;
     if ARemove then MainDrawGrid.EndUpdate;
@@ -2012,7 +2023,7 @@ begin
   if (R < 0) or (R >= FVisibleItems.Count) then Exit;
   SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
   if ARemove then MainDrawGrid.BeginUpdate;
-  if Assigned(SyncRec) then
+  if NOT SyncRec.isDir then
   begin
     AddRemoveItem;
   end
@@ -2021,7 +2032,8 @@ begin
     Inc(R);
     while R < FVisibleItems.Count do
     begin
-      if (FVisibleItems.Objects[R] = nil) then Break;
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      if SyncRec.isDir then Break;
       Inc(R);
     end;
     Dec(R);
@@ -2207,7 +2219,7 @@ var
   begin
     s := '';
     SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-    if not Assigned(SyncRec) then
+    if SyncRec.isDir then
     begin
       s := s + FVisibleItems[R];
     end
