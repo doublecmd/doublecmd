@@ -2411,9 +2411,10 @@ begin
     end
     else // not directory
     begin
-      if IsLink then begin
+      if IsLink and DirectAccess then
+      begin
         Ext := ExtractOnlyFileExt( mbReadAllLinks(FullPath) );
-        if Ext = EmptyStr then
+        if (Ext = EmptyStr) and Assigned(LinkProperty) then
           Ext := ExtractOnlyFileExt( LinkProperty.LinkTo );
       end;
       if Ext = EmptyStr then
