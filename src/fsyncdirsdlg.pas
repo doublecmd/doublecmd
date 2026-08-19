@@ -251,7 +251,7 @@ type
   { TFileSyncRec }
 
   TFileSyncRec = class
-  private
+  protected
     FRelPath: string;
     FState: TSyncRecState;
     FAction: TSyncRecState;
@@ -261,6 +261,24 @@ type
     constructor Create(AForm: TfrmSyncDirsDlg; RelPath: string);
     destructor Destroy; override;
     procedure UpdateState(ignoreDate: Boolean);
+    function isDir: Boolean; virtual;
+  end;
+
+  { TDirSyncRec }
+
+  TDirSyncRec = class(TFileSyncRec)
+  public
+    function isDir: Boolean; override;
+  end;
+
+  { TDirSyncObject }
+
+  TDirSyncObject = class(TStringListEx)
+  private
+    FDirSyncRec: TDirSyncRec;
+  public
+    constructor Create(const dirSyncRec: TDirSyncRec);
+    destructor Destroy; override;
   end;
 
   { TCheckContentThread }
@@ -567,6 +585,32 @@ begin
   else begin
     FAction := FState;
   end;
+end;
+
+function TFileSyncRec.isDir: Boolean;
+begin
+  Result:= False;
+end;
+
+{ TDirSyncRec }
+
+function TDirSyncRec.isDir: Boolean;
+begin
+  Result:= True;
+end;
+
+{ TDirSyncObject }
+
+constructor TDirSyncObject.Create(const dirSyncRec: TDirSyncRec);
+begin
+  Inherited Create;
+  FDirSyncRec:= dirSyncRec;
+end;
+
+destructor TDirSyncObject.Destroy;
+begin
+  FreeAndNil(FDirSyncRec);
+  Inherited;
 end;
 
 { TfrmSyncDirsDlg }
