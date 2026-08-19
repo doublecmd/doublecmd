@@ -15,26 +15,27 @@ DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 
 DC_MICRO=$(grep 'RevisionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
 DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
 
-# Get libraries
-pushd install
-wget https://github.com/doublecmd/external/raw/main/linux.tar.gz
-tar xzf linux.tar.gz
-rm -f linux.tar.gz
-popd
-
-# Set widgetset
-export lcl=gtk3
-
 # Set processor architecture
 export CPU_TARGET=$(fpc -iTP)
 
+# Get libraries
+wget https://github.com/doublecmd/external/raw/main/linux.tar.gz
+tar xzf linux.tar.gz -C install && rm -f linux.tar.gz
+
+# Copy libraries
+cp -a install/linux/lib/$CPU_TARGET/*.so  ./
+
+# Prepare linking dependencies
+echo "-k--allow-shlib-undefined" | sudo tee -a /etc/fpc.cfg
+sudo ln -sf $PWD/install/linux/lib/$CPU_TARGET/qt6/libQt6Pas.so.6 /usr/lib/libQt6Pas.so
+
 build_doublecmd()
 {
-  # Build all components of Double Commander
+  # Build release
   ./build.sh release
 
   # Copy libraries
-  cp -a install/linux/lib/$CPU_TARGET/*.so ./
+  cp -a install/linux/lib/$CPU_TARGET/$lcl/*.so*  ./
 
   # Create *.tar.xz package
   mkdir -p $BUILD_PACK_DIR
@@ -51,5 +52,13 @@ build_doublecmd()
 }
 
 mkdir -p $PACK_DIR
+
+# Set widgetset
+export lcl=gtk3
+
+build_doublecmd
+
+# Set widgetset
+export lcl=qt6
 
 build_doublecmd

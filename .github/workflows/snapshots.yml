@@ -94,7 +94,8 @@ jobs:
     - name: Install dependencies
       run: |
            sudo apt update
-           sudo apt install fpc patchelf libgtk-3-dev libdbus-1-dev zip
+           sudo apt install fp-units-rtl fp-units-gtk2 fp-compiler fp-units-base fp-units-fcl \
+                            fp-units-misc fp-units-net fp-utils patchelf libgtk-3-dev libdbus-1-dev zip
 
     - name: Get Lazarus source
       uses: actions/checkout@v7
