@@ -1234,16 +1234,7 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.ClearFoundItems;
-var
-  i, j: Integer;
 begin
-  for i := 0 to FFoundItems.Count - 1 do
-    with TStringList(FFoundItems.Objects[i]) do
-    begin
-      for j := 0 to Count - 1 do
-        Objects[j].Free;
-      Clear;
-    end;
   FFoundItems.Clear;
 end;
 
@@ -1465,6 +1456,7 @@ var
     if i < 0 then
     begin
       it := TStringListEx.Create;
+      it.OwnsObjects:= True;
       it.CaseSensitive := FileNameCaseSensitive;
       it.Sorted := True;
       FFoundItems.AddObject(dir, it);
@@ -2050,6 +2042,7 @@ var
 begin
   inherited Create(AOwner);
   FFoundItems := TStringListEx.Create;
+  FFoundItems.OwnsObjects:= True;
   FFoundItems.CaseSensitive := FileNameCaseSensitive;
   FFoundItems.Sorted := True;
   FFileSourceL := FileView1.FileSource;
@@ -2122,11 +2115,7 @@ begin
   FFileSourceOperationMessageBoxesUI.Free;
   FVisibleItems.Free;
   FSelectedItems.Free;
-  if Assigned(FFoundItems) then
-  begin
-    ClearFoundItems;
-    FFoundItems.Free;
-  end;
+  FFoundItems.Free;
   inherited Destroy;
 end;
 
