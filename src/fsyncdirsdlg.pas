@@ -1144,6 +1144,8 @@ begin
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
       end;
+    end;
+    if NOT r.isDir or (r.FState<>srsDoNothing) then begin
       ImageList1.Draw(MainDrawGrid.Canvas,
         hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
         (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(r.FAction));
