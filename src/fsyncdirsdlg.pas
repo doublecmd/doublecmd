@@ -766,6 +766,30 @@ var
     end;
   end;
 
+  procedure processDir(const syncRec: TFileSyncRec);
+  var
+    files: TFiles;
+  begin
+    files := nil;
+    case syncRec.FAction of
+      srsCopyRight:
+        FCmpFileSourceR.CreateDirectory( FCmpFilePathR + syncRec.FRelPath );
+      srsCopyLeft:
+        FCmpFileSourceL.CreateDirectory( FCmpFilePathL + syncRec.FRelPath );
+      srsDeleteRight: begin
+        files := TFiles.Create('');
+        files.Add(syncRec.FFileR.Clone);
+        DeleteFiles(FCmpFileSourceR, files);
+      end;
+      srsDeleteLeft: begin
+        files := TFiles.Create('');
+        files.Add(syncRec.FFileL.Clone);
+        DeleteFiles(FCmpFileSourceL, files);
+      end;
+    end;
+    FreeAndNil(files);
+  end;
+
 var
   i,
   DeleteLeftCount, DeleteRightCount,
@@ -871,10 +895,15 @@ begin
         DeleteLeftFiles := TFiles.Create('');
         DeleteRightFiles := TFiles.Create('');
         fsr := TFileSyncRec(FVisibleItems.Objects[i]);
-        if NOT fsr.isDir then
-          repeat
-            Dest := fsr.FRelPath;
-            case fsr.FAction of
+        if fsr.isDir then begin
+          processDir(fsr);
+          i := i + 1;
+          continue;
+        end;
+
+        repeat
+          Dest := fsr.FRelPath;
+          case fsr.FAction of
             srsCopyRight:
               if CopyRight then CopyRightFiles.Add(fsr.FFileL.Clone);
             srsCopyLeft:
@@ -888,11 +917,12 @@ begin
                 if DeleteRight then DeleteRightFiles.Add(fsr.FFileR.Clone);
                 if DeleteLeft then DeleteLeftFiles.Add(fsr.FFileL.Clone);
               end;
-            end;
-            i := i + 1;
+          end;
+          i := i + 1;
+          if i < FVisibleItems.Count then
             fsr := TFileSyncRec(FVisibleItems.Objects[i]);
-          until (i = FVisibleItems.Count) or fsr.isDir;
-        i := i + 1;
+        until (i = FVisibleItems.Count) or fsr.isDir;
+
         if CopyLeftFiles.Count > 0 then
         begin
           if not CopyFiles(FCmpFileSourceR, FCmpFileSourceL, CopyLeftFiles,
