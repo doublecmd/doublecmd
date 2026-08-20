@@ -9065,6 +9065,10 @@ msgstr "асіметрычна"
 msgid "by content"
 msgstr "па змесціву"
 
+#: tfrmsyncdirsdlg.chkemptydir.caption
+msgid "empty directories"
+msgstr ""
+
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
 msgstr "не зважаць на дату"
@@ -9159,6 +9163,10 @@ msgstr "!="
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
 msgstr "адзіночныя"
+
+#: tfrmsyncdirsdlg.sbunknown.caption
+msgid "?"
+msgstr ""
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"

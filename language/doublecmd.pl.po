@@ -9020,6 +9020,10 @@ msgstr "Asymetrycznie"
 msgid "by content"
 msgstr "Wg zawartości"
 
+#: tfrmsyncdirsdlg.chkemptydir.caption
+msgid "empty directories"
+msgstr ""
+
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
 msgstr "Ignoruj datę"
@@ -9114,6 +9118,10 @@ msgstr "!="
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
 msgstr "pojedyncze"
+
+#: tfrmsyncdirsdlg.sbunknown.caption
+msgid "?"
+msgstr ""
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"

@@ -9889,6 +9889,10 @@ msgstr ""
 msgid "by content"
 msgstr ""
 
+#: tfrmsyncdirsdlg.chkemptydir.caption
+msgid "empty directories"
+msgstr ""
+
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
 msgstr ""
@@ -9988,6 +9992,10 @@ msgstr ""
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbunknown.caption
+msgid "?"
 msgstr ""
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text

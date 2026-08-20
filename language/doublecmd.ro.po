@@ -9322,6 +9322,10 @@ msgstr "asimetric"
 msgid "by content"
 msgstr "după conținut"
 
+#: tfrmsyncdirsdlg.chkemptydir.caption
+msgid "empty directories"
+msgstr ""
+
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
 msgstr "ignoră data"
@@ -9416,6 +9420,10 @@ msgstr "!="
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
 msgstr "singure"
+
+#: tfrmsyncdirsdlg.sbunknown.caption
+msgid "?"
+msgstr ""
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"

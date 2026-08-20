@@ -67,6 +67,7 @@ type
     btnCompare: TButton;
     btnSynchronize: TButton;
     btnClose: TButton;
+    chkEmptyDir: TCheckBox;
     chkAsymmetric: TCheckBox;
     chkSubDirs: TCheckBox;
     chkByContent: TCheckBox;
@@ -602,11 +603,8 @@ end;
 { TDirSyncRec }
 
 procedure TDirSyncRec.UpdateState(ignoreDate: Boolean);
-var
-  chkEmptyDirChecked: Boolean;  // temp for develop, will be removed
 begin
-  chkEmptyDirChecked:= False;
-  if chkEmptyDirChecked and self.isEmpty then begin
+  if self.FForm.chkEmptyDir.Checked and self.isEmpty then begin
     inherited UpdateState(ignoreDate);
   end else begin
     self.FState:= srsDoNothing;

@@ -9277,6 +9277,10 @@ msgstr "非對稱"
 msgid "by content"
 msgstr "按內容"
 
+#: tfrmsyncdirsdlg.chkemptydir.caption
+msgid "empty directories"
+msgstr ""
+
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
 msgstr "忽略日期"
@@ -9371,6 +9375,10 @@ msgstr ""
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
 msgstr "單獨項"
+
+#: tfrmsyncdirsdlg.sbunknown.caption
+msgid "?"
+msgstr ""
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
