@@ -782,11 +782,9 @@ begin
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
 
-  for i := 0 to FVisibleItems.Count - 1 do
+  for i := 0 to FVisibleItems.Count - 1 do begin
     fsr := TFileSyncRec(FVisibleItems.Objects[i]);
-    if NOT fsr.isDir then
-    begin
-      case fsr.FAction of
+    case fsr.FAction of
       srsCopyLeft:
         begin
           Inc(CopyLeftCount);
@@ -810,8 +808,8 @@ begin
           Inc(DeleteLeftCount);
           Inc(DeleteRightCount);
         end;
-      end;
     end;
+  end;
   FCopyStatistics.DoneBytes:= 0;
   FDeleteStatistics.DoneFiles:= 0;
   FCopyStatistics.TotalBytes:= CopyLeftSize + CopyRightSize;
