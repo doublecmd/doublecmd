@@ -1832,7 +1832,10 @@ var
   ca: TSyncRecState;
 begin
   sr := TFileSyncRec(FVisibleItems.Objects[r]);
-  if sr.isDir or (sr.FState = srsEqual) then Exit;
+  if sr.isDir and (sr.FState=srsDoNothing) then
+    Exit;
+  if sr.FState = srsEqual then
+    Exit;
   ca := sr.FAction;
   case ca of
   srsNotEq:
@@ -1948,11 +1951,9 @@ begin
   R := MainDrawGrid.Row;
   if (R < 0) or (R >= FVisibleItems.Count) then Exit;
   SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
-  if NOT SyncRec.isDir then
+  UpdateAction(AState);
+  if SyncRec.isDir then
   begin
-    UpdateAction(AState);
-  end
-  else begin
     Inc(R);
     while R < FVisibleItems.Count do
     begin
