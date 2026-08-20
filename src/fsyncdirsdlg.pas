@@ -260,15 +260,22 @@ type
   public
     constructor Create(AForm: TfrmSyncDirsDlg; RelPath: string);
     destructor Destroy; override;
-    procedure UpdateState(ignoreDate: Boolean);
+    procedure UpdateState(ignoreDate: Boolean); virtual;
     function isDir: Boolean; virtual;
   end;
 
   { TDirSyncRec }
 
   TDirSyncRec = class(TFileSyncRec)
+  private
+    FChildrenCount: array [Boolean] of Integer;
   public
+    procedure UpdateState(ignoreDate: Boolean); override;
     function isDir: Boolean; override;
+    procedure incChildrenCount(const side: Boolean);
+    function childrenCount(const side: Boolean): Integer;
+    function isEmpty(const side: Boolean): Boolean;
+    function isEmpty: Boolean;
   end;
 
   { TDirSyncObject }
@@ -594,9 +601,42 @@ end;
 
 { TDirSyncRec }
 
+procedure TDirSyncRec.UpdateState(ignoreDate: Boolean);
+var
+  chkEmptyDirChecked: Boolean;  // temp for develop, will be removed
+begin
+  chkEmptyDirChecked:= False;
+  if chkEmptyDirChecked and self.isEmpty then begin
+    inherited UpdateState(ignoreDate);
+  end else begin
+    self.FState:= srsDoNothing;
+    self.FAction:= srsDoNothing;
+  end;
+end;
+
 function TDirSyncRec.isDir: Boolean;
 begin
   Result:= True;
+end;
+
+procedure TDirSyncRec.incChildrenCount(const side: Boolean);
+begin
+  Inc( FChildrenCount[side] );
+end;
+
+function TDirSyncRec.childrenCount(const side: Boolean): Integer;
+begin
+  Result:= FChildrenCount[side];
+end;
+
+function TDirSyncRec.isEmpty(const side: Boolean): Boolean;
+begin
+  Result:= FChildrenCount[side] = 0;
+end;
+
+function TDirSyncRec.isEmpty: Boolean;
+begin
+  Result:= isEmpty(True) and isEmpty(False);
 end;
 
 { TDirSyncObject }
@@ -1351,6 +1391,35 @@ var
   end;
   r: TFileSyncRec;
   dirSyncObject: TDirSyncObject;
+
+  function isMatching(const syncRec: TFileSyncRec): Boolean;
+  begin
+    Result:=
+      ((Assigned(syncRec.FFileL) <> Assigned(syncRec.FFileR)) and AFilter.single or
+       (Assigned(syncRec.FFileL) = Assigned(syncRec.FFileR)) and AFilter.dup)
+       and
+       ((syncRec.FState = srsCopyLeft) and AFilter.copyLeft or
+        (syncRec.FState = srsCopyRight) and AFilter.copyRight or
+        (syncRec.FState = srsDeleteLeft) and AFilter.copyRight or
+        (syncRec.FState = srsDeleteRight) and AFilter.copyLeft or
+        (syncRec.FState = srsEqual) and AFilter.eq or
+        (syncRec.FState = srsNotEq) and AFilter.neq or
+        (syncRec.FState = srsUnknown) and AFilter.unkn);
+  end;
+
+  function isDirMatching(const syncRec: TFileSyncRec): Boolean;
+  var
+    dirSyncRec: TDirSyncRec absolute syncRec;
+  begin
+    if syncRec.FState = srsDoNothing then begin
+      Result:= True;
+    end else if dirSyncRec.isEmpty and (syncRec.FState=srsEqual) then begin
+      Result:= False;
+    end else begin
+      Result:= isMatching(syncRec);
+    end;
+  end;
+
 begin
   if Assigned(FVisibleItems) then
     FVisibleItems.Clear
@@ -1372,24 +1441,17 @@ begin
   for i := 0 to FFoundItems.Count - 1 do
   begin
     dirSyncObject := TDirSyncObject(FFoundItems.Objects[i]);
-    if FFoundItems[i] <> '' then
-      FVisibleItems.AddObject(AppendPathDelim(FFoundItems[i]), dirSyncObject.FDirSyncRec);
+    if FFoundItems[i] <> '' then begin
+      r := dirSyncObject.FDirSyncRec;
+      if isDirMatching(r) then
+        FVisibleItems.AddObject(AppendPathDelim(FFoundItems[i]), r);
+    end;
     with dirSyncObject do
       for j := 0 to Count - 1 do
       begin
         { check filter }
         r := TFileSyncRec(Objects[j]);
-        if ((Assigned(r.FFileL) <> Assigned(r.FFileR)) and AFilter.single or
-           (Assigned(r.FFileL) = Assigned(r.FFileR)) and AFilter.dup)
-           and
-           ((r.FState = srsCopyLeft) and AFilter.copyLeft or
-            (r.FState = srsCopyRight) and AFilter.copyRight or
-            (r.FState = srsDeleteLeft) and AFilter.copyRight or
-            (r.FState = srsDeleteRight) and AFilter.copyLeft or
-            (r.FState = srsEqual) and AFilter.eq or
-            (r.FState = srsNotEq) and AFilter.neq or
-            (r.FState = srsUnknown) and AFilter.unkn)
-        then
+        if isMatching(r) then
           FVisibleItems.AddObject(Strings[j], r);
       end;
   end;
@@ -1397,6 +1459,8 @@ begin
   for i := FVisibleItems.Count - 1 downto 0 do begin
     r := TFileSyncRec(FVisibleItems.Objects[i]);
     if NOT r.isDir then
+      continue;
+    if r.FState <> srsDoNothing then
       continue;
     if (i + 1 < FVisibleItems.Count) then begin
       r := TFileSyncRec(FVisibleItems.Objects[i+1]);
@@ -1440,11 +1504,20 @@ var
       f: TFile;
       r: TFileSyncRec;
       fn: String;
+      dirFullPath: String;
+      dirSyncRec: TDirSyncRec;
     begin
-      if sideLeft then
-        fs := FFileSourceL.GetFiles(BaseDirL + dir)
-      else begin
-        fs := FFileSourceR.GetFiles(BaseDirR + dir);
+      dirSyncRec := TDirSyncObject(it).FDirSyncRec;
+      if sideLeft then begin
+        dirFullPath := BaseDirL + dir;
+        fs := FFileSourceL.GetFiles(dirFullPath);
+        if FFileSourceL.FileSystemEntryExists(dirFullPath) then
+          dirSyncRec.FFileL := FFileSourceL.CreateFileObject(dirFullPath);
+      end else begin
+        dirFullPath := BaseDirR + dir;
+        fs := FFileSourceR.GetFiles(dirFullPath);
+        if FFileSourceR.FileSystemEntryExists(dirFullPath) then
+          dirSyncRec.FFileR := FFileSourceR.CreateFileObject(dirFullPath);
       end;
       if chkOnlySelected.Checked and ASide then
       begin
@@ -1491,6 +1564,7 @@ var
                 end;
               end;
               it.AddObject(fn, r);
+              dirSyncRec.incChildrenCount(sideLeft);
             end;
           end;
         end;
@@ -1507,16 +1581,17 @@ var
     dirSyncRec: TDirSyncRec;
   begin
     i := FFoundItems.IndexOf(dir);
-    if i < 0 then
-    begin
+    if i < 0 then begin
       dirSyncRec := TDirSyncRec.Create(Self, dir);
       it := TDirSyncObject.Create(dirSyncRec);
       it.OwnsObjects:= True;
       it.CaseSensitive := FileNameCaseSensitive;
       it.Sorted := True;
       FFoundItems.AddObject(dir, it);
-    end else
+    end else begin
       it := TStringList(FFoundItems.Objects[i]);
+      dirSyncRec := TDirSyncObject(it).FDirSyncRec;
+    end;
     if dir <> '' then dir := AppendPathDelim(dir);
     dirsLeft := TStringListEx.Create;
     dirsLeft.CaseSensitive := FileNameCaseSensitive;
@@ -1529,6 +1604,7 @@ var
       if FCancel then Exit;
       ProcessOneSide(it, dirsLeft, LeftFirst, True);
       ProcessOneSide(it, dirsRight, RightFirst, False);
+      dirSyncRec.UpdateState(ignoreDate);
       SortFoundItems(it);
       if not Subdirs then Exit;
       tot := dirsLeft.Count + dirsRight.Count;
