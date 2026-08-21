@@ -1367,7 +1367,7 @@ begin
     s := HeaderDG.Columns[AValue].Title.Caption;
     UTF8Delete(s, 1, 1);
     FSortDesc := not FSortDesc;
-    if FSortDesc then s := '↑' + s else s := '↓' + s;
+    if FSortDesc then s := '↓' + s else s := '↑' + s;
     HeaderDG.Columns[AValue].Title.Caption := s;
     SortFoundItems;
     FillFoundItemsDG;
@@ -1381,7 +1381,7 @@ begin
     FSortIndex := AValue;
     FSortDesc := False;
     with HeaderDG.Columns[FSortIndex].Title do
-      Caption := '↓' + Caption;
+      Caption := '↑' + Caption;
     SortFoundItems;
     FillFoundItemsDG;
   end;
@@ -2280,7 +2280,6 @@ begin
   FSortIndex := -1;
   SortIndex := 0;
   FScanning := False;
-  FSortDesc := False;
   MainDrawGrid.RowCount := 0;
   // ---------------------------------------------------------------------------
   FSelectedItems := TStringListEx.Create;
