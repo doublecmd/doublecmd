@@ -190,6 +190,7 @@ type
     procedure SetSyncRecState(AState: TSyncRecState);
     procedure DeleteFiles(ALeft, ARight: Boolean);
     function DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
+    function DeleteFile(FileSource: IFileSource; const f: TFile): Boolean;
     procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
@@ -767,27 +768,17 @@ var
   end;
 
   procedure processDir(const syncRec: TFileSyncRec);
-  var
-    files: TFiles;
   begin
-    files := nil;
     case syncRec.FAction of
       srsCopyRight:
         FCmpFileSourceR.CreateDirectory( FCmpFilePathR + syncRec.FRelPath );
       srsCopyLeft:
         FCmpFileSourceL.CreateDirectory( FCmpFilePathL + syncRec.FRelPath );
-      srsDeleteRight: begin
-        files := TFiles.Create('');
-        files.Add(syncRec.FFileR.Clone);
-        DeleteFiles(FCmpFileSourceR, files);
-      end;
-      srsDeleteLeft: begin
-        files := TFiles.Create('');
-        files.Add(syncRec.FFileL.Clone);
-        DeleteFiles(FCmpFileSourceL, files);
-      end;
+      srsDeleteRight:
+        DeleteFile(FCmpFileSourceR, syncRec.FFileR);
+      srsDeleteLeft:
+        DeleteFile(FCmpFileSourceL, syncRec.FFileL);
     end;
-    FreeAndNil(files);
   end;
 
 var
@@ -2072,6 +2063,17 @@ begin
   finally
     FreeAndNil(FOperation);
   end;
+end;
+
+function TfrmSyncDirsDlg.DeleteFile(FileSource: IFileSource; const f: TFile
+  ): Boolean;
+var
+  files: TFiles;
+begin
+  files := TFiles.Create(EmptyStr);
+  files.Add(f.Clone);
+  Result:= DeleteFiles(FileSource, files);
+  files.Free;
 end;
 
 procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft,
