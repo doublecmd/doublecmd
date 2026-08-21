@@ -502,7 +502,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       end>
     ExtendedSelect = False
     FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll, goHeaderPushedLook]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll, goHeaderPushedLook, goFixedColSizing]
     ParentFont = False
     RowCount = 1
     ScrollBars = ssNone
