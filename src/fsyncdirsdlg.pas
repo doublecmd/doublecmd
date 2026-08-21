@@ -781,6 +781,51 @@ var
     end;
   end;
 
+  procedure removeAsymmetricRightEmptyDirs;
+    function isEmptyDir(const fs: IFileSource; const path: String): Boolean;
+    var
+      files: TFiles;
+      f: TFile;
+      i: Integer;
+    begin
+      Result:= False;
+      files:= fs.GetFiles(path);
+      try
+        for i:= 0 to files.Count-1 do begin
+          f:= files[i];
+          if (f.Name<>'.') and (f.Name<>'..') then
+            Exit;
+        end;
+        Result:= True;
+      finally
+        files.Free;
+      end;
+    end;
+
+  var
+    i: Integer;
+    syncRec: TFileSyncRec;
+  begin
+    if NOT chkAsymmetric.Checked then
+      Exit;
+    if NOT chkEmptyDir.Checked then
+      Exit;
+
+    for i:= FVisibleItems.Count-1 downto 0 do begin
+      syncRec:= TFileSyncRec(FVisibleItems.Objects[i]);
+      if NOT syncRec.isDir then
+        continue;
+      if TDirSyncRec(syncRec).isEmpty then
+        continue;
+      if NOT Assigned(syncRec.FFileR) then
+        continue;
+      if Assigned(syncRec.FFileL) then
+        continue;
+      if isEmptyDir(FCmpFileSourceR,syncRec.FFileR.FullPath) then
+        DeleteFile(FCmpFileSourceR, syncRec.FFileR);
+    end;
+  end;
+
 var
   i,
   DeleteLeftCount, DeleteRightCount,
@@ -936,6 +981,9 @@ begin
         else DeleteRightFiles.Free;
         if not pnlProgress.Visible then Break;
       end;
+
+      removeAsymmetricRightEmptyDirs;
+
       EnableControls(True);
       btnCompare.Click;
     end;
