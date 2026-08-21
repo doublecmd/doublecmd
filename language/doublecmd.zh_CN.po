@@ -9036,15 +9036,15 @@ msgstr ""
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr "非对称"
+msgstr "单向镜像（保持左边不变）"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr "按内容"
+msgstr "比较内容"
 
 #: tfrmsyncdirsdlg.chkemptydir.caption
 msgid "empty directories"
-msgstr ""
+msgstr "空文件夹"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
@@ -9052,7 +9052,7 @@ msgstr "忽略日期"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
-msgstr "仅选定"
+msgstr "仅选定的文件"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
@@ -9125,7 +9125,7 @@ msgstr ""
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr "重复文件"
+msgstr "共有的文件"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgctxt "tfrmsyncdirsdlg.sbequal.caption"
@@ -9139,7 +9139,7 @@ msgstr ""
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
-msgstr "单独文件"
+msgstr "独有的文件"
 
 #: tfrmsyncdirsdlg.sbunknown.caption
 msgid "?"
