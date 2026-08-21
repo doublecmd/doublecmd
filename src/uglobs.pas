@@ -682,6 +682,7 @@ var
   gDifferIgnoreWhiteSpace: Boolean;
 
   {SyncDirs}
+  gSyncDirsEmptyDirs,
   gSyncDirsSubdirs,
   gSyncDirsByContent,
   gSyncDirsAsymmetric,
@@ -2285,6 +2286,7 @@ begin
   gDifferIgnoreWhiteSpace := False;
 
   {SyncDirs}
+  gSyncDirsEmptyDirs := False;
   gSyncDirsSubdirs := False;
   gSyncDirsByContent := False;
   gSyncDirsAsymmetric := False;
@@ -3374,6 +3376,7 @@ begin
     Node := Root.FindNode('SyncDirs');
     if Assigned(Node) then
     begin
+      gSyncDirsByContent := GetValue(Node, 'EmptyDirs', gSyncDirsEmptyDirs);
       gSyncDirsSubdirs := GetValue(Node, 'Subdirs', gSyncDirsSubdirs);
       gSyncDirsByContent := GetValue(Node, 'ByContent', gSyncDirsByContent);
       gSyncDirsAsymmetric := GetValue(Node, 'Asymmetric', gSyncDirsAsymmetric);
@@ -3962,6 +3965,7 @@ begin
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);
+    SetValue(Node, 'EmptyDirs', gSyncDirsEmptyDirs);
     SetValue(Node, 'Subdirs', gSyncDirsSubdirs);
     SetValue(Node, 'ByContent', gSyncDirsByContent);
     SetValue(Node, 'Asymmetric', gSyncDirsAsymmetric and gSyncDirsAsymmetricSave);

@@ -1027,6 +1027,7 @@ begin
   StopCheckContentThread;
   CloseAction := caFree;
   { settings }
+  gSyncDirsEmptyDirs            := chkEmptyDir.Checked;
   gSyncDirsSubdirs              := chkSubDirs.Checked;
   gSyncDirsAsymmetric           := chkAsymmetric.Checked and gSyncDirsAsymmetricSave;
   gSyncDirsIgnoreDate           := chkIgnoreDate.Checked;
@@ -1093,6 +1094,7 @@ begin
   lblProgress.Caption    := rsOperCopying;
   lblProgressDelete.Caption   := rsOperDeleting;
   { settings }
+  chkEmptyDir.Checked    := gSyncDirsEmptyDirs;
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkAsymmetric.Checked  := gSyncDirsAsymmetric;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
