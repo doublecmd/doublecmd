@@ -2167,6 +2167,51 @@ var
     end;
   end;
 
+  procedure deleteFromDirHasFiles;
+  begin
+    Y:= R;
+    Inc(R);
+    while R < FVisibleItems.Count do
+    begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      if SyncRec.isDir then Break;
+      Inc(R);
+    end;
+    Dec(R);
+    while R > Y do
+    begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      AddRemoveItem;
+      Dec(R);
+    end;
+  end;
+
+  procedure deleteFromEmptyDir;
+  var
+    basePath: String;
+  begin
+    basePath:= SyncRec.FRelPath;
+    Y:= R;
+    Inc(R);
+    while R < FVisibleItems.Count do begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      if NOT SyncRec.isDir then
+        Break;
+      if NOT TDirSyncRec(SyncRec).isEmpty then
+        Break;
+      if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
+        Break;
+      Inc(R);
+    end;
+    Dec(R);
+    while R >= Y do
+    begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      AddRemoveItem;
+      Dec(R);
+    end;
+  end;
+
 begin
   Selection:= MainDrawGrid.Selection;
   ARemove:= ARemoveLeft or ARemoveRight;
@@ -2190,26 +2235,11 @@ begin
   SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
   if ARemove then MainDrawGrid.BeginUpdate;
   if NOT SyncRec.isDir then
-  begin
-    AddRemoveItem;
-  end
-  else begin
-    Y:= R;
-    Inc(R);
-    while R < FVisibleItems.Count do
-    begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if SyncRec.isDir then Break;
-      Inc(R);
-    end;
-    Dec(R);
-    while R > Y do
-    begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      AddRemoveItem;
-      Dec(R);
-    end;
-  end;
+    AddRemoveItem
+  else if SyncRec.FState = srsDoNothing then
+    deleteFromDirHasFiles
+  else
+    deleteFromEmptyDir;
   if ARemove then MainDrawGrid.EndUpdate;
 end;
 
