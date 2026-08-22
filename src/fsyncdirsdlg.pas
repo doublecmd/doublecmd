@@ -1359,6 +1359,15 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
+  function getSortIndicator: String;
+  begin
+    {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
+    if FSortDesc then Result:= '↓' else Result:= '↑';
+    {$ELSE}
+    if FSortDesc then Result:= '↑' else Result:= '↓';
+    {$ENDIF}
+  end;
+
 var
   s: string;
 begin
@@ -1367,7 +1376,7 @@ begin
     s := HeaderDG.Columns[AValue].Title.Caption;
     UTF8Delete(s, 1, 1);
     FSortDesc := not FSortDesc;
-    if FSortDesc then s := '↓' + s else s := '↑' + s;
+    s := getSortIndicator() + s;
     HeaderDG.Columns[AValue].Title.Caption := s;
     SortFoundItems;
     FillFoundItemsDG;
@@ -1381,7 +1390,7 @@ begin
     FSortIndex := AValue;
     FSortDesc := False;
     with HeaderDG.Columns[FSortIndex].Title do
-      Caption := '↑' + Caption;
+      Caption := getSortIndicator() + Caption;
     SortFoundItems;
     FillFoundItemsDG;
   end;
