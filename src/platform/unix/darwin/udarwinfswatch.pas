@@ -133,7 +133,7 @@ private
   procedure handleEvents( const originalSession:TDarwinFSWatchEventSession );
   procedure doCallback( const watchPath:String; const internalEvent:TInternalEvent );
 
-  procedure updateStream;
+  procedure updateStream( const watchPaths:NSArray );
   procedure closeStream;
   procedure waitPath;
   procedure notifyPath;
@@ -615,16 +615,16 @@ begin
   event.Free;
 end;
 
-procedure TDarwinFSWatcher.updateStream;
+procedure TDarwinFSWatcher.updateStream( const watchPaths:NSArray );
 begin
-  if _watchPaths.isEqualToArray(_streamPaths) then exit;
+  if watchPaths.isEqualToArray(_streamPaths) then exit;
 
   closeStream;
 
   _streamPaths.release;
-  _streamPaths:= NSArray.alloc.initWithArray( _watchPaths );
+  _streamPaths:= NSArray.alloc.initWithArray( watchPaths );
 
-  if _watchPaths.count = 0 then
+  if watchPaths.count = 0 then
   begin
     _lastEventId:= FSEventStreamEventId(kFSEventStreamEventIdSinceNow);
     exit;
@@ -633,7 +633,7 @@ begin
   _stream:= FSEventStreamCreate( nil,
               @cdeclFSEventsCallback,
               @_streamContext,
-              CFArrayRef(_watchPaths),
+              CFArrayRef(watchPaths),
               _lastEventId,
               _latency/1000,
               CREATE_FLAGS );
@@ -657,6 +657,9 @@ end;
 procedure TDarwinFSWatcher.start;
 var
   pool: NSAutoReleasePool;
+  watchPaths: NSArray;
+  keepRunning: Boolean;
+  pathsChanged: Boolean;
 begin
   _running:= true;
   _runLoop:= CFRunLoopGetCurrent();
@@ -666,21 +669,42 @@ begin
 
     pool:= NSAutoreleasePool.alloc.init;
 
-    _lockObject.Acquire;
-    try
-      updateStream;
-    finally
-      _lockObject.Release;
-    end;
+    repeat
+      // Closing an FSEvent stream may block on SMB for several seconds.
+      // Take a snapshot so updateStream can run without holding _lockObject.
+      _lockObject.Acquire;
+      try
+        watchPaths:= _watchPaths.copy;
+      finally
+        _lockObject.Release;
+      end;
 
-    if Assigned(_stream) then
-      CFRunLoopRun
-    else
-      waitPath;
+      try
+        updateStream( watchPaths );
+      finally
+        watchPaths.release;
+      end;
+
+      _lockObject.Acquire;
+      try
+        keepRunning:= _running;
+        pathsChanged:= not _watchPaths.isEqualToArray(_streamPaths);
+      finally
+        _lockObject.Release;
+      end;
+    until not keepRunning or not pathsChanged;
+
+    if keepRunning then
+    begin
+      if Assigned(_stream) then
+        CFRunLoopRun
+      else
+        waitPath;
+    end;
 
     pool.release;
 
-  until not _running;
+  until not keepRunning;
 end;
 
 procedure TDarwinFSWatcher.terminate;
