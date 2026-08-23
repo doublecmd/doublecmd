@@ -14573,7 +14573,7 @@ msgstr ""
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
-msgstr ""
+msgstr "左面板"
 
 #: ulng.rsvarlistfilename
 msgid "Temporary filename of list of filenames"
@@ -14645,7 +14645,7 @@ msgstr ""
 
 #: ulng.rsvarrightpanel
 msgid "Right panel"
-msgstr ""
+msgstr "右面板"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
@@ -14702,7 +14702,7 @@ msgstr "網路"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "資源回收筒"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -14710,7 +14710,7 @@ msgstr "Double Commander 內部檢視器"
 
 #: ulng.rsviewbadquality
 msgid "Bad Quality"
-msgstr ""
+msgstr "品質差"
 
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
@@ -14719,7 +14719,7 @@ msgstr "正在編碼"
 
 #: ulng.rsviewimagetype
 msgid "Image Type"
-msgstr ""
+msgstr "圖片類型"
 
 #: ulng.rsviewnewsize
 msgctxt "ulng.rsviewnewsize"
@@ -14733,27 +14733,27 @@ msgstr "沒有找到 %s!"
 
 #: ulng.rsviewpainttoolslist
 msgid "Pen;Rect;Ellipse"
-msgstr ""
+msgstr "筆;矩形;橢圓"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr ""
+msgstr "使用外部檢視器"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr ""
+msgstr "使用內部檢視器"
 
 #: ulng.rsxreplacements
 #, object-pascal-format
 msgid "Number of replacement: %d"
-msgstr ""
+msgstr "替換次數：%d"
 
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
-msgstr ""
+msgstr "沒有進行替換。"
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 #, object-pascal-format
 msgid "No setup named \"%s\""
-msgstr ""
+msgstr "沒有名為「%s」的設定"
 

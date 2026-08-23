@@ -14545,5 +14545,5 @@ msgstr "没有发生替换。"
 #: umaincommands.rsfavoritetabs_setupnotexist
 #, object-pascal-format
 msgid "No setup named \"%s\""
-msgstr "没有名为 \"%s\" 的安装程序"
+msgstr "没有名为“%s”的配置"
 
