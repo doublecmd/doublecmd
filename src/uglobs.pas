@@ -3376,7 +3376,7 @@ begin
     Node := Root.FindNode('SyncDirs');
     if Assigned(Node) then
     begin
-      gSyncDirsByContent := GetValue(Node, 'EmptyDirs', gSyncDirsEmptyDirs);
+      gSyncDirsEmptyDirs := GetValue(Node, 'EmptyDirs', gSyncDirsEmptyDirs);
       gSyncDirsSubdirs := GetValue(Node, 'Subdirs', gSyncDirsSubdirs);
       gSyncDirsByContent := GetValue(Node, 'ByContent', gSyncDirsByContent);
       gSyncDirsAsymmetric := GetValue(Node, 'Asymmetric', gSyncDirsAsymmetric);
