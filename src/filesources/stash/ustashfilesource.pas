@@ -324,7 +324,7 @@ end;
 function TStashFileSource.GetProperties: TFileSourceProperties;
 begin
   Result:= _fileSystemFS.Properties;
-  Result-= [fspListFlatView];
+  Result-= [fspListFlatView, fspSynchronizable];
   Result+= [fspLinksToLocalFiles, fspDontChangePath, fspDontCreateDirectory];
 end;
 

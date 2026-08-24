@@ -520,7 +520,7 @@ end;
 
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspUsesConnections, fspListFlatView, fspSearchable];
+  Result := [fspUsesConnections, fspListFlatView, fspSearchable, fspSynchronizable];
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;

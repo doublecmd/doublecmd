@@ -366,7 +366,7 @@ end;
 
 function TMultiArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [];
+  Result := [fspSynchronizable];
 end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;

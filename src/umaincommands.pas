@@ -3606,17 +3606,33 @@ end;
 procedure TMainCommands.cm_SyncDirs(const Params: array of string);
 var
   OperationType: TFileSourceOperationType;
-begin
-  with frmMain do
+
+  function isSupported: Boolean;
+  var
+    leftFS: IFileSource;
+    rightFS: IFileSource;
   begin
-    if GetCopyOperationType(FrameLeft.FileSource, FrameRight.FileSource, OperationType) or
-       GetCopyOperationType(FrameRight.FileSource, FrameLeft.FileSource, OperationType) then
-    begin
-      ShowSyncDirsDlg(FrameLeft, FrameRight);
-    end
-    else begin
-      msgWarning(rsMsgErrNotSupported);
-    end;
+    Result:= False;
+    leftFS:= frmMain.FrameLeft.FileSource;
+    rightFS:= frmMain.FrameRight.FileSource;
+    if NOT (fspSynchronizable in leftFS.GetProperties) then
+      Exit;
+    if NOT (fspSynchronizable in rightFS.GetProperties) then
+      Exit;
+    if NOT GetCopyOperationType(leftFS, rightFS, OperationType) then
+      Exit;
+    if NOT GetCopyOperationType(rightFS, leftFS, OperationType) then
+      Exit;
+    Result:= True;
+  end;
+
+begin
+  if isSupported then
+  begin
+    ShowSyncDirsDlg(frmMain.FrameLeft, frmMain.FrameRight);
+  end
+  else begin
+    msgWarning(rsMsgErrNotSupported);
   end;
 end;
 

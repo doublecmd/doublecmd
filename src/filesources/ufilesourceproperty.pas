@@ -96,6 +96,11 @@ type
     fspSearchable,
 
     {en
+       Set, if the file source supports Synchronizing Dirs.
+    }
+    fspSynchronizable,
+
+    {en
        Set, if the file source supports save to ConfigFile and load from ConfigFile.
     }
     fspSaveableLoadable,
