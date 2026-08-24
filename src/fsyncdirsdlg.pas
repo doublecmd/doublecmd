@@ -1914,34 +1914,39 @@ begin
     Exit;
   ca := sr.FAction;
   case ca of
-  srsNotEq:
-    ca := srsCopyRight;
-  srsCopyRight:
-    if Assigned(sr.FFileR) then
-      ca := srsCopyLeft
-    else
-      ca := srsDoNothing;
-  srsCopyLeft:
-    if Assigned(sr.FFileL) then
-      ca := srsNotEq
-    else
-      ca := srsDoNothing;
-  srsDeleteRight:
-    if not chkAsymmetric.Checked then
-      ca := sr.FState
-    else
-      ca := srsDoNothing;
-  srsDeleteLeft:
-    ca := sr.FState;
-  srsDeleteBoth:
-    ca := sr.FState;
-  srsDoNothing:
-    if Assigned(sr.FFileL) then
-      ca := srsCopyRight
-    else
-      ca := FFileExists;
+    srsNotEq:
+      ca := srsCopyRight;
+    srsCopyRight:
+      if Assigned(sr.FFileR) then
+        ca := srsCopyLeft
+      else
+        ca := srsDoNothing;
+    srsCopyLeft:
+      if Assigned(sr.FFileL) then
+        ca := srsNotEq
+      else
+        ca := srsDoNothing;
+    srsDeleteRight:
+      if not chkAsymmetric.Checked then
+        ca := sr.FState
+      else
+        ca := srsDoNothing;
+    srsDeleteLeft:
+      ca := sr.FState;
+    srsDeleteBoth:
+      ca := sr.FState;
+    srsDoNothing:
+      if Assigned(sr.FFileL) then
+        ca := srsCopyRight
+      else
+        ca := FFileExists;
   end;
-  sr.FAction := ca;
+  if sr.isDir and (sr.FState<>srsDoNothing) then begin
+    self.MainDrawGrid.Row:= R;
+    self.SetSyncRecState(ca);
+  end else begin
+    sr.FAction := ca;
+  end;
   MainDrawGrid.InvalidateRow(r);
 end;
 
