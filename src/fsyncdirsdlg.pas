@@ -241,7 +241,8 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
+  LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles,
+  uFileSourceManager, uFileSourceProperty, uShowMsg;
 
 {$R *.lfm}
 
@@ -315,12 +316,70 @@ type
     property Done: Boolean read FDone;
   end;
 
+function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
+begin
+  Result:= False;
+  params.operationType:= fsoCopy;
+  FileSourceManager.consultOperation(params);
+  if params.consultResult <> fscrSuccess then
+    Exit;
+  if params.operationTemp then
+    Exit;
+  Result:= True;
+end;
+
+function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
+begin
+  Result:= False;
+  if consultCopyOperation(params) then
+    FileSourceManager.confirmOperation(params);
+  if params.consultResult <> fscrSuccess then
+    Exit;
+  if params.operationTemp then
+    Exit;
+  Result:= True;
+end;
+
+function supportsSyncDirs(
+  const sourceFS: IFileSource;
+  const targetFS: IFileSource ): Boolean;
+var
+  params: TFileSourceConsultParams;
+begin
+  params:= Default(TFileSourceConsultParams);
+  params.sourceFS:= sourceFS;
+  params.targetFS:= targetFS;
+  Result:= consultCopyOperation(params);
+end;
+
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
+  function isSupported: Boolean;
+  var
+    leftFS: IFileSource;
+    rightFS: IFileSource;
+  begin
+    Result:= False;
+    leftFS:= FileView1.FileSource;
+    rightFS:= FileView2.FileSource;
+    if NOT (fspSynchronizable in leftFS.GetProperties) then
+      Exit;
+    if NOT (fspSynchronizable in rightFS.GetProperties) then
+      Exit;
+    if NOT supportsSyncDirs(leftFS,rightFS) then
+      Exit;
+    Result:= True;
+  end;
+
 begin
   if not Assigned(FileView1) then
     raise Exception.Create('ShowSyncDirsDlg: FileView1=nil');
   if not Assigned(FileView2) then
     raise Exception.Create('ShowSyncDirsDlg: FileView2=nil');
+  if NOT isSupported then begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
+
   with TfrmSyncDirsDlg.Create(Application, FileView1, FileView2) do
     Show;
 end;
@@ -704,66 +763,73 @@ end;
 
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
 var
-  OperationType: TFileSourceOperationType;
   FileExistsOption: TFileSourceOperationOptionFileExists;
   SymLinkOption: TFileSourceOperationOptionSymLink = fsooslNone;
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
+  var
+    params: TFileSourceConsultParams;
   begin
-    if not GetCopyOperationType(Src, Dst, OperationType) then
+    fs.Path:= fs[0].Path;
+
+    params:= Default(TFileSourceConsultParams);
+    params.sourceFS:= src;
+    params.targetFS:= dst;
+    params.files:= fs;
+    params.targetPath:= Dest;
+    if NOT consultAndConfirmCopyOperation(params) then
     begin
       MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
       Exit(False);
-    end
-    else begin
-      Fs.Path:= fs[0].Path;
-      // Create destination directory
-      Dst.CreateDirectory(ExcludeBackPathDelimiter(Dest));
-      // Determine operation type
-      case OperationType of
-        fsoCopy:
-          begin
-            // Copy within the same file source.
-            FOperation := Src.CreateCopyOperation(
-                           Fs,
-                           Dest) as TFileSourceCopyOperation;
-          end;
-        fsoCopyOut:
-          begin
-            // CopyOut to filesystem.
-            FOperation := Src.CreateCopyOutOperation(
-                           Dst,
-                           Fs,
-                           Dest) as TFileSourceCopyOperation;
-          end;
-        fsoCopyIn:
-          begin
-            // CopyIn from filesystem.
-            FOperation := Dst.CreateCopyInOperation(
-                           Src,
-                           Fs,
-                           Dest) as TFileSourceCopyOperation;
-          end;
-      end;
-      if not Assigned(FOperation) then
-      begin
-        MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
-        Exit(False);
-      end;
-      FOperation.Elevate:= ElevateAction;
-      TFileSourceCopyOperation(FOperation).SymLinkOption := SymLinkOption;
-      TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
-      FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
-      try
-        FOperation.Execute;
-        Result := FOperation.Result = fsorFinished;
-        SymLinkOption := TFileSourceCopyOperation(FOperation).SymLinkOption;
-        FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
-        FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
-        SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
-      finally
-        FreeAndNil(FOperation);
-      end;
+    end;
+
+    // Create destination directory
+    Dst.CreateDirectory(ExcludeBackPathDelimiter(Dest));
+
+    // Determine operation type
+    case params.resultOperationType of
+      fsoCopy:
+        begin
+          // Copy within the same file source.
+          FOperation := params.resultFS.CreateCopyOperation(
+                        params.files,
+                        params.resultTargetPath ) as TFileSourceCopyOperation;
+        end;
+      fsoCopyOut:
+        begin
+          // CopyOut to filesystem.
+          FOperation := params.resultFS.CreateCopyOutOperation(
+                         Dst,
+                         params.files,
+                         params.resultTargetPath) as TFileSourceCopyOperation;
+        end;
+      fsoCopyIn:
+        begin
+          // CopyIn from filesystem.
+          FOperation := params.resultFS.CreateCopyInOperation(
+                         Src,
+                         params.files,
+                         params.resultTargetPath) as TFileSourceCopyOperation;
+        end;
+    end;
+    if not Assigned(FOperation) then
+    begin
+      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+      Exit(False);
+    end;
+    FOperation.Elevate:= ElevateAction;
+    TFileSourceCopyOperation(FOperation).SymLinkOption := SymLinkOption;
+    TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
+    FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+    try
+      FOperation.Execute;
+      Result := FOperation.Result = fsorFinished;
+      SymLinkOption := TFileSourceCopyOperation(FOperation).SymLinkOption;
+      FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
+      FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
+      SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
+    finally
+      FreeAndNil(FOperation);
     end;
   end;
 
@@ -879,15 +945,13 @@ begin
   try
     edLeftPath.Text := FCmpFileSourceL.CurrentAddress + FCmpFilePathL;
     edRightPath.Text := FCmpFileSourceR.CurrentAddress + FCmpFilePathR;
-    if (CopyLeftCount > 0) and
-        GetCopyOperationType(FFileSourceR, FFileSourceL, OperationType) then
+    if CopyLeftCount > 0 then
     begin
       chkRightToLeft.Enabled := True;
       chkRightToLeft.Checked := True;
       edLeftPath.Enabled := True;
     end;
-    if (CopyRightCount > 0) and
-        GetCopyOperationType(FFileSourceL, FFileSourceR, OperationType) then
+    if CopyRightCount > 0 then
     begin
       chkLeftToRight.Enabled := True;
       chkLeftToRight.Checked := True;
