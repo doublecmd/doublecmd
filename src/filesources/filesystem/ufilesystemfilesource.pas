@@ -879,8 +879,11 @@ begin
 end;
 
 function TFileSystemFileSource.CreateDirectory(const Path: String): Boolean;
+var
+  realPath: String;
 begin
-  Result := mbCreateDir(Path);
+  realPath:= self.GetRealPath(Path);
+  Result := mbCreateDir(realPath);
   if Result then
   begin
     if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
@@ -893,8 +896,11 @@ begin
 end;
 
 function TFileSystemFileSource.FileSystemEntryExists(const Path: String): Boolean;
+var
+  realPath: String;
 begin
-  Result:= mbFileSystemEntryExists(Path);
+  realPath:= self.GetRealPath(Path);
+  Result:= mbFileSystemEntryExists(realPath);
 end;
 
 function TFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;

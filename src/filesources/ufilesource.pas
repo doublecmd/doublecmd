@@ -881,8 +881,11 @@ begin
 end;
 
 function TFileSource.CreateFileObject(const APath: String): TFile;
+var
+  realPath: String;
 begin
-  Result := CreateFile(APath);
+  realPath:= self.GetRealPath( APath );
+  Result := CreateFile( realPath );
 end;
 
 procedure TFileSource.RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
