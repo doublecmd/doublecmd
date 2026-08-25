@@ -1648,19 +1648,21 @@ var
       fn: String;
       dirFullPath: String;
       dirSyncRec: TDirSyncRec;
+      currentFileSource: IFileSource;
     begin
       dirSyncRec := TDirSyncObject(it).FDirSyncRec;
       if sideLeft then begin
+        currentFileSource := FFileSourceL;
         dirFullPath := BaseDirL + dir;
-        fs := FFileSourceL.GetFiles(dirFullPath);
-        if FFileSourceL.FileSystemEntryExists(dirFullPath) then
-          dirSyncRec.FFileL := FFileSourceL.CreateFileObject(dirFullPath);
+        if currentFileSource.FileSystemEntryExists(dirFullPath) then
+          dirSyncRec.FFileL := currentFileSource.CreateFileObject(dirFullPath);
       end else begin
+        currentFileSource := FFileSourceR;
         dirFullPath := BaseDirR + dir;
-        fs := FFileSourceR.GetFiles(dirFullPath);
-        if FFileSourceR.FileSystemEntryExists(dirFullPath) then
-          dirSyncRec.FFileR := FFileSourceR.CreateFileObject(dirFullPath);
+        if currentFileSource.FileSystemEntryExists(dirFullPath) then
+          dirSyncRec.FFileR := currentFileSource.CreateFileObject(dirFullPath);
       end;
+      fs := currentFileSource.GetFiles(dirFullPath);
       if chkOnlySelected.Checked and ASide then
       begin
         ASide:= False;
@@ -1674,6 +1676,8 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
+          if f.Name = EmptyStr then
+            f.Name := currentFileSource.GetDisplayFileName(f);
           fn := NormalizeFileName(f.Name);
           if f.IsDirectory or f.IsLinkToDirectory then
           begin
