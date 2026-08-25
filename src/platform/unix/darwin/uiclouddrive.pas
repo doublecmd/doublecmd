@@ -479,6 +479,8 @@ var
   i: Integer;
 begin
   Result:= False;
+  if aFiles = nil then
+    Exit;
   for i:=0 to aFiles.Count-1 do begin
     Result:= isSeedFile( aFiles[i] );
     if Result then

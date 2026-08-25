@@ -297,6 +297,8 @@ begin
     Exit;
   if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
     Exit;
+  if params.files = nil then
+    Exit;
 
   mountedFS:= params.currentFS as TMountedFileSource;
   realPath:= params.files[0].FullPath;
@@ -313,7 +315,7 @@ begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
 
-  if params.files.allFilesAtSamePath then
+  if (params.files=nil) or (params.files.allFilesAtSamePath) then
     Exit;
 
   MessageDlg(
