@@ -39,6 +39,7 @@ procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: String; Interactive: Boolean; Reload: Boolean): TSetFilePropertyResult;
 
+function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
 
 function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
 
@@ -46,7 +47,7 @@ implementation
 
 uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
-  uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
+  uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils, uFileProcs,
   uFileSourceManager,
   uFileSourceOperation,
   uFileSourceExecuteOperation,
@@ -427,6 +428,38 @@ begin
       FreeAndNil(UserInterface);
       FreeAndNil(aFiles);
     end;
+  end;
+end;
+
+// for FileSources that don't support CreateDirectory(), try CreateCopyInOperation
+function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
+var
+  files: TFiles = nil;
+  operation: TFileSourceOperation = nil;
+  tempDir: String;
+  tempPath: String;
+begin
+  Result:= fs.CreateDirectory(path);
+  if Result then
+    Exit;
+
+  tempDir:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
+  tempPath:= tempDir + path;
+  if not mbForceDirectory(tempPath) then
+    Exit;
+
+  try
+    files:= TFiles.Create(tempDir);
+    files.Add(TFileSystemFileSource.CreateFileFromFile(tempPath));
+    operation:= fs.CreateCopyInOperation(
+      TFileSystemFileSource.GetFileSource,
+      files,
+      PathDelim);
+    operation.Execute;
+    DelTree(tempDir);
+  finally
+    files.Free;
+    operation.Free;
   end;
 end;
 
