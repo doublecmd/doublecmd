@@ -213,13 +213,19 @@ end;
 procedure TSynYAMLSyn.StringProc1;
 begin
   fTokenID := tkString;
-  while not IsLineEnd(Run) do begin
-    if FLine[Run] = '"' then begin
+  while not IsLineEnd(Run) do
+  begin
+    if FLine[Run] = '"' then
+    begin
       Inc(Run);
       LongRec(fRange).Lo := rsUnknown;
       Exit;
-    end else if FLine[Run] = '\' then
-      Inc(Run);
+    end;
+    if FLine[Run] = '\' then
+    begin
+      if FLine[Run + 1] = '"' then
+        Inc(Run);
+    end;
     Inc(Run)
   end;
   LongRec(fRange).Lo := rsString1;
