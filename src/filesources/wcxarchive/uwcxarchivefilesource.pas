@@ -102,6 +102,8 @@ type
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
+    function FileSystemEntryExists(const Path: String): Boolean; override;
+
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
@@ -529,6 +531,23 @@ end;
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [fspUsesConnections, fspListFlatView, fspSearchable, fspSynchronizable];
+end;
+
+function TWcxArchiveFileSource.FileSystemEntryExists(const Path: String): Boolean;
+var
+  filenameList: TStringHashListUtf8;
+  wcxPath: String;
+begin
+  Result:= True;
+  wcxPath:= ExcludeLeadingPathDelimiter(Path);
+  wcxPath:= ExcludeTrailingPathDelimiter(wcxPath);
+  FArcFileList.LockList;
+  try
+    filenameList:= GetArcFilenameList;
+    Result:= Assigned( filenameList[wcxPath] );
+  finally
+    FArcFileList.UnlockList;
+  end;
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
