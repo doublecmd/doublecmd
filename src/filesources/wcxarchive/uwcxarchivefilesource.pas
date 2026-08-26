@@ -34,14 +34,22 @@ type
   private
     FModuleFileName: String;
     FPluginCapabilities: PtrInt;
+    // Wcx Header List, iterate in sequence, always created
     FArcFileList : TThreadObjectList;
+    // Filename List, index of Filename, created on demand
+    // FArcFileList should be locked before accessing FArcFilenameList
+    FArcFilenameList: TStringHashListUtf8;
     FWcxModule: TWCXModule;
     FOpenResult: LongInt;
 
     procedure SetCryptCallback;
-    function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
 
+    function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
     function GetArcFileList: TThreadObjectList;
+    function GetArcFilenameList: TStringHashListUtf8;
+    function CreateArcFilenameList: TStringHashListUtf8;
+    procedure FreeArcFilenameList;
+
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
@@ -456,8 +464,8 @@ destructor TWcxArchiveFileSource.Destroy;
 begin
   inherited Destroy;
 
-  if Assigned(FArcFileList) then
-    FreeAndNil(FArcFileList);
+  self.FreeArcFilenameList;
+  FreeAndNil(FArcFileList);
 end;
 
 function TWcxArchiveFileSource.Changed: Boolean;
@@ -584,6 +592,57 @@ begin
   Result := FArcFileList;
 end;
 
+function TWcxArchiveFileSource.GetArcFilenameList: TStringHashListUtf8;
+begin
+  Result:= nil;
+  FArcFileList.LockList;
+  try
+    if FArcFilenameList = nil then
+      FArcFilenameList:= self.CreateArcFilenameList;
+    Result:= FArcFilenameList;
+  finally
+    FArcFileList.UnlockList;
+  end;
+end;
+
+function TWcxArchiveFileSource.CreateArcFilenameList: TStringHashListUtf8;
+var
+  headerList: TList;
+  header: TWcxHeader;
+  i: Integer;
+begin
+  Result:= TStringHashListUtf8.Create(True);
+  headerList:= FArcFileList.LockList;
+  try
+    // Populate archive file list
+    for i:= 0 to headerList.Count - 1 do
+    begin
+      header:= TWcxHeader(headerList[i]).Clone;
+      Result.Add(UTF8LowerCase(header.FileName), header);
+    end;
+  finally
+    FArcFileList.UnlockList;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.FreeArcFilenameList;
+var
+  i: Integer;
+begin
+  FArcFileList.LockList;
+  try
+    if FArcFilenameList = nil then
+      Exit;
+    for i:= 0 to FArcFilenameList.Count - 1 do
+    begin
+      TObject(FArcFilenameList.List[i]^.Data).Free;
+    end;
+    FreeAndNil(FArcFilenameList);
+  finally
+    FArcFileList.UnlockList;
+  end;
+end;
+
 function TWcxArchiveFileSource.GetPluginCapabilities: PtrInt;
 begin
   Result := FPluginCapabilities;
@@ -708,6 +767,7 @@ begin
 
   AFileList:= FArcFileList.LockList;  // direct access, don't use ArchiveFileList
   try
+    self.FreeArcFilenameList;
     AFileList.Clear;
 
     if anArchiveHandle <> 0 then
