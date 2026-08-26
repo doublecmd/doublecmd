@@ -211,6 +211,10 @@ const
   CAN_DOWNLOAD = BG_DOWNLOAD or BG_ASK_USER;
 begin
   inherited Create(AOwner, AFileSource);
+  // Copying out sets the time on the local target file via mbFileSetTime and
+  // never calls the plugin, so FsSetTime/FsSetTimeW are irrelevant here.
+  cbCopyTime.Visible := True;
+  cbCopyTime.Checked := gOperationOptionCopyTime;
   with (AFileSource as IWfxPluginFileSource) do
   begin
     cbWorkInBackground.Visible:= (WfxModule.BackgroundFlags and CAN_DOWNLOAD) = CAN_DOWNLOAD;
