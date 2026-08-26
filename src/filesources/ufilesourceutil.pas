@@ -42,9 +42,6 @@ function RenameFile(aFileSource: IFileSource; const aFile: TFile;
 
 function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
 
-function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
-                              out OperationType: TFileSourceOperationType): Boolean;
-
 implementation
 
 uses
@@ -439,36 +436,6 @@ begin
            (fsoCopy in fs2.GetOperationsTypes) and
            fs1.Equals(fs1) and
            SameText(fs1.GetCurrentAddress, fs2.GetCurrentAddress);
-end;
-
-function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
-  out OperationType: TFileSourceOperationType): Boolean;
-begin
-  // If same file source and address
-  if (fsoCopy in SourceFileSource.GetOperationsTypes) and
-     (fsoCopy in TargetFileSource.GetOperationsTypes) and
-     SourceFileSource.Equals(TargetFileSource) and
-     SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
-  begin
-    Result:= True;
-    OperationType := fsoCopy;
-  end
-  else if TargetFileSource.IsClass(TFileSystemFileSource) and
-          (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
-  begin
-    Result:= True;
-    OperationType := fsoCopyOut;
-  end
-  else if SourceFileSource.IsClass(TFileSystemFileSource) and
-          (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
-  begin
-    Result:= True;
-    OperationType := fsoCopyIn;
-  end
-  else
-  begin
-    Result:= False;
-  end;
 end;
 
 end.
