@@ -837,9 +837,9 @@ var
   begin
     case syncRec.FAction of
       srsCopyRight:
-        FCmpFileSourceR.CreateDirectory( FCmpFilePathR + syncRec.FRelPath );
+        CreateDirectoryEx(FCmpFileSourceR, FCmpFilePathR + syncRec.FRelPath);
       srsCopyLeft:
-        FCmpFileSourceL.CreateDirectory( FCmpFilePathL + syncRec.FRelPath );
+        CreateDirectoryEx(FCmpFileSourceL, FCmpFilePathL + syncRec.FRelPath);
       srsDeleteRight:
         DeleteFile(FCmpFileSourceR, syncRec.FFileR);
       srsDeleteLeft:
