@@ -984,6 +984,10 @@ begin
     else if (I > 0) then
       begin
         comboBox.Items.Move(I, 0);
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+        // https://github.com/doublecmd/doublecmd/issues/2386
+        comboBox.ItemIndex := -1;
+{$ENDIF}
         // Reset selected item (and combobox text), because Move has destroyed it.
         comboBox.ItemIndex := 0;
       end;
