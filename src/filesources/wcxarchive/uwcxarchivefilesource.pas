@@ -560,9 +560,8 @@ end;
 
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 var
-  I: Integer;
-  AFileList: TList;
   Header: TWCXHeader;
+  ExistFilenameList: TStringHashListUtf8;
 begin
   Result := False;
   if Length(NewDir) > 0 then
@@ -570,20 +569,18 @@ begin
     if NewDir = GetRootDir() then
       Exit(True);
 
-    NewDir := IncludeTrailingPathDelimiter(NewDir);
+    NewDir := ExcludeLeadingPathDelimiter(NewDir);
+    NewDir := ExcludeTrailingPathDelimiter(NewDir);
+    NewDir := UTF8LowerCase(NewDir);
 
-    AFileList:= ArchiveFileList.LockList;
+    ArchiveFileList.LockList;
     try
-      // Search file list for a directory with name NewDir.
-      for I := 0 to AFileList.Count - 1 do
-      begin
-        Header := TWCXHeader(AFileList.Items[I]);
-        if FPS_ISDIR(Header.FileAttr) and (Length(Header.FileName) > 0) then
-        begin
-          if mbCompareFileNames(NewDir, IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName)) then
-            Exit(True);
-        end;
-      end;
+      ExistFilenameList := self.GetArcFilenameList;
+      Header := TWCXHeader(ExistFilenameList[NewDir]);
+      if Header = nil then
+        Exit;
+      if FPS_ISDIR(Header.FileAttr) then
+        Exit(True);
     finally
       ArchiveFileList.UnlockList;
     end;
