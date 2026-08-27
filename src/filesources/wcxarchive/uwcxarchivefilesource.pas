@@ -46,6 +46,9 @@ type
 
     procedure SetCryptCallback;
 
+    function toInternalPath(const path: String): String; inline;
+    function getWcxHeaderByPath(const path: String): TWCXHeader;
+
     function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
     function GetArcFileList: TThreadObjectList;
     // FArcFileList should be locked before calling GetArcFilenameList()
@@ -537,17 +540,10 @@ begin
 end;
 
 function TWcxArchiveFileSource.FileSystemEntryExists(const Path: String): Boolean;
-var
-  filenameList: TStringHashListUtf8;
-  wcxPath: String;
 begin
-  Result:= True;
-  wcxPath:= ExcludeLeadingPathDelimiter(Path);
-  wcxPath:= ExcludeTrailingPathDelimiter(wcxPath);
   FArcFileList.LockList;
   try
-    filenameList:= GetArcFilenameList;
-    Result:= Assigned( filenameList[wcxPath] );
+    Result:= Assigned( self.getWcxHeaderByPath(Path) );
   finally
     FArcFileList.UnlockList;
   end;
@@ -561,7 +557,6 @@ end;
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 var
   Header: TWCXHeader;
-  ExistFilenameList: TStringHashListUtf8;
 begin
   Result := False;
   if Length(NewDir) > 0 then
@@ -569,14 +564,9 @@ begin
     if NewDir = GetRootDir() then
       Exit(True);
 
-    NewDir := ExcludeLeadingPathDelimiter(NewDir);
-    NewDir := ExcludeTrailingPathDelimiter(NewDir);
-    NewDir := UTF8LowerCase(NewDir);
-
     ArchiveFileList.LockList;
     try
-      ExistFilenameList := self.GetArcFilenameList;
-      Header := TWCXHeader(ExistFilenameList[NewDir]);
+      Header := self.getWcxHeaderByPath(NewDir);
       if Header = nil then
         Exit;
       if FPS_ISDIR(Header.FileAttr) then
@@ -602,6 +592,21 @@ begin
     AFlags:= PK_CRYPTOPT_MASTERPASS_SET;
   end;
   FWcxModule.WcxSetCryptCallback(0, AFlags, @CryptProcA, @CryptProcW);
+end;
+
+function TWcxArchiveFileSource.toInternalPath(const path: String): String;
+begin
+  Result:= ExcludeLeadingPathDelimiter(path);
+  Result:= ExcludeTrailingPathDelimiter(Result);
+  Result:= UTF8LowerCase(Result);
+end;
+
+function TWcxArchiveFileSource.getWcxHeaderByPath(const path: String): TWCXHeader;
+var
+  internalPath: String;
+begin
+  internalPath:= self.toInternalPath(path);
+  Result := TWCXHeader(self.GetArcFilenameList[internalPath]);
 end;
 
 function TWcxArchiveFileSource.GetArcFileList: TThreadObjectList;
