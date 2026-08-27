@@ -96,7 +96,7 @@ implementation
 uses
   LCLType, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
-  uArchiveFileSource, uFileViewWithPanels, uVfsModule;
+  uFileSource, uArchiveFileSource, uFileViewWithPanels, uVfsModule;
 
 const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
@@ -258,13 +258,14 @@ begin
   AClass:= gVfsModuleList.GetFileSource(NewPath);
 
   // Check file name on the local file system only
-  if not ((AClass = nil) and mbFileExists(NewPath)) then
+  if not ((AClass = nil) and
+    (FFileView.FileSource.FileSystemEntryExists(NewPath,[TFileSourceExistsOption.needFile])<>TFileSourceExistsResult.notExist)) then
   begin
-    if not ChooseFileSource(FFileView, NewPath, True) then
+    if not ChooseFileSource(FFileView, IncludeTrailingPathDelimiter(NewPath), True) then
       Exit;
   end
   else begin
-    if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
+    if not ChooseFileSource(FFileView, IncludeTrailingPathDelimiter(ExtractFileDir(NewPath)), True) then
       Exit;
     FFileView.SetActiveFile(ExtractFileName(NewPath));
   end;
