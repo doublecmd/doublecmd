@@ -83,7 +83,7 @@ type
     function GetProperties: TFileSourceProperties; override;
 
     function CreateDirectory(const Path: String): Boolean; override;
-    function FileSystemEntryExists(const Path: String): Boolean; override;
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
 
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
     procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
@@ -113,7 +113,7 @@ type
 implementation
 
 uses
-  uMultiListListOperation;
+  uMultiListListOperation, uFileSourceUtil;
 
 constructor TMultiListFileSource.Create;
 begin
@@ -178,9 +178,11 @@ begin
   Result:= FFileSource.CreateDirectory(Path);
 end;
 
-function TMultiListFileSource.FileSystemEntryExists(const Path: String): Boolean;
+function TMultiListFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
 begin
-  Result:= FFileSource.FileSystemEntryExists(Path);
+  Result:= FFileSource.FileSystemEntryExists(Path, Options);
 end;
 
 function TMultiListFileSource.GetRetrievableFileProperties: TFilePropertiesTypes;
@@ -223,7 +225,7 @@ procedure TMultiListFileSource.DoReload(const PathsToReload: TPathsArray);
       for Index := aNode.SubNodesCount - 1 downto 0 do
       begin
         ASubNode:= aNode.SubNodes[Index];
-        if FFileSource.FileSystemEntryExists(ASubNode.TheFile.FullPath) then
+        if FileOrDirExists(FFileSource, ASubNode.TheFile.FullPath) then
           ReloadNode(ASubNode)
         else begin
           aNode.RemoveSubNode(Index);

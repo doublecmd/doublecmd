@@ -41,6 +41,8 @@ function RenameFile(aFileSource: IFileSource; const aFile: TFile;
 
 function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
 
+function FileOrDirExists(const fs: IFileSource; const path: String): Boolean;
+
 function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
 
 implementation
@@ -461,6 +463,18 @@ begin
     files.Free;
     operation.Free;
   end;
+end;
+
+function FileOrDirExists(const fs: IFileSource; const path: String): Boolean;
+var
+  ret: TFileSourceExistsResult;
+begin
+  ret:= fs.FileSystemEntryExists(
+    path,
+    [TFileSourceExistsOption.needFile, TFileSourceExistsOption.needDir] );
+  // treat notSupported as existing, maintaining compatibility with
+  // the previous TFileSource.FileSystemEntryExists().
+  Result:= ret <> TFileSourceExistsResult.notExist;
 end;
 
 function isCompatibleFileSourceForCopyOperation(fs1: IFileSource; fs2: IFileSource): Boolean;

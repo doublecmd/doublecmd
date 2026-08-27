@@ -108,7 +108,7 @@ type
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
-    function FileSystemEntryExists(const Path: String): Boolean; override;
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -541,14 +541,36 @@ begin
   Result := [fspUsesConnections, fspListFlatView, fspSearchable, fspSynchronizable];
 end;
 
-function TWcxArchiveFileSource.FileSystemEntryExists(const Path: String): Boolean;
+function TWcxArchiveFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
+var
+  header: TWCXHeader;
+  exists: Boolean;
 begin
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+
   FArcFileList.LockList;
   try
-    Result:= Assigned( self.getWcxHeaderByPath(Path) );
+    header:= self.getWcxHeaderByPath(Path);
+    if header <> nil then begin
+      if Options = [TFileSourceExistsOption.needFile] then
+        exists:= NOT FPS_ISDIR(header.FileAttr)
+      else if Options = [TFileSourceExistsOption.needDir] then
+        exists:= FPS_ISDIR(header.FileAttr)
+      else
+        exists:= True;
+    end else begin
+      exists:= False;
+    end;
   finally
     FArcFileList.UnlockList;
   end;
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;

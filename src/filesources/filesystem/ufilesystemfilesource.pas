@@ -89,7 +89,7 @@ type
     function GetPathType(sPath : String): TPathType; override;
 
     function CreateDirectory(const Path: String): Boolean; override;
-    function FileSystemEntryExists(const Path: String): Boolean; override;
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -895,12 +895,27 @@ begin
   end;
 end;
 
-function TFileSystemFileSource.FileSystemEntryExists(const Path: String): Boolean;
+function TFileSystemFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
 var
   realPath: String;
+  exists: Boolean;
 begin
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+
   realPath:= self.GetRealPath(Path);
-  Result:= mbFileSystemEntryExists(realPath);
+  if Options = [TFileSourceExistsOption.needFile] then
+    exists:= mbFileExists(realPath)
+  else if Options = [TFileSourceExistsOption.needDir] then
+    exists:= mbDirectoryExists(realPath)
+  else
+    exists:= mbFileSystemEntryExists(realPath);
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
 end;
 
 function TFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;

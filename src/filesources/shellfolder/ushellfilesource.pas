@@ -50,7 +50,7 @@ type
     function FindObject(AParent: IShellFolder2; const AName: String; out AValue: PItemIDList): HRESULT;
 
     function CreateDirectory(const Path: String): Boolean; override;
-    function FileSystemEntryExists(const Path: String): Boolean; override;
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
 
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -79,7 +79,7 @@ type
 implementation
 
 uses
-  ActiveX, ComObj,DCConvertEncoding,  uShellFolder, uShellListOperation,
+  ActiveX, ShellApi, ComObj, DCConvertEncoding,  uShellFolder, uShellListOperation,
   uShellCopyOperation, uShellFileOperation, uShellCreateDirectoryOperation,
   uShellExecuteOperation, uShellSetFilePropertyOperation, uShellFileSourceUtil,
   uShellDeleteOperation, uShellMoveOperation, UShellCalcStatisticsOperation,
@@ -360,12 +360,40 @@ begin
   end;
 end;
 
-function TShellFileSource.FileSystemEntryExists(const Path: String): Boolean;
+function TShellFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
 var
   AObject: PItemIDList;
+  exists: Boolean;
+
+  function getAttributes: ULong;
+  var
+    SFI: TSHFileInfoW;
+  begin
+    SHGetFileInfoW( PWideChar(AObject),
+                    0,
+                    SFI,
+                    SizeOf(SFI),
+                    SHGFI_PIDL or SHGFI_ATTRIBUTES );
+    Result:= SFI.dwAttributes;
+  end;
 begin
-  Result:= Succeeded(FindObject(Path, AObject));
-  if Result then CoTaskMemFree(AObject);
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+
+  exists:= Succeeded(FindObject(Path, AObject));
+  if exists then begin
+    if Options = [TFileSourceExistsOption.needFile] then
+      exists:= (getAttributes and SFGAO_FOLDER)=0
+    else
+      exists:= (getAttributes and SFGAO_FOLDER)<>0;
+    CoTaskMemFree(AObject);
+  end;
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
 end;
 
 function TShellFileSource.GetOperationsTypes: TFileSourceOperationTypes;
