@@ -20,10 +20,12 @@ type
     ['{DB32E8A8-486B-4053-9448-4C145C1A33FA}']
 
     function GetArcFileList: TThreadObjectList;
+    function GetArcFilenameList: TStringHashListUtf8;
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
     property ArchiveFileList: TThreadObjectList read GetArcFileList;
+    property ArchiveFileNameList: TStringHashListUtf8 read GetArcFilenameList;
     property PluginCapabilities: PtrInt read GetPluginCapabilities;
     property WcxModule: TWCXModule read GetWcxModule;
   end;
