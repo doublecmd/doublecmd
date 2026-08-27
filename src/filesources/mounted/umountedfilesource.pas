@@ -50,9 +50,6 @@ type
     procedure mount( const path: String );
     function getDefaultPointForPath( const path: String ): String; virtual;
     function getMountPointFromPath(const realPath: String): TMountPoint;
-  protected
-    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
-    function GetCurrentWorkingDirectory: String; override;
   public
     function GetProcessor: TFileSourceProcessor; override;
     function GetRealPath(const APath: String): String; override;
@@ -165,16 +162,6 @@ begin
       Exit;
     end;
   end;
-end;
-
-function TMountedFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
-begin
-  Result:= True;
-end;
-
-function TMountedFileSource.GetCurrentWorkingDirectory: String;
-begin
-  Result:= '';
 end;
 
 function TMountedFileSource.GetProcessor: TFileSourceProcessor;

@@ -834,11 +834,14 @@ begin
 end;
 
 function TFileSystemFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+var
+  realPath: String;
 begin
-  if not mbDirectoryExists(NewDir) then
+  realPath:= self.GetRealPath(NewDir);
+  if not mbDirectoryExists(realPath) then
     Result := False
   else
-    Result := mbSetCurrentDir(NewDir);
+    Result := mbSetCurrentDir(realPath);
 end;
 
 procedure TFileSystemFileSource.DoReload(const PathsToReload: TPathsArray);
