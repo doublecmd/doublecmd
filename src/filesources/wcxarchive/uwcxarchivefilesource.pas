@@ -46,8 +46,11 @@ type
 
     function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
     function GetArcFileList: TThreadObjectList;
+    // FArcFileList should be locked before calling GetArcFilenameList()
     function GetArcFilenameList: TStringHashListUtf8;
+    // FArcFileList should be locked before calling CreateArcFilenameList()
     function CreateArcFilenameList: TStringHashListUtf8;
+    // FArcFileList will be locked/unlock in FreeArcFilenameList()
     procedure FreeArcFilenameList;
 
     function GetPluginCapabilities: PtrInt;
@@ -613,15 +616,9 @@ end;
 
 function TWcxArchiveFileSource.GetArcFilenameList: TStringHashListUtf8;
 begin
-  Result:= nil;
-  FArcFileList.LockList;
-  try
-    if FArcFilenameList = nil then
-      FArcFilenameList:= self.CreateArcFilenameList;
-    Result:= FArcFilenameList;
-  finally
-    FArcFileList.UnlockList;
-  end;
+  if FArcFilenameList = nil then
+    FArcFilenameList:= self.CreateArcFilenameList;
+  Result:= FArcFilenameList;
 end;
 
 function TWcxArchiveFileSource.CreateArcFilenameList: TStringHashListUtf8;
@@ -631,16 +628,12 @@ var
   i: Integer;
 begin
   Result:= TStringHashListUtf8.Create(True);
-  headerList:= FArcFileList.LockList;
-  try
-    // Populate archive file list
-    for i:= 0 to headerList.Count - 1 do
-    begin
-      header:= TWcxHeader(headerList[i]).Clone;
-      Result.Add(UTF8LowerCase(header.FileName), header);
-    end;
-  finally
-    FArcFileList.UnlockList;
+  headerList:= FArcFileList.List;
+  // Populate archive file list
+  for i:= 0 to headerList.Count - 1 do
+  begin
+    header:= TWcxHeader(headerList[i]).Clone;
+    Result.Add(UTF8LowerCase(header.FileName), header);
   end;
 end;
 

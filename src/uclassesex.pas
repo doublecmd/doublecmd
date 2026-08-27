@@ -76,6 +76,7 @@ type
     function Count: Integer;
     function  LockList: TObjectList;
     procedure UnlockList;
+    property List: TObjectList read FList;
   end;
 
   { TSynEditHelper }
