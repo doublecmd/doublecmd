@@ -168,6 +168,7 @@ uses
   DCConvertEncoding,
   DCFileAttributes,
   FileUtil, uCryptProc,
+  uFileSourceUtil,
   uWcxArchiveListOperation,
   uTempFileSystemFileSource,
   uWcxArchiveCopyInOperation,
@@ -579,16 +580,13 @@ begin
 end;
 
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
-var
-  ret: TFileSourceExistsResult;
 begin
   Result := False;
   if Length(NewDir) > 0 then
   begin
     if NewDir = GetRootDir() then
       Exit(True);
-    ret:= self.FileSystemEntryExists(NewDir, [TFileSourceExistsOption.needDir]);
-    Result:= ret <> TFileSourceExistsResult.notExist;
+    Result:= DirectoryExists(self, NewDir);
   end;
 end;
 

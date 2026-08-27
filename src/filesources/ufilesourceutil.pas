@@ -41,7 +41,9 @@ function RenameFile(aFileSource: IFileSource; const aFile: TFile;
 
 function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
 
-function FileOrDirExists(const fs: IFileSource; const path: String): Boolean;
+function FileExists(const fs: IFileSource; const path: String): Boolean; overload;
+function DirectoryExists(const fs: IFileSource; const path: String): Boolean; overload;
+function FileOrDirExists(const fs: IFileSource; const path: String): Boolean; overload;
 
 function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
 
@@ -463,6 +465,30 @@ begin
     files.Free;
     operation.Free;
   end;
+end;
+
+function FileExists(const fs: IFileSource; const path: String): Boolean;
+var
+  ret: TFileSourceExistsResult;
+begin
+  ret:= fs.FileSystemEntryExists(
+    path,
+    [TFileSourceExistsOption.needFile] );
+  // treat notSupported as existing, maintaining compatibility with
+  // the previous TFileSource.FileSystemEntryExists().
+  Result:= ret <> TFileSourceExistsResult.notExist;
+end;
+
+function DirectoryExists(const fs: IFileSource; const path: String): Boolean;
+var
+  ret: TFileSourceExistsResult;
+begin
+  ret:= fs.FileSystemEntryExists(
+    path,
+    [TFileSourceExistsOption.needDir] );
+  // treat notSupported as existing, maintaining compatibility with
+  // the previous TFileSource.FileSystemEntryExists().
+  Result:= ret <> TFileSourceExistsResult.notExist;
 end;
 
 function FileOrDirExists(const fs: IFileSource; const path: String): Boolean;

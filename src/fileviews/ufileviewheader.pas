@@ -258,8 +258,7 @@ begin
   AClass:= gVfsModuleList.GetFileSource(NewPath);
 
   // Check file name on the local file system only
-  if not ((AClass = nil) and
-    (FFileView.FileSource.FileSystemEntryExists(NewPath,[TFileSourceExistsOption.needFile])<>TFileSourceExistsResult.notExist)) then
+  if not ((AClass = nil) and FileExists(FFileView.FileSource,NewPath)) then
   begin
     if not ChooseFileSource(FFileView, IncludeTrailingPathDelimiter(NewPath), True) then
       Exit;

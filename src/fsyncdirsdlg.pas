@@ -1639,14 +1639,6 @@ var
 
   procedure ScanDir(dir: string);
 
-    function dirExists(const fs: IFileSource; const path: String): Boolean;
-    var
-      ret: TFileSourceExistsResult;
-    begin
-      ret:= fs.FileSystemEntryExists(path, [TFileSourceExistsOption.needDir]);
-      Result:= ret <> TFileSourceExistsResult.notExist;
-    end;
-
     procedure ProcessOneSide(it, dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
     var
       fs: TFiles;
@@ -1662,12 +1654,12 @@ var
       if sideLeft then begin
         currentFileSource := FFileSourceL;
         dirFullPath := BaseDirL + dir;
-        if dirExists(currentFileSource,dirFullPath) then
+        if DirectoryExists(currentFileSource,dirFullPath) then
           dirSyncRec.FFileL := currentFileSource.CreateFileObject(dirFullPath);
       end else begin
         currentFileSource := FFileSourceR;
         dirFullPath := BaseDirR + dir;
-        if dirExists(currentFileSource,dirFullPath) then
+        if DirectoryExists(currentFileSource,dirFullPath) then
           dirSyncRec.FFileR := currentFileSource.CreateFileObject(dirFullPath);
       end;
       fs := currentFileSource.GetFiles(dirFullPath);
