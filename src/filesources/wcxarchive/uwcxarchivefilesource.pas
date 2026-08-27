@@ -580,24 +580,15 @@ end;
 
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 var
-  Header: TWCXHeader;
+  ret: TFileSourceExistsResult;
 begin
   Result := False;
   if Length(NewDir) > 0 then
   begin
     if NewDir = GetRootDir() then
       Exit(True);
-
-    ArchiveFileList.LockList;
-    try
-      Header := self.getWcxHeaderByPath(NewDir);
-      if Header = nil then
-        Exit;
-      if FPS_ISDIR(Header.FileAttr) then
-        Exit(True);
-    finally
-      ArchiveFileList.UnlockList;
-    end;
+    ret:= self.FileSystemEntryExists(NewDir, [TFileSourceExistsOption.needDir]);
+    Result:= ret <> TFileSourceExistsResult.notExist;
   end;
 end;
 
