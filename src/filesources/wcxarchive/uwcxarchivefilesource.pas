@@ -50,11 +50,11 @@ type
     function getWcxHeaderByPath(const path: String): TWCXHeader;
 
     function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
+    // FArcFileList should be locked before calling CreateArcFilenameList()
+    procedure buildArcFilenameList;
     function GetArcFileList: TThreadObjectList;
     // FArcFileList should be locked before calling GetArcFilenameList()
     function GetArcFilenameList: TStringHashListUtf8;
-    // FArcFileList should be locked before calling CreateArcFilenameList()
-    function CreateArcFilenameList: TStringHashListUtf8;
 
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
@@ -425,6 +425,7 @@ begin
   FModuleFileName := aWcxPluginFileName;
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TThreadObjectList.Create;
+  FArcFilenameList:= TStringHashListUtf8.Create(True);
   FWcxModule := gWCXPlugins.LoadModule(FModuleFileName);
 
   if not Assigned(FWcxModule) then
@@ -452,6 +453,7 @@ begin
 
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TThreadObjectList.Create;
+  FArcFilenameList:= TStringHashListUtf8.Create(True);
   FWcxModule := aWcxPluginModule;
 
   FOperationsClasses[fsoCopyIn]  := TWcxArchiveCopyInOperation.GetOperationClass;
@@ -606,7 +608,7 @@ var
   internalPath: String;
 begin
   internalPath:= self.toInternalPath(path);
-  Result := TWCXHeader(self.GetArcFilenameList[internalPath]);
+  Result := TWCXHeader(FArcFilenameList[internalPath]);
 end;
 
 function TWcxArchiveFileSource.GetArcFileList: TThreadObjectList;
@@ -618,22 +620,19 @@ end;
 
 function TWcxArchiveFileSource.GetArcFilenameList: TStringHashListUtf8;
 begin
-  if FArcFilenameList = nil then
-    FArcFilenameList:= self.CreateArcFilenameList;
   Result:= FArcFilenameList;
 end;
 
-function TWcxArchiveFileSource.CreateArcFilenameList: TStringHashListUtf8;
+procedure TWcxArchiveFileSource.buildArcFilenameList;
 var
   headerList: TList;
   header: TWcxHeader;
   i: Integer;
 begin
-  Result:= TStringHashListUtf8.Create(True);
   headerList:= FArcFileList.List;
   for i:= 0 to headerList.Count-1 do  begin
     header:= TWcxHeader(headerList[i]);
-    Result.Add(UTF8LowerCase(header.FileName), header);
+    FArcFilenameList.Add(UTF8LowerCase(header.FileName), header);
   end;
 end;
 
@@ -761,7 +760,7 @@ begin
 
   AFileList:= FArcFileList.LockList;  // direct access, don't use ArchiveFileList
   try
-    FreeAndNil(FArcFilenameList);
+    FArcFilenameList.Clear;
     AFileList.Clear;
 
     if anArchiveHandle <> 0 then
@@ -855,6 +854,8 @@ begin
     end;
 
   finally
+    // because ArcFilenameList has become commonly used, build it while updating ArcFileList
+    buildArcFilenameList;
     FArcFileList.UnlockList;  // direct access, don't use ArchiveFileList
   end;
 end;
