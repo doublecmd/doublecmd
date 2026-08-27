@@ -50,8 +50,6 @@ type
     function GetArcFilenameList: TStringHashListUtf8;
     // FArcFileList should be locked before calling CreateArcFilenameList()
     function CreateArcFilenameList: TStringHashListUtf8;
-    // FArcFileList will be locked/unlock in FreeArcFilenameList()
-    procedure FreeArcFilenameList;
 
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
@@ -469,7 +467,7 @@ destructor TWcxArchiveFileSource.Destroy;
 begin
   inherited Destroy;
 
-  self.FreeArcFilenameList;
+  FreeAndNil(FArcFilenameList);
   FreeAndNil(FArcFileList);
 end;
 
@@ -629,29 +627,9 @@ var
 begin
   Result:= TStringHashListUtf8.Create(True);
   headerList:= FArcFileList.List;
-  // Populate archive file list
-  for i:= 0 to headerList.Count - 1 do
-  begin
-    header:= TWcxHeader(headerList[i]).Clone;
+  for i:= 0 to headerList.Count-1 do  begin
+    header:= TWcxHeader(headerList[i]);
     Result.Add(UTF8LowerCase(header.FileName), header);
-  end;
-end;
-
-procedure TWcxArchiveFileSource.FreeArcFilenameList;
-var
-  i: Integer;
-begin
-  FArcFileList.LockList;
-  try
-    if FArcFilenameList = nil then
-      Exit;
-    for i:= 0 to FArcFilenameList.Count - 1 do
-    begin
-      TObject(FArcFilenameList.List[i]^.Data).Free;
-    end;
-    FreeAndNil(FArcFilenameList);
-  finally
-    FArcFileList.UnlockList;
   end;
 end;
 
@@ -779,7 +757,7 @@ begin
 
   AFileList:= FArcFileList.LockList;  // direct access, don't use ArchiveFileList
   try
-    self.FreeArcFilenameList;
+    FreeAndNil(FArcFilenameList);
     AFileList.Clear;
 
     if anArchiveHandle <> 0 then
