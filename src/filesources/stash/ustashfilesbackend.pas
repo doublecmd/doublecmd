@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
-  uFile, uFileSystemFileSource, DCOSUtils;
+  uFile, uFileSystemFileSource;
 
 type
 
@@ -31,6 +31,8 @@ type
     procedure addPaths( const files: TFiles );
     procedure removePaths( const files: TFiles );
 
+    function findByFilename( const filename: String ): TFile;
+
     function toFiles: TFiles;
     function toStringArray: TStringArray;
 
@@ -51,11 +53,12 @@ begin
   _paths:= TStringList.Create;
   _paths.SortStyle:= sslAuto;
   _paths.Duplicates:= dupIgnore;
+  _paths.OwnsObjects:= True;
 end;
 
 destructor TStashFilesBackend.Destroy;
 begin
-  FreeAndNIl( _paths );
+  FreeAndNil( _paths );
   FreeAndNil( _lockObject );
 end;
 
@@ -65,8 +68,14 @@ begin
 end;
 
 procedure TStashFilesBackend.addPath(const path: String);
+var
+  f: TFile;
 begin
-  _paths.Add( ExcludeTrailingPathDelimiter(path) );
+  try
+    f:= TFileSystemFileSource.CreateFileFromFile( path );
+    _paths.AddObject( ExcludeTrailingPathDelimiter(path), f );
+  except
+  end;
 end;
 
 procedure TStashFilesBackend.removePath(const path: String);
@@ -124,6 +133,26 @@ begin
   end;
 end;
 
+function TStashFilesBackend.findByFilename(const filename: String): TFile;
+var
+  i: Integer;
+  f: TFile;
+begin
+  Result:= nil;
+  _lockObject.Acquire;
+  try
+    for i:= 0 to _paths.Count-1 do begin
+      f:= TFile( _paths.Objects[i] );
+      if f.Name <> filename then
+        continue;
+      Result:= f;
+      Exit;
+    end;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
 function TStashFilesBackend.toFiles: TFiles;
 var
   files: TFiles;
@@ -140,7 +169,9 @@ begin
       path:= _paths[i];
       try
         f:= TFileSystemFileSource.CreateFileFromFile( path );
-        files.Add( f );
+        _paths.Objects[i].Free;
+        _paths.Objects[i]:= f;
+        files.Add( f.Clone );
         inc( i );
       except
         _paths.Delete( i );
@@ -170,8 +201,7 @@ begin
   for path in pathsArray do begin
     if path.IsEmpty then
       continue;
-    if mbFileSystemEntryExists(path) then
-      self.addPath( path );
+    self.addPath( path );
   end;
 end;
 

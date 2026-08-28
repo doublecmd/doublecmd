@@ -10,7 +10,7 @@ uses
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource,
-  uDCUtils, DCStrUtils, uLng, uSysFolders,
+  DCStrUtils, uLng, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -50,6 +50,9 @@ type
     function GetRealPath(const path: String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
     class function IsSupportedPath(const Path: String): Boolean; override;
+
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     class function GetMainIcon(out Path: String): Boolean; override;
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
@@ -319,6 +322,40 @@ end;
 class function TStashFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
   Result:= Path.StartsWith( STASH_SCHEME );
+end;
+
+function TStashFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions ): TFileSourceExistsResult;
+var
+  filename: String;
+  f: TFile;
+  exists: Boolean;
+begin
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+
+  filename:= Path.Substring( self.GetRootDir.Length );
+  f:= stashFilesBackend.findByFilename( filename );
+  if f <> nil then begin
+    if Options = [TFileSourceExistsOption.needFile] then
+      exists:= NOT f.IsDirectory
+    else if Options = [TFileSourceExistsOption.needDir] then
+      exists:= f.IsDirectory
+    else
+      exists:= True;
+  end else begin
+    exists:= False;
+  end;
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
+end;
+
+function TStashFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+begin
+  Result:= self.IsPathAtRoot( NewDir );
 end;
 
 function TStashFileSource.GetProperties: TFileSourceProperties;
