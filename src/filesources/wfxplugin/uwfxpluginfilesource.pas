@@ -94,6 +94,9 @@ type
     constructor Create(aModuleFileName, aPluginRootName: String); reintroduce;
     destructor Destroy; override;
 
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
+
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; FindData: TWfxFindData): TFile; overload;
 
@@ -173,7 +176,8 @@ uses
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation,
-  DCConvertEncoding, uWfxPluginCalcStatisticsOperation, uFileFunctions, uPixMapManager;
+  DCConvertEncoding, uWfxPluginCalcStatisticsOperation, uFileFunctions, uPixMapManager,
+  uFileSourceUtil;
 
 const
   connCopyIn      = 0;
@@ -527,6 +531,83 @@ begin
     WfxOperationList.Objects[FPluginNumber]:= nil;
   FreeAndNil(FCallbackDataClass);
   inherited Destroy;
+end;
+
+function TWfxPluginFileSource.FileSystemEntryExists(const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
+var
+  exists: Boolean;
+
+  // faster
+  function dirExists: Boolean;
+  var
+    findData: TWfxFindData;
+    handle: THandle;
+  begin
+    Result:= False;
+    handle:= WfxModule.WfxFindFirst(Path, findData);
+    if handle = wfxInvalidHandle then
+      Exit;
+    WfxModule.FsFindClose(handle);
+    Result:= True;
+  end;
+
+  // slower
+  function fileExists: Boolean;
+  var
+    parentDir: String;
+    filename: String;
+    findData: TWfxFindData;
+    handle: THandle;
+  begin
+    Result:= False;
+    parentDir:= DCStrUtils.GetParentDir(Path);
+    filename:= DCStrUtils.ExtractFileNameEx(ExcludeTrailingPathDelimiter(Path));
+    handle:= WfxModule.WfxFindFirst(parentDir, findData);
+    if handle = wfxInvalidHandle then
+      Exit;
+    try
+      repeat
+        if findData.FileName <> filename then
+          continue;
+        // there's no check for whether it's a regular file because dirExists()
+        // will be called first regardless. if it's a directory, it has already
+        // been matched in dirExists(), so fileExists() will not be called.
+        Result:= True;
+        Exit;
+      until (not WfxModule.WfxFindNext(handle, findData));
+    finally
+      WfxModule.FsFindClose(handle);
+    end;
+  end;
+
+begin
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+  if Path = EmptyStr then
+    Exit;
+
+  // because dirExists() should run much faster than fileExists(), the following
+  // logic is adopted: always call dirExists() first, and then proceed based on its result.
+  exists:= False;
+  if dirExists() then begin
+    if TFileSourceExistsOption.needDir in Options then
+      exists:= True;
+  end else begin
+    if TFileSourceExistsOption.needFile in Options then
+      exists:= fileExists();
+  end;
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
+end;
+
+function TWfxPluginFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+begin
+  Result := False;
+  if Length(NewDir) > 0 then
+    Result:= DirectoryExists(self, NewDir);
 end;
 
 class function TWfxPluginFileSource.CreateFile(const APath: String): TFile;
