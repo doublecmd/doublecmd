@@ -139,6 +139,11 @@ end;
 
 procedure TCloudRootDriver.createFolder(const path: String);
 begin
+  if TThread.CurrentThread.ThreadID <> MainThreadID then begin
+    TLogUtil.logError( 'TCloudRootDriver.createFolder: Not Called in Main Thread!' );
+    Exit;
+  end;
+
   TWFXOptionsUtil.addAndShow( path );
   TCloudRootHelper.saveConfig;
   self.Free;

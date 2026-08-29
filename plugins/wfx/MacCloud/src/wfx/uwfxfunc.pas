@@ -297,11 +297,6 @@ var
   end;
 
 begin
-  if TThread.CurrentThread.ThreadID <> MainThreadID then begin
-    TLogUtil.logError( 'Not Called in Main Thread!' );
-    Exit( False );
-  end;
-
   try
     try
       doCreateFolder;
