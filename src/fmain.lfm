@@ -1262,6 +1262,7 @@ object frmMain: TfrmMain
       end
       object mnuOpenStash: TMenuItem
         Caption = 'Open Stash'
+        OnClick = mnuOpenStashClick
       end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange

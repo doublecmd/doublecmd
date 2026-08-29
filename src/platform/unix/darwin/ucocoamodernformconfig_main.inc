@@ -464,7 +464,7 @@ end;
 
 procedure stashAction( const Sender: id );
 begin
-  frmMain.Commands.cm_OpenVirtualFileSystemList( ['plugin='+rsstashname] );
+  frmMain.mnuOpenStashClick( nil );
 end;
 
 procedure terminalAction( const Sender: id );

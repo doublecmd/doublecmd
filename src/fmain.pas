@@ -616,6 +616,7 @@ type
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
+    procedure mnuOpenStashClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
     procedure pnlDiskResize(Sender: TObject);
     procedure ShellTreeViewSelect;
@@ -1734,6 +1735,11 @@ end;
 procedure TfrmMain.miTrayIconRestoreClick(Sender: TObject);
 begin
   RestoreFromTray;
+end;
+
+procedure TfrmMain.mnuOpenStashClick(Sender: TObject);
+begin
+  Commands.cm_OpenVirtualFileSystemList( ['plugin='+rsstashname] );
 end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
@@ -3064,6 +3070,20 @@ var
   imgIndex: Integer;
   ABitmap: TCustomBitmap;
   actionName: TComponentName;
+
+  procedure setOpenStashIcon;
+  var
+    iconName: String;
+  begin
+    TStashFileSource.GetMainIcon(iconName);
+    ABitmap:= PixMapManager.GetThemeIcon(ittInternal, iconName, gIconsInMenusSize);
+    if NOT Assigned(ABitmap) then
+      Exit;
+    imgIndex := imgLstActions.Add(ABitmap, nil);
+    mnuOpenStash.ImageIndex:= imgIndex;
+    ABitmap.Free;
+  end;
+
 begin
   mnuMain.Images := nil;
   pmTabMenu.Images := nil;
@@ -3105,6 +3125,8 @@ begin
       ABitmap.Free;
     end;
   end;
+
+  setOpenStashIcon;
 end;
 
 procedure TfrmMain.UpdateHotDirIcons;
