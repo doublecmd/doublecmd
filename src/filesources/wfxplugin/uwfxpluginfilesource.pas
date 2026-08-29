@@ -533,13 +533,14 @@ begin
   inherited Destroy;
 end;
 
-function TWfxPluginFileSource.FileSystemEntryExists(const Path: String;
-  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
-var
-  exists: Boolean;
+function TWfxPluginFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions ): TFileSourceExistsResult;
 
   // faster
-  function dirExists: Boolean;
+  // return True: the directory exists and it's not empty directories
+  // return False: no entry / empty directory / regular file
+  function notEmptyDirExists: Boolean;
   var
     findData: TWfxFindData;
     handle: THandle;
@@ -553,14 +554,14 @@ var
   end;
 
   // slower
-  function fileExists: Boolean;
+  function getFile: TFile;
   var
     parentDir: String;
     filename: String;
     findData: TWfxFindData;
     handle: THandle;
   begin
-    Result:= False;
+    Result:= nil;
     parentDir:= DCStrUtils.GetParentDir(Path);
     filename:= DCStrUtils.ExtractFileNameEx(ExcludeTrailingPathDelimiter(Path));
     handle:= WfxModule.WfxFindFirst(parentDir, findData);
@@ -570,10 +571,7 @@ var
       repeat
         if findData.FileName <> filename then
           continue;
-        // there's no check for whether it's a regular file because dirExists()
-        // will be called first regardless. if it's a directory, it has already
-        // been matched in dirExists(), so fileExists() will not be called.
-        Result:= True;
+        Result:= self.CreateFile(Path, findData);
         Exit;
       until (not WfxModule.WfxFindNext(handle, findData));
     finally
@@ -581,6 +579,9 @@ var
     end;
   end;
 
+var
+  exists: Boolean;
+  f: TFile = nil;
 begin
   Result:= TFileSourceExistsResult.notExist;
   if Options = [] then
@@ -588,16 +589,25 @@ begin
   if Path = EmptyStr then
     Exit;
 
-  // because dirExists() should run much faster than fileExists(), the following
-  // logic is adopted: always call dirExists() first, and then proceed based on its result.
+  // note: notEmptyDirExists() should run much faster than getFile()
   exists:= False;
-  if dirExists() then begin
+  if TFileSourceExistsOption.needDir in Options then
+    exists:= notEmptyDirExists();
+
+  if NOT exists then
+    f:= getFile;
+
+  if NOT exists and Assigned(f) then begin
     if TFileSourceExistsOption.needDir in Options then
-      exists:= True;
-  end else begin
-    if TFileSourceExistsOption.needFile in Options then
-      exists:= fileExists();
+      exists:= f.IsDirectory;
   end;
+
+  if NOT exists and Assigned(f) then begin
+    if TFileSourceExistsOption.needFile in Options then
+      exists:= NOT f.IsDirectory;
+  end;
+
+  f.Free;
 
   if exists then
     Result:= TFileSourceExistsResult.exists;
