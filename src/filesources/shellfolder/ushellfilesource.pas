@@ -422,7 +422,7 @@ end;
 
 function TShellFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspVirtual];
+  Result := [fspVirtual, fspSynchronizable];
 end;
 
 function TShellFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

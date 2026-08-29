@@ -529,7 +529,7 @@ end;
 
 function TGioFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result:=inherited GetProperties;
+  Result := [fspVirtual, fspSynchronizable];
 end;
 
 function TGioFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
