@@ -861,6 +861,7 @@ end;
          (StrBegins(mnt_dir, '/sys/')) or
          (StrBegins(mnt_dir, '/proc/')) or
          (StrBegins(mnt_dir, '/snap/')) or
+         (StrBegins(mnt_dir, '/var/tmp/')) or
          (StrPos(mnt_dir, '/snapd/') <> nil) or
          (StrBegins(ExtractFileName(mnt_dir), '.')) then Exit;
 
