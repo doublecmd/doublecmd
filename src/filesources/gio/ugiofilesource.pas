@@ -462,7 +462,7 @@ function TGioFileSource.FileSystemEntryExists(
 var
   AGFile: PGFile;
   TargetPath: String;
-  fileType: GFileType;
+  fileType: TGFileType;
   exists: Boolean;
 begin
   Result:= TFileSourceExistsResult.notExist;
