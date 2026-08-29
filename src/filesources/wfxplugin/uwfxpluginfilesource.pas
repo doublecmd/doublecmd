@@ -589,6 +589,12 @@ begin
   if Path = EmptyStr then
     Exit;
 
+  if Path = PathDelim then begin
+    if TFileSourceExistsOption.needDir in Options then
+      Result:= TFileSourceExistsResult.exists;
+    Exit;
+  end;
+
   // note: notEmptyDirExists() should run much faster than getFile()
   exists:= False;
   if TFileSourceExistsOption.needDir in Options then
