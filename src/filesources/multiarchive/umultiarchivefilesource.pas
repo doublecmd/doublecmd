@@ -19,6 +19,7 @@ type
 
     function GetPassword: String;
     function GetArcFileList: TThreadObjectList;
+    function GetArcFilenameList: TStringHashListUtf8;
     function GetMultiArcItem: TMultiArcItem;
 
     function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
@@ -31,6 +32,7 @@ type
 
     property Password: String read GetPassword;
     property ArchiveFileList: TThreadObjectList read GetArcFileList;
+    property ArchiveFileNameList: TStringHashListUtf8 read GetArcFilenameList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
 
@@ -40,7 +42,11 @@ type
   private
     FPassword: String;
     FOutputParser: TOutputParser;
+    // ArchiveItem List, iterate in sequence
     FArcFileList : TThreadObjectList;
+    // Filename List, index of Filename
+    // FArcFileList should be locked before accessing FArcFilenameList
+    FArcFilenameList: TStringHashListUtf8;
     FMultiArcItem: TMultiArcItem;
     FAllDirsList,
     FExistsDirList: TStringHashListUtf8;
@@ -52,11 +58,15 @@ type
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
+    // FArcFileList should be locked before calling CreateArcFilenameList()
+    procedure buildArcFilenameList;
 
     function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
     function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
 
     function GetArcFileList: TThreadObjectList;
+    // FArcFileList should be locked before calling GetArcFilenameList()
+    function GetArcFilenameList: TStringHashListUtf8;
 
   protected
     function GetPacker: String; override;
@@ -247,6 +257,7 @@ begin
 
   FMultiArcItem := aMultiArcItem.Clone;
   FArcFileList := TThreadObjectList.Create;
+  FArcFilenameList:= TStringHashListUtf8.Create(True);
   FOutputParser := TOutputParser.Create(FMultiArcItem, anArchiveFileName);
   FOutputParser.OnGetArchiveItem:= @OnGetArchiveItem;
 
@@ -280,6 +291,7 @@ begin
   inherited Destroy;
 
   FreeAndNil(FOutputParser);
+  FreeAndNil(FArcFilenameList);
   FreeAndNil(FArcFileList);
   FreeAndNil(FMultiArcItem);
 end;
@@ -409,6 +421,11 @@ end;
 function TMultiArchiveFileSource.GetArcFileList: TThreadObjectList;
 begin
   Result := FArcFileList;
+end;
+
+function TMultiArchiveFileSource.GetArcFilenameList: TStringHashListUtf8;
+begin
+  Result:= FArcFilenameList;
 end;
 
 function TMultiArchiveFileSource.GetMultiArcItem: TMultiArcItem;
@@ -575,6 +592,7 @@ begin
   { Get File List }
   AFileList:= FArcFileList.LockList;
   try
+    FArcFilenameList.Clear;
     AFileList.Clear;
     // Get archive file time
     DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), ArchiveTime);
@@ -639,10 +657,25 @@ begin
     end;
 
   finally
+    // because ArcFilenameList has become commonly used, build it while updating ArcFileList
+    buildArcFilenameList;
     FArcFileList.UnlockList;
   end;
 
   Result := True;
+end;
+
+procedure TMultiArchiveFileSource.buildArcFilenameList;
+var
+  itemList: TList;
+  item: TArchiveItem;
+  i: Integer;
+begin
+  itemList:= FArcFileList.List;
+  for i:= 0 to itemList.Count-1 do begin
+    item:= TArchiveItem(itemList[i]);
+    FArcFilenameList.Add(item.FileName, item);
+  end;
 end;
 
 function TMultiArchiveFileSource.FileIsLink(ArchiveItem: TArchiveItem): Boolean;
