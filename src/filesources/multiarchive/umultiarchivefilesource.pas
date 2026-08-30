@@ -57,6 +57,8 @@ type
     function GetMultiArcItem: TMultiArcItem;
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
+    function getArchiveItemByPath(const path: String): TArchiveItem;
+
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
     // FArcFileList should be locked before calling CreateArcFilenameList()
     procedure buildArcFilenameList;
@@ -93,6 +95,8 @@ type
 
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
+
+    function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -381,6 +385,38 @@ begin
   Result := [fspSynchronizable];
 end;
 
+function TMultiArchiveFileSource.FileSystemEntryExists(
+  const Path: String;
+  const Options: TFileSourceExistsOptions): TFileSourceExistsResult;
+var
+  item: TArchiveItem;
+  exists: Boolean;
+begin
+  Result:= TFileSourceExistsResult.notExist;
+  if Options = [] then
+    Exit;
+
+  FArcFileList.LockList;
+  try
+    item:= self.getArchiveItemByPath(Path);
+    if item <> nil then begin
+      if Options = [TFileSourceExistsOption.needFile] then
+        exists:= NOT FileIsDirectory(item)
+      else if Options = [TFileSourceExistsOption.needDir] then
+        exists:= FileIsDirectory(item)
+      else
+        exists:= True;
+    end else begin
+      exists:= False;
+    end;
+  finally
+    FArcFileList.UnlockList;
+  end;
+
+  if exists then
+    Result:= TFileSourceExistsResult.exists;
+end;
+
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties + [fpLink, fpComment];
@@ -556,6 +592,15 @@ begin
   //****************************************************************************
 
   FArcFileList.Add(ArchiveItem);
+end;
+
+function TMultiArchiveFileSource.getArchiveItemByPath(const path: String): TArchiveItem;
+var
+  internalPath: String;
+begin
+  internalPath:= ExcludeLeadingPathDelimiter(path);
+  internalPath:= ExcludeTrailingPathDelimiter(internalPath);
+  Result := TArchiveItem(FArcFilenameList[internalPath]);
 end;
 
 function TMultiArchiveFileSource.GetPacker: String;
