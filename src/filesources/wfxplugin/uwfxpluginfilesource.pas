@@ -1033,12 +1033,16 @@ begin
 end;
 
 function TWfxPluginFileSource.CreateDirectory(const Path: String): Boolean;
+var
+  parentPath: String;
 begin
-  Result:= WfxModule.WfxMkDir(ExtractFilePath(Path), Path) = WFX_SUCCESS;
+  parentPath:= ExtractFilePath(Path);
+  Result:= WfxModule.WfxMkDir(parentPath, Path) = WFX_SUCCESS;
   if Result then
   begin
     if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
-      logWrite(Format(rsMsgLogSuccess + rsMsgLogMkDir, [Path]), lmtSuccess)
+      logWrite(Format(rsMsgLogSuccess + rsMsgLogMkDir, [Path]), lmtSuccess);
+    self.Reload(parentPath);
   end
   else begin
     if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then

@@ -107,7 +107,6 @@ function mbFileCopyXattr(const Source, Target: String): Boolean;
 var
   ret: Integer;
 begin
-  Writeln( '>>3> mbFileCopyXattr' );
   ret:= copyfile( pchar(Source), pchar(Target), nil, COPYFILE_XATTR );
   fpseterrno( ret );
   Result:= (ret=0);
