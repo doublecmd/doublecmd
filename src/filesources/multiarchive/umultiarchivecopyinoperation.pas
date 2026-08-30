@@ -65,7 +65,7 @@ implementation
 
 uses
   LazUTF8, FileUtil, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
-  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
+  uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
   uShowMsg, uAdministrator,
   uArchiveFileSourceUtil;
 

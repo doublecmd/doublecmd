@@ -36,9 +36,9 @@ type
   private
     FModuleFileName: String;
     FPluginCapabilities: PtrInt;
-    // Wcx Header List, iterate in sequence, always created
+    // Wcx Header List, iterate in sequence
     FArcFileList : TThreadObjectList;
-    // Filename List, index of Filename, created on demand
+    // Filename List, index of Filename
     // FArcFileList should be locked before accessing FArcFilenameList
     FArcFilenameList: TStringHashListUtf8;
     FWcxModule: TWCXModule;
@@ -82,7 +82,6 @@ type
     procedure OperationFinished(Operation: TFileSourceOperation); override;
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
-    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     procedure DoReload(const {%H-}PathsToReload: TPathsArray); override;
 
@@ -168,7 +167,6 @@ uses
   DCConvertEncoding,
   DCFileAttributes,
   FileUtil, uCryptProc,
-  uFileSourceUtil,
   uWcxArchiveListOperation,
   uTempFileSystemFileSource,
   uWcxArchiveCopyInOperation,
@@ -579,17 +577,6 @@ begin
   Result := inherited GetSupportedFileProperties;
 end;
 
-function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
-begin
-  Result := False;
-  if Length(NewDir) > 0 then
-  begin
-    if NewDir = GetRootDir() then
-      Exit(True);
-    Result:= DirectoryExists(self, NewDir);
-  end;
-end;
-
 function TWcxArchiveFileSource.GetPacker: String;
 begin
   Result:= FWcxModule.ModuleName;
@@ -641,7 +628,7 @@ var
   i: Integer;
 begin
   headerList:= FArcFileList.List;
-  for i:= 0 to headerList.Count-1 do  begin
+  for i:= 0 to headerList.Count-1 do begin
     header:= TWcxHeader(headerList[i]);
     FArcFilenameList.Add(UTF8LowerCase(header.FileName), header);
   end;

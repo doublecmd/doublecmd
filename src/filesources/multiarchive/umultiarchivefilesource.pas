@@ -73,7 +73,6 @@ type
   protected
     function GetPacker: String; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
-    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     procedure DoReload(const PathsToReload: TPathsArray); override;
 
@@ -420,38 +419,6 @@ end;
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties + [fpLink, fpComment];
-end;
-
-function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
-var
-  I: Integer;
-  AFileList: TList;
-  ArchiveItem: TArchiveItem;
-begin
-  Result := False;
-  if Length(NewDir) > 0 then
-  begin
-    if NewDir = GetRootDir() then
-      Exit(True);
-
-    NewDir := IncludeTrailingPathDelimiter(NewDir);
-
-    AFileList:= FArcFileList.LockList;
-    try
-      // Search file list for a directory with name NewDir.
-      for I := 0 to AFileList.Count - 1 do
-      begin
-        ArchiveItem := TArchiveItem(AFileList.Items[I]);
-        if FileIsDirectory(ArchiveItem) and (Length(ArchiveItem.FileName) > 0) then
-        begin
-          if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + ArchiveItem.FileName) then
-            Exit(True);
-        end;
-      end;
-    finally
-      FArcFileList.UnlockList;
-    end;
-  end;
 end;
 
 function TMultiArchiveFileSource.GetArcFileList: TThreadObjectList;

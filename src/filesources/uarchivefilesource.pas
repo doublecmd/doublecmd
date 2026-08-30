@@ -9,6 +9,7 @@ uses
   DCOSUtils,
   uLocalFileSource,
   uFileSource,
+  uFileSourceUtil,
   uFile,
   uFileProperty
   {$IFDEF DARWIN}
@@ -56,6 +57,8 @@ type
     constructor Create(anArchiveFileSource: IFileSource;
                        anArchiveFileName: String); virtual reintroduce overload;
 
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
+
     class function CreateFile(const APath: String): TFile; override;
 
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
@@ -74,6 +77,16 @@ begin
   inherited Create;
   ParentFileSource := anArchiveFileSource;
   mbFileGetAttr(anArchiveFileName, FAttributeData);
+end;
+
+function TArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+begin
+  Result := False;
+  if NewDir = EmptyStr then
+    Exit;
+  if NewDir = GetRootDir() then
+    Exit(True);
+  Result:= DirectoryExists(self, NewDir);
 end;
 
 class function TArchiveFileSource.CreateFile(const APath: String): TFile;
