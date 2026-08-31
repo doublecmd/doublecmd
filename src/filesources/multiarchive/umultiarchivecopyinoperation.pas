@@ -37,6 +37,7 @@ type
     FTempFile: String;
     FErrorLevel: LongInt;
     FCommandLine: String;
+    FNeedExtraTargetSubdirSupport: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
     procedure OnQueryString(str: string);
@@ -103,10 +104,7 @@ begin
   end;
 
   if (TargetPath <> PathDelim) and (Pos('%R', FCommandLine) = 0) then
-  begin
-    AskQuestion('', rsMsgErrNotSupported, [fsourOk], fsourOk, fsourOk);
-    RaiseAbortOperation;
-  end;
+    FNeedExtraTargetSubdirSupport:= True;
 
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
@@ -146,9 +144,63 @@ var
   oneByOne: Boolean;
   sRootPath: String;
   sDestPath: String;
+  workingPath: String;
   sReadyCommand: String;
   uselessTotalFiles: Int64;
   uselessTotalBytes: Int64;
+
+  function prepareForTargetPath: Boolean;
+  var
+    tpSourcePath: String;
+    tpSubpath: String;
+    tpSymlinkName: String;
+  begin
+    Result:= True;
+    tpSourcePath:= currentFullFiles.Path;
+
+    if NOT FNeedExtraTargetSubdirSupport then begin
+      sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
+      sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
+      sRootPath:= tpSourcePath;
+      workingPath:= tpSourcePath;
+      Exit;
+    end;
+
+    {
+      for cases where the archive program itself does't support archiving to a
+      specified subdirectory of the archive file, support is provided indirectly here.
+      it means that %R is not supported, for example, 7z.
+
+      the implementation is as follows:
+      1. create a dedicated system temporary folder
+      2. create the subdirectory struct for the corresponding destination in archive file
+         in the system temporary folder
+      3. link to the source files to be archived via symbolic links
+      4. set the working folder to the system temporary folder
+
+      this additional support enables MultiArchiveFileSource to:
+      1. support creating directories at specified point, previously only possible
+         in the root
+      2. support Synchronize dirs
+    }
+    sDestPath:= PathDelim;
+    sRootPath:= EmptyStr;
+    workingPath:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
+    tpSubPath:= workingPath + GetParentDir(TargetPath);
+    tpSymlinkName:= IncludeTrailingPathDelimiter(tpSubPath) + GetLastDir(TargetPath);
+    Result:= ForceDirectories(tpSubPath);
+    if NOT Result then
+      Exit;
+    Result:= CreateSymLink(tpSourcePath, tpSymlinkName);
+  end;
+
+  procedure cleanupForTargetPath;
+  begin
+    if NOT FNeedExtraTargetSubdirSupport then
+      Exit;
+    DeleteDirectory(workingPath, False);
+  end;
+
 begin
   Result:= -1;
 
@@ -167,11 +219,12 @@ begin
         uselessTotalBytes);     // gets full list of files (recursive)
     end;
 
-    sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
-    sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
-    sRootPath:= currentFullFiles.Path;
+    if NOT prepareForTargetPath() then
+      Exit;
 
     ChangeFileListRoot(EmptyStr, currentFullFiles);
+    if FNeedExtraTargetSubdirSupport then
+      ChangeFileListRoot(ExcludeLeadingPathDelimiter(TargetPath), currentFullFiles);
 
     for I:= currentFullFiles.Count - 1 downto 0 do begin
       if oneByOne then begin
@@ -198,8 +251,7 @@ begin
                                             );
       OnReadLn(sReadyCommand);
 
-      // Set archiver current path to file list root
-      FExProcess.Process.CurrentDirectory:= sRootPath;
+      FExProcess.Process.CurrentDirectory:= workingPath;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -215,6 +267,7 @@ begin
   finally
     if currentFullFiles <> FFullFilesTree then
       currentFullFiles.Free;
+    cleanupForTargetPath;
   end;
 end;
 
