@@ -411,6 +411,9 @@ type
 
     function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
 
+    function GetSelectionText: String;
+    procedure AutoCopySelection;
+
     procedure SetText(const AValue: String);
 
   protected
@@ -465,6 +468,7 @@ type
     procedure SelectAll;
     procedure SelectText(AStart, AEnd: PtrInt);
     procedure CopyToClipboard;
+    procedure CopyToPrimarySelection;
     procedure CopyToClipboardF;
     function Selection: String;
 
@@ -2700,7 +2704,7 @@ begin
             FBlockEnd := FBlockBeg;
 
           if FAutoCopy then
-            CopyToClipboard;
+            AutoCopySelection;
           Invalidate;
         end;
       end; // mbLeft
@@ -2816,7 +2820,7 @@ begin
   if FSelecting and (Button = mbLeft) and (Shift * [ssDouble, ssTriple] = []) then
   begin
     if FAutoCopy then
-      CopyToClipboard;
+      AutoCopySelection;
     FSelecting := False;
   end;
 end;
@@ -3127,23 +3131,51 @@ begin
   end;
 end;
 
-procedure TViewerControl.CopyToClipboard;
+function TViewerControl.GetSelectionText: String;
 var
-  sText, utf8Text: string;
+  sText: string;
 begin
+  Result := EmptyStr;
   if (FBlockEnd - FBlockBeg) <= 0 then
     Exit;
   if (FBlockEnd - FBlockBeg) > 1024 * 1024 then // Max 1 MB to clipboard
     Exit;
   SetString(sText, GetDataAdr + FBlockBeg, FBlockEnd - FBlockBeg);
-  utf8Text := ConvertToUTF8(sText);
+  Result := ConvertToUTF8(sText);
+end;
+
+procedure CopyTextTo(AClipboard: TClipboard; const utf8Text: String);
+begin
+  if (AClipboard = nil) or (utf8Text = EmptyStr) then
+    Exit;
   {$IFDEF LCLGTK2}
   // Workaround for Lazarus bug #0021453. LCL adds trailing zero to clipboard in Clipboard.AsText.
-  Clipboard.Clear;
-  Clipboard.AddFormat(PredefinedClipboardFormat(pcfText), utf8Text[1], Length(utf8Text));
+  AClipboard.Clear;
+  AClipboard.AddFormat(PredefinedClipboardFormat(pcfText), utf8Text[1], Length(utf8Text));
   {$ELSE}
-  Clipboard.AsText := utf8Text;
+  AClipboard.AsText := utf8Text;
   {$ENDIF}
+end;
+
+procedure TViewerControl.CopyToClipboard;
+begin
+  CopyTextTo(Clipbrd.Clipboard, GetSelectionText);
+end;
+
+procedure TViewerControl.CopyToPrimarySelection;
+begin
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+  CopyTextTo(Clipbrd.PrimarySelection, GetSelectionText);
+{$ENDIF}
+end;
+
+procedure TViewerControl.AutoCopySelection;
+begin
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+  CopyToPrimarySelection;
+{$ELSE}
+  CopyToClipboard;
+{$ENDIF}
 end;
 
 procedure TViewerControl.CopyToClipboardF;
