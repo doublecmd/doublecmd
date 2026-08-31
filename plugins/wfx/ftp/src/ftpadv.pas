@@ -127,6 +127,7 @@ type
     function FileProperties(const FileName: String): Boolean; virtual;
     function CopyFile(const OldName, NewName: String): Boolean; virtual;
     function ChangeMode(const FileName, Mode: String): Boolean; virtual;
+    function GetRemoteMode(const FileName: String; out Mode: TFileAttrs): Boolean; virtual;
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function ExecuteCommand(const Command: String; const Directory: String = ''): Boolean; virtual;
@@ -153,6 +154,9 @@ uses
   DCDateTimeUtils
 {$IF (FPC_FULLVERSION < 30000)}
   , LazUTF8SysUtils
+{$ENDIF}
+{$IFDEF UNIX}
+  , BaseUnix
 {$ENDIF}
   ;
 
@@ -455,6 +459,41 @@ begin
   end;
 end;
 
+{ Strip optional '0o'/'0O' prefix (pyftpdlib quirk) then parse as octal.
+  Returns 0 on any parse error so a bad server response never crashes DC. }
+function ParseOctalMode(const Value: String): TFileAttrs;
+var
+  S: String;
+begin
+  S := Value;
+  if (Length(S) >= 2) and (S[1] = '0') and ((S[2] = 'o') or (S[2] = 'O')) then
+    S := Copy(S, 3, MaxInt);
+  try
+    Result := OctToDec(S);
+  except
+    Result := 0;
+  end;
+end;
+
+{ Extract the raw value of a named fact from one MLST/MLSD response line.
+  Fact names are matched case-insensitively (RFC 3659 §7.5).
+  Returns the trimmed value string, or '' when the fact is absent in Line. }
+function ExtractMlstFactValue(const Line, FactName: String): String;
+var
+  Key: String;
+  Idx, Semi: Integer;
+begin
+  Result := '';
+  Key := LowerCase(FactName) + '=';
+  Idx := Pos(Key, LowerCase(Line));
+  if Idx = 0 then Exit;
+  Result := Copy(Line, Idx + Length(Key), MaxInt);
+  Semi := Pos(';', Result);
+  if Semi > 0 then
+    Result := Copy(Result, 1, Semi - 1);
+  Result := Trim(Result);
+end;
+
 function TFTPSendEx.ListMachine(Directory: String): Boolean;
 var
   v: String;
@@ -537,7 +576,7 @@ begin
           end
           else if (option = 'unix.mode') then
           begin
-            flr.Mode:= flr.Mode or OctToDec(value);
+            flr.Mode:= flr.Mode or ParseOctalMode(value);
           end;
           if (y < Length(v)) and (v[y + 1] = ' ') then
           begin
@@ -720,6 +759,14 @@ begin
         ConvertFromUtf8:= @Ymmud;
         FTPCommand('OPTS UTF8 ON');
       end;
+{$IFDEF UNIX}
+      // Tell the server which MLST facts we want.  unix.mode is required for
+      // permission preservation; the rest are kept so that real servers
+      // (vsftpd, proftpd) don't lose facts they already return by default.
+      // Per RFC 3659, any fact name the server doesn't know is silently ignored.
+      if FMachine then
+        FTPCommand('OPTS MLST unix.mode;unix.owner;unix.group;type;size;modify;perm;unique;');
+{$ENDIF}
     end;
     if (not FMachine) and FShowHidden then
     begin
@@ -864,11 +911,36 @@ begin
   Result:= FTPCommand('MFMT ' + Time + ' ' + FileName) = 213;
 end;
 
+{ Query MLST for a remote file and return its Unix permission bits in Mode.
+  Returns False when the server doesn't support MLST, when the response
+  contains no unix.mode fact, or when the parsed value is zero. }
+function TFTPSendEx.GetRemoteMode(const FileName: String; out Mode: TFileAttrs): Boolean;
+var
+  I: Integer;
+  RawVal: String;
+begin
+  Result := False;
+  Mode := 0;
+  if not FMachine then Exit;  // Server didn't advertise MLST in FEAT — skip round-trip
+  if (FTPCommand('MLST ' + FileName) div 100) <> 2 then Exit;
+  for I := 0 to FullResult.Count - 1 do
+  begin
+    RawVal := ExtractMlstFactValue(FullResult[I], 'unix.mode');
+    if RawVal = '' then Continue;
+    Mode := ParseOctalMode(RawVal);  // handles '0o' prefix and parse errors
+    Result := Mode <> 0;
+    Exit;
+  end;
+end;
+
 function TFTPSendEx.StoreFile(const FileName: string; Restore: Boolean): Boolean;
 var
   StorSize: Int64;
   RestoreAt: Int64 = 0;
   SendStream: TProgressStream;
+{$IFDEF UNIX}
+  LocalStat: BaseUnix.TStat;
+{$ENDIF}
 begin
   Result := False;
   Restore := Restore and FCanResume;
@@ -909,6 +981,12 @@ begin
     if (FTPCommand('STOR ' + FileName) div 100) <> 1 then
       Exit;
     Result := DataWrite(SendStream);
+{$IFDEF UNIX}
+    if Result then
+      if FpStat(FDirectFileName, LocalStat) = 0 then
+        // FPC's Format() does not support %o; use DecToOct from DCStrUtils.
+        ChangeMode(FileName, DecToOct(LocalStat.st_mode and $0FFF));
+{$ENDIF}
   finally
     SendStream.Free;
   end;
@@ -917,6 +995,9 @@ end;
 function TFTPSendEx.RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean;
 var
   RetrStream: TProgressStream;
+{$IFDEF UNIX}
+  RemoteMode: TFileAttrs;
+{$ENDIF}
 begin
   Result := False;
   if not DataSocket then Exit;
@@ -947,6 +1028,11 @@ begin
     if (FTPCommand('RETR ' + FileName) div 100) <> 1 then
       Exit;
     Result := DataRead(RetrStream);
+{$IFDEF UNIX}
+    if Result then
+      if GetRemoteMode(FileName, RemoteMode) then
+        FpChmod(FDirectFileName, RemoteMode and $0FFF);
+{$ENDIF}
   finally
     RetrStream.Free;
   end;
