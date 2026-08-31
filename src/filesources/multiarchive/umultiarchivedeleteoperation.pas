@@ -53,7 +53,8 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, uLng, uMultiArc, uMultiArchiveUtil, LCLProc;
+  uOSUtils, DCOSUtils, uLng, uMultiArc, uMultiArchiveUtil, uArchiveFileSourceUtil,
+  LCLProc;
 
 constructor TMultiArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -151,6 +152,8 @@ begin
   with FMultiArchiveFileSource.MultiArcItem do
   if not FDebug then
     mbDeleteFile(FTempFile);
+  if gSetNewestFileTime then
+    SetNewestFileTime(FMultiArchiveFileSource.ArchiveFileName, FMultiArchiveFileSource.GetFiles(PathDelim));
 end;
 
 procedure TMultiArchiveDeleteOperation.ShowError(sMessage: String; logOptions: TLogOptions);
