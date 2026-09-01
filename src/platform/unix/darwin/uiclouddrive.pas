@@ -803,7 +803,7 @@ end;
 function TiCloudDriveFileSource.GetRealPath(const APath: String): String;
 begin
   if self.IsPathAtRoot(APath) then
-    Result:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.drive )
+    Result:= IncludeTrailingPathDelimiter( uDCUtils.ReplaceTilde(iCloudDriveConfig.path.drive) )
   else
     Result:= inherited;
 end;
