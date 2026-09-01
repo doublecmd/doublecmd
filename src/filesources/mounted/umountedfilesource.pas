@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Generics.Collections,
   Dialogs,
   uFile, uFileSource, uFileSourceManager,
-  uFileSystemFileSource, uWcxArchiveFileSource,
+  uFileSystemFileSource, uArchiveFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uLng, uDCUtils, DCStrUtils;
 
@@ -282,7 +282,7 @@ var
 begin
   if params.phase<>TFileSourceConsultPhase.source then
     Exit;
-  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
+  if NOT params.partnerFS.IsClass(TArchiveFileSource) then
     Exit;
   if params.files = nil then
     Exit;
