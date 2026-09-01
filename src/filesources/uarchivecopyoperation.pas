@@ -168,7 +168,8 @@ end;
 
 procedure TArchiveCopyInOperation.DoReloadFileSources;
 begin
-  if not FCreateNew then inherited DoReloadFileSources;
+  if not FCreateNew then
+    TargetFileSource.Reload( EmptyStr );  // force reloading all open paths
 end;
 
 function TArchiveCopyInOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
