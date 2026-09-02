@@ -201,6 +201,8 @@ var
   function prepareForTargetPath: Boolean;
   var
     tpSourcePath: String;
+    tpTempPrefix: String;
+    tpTempSuffix: String;
   begin
     Result:= True;
     tpSourcePath:= currentFullFiles.Path;
@@ -208,7 +210,9 @@ var
     if FNeedExtraTargetSubdirSupport then begin
       sDestPath:= PathDelim;
       sRootPath:= EmptyStr;
-      workingPath:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
+      tpTempPrefix:= tpSourcePath+'.~'+ExtractOnlyFileName(FMultiArchiveFileSource.ArchiveFileName);
+      tpTempSuffix:= ExtractOnlyFileExt(FMultiArchiveFileSource.ArchiveFileName) + '.tmp';
+      workingPath:= GetTempName(tpTempPrefix, tpTempSuffix);
       Result:= workingPath <> EmptyStr;
     end else begin
       sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
