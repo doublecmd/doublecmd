@@ -27,7 +27,7 @@ msgstr "Уровень сжатия:"
 
 #: tdialogbox.chkFollowLinks.caption
 msgid "Follow Links (pack the target files)"
-msgstr ""
+msgstr "Следовать ссылкам (упаковывать целевые файлы)"
 
 #: tdialogbox.chkTarAutoHandle.caption
 msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
