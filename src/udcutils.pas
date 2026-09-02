@@ -667,7 +667,8 @@ begin
       aFile.Path := sNewRootPath + ExtractDirLevel(Files.Path, aFile.Path);
     end;
 
-    Files.Path := sNewRootPath;
+    if sNewRootPath <> EmptyStr then
+      Files.Path := sNewRootPath;
   end;
 end;
 

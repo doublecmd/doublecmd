@@ -66,7 +66,7 @@ implementation
 
 uses
   LazUTF8, FileUtil, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
-  uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
+  uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils, uFileProcs,
   uShowMsg, uAdministrator,
   uArchiveFileSourceUtil;
 
@@ -149,49 +149,85 @@ var
   uselessTotalFiles: Int64;
   uselessTotalBytes: Int64;
 
+  {
+    for cases where the archive program itself does't support archiving to a
+    specified subdirectory of the archive file, support is provided indirectly here.
+    it means that %R is not supported, for example, 7z.
+
+    the implementation is as follows:
+    1. select a dedicated system temporary folder
+    2. create the subdirectory struct for the corresponding destination in archive file
+       in the system temporary folder
+    3. link to the source files to be archived via hard links
+    4. set the working folder to the system temporary folder
+
+    this additional support enables MultiArchiveFileSource to:
+    1. support creating directories at specified point, previously only possible
+       in the root
+    2. support Synchronize dirs
+  }
+  function createWorkingTree(
+    const workingBasePath: String;
+    const targetBasePath: String;
+    const files: TFiles): Boolean;
+  var
+    sourceBasePath: String;
+    sourcePath: String;
+    workingPath: String;
+    i: Integer;
+    f: TFile;
+  begin
+    sourceBasePath:= files.Path;
+    workingPath:= workingBasePath + targetBasePath;
+
+    Result:= mbForceDirectory(workingPath);
+    if NOT Result then
+      Exit;
+
+    for i:= 0 to files.Count-1 do begin
+      f:= files[i];
+      sourcePath:= sourceBasePath + f.FullPath;
+      workingPath:= workingBasePath + targetBasePath + f.FullPath;
+      if f.IsDirectory then begin
+        Result:= mbForceDirectory(workingPath);
+      end else begin
+        Result:= CreateHardLink(sourcePath, workingPath);
+      end;
+      if NOT Result then
+        Exit;
+    end;
+  end;
+
   function prepareForTargetPath: Boolean;
   var
     tpSourcePath: String;
-    tpSubpath: String;
-    tpSymlinkName: String;
   begin
     Result:= True;
     tpSourcePath:= currentFullFiles.Path;
 
-    if NOT FNeedExtraTargetSubdirSupport then begin
+    if FNeedExtraTargetSubdirSupport then begin
+      sDestPath:= PathDelim;
+      sRootPath:= EmptyStr;
+      workingPath:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
+      Result:= workingPath <> EmptyStr;
+    end else begin
       sDestPath:= ExcludeFrontPathDelimiter(TargetPath);
       sDestPath:= ExcludeTrailingPathDelimiter(sDestPath);
       sRootPath:= tpSourcePath;
       workingPath:= tpSourcePath;
-      Exit;
     end;
 
-    {
-      for cases where the archive program itself does't support archiving to a
-      specified subdirectory of the archive file, support is provided indirectly here.
-      it means that %R is not supported, for example, 7z.
-
-      the implementation is as follows:
-      1. create a dedicated system temporary folder
-      2. create the subdirectory struct for the corresponding destination in archive file
-         in the system temporary folder
-      3. link to the source files to be archived via symbolic links
-      4. set the working folder to the system temporary folder
-
-      this additional support enables MultiArchiveFileSource to:
-      1. support creating directories at specified point, previously only possible
-         in the root
-      2. support Synchronize dirs
-    }
-    sDestPath:= PathDelim;
-    sRootPath:= EmptyStr;
-    workingPath:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
-    tpSubPath:= workingPath + GetParentDir(TargetPath);
-    tpSymlinkName:= IncludeTrailingPathDelimiter(tpSubPath) + GetLastDir(TargetPath);
-    Result:= ForceDirectories(tpSubPath);
     if NOT Result then
       Exit;
-    Result:= CreateSymLink(tpSourcePath, tpSymlinkName);
+
+    ChangeFileListRoot(EmptyStr, currentFullFiles);
+
+    if FNeedExtraTargetSubdirSupport then begin
+      Result:= createWorkingTree(workingPath, TargetPath, currentFullFiles);
+      if NOT Result then
+        Exit;
+      ChangeFileListRoot(ExcludeLeadingPathDelimiter(TargetPath), currentFullFiles);
+    end;
   end;
 
   procedure cleanupForTargetPath;
@@ -221,10 +257,6 @@ begin
 
     if NOT prepareForTargetPath() then
       Exit;
-
-    ChangeFileListRoot(EmptyStr, currentFullFiles);
-    if FNeedExtraTargetSubdirSupport then
-      ChangeFileListRoot(ExcludeLeadingPathDelimiter(TargetPath), currentFullFiles);
 
     for I:= currentFullFiles.Count - 1 downto 0 do begin
       if oneByOne then begin
