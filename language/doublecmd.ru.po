@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.3.0 alpha\n"
-"POT-Creation-Date: 2026-07-23 15:10+0300\n"
-"PO-Revision-Date: 2026-07-23 18:30+0300\n"
+"POT-Creation-Date: 2026-08-21 04:30+0300\n"
+"PO-Revision-Date: 2026-08-21 12:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9282,7 +9282,7 @@ msgstr "по сод&ержимому"
 
 #: tfrmsyncdirsdlg.chkemptydir.caption
 msgid "empty directories"
-msgstr ""
+msgstr "пустые каталоги"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
@@ -9381,7 +9381,7 @@ msgstr "&уникальные"
 
 #: tfrmsyncdirsdlg.sbunknown.caption
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
@@ -11389,12 +11389,12 @@ msgstr "Диск iCloud"
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "Сетевые подключения"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "Сеть"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
