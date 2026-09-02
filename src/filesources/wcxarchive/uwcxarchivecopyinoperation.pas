@@ -222,8 +222,12 @@ begin
 
     // Convert TFiles into String;
     sFileList:= GetFileList(currentFullFiles);
-    // Nothing to pack (user skip all files)
-    if sFileList = #0 then Exit;
+    if sFileList = #0 then begin
+      // if the target path is not empty, an empty subdirectory should be created.
+      // therefore, it should not return here.
+      if sDestPath = EmptyStr then
+        Exit;
+    end;
 
     Result:= FWcxArchiveFileSource.WcxModule.WcxPackFiles(
       FWcxArchiveFileSource.ArchiveFileName,
