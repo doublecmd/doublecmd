@@ -88,6 +88,7 @@ type
       FChannelModeID: Byte;
       FSampleRate: integer;
       FBitRateNominal: Word;
+      FDuration: Double;
       FSamples: Integer;
       FID3v2Size: Integer;
       FTitle: string;
@@ -101,7 +102,6 @@ type
       FCodec: String;
       procedure FResetData;
       function FGetChannelMode: string;
-      function FGetDuration: Double;
       function FGetBitRate: Word;
       function FHasID3v2: Boolean;
       function FIsValid: Boolean;
@@ -127,7 +127,7 @@ type
       property Genre: string read FGenre write FGenre;           { Genre name }
       property Comment: string read FComment write FComment;        { Comment }
       property Vendor: string read FVendor;                   { Vendor string }
-      property Duration: Double read FGetDuration;       { Duration (seconds) }
+      property Duration: Double read FDuration;          { Duration (seconds) }
       property BitRate: Word read FGetBitRate;             { Average bit rate }
       property ID3v2: Boolean read FHasID3v2;      { True if ID3v2 tag exists }
       property Valid: Boolean read FIsValid;             { True if file valid }
@@ -630,6 +630,7 @@ begin
   FChannelModeID := 0;
   FSampleRate := 0;
   FBitRateNominal := 0;
+  FDuration := 0;
   FSamples := 0;
   FID3v2Size := 0;
   FTitle := '';
@@ -653,30 +654,12 @@ end;
 
 { --------------------------------------------------------------------------- }
 
-function TOggVorbis.FGetDuration: Double;
-begin
-  { Calculate duration time }
-  if FSamples > 0 then
-    if FSampleRate > 0 then
-      Result := FSamples / FSampleRate
-    else
-      Result := 0
-  else
-    if (FBitRateNominal > 0) and (FChannelModeID > 0) then
-      Result := (FFileSize - FID3v2Size) /
-        FBitRateNominal / FChannelModeID / 125 * 2
-    else
-      Result := 0;
-end;
-
-{ --------------------------------------------------------------------------- }
-
 function TOggVorbis.FGetBitRate: Word;
 begin
   { Calculate average bit rate }
   Result := 0;
-  if FGetDuration > 0 then
-    Result := Round((FFileSize - FID3v2Size) / FGetDuration / 125);
+  if FDuration > 0 then
+    Result := Round((FFileSize - FID3v2Size) / FDuration / 125);
 end;
 
 { --------------------------------------------------------------------------- }
@@ -693,7 +676,7 @@ function TOggVorbis.FIsValid: Boolean;
 begin
   { Check for file correctness }
   Result := (FChannelModeID in [VORBIS_CM_MONO, VORBIS_CM_STEREO, VORBIS_CM_MULTICHANNEL]) and
-    (FSampleRate > 0) and (FGetDuration > 0.1) and (FGetBitRate > 0);
+    (FSampleRate > 0) and (FDuration > 0.1) and (FGetBitRate > 0);
 end;
 
 { ********************** Public functions & procedures ********************** }
@@ -760,6 +743,19 @@ begin
     if Info.Tag.FieldData[7] <> '' then FComment := Info.Tag.FieldData[7]
     else FComment := Info.Tag.FieldData[9];
     FVendor := Info.Tag.FieldData[0];
+    { Calculate duration time }
+    if FSamples > 0 then
+    begin
+      if Info.CodecType = octOpus then
+        FDuration := (FSamples - Info.OpusHeader.PreSkip) / 48000
+      else if FSampleRate > 0 then
+        FDuration := FSamples / FSampleRate;
+    end
+    else if (FBitRateNominal > 0) and (FChannelModeID > 0) then
+    begin
+      FDuration := (FFileSize - FID3v2Size) /
+                   FBitRateNominal / FChannelModeID / 125 * 2;
+    end;
     Result := true;
   end;
 end;
