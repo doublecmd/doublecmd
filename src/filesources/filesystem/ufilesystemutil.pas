@@ -272,7 +272,16 @@ begin
       if FileGetAttrUAC(aFile.FullPath, aFindData) then
       begin
         aFile.Size:= aFindData.Size;
-        aFile.Attributes:= aFindData.Attr;
+        {
+          it can't just set the attribute value, it should set the entire attribute
+          because the attribute type may have changed as well.
+
+          eg. copying a folder from one MultiArchive/7z to another MultiArchive/7z
+          requires an  intermediate temporary folder. on Unix-like system,
+          aFile.Attributes is TNtfsFileAttributesProperty in MultiArchive/7z,
+          but TUnixFileAttributesProperty in the temporary folder.
+        }
+        aFile.Properties[fpAttributes]:= TFileAttributesProperty.CreateOSAttributes(aFindData.Attr);
         aFile.ModificationTime:= FileTimeToDateTime(aFindData.LastWriteTime);
       end;
 
