@@ -656,6 +656,7 @@ begin
     if ([fpAttributes,
          fpSize,
          fpModificationTime,
+         {$IFDEF DARWIN}fpCreationTime,{$ENDIF}
          fpChangeTime,
          fpLastAccessTime,
          fpOwner] * PropertiesToSet <> []) or
@@ -932,9 +933,10 @@ begin
           + [fpSize,
              fpAttributes,
              fpModificationTime,
-             {$IF DEFINED(MSWINDOWS)}
+             {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
              fpCreationTime,
-             {$ELSE}
+             {$ENDIF}
+             {$IF not DEFINED(MSWINDOWS)}
              fpChangeTime,
              {$ENDIF}
              fpLastAccessTime,
@@ -951,7 +953,7 @@ begin
           + [fpSize,
              fpAttributes,
              fpModificationTime,
-             {$IF DEFINED(MSWINDOWS)}
+             {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
              fpCreationTime,
              {$ENDIF}
              fpChangeTime,
