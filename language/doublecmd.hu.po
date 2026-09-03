@@ -7408,6 +7408,10 @@ msgstr "Lap&bezáró gomb mutatása"
 msgid "Always show drive letter in tab title"
 msgstr "Meghajtóbetű mindig látható a lapcímben"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Mappalap fejlécek"

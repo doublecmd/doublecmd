@@ -7606,6 +7606,10 @@ msgstr "顯示分頁關閉按鈕 (&B)"
 msgid "Always show drive letter in tab title"
 msgstr ""
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

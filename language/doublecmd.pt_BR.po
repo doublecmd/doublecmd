@@ -7724,6 +7724,10 @@ msgstr "Mostrar &botão para fechar o guia."
 msgid "Always show drive letter in tab title"
 msgstr "Mostrar sempre a letra do drive no título da guia."
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

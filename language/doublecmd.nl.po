@@ -7448,6 +7448,10 @@ msgstr "Toon sluitknop voor tabblad"
 msgid "Always show drive letter in tab title"
 msgstr "Toon altijd de schijfletter in de tabbladtitel"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Tabbladkoppen voor mappen"

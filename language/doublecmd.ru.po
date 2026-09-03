@@ -7608,6 +7608,10 @@ msgstr "Кнопка &закрытия вкладки"
 msgid "Always show drive letter in tab title"
 msgstr "Всегда показывать букву диска в заголовке вкладки"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr "Отмечать вкладки с недоступным &путём вопросительным знаком ?"
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

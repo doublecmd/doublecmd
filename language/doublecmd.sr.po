@@ -7596,6 +7596,10 @@ msgstr "Приказуј дугме за затварање &листа"
 msgid "Always show drive letter in tab title"
 msgstr "Увек приказуј име уређаја у наслову листа"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

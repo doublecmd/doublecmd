@@ -7581,6 +7581,10 @@ msgstr "Εμφάνιση κουμπιού κλεισίματος καρτελώ�
 msgid "Always show drive letter in tab title"
 msgstr "Εμφάνιση πάντοτε γράμματος οδηγού στον τίτλο καρτέλας"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

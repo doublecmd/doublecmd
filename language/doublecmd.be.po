@@ -7426,6 +7426,10 @@ msgstr "Паказваць кнопку закрыцця ўк&ладкі"
 msgid "Always show drive letter in tab title"
 msgstr "Заўсёды паказваць літару дыска ў загалоўку ўкладкі"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Загалоўкі ўкладак каталогаў"

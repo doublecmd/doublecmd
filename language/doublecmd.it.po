@@ -7413,6 +7413,10 @@ msgstr "Mostra tasto di chiusura sulle s&chede"
 msgid "Always show drive letter in tab title"
 msgstr "Mostra sempre la lettera dell'unità nel titolo della scheda"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Intestazioni delle schede"

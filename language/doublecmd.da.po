@@ -8179,6 +8179,10 @@ msgstr "&Vis luk-knap på fane"
 msgid "Always show drive letter in tab title"
 msgstr "Vis altid drevbogstav i fanebladet"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 # Opsætning - Indstillinger - Faneblade
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"

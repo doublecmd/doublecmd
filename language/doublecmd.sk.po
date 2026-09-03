@@ -7405,6 +7405,10 @@ msgstr "Na kartách zobraziť tlačidlo zavrieť"
 msgid "Always show drive letter in tab title"
 msgstr "Vždy zobraziť písmeno disku v názve karty"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Hlavičky kariet"

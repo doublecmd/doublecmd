@@ -7713,6 +7713,10 @@ msgstr "&Vis lukk-knapp på fane"
 msgid "Always show drive letter in tab title"
 msgstr "Vis alltid drevbokstav i fanetittel"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

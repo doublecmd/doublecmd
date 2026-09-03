@@ -7688,6 +7688,10 @@ msgstr "Afficher le bouton de fermeture des onglets"
 msgid "Always show drive letter in tab title"
 msgstr "Toujours afficher la lettre du lecteur dans l'onglet"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

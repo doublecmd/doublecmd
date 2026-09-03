@@ -7407,6 +7407,10 @@ msgstr "⊠ (Tastfläche) für Ta&b schließen anzeigen"
 msgid "Always show drive letter in tab title"
 msgstr "Immer Laufwerksbuchstaben im Tab-Titel anzeigen"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Tabs-Titel"

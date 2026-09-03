@@ -8160,6 +8160,10 @@ msgstr "Mostra pestanya de botó de tancament"
 msgid "Always show drive letter in tab title"
 msgstr ""
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "tfrmoptionstabs.gbtabs.caption"
 msgid "Folder tabs headers"

@@ -7447,6 +7447,10 @@ msgstr "Na zálož&kách i tlačítko zavřít"
 msgid "Always show drive letter in tab title"
 msgstr "Vždy ukazovat písmeno jednotky v titulku záložky"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "Záhlaví záložek"

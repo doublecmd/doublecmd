@@ -7609,6 +7609,10 @@ msgstr "タブの「閉じる」ボタンを表示(&b)"
 msgid "Always show drive letter in tab title"
 msgstr "タブのタイトルにドライブ文字を常に表示"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"

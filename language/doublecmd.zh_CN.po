@@ -7403,6 +7403,10 @@ msgstr "显示标签关闭按钮(&B)"
 msgid "Always show drive letter in tab title"
 msgstr "始终在标签标题中显示驱动器符"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "文件夹标签标题"

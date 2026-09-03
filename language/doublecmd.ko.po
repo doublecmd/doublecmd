@@ -7405,6 +7405,10 @@ msgstr "탭 닫기 버튼 표시(&B)"
 msgid "Always show drive letter in tab title"
 msgstr "항상 탭 제목에 드라이브 문자 표시"
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
 msgstr "폴더 탭 머리글"

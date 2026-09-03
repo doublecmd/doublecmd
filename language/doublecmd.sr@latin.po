@@ -7776,6 +7776,10 @@ msgstr "Prikazuj dugme za zatvaranje &kartice"
 msgid "Always show drive letter in tab title"
 msgstr ""
 
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
+
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"
