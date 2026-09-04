@@ -196,6 +196,17 @@ var
       if NOT Result then
         Exit;
     end;
+
+    // the attributes copying must be done after the entire Working Tree has been built,
+    // because adding files will affect the directory's attributes.
+    for i:= 0 to files.Count-1 do begin
+      f:= files[i];
+      if f.IsDirectory then begin
+        sourcePath:= sourceBasePath + f.FullPath;
+        workingPath:= workingBasePath + targetBasePath + f.FullPath;
+        mbFileCopyAttr(sourcePath, workingPath, [caoCopyTime,caoCopyPermissions,caoCopyOwnership]);
+      end;
+    end;
   end;
 
   function prepareForTargetPath: Boolean;
