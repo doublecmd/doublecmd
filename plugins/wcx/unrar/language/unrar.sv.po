@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin - unrar\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-04 23:30+0300\n"
+"Last-Translator: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Native-Language: Svenska\n"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Alternativ"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Sökväg till körbar Win&RAR-fil"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "Arkiveringsalternativ"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "Lägg till &återställningspost"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "Kryptera fil&namn"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "Skapa &solitt arkiv"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "&Komprimeringsmetod"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "OK"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "Ytterligare parametrar"
+
+#: rarlng.rsdictlargewarning
+msgid "Large dictionary warning"
+msgstr "Varning för stor ordbok"
+
+#: rarlng.rsdictnotallowed
+#, object-pascal-format
+msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
+msgstr "En ordbok på %u GB överskrider gränsen på %u GB och kräver mer än %u GB minne för uppackning."
+
+#: rarlng.rsmsgbuttoncancel
+msgid "&Cancel"
+msgstr "&Avbryt"
+
+#: rarlng.rsmsgbuttonextract
+msgid "&Extract"
+msgstr "&Packa upp"
+
+#: rarlng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "Ange lösenordet:"
+
+#: rarlng.rsmsgexecutablenotfound
+#, object-pascal-format
+msgid ""
+"Cannot find RAR executable!\n"
+"\n"
+"%s\n"
+"\n"
+"Please check the plugin settings."
+msgstr ""
+"Det går inte att hitta den körbara RAR-filen!\n"
+"\n"
+"%s\n"
+"\n"
+"Kontrollera insticksmodulens inställningar."
+
+#: rarlng.rsmsglibrarynotfound
+#, object-pascal-format
+msgid "Cannot load library %s! Please check your installation."
+msgstr "Det går inte att läsa in biblioteket %s! Kontrollera installationen."

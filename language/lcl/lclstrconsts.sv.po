@@ -1,0 +1,1639 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander LCL\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-04 23:30+0300\n"
+"Last-Translator: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Native-Language: Svenska\n"
+
+#: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
+msgid "Browser \"%s\" not executable."
+msgstr "Webbläsaren ”%s” kan inte köras."
+
+#: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
+msgid "Browser \"%s\" not found."
+msgstr "Webbläsaren ”%s” hittades inte."
+
+#: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
+msgid "Error while executing \"%s\":%s%s"
+msgstr "Fel vid körning av ”%s”:%s%s"
+
+#: lclstrconsts.hhshelpnohtmlbrowserfound
+msgid "Unable to find a HTML browser."
+msgstr "Det går inte att hitta en HTML-webbläsare."
+
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
+msgstr "Ingen HTML-webbläsare hittades.%sAnge en under Verktyg -> Alternativ -> Hjälp -> Hjälpalternativ."
+
+#: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
+msgid "The help database \"%s\" was unable to find file \"%s\"."
+msgstr "Hjälpdatabasen ”%s” kunde inte hitta filen ”%s”."
+
+#: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
+msgid "The macro %s in BrowserParams will be replaced by the URL."
+msgstr "Makrot %s i BrowserParams ersätts med URL:en."
+
+#: lclstrconsts.ifsalt
+msgid "Alt"
+msgstr "Alt"
+
+#: lclstrconsts.ifsctrl
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr "Cmd"
+
+#: lclstrconsts.ifsvk_fn
+msgctxt "lclstrconsts.ifsvk_fn"
+msgid "Fn"
+msgstr "Fn"
+
+#: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
+msgid "Help"
+msgstr "Hjälp"
+
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr "Meta"
+
+#: lclstrconsts.ifsvk_shift
+msgid "Shift"
+msgstr "Skift"
+
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr "Super"
+
+#: lclstrconsts.ifsvk_unknown
+msgid "Unknown"
+msgstr "Okänd"
+
+#: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
+msgctxt "lclstrconsts.lislclresourcesnotfound"
+msgid "Resource %s not found"
+msgstr "Resursen %s hittades inte"
+
+#: lclstrconsts.rs3ddkshadowcolorcaption
+msgid "3D Dark Shadow"
+msgstr "Mörk 3D-skugga"
+
+#: lclstrconsts.rs3dlightcolorcaption
+msgid "3D Light"
+msgstr "3D-ljus"
+
+#: lclstrconsts.rsacontrolcannothaveitselfasparent
+msgid "A control can't have itself as a parent"
+msgstr "En kontroll kan inte ha sig själv som överordnad"
+
+#: lclstrconsts.rsactivebordercolorcaption
+msgid "Active Border"
+msgstr "Aktiv kant"
+
+#: lclstrconsts.rsactivecaptioncolorcaption
+msgid "Active Caption"
+msgstr "Aktiv namnlist"
+
+#: lclstrconsts.rsallfiles
+#, object-pascal-format
+msgid "All files (%s)|%s|%s"
+msgstr "Alla filer (%s)|%s|%s"
+
+#: lclstrconsts.rsappworkspacecolorcaption
+msgid "Application Workspace"
+msgstr "Programarbetsyta"
+
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr "Akvamarin"
+
+#: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
+msgid "Class %s cannot have %s as parent."
+msgstr "Klassen %s kan inte ha %s som överordnad."
+
+#: lclstrconsts.rsbackgroundcolorcaption
+msgid "Desktop"
+msgstr "Skrivbord"
+
+#: lclstrconsts.rsbackward
+msgid "Backward"
+msgstr "Bakåt"
+
+#: lclstrconsts.rsbitmaps
+msgid "Bitmap Files"
+msgstr "Bitmapfiler"
+
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr "Svart"
+
+#: lclstrconsts.rsblank
+msgid "Blank"
+msgstr "Tom"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr "Blå"
+
+#: lclstrconsts.rsbtnfacecolorcaption
+msgid "Button Face"
+msgstr "Knappyta"
+
+#: lclstrconsts.rsbtnhighlightcolorcaption
+msgid "Button Highlight"
+msgstr "Knappmarkering"
+
+#: lclstrconsts.rsbtnshadowcolorcaption
+msgid "Button Shadow"
+msgstr "Knappskugga"
+
+#: lclstrconsts.rsbtntextcolorcaption
+msgid "Button Text"
+msgstr "Knapptext"
+
+#: lclstrconsts.rscalculator
+msgid "Calculator"
+msgstr "Kalkylator"
+
+#: lclstrconsts.rscancelrecordhint
+msgctxt "lclstrconsts.rscancelrecordhint"
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: lclstrconsts.rscannotfocus
+msgid "Cannot focus"
+msgstr "Det går inte att sätta fokus"
+
+#: lclstrconsts.rscanvasdoesnotallowdrawing
+msgid "Canvas does not allow drawing"
+msgstr "Ritytan tillåter inte ritning"
+
+#: lclstrconsts.rscaptiontextcolorcaption
+msgid "Caption Text"
+msgstr "Namnlisttext"
+
+#: lclstrconsts.rscasesensitive
+msgid "Case sensitive"
+msgstr "Skiftlägeskänslig"
+
+#: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
+msgid "Control of class '%s' can't have control of class '%s' as a child"
+msgstr "En kontroll av klassen ”%s” kan inte ha en kontroll av klassen ”%s” som underordnad"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
+msgid "Control '%s' has no parent form or frame"
+msgstr "Kontrollen ”%s” har inget överordnat formulär eller någon ram"
+
+#: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
+msgid "'%s' is not a parent of '%s'"
+msgstr "”%s” är inte överordnad till ”%s”"
+
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr "Krämfärgad"
+
+#: lclstrconsts.rscursor
+msgid "Cursor Files"
+msgstr "Markörfiler"
+
+#: lclstrconsts.rscustomcolorcaption
+msgid "Custom ..."
+msgstr "Anpassad ..."
+
+#: lclstrconsts.rsdatetoolarge
+#, object-pascal-format
+msgid "Date cannot be past %s"
+msgstr "Datumet får inte vara senare än %s"
+
+#: lclstrconsts.rsdatetoosmall
+#, object-pascal-format
+msgid "Date cannot be before %s"
+msgstr "Datumet får inte vara före %s"
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr "Standard"
+
+#: lclstrconsts.rsdefaultfileinfovalue
+msgid "permissions user group size date time"
+msgstr "behörigheter användare grupp storlek datum tid"
+
+#: lclstrconsts.rsdeleterecord
+msgid "Delete record?"
+msgstr "Ta bort posten?"
+
+#: lclstrconsts.rsdeleterecordhint
+msgctxt "lclstrconsts.rsdeleterecordhint"
+msgid "Delete"
+msgstr "Ta bort"
+
+#: lclstrconsts.rsdirection
+msgid "Direction"
+msgstr "Riktning"
+
+#: lclstrconsts.rsdirectory
+msgid "&Directory"
+msgstr "&Katalog"
+
+#: lclstrconsts.rsdocopy
+msgctxt "lclstrconsts.rsdocopy"
+msgid "Copy"
+msgstr "Kopiera"
+
+#: lclstrconsts.rsdopaste
+msgctxt "lclstrconsts.rsdopaste"
+msgid "Paste"
+msgstr "Klistra in"
+
+#: lclstrconsts.rsduplicateiconformat
+msgid "Duplicate icon format."
+msgstr "Dubblerat ikonformat."
+
+#: lclstrconsts.rseditrecordhint
+msgctxt "lclstrconsts.rseditrecordhint"
+msgid "Edit"
+msgstr "Redigera"
+
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr "Sök i hela filen"
+
+#: lclstrconsts.rserror
+msgctxt "lclstrconsts.rserror"
+msgid "Error"
+msgstr "Fel"
+
+#: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
+msgid "Error creating device context for %s.%s"
+msgstr "Fel när enhetskontext skapades för %s.%s"
+
+#: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
+msgid "Error occurred in %s at %sAddress %s%s Frame %s"
+msgstr "Fel inträffade i %s vid %sAdress %s%s Ram %s"
+
+#: lclstrconsts.rserrorwhilesavingbitmap
+msgid "Error while saving bitmap."
+msgstr "Fel när bitmappen sparades."
+
+#: lclstrconsts.rsexception
+msgid "Exception"
+msgstr "Undantag"
+
+#: lclstrconsts.rsfddirectorymustexist
+msgid "Directory must exist"
+msgstr "Katalogen måste finnas"
+
+#: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
+msgid "The directory \"%s\" does not exist."
+msgstr "Katalogen ”%s” finns inte."
+
+#: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
+msgid "The file \"%s\" already exists. Overwrite ?"
+msgstr "Filen ”%s” finns redan. Skriva över?"
+
+#: lclstrconsts.rsfdfilemustexist
+msgid "File must exist"
+msgstr "Filen måste finnas"
+
+#: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
+msgid "The file \"%s\" does not exist."
+msgstr "Filen ”%s” finns inte."
+
+#: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
+msgid "The file \"%s\" is not writable."
+msgstr "Filen ”%s” är skrivskyddad."
+
+#: lclstrconsts.rsfdfilereadonlytitle
+msgid "File is not writable"
+msgstr "Filen är skrivskyddad"
+
+#: lclstrconsts.rsfdfilesaveas
+msgid "Save file as"
+msgstr "Spara fil som"
+
+#: lclstrconsts.rsfdopenfile
+msgid "Open existing file"
+msgstr "Öppna befintlig fil"
+
+#: lclstrconsts.rsfdoverwritefile
+msgid "Overwrite file ?"
+msgstr "Skriva över filen?"
+
+#: lclstrconsts.rsfdpathmustexist
+msgid "Path must exist"
+msgstr "Sökvägen måste finnas"
+
+#: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
+msgid "The path \"%s\" does not exist."
+msgstr "Sökvägen ”%s” finns inte."
+
+#: lclstrconsts.rsfdselectdirectory
+msgid "Select Directory"
+msgstr "Välj katalog"
+
+#: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
+msgid "(file not found: \"%s\")"
+msgstr "(filen hittades inte: ”%s”)"
+
+#: lclstrconsts.rsfileinformation
+msgid "File information"
+msgstr "Filinformation"
+
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr "(filter)"
+
+#: lclstrconsts.rsfind
+msgid "Find"
+msgstr "Sök"
+
+#: lclstrconsts.rsfindmore
+msgid "Find more"
+msgstr "Sök nästa"
+
+#: lclstrconsts.rsfirstrecordhint
+msgid "First"
+msgstr "Första"
+
+#: lclstrconsts.rsfixedcolstoobig
+msgid "FixedCols can't be > ColCount"
+msgstr "FixedCols får inte vara > ColCount"
+
+#: lclstrconsts.rsfixedrowstoobig
+msgid "FixedRows can't be > RowCount"
+msgstr "FixedRows får inte vara > RowCount"
+
+#: lclstrconsts.rsformcolorcaption
+msgid "Form"
+msgstr "Formulär"
+
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
+msgid ""
+"Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the "
+"global variable RequireDerivedFormResource."
+msgstr ""
+"Formulärresursen %s hittades inte. För formulär utan resurser måste konstruktorn CreateNew "
+"användas. Se den globala variabeln RequireDerivedFormResource."
+
+#: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
+msgid "Form streaming \"%s\" error: %s"
+msgstr "Fel vid strömning av formuläret ”%s”: %s"
+
+#: lclstrconsts.rsforward
+msgid "Forward"
+msgstr "Framåt"
+
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr "Fuchsia"
+
+#: lclstrconsts.rsgdkoptiondebug
+msgid "Turn on specific GDK trace/debug messages."
+msgstr "Aktivera specifika GDK-spårnings-/felsökningsmeddelanden."
+
+#: lclstrconsts.rsgdkoptionnodebug
+msgid "Turn off specific GDK trace/debug messages."
+msgstr "Inaktivera specifika GDK-spårnings-/felsökningsmeddelanden."
+
+#: lclstrconsts.rsgif
+msgid "Graphics Interchange Format Files"
+msgstr "GIF-filer"
+
+#: lclstrconsts.rsgoptionfatalwarnings
+msgid "Warnings and errors generated by Gtk+/GDK will halt the application."
+msgstr "Varningar och fel som genereras av Gtk+/GDK stoppar programmet."
+
+#: lclstrconsts.rsgradientactivecaptioncolorcaption
+msgid "Gradient Active Caption"
+msgstr "Övertoning för aktiv namnlist"
+
+#: lclstrconsts.rsgradientinactivecaptioncolorcaption
+msgid "Gradient Inactive Caption"
+msgstr "Övertoning för inaktiv namnlist"
+
+#: lclstrconsts.rsgraphic
+msgid "Graphic"
+msgstr "Grafik"
+
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr "Grå"
+
+#: lclstrconsts.rsgraytextcolorcaption
+msgid "Gray Text"
+msgstr "Grå text"
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
+msgstr "Grön"
+
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr "Rutnätsfilen finns inte"
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr "Det går inte att infoga rader i ett rutnät som saknar kolumner"
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr "Det går inte att infoga kolumner i ett rutnät som saknar rader"
+
+#: lclstrconsts.rsgridindexoutofrange
+msgid "Grid index out of range."
+msgstr "Rutnätsindex utanför intervallet."
+
+#: lclstrconsts.rsgtkfilter
+msgid "Filter:"
+msgstr "Filter:"
+
+#: lclstrconsts.rsgtkhistory
+msgid "History:"
+msgstr "Historik:"
+
+#: lclstrconsts.rsgtkoptionclass
+msgid ""
+"Following Xt conventions, the class of a program is the program name with the initial character "
+"capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class "
+"of the program will be set to \"classname\"."
+msgstr ""
+"Enligt Xt-konventionerna är ett programs klass programnamnet med första tecknet som versal. "
+"Klassnamnet för gimp är till exempel ”Gimp”. Om --class anges sätts programmets klass till "
+"”classname”."
+
+#: lclstrconsts.rsgtkoptiondebug
+msgid "Turn on specific Gtk+ trace/debug messages."
+msgstr "Aktivera specifika Gtk+-spårnings-/felsökningsmeddelanden."
+
+#: lclstrconsts.rsgtkoptiondisplay
+msgid ""
+"Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number "
+"(usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, "
+"the DISPLAY environment variable is used."
+msgstr ""
+"Anslut till den angivna X-servern, där ”h” är värdnamnet, ”s” är servernumret (vanligen 0) och "
+"”d” är bildskärmsnumret (utelämnas normalt). Om --display inte anges används miljövariabeln "
+"DISPLAY."
+
+#: lclstrconsts.rsgtkoptionmodule
+msgid "Load the specified module at startup."
+msgstr "Läs in den angivna modulen vid start."
+
+#: lclstrconsts.rsgtkoptionname
+msgid "Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
+msgstr "Ange programnamnet som ”progname”. Om inget anges sätts programnamnet till ParamStrUTF8(0)."
+
+#: lclstrconsts.rsgtkoptionnodebug
+msgid "Turn off specific Gtk+ trace/debug messages."
+msgstr "Inaktivera specifika Gtk+-spårnings-/felsökningsmeddelanden."
+
+#: lclstrconsts.rsgtkoptionnotransient
+msgid "Do not set transient order for modal forms."
+msgstr "Ange inte transient ordning för modala formulär."
+
+#: lclstrconsts.rsgtkoptionnoxshm
+msgid "Disable use of the X Shared Memory Extension."
+msgstr "Inaktivera X Shared Memory-tillägget."
+
+#: lclstrconsts.rsgtkoptionsync
+msgid ""
+"Call XSynchronize (display, True) after the Xserver connection has been established. This makes "
+"debugging X protocol errors easier, because X request buffering will be disabled and X errors "
+"will be received immediately after the protocol request that generated the error has been "
+"processed by the X server."
+msgstr ""
+"Anropa XSynchronize (display, True) efter att anslutningen till X-servern har upprättats. Det gör"
+" felsökning av X-protokollfel enklare eftersom buffring av X-förfrågningar inaktiveras och X-fel "
+"tas emot direkt efter att protokollförfrågan som orsakade felet har behandlats av X-servern."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Hjälp"
+
+#: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
+msgid "%s: already registered."
+msgstr "%s: redan registrerad."
+
+#: lclstrconsts.rshelpcontextnotfound
+msgid "A help database was found for this topic, but this topic was not found"
+msgstr "En hjälpdatabas hittades för det här ämnet, men ämnet hittades inte"
+
+#: lclstrconsts.rshelpdatabasenotfound
+msgid "There is no help database installed for this topic"
+msgstr "Ingen hjälpdatabas är installerad för det här ämnet"
+
+#: lclstrconsts.rshelperror
+msgid "Help Error"
+msgstr "Hjälpfel"
+
+#: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
+msgid "Help context %s not found."
+msgstr "Hjälpkontexten %s hittades inte."
+
+#: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
+msgid "Help context %s not found in Database \"%s\"."
+msgstr "Hjälpkontexten %s hittades inte i databasen ”%s”."
+
+#: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s."
+msgstr "Hjälpdatabasen ”%s” hittade ingen visare för en hjälpsida av typen %s."
+
+#: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
+msgid "Help Database \"%s\" not found."
+msgstr "Hjälpdatabasen ”%s” hittades inte."
+
+#: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
+msgid "Help for directive \"%s\" not found."
+msgstr "Hjälp för direktivet ”%s” hittades inte."
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
+msgstr "Hjälp för direktivet ”%s” hittades inte i databasen ”%s”."
+
+#: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
+msgid "Help keyword \"%s\" not found."
+msgstr "Hjälpnyckelordet ”%s” hittades inte."
+
+#: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
+msgstr "Hjälpnyckelordet ”%s” hittades inte i databasen ”%s”."
+
+#: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
+msgid "Help node \"%s\" has no Help Database."
+msgstr "Hjälpnoden ”%s” har ingen hjälpdatabas."
+
+#: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
+msgid "No help found for line %d, column %d of %s."
+msgstr "Ingen hjälp hittades för rad %d, kolumn %d i %s."
+
+#: lclstrconsts.rshelpnohelpnodesavailable
+msgid "No help entries available for this topic."
+msgstr "Inga hjälpposter är tillgängliga för det här ämnet."
+
+#: lclstrconsts.rshelpnotfound
+msgid "No help found for this topic"
+msgstr "Ingen hjälp hittades för det här ämnet"
+
+#: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
+msgid "%s: not registered."
+msgstr "%s: inte registrerad."
+
+#: lclstrconsts.rshelpselectorerror
+msgid "Help Selector Error"
+msgstr "Fel i hjälpval"
+
+#: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
+msgid "There is no viewer for help type \"%s\"."
+msgstr "Det finns ingen visare för hjälptypen ”%s”."
+
+#: lclstrconsts.rshelpviewererror
+msgid "Help Viewer Error"
+msgstr "Fel i hjälpvisare"
+
+#: lclstrconsts.rshelpviewernotfound
+msgid "No viewer was found for this type of help content"
+msgstr "Ingen visare hittades för den här typen av hjälpinnehåll"
+
+#: lclstrconsts.rshidedetails
+msgid "Hide details"
+msgstr "Dölj detaljer"
+
+#: lclstrconsts.rshighlightcolorcaption
+msgid "Highlight"
+msgstr "Framhäv"
+
+#: lclstrconsts.rshighlighttextcolorcaption
+msgid "Highlight Text"
+msgstr "Framhäv text"
+
+#: lclstrconsts.rshotlightcolorcaption
+msgid "Hot Light"
+msgstr "Aktiv framhävning"
+
+#: lclstrconsts.rsicns
+msgid "macOS Icon Files"
+msgstr "macOS-ikonfiler"
+
+#: lclstrconsts.rsicon
+msgid "Icon Files"
+msgstr "Ikonfiler"
+
+#: lclstrconsts.rsiconimageempty
+msgid "Icon image cannot be empty"
+msgstr "Ikonbilden får inte vara tom"
+
+#: lclstrconsts.rsiconimageformat
+msgid "Icon image must have the same format"
+msgstr "Ikonbilden måste ha samma format"
+
+#: lclstrconsts.rsiconimageformatchange
+msgid "Cannot change format of icon image"
+msgstr "Det går inte att ändra ikonbildens format"
+
+#: lclstrconsts.rsiconimagesize
+msgid "Icon image must have the same size"
+msgstr "Ikonbilden måste ha samma storlek"
+
+#: lclstrconsts.rsiconimagesizechange
+msgid "Cannot change size of icon image"
+msgstr "Det går inte att ändra ikonbildens storlek"
+
+#: lclstrconsts.rsiconnocurrent
+msgid "Icon has no current image"
+msgstr "Ikonen har ingen aktuell bild"
+
+#: lclstrconsts.rsinactivebordercolorcaption
+msgid "Inactive Border"
+msgstr "Inaktiv kant"
+
+#: lclstrconsts.rsinactivecaptioncolorcaption
+msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
+msgid "Inactive Caption"
+msgstr "Inaktiv namnlist"
+
+#: lclstrconsts.rsinactivecaptiontext
+msgctxt "lclstrconsts.rsinactivecaptiontext"
+msgid "Inactive Caption"
+msgstr "Inaktiv namnlist"
+
+#: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
+msgid "%s Index %d out of bounds 0 .. %d"
+msgstr "%s Index %d utanför intervallet 0 .. %d"
+
+#: lclstrconsts.rsindexoutofboundsminusone
+#, object-pascal-format
+msgid "%s Index %d out of bounds -1 .. %d"
+msgstr "%s Index %d utanför intervallet -1 .. %d"
+
+#: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
+msgid "Index Out of range Cell[Col=%d Row=%d]"
+msgstr "Index utanför intervallet Cell[Col=%d Row=%d]"
+
+#: lclstrconsts.rsinfobkcolorcaption
+msgid "Info Background"
+msgstr "Informationsbakgrund"
+
+#: lclstrconsts.rsinfotextcolorcaption
+msgid "Info Text"
+msgstr "Informationstext"
+
+#: lclstrconsts.rsinsertrecordhint
+msgctxt "lclstrconsts.rsinsertrecordhint"
+msgid "Insert"
+msgstr "Infoga"
+
+#: lclstrconsts.rsinvaliddate
+#, object-pascal-format
+msgid "Invalid Date : %s"
+msgstr "Ogiltigt datum: %s"
+
+#: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
+msgid "Invalid Date: %s. Must be between %s and %s"
+msgstr "Ogiltigt datum: %s. Måste vara mellan %s och %s"
+
+#: lclstrconsts.rsinvalidformobjectstream
+msgid "invalid Form object stream"
+msgstr "ogiltig formulärobjektström"
+
+#: lclstrconsts.rsinvalidpropertyvalue
+msgid "Invalid property value"
+msgstr "Ogiltigt egenskapsvärde"
+
+#: lclstrconsts.rsinvalidstreamformat
+msgid "Invalid stream format"
+msgstr "Ogiltigt strömformat"
+
+#: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
+msgid "%s is already associated with %s"
+msgstr "%s är redan associerad med %s"
+
+#: lclstrconsts.rsjpeg
+msgid "JPEG Files"
+msgstr "JPEG-filer"
+
+#: lclstrconsts.rslastrecordhint
+msgid "Last"
+msgstr "Sista"
+
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr "Limegrön"
+
+#: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
+msgid "List index exceeds bounds (%d)"
+msgstr "Listindex överskrider gränserna (%d)"
+
+#: lclstrconsts.rsmacoscolordialogmbpick
+msgid "Pick"
+msgstr "Välj"
+
+#: lclstrconsts.rsmacoseditmenu
+msgctxt "lclstrconsts.rsmacoseditmenu"
+msgid "Edit"
+msgstr "Redigera"
+
+#: lclstrconsts.rsmacoseditmenucopy
+msgctxt "lclstrconsts.rsmacoseditmenucopy"
+msgid "Copy"
+msgstr "Kopiera"
+
+#: lclstrconsts.rsmacoseditmenucut
+msgid "Cut"
+msgstr "Klipp ut"
+
+#: lclstrconsts.rsmacoseditmenupaste
+msgctxt "lclstrconsts.rsmacoseditmenupaste"
+msgid "Paste"
+msgstr "Klistra in"
+
+#: lclstrconsts.rsmacoseditmenuredo
+msgid "Redo"
+msgstr "Gör om"
+
+#: lclstrconsts.rsmacoseditmenuselectall
+msgid "Select All"
+msgstr "Markera allt"
+
+#: lclstrconsts.rsmacoseditmenuundo
+msgid "Undo"
+msgstr "Ångra"
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtips
+msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
+msgstr "Behandla filpaket (t.ex. *.app-filer) som kataloger för åtkomst till deras interna filer"
+
+#: lclstrconsts.rsmacosfiledialogpackageswitchtitle
+msgid "Show File Package Contents"
+msgstr "Visa innehållet i filpaket"
+
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr "Filformat:"
+
+#: lclstrconsts.rsmacosfontdialogmbselect
+msgid "Select"
+msgstr "Välj"
+
+#: lclstrconsts.rsmacosmenuabout
+#, object-pascal-format
+msgid "About %s"
+msgstr "Om %s"
+
+#: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
+msgid "Hide %s"
+msgstr "Dölj %s"
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr "Dölj övriga"
+
+#: lclstrconsts.rsmacosmenupreferences
+msgid "Preferences..."
+msgstr "Inställningar..."
+
+#: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
+msgid "Quit %s"
+msgstr "Avsluta %s"
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr "Tjänster"
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr "Visa alla"
+
+#: lclstrconsts.rsmacosmenutogglefullscreen
+msgid "Toggle Full Screen"
+msgstr "Växla helskärm"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr "Rödbrun"
+
+#: lclstrconsts.rsmbabort
+msgid "Abort"
+msgstr "Avbryt"
+
+#: lclstrconsts.rsmball
+msgid "&All"
+msgstr "&Alla"
+
+#: lclstrconsts.rsmbcancel
+msgctxt "lclstrconsts.rsmbcancel"
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: lclstrconsts.rsmbclose
+msgid "&Close"
+msgstr "&Stäng"
+
+#: lclstrconsts.rsmbhelp
+msgid "&Help"
+msgstr "&Hjälp"
+
+#: lclstrconsts.rsmbignore
+msgid "&Ignore"
+msgstr "&Ignorera"
+
+#: lclstrconsts.rsmbno
+msgid "&No"
+msgstr "&Nej"
+
+#: lclstrconsts.rsmbnotoall
+msgid "No to all"
+msgstr "Nej till alla"
+
+#: lclstrconsts.rsmbok
+msgid "&OK"
+msgstr "&OK"
+
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr "&Öppna"
+
+#: lclstrconsts.rsmbretry
+msgid "&Retry"
+msgstr "&Försök igen"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr "&Spara"
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr "&Lås upp"
+
+#: lclstrconsts.rsmbyes
+msgid "&Yes"
+msgstr "&Ja"
+
+#: lclstrconsts.rsmbyestoall
+msgid "Yes to &All"
+msgstr "Ja till &alla"
+
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr "Mellangrå"
+
+#: lclstrconsts.rsmenubarcolorcaption
+msgid "Menu Bar"
+msgstr "Menyrad"
+
+#: lclstrconsts.rsmenucolorcaption
+msgctxt "lclstrconsts.rsmenucolorcaption"
+msgid "Menu"
+msgstr "Meny"
+
+#: lclstrconsts.rsmenuhighlightcolorcaption
+msgid "Menu Highlight"
+msgstr "Menymarkering"
+
+#: lclstrconsts.rsmenutextcolorcaption
+msgid "Menu Text"
+msgstr "Menytext"
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr "Penninggrön"
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr "Autentisering"
+
+#: lclstrconsts.rsmtconfirmation
+msgid "Confirmation"
+msgstr "Bekräftelse"
+
+#: lclstrconsts.rsmtcustom
+msgid "Custom"
+msgstr "Anpassat"
+
+#: lclstrconsts.rsmterror
+msgctxt "lclstrconsts.rsmterror"
+msgid "Error"
+msgstr "Fel"
+
+#: lclstrconsts.rsmtinformation
+msgid "Information"
+msgstr "Information"
+
+#: lclstrconsts.rsmtwarning
+msgid "Warning"
+msgstr "Varning"
+
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr "Marinblå"
+
+#: lclstrconsts.rsnextrecordhint
+msgctxt "lclstrconsts.rsnextrecordhint"
+msgid "Next"
+msgstr "Nästa"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr "Ingen"
+
+#: lclstrconsts.rsnotavalidgridfile
+msgid "Not a valid grid file"
+msgstr "Inte en giltig rutnätsfil"
+
+#: lclstrconsts.rsnowidgetset
+msgid ""
+"No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses "
+"clause."
+msgstr ""
+"Inget widgetset-objekt. Kontrollera att enheten ”interfaces” har lagts till i programmets uses-"
+"sats."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr "Olivgrön"
+
+#: lclstrconsts.rspickdate
+msgid "Select a date"
+msgstr "Välj ett datum"
+
+#: lclstrconsts.rspixmap
+msgid "Pixmap Files"
+msgstr "Pixmap-filer"
+
+#: lclstrconsts.rsportablenetworkgraphic
+msgid "PNG Files"
+msgstr "PNG-filer"
+
+#: lclstrconsts.rsportablepixmap
+msgid "Portable Pixmap Files"
+msgstr "Portable Pixmap-filer"
+
+#: lclstrconsts.rspostrecordhint
+msgid "Post"
+msgstr "Skicka"
+
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr ""
+"%s%sTryck på OK för att ignorera och riskera dataskada.%sTryck på Avbryt för att avsluta "
+"programmet."
+
+#: lclstrconsts.rspriorrecordhint
+msgctxt "lclstrconsts.rspriorrecordhint"
+msgid "Prior"
+msgstr "Föregående"
+
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr "Fråga vid ersättning"
+
+#: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
+msgid "Property %s does not exist"
+msgstr "Egenskapen %s finns inte"
+
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr "Lila"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid ""
+"Disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 "
+"interfaces and used mostly by GetWindowRect()."
+msgstr ""
+"Inaktiverar helt exakt fönsterram under X11. Funktionen är implementerad för gränssnitten Qt, Qt5"
+" och Gtk2 och används främst av GetWindowRect()."
+
+#: lclstrconsts.rsqtoptiondograb
+msgid ""
+"Running under a debugger can cause an implicit -nograb, use -dograb to override. Works only under"
+" X11, needs QT_DEBUG."
+msgstr ""
+"Körning under en felsökare kan orsaka ett implicit -nograb. Använd -dograb för att åsidosätta "
+"detta. Fungerar endast under X11 och kräver QT_DEBUG."
+
+#: lclstrconsts.rsqtoptiongraphicsstyle
+msgid ""
+"Sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, "
+"raster and opengl. OpenGL is still unstable."
+msgstr ""
+"Anger vilken backend som ska användas för skärmwidgetar och QPixmap. Tillgängliga alternativ är "
+"native, raster och opengl. OpenGL är fortfarande instabilt."
+
+#: lclstrconsts.rsqtoptionnograb
+msgid "Tells Qt that it must never grab the mouse or the keyboard. Needs QT_DEBUG."
+msgstr "Anger för Qt att musen eller tangentbordet aldrig får fångas. Kräver QT_DEBUG."
+
+#: lclstrconsts.rsqtoptionreverse
+msgid "Sets the application's layout direction to Qt::RightToLeft."
+msgstr "Anger programmets layoutriktning till Qt::RightToLeft."
+
+#: lclstrconsts.rsqtoptionsession
+msgid "Restores the application from an earlier session."
+msgstr "Återställer programmet från en tidigare session."
+
+#: lclstrconsts.rsqtoptionstyle
+msgid ""
+"Sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled"
+" Qt with additional styles or have additional styles as plugins these will be available to the "
+"-style command line option. NOTE: Not all styles are available on all platforms. If style param "
+"does not exist Qt will start an application with default common style (windows)."
+msgstr ""
+"Anger programmets GUI-stil. Möjliga värden är motif, windows och platinum. Om Qt har kompilerats "
+"med ytterligare stilar eller om ytterligare stilar finns som insticksmoduler blir de tillgängliga"
+" för kommandoradsalternativet -style. OBS: Alla stilar finns inte på alla plattformar. Om "
+"stilparametern inte finns startar Qt programmet med den gemensamma standardstilen (windows)."
+
+#: lclstrconsts.rsqtoptionstylesheet
+msgid ""
+"Sets the application Style Sheet. The value must be a path to a file that contains the Style "
+"Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
+msgstr ""
+"Anger programmets stilmall. Värdet måste vara en sökväg till en fil som innehåller stilmallen. "
+"Obs: Relativa URL:er i stilmallsfilen är relativa till stilmallsfilens sökväg."
+
+#: lclstrconsts.rsqtoptionsync
+msgid "Switches to synchronous mode for debugging. Works only under X11."
+msgstr "Växlar till synkront läge för felsökning. Fungerar endast under X11."
+
+#: lclstrconsts.rsqtoptionwidgetcount
+msgid ""
+"Prints debug message at the end about number of widgets left undestroyed and maximum number of "
+"widgets existed at the same time."
+msgstr ""
+"Skriver ett felsökningsmeddelande i slutet om antalet widgetar som inte förstörts och det högsta "
+"antalet widgetar som funnits samtidigt."
+
+#: lclstrconsts.rsqtoptionx11bgcolor
+msgid ""
+"Sets the default background color and an application palette (light and dark shades are "
+"calculated)."
+msgstr "Anger standardbakgrundsfärg och en programpalett (ljusa och mörka nyanser beräknas)."
+
+#: lclstrconsts.rsqtoptionx11btncolor
+msgid "Sets the default button color."
+msgstr "Anger standardfärg för knappar."
+
+#: lclstrconsts.rsqtoptionx11cmap
+msgid "Causes the application to install a private color map on an 8-bit display."
+msgstr "Gör att programmet installerar en privat färgkarta på en 8-bitarsbildskärm."
+
+#: lclstrconsts.rsqtoptionx11display
+msgid "Sets the X display. Default is $DISPLAY."
+msgstr "Anger X-bildskärmen. Standard är $DISPLAY."
+
+#: lclstrconsts.rsqtoptionx11fgcolor
+msgid "Sets the default foreground color."
+msgstr "Anger standardförgrundsfärg."
+
+#: lclstrconsts.rsqtoptionx11font
+msgid "Defines the application font. The font should be specified using an X logical font description."
+msgstr ""
+"Definierar programmets teckensnitt. Teckensnittet ska anges med en logisk "
+"X-teckensnittsbeskrivning."
+
+#: lclstrconsts.rsqtoptionx11geometry
+msgid "Sets the client geometry of the first window that is shown."
+msgstr "Anger klientgeometrin för det första fönster som visas."
+
+#: lclstrconsts.rsqtoptionx11im
+msgid "Sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
+msgstr "Anger inmatningsmetodservern (motsvarar att ställa in miljövariabeln XMODIFIERS)."
+
+#: lclstrconsts.rsqtoptionx11inputstyle
+msgid ""
+"Defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear "
+"directly in the widget, while overTheSpot makes the input appear in a box floating over the "
+"widget and is not inserted until the editing is done."
+msgstr ""
+"Definierar hur inmatningen infogas i den angivna widgeten, t.ex. gör onTheSpot att inmatningen "
+"visas direkt i widgeten, medan overTheSpot visar inmatningen i en ruta ovanpå widgeten och inte "
+"infogar den förrän redigeringen är klar."
+
+#: lclstrconsts.rsqtoptionx11name
+msgid "Sets the application name."
+msgstr "Anger programnamnet."
+
+#: lclstrconsts.rsqtoptionx11ncols
+msgid ""
+"Limits the number of colors allocated in the color cube on an 8-bit display, if the application "
+"is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube"
+" is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube "
+"approximately proportional to a 2x3x1 cube is used."
+msgstr ""
+"Begränsar antalet färger som allokeras i färgkuben på en 8-bitarsbildskärm om programmet använder"
+" färgspecifikationen QApplication::ManyColor. Om count är 216 används en färgkub på 6x6x6 (dvs. 6"
+" nivåer av rött, 6 av grönt och 6 av blått); för andra värden används en kub som är ungefär "
+"proportionell mot en 2x3x1-kub."
+
+#: lclstrconsts.rsqtoptionx11title
+msgid "Sets the application title."
+msgstr "Anger programmets titel."
+
+#: lclstrconsts.rsqtoptionx11visual
+msgid "Forces the application to use a TrueColor visual on an 8-bit display."
+msgstr "Tvingar programmet att använda en TrueColor-visual på en 8-bitarsbildskärm."
+
+#: lclstrconsts.rsrasterimageendupdate
+msgid "Endupdate while no update in progress"
+msgstr "Endupdate medan ingen uppdatering pågår"
+
+#: lclstrconsts.rsrasterimagesaveinupdate
+msgid "Cannot save image while update in progress"
+msgstr "Det går inte att spara bilden medan en uppdatering pågår"
+
+#: lclstrconsts.rsrasterimageupdateall
+msgid "Cannot begin update all when canvas only update in progress"
+msgstr "Det går inte att starta uppdatering av allt när endast uppdatering av ritytan pågår"
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr "Röd"
+
+#: lclstrconsts.rsrefreshrecordshint
+msgid "Refresh"
+msgstr "Uppdatera"
+
+#: lclstrconsts.rsreplace
+msgid "Replace"
+msgstr "Ersätt"
+
+#: lclstrconsts.rsreplaceall
+msgid "Replace all"
+msgstr "Ersätt alla"
+
+#: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
+msgctxt "lclstrconsts.rsresourcenotfound"
+msgid "Resource %s not found"
+msgstr "Resursen %s hittades inte"
+
+#: lclstrconsts.rsscrollbarcolorcaption
+msgid "ScrollBar"
+msgstr "Rullningslist"
+
+#: lclstrconsts.rsscrollbaroutofrange
+msgid "ScrollBar property out of range"
+msgstr "Egenskap för rullningslist utanför intervallet"
+
+#: lclstrconsts.rsselectcolortitle
+msgid "Select color"
+msgstr "Välj färg"
+
+#: lclstrconsts.rsselectfonttitle
+msgid "Select a font"
+msgstr "Välj ett teckensnitt"
+
+#: lclstrconsts.rsshowdetails
+msgid "Show details"
+msgstr "Visa detaljer"
+
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr "Silver"
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr "Himmelsblå"
+
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr "En kontroll med flikar"
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr "Blågrön"
+
+#: lclstrconsts.rstext
+msgid "Text"
+msgstr "Text"
+
+#: lclstrconsts.rstga
+msgid "TGA Image Files"
+msgstr "TGA-bildfiler"
+
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "Den inbyggda URL:en är skrivskyddad. Ändra BaseURL i stället."
+
+#: lclstrconsts.rstiff
+msgid "Tagged Image File Format Files"
+msgstr "TIFF-bildfiler"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
+msgid "Panel"
+msgstr "Panel"
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
+msgid "A grip to control how much size to give two parts of an area"
+msgstr "Ett handtag som styr hur mycket utrymme två delar av ett område får"
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
+msgid "A tree of items"
+msgstr "Ett träd med objekt"
+
+#: lclstrconsts.rsunabletoloaddefaultfont
+msgid "Unable to load default font"
+msgstr "Det går inte att läsa in standardteckensnittet"
+
+#: lclstrconsts.rsunknownerrorpleasereportthisbug
+msgid "Unknown Error, please report this bug"
+msgstr "Okänt fel, rapportera felet"
+
+#: lclstrconsts.rsunknownpictureextension
+msgid "Unknown picture extension"
+msgstr "Okänd bildfiländelse"
+
+#: lclstrconsts.rsunknownpictureformat
+msgid "Unknown picture format"
+msgstr "Okänt bildformat"
+
+#: lclstrconsts.rsunsupportedbitmapformat
+msgid "Unsupported bitmap format."
+msgstr "Bitmapformatet stöds inte."
+
+#: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
+msgid "Unsupported clipboard format: %s"
+msgstr "Urklippsformatet stöds inte: %s"
+
+#: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
+msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
+msgstr " VARNING: Det finns %d ej frigivna DC:er, en detaljerad dump följer:"
+
+#: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
+msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
+msgstr " VARNING: Det finns %d ej frigivna GDIObjects, en detaljerad dump följer:"
+
+#: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
+msgid " WARNING: There are %d messages left in the queue! I'll free them"
+msgstr " VARNING: Det finns %d meddelanden kvar i kön! De frigörs nu"
+
+#: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
+msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
+msgstr " VARNING: Det finns %d TimerInfo-strukturer kvar. De frigörs nu"
+
+#: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
+msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
+msgstr " VARNING: Det finns %s ej borttagna LM_PAINT/LM_GtkPAINT-meddelandelänkar kvar."
+
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr "Vit"
+
+#: lclstrconsts.rswholewordsonly
+msgid "Whole words only"
+msgstr "Endast hela ord"
+
+#: lclstrconsts.rswin32error
+msgid "Error:"
+msgstr "Fel:"
+
+#: lclstrconsts.rswin32warning
+msgid "Warning:"
+msgstr "Varning:"
+
+#: lclstrconsts.rswindowcolorcaption
+msgid "Window"
+msgstr "Fönster"
+
+#: lclstrconsts.rswindowframecolorcaption
+msgid "Window Frame"
+msgstr "Fönsterram"
+
+#: lclstrconsts.rswindowtextcolorcaption
+msgid "Window Text"
+msgstr "Fönstertext"
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
+msgstr "Gul"
+
+#: lclstrconsts.scannotfocus
+#, object-pascal-format
+msgid "Cannot focus a disabled or invisible window \"%s\""
+msgstr "Det går inte att sätta fokus på ett inaktiverat eller osynligt fönster ”%s”"
+
+#: lclstrconsts.sduplicatemenus
+msgid "Duplicate menus"
+msgstr "Dubblerade menyer"
+
+#: lclstrconsts.sinvalidactioncreation
+msgid "Invalid action creation"
+msgstr "Ogiltigt skapande av åtgärd"
+
+#: lclstrconsts.sinvalidactionenumeration
+msgid "Invalid action enumeration"
+msgstr "Ogiltig uppräkning av åtgärd"
+
+#: lclstrconsts.sinvalidactionregistration
+msgid "Invalid action registration"
+msgstr "Ogiltig registrering av åtgärd"
+
+#: lclstrconsts.sinvalidactionunregistration
+msgid "Invalid action unregistration"
+msgstr "Ogiltig avregistrering av åtgärd"
+
+#: lclstrconsts.sinvalidimagesize
+msgid "Invalid image size"
+msgstr "Ogiltig bildstorlek"
+
+#: lclstrconsts.sinvalidindex
+msgid "Invalid ImageList Index"
+msgstr "Ogiltigt ImageList-index"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr "Den aktuella texten matchar inte den angivna masken."
+
+#: lclstrconsts.smenuindexerror
+msgid "Menu index out of range"
+msgstr "Menyindex utanför intervallet"
+
+#: lclstrconsts.smenuitemisnil
+msgid "MenuItem is nil"
+msgstr "MenuItem är nil"
+
+#: lclstrconsts.smenunotfound
+msgid "Sub-menu is not in menu"
+msgstr "Undermenyn finns inte i menyn"
+
+#: lclstrconsts.smkcalt
+msgid "Alt+"
+msgstr "Alt+"
+
+#: lclstrconsts.smkcbksp
+msgid "BkSp"
+msgstr "Backsteg"
+
+#: lclstrconsts.smkcctrl
+msgid "Ctrl+"
+msgstr "Ctrl+"
+
+#: lclstrconsts.smkcdel
+msgid "Del"
+msgstr "Del"
+
+#: lclstrconsts.smkcdown
+msgctxt "lclstrconsts.smkcdown"
+msgid "Down"
+msgstr "Ned"
+
+#: lclstrconsts.smkcend
+msgctxt "lclstrconsts.smkcend"
+msgid "End"
+msgstr "End"
+
+#: lclstrconsts.smkcenter
+msgid "Enter"
+msgstr "Enter"
+
+#: lclstrconsts.smkcesc
+msgid "Esc"
+msgstr "Esc"
+
+#: lclstrconsts.smkcfn
+msgid "Fn+"
+msgstr "Fn+"
+
+#: lclstrconsts.smkchome
+msgctxt "lclstrconsts.smkchome"
+msgid "Home"
+msgstr "Home"
+
+#: lclstrconsts.smkcins
+msgid "Ins"
+msgstr "Ins"
+
+#: lclstrconsts.smkcleft
+msgctxt "lclstrconsts.smkcleft"
+msgid "Left"
+msgstr "Vänster"
+
+#: lclstrconsts.smkcmeta
+msgid "Meta+"
+msgstr "Meta+"
+
+#: lclstrconsts.smkcpgdn
+msgid "PgDn"
+msgstr "PgDn"
+
+#: lclstrconsts.smkcpgup
+msgid "PgUp"
+msgstr "PgUp"
+
+#: lclstrconsts.smkcright
+msgctxt "lclstrconsts.smkcright"
+msgid "Right"
+msgstr "Höger"
+
+#: lclstrconsts.smkcshift
+msgid "Shift+"
+msgstr "Skift+"
+
+#: lclstrconsts.smkcspace
+msgid "Space"
+msgstr "Blanksteg"
+
+#: lclstrconsts.smkctab
+msgctxt "lclstrconsts.smkctab"
+msgid "Tab"
+msgstr "Tab"
+
+#: lclstrconsts.smkcup
+msgctxt "lclstrconsts.smkcup"
+msgid "Up"
+msgstr "Upp"
+
+#: lclstrconsts.snotimers
+msgid "No timers available"
+msgstr "Inga timers är tillgängliga"
+
+#: lclstrconsts.sparentrequired
+#, object-pascal-format
+msgid "Control \"%s\" has no parent window."
+msgstr "Kontrollen ”%s” har inget överordnat fönster."
+
+#: lclstrconsts.sparexpected
+#, object-pascal-format
+msgid "Wrong token type: %s expected"
+msgstr "Fel token-typ: %s förväntades"
+
+#: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
+msgid "Invalid floating point number: %s"
+msgstr "Ogiltigt flyttal: %s"
+
+#: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
+msgid "Invalid integer number: %s"
+msgstr "Ogiltigt heltal: %s"
+
+#: lclstrconsts.sparlocinfo
+#, object-pascal-format
+msgid " (at %d,%d, stream offset %d)"
+msgstr " (vid %d,%d, strömoffset %d)"
+
+#: lclstrconsts.sparunterminatedbinvalue
+msgid "Unterminated byte value"
+msgstr "Oavslutat bytevärde"
+
+#: lclstrconsts.sparunterminatedstring
+msgid "Unterminated string"
+msgstr "Oavslutad sträng"
+
+#: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
+msgid "Wrong token symbol: %s expected but %s found"
+msgstr "Fel tokensymbol: %s förväntades men %s hittades"
+
+#: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
+msgid "Wrong token type: %s expected but %s found"
+msgstr "Fel token-typ: %s förväntades men %s hittades"
+
+#: lclstrconsts.sshellctrlsattributes
+msgid "Attributes"
+msgstr "Attribut"
+
+#: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
+msgid "%s bytes"
+msgstr "%s byte"
+
+#: lclstrconsts.sshellctrlsfolder
+msgid "Folder"
+msgstr "Mapp"
+
+#: lclstrconsts.sshellctrlsgb
+#, object-pascal-format
+msgid "%s GB"
+msgstr "%s GB"
+
+#: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\""
+msgstr ""
+"Ogiltig sökväg:\n"
+"”%s”"
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\""
+msgstr ""
+"Ogiltig relativ sökväg:\n"
+"”%s”\n"
+"i förhållande till rotsökvägen:\n"
+"”%s”"
+
+#: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\""
+msgstr ""
+"Ogiltig sökväg:\n"
+"”%s”"
+
+#: lclstrconsts.sshellctrlskb
+#, object-pascal-format
+msgid "%s kB"
+msgstr "%s kB"
+
+#: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
+msgid "%s MB"
+msgstr "%s MB"
+
+#: lclstrconsts.sshellctrlsmodificationdate
+msgid "Date modified"
+msgstr "Ändringsdatum"
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr "Namn"
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\""
+msgstr ""
+"Det valda objektet finns inte på disken:\n"
+"”%s”"
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr "Storlek"
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr "Typ"

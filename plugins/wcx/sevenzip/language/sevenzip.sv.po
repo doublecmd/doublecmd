@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin - sevenzip\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-04 23:30+0300\n"
+"Last-Translator: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Native-Language: Svenska\n"
+
+#: tdialogbox.btnapply.caption
+msgid "Apply"
+msgstr "Verkställ"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Alternativ"
+
+#: tdialogbox.lblarchiveformat.caption
+msgid "Archive &format:"
+msgstr "Arkiv&format:"
+
+#: tdialogbox.lblcompressiondictionary.caption
+msgid "&Dictionary size:"
+msgstr "&Ordboksstorlek:"
+
+#: tdialogbox.lblcompressionlevel.caption
+msgid "Compression &level:"
+msgstr "Komprimerings&nivå:"
+
+#: tdialogbox.lblcompressionmethod.caption
+msgid "Compression &method:"
+msgstr "Komprimerings&metod:"
+
+#: tdialogbox.lblcompressionsolid.caption
+msgid "&Solid Block size:"
+msgstr "Storlek på &solid block:"
+
+#: tdialogbox.lblcompressionword.caption
+msgid "&Word size:"
+msgstr "&Ordstorlek:"
+
+#: tdialogbox.lblmemorycompression.caption
+msgid "Memory usage for Compressing:"
+msgstr "Minnesanvändning vid komprimering:"
+
+#: tdialogbox.lblmemorydecompression.caption
+msgid "Memory usage for Decompressing:"
+msgstr "Minnesanvändning vid dekomprimering:"
+
+#: tdialogbox.lblparameters.caption
+msgid "&Parameters:"
+msgstr "&Parametrar:"
+
+#: tdialogbox.lblthreads.caption
+msgid "&Number of CPU threads:"
+msgstr "&Antal CPU-trådar:"
+
+#: tpasswordbox.caption
+msgid "Enter password"
+msgstr "Ange lösenord"
+
+#: tpasswordbox.cbencryptnames.caption
+msgid "Encrypt file &names"
+msgstr "Kryptera fil&namn"
+
+#: tpasswordbox.cbshowpassword.caption
+msgid "&Show password"
+msgstr "&Visa lösenord"
+
+#: tpasswordbox.lblpassword.caption
+msgid "&Enter password:"
+msgstr "&Ange lösenord:"
+
+#: sevenziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "Snabb"
+
+#: sevenziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "Snabbast"
+
+#: sevenziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "Maximal"
+
+#: sevenziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "Normal"
+
+#: sevenziplng.rscompressionlevelstore
+msgid "Store"
+msgstr "Lagra"
+
+#: sevenziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "Ultra"
+
+#: sevenziplng.rssevenziploaderror
+#, object-pascal-format
+msgid "Failed to load 7-Zip library (%s)!"
+msgstr "Det gick inte att läsa in 7-Zip-biblioteket (%s)!"
+
+#: sevenziplng.rssevenzipsfxnotfound
+msgid "Cannot find specified SFX module!"
+msgstr "Det går inte att hitta den angivna SFX-modulen!"
+
+#: sevenziplng.rssolidblocknonsolid
+msgid "Non-solid"
+msgstr "Icke-solid"
+
+#: sevenziplng.rssolidblocksolid
+msgid "Solid"
+msgstr "Solid"
