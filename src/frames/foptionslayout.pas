@@ -50,6 +50,7 @@ type
     cbShowMainMenu: TCheckBox;
     cbShowMainToolBar: TCheckBox;
     cbShowStatusBar: TCheckBox;
+    cbShowPositionIndex: TCheckBox;
     cbShowTabHeader: TCheckBox;
     cbShowTabs: TCheckBox;
     cbTermWindow: TCheckBox;
@@ -111,6 +112,7 @@ begin
   cbShowCurDir.Checked := gCurDir;
   cbShowTabHeader.Checked := gTabHeader;
   cbShowStatusBar.Checked := gStatusBar;
+  cbShowPositionIndex.Checked := gShowPositionIndex;
   cbShowCmdLine.Checked := gCmdLine;
   cbShowKeysPanel.Checked := gKeyButtons;
   cbFlatInterface.Checked := gInterfaceFlat;
@@ -138,6 +140,7 @@ begin
   gCurDir := cbShowCurDir.Checked;
   gTabHeader := cbShowTabHeader.Checked;
   gStatusBar := cbShowStatusBar.Checked;
+  gShowPositionIndex := cbShowPositionIndex.Checked;
   gCmdLine := cbShowCmdLine.Checked;
   gKeyButtons := cbShowKeysPanel.Checked;
   gInterfaceFlat := cbFlatInterface.Checked;
