@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin - MacCloud\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-04 23:30+0300\n"
+"Last-Translator: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Native-Language: Svenska\n"
+
+#: uwfxconfig.rsaliyunossdisplayname
+msgctxt "uwfxconfig.rsaliyunossdisplayname"
+msgid "Alibaba Cloud OSS"
+msgstr "Alibaba Cloud OSS"
+
+#: uwfxconfig.rsamazons3displayname
+msgctxt "uwfxconfig.rsamazons3displayname"
+msgid "Amazon S3"
+msgstr "Amazon S3"
+
+#: uwfxconfig.rsbackblazeb2displayname
+msgid "BackBlaze B2"
+msgstr "BackBlaze B2"
+
+#: uwfxconfig.rsboxdisplayname
+msgctxt "uwfxconfig.rsboxdisplayname"
+msgid "Box"
+msgstr "Box"
+
+#: uwfxconfig.rsdropboxdisplayname
+msgctxt "uwfxconfig.rsdropboxdisplayname"
+msgid "DropBox"
+msgstr "DropBox"
+
+#: uwfxconfig.rshuaweiobsdisplayname
+msgctxt "uwfxconfig.rshuaweiobsdisplayname"
+msgid "Huawei Cloud OBS"
+msgstr "Huawei Cloud OBS"
+
+#: uwfxconfig.rsoauth2authnotes
+#
+msgctxt "uwfxconfig.rsoauth2authnotes"
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization "
+"from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari "
+"browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not"
+" get your password"
+msgstr ""
+"1. Innan anslutningen kan aktiveras behöver Double Commander få behörighet från {driverName}\n"
+"\n"
+"2. Klicka på anslutningsknappen för att omdirigeras till {driverName}s officiella webbplats i "
+"Safari\n"
+"\n"
+"3. Logga in på ditt {driverName}-konto i Safari och ge Double Commander åtkomst\n"
+"\n"
+"4. Auktoriseringen slutförs på {driverName}s officiella webbplats. Double Commander får inte "
+"tillgång till ditt lösenord"
+
+#: uwfxconfig.rsonedrivedisplayname
+msgctxt "uwfxconfig.rsonedrivedisplayname"
+msgid "OneDrive"
+msgstr "OneDrive"
+
+#: uwfxconfig.rsqiniukododisplayname
+msgid "Qiniu Cloud KODO"
+msgstr "Qiniu Cloud KODO"
+
+#: uwfxconfig.rss3autoconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level "
+"security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double "
+"Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint /"
+" Bucket are only required if Access Key permissions are insufficient."
+msgstr ""
+"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De "
+"konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
+"\n"
+"2. Access Key ID och Secret Access Key krävs, övriga uppgifter är valfria. Double Commander kan "
+"vanligtvis hämta övriga uppgifter, till exempel bucketar, automatiskt. Region / EndPoint / Bucket"
+" behövs därför bara om behörigheterna för Access Key inte är tillräckliga."
+
+#: uwfxconfig.rss3compatibledisplayname
+msgctxt "uwfxconfig.rss3compatibledisplayname"
+msgid "S3 Compatible"
+msgstr "S3-kompatibel"
+
+#: uwfxconfig.rss3manualconfignotes
+#
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level "
+"security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are required for {driverName}"
+msgstr ""
+"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De "
+"konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
+"\n"
+"2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket krävs för {driverName}"
+
+#: uwfxconfig.rstencentcosdisplayname
+msgctxt "uwfxconfig.rstencentcosdisplayname"
+msgid "Tencent Cloud COS"
+msgstr "Tencent Cloud COS"
+
+#: uwfxconfig.rsupyunussdisplayname
+msgid "Upyun USS"
+msgstr "Upyun USS"
+
+#: uwfxconfig.rsyandexdisplayname
+msgctxt "uwfxconfig.rsyandexdisplayname"
+msgid "Yandex"
+msgstr "Yandex"
+
+#: uwfxoptionscommonrs.rsaddnewconnection
+msgctxt "uwfxoptionscommonrs.rsaddnewconnection"
+msgid "<Add New Connection>"
+msgstr "<Lägg till ny anslutning>"
+
+#: uwfxoptionscommonrs.rscancelbuttontitle
+msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: uwfxoptionscommonrs.rsconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsconnectbuttontitle"
+msgid "Connect"
+msgstr "Anslut"
+
+#: uwfxoptionscommonrs.rsdisconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsdisconnectbuttontitle"
+msgid "Disconnect"
+msgstr "Koppla från"
+
+#: uwfxoptionscommonrs.rsnamelabel
+msgctxt "uwfxoptionscommonrs.rsnamelabel"
+msgid "Name:"
+msgstr "Namn:"
+
+#: uwfxoptionscommonrs.rsokbuttontitle
+msgctxt "uwfxoptionscommonrs.rsokbuttontitle"
+msgid "OK"
+msgstr "OK"
+
+#: uwfxoptionscommonrs.rssavebuttontitle
+msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
+msgid "Save"
+msgstr "Spara"
+
+#: uwfxoptionss3.rsaccesskeyidlabel
+msgid "Access Key ID:"
+msgstr "Access Key ID:"
+
+#: uwfxoptionss3.rsbucketlabel
+msgid "Bucket:"
+msgstr "Bucket:"
+
+#: uwfxoptionss3.rsendpointlabel
+msgid "Endpoint:"
+msgstr "Endpoint:"
+
+#: uwfxoptionss3.rsparamsalerttext
+msgid ""
+"Access Key ID and Secret Access Key are required, please make sure they are correct. If "
+"permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is "
+"also required."
+msgstr ""
+"Access Key ID och Secret Access Key krävs. Kontrollera att de är korrekta. Om behörigheterna är "
+"otillräckliga eller om du konfigurerar ”S3-kompatibel” krävs även Region / Endpoint / Bucket."
+
+#: uwfxoptionss3.rsparamsalerttitle
+msgid "Incomplete Parameters"
+msgstr "Ofullständiga parametrar"
+
+#: uwfxoptionss3.rsregionlabel
+msgid "Region:"
+msgstr "Region:"
+
+#: uwfxoptionss3.rsregionlistlabel
+msgid "Region List:"
+msgstr "Regionlista:"
+
+#: uwfxoptionss3.rsregionusercustom
+msgid "(User Custom)"
+msgstr "(Användardefinierad)"
+
+#: uwfxoptionss3.rssecretaccesskeylabel
+msgid "Secret Access Key:"
+msgstr "Secret Access Key:"
+
+#: uwfxoptionss3.rstemporarytokenlabel
+msgid "Temporary Token:"
+msgstr "Tillfällig token:"
