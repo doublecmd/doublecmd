@@ -899,6 +899,7 @@ type
     procedure LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABranch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
     procedure ToggleConsole;
     procedure UpdateWindowView;
+    procedure UpdateTrayIcon;
     procedure MinimizeWindow;
     procedure RestoreWindow;
     procedure LoadTabs;
@@ -3037,12 +3038,7 @@ begin
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
 
-  if Assigned(Application.Icon) then begin
-    MainTrayIcon.Icon.Assign(Application.Icon);
-  end
-  else begin
-    MainTrayIcon.Icon.LoadFromResourceName(HInstance, 'MAINICON');
-  end;
+  UpdateTrayIcon;
 
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
   Screen.Cursors[crArrowMove] := LoadCursorFromLazarusResource('ArrowMove');
@@ -6988,6 +6984,87 @@ begin
   end;
 end;
 
+procedure TfrmMain.UpdateTrayIcon;
+var
+  AIcon: TIcon;
+  IconFileName: String;
+  LargeIcon: Graphics.TBitmap = nil;
+  SmallIcon: Graphics.TBitmap = nil;
+  SmallSize, LargeSize: Integer;
+
+  procedure AssignTrayIcon(ASourceIcon: TIcon);
+  var
+    ATrayIcon: TIcon;
+  begin
+    if (not Assigned(ASourceIcon)) or ASourceIcon.Empty then Exit;
+
+    ATrayIcon:= TIcon.Create;
+    try
+      ATrayIcon.Assign(ASourceIcon);
+      ATrayIcon.Current:= ATrayIcon.GetBestIndexForSize(
+        TSize.Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON)));
+      MainTrayIcon.Icon.Assign(ATrayIcon);
+    finally
+      ATrayIcon.Free;
+    end;
+  end;
+
+  procedure AssignDefaultTrayIcon;
+  begin
+    if Assigned(Application.Icon) and (not Application.Icon.Empty) then
+      AssignTrayIcon(Application.Icon)
+    else
+      MainTrayIcon.Icon.LoadFromResourceName(HInstance, 'MAINICON');
+  end;
+
+  function LoadMonochromeTrayBitmap(AIconSize: Integer): Graphics.TBitmap;
+  begin
+    Result:= PixMapManager.LoadIconThemeBitmap('doublecmd-symbolic', AIconSize);
+    if (not Assigned(Result)) and mbFileExists(IconFileName) then
+      Result:= PixMapManager.LoadBitmapEnhanced(IconFileName, AIconSize, False, clNone);
+  end;
+
+begin
+  if (not gUseMonochromeTrayIcon) or (not Assigned(PixMapManager)) then
+  begin
+    AssignDefaultTrayIcon;
+    Exit;
+  end;
+
+  IconFileName:= gpPixmapPath + 'mainicon' + PathDelim + 'monochrome' + PathDelim + 'doublecmd.svg';
+  LargeSize:= GetSystemMetrics(SM_CXICON);
+  SmallSize:= GetSystemMetrics(SM_CXSMICON);
+  LargeIcon:= LoadMonochromeTrayBitmap(LargeSize);
+  if LargeSize <> SmallSize then
+    SmallIcon:= LoadMonochromeTrayBitmap(SmallSize);
+
+  if Assigned(LargeIcon) or Assigned(SmallIcon) then
+  try
+    AIcon:= TIcon.Create;
+    try
+      if Assigned(SmallIcon) then
+      begin
+        AIcon.Add(pf32bit, SmallIcon.Height, SmallIcon.Width);
+        AIcon.AssignImage(SmallIcon);
+      end;
+      if Assigned(LargeIcon) then
+      begin
+        AIcon.Add(pf32bit, LargeIcon.Height, LargeIcon.Width);
+        if AIcon.Count > 1 then AIcon.Current:= AIcon.Current + 1;
+        AIcon.AssignImage(LargeIcon);
+      end;
+      AssignTrayIcon(AIcon);
+    finally
+      AIcon.Free;
+    end;
+  finally
+    FreeAndNil(SmallIcon);
+    FreeAndNil(LargeIcon);
+  end
+  else
+    AssignDefaultTrayIcon;
+end;
+
 procedure TfrmMain.HideTrayIconDelayed(Data: PtrInt);
 begin
   MainTrayIcon.Visible := False;
@@ -7529,4 +7606,3 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
