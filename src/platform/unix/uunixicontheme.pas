@@ -316,22 +316,35 @@ end;
 procedure InitIconThemesBaseDirList;
 var
   Home: String;
-  I: Integer = 1;
+  I: Integer;
+  SystemDataDirs: TDynamicStringArray;
+  DirList: TStringList;
 begin
   Home := GetHomeDir;
-  SetLength(UnixIconThemesBaseDirList, 6);
-  UnixIconThemesBaseDirList[0] := Home + '/.icons';
-  UnixIconThemesBaseDirList[1] := Home + '/.local/share/icons';
-  if DesktopEnv = DE_KDE then
-  begin
-    I:= 2;
-    SetLength(UnixIconThemesBaseDirList, 7);
-    UnixIconThemesBaseDirList[2] := Home + '/.kde/share/icons';
+  DirList := TStringList.Create;
+  try
+    DirList.Add(Home + '/.icons');
+    // Respect $XDG_DATA_HOME instead of assuming the default '~/.local/share'
+    DirList.Add(IncludeTrailingBackslash(GetUserDataDir) + 'icons');
+    if DesktopEnv = DE_KDE then
+      DirList.Add(Home + '/.kde/share/icons');
+
+    // Respect $XDG_DATA_DIRS instead of hardcoding '/usr/local/share' and
+    // '/usr/share' (falls back to the same two paths when unset, per spec)
+    SystemDataDirs := GetSystemDataDirs;
+    for I := Low(SystemDataDirs) to High(SystemDataDirs) do
+      DirList.Add(IncludeTrailingBackslash(SystemDataDirs[I]) + 'icons');
+
+    // Unthemed pixmaps fallback directories are not part of $XDG_DATA_DIRS
+    DirList.Add('/usr/local/share/pixmaps');
+    DirList.Add('/usr/share/pixmaps');
+
+    SetLength(UnixIconThemesBaseDirList, DirList.Count);
+    for I := 0 to DirList.Count - 1 do
+      UnixIconThemesBaseDirList[I] := DirList[I];
+  finally
+    DirList.Free;
   end;
-  UnixIconThemesBaseDirList[I + 1] := '/usr/local/share/icons';
-  UnixIconThemesBaseDirList[I + 2] := '/usr/local/share/pixmaps';
-  UnixIconThemesBaseDirList[I + 3] := '/usr/share/icons';
-  UnixIconThemesBaseDirList[I + 4] := '/usr/share/pixmaps';
 end;
 
 initialization
