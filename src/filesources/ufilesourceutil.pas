@@ -39,6 +39,12 @@ procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: String; Interactive: Boolean; Reload: Boolean): TSetFilePropertyResult;
 
+function CreateDirectoryFromFile(
+  const targetFS: IFileSource;
+  const targetPath: String;
+  const sourceFS: IFileSource;
+  const sourceFile: TFile ): Boolean;
+
 function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
 
 function FileExists(const fs: IFileSource; const path: String): Boolean; overload;
@@ -50,7 +56,8 @@ function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSou
 implementation
 
 uses
-  LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
+  LCLProc, FileUtil,
+  fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
   uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils, uFileProcs,
   uFileSourceManager,
   uFileSourceOperation,
@@ -58,6 +65,7 @@ uses
   uVfsFileSource,
   uFileSourceProperty,
   uFileSystemFileSource,
+  uFileSystemUtil,
   uWfxPluginFileSource,
   uArchiveFileSourceUtil,
   uFileSourceOperationMessageBoxesUI,
@@ -434,6 +442,71 @@ begin
     end;
   end;
 end;
+
+function CreateDirectoryFromFile(
+  const targetFS: IFileSource;
+  const targetPath: String;
+  const sourceFS: IFileSource;
+  const sourceFile: TFile ): Boolean;
+
+  procedure copyAttrToFile(const path: String);
+  begin
+    if sourceFile.AttributesProperty.IsNativeAttributes then
+      mbFileSetAttr( path, sourceFile.Attributes );
+    FileSetTime( path, sourceFile );
+  end;
+
+  function createDirectly: Boolean;
+  var
+    realPath: String;
+  begin
+    Result:= targetFS.CreateDirectory( targetPath );
+    if NOT Result then
+      Exit;
+    realPath:= targetFS.GetRealPath( targetPath );
+    if fspDirectAccess in sourceFS.Properties then
+      mbFileCopyAttr( sourceFile.FullPath, realPath, CopyAttributesOptionCopyAll )
+    else
+      copyAttrToFile( realPath );
+  end;
+
+  function createByTemp: Boolean;
+  var
+    files: TFiles = nil;
+    operation: TFileSourceOperation = nil;
+    tempDir: String;
+    tempPath: String;
+  begin
+    tempDir:= GetTempName( GetTempFolderDeletableAtTheEnd, EmptyStr );
+    tempPath:= tempDir + PathDelim + GetLastDir(targetPath);
+    Result:= mbForceDirectory( tempPath );
+    if NOT Result then
+      Exit;
+
+    copyAttrToFile( tempPath );
+
+    try
+      files:= TFiles.Create(tempDir);
+      files.Add(TFileSystemFileSource.CreateFileFromFile(tempPath));
+      operation:= targetFS.CreateCopyInOperation(
+        TFileSystemFileSource.GetFileSource,
+        files,
+        GetParentDir(targetPath));
+      operation.Execute;
+    finally
+      files.Free;
+      operation.Free;
+      DeleteDirectory(tempDir, False);
+    end;
+  end;
+
+begin
+  if fspDirectAccess in targetFS.Properties then
+    Result:= createDirectly
+  else
+    Result:= createByTemp;
+end;
+
 
 // for FileSources that don't support CreateDirectory(), try CreateCopyInOperation
 function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
