@@ -106,7 +106,7 @@ type
 
 const
   faInvalidAttributes = TFileAttrs(-1);
-  CopyAttributesOptionCopyAll = [caoCopyAttributes, caoCopyTime, caoCopyOwnership];
+  CopyAttributesOptionCopyAll = [caoCopyAttributes, caoCopyXattributes, caoCopyTime, caoCopyOwnership];
 
 {en
    Is file a directory
@@ -1124,11 +1124,17 @@ end;
 var
   CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime: DCBasicTypes.TFileTimeEx;
 begin
+  if (ModificationTime=TFileTimeExNull) and (CreationTime=TFileTimeExNull) and (LastAccessTime=TFileTimeExNull) then
+    Exit(True);
+
   if mbFileGetTime(FileName, CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime) then
   begin
-    if ModificationTime<>TFileTimeExNull then CurrentModificationTime:= ModificationTime;
-    if CreationTime<>TFileTimeExNull then CurrentCreationTime:= CreationTime;
-    if LastAccessTime<>TFileTimeExNull then CurrentLastAccessTime:= LastAccessTime;
+    if ModificationTime<>TFileTimeExNull then
+      CurrentModificationTime:= ModificationTime;
+    if CreationTime<>TFileTimeExNull then
+      CurrentCreationTime:= CreationTime;
+    if LastAccessTime<>TFileTimeExNull then
+      CurrentLastAccessTime:= LastAccessTime;
     Result := DC_FileSetTime(FileName, CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime);
   end
   else
