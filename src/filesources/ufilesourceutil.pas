@@ -443,68 +443,75 @@ begin
   end;
 end;
 
+
+procedure internalCopyAttrToFile(const path: String; const templateFile: TFile);
+begin
+  if templateFile.AttributesProperty.IsNativeAttributes then
+    mbFileSetAttr( path, templateFile.Attributes );
+  FileSetTime( path, templateFile );
+end;
+
+function internalCreateDirByCopyInOperationFromFile(
+  const targetFS: IFileSource;
+  const targetPath: String;
+  const templateFile: TFile ): Boolean;
+var
+  files: TFiles = nil;
+  operation: TFileSourceOperation = nil;
+  tempDir: String;
+  tempPath: String;
+begin
+  tempDir:= GetTempName( GetTempFolderDeletableAtTheEnd, EmptyStr );
+  tempPath:= tempDir + PathDelim + GetLastDir(targetPath);
+  Result:= mbForceDirectory( tempPath );
+  if NOT Result then
+    Exit;
+
+  internalCopyAttrToFile( tempPath, templateFile );
+
+  try
+    files:= TFiles.Create(tempDir);
+    files.Add(TFileSystemFileSource.CreateFileFromFile(tempPath));
+    operation:= targetFS.CreateCopyInOperation(
+      TFileSystemFileSource.GetFileSource,
+      files,
+      GetParentDir(targetPath));
+    operation.Execute;
+  finally
+    files.Free;
+    operation.Free;
+    DeleteDirectory(tempDir, False);
+  end;
+end;
+
+function internalCreateDirDirectlyFromFile(
+  const targetFS: IFileSource;
+  const targetPath: String;
+  const sourceFS: IFileSource;
+  const sourceFile: TFile ): Boolean;
+var
+  realPath: String;
+begin
+  Result:= targetFS.CreateDirectory( targetPath );
+  if NOT Result then
+    Exit;
+  realPath:= targetFS.GetRealPath( targetPath );
+  if fspDirectAccess in sourceFS.Properties then
+    mbFileCopyAttr( sourceFile.FullPath, realPath, CopyAttributesOptionCopyAll )
+  else
+    internalCopyAttrToFile( realPath, sourceFile );
+end;
+
 function CreateDirectoryFromFile(
   const targetFS: IFileSource;
   const targetPath: String;
   const sourceFS: IFileSource;
   const sourceFile: TFile ): Boolean;
-
-  procedure copyAttrToFile(const path: String);
-  begin
-    if sourceFile.AttributesProperty.IsNativeAttributes then
-      mbFileSetAttr( path, sourceFile.Attributes );
-    FileSetTime( path, sourceFile );
-  end;
-
-  function createDirectly: Boolean;
-  var
-    realPath: String;
-  begin
-    Result:= targetFS.CreateDirectory( targetPath );
-    if NOT Result then
-      Exit;
-    realPath:= targetFS.GetRealPath( targetPath );
-    if fspDirectAccess in sourceFS.Properties then
-      mbFileCopyAttr( sourceFile.FullPath, realPath, CopyAttributesOptionCopyAll )
-    else
-      copyAttrToFile( realPath );
-  end;
-
-  function createByTemp: Boolean;
-  var
-    files: TFiles = nil;
-    operation: TFileSourceOperation = nil;
-    tempDir: String;
-    tempPath: String;
-  begin
-    tempDir:= GetTempName( GetTempFolderDeletableAtTheEnd, EmptyStr );
-    tempPath:= tempDir + PathDelim + GetLastDir(targetPath);
-    Result:= mbForceDirectory( tempPath );
-    if NOT Result then
-      Exit;
-
-    copyAttrToFile( tempPath );
-
-    try
-      files:= TFiles.Create(tempDir);
-      files.Add(TFileSystemFileSource.CreateFileFromFile(tempPath));
-      operation:= targetFS.CreateCopyInOperation(
-        TFileSystemFileSource.GetFileSource,
-        files,
-        GetParentDir(targetPath));
-      operation.Execute;
-    finally
-      files.Free;
-      operation.Free;
-      DeleteDirectory(tempDir, False);
-    end;
-  end;
-
 begin
   if fspDirectAccess in targetFS.Properties then
-    Result:= createDirectly
+    Result:= internalCreateDirDirectlyFromFile( targetFS, targetPath, sourceFS, sourceFile )
   else
-    Result:= createByTemp;
+    Result:= internalCreateDirByCopyInOperationFromFile( targetFS, targetPath, sourceFile );
 end;
 
 
