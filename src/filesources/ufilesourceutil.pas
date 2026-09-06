@@ -45,7 +45,7 @@ function CreateDirectoryFromFile(
   const sourceFS: IFileSource;
   const sourceFile: TFile ): Boolean;
 
-function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
+function CreateDirectory(const fs: IFileSource; const path: String): Boolean;
 
 function FileExists(const fs: IFileSource; const path: String): Boolean; overload;
 function DirectoryExists(const fs: IFileSource; const path: String): Boolean; overload;
@@ -467,7 +467,8 @@ begin
   if NOT Result then
     Exit;
 
-  internalCopyAttrToFile( tempPath, templateFile );
+  if Assigned(templateFile) then
+    internalCopyAttrToFile( tempPath, templateFile );
 
   try
     files:= TFiles.Create(tempDir);
@@ -516,35 +517,13 @@ end;
 
 
 // for FileSources that don't support CreateDirectory(), try CreateCopyInOperation
-function CreateDirectoryEx(const fs: IFileSource; const path: String): Boolean;
-var
-  files: TFiles = nil;
-  operation: TFileSourceOperation = nil;
-  tempDir: String;
-  tempPath: String;
+function CreateDirectory(const fs: IFileSource; const path: String): Boolean;
 begin
   Result:= fs.CreateDirectory(path);
   if Result then
     Exit;
 
-  tempDir:= GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
-  tempPath:= tempDir + path;
-  if not mbForceDirectory(tempPath) then
-    Exit;
-
-  try
-    files:= TFiles.Create(tempDir);
-    files.Add(TFileSystemFileSource.CreateFileFromFile(tempPath));
-    operation:= fs.CreateCopyInOperation(
-      TFileSystemFileSource.GetFileSource,
-      files,
-      PathDelim);
-    operation.Execute;
-    DelTree(tempDir);
-  finally
-    files.Free;
-    operation.Free;
-  end;
+  internalCreateDirByCopyInOperationFromFile(fs, path, nil);
 end;
 
 function FileExists(const fs: IFileSource; const path: String): Boolean;
