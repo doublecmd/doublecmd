@@ -664,12 +664,17 @@ end;
 
 procedure TDirSyncRec.UpdateState(ignoreDate: Boolean);
 begin
-  if self.FForm.chkEmptyDir.Checked and self.isEmpty then begin
-    inherited UpdateState(ignoreDate);
-  end else begin
-    self.FState:= srsDoNothing;
-    self.FAction:= srsDoNothing;
-  end;
+  self.FState:= srsDoNothing;
+  self.FAction:= srsDoNothing;
+  if NOT self.FForm.chkEmptyDir.Checked then
+    Exit;
+  if NOT self.isEmpty then
+    Exit;
+  if NOT Assigned(self.FFileL) and NOT Assigned(self.FFileR) then
+    Exit;
+  if Assigned(self.FFileL) and Assigned(self.FFileR) then
+    Exit;
+  inherited UpdateState(ignoreDate);
 end;
 
 function TDirSyncRec.isDir: Boolean;
@@ -837,9 +842,17 @@ var
   begin
     case syncRec.FAction of
       srsCopyRight:
-        CreateDirectoryEx(FCmpFileSourceR, FCmpFilePathR + syncRec.FRelPath);
+        CreateDirectoryFromFile(
+          FCmpFileSourceR,
+          FCmpFilePathR + syncRec.FRelPath,
+          FCmpFileSourceL,
+          syncRec.FFileL);
       srsCopyLeft:
-        CreateDirectoryEx(FCmpFileSourceL, FCmpFilePathL + syncRec.FRelPath);
+        CreateDirectoryFromFile(
+          FCmpFileSourceL,
+          FCmpFilePathL + syncRec.FRelPath,
+          FCmpFileSourceR,
+          syncRec.FFileR);
       srsDeleteRight:
         DeleteFile(FCmpFileSourceR, syncRec.FFileR);
       srsDeleteLeft:
@@ -1637,7 +1650,10 @@ var
   BaseDirL, BaseDirR: string;
   ignoreDate, Subdirs, ByContent: Boolean;
 
-  procedure ScanDir(dir: string);
+  procedure ScanDir(
+    dir: string;
+    const leftParentDirs: TStringList;
+    const rightParentDirs: TStringList);
 
     procedure ProcessOneSide(it, dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
     var
@@ -1654,13 +1670,9 @@ var
       if sideLeft then begin
         currentFileSource := FFileSourceL;
         dirFullPath := BaseDirL + dir;
-        if DirectoryExists(currentFileSource,dirFullPath) then
-          dirSyncRec.FFileL := currentFileSource.CreateFileObject(dirFullPath);
       end else begin
         currentFileSource := FFileSourceR;
         dirFullPath := BaseDirR + dir;
-        if DirectoryExists(currentFileSource,dirFullPath) then
-          dirSyncRec.FFileR := currentFileSource.CreateFileObject(dirFullPath);
       end;
       fs := currentFileSource.GetFiles(dirFullPath);
       if chkOnlySelected.Checked and ASide then
@@ -1684,7 +1696,7 @@ var
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
             begin
               if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
-                dirs.Add(fn);
+                dirs.AddObject(fn, f.Clone);  // dirs don't own Object
             end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
@@ -1719,6 +1731,20 @@ var
       end;
     end;
 
+    procedure setDirSyncRecFile(dirSyncRec: TDirSyncRec);
+    var
+      i: Integer;
+      currentDirPart: String;
+    begin
+      currentDirPart:= GetLastDir(dir);
+      i:= leftParentDirs.IndexOf(currentDirPart);
+      if i >= 0 then
+        dirSyncRec.FFileL:= TFile(leftParentDirs.Objects[i]);    // owns file
+      i:= rightParentDirs.IndexOf(currentDirPart);
+      if i >= 0 then
+        dirSyncRec.FFileR:= TFile(rightParentDirs.Objects[i]);   // owns file
+    end;
+
   var
     i, j, tot: Integer;
     it: TStringList;
@@ -1738,7 +1764,12 @@ var
       it := TStringList(FFoundItems.Objects[i]);
       dirSyncRec := TDirSyncObject(it).FDirSyncRec;
     end;
-    if dir <> '' then dir := AppendPathDelim(dir);
+
+    if dir <> '' then begin
+      setDirSyncRecFile(dirSyncRec);
+      dir := AppendPathDelim(dir);
+    end;
+
     dirsLeft := TStringListEx.Create;
     dirsLeft.CaseSensitive := FileNameCaseSensitive;
     dirsLeft.Sorted := True;
@@ -1760,7 +1791,7 @@ var
           StatusBar1.Panels[0].Text :=
             Format(rsComparingPercent, [i * 100 div tot]);
         d := dirsLeft[i];
-        ScanDir(dir + d);
+        ScanDir(dir + d, dirsLeft, dirsRight);
         if FCancel then Exit;
         j := dirsRight.IndexOf(d);
         if j >= 0 then
@@ -1775,7 +1806,7 @@ var
           StatusBar1.Panels[0].Text :=
             Format(rsComparingPercent, [(dirsLeft.Count + i) * 100 div tot]);
         d := dirsRight[i];
-        ScanDir(dir + d);
+        ScanDir(dir + d, dirsLeft, dirsRight);
         if FCancel then Exit;
       end;
     finally
@@ -1818,7 +1849,7 @@ begin
   else begin
     FFileExists:= srsCopyLeft;
   end;
-  ScanDir('');
+  ScanDir('', nil, nil);
   MaskList.Free;
   FillFoundItemsDG;
   if FCancel then Exit;
