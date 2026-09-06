@@ -378,29 +378,48 @@ end;
 function fputimes( path:pchar; times:Array of UnixType.timeval ): cint; cdecl; external clib name 'utimes';
 function flutimes( path:pchar; times:Array of UnixType.timeval ): cint; cdecl; external clib name 'lutimes';
 
+{$IFDEF DARWIN}
+function utimensat( dirfd:cint; const pathname:pchar; const times:Array of UnixType.Ttimespec; flags:cint): cint; cdecl; external clib name 'utimensat';
+{$ENDIF}
+
 function DC_FileSetTime(const FileName: String;
                         const mtime    : TFileTimeEx;
                         const birthtime: TFileTimeEx;
                         const atime    : TFileTimeEx ): Boolean;
+{$IF not DEFINED(DARWIN)}
+
 var
   timevals: Array[0..1] of UnixType.timeval;
 begin
-  Result:= false;
-
   // last access time
   timevals[0].tv_sec:= atime.sec;
   timevals[0].tv_usec:= round( Extended(atime.nanosec) / 1000.0 );
   // last modification time
   timevals[1].tv_sec:= mtime.sec;
   timevals[1].tv_usec:= round( Extended(mtime.nanosec) / 1000.0 );
-  if fputimes(pchar(UTF8ToSys(FileName)), timevals) <> 0 then exit;
-
-  {$IF not DEFINED(DARWIN)}
-  Result:= true;
-  {$ELSE}
-  Result:= MacosFileSetCreationTime( FileName, birthtime );
-  {$ENDIF}
+  Result:= fputimes(pchar(UTF8ToSys(FileName)), timevals) = 0;
 end;
+
+{$ELSE}
+
+var
+  timespec: Array[0..1] of UnixType.Ttimespec;
+begin
+  Result:= MacosFileSetCreationTime( FileName, birthtime );
+  if NOT Result then
+    Exit;
+
+  // last access time
+  timespec[0].tv_sec:= atime.sec;
+  timespec[0].tv_nsec:= atime.nanosec;
+  // last modification time
+  timespec[1].tv_sec:= mtime.sec;
+  timespec[1].tv_nsec:= mtime.nanosec;
+  // absolute path, and Follow Links
+  Result:= utimensat(0, pchar(UTF8ToSys(FileName)), timespec, 0) = 0;
+end;
+
+{$ENDIF}
 
 // Like DC_FileSetTime but uses lutimes() instead of utimes(), so the
 // timestamp is set on the symlink itself rather than its target.
