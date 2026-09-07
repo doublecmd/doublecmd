@@ -315,10 +315,10 @@ end;
 
 procedure InitIconThemesBaseDirList;
 var
-  Home: String;
   I: Integer;
-  SystemDataDirs: TDynamicStringArray;
+  Home: String;
   DirList: TStringList;
+  SystemDataDirs: TDynamicStringArray;
 begin
   Home := GetHomeDir;
   DirList := TStringList.Create;
@@ -326,6 +326,8 @@ begin
     DirList.Add(Home + '/.icons');
     // Respect $XDG_DATA_HOME instead of assuming the default '~/.local/share'
     DirList.Add(IncludeTrailingBackslash(GetUserDataDir) + 'icons');
+
+    // Legacy KDE 4 path
     if DesktopEnv = DE_KDE then
       DirList.Add(Home + '/.kde/share/icons');
 
