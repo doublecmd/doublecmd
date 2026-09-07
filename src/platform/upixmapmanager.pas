@@ -922,7 +922,7 @@ var
   node: THTDataNode = nil;
   cache: TFileStreamEx = nil;
   EntriesCount, IconsCount: Cardinal;
-  GlobalMime: String = '/usr/share/mime/';
+  SystemMimeDirs: TDynamicStringArray;
   sMimeType, sMimeIconName, sExtension: String;
 
   procedure LoadGlobs(const APath: String);
@@ -1022,9 +1022,15 @@ var
 
 begin
   LocalMime:= IncludeTrailingBackslash(GetUserDataDir) + 'mime/';
+  // Respect $XDG_DATA_DIRS instead of hardcoding '/usr/share/mime/'
+  SystemMimeDirs:= GetSystemDataDirs;
 
-  mTime:= Max(mbFileAge(LocalMime + mime_globs),
-              mbFileAge(GlobalMime + mime_globs));
+  mTime:= mbFileAge(LocalMime + mime_globs);
+  for K:= Low(SystemMimeDirs) to High(SystemMimeDirs) do
+  begin
+    SystemMimeDirs[K]:= IncludeTrailingBackslash(SystemMimeDirs[K]) + 'mime/';
+    mTime:= Max(mTime, mbFileAge(SystemMimeDirs[K] + mime_globs));
+  end;
 
   // Try to load from cache.
   if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
@@ -1065,7 +1071,8 @@ begin
 
   EntriesCount := 0;
   LoadGlobs(LocalMime);
-  LoadGlobs(GlobalMime);
+  for K:= Low(SystemMimeDirs) to High(SystemMimeDirs) do
+    LoadGlobs(SystemMimeDirs[K]);
 
   // save to cache
   if EntriesCount > 0 then
