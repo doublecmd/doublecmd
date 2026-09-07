@@ -668,8 +668,6 @@ begin
   self.FAction:= srsDoNothing;
   if NOT self.FForm.chkEmptyDir.Checked then
     Exit;
-  if NOT self.isEmpty then
-    Exit;
   if NOT Assigned(self.FFileL) and NOT Assigned(self.FFileR) then
     Exit;
   if Assigned(self.FFileL) and Assigned(self.FFileR) then
@@ -2040,11 +2038,9 @@ begin
       else
         ca := FFileExists;
   end;
-  if sr.isDir and (sr.FState<>srsDoNothing) then begin
+  if sr.FState<>srsDoNothing then begin
     self.MainDrawGrid.Row:= R;
     self.SetSyncRecState(ca);
-  end else begin
-    sr.FAction := ca;
   end;
   MainDrawGrid.InvalidateRow(r);
 end;
@@ -2113,101 +2109,54 @@ var
     MainDrawGrid.InvalidateRow(R);
   end;
 
-  procedure updateFromDirHasFiles;
+  procedure checkAncestorsDirs({const });
+  var
+    basePath: String;
   begin
-    Inc(R);
-    while R < FVisibleItems.Count do
-    begin
+    if NOT self.chkEmptyDir.Checked then
+      Exit;
+
+    basePath:= IncludeTrailingPathDelimiter(SyncRec.FRelPath);
+    Dec(R);
+    while R >= 0 do begin
       SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if SyncRec.isDir then Break;
-      UpdateAction(AState);
-      Inc(R);
+      if SyncRec.FRelPath = EmptyStr then
+        break;
+      if NOT PathIsInPath(basePath, SyncRec.FRelPath) then
+        break;
+      if SyncRec.isDir then begin
+        if SyncRec.FState = srsUnknown then
+          break;
+        UpdateAction(AState);
+      end;
+      Dec(R);
     end;
   end;
 
-  procedure updateFromEmptyDir;
+  procedure uncheckDescendantsDirsAndFiles;
   var
     basePath: String;
-
-    procedure updateParentsForCopying;
-    begin
-      Dec(R);
-      while R >= 0 do begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then
-          Break;
-        if NOT TDirSyncRec(SyncRec).isEmpty then
-          Break;
-        if NOT PathIsInPath(basePath, SyncRec.FRelPath) then
-          Break;
-        UpdateAction(AState);
-        Dec(R);
-      end;
-    end;
-
-    procedure updateChildrenForDeleting;
-    begin
-      Inc(R);
-      while R < FVisibleItems.Count do begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then
-          Break;
-        if NOT TDirSyncRec(SyncRec).isEmpty then
-          Break;
-        if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
-          Break;
-        UpdateAction(AState);
-        Inc(R);
-      end;
-    end;
-
-    procedure updateForClearing;
-    begin
-      Y:= R;
-
-      Dec(R);
-      while R >= 0 do begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then
-          Break;
-        if NOT TDirSyncRec(SyncRec).isEmpty then
-          Break;
-        if NOT PathIsInPath(basePath, SyncRec.FRelPath) then
-          Break;
-        if SyncRec.FAction in [srsDeleteLeft,srsDeleteRight,srsDeleteBoth] then
-          UpdateAction(AState);
-        Dec(R);
-      end;
-
-      R:= Y;
-      Inc(R);
-      while R < FVisibleItems.Count do begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then
-          Break;
-        if NOT TDirSyncRec(SyncRec).isEmpty then
-          Break;
-        if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
-          Break;
-        if SyncRec.FAction in [srsCopyLeft,srsCopyRight] then
-          UpdateAction(AState);
-        Inc(R);
-      end;
-    end;
-
   begin
-    UpdateAction(AState);
-    basePath:= SyncRec.FRelPath;
-    case SyncRec.FAction of
-      srsCopyLeft,
-      srsCopyRight:
-        updateParentsForCopying;
-      srsDeleteLeft,
-      srsDeleteRight,
-      srsDeleteBoth:
-        updateChildrenForDeleting;
-      srsDoNothing:
-        updateForClearing;
+    Inc(R);
+    if NOT self.chkEmptyDir.Checked then begin
+      while R < FVisibleItems.Count do
+      begin
+        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+        if SyncRec.isDir then
+          break;
+        UpdateAction(AState);
+        Inc(R);
+      end;
+    end else begin
+      basePath:= IncludeTrailingPathDelimiter(SyncRec.FRelPath);
+      while R < FVisibleItems.Count do
+      begin
+        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+        if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
+          break;
+        UpdateAction(AState);
+        Inc(R);
+      end;
     end;
   end;
 
@@ -2226,16 +2175,25 @@ begin
     end;
     Exit;
   end;
-  R := MainDrawGrid.Row;
-  if (R < 0) or (R >= FVisibleItems.Count) then Exit;
-  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
 
-  if NOT SyncRec.isDir then
-    UpdateAction(AState)
-  else if SyncRec.FState = srsDoNothing then
-    updateFromDirHasFiles
-  else
-    updateFromEmptyDir;
+  R := MainDrawGrid.Row;
+  if (R < 0) or (R >= FVisibleItems.Count) then
+    Exit;
+
+  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
+  UpdateAction(AState);
+
+  case SyncRec.FAction of
+    srsCopyLeft,
+    srsCopyRight:
+      checkAncestorsDirs;
+    srsDeleteLeft,
+    srsDeleteRight,
+    srsDeleteBoth,
+    srsDoNothing:
+      if SyncRec.isDir then
+        uncheckDescendantsDirsAndFiles;
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
