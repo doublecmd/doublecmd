@@ -233,7 +233,7 @@ type
       GNU_FORMAT   : ( gnu   : TAbTarEnd_GNU_old_Rec );
       USTAR_FORMAT : ( ustar : TAbTarEnd_UStar_Rec );
       STAR_FORMAT  : ( star  : TAbTarEnd_Star_Rec );
-      POSIX_FORMAT : ( pax   : TAbTarEnd_Empty_Rec );
+      POSIX_FORMAT : ( pax   : TAbTarEnd_UStar_Rec );
   end;{ end TAbTarHeaderRec }
    { There are three main types of headers we will see in a Tar file }
    { TAbTarHeaderType = (STANDARD_HDR, SPARSE_HDR, POSIX_EXTENDED_HDR); }
@@ -958,7 +958,7 @@ begin
 
   if not FoundName then
   begin
-    if (FTarItem.ArchiveFormat = USTAR_FORMAT) and
+    if (FTarItem.ArchiveFormat in [USTAR_FORMAT, POSIX_FORMAT]) and
        (PTarHeader.ustar.Prefix[0] <> #0) then
       RawFileName := PTarHeader.ustar.Prefix+'/'+PTarHeader.Name
     else
