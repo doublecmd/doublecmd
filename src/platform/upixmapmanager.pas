@@ -917,12 +917,12 @@ var
   I, J, K: Integer;
   mTime: TFileTime;
   LocalMime: String;
-  SystemMimeDirs: TDynamicStringArray;
   iconsList: TStringList;
   nodeList: TFPObjectList;
   node: THTDataNode = nil;
   cache: TFileStreamEx = nil;
   EntriesCount, IconsCount: Cardinal;
+  SystemMimeDirs: TDynamicStringArray;
   sMimeType, sMimeIconName, sExtension: String;
 
   procedure LoadGlobs(const APath: String);
@@ -1027,7 +1027,10 @@ begin
 
   mTime:= mbFileAge(LocalMime + mime_globs);
   for K:= Low(SystemMimeDirs) to High(SystemMimeDirs) do
-    mTime:= Max(mTime, mbFileAge(IncludeTrailingBackslash(SystemMimeDirs[K]) + 'mime/' + mime_globs));
+  begin
+    SystemMimeDirs[K]:= IncludeTrailingBackslash(SystemMimeDirs[K]) + 'mime/';
+    mTime:= Max(mTime, mbFileAge(SystemMimeDirs[K] + mime_globs));
+  end;
 
   // Try to load from cache.
   if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
@@ -1069,7 +1072,7 @@ begin
   EntriesCount := 0;
   LoadGlobs(LocalMime);
   for K:= Low(SystemMimeDirs) to High(SystemMimeDirs) do
-    LoadGlobs(IncludeTrailingBackslash(SystemMimeDirs[K]) + 'mime/');
+    LoadGlobs(SystemMimeDirs[K]);
 
   // save to cache
   if EntriesCount > 0 then
