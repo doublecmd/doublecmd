@@ -279,6 +279,7 @@ type
     function childrenCount(const side: Boolean): Integer;
     function isEmpty(const side: Boolean): Boolean;
     function isEmpty: Boolean;
+    procedure resetEmpty;
   end;
 
   { TDirSyncObject }
@@ -698,6 +699,12 @@ end;
 function TDirSyncRec.isEmpty: Boolean;
 begin
   Result:= isEmpty(True) and isEmpty(False);
+end;
+
+procedure TDirSyncRec.resetEmpty;
+begin
+  FChildrenCount[True]:= 0;
+  FChildrenCount[False]:= 0;
 end;
 
 { TDirSyncObject }
@@ -2293,80 +2300,131 @@ end;
 procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft,
   ARemoveRight: Boolean);
 var
-  R, Y: Integer;
   ARemove: Boolean;
-  Selection: TGridRect;
-  SyncRec: TFileSyncRec;
 
-  procedure AddRemoveItem;
+  procedure AddRemoveItem(const index: Integer);
+  var
+    rec: TFileSyncRec;
   begin
-    if Assigned(ALeft) and Assigned(SyncRec.FFileL) then
-      ALeft.Add(SyncRec.FFileL.Clone);
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
 
-    if Assigned(ARight) and Assigned(SyncRec.FFileR) then
-      ARight.Add(SyncRec.FFileR.Clone);
+    if Assigned(ALeft) and Assigned(rec.FFileL) then
+      ALeft.Add(rec.FFileL.Clone);
+
+    if Assigned(ARight) and Assigned(rec.FFileR) then
+      ARight.Add(rec.FFileR.Clone);
 
     if ARemove then
     begin
-      if ARemoveLeft and Assigned(SyncRec.FFileL) then
-        FreeAndNil(SyncRec.FFileL);
-      if ARemoveRight and Assigned(SyncRec.FFileR) then
-        FreeAndNil(SyncRec.FFileR);
+      if ARemoveLeft and Assigned(rec.FFileL) then
+        FreeAndNil(rec.FFileL);
+      if ARemoveRight and Assigned(rec.FFileR) then
+        FreeAndNil(rec.FFileR);
 
-      if Assigned(SyncRec.FFileL) or Assigned(SyncRec.FFileR) then
-        SyncRec.UpdateState(chkIgnoreDate.Checked)
+      if Assigned(rec.FFileL) or Assigned(rec.FFileR) then
+        rec.UpdateState(chkIgnoreDate.Checked)
       else begin
-        MainDrawGrid.DeleteRow(R);
-        FVisibleItems.Delete(R);
+        MainDrawGrid.DeleteRow(index);
+        FVisibleItems.Delete(index);
       end;
     end;
   end;
 
-  procedure deleteFromDirHasFiles;
-  begin
-    Y:= R;
-    Inc(R);
-    while R < FVisibleItems.Count do
-    begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if SyncRec.isDir then Break;
-      Inc(R);
-    end;
-    Dec(R);
-    while R > Y do
-    begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      AddRemoveItem;
-      Dec(R);
-    end;
-  end;
-
-  procedure deleteFromEmptyDir;
+  // no file and no subdir
+  function isCompletelyEmptyDir(const index: Integer): Boolean;
   var
+    rec: TFileSyncRec;
     basePath: String;
   begin
-    basePath:= SyncRec.FRelPath;
-    Y:= R;
-    Inc(R);
-    while R < FVisibleItems.Count do begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if NOT SyncRec.isDir then
-        Break;
-      if NOT TDirSyncRec(SyncRec).isEmpty then
-        Break;
-      if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
-        Break;
-      Inc(R);
+    Result:= False;
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    if NOT rec.isDir then
+      Exit;
+    if NOT TDirSyncRec(rec).isEmpty then
+      Exit;
+    if index < FVisibleItems.Count-1 then begin
+      basePath:= IncludeTrailingPathDelimiter(rec.FRelPath);
+      rec:= TFileSyncRec(FVisibleItems.Objects[index+1]);
+      if NOT rec.isDir then
+        Exit;
+      if PathIsInPath(rec.FRelPath, basePath) then
+        Exit;
     end;
-    Dec(R);
-    while R >= Y do
+    Result:= True;
+  end;
+
+  procedure removeItems(const fromIndex: Integer; const toIndex: Integer);
+    procedure resetDirRecIfEmpty(const index: Integer);
+    var
+      currentRec: TFileSyncRec;
+      nextRec: TFileSyncRec;
     begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      AddRemoveItem;
-      Dec(R);
+      currentRec:= TFileSyncRec(FVisibleItems.Objects[index]);
+      if TDirSyncRec(currentRec).isEmpty then
+        Exit;
+      if index < FVisibleItems.Count-1 then begin
+        nextRec:= TFileSyncRec(FVisibleItems.Objects[index+1]);
+        if NOT nextRec.isDir then
+          Exit;
+      end;
+      TDirSyncRec(currentRec).resetEmpty;
+    end;
+
+  var
+    i: Integer;
+    rec: TFileSyncRec;
+  begin
+    if (fromIndex<0) or (toIndex<0) then
+      Exit;
+    for i:= toIndex downto fromIndex do begin
+      if ARemove then begin
+        rec:= TFileSyncRec(FVisibleItems.Objects[i]);
+        if rec.isDir then begin
+          resetDirRecIfEmpty(i);
+          if NOT isCompletelyEmptyDir(i) then
+            continue;
+        end;
+      end;
+      AddRemoveItem(i);
     end;
   end;
 
+  function lastFileInCurrentDir(const fromIndex: Integer): Integer;
+  var
+    rec: TFileSyncRec;
+  begin
+    Result:= fromIndex;
+    Inc( Result );
+    while Result < FVisibleItems.Count do begin
+      rec:= TFileSyncRec(FVisibleItems.Objects[Result]);
+      if rec.isDir then
+        break;
+      Inc( Result );
+    end;
+    Dec( Result );
+  end;
+
+  function findLastRemovableItem(const fromIndex: Integer): Integer;
+  var
+    rec: TFileSyncRec;
+  begin
+    rec:= TFileSyncRec(FVisibleItems.Objects[fromIndex]);
+    if NOT rec.isDir then begin
+      Result:= fromIndex;      // only remove current file (file, not dir)
+    end else if TDirSyncRec(rec).isEmpty then begin
+      if isCompletelyEmptyDir(fromIndex) then
+        Result:= fromIndex     // only remove current Dir (Completely Empty dir)
+      else
+        Result:= -1;           // remove nothing (there are empty dirs in the dir)
+    end else begin
+      Result:= lastFileInCurrentDir( fromIndex ); // remove all files (there are files in the dir)
+    end;
+  end;
+
+var
+  R, Y: Integer;
+  Selection: TGridRect;
+  SyncRec: TFileSyncRec;
 begin
   Selection:= MainDrawGrid.Selection;
   ARemove:= ARemoveLeft or ARemoveRight;
@@ -2379,23 +2437,25 @@ begin
       for R := Selection.Bottom downto Selection.Top do
       begin
         SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then AddRemoveItem;
+        if NOT SyncRec.isDir then AddRemoveItem(R);
       end;
     end;
     if ARemove then MainDrawGrid.EndUpdate;
     Exit;
   end;
+
   R := MainDrawGrid.Row;
-  if (R < 0) or (R >= FVisibleItems.Count) then Exit;
-  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
-  if ARemove then MainDrawGrid.BeginUpdate;
-  if NOT SyncRec.isDir then
-    AddRemoveItem
-  else if SyncRec.FState = srsDoNothing then
-    deleteFromDirHasFiles
-  else
-    deleteFromEmptyDir;
-  if ARemove then MainDrawGrid.EndUpdate;
+  if (R < 0) or (R >= FVisibleItems.Count) then
+    Exit;
+
+  if ARemove then
+    MainDrawGrid.BeginUpdate;
+
+  Y:= findLastRemovableItem( R );
+  removeItems(R, Y);
+
+  if ARemove then
+    MainDrawGrid.EndUpdate;
 end;
 
 procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
