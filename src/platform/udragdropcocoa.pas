@@ -47,6 +47,15 @@ implementation
 uses
   CocoaAll, uDarwinUtil;
 
+const
+  // Size of the drag image drawn for a dragged file.
+  DragImageSize = 32;
+  // AppKit only ever draws a small stack of images plus the item count badge,
+  // so only the leading items need an image. Asking NSWorkspace for an icon of
+  // every single dragged file would just burn LaunchServices lookups when a
+  // large selection is dragged.
+  MaxDragImageCount = 3;
+
 type
   { TCocoaDragSource }
 
@@ -135,6 +144,10 @@ begin
   WindowPoint:= WindowRect.origin;
   ViewPoint:= View.convertPoint_fromView(WindowPoint, nil);
 
+  ItemFrame:= NSMakeRect(ViewPoint.x - DragImageSize div 2,
+                         ViewPoint.y - DragImageSize div 2,
+                         DragImageSize, DragImageSize);
+
   // Build one NSDraggingItem per file, each backed by its own file URL
   // pasteboard writer. This -- instead of a single item carrying all paths
   // via the legacy NSFilenamesPboardType property list -- is what makes
@@ -149,9 +162,13 @@ begin
     // doesn't list that protocol, so the cast has to be made explicit.
     DragItem:= NSDraggingItem.alloc.initWithPasteboardWriter(NSPasteboardWritingProtocol(ItemURL));
 
-    ItemIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[I]));
-    ItemFrame:= NSMakeRect(ViewPoint.x - 16, ViewPoint.y - 16, 32, 32);
-    DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
+    if I < MaxDragImageCount then
+    begin
+      ItemIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[I]));
+      DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
+    end
+    else
+      DragItem.setDraggingFrame(ItemFrame);
 
     DragItems.addObject(DragItem);
     DragItem.release;
