@@ -2326,7 +2326,8 @@ var
       if Assigned(rec.FFileL) or Assigned(rec.FFileR) then
         rec.UpdateState(chkIgnoreDate.Checked)
       else begin
-        MainDrawGrid.DeleteRow(index);
+        // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
+        // then cause MainDrawGrid.Selection and MainDrawGrid.IsCellSelected() changed
         FVisibleItems.Delete(index);
       end;
     end;
@@ -2447,17 +2448,19 @@ var
 begin
   ARemove:= ARemoveLeft or ARemoveRight;
 
-
   if ARemove then
     MainDrawGrid.BeginUpdate;
 
-  if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
-    processMultiSelection
-  else
-    processOnlyOneSelection( MainDrawGrid.Row );
-
-  if ARemove then
-    MainDrawGrid.EndUpdate;
+  try
+    if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
+      processMultiSelection
+    else
+      processOnlyOneSelection( MainDrawGrid.Row );
+  finally
+    MainDrawGrid.RowCount := FVisibleItems.Count;
+    if ARemove then
+      MainDrawGrid.EndUpdate;
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
