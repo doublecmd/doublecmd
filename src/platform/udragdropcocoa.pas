@@ -32,7 +32,11 @@ uses
 
 type
   TDragDropSourceCocoa = class(TDragDropSource)
-
+  private
+    { Called by the drag session delegate once AppKit reports the session
+      as finished. }
+    procedure DragSessionEnded(Succeeded: Boolean);
+  public
     function RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                             RequestDataEvent: uDragDropEx.TRequestDataEvent;
                             DragEndEvent    : uDragDropEx.TDragEndEvent): Boolean; override;
@@ -64,7 +68,7 @@ type
     drag session actually ends (draggingSession:endedAt:operation:). }
   TCocoaDragSource = objcclass(NSObject, NSDraggingSourceProtocol)
   public
-    DragEndEvent: uDragDropEx.TDragEndEvent;
+    Owner: TDragDropSourceCocoa;
 
     function draggingSession_sourceOperationMaskForDraggingContext(
       session: NSDraggingSession; context: NSDraggingContext): NSDragOperation;
@@ -118,10 +122,11 @@ end;
 procedure TCocoaDragSource.draggingSession_endedAtPoint_operation(
   session: NSDraggingSession; screenPoint: NSPoint; operation: NSDragOperation);
 begin
-  // Simulate drag-end event. This is where drag completion is reported now
-  // that the drag session is asynchronous (unlike the old, blocking
+  // Report drag completion. This is where it happens now that the drag session
+  // is asynchronous (unlike the old, blocking
   // dragImage:at:offset:event:pasteboard:source:slideBack: call).
-  if Assigned(DragEndEvent) then DragEndEvent();
+  if Assigned(Owner) then
+    Owner.DragSessionEnded(operation <> NSDragOperationNone);
 
   // Balance the .alloc.init done in TDragDropSourceCocoa.DoDragDrop -- this
   // instance's whole lifetime is exactly one drag operation.
@@ -129,6 +134,17 @@ begin
 end;
 
 { ---------- TDragDropSourceCocoa ---------- }
+
+procedure TDragDropSourceCocoa.DragSessionEnded(Succeeded: Boolean);
+begin
+  if Succeeded then
+    FLastStatus:= DragDropSuccessful
+  else
+    FLastStatus:= DragDropAborted;
+
+  // Simulate drag-end event.
+  if Assigned(GetDragEndEvent) then GetDragEndEvent()();
+end;
 
 function TDragDropSourceCocoa.RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                                              RequestDataEvent: uDragDropEx.TRequestDataEvent;
@@ -201,9 +217,9 @@ begin
   if StartEvent = nil then Exit;
 
   Source:= TCocoaDragSource.alloc.init;
-  Source.DragEndEvent:= GetDragEndEvent;
+  Source.Owner:= Self;
 
-  View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source);
+  Result:= View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source) <> nil;
 
   // Note: the drag session started above is asynchronous -- it returns
   // immediately, before the user has dropped or cancelled anything.
