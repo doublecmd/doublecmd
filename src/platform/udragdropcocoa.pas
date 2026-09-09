@@ -116,8 +116,6 @@ var
   I: Integer;
   View: NSView;
   StartEvent: NSEvent;
-  WindowRect: NSRect;
-  WindowPoint, ViewPoint: NSPoint;
   DragItem: NSDraggingItem;
   DragItems: NSMutableArray;
   ItemURL: NSUrl;
@@ -137,16 +135,9 @@ begin
   View:= NSView(GetControl.Handle);
   if View = nil then Exit;
 
-  // Convert the screen-coordinate start point into View's own coordinate
-  // system, as needed by each NSDraggingItem's draggingFrame. NSWindow only
-  // exposes a rect-based screen conversion, not a point-only one.
-  WindowRect:= View.window.convertRectFromScreen(NSMakeRect(ScreenStartPoint.X, ScreenStartPoint.Y, 0, 0));
-  WindowPoint:= WindowRect.origin;
-  ViewPoint:= View.convertPoint_fromView(WindowPoint, nil);
-
-  ItemFrame:= NSMakeRect(ViewPoint.x - DragImageSize div 2,
-                         ViewPoint.y - DragImageSize div 2,
-                         DragImageSize, DragImageSize);
+  // AppKit places the drag images relative to the event that starts the
+  // session, so a fixed frame is enough here and all items may share it.
+  ItemFrame:= NSMakeRect(0, 0, DragImageSize, DragImageSize);
 
   // Build one NSDraggingItem per file, each backed by its own file URL
   // pasteboard writer. This -- instead of a single item carrying all paths
