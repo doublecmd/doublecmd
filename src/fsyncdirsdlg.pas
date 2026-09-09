@@ -2304,7 +2304,7 @@ procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft,
 var
   ARemove: Boolean;
 
-  procedure AddRemoveItem(const index: Integer);
+  procedure doRemoveItem(const index: Integer);
   var
     rec: TFileSyncRec;
   begin
@@ -2355,7 +2355,7 @@ var
     Result:= True;
   end;
 
-  procedure removeItems(const fromIndex: Integer; const toIndex: Integer);
+  procedure removeRangeItems(const fromIndex: Integer; const toIndex: Integer);
     procedure resetDirRecIfEmpty(const index: Integer);
     var
       currentRec: TFileSyncRec;
@@ -2387,7 +2387,7 @@ var
             continue;
         end;
       end;
-      AddRemoveItem(i);
+      doRemoveItem(i);
     end;
   end;
 
@@ -2423,38 +2423,38 @@ var
     end;
   end;
 
-var
-  R, Y: Integer;
-  Selection: TGridRect;
-  SyncRec: TFileSyncRec;
-begin
-  Selection:= MainDrawGrid.Selection;
-  ARemove:= ARemoveLeft or ARemoveRight;
-  if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
+  procedure processOnlyOneSelection(const fromIndex: Integer);
+  var
+    toIndex: Integer;
   begin
-    if ARemove then MainDrawGrid.BeginUpdate;
-    for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
-    begin
-      Selection:= MainDrawGrid.SelectedRange[Y];
-      for R := Selection.Bottom downto Selection.Top do
-      begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then AddRemoveItem(R);
-      end;
-    end;
-    if ARemove then MainDrawGrid.EndUpdate;
-    Exit;
+    if (fromIndex < 0) or (fromIndex >= FVisibleItems.Count) then
+      Exit;
+
+    toIndex:= findLastRemovableItem( fromIndex );
+    removeRangeItems( fromIndex, toIndex );
   end;
 
-  R := MainDrawGrid.Row;
-  if (R < 0) or (R >= FVisibleItems.Count) then
-    Exit;
+  procedure processMultiSelection;
+  var
+    i: Integer;
+  begin
+    for i:= FVisibleItems.Count-1 downto 0 do begin
+      if MainDrawGrid.IsCellSelected[0,i] then
+        processOnlyOneSelection( i );
+    end;
+  end;
+
+begin
+  ARemove:= ARemoveLeft or ARemoveRight;
+
 
   if ARemove then
     MainDrawGrid.BeginUpdate;
 
-  Y:= findLastRemovableItem( R );
-  removeItems(R, Y);
+  if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
+    processMultiSelection
+  else
+    processOnlyOneSelection( MainDrawGrid.Row );
 
   if ARemove then
     MainDrawGrid.EndUpdate;
