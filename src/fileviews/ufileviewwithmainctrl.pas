@@ -1354,38 +1354,47 @@ var
   currentPoint: TPoint;
 {$ENDIF}
 begin
+  // Refresh source file panel after the drop to (possibly) another application
+  // (files could have been moved for example). This has to be done here, when
+  // the drag has really ended, and not right after starting it: on GTK and
+  // Cocoa the drag session is asynchronous, so TFileView.BeginDragExternal()
+  // returns long before the user has dropped anything.
+  try
 {$IF DEFINED(MSWINDOWS)}
-  // On windows dragging can be transformed back into internal.
-  // Check if drag was aborted due to mouse moving back into
-  // the application window or the user just cancelled it.
-  if TransformDragging and (FDragDropSource.GetLastStatus = DragDropAborted) then
-  begin
-    // Transform to internal dragging again.
+    // On windows dragging can be transformed back into internal.
+    // Check if drag was aborted due to mouse moving back into
+    // the application window or the user just cancelled it.
+    if TransformDragging and (FDragDropSource.GetLastStatus = DragDropAborted) then
+    begin
+      // Transform to internal dragging again.
 
-    // Save current mouse position.
-    GetCursorPos(currentPoint);
+      // Save current mouse position.
+      GetCursorPos(currentPoint);
 
-    // Temporarily set cursor position to the point where the drag was started
-    // so that DragManager can properly read the control being dragged.
-    startPoint := MainControl.ClientToScreen(FDragStartPoint);
-    SetCursorPos(startPoint.X, startPoint.Y);
+      // Temporarily set cursor position to the point where the drag was started
+      // so that DragManager can properly read the control being dragged.
+      startPoint := MainControl.ClientToScreen(FDragStartPoint);
+      SetCursorPos(startPoint.X, startPoint.Y);
 
-    // Begin internal dragging.
-    MainControl.BeginDrag(True);
+      // Begin internal dragging.
+      MainControl.BeginDrag(True);
 
-    // Move cursor back.
-    SetCursorPos(currentPoint.X, currentPoint.Y);
+      // Move cursor back.
+      SetCursorPos(currentPoint.X, currentPoint.Y);
 
-    // Clear flag.
-    TransformDragging := False;
+      // Clear flag.
+      TransformDragging := False;
 
-    Exit(True);
-  end;
+      Exit(True);
+    end;
 {$ENDIF}
 
-  ClearAfterDragDrop;
+    ClearAfterDragDrop;
 
-  Result := True;
+    Result := True;
+  finally
+    Reload;
+  end;
 end;
 
 function TFileViewWithMainCtrl.OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;

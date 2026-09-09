@@ -2284,12 +2284,11 @@ begin
           fileNamesList.Add(DragFile.FSFile.FullPath);
 
         // Initiate external drag&drop operation.
+        // Note that this does not necessarily block until the drag has finished:
+        // on GTK and Cocoa the drag session is asynchronous and this returns
+        // right after the drag has been started. Anything that has to happen
+        // after the drop belongs into the drag-end event, not here.
         Result := DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
-
-        // Refresh source file panel after drop to (possibly) another application
-        // (files could have been moved for example).
-        // 'draggedFileItem' is invalid after this.
-        Reload;
       end;
 
     finally
