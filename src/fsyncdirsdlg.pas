@@ -2237,12 +2237,14 @@ begin
     begin
       FDeleteStatistics.TotalFiles+= ALeftList.Count;
       Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [ALeftList.Count]) + LineEnding;
+      ALeftList.Clear;
     end;
 
     if ARight then
     begin
       FDeleteStatistics.TotalFiles+= ARightList.Count;
       Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [ARightList.Count]) + LineEnding;
+      ARightList.Clear;
     end;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
@@ -2250,9 +2252,9 @@ begin
       EnableControls(False);
       pnlCopyProgress.Visible:= False;
       pnlDeleteProgress.Visible:= True;
+      UpdateList(ALeftList, ARightList, ALeft, ARight);
       if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
-      UpdateList(nil, nil, ALeft, ARight);
       EnableControls(True);
     end;
   finally
