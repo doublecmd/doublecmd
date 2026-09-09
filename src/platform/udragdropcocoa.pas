@@ -33,10 +33,14 @@ uses
 type
   TDragDropSourceCocoa = class(TDragDropSource)
   private
+    { Delegate of the drag session that is currently running, if any. }
+    FActiveSource: Pointer;
     { Called by the drag session delegate once AppKit reports the session
       as finished. }
     procedure DragSessionEnded(Succeeded: Boolean);
   public
+    destructor Destroy; override;
+
     function RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                             RequestDataEvent: uDragDropEx.TRequestDataEvent;
                             DragEndEvent    : uDragDropEx.TDragEndEvent): Boolean; override;
@@ -63,8 +67,8 @@ const
 type
   { TCocoaDragSource }
 
-  { Bridges AppKit's NSDraggingSource callbacks back to a Pascal closure.
-    One instance is created per drag operation and released once the
+  { Bridges AppKit's NSDraggingSource callbacks back to the Pascal source.
+    One instance is created per drag operation and releases itself once the
     drag session actually ends (draggingSession:endedAt:operation:). }
   TCocoaDragSource = objcclass(NSObject, NSDraggingSourceProtocol)
   public
@@ -135,8 +139,21 @@ end;
 
 { ---------- TDragDropSourceCocoa ---------- }
 
+destructor TDragDropSourceCocoa.Destroy;
+begin
+  // The drag session outlives this object when the file view is destroyed
+  // while a drag is still running. Detach the delegate, it must not call back
+  // into a freed object; it still releases itself when the session ends.
+  if Assigned(FActiveSource) then
+    TCocoaDragSource(FActiveSource).Owner:= nil;
+
+  inherited Destroy;
+end;
+
 procedure TDragDropSourceCocoa.DragSessionEnded(Succeeded: Boolean);
 begin
+  FActiveSource:= nil;
+
   if Succeeded then
     FLastStatus:= DragDropSuccessful
   else
@@ -216,8 +233,13 @@ begin
   StartEvent:= MouseEventForDrag(View);
   if StartEvent = nil then Exit;
 
+  // A previous session, if any, must not report back into this object anymore.
+  if Assigned(FActiveSource) then
+    TCocoaDragSource(FActiveSource).Owner:= nil;
+
   Source:= TCocoaDragSource.alloc.init;
   Source.Owner:= Self;
+  FActiveSource:= Source;
 
   Result:= View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source) <> nil;
 
