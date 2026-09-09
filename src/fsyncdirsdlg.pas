@@ -1233,6 +1233,8 @@ end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
+const
+  LEFT_FILE_INDENTATION = 8;
 var
   r: TFileSyncRec;
   x: Integer;
@@ -1265,7 +1267,7 @@ begin
       begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
+            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, FVisibleItems[aRow]);
         s := IntToStrTS(r.FFileL.Size);
         with hCols[1] do begin
           x := Left + Width - 8 - TextWidth(s);
