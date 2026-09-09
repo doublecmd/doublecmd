@@ -75,6 +75,38 @@ type
       message 'draggingSession:endedAtPoint:operation:';
   end;
 
+{ ---------- Helpers ---------- }
+
+{ -beginDraggingSessionWithItems:event:source: requires a mouse event.
+  The application's current event is not necessarily one: an external drag can
+  also be started from a key press (see TFileViewWithMainCtrl.MainControlKeyDown,
+  where holding Command turns an internal drag into an external one). }
+function MouseEventForDrag(View: NSView): NSEvent;
+var
+  Timestamp: NSTimeInterval = 0;
+begin
+  Result:= NSApplication.sharedApplication.currentEvent;
+
+  if Assigned(Result) then
+  begin
+    case Result.type_ of
+      NSLeftMouseDown,  NSLeftMouseDragged,
+      NSRightMouseDown, NSRightMouseDragged,
+      NSOtherMouseDown, NSOtherMouseDragged: Exit;
+    end;
+    Timestamp:= Result.timestamp;
+  end;
+
+  // Not a mouse event, synthesize one at the current mouse position instead.
+  Result:= NSEvent.mouseEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_clickCount_pressure(
+             NSLeftMouseDragged,
+             View.window.mouseLocationOutsideOfEventStream,
+             0,
+             Timestamp,
+             View.window.windowNumber,
+             nil, 0, 1, 1.0);
+end;
+
 { ---------- TCocoaDragSource ---------- }
 
 function TCocoaDragSource.draggingSession_sourceOperationMaskForDraggingContext(
@@ -165,10 +197,12 @@ begin
     DragItem.release;
   end;
 
+  StartEvent:= MouseEventForDrag(View);
+  if StartEvent = nil then Exit;
+
   Source:= TCocoaDragSource.alloc.init;
   Source.DragEndEvent:= GetDragEndEvent;
 
-  StartEvent:= NSApplication.sharedApplication.currentEvent;
   View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source);
 
   // Note: the drag session started above is asynchronous -- it returns
