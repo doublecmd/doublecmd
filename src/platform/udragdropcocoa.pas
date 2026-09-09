@@ -47,6 +47,46 @@ implementation
 uses
   CocoaAll, uDarwinUtil;
 
+type
+  { TCocoaDragSource }
+
+  { Bridges AppKit's NSDraggingSource callbacks back to a Pascal closure.
+    One instance is created per drag operation and released once the
+    drag session actually ends (draggingSession:endedAt:operation:). }
+  TCocoaDragSource = objcclass(NSObject, NSDraggingSourceProtocol)
+  public
+    DragEndEvent: uDragDropEx.TDragEndEvent;
+
+    function draggingSession_sourceOperationMaskForDraggingContext(
+      session: NSDraggingSession; context: NSDraggingContext): NSDragOperation;
+      message 'draggingSession:sourceOperationMaskForDraggingContext:';
+
+    procedure draggingSession_endedAtPoint_operation(
+      session: NSDraggingSession; screenPoint: NSPoint; operation: NSDragOperation);
+      message 'draggingSession:endedAtPoint:operation:';
+  end;
+
+{ ---------- TCocoaDragSource ---------- }
+
+function TCocoaDragSource.draggingSession_sourceOperationMaskForDraggingContext(
+  session: NSDraggingSession; context: NSDraggingContext): NSDragOperation;
+begin
+  Result := NSDragOperationCopy or NSDragOperationMove or NSDragOperationLink;
+end;
+
+procedure TCocoaDragSource.draggingSession_endedAtPoint_operation(
+  session: NSDraggingSession; screenPoint: NSPoint; operation: NSDragOperation);
+begin
+  // Simulate drag-end event. This is where drag completion is reported now
+  // that the drag session is asynchronous (unlike the old, blocking
+  // dragImage:at:offset:event:pasteboard:source:slideBack: call).
+  if Assigned(DragEndEvent) then DragEndEvent();
+
+  // Balance the .alloc.init done in TDragDropSourceCocoa.DoDragDrop -- this
+  // instance's whole lifetime is exactly one drag operation.
+  Self.release;
+end;
+
 { ---------- TDragDropSourceCocoa ---------- }
 
 function TDragDropSourceCocoa.RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
@@ -65,11 +105,16 @@ function TDragDropSourceCocoa.DoDragDrop(const FileNamesList: TStringList;
                                          ScreenStartPoint: TPoint): Boolean;
 var
   I: Integer;
-  Window: NSWindow;
-  DragIcon: NSImage;
-  DragPoint: NSPoint;
-  FileList: NSMutableArray;
-  PasteBoard: NSPasteboard;
+  View: NSView;
+  StartEvent: NSEvent;
+  WindowRect: NSRect;
+  WindowPoint, ViewPoint: NSPoint;
+  DragItem: NSDraggingItem;
+  DragItems: NSMutableArray;
+  ItemURL: NSUrl;
+  ItemIcon: NSImage;
+  ItemFrame: NSRect;
+  Source: TCocoaDragSource;
 begin
   Result := False;
 
@@ -80,30 +125,49 @@ begin
     if Result = False then Exit;
   end;
 
-  FileList:= NSMutableArray.arrayWithCapacity(FileNamesList.Count);
+  View:= NSView(GetControl.Handle);
+  if View = nil then Exit;
+
+  // Convert the screen-coordinate start point into View's own coordinate
+  // system, as needed by each NSDraggingItem's draggingFrame. NSWindow only
+  // exposes a rect-based screen conversion, not a point-only one.
+  WindowRect:= View.window.convertRectFromScreen(NSMakeRect(ScreenStartPoint.X, ScreenStartPoint.Y, 0, 0));
+  WindowPoint:= WindowRect.origin;
+  ViewPoint:= View.convertPoint_fromView(WindowPoint, nil);
+
+  // Build one NSDraggingItem per file, each backed by its own file URL
+  // pasteboard writer. This -- instead of a single item carrying all paths
+  // via the legacy NSFilenamesPboardType property list -- is what makes
+  // modern apps that enumerate per-item pasteboard entries (e.g. WhatsApp)
+  // see every dragged file, not just one.
+  DragItems:= NSMutableArray.arrayWithCapacity(FileNamesList.Count);
   for I:= 0 to FileNamesList.Count - 1 do
   begin
-    FileList.addObject(StringToNSString(FileNamesList[I]));
+    ItemURL:= NSUrl.fileURLWithPath(StringToNSString(FileNamesList[I]));
+    // NSURL conforms to NSPasteboardWriting at the Objective-C runtime level
+    // (via an AppKit category), but this binding's NSURL class declaration
+    // doesn't list that protocol, so the cast has to be made explicit.
+    DragItem:= NSDraggingItem.alloc.initWithPasteboardWriter(NSPasteboardWritingProtocol(ItemURL));
+
+    ItemIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[I]));
+    ItemFrame:= NSMakeRect(ViewPoint.x - 16, ViewPoint.y - 16, 32, 32);
+    DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
+
+    DragItems.addObject(DragItem);
+    DragItem.release;
   end;
 
-  DragPoint.x:= ScreenStartPoint.X;
-  DragPoint.y:= ScreenStartPoint.Y;
-  Window:= NSApplication.sharedApplication.keyWindow;
-  PasteBoard:= NSPasteboard.pasteboardWithName(NSDragPboard);
-  PasteBoard.declareTypes_owner(NSArray.arrayWithObject(NSFileNamesPboardType), nil);
-  PasteBoard.setPropertyList_forType(FileList, NSFileNamesPboardType);
-  DragIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[0]));
-  Window.dragImage_at_offset_event_pasteboard_source_slideBack(DragIcon, DragPoint, NSZeroSize, nil, PasteBoard, Window, True);
+  Source:= TCocoaDragSource.alloc.init;
+  Source.DragEndEvent:= GetDragEndEvent;
 
-  // Simulate drag-end event.
-  if Assigned(GetDragEndEvent) then
-  begin
-    if Result = True then
-      Result := GetDragEndEvent()()
-    else
-      GetDragEndEvent()()
-  end;
+  StartEvent:= NSApplication.sharedApplication.currentEvent;
+  View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source);
+
+  // Note: the drag session started above is asynchronous -- it returns
+  // immediately, before the user has dropped or cancelled anything.
+  // GetDragEndEvent() is no longer called here; it now fires later, from
+  // TCocoaDragSource.draggingSession_endedAtPoint_operation, once AppKit
+  // reports the session as actually finished.
 end;
 
 end.
-
