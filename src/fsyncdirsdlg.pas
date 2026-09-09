@@ -1244,8 +1244,6 @@ begin
     r := TFileSyncRec(FVisibleItems.Objects[aRow]);
     if r.isDir then
     begin
-      Brush.Color := clBtnFace;
-      FillRect(aRect);
       Font.Bold := True;
       Font.Color := clWindowText;
       with hCols[0] do
