@@ -2065,142 +2065,150 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
-var
-  R, Y: Integer;
-  Selection: TGridRect;
-  SyncRec: TFileSyncRec;
 
-  procedure UpdateAction(NewAction: TSyncRecState);
+  procedure doUpdateAction(const index: Integer; NewAction: TSyncRecState);
+  var
+    rec: TFileSyncRec;
   begin
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
     case NewAction of
       srsUnknown:
-        NewAction:= SyncRec.FState;
+        NewAction:= rec.FState;
       srsNotEq:
         begin
-          if (SyncRec.FAction = srsCopyLeft) and Assigned(SyncRec.FFileL) then
+          if (rec.FAction = srsCopyLeft) and Assigned(rec.FFileL) then
               NewAction:= srsCopyRight
-          else if (SyncRec.FAction = srsCopyRight) and Assigned(SyncRec.FFileR) then
+          else if (rec.FAction = srsCopyRight) and Assigned(rec.FFileR) then
               NewAction:= srsCopyLeft
           else
-            NewAction:= SyncRec.FAction
+            NewAction:= rec.FAction
         end;
       srsCopyLeft:
         begin
-          if not Assigned(SyncRec.FFileR) then
+          if not Assigned(rec.FFileR) then
             NewAction:= srsDoNothing;
         end;
       srsCopyRight:
         begin
-          if not Assigned(SyncRec.FFileL) then
+          if not Assigned(rec.FFileL) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteLeft:
         begin
-          if not Assigned(SyncRec.FFileL) then
+          if not Assigned(rec.FFileL) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteRight:
         begin
-          if not Assigned(SyncRec.FFileR) then
+          if not Assigned(rec.FFileR) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteBoth:
         begin
-          if not Assigned(SyncRec.FFileL) then
+          if not Assigned(rec.FFileL) then
             NewAction:= srsDeleteRight;
-          if not Assigned(SyncRec.FFileR) then
+          if not Assigned(rec.FFileR) then
             NewAction:= srsDeleteLeft;
         end;
     end;
-    SyncRec.FAction:= NewAction;
-    MainDrawGrid.InvalidateRow(R);
+    rec.FAction:= NewAction;
+    MainDrawGrid.InvalidateRow(index);
   end;
 
-  procedure checkAncestorsDirs({const });
+  procedure checkAncestorsDirs(index: Integer);
   var
+    rec: TFileSyncRec;
     basePath: String;
   begin
     if NOT self.chkEmptyDir.Checked then
       Exit;
 
-    basePath:= IncludeTrailingPathDelimiter(SyncRec.FRelPath);
-    Dec(R);
-    while R >= 0 do begin
-      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-      if SyncRec.FRelPath = EmptyStr then
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    basePath:= IncludeTrailingPathDelimiter(rec.FRelPath);
+
+    Dec(index);
+    while index >= 0 do begin
+      rec := TFileSyncRec(FVisibleItems.Objects[index]);
+      if rec.FRelPath = EmptyStr then
         break;
-      if NOT PathIsInPath(basePath, SyncRec.FRelPath) then
+      if NOT PathIsInPath(basePath, rec.FRelPath) then
         break;
-      if SyncRec.isDir then begin
-        if SyncRec.FState = srsUnknown then
+      if rec.isDir then begin
+        if rec.FState = srsDoNothing then
           break;
-        UpdateAction(AState);
+        doUpdateAction(index, AState);
       end;
-      Dec(R);
+      Dec(index);
     end;
   end;
 
-  procedure uncheckDescendantsDirsAndFiles;
+  procedure uncheckDescendantsDirsAndFiles(index: Integer);
   var
+    rec: TFileSyncRec;
     basePath: String;
   begin
-    Inc(R);
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    basePath:= IncludeTrailingPathDelimiter(rec.FRelPath);
+    Inc(index);
     if NOT self.chkEmptyDir.Checked then begin
-      while R < FVisibleItems.Count do
+      while index < FVisibleItems.Count do
       begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if SyncRec.isDir then
+        rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+        if rec.isDir then
           break;
-        UpdateAction(AState);
-        Inc(R);
+        doUpdateAction(index, AState);
+        Inc(index);
       end;
     end else begin
-      basePath:= IncludeTrailingPathDelimiter(SyncRec.FRelPath);
-      while R < FVisibleItems.Count do
+      while index < FVisibleItems.Count do
       begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT PathIsInPath(SyncRec.FRelPath, basePath) then
+        rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+        if NOT PathIsInPath(rec.FRelPath, basePath) then
           break;
-        UpdateAction(AState);
-        Inc(R);
+        doUpdateAction(index, AState);
+        Inc(index);
       end;
+    end;
+  end;
+
+  procedure processOnlyOneSelection(const index: Integer);
+  var
+    rec: TFileSyncRec;
+  begin
+    if (index < 0) or (index >= FVisibleItems.Count) then
+      Exit;
+
+    doUpdateAction(index, AState);
+
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    case rec.FAction of
+      srsCopyLeft,
+      srsCopyRight:
+        checkAncestorsDirs(index);
+      srsDeleteLeft,
+      srsDeleteRight,
+      srsDeleteBoth,
+      srsDoNothing:
+        if rec.isDir then
+          uncheckDescendantsDirsAndFiles(index);
+    end;
+  end;
+
+  procedure processMultiSelection;
+  var
+    i: Integer;
+  begin
+    for i:= 0 to FVisibleItems.Count-1 do begin
+      if MainDrawGrid.IsCellSelected[0,i] then
+        processOnlyOneSelection( i );
     end;
   end;
 
 begin
-  Selection:= MainDrawGrid.Selection;
-  if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
-  begin
-    for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
-    begin
-      Selection:= MainDrawGrid.SelectedRange[Y];
-      for R := Selection.Top to Selection.Bottom do
-      begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
-        if NOT SyncRec.isDir then UpdateAction(AState);
-      end;
-    end;
-    Exit;
-  end;
-
-  R := MainDrawGrid.Row;
-  if (R < 0) or (R >= FVisibleItems.Count) then
-    Exit;
-
-  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
-  UpdateAction(AState);
-
-  case SyncRec.FAction of
-    srsCopyLeft,
-    srsCopyRight:
-      checkAncestorsDirs;
-    srsDeleteLeft,
-    srsDeleteRight,
-    srsDeleteBoth,
-    srsDoNothing:
-      if SyncRec.isDir then
-        uncheckDescendantsDirsAndFiles;
-  end;
+  if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
+    processMultiSelection
+  else
+    processOnlyOneSelection( MainDrawGrid.Row );
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
