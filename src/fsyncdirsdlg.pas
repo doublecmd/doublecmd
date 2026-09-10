@@ -2199,8 +2199,14 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
     i: Integer;
   begin
     for i:= 0 to FVisibleItems.Count-1 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then
-        processOnlyOneSelection( i );
+      if MainDrawGrid.IsCellSelected[0,i] then begin
+        if AState <> srsNotEq then begin
+          processOnlyOneSelection( i );
+        end else begin
+          // CopyReverse, exactly update one row, dont't extend
+          doUpdateAction( i, AState );
+        end;
+      end;
     end;
   end;
 
