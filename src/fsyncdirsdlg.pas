@@ -2432,67 +2432,21 @@ var
     currentRec.UpdateState( chkIgnoreDate.Checked );
   end;
 
-  procedure removeRangeItems(const fromIndex: Integer; const toIndex: Integer);
+  function processOnlyOneSelection(const index: Integer): Boolean;
   var
-    i: Integer;
     rec: TFileSyncRec;
   begin
-    if (fromIndex<0) or (toIndex<0) then
-      Exit;
-    for i:= toIndex downto fromIndex do begin
-      if ARemove then begin
-        rec:= TFileSyncRec(FVisibleItems.Objects[i]);
-        if rec.isDir then begin
-          resetDirRecIfEmpty( i );
-          if NOT isCompletelyEmptyDir(i) then
-            continue;
-        end;
+    Result:= False;
+    if ARemove then begin
+      rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+      if rec.isDir then begin
+        resetDirRecIfEmpty( index );
+        if NOT isCompletelyEmptyDir(index) then
+          Exit;
       end;
-      doRemoveItem(i);
     end;
-  end;
-
-  function lastFileInCurrentDir(const fromIndex: Integer): Integer;
-  var
-    rec: TFileSyncRec;
-  begin
-    Result:= fromIndex;
-    Inc( Result );
-    while Result < FVisibleItems.Count do begin
-      rec:= TFileSyncRec(FVisibleItems.Objects[Result]);
-      if rec.isDir then
-        break;
-      Inc( Result );
-    end;
-    Dec( Result );
-  end;
-
-  function findLastRemovableItem(const fromIndex: Integer): Integer;
-  var
-    rec: TFileSyncRec;
-  begin
-    rec:= TFileSyncRec(FVisibleItems.Objects[fromIndex]);
-    if NOT rec.isDir then begin
-      Result:= fromIndex;      // only remove current file (file, not dir)
-    end else if TDirSyncRec(rec).isEmpty then begin
-      if isCompletelyEmptyDir(fromIndex) then
-        Result:= fromIndex     // only remove current Dir (Completely Empty dir)
-      else
-        Result:= -1;           // remove nothing (there are empty dirs in the dir)
-    end else begin
-      Result:= lastFileInCurrentDir( fromIndex ); // remove all files (there are files in the dir)
-    end;
-  end;
-
-  procedure processOnlyOneSelection(const fromIndex: Integer);
-  var
-    toIndex: Integer;
-  begin
-    if (fromIndex < 0) or (fromIndex >= FVisibleItems.Count) then
-      Exit;
-
-    toIndex:= findLastRemovableItem( fromIndex );
-    removeRangeItems( fromIndex, toIndex );
+    doRemoveItem(index);
+    Result:= True;
   end;
 
   function processMultiSelection: Integer;
@@ -2520,17 +2474,18 @@ begin
       lastIndex:= processMultiSelection
     end else begin
       lastIndex:= MainDrawGrid.Row;
-      processOnlyOneSelection( lastIndex );
+      if NOT processOnlyOneSelection(lastIndex) then
+        lastIndex:= -1;
     end;
 
     if NOT ARemove then
       Exit;
 
-    if lastIndex > 0 then begin
+    if lastIndex > 0 then
       resetDirRecIfEmpty( lastIndex-1 );
-    end;
 
-    self.RemoveInvisibleDirs;
+    if lastIndex >= 0 then
+      self.RemoveInvisibleDirs;
   finally
     MainDrawGrid.RowCount := FVisibleItems.Count;
     if ARemove then
