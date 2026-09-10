@@ -1404,9 +1404,44 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
+  function lastFileInCurrentDir(const fromIndex: Integer): Integer;
+  var
+    rec: TFileSyncRec;
+  begin
+    Result:= fromIndex;
+    rec:= TFileSyncRec(FVisibleItems.Objects[fromIndex]);
+    if NOT rec.isDir then
+      Exit;
+
+    Inc( Result );
+    while Result < FVisibleItems.Count do begin
+      rec:= TFileSyncRec(FVisibleItems.Objects[Result]);
+      if rec.isDir then
+        break;
+      Inc( Result );
+    end;
+    Dec( Result );
+  end;
+
+  procedure calcSelection;
+  var
+    fromIndex: Integer;
+    toIndex: Integer;
+  begin
+    if MainDrawGrid.HasMultiSelection then
+      Exit;
+    if MainDrawGrid.Selection.Height>0 then
+      Exit;
+
+    fromIndex:= MainDrawGrid.Row;
+    toIndex:= lastFileInCurrentDir( fromIndex );
+    MainDrawGrid.Selection:= TGridRect.Create(0,fromIndex,3,toIndex);
+  end;
+
 begin
   miSelectDeleteLeft.Visible := not chkAsymmetric.Checked;
   miSelectDeleteBoth.Visible := not chkAsymmetric.Checked;
+  calcSelection;
 end;
 
 procedure TfrmSyncDirsDlg.TimerTimer(Sender: TObject);
