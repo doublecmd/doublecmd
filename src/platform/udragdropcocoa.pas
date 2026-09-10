@@ -32,6 +32,14 @@ uses
 
 type
   TDragDropSourceCocoa = class(TDragDropSource)
+  private
+    { Delegate of the drag session that is currently running, if any. }
+    FActiveSource: Pointer;
+    { Called by the drag session delegate once AppKit reports the session
+      as finished. }
+    procedure DragSessionEnded(Succeeded: Boolean);
+  public
+    destructor Destroy; override;
 
     function RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                             RequestDataEvent: uDragDropEx.TRequestDataEvent;
@@ -47,15 +55,22 @@ implementation
 uses
   CocoaAll, uDarwinUtil;
 
+const
+  // Size of the drag image drawn for a dragged file.
+  DragImageSize = 32;
+  // Only the leading items get a drag image. NSWorkspace.iconForFile is not
+  // called for the rest.
+  MaxDragImageCount = 3;
+
 type
   { TCocoaDragSource }
 
-  { Bridges AppKit's NSDraggingSource callbacks back to a Pascal closure.
-    One instance is created per drag operation and released once the
+  { Bridges AppKit's NSDraggingSource callbacks back to the Pascal source.
+    One instance is created per drag operation and releases itself once the
     drag session actually ends (draggingSession:endedAt:operation:). }
   TCocoaDragSource = objcclass(NSObject, NSDraggingSourceProtocol)
   public
-    DragEndEvent: uDragDropEx.TDragEndEvent;
+    Owner: TDragDropSourceCocoa;
 
     function draggingSession_sourceOperationMaskForDraggingContext(
       session: NSDraggingSession; context: NSDraggingContext): NSDragOperation;
@@ -65,6 +80,38 @@ type
       session: NSDraggingSession; screenPoint: NSPoint; operation: NSDragOperation);
       message 'draggingSession:endedAtPoint:operation:';
   end;
+
+{ ---------- Helpers ---------- }
+
+{ -beginDraggingSessionWithItems:event:source: requires a mouse event.
+  The application's current event is not necessarily one: an external drag can
+  also be started from a key press (see TFileViewWithMainCtrl.MainControlKeyDown,
+  where holding Command turns an internal drag into an external one). }
+function MouseEventForDrag(View: NSView): NSEvent;
+var
+  Timestamp: NSTimeInterval = 0;
+begin
+  Result:= NSApplication.sharedApplication.currentEvent;
+
+  if Assigned(Result) then
+  begin
+    case Result.type_ of
+      NSLeftMouseDown,  NSLeftMouseDragged,
+      NSRightMouseDown, NSRightMouseDragged,
+      NSOtherMouseDown, NSOtherMouseDragged: Exit;
+    end;
+    Timestamp:= Result.timestamp;
+  end;
+
+  // Not a mouse event, synthesize one at the current mouse position instead.
+  Result:= NSEvent.mouseEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_clickCount_pressure(
+             NSLeftMouseDragged,
+             View.window.mouseLocationOutsideOfEventStream,
+             0,
+             Timestamp,
+             View.window.windowNumber,
+             nil, 0, 1, 1.0);
+end;
 
 { ---------- TCocoaDragSource ---------- }
 
@@ -77,10 +124,11 @@ end;
 procedure TCocoaDragSource.draggingSession_endedAtPoint_operation(
   session: NSDraggingSession; screenPoint: NSPoint; operation: NSDragOperation);
 begin
-  // Simulate drag-end event. This is where drag completion is reported now
-  // that the drag session is asynchronous (unlike the old, blocking
+  // Report drag completion. This is where it happens now that the drag session
+  // is asynchronous (unlike the old, blocking
   // dragImage:at:offset:event:pasteboard:source:slideBack: call).
-  if Assigned(DragEndEvent) then DragEndEvent();
+  if Assigned(Owner) then
+    Owner.DragSessionEnded(operation <> NSDragOperationNone);
 
   // Balance the .alloc.init done in TDragDropSourceCocoa.DoDragDrop -- this
   // instance's whole lifetime is exactly one drag operation.
@@ -88,6 +136,30 @@ begin
 end;
 
 { ---------- TDragDropSourceCocoa ---------- }
+
+destructor TDragDropSourceCocoa.Destroy;
+begin
+  // The drag session outlives this object when the file view is destroyed
+  // while a drag is still running. Detach the delegate, it must not call back
+  // into a freed object; it still releases itself when the session ends.
+  if Assigned(FActiveSource) then
+    TCocoaDragSource(FActiveSource).Owner:= nil;
+
+  inherited Destroy;
+end;
+
+procedure TDragDropSourceCocoa.DragSessionEnded(Succeeded: Boolean);
+begin
+  FActiveSource:= nil;
+
+  if Succeeded then
+    FLastStatus:= DragDropSuccessful
+  else
+    FLastStatus:= DragDropAborted;
+
+  // Simulate drag-end event.
+  if Assigned(GetDragEndEvent) then GetDragEndEvent()();
+end;
 
 function TDragDropSourceCocoa.RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                                              RequestDataEvent: uDragDropEx.TRequestDataEvent;
@@ -107,8 +179,6 @@ var
   I: Integer;
   View: NSView;
   StartEvent: NSEvent;
-  WindowRect: NSRect;
-  WindowPoint, ViewPoint: NSPoint;
   DragItem: NSDraggingItem;
   DragItems: NSMutableArray;
   ItemURL: NSUrl;
@@ -128,12 +198,8 @@ begin
   View:= NSView(GetControl.Handle);
   if View = nil then Exit;
 
-  // Convert the screen-coordinate start point into View's own coordinate
-  // system, as needed by each NSDraggingItem's draggingFrame. NSWindow only
-  // exposes a rect-based screen conversion, not a point-only one.
-  WindowRect:= View.window.convertRectFromScreen(NSMakeRect(ScreenStartPoint.X, ScreenStartPoint.Y, 0, 0));
-  WindowPoint:= WindowRect.origin;
-  ViewPoint:= View.convertPoint_fromView(WindowPoint, nil);
+  // One fixed frame, shared by all items.
+  ItemFrame:= NSMakeRect(0, 0, DragImageSize, DragImageSize);
 
   // Build one NSDraggingItem per file, each backed by its own file URL
   // pasteboard writer. This -- instead of a single item carrying all paths
@@ -149,19 +215,31 @@ begin
     // doesn't list that protocol, so the cast has to be made explicit.
     DragItem:= NSDraggingItem.alloc.initWithPasteboardWriter(NSPasteboardWritingProtocol(ItemURL));
 
-    ItemIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[I]));
-    ItemFrame:= NSMakeRect(ViewPoint.x - 16, ViewPoint.y - 16, 32, 32);
-    DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
+    if I < MaxDragImageCount then
+    begin
+      ItemIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[I]));
+      DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
+    end
+    else
+      // Not setDraggingFrame: -- it does not give the same result here.
+      DragItem.setDraggingFrame_contents(ItemFrame, nil);
 
     DragItems.addObject(DragItem);
     DragItem.release;
   end;
 
-  Source:= TCocoaDragSource.alloc.init;
-  Source.DragEndEvent:= GetDragEndEvent;
+  StartEvent:= MouseEventForDrag(View);
+  if StartEvent = nil then Exit;
 
-  StartEvent:= NSApplication.sharedApplication.currentEvent;
-  View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source);
+  // A previous session, if any, must not report back into this object anymore.
+  if Assigned(FActiveSource) then
+    TCocoaDragSource(FActiveSource).Owner:= nil;
+
+  Source:= TCocoaDragSource.alloc.init;
+  Source.Owner:= Self;
+  FActiveSource:= Source;
+
+  Result:= View.beginDraggingSessionWithItems_event_source(DragItems, StartEvent, Source) <> nil;
 
   // Note: the drag session started above is asynchronous -- it returns
   // immediately, before the user has dropped or cancelled anything.
