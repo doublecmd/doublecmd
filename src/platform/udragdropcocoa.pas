@@ -58,10 +58,8 @@ uses
 const
   // Size of the drag image drawn for a dragged file.
   DragImageSize = 32;
-  // AppKit only ever draws a small stack of images plus the item count badge,
-  // so only the leading items need an image. Asking NSWorkspace for an icon of
-  // every single dragged file would just burn LaunchServices lookups when a
-  // large selection is dragged.
+  // Only the leading items get a drag image. NSWorkspace.iconForFile is not
+  // called for the rest.
   MaxDragImageCount = 3;
 
 type
@@ -200,8 +198,7 @@ begin
   View:= NSView(GetControl.Handle);
   if View = nil then Exit;
 
-  // AppKit places the drag images relative to the event that starts the
-  // session, so a fixed frame is enough here and all items may share it.
+  // One fixed frame, shared by all items.
   ItemFrame:= NSMakeRect(0, 0, DragImageSize, DragImageSize);
 
   // Build one NSDraggingItem per file, each backed by its own file URL
@@ -224,9 +221,7 @@ begin
       DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
     end
     else
-      // setDraggingFrame: keeps the item's default contents, which still get
-      // drawn. Clearing the contents explicitly is what leaves the trailing
-      // items out of the stack, the way Finder does it.
+      // Not setDraggingFrame: -- it does not give the same result here.
       DragItem.setDraggingFrame_contents(ItemFrame, nil);
 
     DragItems.addObject(DragItem);
