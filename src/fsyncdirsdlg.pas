@@ -178,6 +178,7 @@ type
     procedure Compare;
     procedure FillFoundItemsDG;
     procedure InitVisibleItems;
+    procedure RemoveInvisibleDirs;
     procedure RecalcHeaderCols;
     procedure ScanDirs;
     procedure SetSortIndex(AValue: Integer);
@@ -1542,6 +1543,26 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.RemoveInvisibleDirs;
+var
+  i: Integer;
+  r: TFileSyncRec;
+begin
+  for i := FVisibleItems.Count - 1 downto 0 do begin
+    r := TFileSyncRec(FVisibleItems.Objects[i]);
+    if NOT r.isDir then
+      continue;
+    if r.FState <> srsDoNothing then
+      continue;
+    if (i + 1 < FVisibleItems.Count) then begin
+      r := TFileSyncRec(FVisibleItems.Objects[i+1]);
+      if NOT r.isDir then
+        continue;
+    end;
+    FVisibleItems.Delete(i);
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
   i, j: Integer;
@@ -1615,20 +1636,7 @@ begin
           FVisibleItems.AddObject(Strings[j], r);
       end;
   end;
-  { remove empty dirs after filtering }
-  for i := FVisibleItems.Count - 1 downto 0 do begin
-    r := TFileSyncRec(FVisibleItems.Objects[i]);
-    if NOT r.isDir then
-      continue;
-    if r.FState <> srsDoNothing then
-      continue;
-    if (i + 1 < FVisibleItems.Count) then begin
-      r := TFileSyncRec(FVisibleItems.Objects[i+1]);
-      if NOT r.isDir then
-        continue;
-    end;
-    FVisibleItems.Delete(i);
-  end;
+  self.RemoveInvisibleDirs;
 end;
 
 procedure TfrmSyncDirsDlg.RecalcHeaderCols;
@@ -2370,23 +2378,26 @@ var
     Result:= True;
   end;
 
-  procedure removeRangeItems(const fromIndex: Integer; const toIndex: Integer);
-    procedure resetDirRecIfEmpty(const index: Integer);
-    var
-      currentRec: TFileSyncRec;
-      nextRec: TFileSyncRec;
-    begin
-      currentRec:= TFileSyncRec(FVisibleItems.Objects[index]);
-      if TDirSyncRec(currentRec).isEmpty then
+  procedure resetDirRecIfEmpty(const index: Integer);
+  var
+    currentRec: TFileSyncRec;
+    nextRec: TFileSyncRec;
+  begin
+    currentRec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    if NOT currentRec.isDir then
+      Exit;
+    if TDirSyncRec(currentRec).isEmpty then
+      Exit;
+    if index < FVisibleItems.Count-1 then begin
+      nextRec:= TFileSyncRec(FVisibleItems.Objects[index+1]);
+      if NOT nextRec.isDir then
         Exit;
-      if index < FVisibleItems.Count-1 then begin
-        nextRec:= TFileSyncRec(FVisibleItems.Objects[index+1]);
-        if NOT nextRec.isDir then
-          Exit;
-      end;
-      TDirSyncRec(currentRec).resetEmpty;
     end;
+    TDirSyncRec(currentRec).resetEmpty;
+    currentRec.UpdateState( chkIgnoreDate.Checked );
+  end;
 
+  procedure removeRangeItems(const fromIndex: Integer; const toIndex: Integer);
   var
     i: Integer;
     rec: TFileSyncRec;
@@ -2397,7 +2408,7 @@ var
       if ARemove then begin
         rec:= TFileSyncRec(FVisibleItems.Objects[i]);
         if rec.isDir then begin
-          resetDirRecIfEmpty(i);
+          resetDirRecIfEmpty( i );
           if NOT isCompletelyEmptyDir(i) then
             continue;
         end;
@@ -2449,16 +2460,20 @@ var
     removeRangeItems( fromIndex, toIndex );
   end;
 
-  procedure processMultiSelection;
+  function processMultiSelection: Integer;
   var
     i: Integer;
   begin
     for i:= FVisibleItems.Count-1 downto 0 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then
+      if MainDrawGrid.IsCellSelected[0,i] then begin
         processOnlyOneSelection( i );
+        Result:= i;
+      end;
     end;
   end;
 
+var
+  lastIndex: Integer;
 begin
   ARemove:= ARemoveLeft or ARemoveRight;
 
@@ -2466,10 +2481,21 @@ begin
     MainDrawGrid.BeginUpdate;
 
   try
-    if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
-      processMultiSelection
-    else
-      processOnlyOneSelection( MainDrawGrid.Row );
+    if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then begin
+      lastIndex:= processMultiSelection
+    end else begin
+      lastIndex:= MainDrawGrid.Row;
+      processOnlyOneSelection( lastIndex );
+    end;
+
+    if NOT ARemove then
+      Exit;
+
+    if lastIndex > 0 then begin
+      resetDirRecIfEmpty( lastIndex-1 );
+    end;
+
+    self.RemoveInvisibleDirs;
   finally
     MainDrawGrid.RowCount := FVisibleItems.Count;
     if ARemove then
