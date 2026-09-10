@@ -224,7 +224,10 @@ begin
       DragItem.setDraggingFrame_contents(ItemFrame, ItemIcon);
     end
     else
-      DragItem.setDraggingFrame(ItemFrame);
+      // setDraggingFrame: keeps the item's default contents, which still get
+      // drawn. Clearing the contents explicitly is what leaves the trailing
+      // items out of the stack, the way Finder does it.
+      DragItem.setDraggingFrame_contents(ItemFrame, nil);
 
     DragItems.addObject(DragItem);
     DragItem.release;
