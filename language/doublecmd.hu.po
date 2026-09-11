@@ -14529,3 +14529,4 @@ msgstr "Nem történt csere."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
+
