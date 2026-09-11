@@ -2261,29 +2261,39 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
+
+  procedure countSelectedVisibleItems(var leftCount: Integer; var rightCount: Integer);
+  var
+    i: Integer;
+    rec: TFileSyncRec;
+  begin
+    leftCount:= 0;
+    rightCount:= 0;
+    for i:= 0 to FVisibleItems.Count-1 do begin
+      if NOT MainDrawGrid.IsCellSelected[0,i] then
+        continue;
+      rec:= TFileSyncRec( FVisibleItems.Objects[i] );
+      if Assigned(rec.FFileL) then
+        Inc( leftCount );
+      if Assigned(rec.FFileR) then
+        Inc( rightCount );
+    end;
+  end;
+
 var
   Message: String;
-  ALeftList: TFiles;
-  ARightList: TFiles;
+  ALeftList: TFiles = nil;
+  ARightList: TFiles = nil;
+  leftCount: Integer;
+  rightCount: Integer;
+
 begin
-  if not ALeft then
-    ALeftList:= nil
-  else begin
-    ALeftList:= TFiles.Create(EmptyStr);
-  end;
-
-  if not ARight then
-    ARightList:= nil
-  else begin
-    ARightList:= TFiles.Create(EmptyStr);
-  end;
-
   try
     Message:= EmptyStr;
-    UpdateList(ALeftList, ARightList, False, False);
+    countSelectedVisibleItems( leftCount, rightCount );
 
-    ALeft:= ALeft and (ALeftList.Count > 0);
-    ARight:= ARight and (ARightList.Count > 0);
+    ALeft:= ALeft and (leftCount > 0);
+    ARight:= ARight and (rightCount > 0);
 
     if (ALeft = False) and (ARight = False) then Exit;
 
@@ -2292,16 +2302,14 @@ begin
 
     if ALeft then
     begin
-      FDeleteStatistics.TotalFiles+= ALeftList.Count;
-      Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [ALeftList.Count]) + LineEnding;
-      ALeftList.Clear;
+      FDeleteStatistics.TotalFiles+= leftCount;
+      Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [leftCount]) + LineEnding;
     end;
 
     if ARight then
     begin
-      FDeleteStatistics.TotalFiles+= ARightList.Count;
-      Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [ARightList.Count]) + LineEnding;
-      ARightList.Clear;
+      FDeleteStatistics.TotalFiles+= rightCount;
+      Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [rightCount]) + LineEnding;
     end;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
@@ -2309,7 +2317,13 @@ begin
       EnableControls(False);
       pnlCopyProgress.Visible:= False;
       pnlDeleteProgress.Visible:= True;
+
+      if ALeft then
+        ALeftList:= TFiles.Create(EmptyStr);
+      if ARight then
+        ARightList:= TFiles.Create(EmptyStr);
       UpdateList(ALeftList, ARightList, ALeft, ARight);
+
       if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
       EnableControls(True);
@@ -2356,10 +2370,7 @@ begin
   files.Free;
 end;
 
-procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft,
-  ARemoveRight: Boolean);
-var
-  ARemove: Boolean;
+procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
 
   procedure doRemoveItem(const index: Integer);
   var
@@ -2373,20 +2384,17 @@ var
     if Assigned(ARight) and Assigned(rec.FFileR) then
       ARight.Add(rec.FFileR.Clone);
 
-    if ARemove then
-    begin
-      if ARemoveLeft and Assigned(rec.FFileL) then
-        FreeAndNil(rec.FFileL);
-      if ARemoveRight and Assigned(rec.FFileR) then
-        FreeAndNil(rec.FFileR);
+    if ARemoveLeft and Assigned(rec.FFileL) then
+      FreeAndNil(rec.FFileL);
+    if ARemoveRight and Assigned(rec.FFileR) then
+      FreeAndNil(rec.FFileR);
 
-      if Assigned(rec.FFileL) or Assigned(rec.FFileR) then
-        rec.UpdateState(chkIgnoreDate.Checked)
-      else begin
-        // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
-        // then cause MainDrawGrid.Selection and MainDrawGrid.IsCellSelected() changed
-        FVisibleItems.Delete(index);
-      end;
+    if Assigned(rec.FFileL) or Assigned(rec.FFileR) then
+      rec.UpdateState(chkIgnoreDate.Checked)
+    else begin
+      // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
+      // then cause MainDrawGrid.Selection and MainDrawGrid.IsCellSelected() changed
+      FVisibleItems.Delete(index);
     end;
   end;
 
@@ -2437,13 +2445,11 @@ var
     rec: TFileSyncRec;
   begin
     Result:= False;
-    if ARemove then begin
-      rec:= TFileSyncRec(FVisibleItems.Objects[index]);
-      if rec.isDir then begin
-        resetDirRecIfEmpty( index );
-        if NOT isCompletelyEmptyDir(index) then
-          Exit;
-      end;
+    rec:= TFileSyncRec(FVisibleItems.Objects[index]);
+    if rec.isDir then begin
+      resetDirRecIfEmpty( index );
+      if NOT isCompletelyEmptyDir(index) then
+        Exit;
     end;
     doRemoveItem(index);
     Result:= True;
@@ -2464,11 +2470,10 @@ var
 var
   lastIndex: Integer;
 begin
-  ARemove:= ARemoveLeft or ARemoveRight;
+  if (ARemoveLeft=False) and (ARemoveRight=False) then
+    Exit;
 
-  if ARemove then
-    MainDrawGrid.BeginUpdate;
-
+  MainDrawGrid.BeginUpdate;
   try
     if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then begin
       lastIndex:= processMultiSelection
@@ -2478,9 +2483,6 @@ begin
         lastIndex:= -1;
     end;
 
-    if NOT ARemove then
-      Exit;
-
     if lastIndex > 0 then
       resetDirRecIfEmpty( lastIndex-1 );
 
@@ -2488,8 +2490,7 @@ begin
       self.RemoveInvisibleDirs;
   finally
     MainDrawGrid.RowCount := FVisibleItems.Count;
-    if ARemove then
-      MainDrawGrid.EndUpdate;
+    MainDrawGrid.EndUpdate;
   end;
 end;
 
