@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-10-18 21:58+0200\n"
+"PO-Revision-Date: 2026-09-10 09:31+0200\n"
 "Last-Translator: Faludi Zoltán <zoltan@faludi.info>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Magyar\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.9\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -512,32 +512,24 @@ msgid "Cancel"
 msgstr "Mégse"
 
 #: tfrmdiffer.actcopylefttoright.caption
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "tfrmdiffer.actcopylefttoright.caption"
 msgid "Copy Block To Right"
 msgstr "Blokk másolása jobbra"
 
 #: tfrmdiffer.actcopylefttoright.hint
-#, fuzzy
-#| msgid "Copy Block Right"
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block From Left To Right"
-msgstr "Blokk másolása jobbra"
+msgstr "Blokk másolása balról jobbra"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "tfrmdiffer.actcopyrighttoleft.caption"
 msgid "Copy Block To Left"
 msgstr "Blokk másolása balra"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
-#, fuzzy
-#| msgid "Copy Block Left"
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block From Right To Left"
-msgstr "Blokk másolása balra"
+msgstr "Blokk másolása jobbról balra"
 
 #: tfrmdiffer.acteditcopy.caption
 msgctxt "tfrmdiffer.acteditcopy.caption"
@@ -1089,7 +1081,7 @@ msgstr "Mentés másként"
 
 #: tfrmeditor.actwordwrap.caption
 msgid "&Word wrap"
-msgstr ""
+msgstr "&Sortörés"
 
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
@@ -1144,7 +1136,6 @@ msgid "End Of Line"
 msgstr "Sorvége jel"
 
 #: tfrmeditor.miview.caption
-#, fuzzy
 msgctxt "tfrmeditor.miview.caption"
 msgid "&View"
 msgstr "&Nézet"
@@ -1615,7 +1606,7 @@ msgstr "&Súgó"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "Meghajtók"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2059,7 +2050,7 @@ msgstr "Bővítmény hozzáadása"
 
 #: tfrmmain.actaddtostash.caption
 msgid "Add to Stash"
-msgstr ""
+msgstr "Hozzáadás a gyűjteményhez"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2079,11 +2070,11 @@ msgstr "&Foglalt terület számítása"
 
 #: tfrmmain.actcallplatformfunctions.caption
 msgid "Call platform functions"
-msgstr ""
+msgstr "Platformfunkciók hívása"
 
 #: tfrmmain.actcallplatformfunctions.hint
 msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
-msgstr ""
+msgstr "Platformfüggvények meghívása (a meghívandó függvényt a „func” paraméter határozza meg)"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2328,7 +2319,7 @@ msgstr "Elérési út mező szerkesztése a fájllista felett"
 
 #: tfrmmain.actemptystash.caption
 msgid "Empty Stash"
-msgstr ""
+msgstr "Gyűjtemény kiűrítése"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2672,7 +2663,7 @@ msgstr "Utoljára betöltött Kedvenc Lapok újratöltése"
 
 #: tfrmmain.actremovefromstash.caption
 msgid "Remove Stash Items"
-msgstr ""
+msgstr "Gyűjteményelemek eltávolítása"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2802,7 +2793,7 @@ msgstr "Attribútumok módosítá&sa..."
 
 #: tfrmmain.actsetsortmode.caption
 msgid "Set Sort Mode"
-msgstr ""
+msgstr "Rendezési mód beállítása"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3217,7 +3208,7 @@ msgstr "Háló&zat"
 #: tfrmmain.mnuopenstash.caption
 msgctxt "tfrmmain.mnuopenstash.caption"
 msgid "Open Stash"
-msgstr ""
+msgstr "Gyűjtemény megnyitása"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -3385,60 +3376,58 @@ msgstr "Vagy válasszon előre meghatározott kiválasztási típust:"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "Teszt"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "Kulcs létrehozása"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Kulcsátalakítás"
 
 #: tfrmmasterkey.gbmasterkey.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.gbmasterkey.caption"
 msgid "Main Password"
-msgstr "Fő jelszó"
+msgstr "Mesterjelszó"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Minél több az iteráció, annál nehezebbé válnak a szótár- és kitalálási támadások, ugyanakkor a jelszótár betöltése és mentése is több időt vesz igénybe."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "&Kulcs-képző függvény:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "A kulcsot egy kulcslevezető függvény segítségével alakítják át. Ez megnöveli a számítási terhelést, és megnehezíti a szótár-alapú és a kitalálásos támadásokat."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "&Iterációk:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "&Memória:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "&Párhuzamosság:"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "&Jelszó:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "Jelszó &megismétlése:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Adjon meg egy új kulcsot, amelyet majd a jelszótároló titkosításához használunk."
 
 #: tfrmmasterkey.lblunit.caption
-#, fuzzy
 msgctxt "tfrmmasterkey.lblunit.caption"
 msgid "MB"
 msgstr "MB"
@@ -4369,10 +4358,9 @@ msgid "Right:"
 msgstr "Jobb:"
 
 #: tfrmoptionscolors.lblselection.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
-msgstr "Kiválasztás:"
+msgstr "Kijelölés:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -6312,7 +6300,7 @@ msgstr "Rendezés"
 
 #: tfrmoptionsfilesviews.lbl1k.caption
 msgid "1K ="
-msgstr ""
+msgstr "1K ="
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6380,11 +6368,11 @@ msgstr "Frissített fájlok &áthelyezése:"
 
 #: tfrmoptionsfilesviews.rb1000.caption
 msgid "1000"
-msgstr ""
+msgstr "1000"
 
 #: tfrmoptionsfilesviews.rb1024.caption
 msgid "1024"
-msgstr ""
+msgstr "1024"
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6451,7 +6439,7 @@ msgstr "Alapértelmezett attribútummaszk érték:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
+msgstr "További sorköz:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6726,6 +6714,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"Az F1, F2 stb. billentyűk kezelése funkcióbillentyűként\n"
+"a Rendszerbeállítások > Billentyűzet beállításainak figyelmen kívül hagyása"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6737,6 +6727,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"Ehhez a funkcióhoz további rendszerjogosultság szükséges.\n"
+"\n"
+"A funkció engedélyezésekor a rendszer automatikusan átirányít a\n"
+"Rendszerbeállítások > Adatvédelem és biztonság > Kisegítő lehetőségek menüpontba.\n"
+"\n"
+"A DC új verziójának telepítésekor minden alkalommal először\n"
+"törölnie kell a DC-t a listából, majd újra hozzá kell adnia."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7410,7 +7407,7 @@ msgstr "Meghajtóbetű mindig látható a lapcímben"
 
 #: tfrmoptionstabs.cbtabsunavailablemarker.caption
 msgid "Mark unavailable path in tab title with &a question mark ?"
-msgstr ""
+msgstr "&A lap címében az elérhetetlen útvonalat  kérdőjellel (?) jelölje."
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
@@ -9053,7 +9050,7 @@ msgstr "tartalom alapján"
 
 #: tfrmsyncdirsdlg.chkemptydir.caption
 msgid "empty directories"
-msgstr ""
+msgstr "üres könyvtárak"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
@@ -9152,7 +9149,7 @@ msgstr "egyesek"
 
 #: tfrmsyncdirsdlg.sbunknown.caption
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
@@ -10664,7 +10661,7 @@ msgstr "Fájlkeresés"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "Meghajtók kiválasztása"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
@@ -10964,10 +10961,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(pl. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS ..."
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11087,22 +11087,22 @@ msgstr "Finder"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "Visszafelé"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "Visszafelé"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "Előre"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "Előre"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -11148,11 +11148,11 @@ msgstr "Fájlkezelőként a Double Commander teljes lemezhozzáférési engedél
 
 #: ulng.rsmfstbiprivilegetips2
 msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
-msgstr ""
+msgstr "Ha látsz engem, az azt jelenti, hogy a DC még nem kapott engedélyt. A DC el fog rejteni, amint ez megtörténik."
 
 #: ulng.rsmfstbiprivilegetips3
 msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
-msgstr ""
+msgstr "Minden új verzió telepítésekor újra el kell végezni az engedélyezést. Ehhez először el kell távolítani a DC-t a listáról, majd újból hozzá kell adnia. Mivel az új verzió ujjlenyomatai eltérőek, a jelölőnégyzetek egyszerű bejelölése nem lesz elegendő."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -12098,12 +12098,12 @@ msgstr "Érvénytelen kiválasztás."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "A kulcsátalakítás sikertelen volt (hibakód: %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "A kulcs átalakítása %f másodpercet vett igénybe."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -14129,7 +14129,7 @@ msgstr "Válasszon mappát:"
 
 #: ulng.rsstashname
 msgid "Stash"
-msgstr ""
+msgstr "Gyűjtemény"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
