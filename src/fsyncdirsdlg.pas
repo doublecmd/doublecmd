@@ -2622,43 +2622,17 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.CopyToClipboard;
-var
-  sl: TStringList;
-  RowList: TIntegerList;
-  I: Integer;
-
   procedure FillRowList(RowList: TIntegerList);
   var
-    R, Y: Integer;
-    Selection: TGridRect;
+    i: Integer;
   begin
-    Selection := MainDrawGrid.Selection;
-    if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
-    begin
-      for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
-      begin
-        Selection:= MainDrawGrid.SelectedRange[Y];
-        for R := Selection.Top to Selection.Bottom do
-        begin
-          if RowList.IndexOf(R) = -1 then
-          begin
-            RowList.Add(R);
-          end;
-        end;
-      end;
-    end
-    else
-    begin
-      R := MainDrawGrid.Row;
-      if RowList.IndexOf(R) = -1 then
-      begin
-        RowList.Add(R);
-      end;
+    for i:= 0 to MainDrawGrid.RowCount-1 do begin
+      if MainDrawGrid.IsCellSelected[0,i] then
+        RowList.Add( i );
     end;
-    RowList.Sort;
   end;
 
-  procedure PrintRow(R: Integer);
+  procedure PrintRow(sl: TStringList; R: Integer);
   var
     s: string;
     SyncRec: TFileSyncRec;
@@ -2706,6 +2680,11 @@ var
     end;
     sl.Add(s);
   end;
+
+var
+  sl: TStringList;
+  RowList: TIntegerList;
+  I: Integer;
 begin
   sl := TStringList.Create;
   RowList := TIntegerList.Create;
@@ -2713,7 +2692,7 @@ begin
     FillRowList(RowList);
     for I := 0 to RowList.Count - 1 do
     begin
-      PrintRow(RowList[I]);
+      PrintRow(sl, RowList[I]);
     end;
     ClipboardSetText(sl.Text);
   finally
