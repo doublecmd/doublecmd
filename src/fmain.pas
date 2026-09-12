@@ -6415,9 +6415,9 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     if Length(aPath) <> 0 then
     begin
       aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
-      if not mbFileSystemEntryExists(aPath) then
+      if (gVfsModuleList.GetFileSource(aPath) = nil) then
       begin
-        if (gVfsModuleList.GetFileSource(aPath) = nil) then
+        if not mbFileSystemEntryExists(aPath) then
           aPath:= GetDeepestExistingPath(aPath);
       end;
       if Length(aPath) <> 0 then
