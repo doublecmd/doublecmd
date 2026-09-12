@@ -977,7 +977,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh, uFileSourceOperationMisc
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc, uVfsModule
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
@@ -6409,18 +6409,31 @@ end;
 procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
 
   procedure LoadPanel(aNoteBook: TFileViewNotebook; aPath: String);
+  var
+    AFileView: TFileView;
   begin
     if Length(aPath) <> 0 then
     begin
       aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
-      if not mbFileSystemEntryExists(aPath) then
-        aPath:= GetDeepestExistingPath(aPath);
+      if (gVfsModuleList.GetFileSource(aPath) = nil) then
+      begin
+        if not mbFileSystemEntryExists(aPath) then
+          aPath:= GetDeepestExistingPath(aPath);
+      end;
       if Length(aPath) <> 0 then
       begin
         if Params.NewTab then
           AddTab(aNoteBook, aPath)
-        else
-          aNoteBook.ActivePage.FileView.ChangePathAndSetActiveFile(aPath)
+        else begin
+          AFileView:= aNoteBook.ActivePage.FileView;
+          if mbFileExists(aPath) then
+          begin
+            if ChooseFileSource(AFileView, ExtractFileDir(aPath)) then
+              AFileView.SetActiveFile(ExtractFileName(aPath));
+          end
+          else
+            ChooseFileSource(AFileView, aPath);
+        end;
       end;
     end;
   end;
