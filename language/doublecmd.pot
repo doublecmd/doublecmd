@@ -4225,6 +4225,10 @@ msgstr ""
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
 
+#: tfrmoptionsbehavior.cbusemonochrometrayicon.caption
+msgid "Use &monochrome icon"
+msgstr ""
+
 #: tfrmoptionsbehavior.cbonlyonce.caption
 msgid "A&llow only one copy of DC at a time"
 msgstr ""
@@ -14457,4 +14461,3 @@ msgstr ""
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr ""
-

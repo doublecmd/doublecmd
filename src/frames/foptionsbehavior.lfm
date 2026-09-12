@@ -1,10 +1,10 @@
 inherited frmOptionsBehavior: TfrmOptionsBehavior
-  Height = 276
+  Height = 299
   Width = 666
   HelpKeyword = '/configuration.html#ConfigBehaviors'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 276
+  ClientHeight = 299
   ClientWidth = 666
   object gbMisc1: TGroupBox[0]
     AnchorSideLeft.Control = Owner
@@ -12,14 +12,14 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 93
+    Height = 116
     Top = 6
     Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 75
+    ClientHeight = 98
     ClientWidth = 650
     TabOrder = 0
     object cbOnlyOnce: TCheckBox
@@ -49,6 +49,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Mo&ve icon to system tray when minimized'
+      OnChange = cbTrayIconOptionChange
       TabOrder = 1
     end
     object cbAlwaysShowTrayIcon: TCheckBox
@@ -67,6 +68,21 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       OnChange = cbAlwaysShowTrayIconChange
       TabOrder = 2
     end
+    object cbUseMonochromeTrayIcon: TCheckBox
+      AnchorSideLeft.Control = gbMisc1
+      AnchorSideTop.Control = cbAlwaysShowTrayIcon
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbMisc1
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 17
+      Top = 75
+      Width = 634
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      Caption = 'Use &monochrome icon'
+      TabOrder = 3
+    end
   end
   object gbMisc2: TGroupBox[1]
     AnchorSideLeft.Control = Owner
@@ -76,7 +92,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 85
-    Top = 99
+    Top = 122
     Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
