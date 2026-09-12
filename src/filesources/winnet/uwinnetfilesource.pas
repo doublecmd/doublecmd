@@ -177,7 +177,7 @@ end;
 function TWinNetFileSource.IsNetworkPath(const Path: String): Boolean;
 begin
   Result:= (Path = PathDelim) or
-           ((Pos(PathDelim + PathDelim, Path) = 1) and
+           (StrBegins(Path, '\\') and
             (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(Path)) < 3));
 end;
 
