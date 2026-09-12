@@ -4311,7 +4311,7 @@ msgstr "已删除"
 
 #: tfrmoptionscolors.lbldirselection.caption
 msgid "Directory Selection:"
-msgstr ""
+msgstr "目录被选中时："
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -4363,7 +4363,7 @@ msgstr "右边："
 #: tfrmoptionscolors.lblselection.caption
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
-msgstr "选择："
+msgstr "文件被选中时："
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -7405,11 +7405,11 @@ msgstr "显示标签关闭按钮(&B)"
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
-msgstr "始终在标签标题中显示驱动器符"
+msgstr "始终在标题中显示盘符"
 
 #: tfrmoptionstabs.cbtabsunavailablemarker.caption
 msgid "Mark unavailable path in tab title with &a question mark ?"
-msgstr ""
+msgstr "在标题中用问号“?”标记不可用的路径"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
