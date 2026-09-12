@@ -88,6 +88,9 @@ type
     function GetRootDir: String; override; overload;
     function GetPathType(sPath : String): TPathType; override;
 
+    function IsSystemFile(aFile: TFile): Boolean; override;
+    function IsHiddenFile(aFile: TFile): Boolean; override;
+
     function CreateDirectory(const Path: String): Boolean; override;
     function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
@@ -140,7 +143,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths, uLog, uLng,
+  syncobjs, DCClassesUtf8, uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths, uLog, uLng,
 {$IFDEF MSWINDOWS}
   DCWindows, uMyWindows, Windows,
 {$ENDIF}
@@ -167,9 +170,89 @@ uses
   uFileSystemCalcStatisticsOperation,
   uFileSystemSetFilePropertyOperation;
 
+const
+  DotHiddenCacheLimit = 64;
+
 var
   fileSystemFileSourceWatcher: TFileSourceWatcher;
   fileSystemFileSourceProcessor: TFileSystemFileSourceProcessor;
+  DotHiddenCacheLock: TCriticalSection;
+  // Cached ".hidden" names, keyed by directory path (objects are TStringListEx).
+  DotHiddenCache: TStringListEx;
+
+procedure ClearDotHiddenCache;
+var
+  I: Integer;
+begin
+  for I := 0 to DotHiddenCache.Count - 1 do
+    DotHiddenCache.Objects[I].Free;
+  DotHiddenCache.Clear;
+end;
+
+// Loads GNOME-style ".hidden" names for a directory (one name per line).
+function LoadDotHiddenNames(const APath: String): TStringListEx;
+var
+  I: Integer;
+  HiddenFile, AName: String;
+  RawList: TStringListEx;
+begin
+  Result := TStringListEx.Create;
+  Result.CaseSensitive := True;
+  Result.Sorted := True;
+  Result.Duplicates := dupIgnore;
+
+  HiddenFile := IncludeTrailingPathDelimiter(APath) + '.hidden';
+  if not mbFileExists(HiddenFile) then
+    Exit;
+
+  RawList := TStringListEx.Create;
+  try
+    try
+      RawList.LoadFromFile(HiddenFile);
+    except
+      Exit;
+    end;
+    for I := 0 to RawList.Count - 1 do
+    begin
+      AName := TrimRight(RawList[I]);
+      if AName <> EmptyStr then
+        Result.Add(AName);
+    end;
+  finally
+    RawList.Free;
+  end;
+end;
+
+// Returns True if AName is listed in the directory's ".hidden" file.
+function IsListedInDotHidden(const APath, AName: String): Boolean;
+var
+  Index: Integer;
+  Names: TStringListEx;
+  CachedPath: String;
+begin
+  Result := False;
+  if (AName = EmptyStr) or (AName = '.') or (AName = '..') then
+    Exit;
+
+  CachedPath := IncludeTrailingPathDelimiter(APath);
+
+  DotHiddenCacheLock.Enter;
+  try
+    Index := DotHiddenCache.IndexOf(CachedPath);
+    if Index < 0 then
+    begin
+      if DotHiddenCache.Count >= DotHiddenCacheLimit then
+        ClearDotHiddenCache;
+      Names := LoadDotHiddenNames(CachedPath);
+      DotHiddenCache.AddObject(CachedPath, Names);
+    end
+    else
+      Names := TStringListEx(DotHiddenCache.Objects[Index]);
+    Result := Names.IndexOf(AName) >= 0;
+  finally
+    DotHiddenCacheLock.Leave;
+  end;
+end;
 
 {$IF DEFINED(MSWINDOWS)}
 
@@ -848,6 +931,26 @@ end;
 procedure TFileSystemFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
   FDescr.Reset;
+  DotHiddenCacheLock.Enter;
+  try
+    ClearDotHiddenCache;
+  finally
+    DotHiddenCacheLock.Leave;
+  end;
+end;
+
+function TFileSystemFileSource.IsSystemFile(aFile: TFile): Boolean;
+begin
+  Result := inherited IsSystemFile(aFile);
+  if not Result then
+    Result := IsListedInDotHidden(aFile.Path, aFile.Name);
+end;
+
+function TFileSystemFileSource.IsHiddenFile(aFile: TFile): Boolean;
+begin
+  Result := inherited IsHiddenFile(aFile);
+  if not Result then
+    Result := IsListedInDotHidden(aFile.Path, aFile.Name);
 end;
 
 function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;
@@ -1173,8 +1276,16 @@ end;
 initialization
   fileSystemFileSourceWatcher:= TFileSystemFileSourceWatcher.Create;
   fileSystemFileSourceProcessor:= TFileSystemFileSourceProcessor.Create;
+  DotHiddenCacheLock := TCriticalSection.Create;
+  DotHiddenCache := TStringListEx.Create;
+  DotHiddenCache.CaseSensitive := {$IFDEF MSWINDOWS}False{$ELSE}True{$ENDIF};
+  DotHiddenCache.Sorted := True;
+  DotHiddenCache.Duplicates := dupIgnore;
 
 finalization
+  ClearDotHiddenCache;
+  FreeAndNil(DotHiddenCache);
+  FreeAndNil(DotHiddenCacheLock);
   FreeAndNil( fileSystemFileSourceWatcher );
   FreeAndNil( fileSystemFileSourceProcessor );
 
