@@ -977,7 +977,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh, uFileSourceOperationMisc, uVfsModule
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
@@ -6415,9 +6415,9 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     if Length(aPath) <> 0 then
     begin
       aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
-      if (gVfsModuleList.GetFileSource(aPath) = nil) then
+      if not mbFileSystemEntryExists(aPath) then
       begin
-        if not mbFileSystemEntryExists(aPath) then
+        if (gVfsModuleList.GetFileSource(aPath) = nil) then
           aPath:= GetDeepestExistingPath(aPath);
       end;
       if Length(aPath) <> 0 then
