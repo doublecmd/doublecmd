@@ -160,12 +160,11 @@ begin
   {First, check the type of header}
   BlockRead(f, Buffer[0], 6);
   if IOResult <> 0 then Exit;
-  header.IsOldHeader := False;
 
   // Old binary format.
   if PWord(@Buffer[0])^ = $71C7 then
   begin
-    header.IsOldHeader := True;
+    header.header_type := htOldBin;
     BlockRead(f, Buffer[6], SizeOf(TOldBinaryHeader) - 6);
     if IOResult <> 0 then Exit;
     with header, OldHdr do
@@ -187,6 +186,7 @@ begin
   // Old Ascii format.
   else if strlcomp(Buffer, '070707', 6) = 0 then
   begin
+    header.header_type := htOldChr;
     BlockRead(f, Buffer[6], SizeOf(TOldCharHeader) - 6);
     if IOResult <> 0 then Exit;
     with header, OdcHdr do
@@ -209,6 +209,7 @@ begin
   else if (strlcomp(Buffer, '070701', 6) = 0) or
           (strlcomp(Buffer, '070702', 6) = 0) then
   begin
+    header.header_type := htNewChr;
     BlockRead(f, Buffer[6], SizeOf(TNewCharHeader) - 6);
     if IOResult <> 0 then Exit;
     with header, NewHdr do
@@ -247,11 +248,12 @@ begin
       Seek(f, FilePos(f) + ofs);
     origname := filename;
     DoDirSeparators(filename);
-    if IsOldHeader then begin
-      if not AlignFilePointer(f, 2) then Exit;
-    end else
-      if not AlignFilePointer(f, 4) then Exit;
-
+    case header_type of
+      htOldBin:
+        if not AlignFilePointer(f, 2) then Exit;
+      htNewChr:
+        if not AlignFilePointer(f, 4) then Exit;
+    end;
     //Correct file name started with "./" or "/"
     filename := correct_filename(filename);
   end;
