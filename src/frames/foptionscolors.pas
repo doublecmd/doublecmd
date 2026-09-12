@@ -32,6 +32,7 @@ type
     cbLeft: TKASColorBoxButton;
     cbModifiedBinary: TKASColorBoxButton;
     cbRight: TKASColorBoxButton;
+    cbDirSelection: TKASColorBoxButton;
     cbSuccess: TKASColorBoxButton;
     cbUnknown: TKASColorBoxButton;
     cbSelection: TKASColorBoxButton;
@@ -61,6 +62,7 @@ type
     lblModified: TLabel;
     lblModifiedBinary: TLabel;
     lblRight: TLabel;
+    lblDirSelection: TLabel;
     lblSuccess: TLabel;
     lblUnknown: TLabel;
     lblSelection: TLabel;
@@ -204,6 +206,7 @@ begin
     cbRight.Selected:= RightColor;
     cbUnknown.Selected:= UnknownColor;
     cbSelection.Selected:= SelectedColor;
+    cbDirSelection.Selected:= DirSelectedColor;
   end;
   with gColors.FreeSpaceInd^ do
   begin
@@ -305,6 +308,7 @@ begin
     RightColor:= cbRight.Selected;
     UnknownColor:= cbUnknown.Selected;
     SelectedColor:= cbSelection.Selected;
+    DirSelectedColor:= cbDirSelection.Selected;
   end;
   gIndUseGradient:= cbbUseGradientInd.Checked;
   with gColors.FreeSpaceInd^ do

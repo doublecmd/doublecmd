@@ -4323,6 +4323,10 @@ msgstr "Categoria:"
 msgid "Deleted:"
 msgstr "Cancellato:"
 
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
+
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
 msgstr "Errore:"

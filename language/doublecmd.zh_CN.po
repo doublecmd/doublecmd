@@ -4309,6 +4309,10 @@ msgstr "类别："
 msgid "Deleted:"
 msgstr "已删除"
 
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
+
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
 msgstr "错误："

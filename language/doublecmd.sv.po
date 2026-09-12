@@ -1631,12 +1631,8 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "Spa&ra med ”Starta i katalog”"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid ""
-"If saved then \"Start in directory\" will be restored when loading template. Use it if you want "
-"to fix searching to a certain directory"
-msgstr ""
-"Om ”Starta i katalog” sparas återställs det när mallen läses in. Använd detta om du vill begränsa"
-" sökningen till en viss katalog"
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
+msgstr "Om ”Starta i katalog” sparas återställs det när mallen läses in. Använd detta om du vill begränsa sökningen till en viss katalog"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -3396,24 +3392,16 @@ msgid "Main Password"
 msgstr "Huvudlösenord"
 
 #: tfrmmasterkey.lblfooter.caption
-msgid ""
-"The more iterations, the harder are dictionary and guessing attacks, but also password store "
-"loading/saving takes more time."
-msgstr ""
-"Ju fler iterationer, desto svårare blir ordboks- och gissningsattacker, men inläsning och lagring"
-" av lösenordsförrådet tar också längre tid."
+msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
+msgstr "Ju fler iterationer, desto svårare blir ordboks- och gissningsattacker, men inläsning och lagring av lösenordsförrådet tar också längre tid."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
 msgstr "&Nyckelhärledningsfunktion:"
 
 #: tfrmmasterkey.lblheader.caption
-msgid ""
-"The key is transformed using a key derivation function. This adds a work factor and makes "
-"dictionary and guessing attacks harder."
-msgstr ""
-"Nyckeln transformeras med en nyckelhärledningsfunktion. Det ökar arbetsfaktorn och gör ordboks- "
-"och gissningsattacker svårare."
+msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
+msgstr "Nyckeln transformeras med en nyckelhärledningsfunktion. Det ökar arbetsfaktorn och gör ordboks- och gissningsattacker svårare."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
@@ -4031,12 +4019,8 @@ msgstr "Hjälp för variabelpåminnelser"
 
 #: tfrmoptionsarchivers.bvlarchiverids.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
-msgid ""
-"ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file "
-"extension:"
-msgstr ""
-"ID:n som används med cm_OpenArchive för att känna igen arkiv genom deras innehåll i stället för "
-"filändelsen:"
+msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
+msgstr "ID:n som används med cm_OpenArchive för att känna igen arkiv genom deras innehåll i stället för filändelsen:"
 
 #: tfrmoptionsarchivers.bvlarchiveroptions.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
@@ -4325,6 +4309,10 @@ msgstr "Kategori:"
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
 msgstr "Borttagen:"
+
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -4907,12 +4895,8 @@ msgstr "Markeringsfärg:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
-msgid ""
-"Below is a preview. You may move cursor and select files to get immediately an actual look and "
-"feel of the various settings."
-msgstr ""
-"Nedan visas en förhandsgranskning. Du kan flytta markören och markera filer för att omedelbart se"
-" hur de olika inställningarna ser ut och fungerar."
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr "Nedan visas en förhandsgranskning. Du kan flytta markören och markera filer för att omedelbart se hur de olika inställningarna ser ut och fungerar."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
@@ -5370,24 +5354,16 @@ msgid "Auto Indent"
 msgstr "Automatiskt indrag"
 
 #: tfrmoptionseditor.chkautoindent.hint
-msgid ""
-"Allows to indent the caret, when new line is created with <Enter>, with the same amount of "
-"leading white space as the preceding line"
-msgstr ""
-"Tillåter att markören på en ny rad, skapad med <Enter>, får samma inledande blanksteg som "
-"föregående rad"
+msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
+msgstr "Tillåter att markören på en ny rad, skapad med <Enter>, får samma inledande blanksteg som föregående rad"
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
 msgstr "Grupperad ångring"
 
 #: tfrmoptionseditor.chkgroupundo.hint
-msgid ""
-"All continuous changes of the same type will be processed in one call instead of undoing/redoing "
-"each one"
-msgstr ""
-"Alla sammanhängande ändringar av samma typ behandlas i ett anrop i stället för att varje ändring "
-"ångras/görs om separat"
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr "Alla sammanhängande ändringar av samma typ behandlas i ett anrop i stället för att varje ändring ångras/görs om separat"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5444,9 +5420,7 @@ msgstr "Ta automatiskt bort avslutande blanksteg, detta gäller endast redigerad
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
-"Observera att alternativet ”Smarta tabbar” har företräde framför den tabulering som annars skulle"
-" utföras"
+msgstr "Observera att alternativet ”Smarta tabbar” har företräde framför den tabulering som annars skulle utföras"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5463,9 +5437,7 @@ msgstr "Tabbredd:"
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
-"Observera att alternativet ”Smarta tabbar” har företräde framför den tabulering som annars skulle"
-" utföras"
+msgstr "Observera att alternativet ”Smarta tabbar” har företräde framför den tabulering som annars skulle utföras"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5896,16 +5868,12 @@ msgid "Starting path of the command. Never quote this string."
 msgstr "Startkatalog för kommandot. Sätt aldrig den här strängen inom citattecken."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
-msgid ""
-"Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, "
-"for you"
+msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
 msgstr "Åtgärdens namn. Det skickas aldrig till systemet utan är bara ett minnesnamn som du själv väljer."
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgstr ""
-"Parameter som skickas till kommandot. Långa filnamn med blanksteg ska anges inom citattecken (vid"
-" manuell inmatning)."
+msgstr "Parameter som skickas till kommandot. Långa filnamn med blanksteg ska anges inom citattecken (vid manuell inmatning)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Never quote this string."
@@ -6058,12 +6026,8 @@ msgstr "Erbjud att lägga till markeringen i filassociationer om den inte redan 
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
-msgid ""
-"When accessing file association, offer to add current selected file if not already included in a "
-"configured file type"
-msgstr ""
-"När filassociationer öppnas, erbjud att lägga till den aktuellt markerade filen om den inte redan"
-" ingår i en konfigurerad filtyp"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
+msgstr "När filassociationer öppnas, erbjud att lägga till den aktuellt markerade filen om den inte redan ingår i en konfigurerad filtyp"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -6277,12 +6241,8 @@ msgid "Inactive Text Color:"
 msgstr "Inaktiv textfärg:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
-msgid ""
-"Below is a preview. You may move cursor, select file and get immediately an actual look and feel "
-"of the various settings."
-msgstr ""
-"Nedan visas en förhandsgranskning. Du kan flytta markören och markera en fil för att omedelbart "
-"se hur de olika inställningarna ser ut och fungerar."
+msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
+msgstr "Nedan visas en förhandsgranskning. Du kan flytta markören och markera en fil för att omedelbart se hur de olika inställningarna ser ut och fungerar."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
@@ -6466,9 +6426,7 @@ msgstr "&När filer markeras med <MELLANSLAG>, flytta ned till nästa fil (som m
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-"Använd Windows-liknande filter vid markering av filer (”*.*” markerar även filer utan filändelse "
-"osv.)"
+msgstr "Använd Windows-liknande filter vid markering av filer (”*.*” markerar även filer utan filändelse osv.)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgid "Use an independent attribute filter in mask input dialog each time"
@@ -7222,12 +7180,8 @@ msgstr "Filnamn"
 
 #: tfrmoptionspluginsdsx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
-msgid ""
-"Searc&h plugins allow one to use alternative search algorithms or external tools (like "
-"\"locate\", etc.)"
-msgstr ""
-"Sö&kinsticksmoduler gör det möjligt att använda alternativa sökalgoritmer eller externa verktyg "
-"(som ”locate” osv.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Sö&kinsticksmoduler gör det möjligt att använda alternativa sökalgoritmer eller externa verktyg (som ”locate” osv.)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
@@ -7301,12 +7255,8 @@ msgstr "Filnamn"
 
 #: tfrmoptionspluginswdx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
-msgid ""
-"Content plu&gins allow one to display extended file details like mp3 tags or image attributes in "
-"file lists, or use them in search and multi-rename tool"
-msgstr ""
-"Innehållsinsticks&moduler kan visa utökade fildetaljer, som MP3-taggar eller bildegenskaper, i "
-"fillistor eller använda dem vid sökning och massomdöpning"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Innehållsinsticks&moduler kan visa utökade fildetaljer, som MP3-taggar eller bildegenskaper, i fillistor eller använda dem vid sökning och massomdöpning"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
@@ -7330,12 +7280,8 @@ msgstr "Filnamn"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
-msgid ""
-"Fi&le system plugins allow access to disks inaccessible by operating system or to external "
-"devices like smartphones."
-msgstr ""
-"Fi&lsysteminsticksmoduler ger åtkomst till diskar som operativsystemet inte kan nå eller till "
-"externa enheter som smarttelefoner."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
+msgstr "Fi&lsysteminsticksmoduler ger åtkomst till diskar som operativsystemet inte kan nå eller till externa enheter som smarttelefoner."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -7359,12 +7305,8 @@ msgstr "Filnamn"
 
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
-msgid ""
-"Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in "
-"Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Visa&rinsticksmoduler gör det möjligt att visa filformat som bilder, kalkylblad, databaser osv. i"
-" visaren (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Visa&rinsticksmoduler gör det möjligt att visa filformat som bilder, kalkylblad, databaser osv. i visaren (F3, Ctrl+Q)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
@@ -7549,13 +7491,11 @@ msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "Standardposition i menyn när nya favoritflikar sparas:"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
-#
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMCLOSEPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} bör normalt finnas här för att motsvara kommandot som ska köras i terminalen"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
-#
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} bör normalt finnas här för att motsvara kommandot som ska köras i terminalen"
@@ -8252,12 +8192,8 @@ msgid "Where to use Tree View Menus:"
 msgstr "Var trädvymenyer ska användas:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
-msgid ""
-"*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved "
-"and restored individually for each context from a usage and session to another."
-msgstr ""
-"*OBS: Alternativ som skiftlägeskänslighet och om accenter ska ignoreras sparas och återställs "
-"individuellt för varje sammanhang mellan användningar och sessioner."
+msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
+msgstr "*OBS: Alternativ som skiftlägeskänslighet och om accenter ska ignoreras sparas och återställs individuellt för varje sammanhang mellan användningar och sessioner."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -8341,12 +8277,8 @@ msgid "Unselectable under cursor:"
 msgstr "Text som inte kan markeras under markören:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
-msgid ""
-"Change color on left and you'll see here a preview of what your Tree View Menus will look likes "
-"with this sample."
-msgstr ""
-"Ändra färgerna till vänster så ser du här en förhandsgranskning av hur dina trädvymenyer kommer "
-"att se ut i exemplet."
+msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
+msgstr "Ändra färgerna till vänster så ser du här en förhandsgranskning av hur dina trädvymenyer kommer att se ut i exemplet."
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
@@ -10055,8 +9987,7 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"Den här filen kan inte hittas och kan hjälpa till att validera den slutliga kombinationen av "
-"filer:\n"
+"Den här filen kan inte hittas och kan hjälpa till att validera den slutliga kombinationen av filer:\n"
 "%s\n"
 "\n"
 "Kan du göra den tillgänglig och trycka på ”OK” när du är klar,\n"
@@ -10128,14 +10059,8 @@ msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Urklipp innehåller inga giltiga verktygsfältsdata."
 
 #: ulng.rscmdcategorylistinorder
-msgid ""
-"All;Active Panel;Left Panel;Right Panel;File "
-"Operations;Configuration;Network;Miscellaneous;Parallel "
-"Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command "
-"Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr ""
-"Alla;Aktiv panel;Vänster panel;Höger "
-"panel;Filåtgärder;Konfiguration;Nätverk;Övrigt;Parallellport;Utskrift;Markering;Säkerhet;Urklipp;FTP;Navigering;Hjälp;Fönster;Kommandorad;Verktyg;Visa;Användare;Flikar;Sortering;Logg"
+msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
+msgstr "Alla;Aktiv panel;Vänster panel;Höger panel;Filåtgärder;Konfiguration;Nätverk;Övrigt;Parallellport;Utskrift;Markering;Säkerhet;Urklipp;FTP;Navigering;Hjälp;Fönster;Kommandorad;Verktyg;Visa;Användare;Flikar;Sortering;Logg"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
@@ -10890,13 +10815,11 @@ msgstr "ingen;Namn, a–ö;Namn, ö–a;Änd, a–ö;Änd, ö–a;Storlek 9–0;
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
-"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the "
-"imported one.\n"
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?"
 msgstr ""
-"Varning! När en säkerhetskopia av en .hotlist-fil återställs raderas den befintliga listan och "
-"ersätts av den importerade.\n"
+"Varning! När en säkerhetskopia av en .hotlist-fil återställs raderas den befintliga listan och ersätts av den importerade.\n"
 "\n"
 "Är du säker på att du vill fortsätta?"
 
@@ -10994,13 +10917,8 @@ msgstr "Efter kommandonamn;Efter kortkommando (grupperat);Efter kortkommando (et
 
 #: ulng.rsiclouddrivecopyseedfileconfirmdlgmessage
 msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgmessage"
-msgid ""
-"It is recommended to download the files first. Otherwise, what is copied is not the content of "
-"the files, but the corresponding placeholder files, which will result in hidden files with the "
-".iCloud extension."
-msgstr ""
-"Det rekommenderas att hämta filerna först. Annars kopieras inte filernas innehåll, utan "
-"motsvarande platshållarfiler, vilket resulterar i dolda filer med filändelsen .iCloud."
+msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
+msgstr "Det rekommenderas att hämta filerna först. Annars kopieras inte filernas innehåll, utan motsvarande platshållarfiler, vilket resulterar i dolda filer med filändelsen .iCloud."
 
 #: ulng.rsiclouddrivecopyseedfileconfirmdlgtitle
 msgctxt "ulng.rsiclouddrivecopyseedfileconfirmdlgtitle"
@@ -11073,9 +10991,7 @@ msgstr "Det finns redan en kolumnvy med det namnet."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr ""
-"För att ändra den kolumnvy som redigeras måste du antingen SPARA, KOPIERA eller TA BORT den "
-"aktuella."
+msgstr "För att ändra den kolumnvy som redigeras måste du antingen SPARA, KOPIERA eller TA BORT den aktuella."
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -11231,30 +11147,16 @@ msgid "network"
 msgstr "nätverk"
 
 #: ulng.rsmfstbiprivilegetips
-msgid ""
-"As a file manager, Double Command requires full disk access permissions. Clicking this button "
-"will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full "
-"Disk Access\" list to complete the authorization."
-msgstr ""
-"Som filhanterare kräver Double Commander behörigheten Fullständig skivåtkomst. När du klickar på "
-"den här knappen öppnas sidan med macOS-systeminställningar. Lägg till ”Double Commander.app” i "
-"listan ”Fullständig skivåtkomst” för att slutföra auktoriseringen."
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr "Som filhanterare kräver Double Commander behörigheten Fullständig skivåtkomst. När du klickar på den här knappen öppnas sidan med macOS-systeminställningar. Lägg till ”Double Commander.app” i listan ”Fullständig skivåtkomst” för att slutföra auktoriseringen."
 
 #: ulng.rsmfstbiprivilegetips2
 msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
-msgstr ""
-"Om du kan se det här betyder det att DC ännu inte har auktoriserats. DC döljer detta när "
-"auktoriseringen är klar."
+msgstr "Om du kan se det här betyder det att DC ännu inte har auktoriserats. DC döljer detta när auktoriseringen är klar."
 
 #: ulng.rsmfstbiprivilegetips3
-msgid ""
-"You must re-authorize every time you install a new version. In this case you need to remove DC "
-"from the list first and then add DC back again. Because the new version has different "
-"fingerprints, simply enabling the checkboxes will not work."
-msgstr ""
-"Du måste auktorisera på nytt varje gång du installerar en ny version. Då måste du först ta bort "
-"DC från listan och sedan lägga till DC igen. Eftersom den nya versionen har andra fingeravtryck "
-"räcker det inte att bara aktivera kryssrutorna."
+msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
+msgstr "Du måste auktorisera på nytt varje gång du installerar en ny version. Då måste du först ta bort DC från listan och sedan lägga till DC igen. Eftersom den nya versionen har andra fingeravtryck räcker det inte att bara aktivera kryssrutorna."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -11454,25 +11356,17 @@ msgstr "Visa"
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgmessage
 msgid ""
-"Some virtual filesystem contain specific directory structures. When copying from it to a "
-"compressed archive, only one directory can be selected at a time, unless the actual locations of "
-"the selected directories are all located under the same parent directory.\n"
+"Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.\n"
 "\n"
-"For example, for iCloud Drive, when copying directory from the root to a compressed archive, "
-"maybe only one directory should be selected.\n"
+"For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.\n"
 "\n"
-"It is recommended that you follow your usual practice and try to select only one directory when "
-"you receive this prompt."
+"It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
-"Vissa virtuella filsystem innehåller särskilda katalogstrukturer. När du kopierar från ett sådant"
-" till ett komprimerat arkiv kan endast en katalog väljas åt gången, om inte de markerade "
-"katalogernas faktiska platser ligger under samma överordnade katalog.\n"
+"Vissa virtuella filsystem innehåller särskilda katalogstrukturer. När du kopierar från ett sådant till ett komprimerat arkiv kan endast en katalog väljas åt gången, om inte de markerade katalogernas faktiska platser ligger under samma överordnade katalog.\n"
 "\n"
-"För iCloud Drive kan du till exempel behöva välja endast en katalog när du kopierar en katalog "
-"från roten till ett komprimerat arkiv.\n"
+"För iCloud Drive kan du till exempel behöva välja endast en katalog när du kopierar en katalog från roten till ett komprimerat arkiv.\n"
 "\n"
-"Vi rekommenderar att du följer ditt vanliga arbetssätt och försöker välja endast en katalog när "
-"den här uppmaningen visas."
+"Vi rekommenderar att du följer ditt vanliga arbetssätt och försöker välja endast en katalog när den här uppmaningen visas."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
@@ -11813,12 +11707,8 @@ msgid "Exit status:"
 msgstr "Avslutningsstatus:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
-msgid ""
-"Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this "
-"action!)"
-msgstr ""
-"Är du säker på att du vill ta bort alla poster i dina favoritflikar? (Den här åtgärden kan inte "
-"ångras!)"
+msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
+msgstr "Är du säker på att du vill ta bort alla poster i dina favoritflikar? (Den här åtgärden kan inte ångras!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11856,9 +11746,7 @@ msgstr "Välj .tab-fil(er) att importera (du kan välja flera samtidigt!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr ""
-"De senaste ändringarna i favoritflikarna har ännu inte sparats. Vill du spara dem innan du "
-"fortsätter?"
+msgstr "De senaste ändringarna i favoritflikarna har ännu inte sparats. Vill du spara dem innan du fortsätter?"
 
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
@@ -11981,12 +11869,8 @@ msgid "Configuration of Directory Hotlist"
 msgstr "Konfiguration av katalogfavoriter"
 
 #: ulng.rsmsghotdirdeleteallentries
-msgid ""
-"Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to "
-"this action!)"
-msgstr ""
-"Är du säker på att du vill ta bort alla poster i dina katalogfavoriter? (Den här åtgärden kan "
-"inte ångras!)"
+msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
+msgstr "Är du säker på att du vill ta bort alla poster i dina katalogfavoriter? (Den här åtgärden kan inte ångras!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -12115,9 +11999,7 @@ msgid "Determine if you want the active frame to be sorted in a specified order 
 msgstr "Ange om den aktiva panelen ska sorteras i en viss ordning efter katalogbyte"
 
 #: ulng.rsmsghotdirtipordertarget
-msgid ""
-"Determine if you want the not active frame to be sorted in a specified order after changing "
-"directory"
+msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
 msgstr "Ange om den inaktiva panelen ska sorteras i en viss ordning efter katalogbyte"
 
 #: ulng.rsmsghotdirtipspecialdirbut
@@ -12207,9 +12089,7 @@ msgstr "Det här är inte en giltig insticksmodul!"
 #: ulng.rsmsginvalidpluginarchitecture
 #, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr ""
-"Den här insticksmodulen är byggd för Double Commander för %s.%sDen kan inte fungera med Double "
-"Commander för %s!"
+msgstr "Den här insticksmodulen är byggd för Double Commander för %s.%sDen kan inte fungera med Double Commander för %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -12381,12 +12261,8 @@ msgstr "Åtgärden kan inte slutföras eftersom filen är öppen i ett annat pro
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
-msgid ""
-"Below is a preview. You may move cursor and select files to get immediately an actual look and "
-"feel of the various settings."
-msgstr ""
-"Nedan visas en förhandsgranskning. Du kan flytta markören och välja filer för att direkt se hur "
-"de olika inställningarna påverkar utseendet."
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr "Nedan visas en förhandsgranskning. Du kan flytta markören och välja filer för att direkt se hur de olika inställningarna påverkar utseendet."
 
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
@@ -12636,14 +12512,8 @@ msgid "Built-in terminal window disabled. Do you want to enable it?"
 msgstr "Det inbyggda terminalfönstret är inaktiverat. Vill du aktivera det?"
 
 #: ulng.rsmsgterminateprocess
-msgid ""
-"WARNING: Terminating a process can cause undesired results including loss of data and system "
-"instability. The process will not be given the chance to save its state or data before it is "
-"terminated. Are you sure you want to terminate the process?"
-msgstr ""
-"VARNING: Att avsluta en process kan få oönskade följder, bland annat dataförlust och "
-"systeminstabilitet. Processen får inte möjlighet att spara sitt tillstånd eller sina data innan "
-"den avslutas. Är du säker på att du vill avsluta processen?"
+msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr "VARNING: Att avsluta en process kan få oönskade följder, bland annat dataförlust och systeminstabilitet. Processen får inte möjlighet att spara sitt tillstånd eller sina data innan den avslutas. Är du säker på att du vill avsluta processen?"
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
@@ -13302,9 +13172,7 @@ msgstr "Lägger till ny filtyp för verktygstips"
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
-msgstr ""
-"För att ändra den arkivkonfiguration som redigeras måste du antingen VERKSTÄLLA eller TA BORT den"
-" aktuella konfigurationen"
+msgstr "För att ändra den arkivkonfiguration som redigeras måste du antingen VERKSTÄLLA eller TA BORT den aktuella konfigurationen"
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
@@ -13474,9 +13342,7 @@ msgstr "dynamisk"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
-"Kortkommandot %s för cm_Delete registreras så att det kan användas för att vända på den här "
-"inställningen."
+msgstr "Kortkommandot %s för cm_Delete registreras så att det kan användas för att vända på den här inställningen."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13502,21 +13368,13 @@ msgstr "Kommando"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
-msgid ""
-"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this"
-" parameter to use the global setting?"
-msgstr ""
-"Kortkommandot %s för cm_Delete har en parameter som åsidosätter den här inställningen. Vill du "
-"ändra parametern så att den globala inställningen används?"
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr "Kortkommandot %s för cm_Delete har en parameter som åsidosätter den här inställningen. Vill du ändra parametern så att den globala inställningen används?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
-msgid ""
-"Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to "
-"change it?"
-msgstr ""
-"Kortkommandot %s för cm_Delete behöver få en parameter ändrad för att matcha kortkommandot %s. "
-"Vill du ändra den?"
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr "Kortkommandot %s för cm_Delete behöver få en parameter ändrad för att matcha kortkommandot %s. Vill du ändra den?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13557,21 +13415,13 @@ msgstr "Ange kortkommando för att ta bort fil"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
-msgid ""
-"For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is "
-"already assigned to %s. Do you want to change it?"
-msgstr ""
-"För att den här inställningen ska fungera med kortkommandot %s måste kortkommandot %s tilldelas "
-"cm_Delete, men det är redan tilldelat %s. Vill du ändra det?"
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr "För att den här inställningen ska fungera med kortkommandot %s måste kortkommandot %s tilldelas cm_Delete, men det är redan tilldelat %s. Vill du ändra det?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
-msgid ""
-"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be"
-" assigned. This setting might not work."
-msgstr ""
-"Kortkommandot %s för cm_Delete är ett sekvenskortkommando som inte kan tilldelas ett kortkommando"
-" med omvänd Skift. Den här inställningen kanske inte fungerar."
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr "Kortkommandot %s för cm_Delete är ett sekvenskortkommando som inte kan tilldelas ett kortkommando med omvänd Skift. Den här inställningen kanske inte fungerar."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -13834,20 +13684,12 @@ msgid "Left button;Right button;"
 msgstr "Vänster knapp;Höger knapp;"
 
 #: ulng.rsoptnewfilesposition
-msgid ""
-"at the top of the file list;after directories (if directories are sorted before files);at sorted "
-"position;at the bottom of the file list"
-msgstr ""
-"överst i fillistan;efter kataloger (om kataloger sorteras före filer);på sorterad plats;längst "
-"ned i fillistan"
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr "överst i fillistan;efter kataloger (om kataloger sorteras före filer);på sorterad plats;längst ned i fillistan"
 
 #: ulng.rsoptpersonalizedfilesizeformat
-msgid ""
-"Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized "
-"gigabyte;Personalized terabyte"
-msgstr ""
-"Anpassad dynamisk;Anpassade byte;Anpassade kilobyte;Anpassade megabyte;Anpassade "
-"gigabyte;Anpassade terabyte"
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr "Anpassad dynamisk;Anpassade byte;Anpassade kilobyte;Anpassade megabyte;Anpassade gigabyte;Anpassade terabyte"
 
 #: ulng.rsoptpluginalreadyassigned
 #, object-pascal-format
@@ -13917,30 +13759,20 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Filer;&Kataloger;Filer &och kataloger"
 
 #: ulng.rsoptsearchopt
-msgid ""
-"Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting "
-"modifications for next session"
-msgstr ""
-"Ignorera &diakritiska tecken och ligaturer;&Dölj filterpanelen när den inte har fokus;Fortsätt "
-"spara ändrade inställningar till nästa session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgstr "Ignorera &diakritiska tecken och ligaturer;&Dölj filterpanelen när den inte har fokus;Fortsätt spara ändrade inställningar till nästa session"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
-"inte skiftlägeskänslig;enligt språkvariantens inställningar (aAbBcC);först versaler, sedan "
-"gemener (ABCabc)"
+msgstr "inte skiftlägeskänslig;enligt språkvariantens inställningar (aAbBcC);först versaler, sedan gemener (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr "sortera efter namn och visa först;sortera som filer och visa först;sortera som filer"
 
 #: ulng.rsoptsortmethod
-msgid ""
-"Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: "
-"alphabetical and numbers;Natural with special characters sort"
-msgstr ""
-"Alfabetiskt, med hänsyn till accenter;Alfabetiskt med sortering av specialtecken;Naturlig "
-"sortering: alfabetiskt och numeriskt;Naturlig sortering med specialtecken"
+msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
+msgstr "Alfabetiskt, med hänsyn till accenter;Alfabetiskt med sortering av specialtecken;Naturlig sortering: alfabetiskt och numeriskt;Naturlig sortering med specialtecken"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13952,9 +13784,7 @@ msgstr "A&vgränsare;Inte&rnt kommando;E&xternt kommando;Men&y"
 
 #: ulng.rsopttooltipconfiguresavetochange
 msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
-msgstr ""
-"För att ändra konfigurationen för filtypsverktygstips måste du antingen VERKSTÄLLA eller TA BORT "
-"den aktuella konfigurationen"
+msgstr "För att ändra konfigurationen för filtypsverktygstips måste du antingen VERKSTÄLLA eller TA BORT den aktuella konfigurationen"
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
@@ -14294,14 +14124,8 @@ msgid "The number of parts is more than 100! Continue?"
 msgstr "Antalet delar är fler än 100! Fortsätta?"
 
 #: ulng.rssplitpredefinedsizes
-msgid ""
-"Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\""
-" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD "
-"650MB;700MB - CD 700MB;4482MB - DVD+R"
-msgstr ""
-"Automatiskt;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - "
-"3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD "
-"650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr "Automatiskt;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -14471,13 +14295,8 @@ msgid "System default;1 sec;2 sec;3 sec;5 sec;10 sec;30 sec;1 min;Never hide"
 msgstr "Systemstandard;1 sek;2 sek;3 sek;5 sek;10 sek;30 sek;1 min;Dölj aldrig"
 
 #: ulng.rstooltipmodelist
-msgid ""
-"Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show"
-" DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
-msgstr ""
-"Kombinera DC:s och systemets verktygstips, DC först (äldre);Kombinera DC:s och systemets "
-"verktygstips, systemet först;Visa DC:s verktygstips när det går, annars systemets;Visa endast "
-"DC:s verktygstips;Visa endast systemets verktygstips"
+msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
+msgstr "Kombinera DC:s och systemets verktygstips, DC först (äldre);Kombinera DC:s och systemets verktygstips, systemet först;Visa DC:s verktygstips när det går, annars systemets;Visa endast DC:s verktygstips;Visa endast systemets verktygstips"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -14486,12 +14305,8 @@ msgstr "Visare"
 
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
-msgid ""
-"Please report this error to the bug tracker with a description of what you were doing and the "
-"following file:%sPress %s to continue or %s to abort the program."
-msgstr ""
-"Rapportera felet i felrapporteringssystemet med en beskrivning av vad du gjorde och följande "
-"fil:%sTryck %s för att fortsätta eller %s för att avbryta programmet."
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr "Rapportera felet i felrapporteringssystemet med en beskrivning av vad du gjorde och följande fil:%sTryck %s för att fortsätta eller %s för att avbryta programmet."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -14718,3 +14533,4 @@ msgstr "Ingen ersättning gjordes."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Ingen konfiguration med namnet ”%s”"
+

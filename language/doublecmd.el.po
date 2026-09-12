@@ -4390,6 +4390,10 @@ msgstr "Κατηγορία:"
 msgid "Deleted:"
 msgstr "Διαγραμμένα:"
 
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
+
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
 msgstr "Λάθος:"

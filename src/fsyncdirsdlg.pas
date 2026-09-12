@@ -1260,6 +1260,10 @@ begin
     r := TFileSyncRec(FVisibleItems.Objects[aRow]);
     if r.isDir then
     begin
+      if gdSelected in aState then begin
+        Brush.Color:= gColors.SyncDirs^.DirSelectedColor;
+        FillRect(aRect);
+      end;
       Font.Bold := True;
       Font.Color := clWindowText;
       with hCols[0] do

@@ -4297,6 +4297,10 @@ msgstr "Kategoria:"
 msgid "Deleted:"
 msgstr "Usunięte:"
 
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
+
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
 msgstr "Błąd:"

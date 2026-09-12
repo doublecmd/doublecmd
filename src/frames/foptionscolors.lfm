@@ -365,6 +365,21 @@ inherited frmOptionsColors: TfrmOptionsColors
         Width = 127
         TabOrder = 3
       end
+      object lblDirSelection: TLabel
+        Left = 12
+        Height = 19
+        Top = 120
+        Width = 120
+        Caption = 'Directory Selection:'
+        Layout = tlCenter
+      end
+      object cbDirSelection: TKASColorBoxButton
+        Left = 140
+        Height = 19
+        Top = 120
+        Width = 212
+        TabOrder = 4
+      end
     end
     object pgDriveFreeInd: TPage
       ChildSizing.LeftRightSpacing = 12

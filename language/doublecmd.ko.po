@@ -4310,6 +4310,10 @@ msgstr "범주:"
 msgid "Deleted:"
 msgstr "삭제됨:"
 
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
+
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
 msgstr "오류:"
