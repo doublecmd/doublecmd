@@ -36,6 +36,17 @@ uses
 const
   HotkeysCategory = 'Synchronize Directories';
 
+  SYNC_REC_STATE_SYMBOL: array[TSyncRecState] of String = (
+    '?',
+    '=',
+    '!=',
+    '<-',
+    '->',
+    'X_',
+    '_X',
+    'XX',
+    '' );
+
 type
 
   TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteLeft,
@@ -2637,45 +2648,34 @@ procedure TfrmSyncDirsDlg.CopyToClipboard;
     s: string;
     SyncRec: TFileSyncRec;
   begin
-    s := '';
     SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
     if SyncRec.isDir then
     begin
-      s := s + FVisibleItems[R];
+      s := FVisibleItems[R];
+      if chkEmptyDir.Checked then begin
+        if SyncRec.FState <> srsDoNothing then
+          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.FAction];
+      end;
     end
     else
     begin
       if Assigned(SyncRec.FFileL) then
       begin
-        s := s + FVisibleItems[R];
-        s := s + #9;
-        s := s + IntToStrTS(SyncRec.FFileL.Size);
-        s := s + #9;
-        s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileL.ModificationTime);
+        s := FVisibleItems[R] + #9 +
+             IntToStrTS(SyncRec.FFileL.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.FFileL.ModificationTime);
+      end
+      else
+      begin
+        s := #9#9;
       end;
-      if Length(s) <> 0 then
-        s := s + #9;
-      case SyncRec.FState of
-        srsUnknown:
-          s := s + '?';
-        srsEqual:
-          s := s + '=';
-        srsNotEq:
-          s := s + '!=';
-        srsCopyLeft:
-          s := s + '<-';
-        srsCopyRight:
-          s := s + '->';
-      end;
-      if Length(s) <> 0 then
-        s := s + #9;
+      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.FAction] + #9;
       if Assigned(SyncRec.FFileR) then
       begin
-        s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileR.ModificationTime);
-        s := s + #9;
-        s := s + IntToStrTS(SyncRec.FFileR.Size);
-        s := s + #9;
-        s := s + FVisibleItems[R];
+        s := s +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.FFileR.ModificationTime) + #9 +
+             IntToStrTS(SyncRec.FFileR.Size) + #9 +
+             FVisibleItems[R];
       end;
     end;
     sl.Add(s);
