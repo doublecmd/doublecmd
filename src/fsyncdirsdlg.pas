@@ -36,6 +36,12 @@ uses
 const
   HotkeysCategory = 'Synchronize Directories';
 
+type
+
+  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteLeft,
+    srsDeleteRight, srsDeleteBoth, srsDoNothing);
+
+const
   SYNC_REC_STATE_SYMBOL: array[TSyncRecState] of String = (
     '?',
     '=',
@@ -48,10 +54,6 @@ const
     '' );
 
 type
-
-  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteLeft,
-    srsDeleteRight, srsDeleteBoth, srsDoNothing);
-
   { TDrawGrid }
 
   TDrawGrid = class(Grids.TDrawGrid)
@@ -2376,7 +2378,8 @@ var
   files: TFiles;
 begin
   files := TFiles.Create(EmptyStr);
-  files.Add(f.Clone);
+  files.OwnsObjects:= False;
+  files.Add(f);
   Result:= DeleteFiles(FileSource, files);
   files.Free;
 end;
