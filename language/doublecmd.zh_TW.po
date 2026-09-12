@@ -4377,7 +4377,7 @@ msgstr "已刪除:"
 
 #: tfrmoptionscolors.lbldirselection.caption
 msgid "Directory Selection:"
-msgstr ""
+msgstr "資料夾被選中時:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -4429,7 +4429,7 @@ msgstr "右邊:"
 #: tfrmoptionscolors.lblselection.caption
 msgctxt "tfrmoptionscolors.lblselection.caption"
 msgid "Selection:"
-msgstr "選擇:"
+msgstr "檔案被選中時:"
 
 #: tfrmoptionscolors.lblsuccess.caption
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
@@ -5203,7 +5203,7 @@ msgstr ""
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "&Sort..."
-msgstr ""
+msgstr "排序 (&S)..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "&When adding directory, add also target"
@@ -5239,7 +5239,7 @@ msgstr ""
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
 msgid "Other options"
-msgstr ""
+msgstr "其他選項"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption"
@@ -5649,21 +5649,21 @@ msgstr "開 (&N)"
 #: tfrmoptionsfavoritetabs.btnadd.caption
 msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
 msgid "Add..."
-msgstr ""
+msgstr "新增..."
 
 #: tfrmoptionsfavoritetabs.btndelete.caption
 msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
 msgid "Delete..."
-msgstr ""
+msgstr "刪除..."
 
 #: tfrmoptionsfavoritetabs.btnimportexport.caption
 msgid "Import/Export"
-msgstr ""
+msgstr "導入/導出"
 
 #: tfrmoptionsfavoritetabs.btninsert.caption
 msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
 msgid "Insert..."
-msgstr ""
+msgstr "插入..."
 
 #: tfrmoptionsfavoritetabs.btnrename.caption
 msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
@@ -5673,7 +5673,7 @@ msgstr "重新命名"
 #: tfrmoptionsfavoritetabs.btnsort.caption
 msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
 msgid "Sort..."
-msgstr ""
+msgstr "排序..."
 
 #: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
 msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
@@ -5683,7 +5683,7 @@ msgstr ""
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
-msgstr ""
+msgstr "始終擴展樹"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
@@ -5707,7 +5707,7 @@ msgstr "「我的最愛」分页清單（可通过拖曳重新排序）"
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
 msgid "Other options"
-msgstr ""
+msgstr "其他選項"
 
 #: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
 msgid "What to restore where for the selected entry:"
@@ -7547,7 +7547,7 @@ msgstr "搜尋下列項目"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr ""
+msgstr "解鎖分頁時保留重新命名後的名稱"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -7561,7 +7561,7 @@ msgstr "總是顯示分頁 (&S)"
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
-msgstr ""
+msgstr "關閉應用程式時，也關閉重複的標籤頁"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
@@ -7570,7 +7570,7 @@ msgstr "關閉所有分頁時需確認 (&F)"
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr ""
+msgstr "確認關閉已鎖定的分頁"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -7599,7 +7599,7 @@ msgstr "開啟新分頁於目前分頁旁邊 (&N)"
 
 #: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
 msgid "Reuse existing tab when possible"
-msgstr ""
+msgstr "盡可能複用現有分頁"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
@@ -7608,11 +7608,11 @@ msgstr "顯示分頁關閉按鈕 (&B)"
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
-msgstr ""
+msgstr "始終在標題中顯示磁碟符"
 
 #: tfrmoptionstabs.cbtabsunavailablemarker.caption
 msgid "Mark unavailable path in tab title with &a question mark ?"
-msgstr ""
+msgstr "在標題中用問號「?」標記不可用的路徑"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -7626,7 +7626,7 @@ msgstr "字元"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr ""
+msgstr "雙擊選分頁時執行:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
