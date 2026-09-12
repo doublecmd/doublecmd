@@ -212,10 +212,12 @@ begin
       else if fgReadError then Result := E_EREAD
       else begin
         Result := 0;
-        if arec^.last_header.IsOldHeader then begin
-          if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-        end else
-          if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+        case arec^.last_header.header_type of
+          htOldBin:
+            if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
+          htNewChr:
+            if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+        end;
       end;
       FreeMem(buf, 65536);
     end;{PK_TEST}
@@ -223,10 +225,12 @@ begin
       Seek(arec^.handle_file, FilePos(arec^.handle_file) + LongInt(head.filesize));
       if IOResult = 0 then begin
         Result := 0;
-        if arec^.last_header.IsOldHeader then begin
-          if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-        end else
-          if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+        case arec^.last_header.header_type of
+          htOldBin:
+            if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
+          htNewChr:
+            if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+        end;
       end else Result := E_EREAD;
     end;{PK_SKIP}
     PK_EXTRACT : begin
@@ -277,10 +281,12 @@ begin
           else if fgReadError then Result := E_EREAD
           else begin
             Result := 0;
-            if arec^.last_header.IsOldHeader then begin
-              if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-            end else
-              if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+            case arec^.last_header.header_type of
+              htOldBin:
+                if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
+              htNewChr:
+                if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+            end;
           end;
           CloseFile(cpio_file);
           if Result <> 0 then

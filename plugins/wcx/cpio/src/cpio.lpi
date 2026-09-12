@@ -15,8 +15,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="CPIO WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
+      <MinorVersionNr Value="2"/>
+      <StringTable FileDescription="CPIO WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -59,7 +59,6 @@ end;"/>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
               <UseHeaptrc Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
               <PassLinkerOptions Value="True"/>

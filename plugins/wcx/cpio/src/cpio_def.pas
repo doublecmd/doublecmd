@@ -14,6 +14,8 @@ unit cpio_def;
 interface
 
 type
+  THeaderType = (htOldBin, htOldChr, htNewChr);
+
   CPIO_Header = record
     magic,
     dev_major,
@@ -28,7 +30,7 @@ type
     namesize: Longword;
     filename : String;
     origname : String;
-    IsOldHeader: Boolean;
+    header_type: THeaderType;
   end;{CPIO_Header}
 
   TOldBinaryHeader=packed record
@@ -79,4 +81,4 @@ type
 
 implementation
 
-end.
+end.
