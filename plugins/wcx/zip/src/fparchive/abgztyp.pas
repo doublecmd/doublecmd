@@ -1097,6 +1097,7 @@ begin
           end
           else begin
             FTarStream := TAbVirtualMemoryStream.Create;
+            TAbVirtualMemoryStream(FTarStream).SwapFileDirectory := ExtractFileDir(FArchiveName);
             GzHelp.ReadHeader;
             repeat
               GzHelp.ExtractItemData(FTarStream);
