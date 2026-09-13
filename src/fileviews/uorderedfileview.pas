@@ -43,7 +43,12 @@ type
   TOrderedFileView = class(TFileViewWithPanels)
   private
     pmOperationsCancel: TPopupMenu;
+    edtJump: TEdit;  //<en Inline input for "jump to position"
     procedure lblFilterClick(Sender: TObject);
+    procedure PositionLabelClick(Sender: TObject);  //<en Click index -> inline input -> jump
+    procedure JumpEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure JumpEditExit(Sender: TObject);
+    procedure AsyncShowJumpEditor(Data: PtrInt);  //<en deferred open (after key handling)
     procedure pmOperationsCancelClick(Sender: TObject);
     procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
@@ -66,6 +71,7 @@ type
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DoFileIndexChanged(NewFileIndex, TopRowIndex: PtrInt);
+    procedure UpdatePositionIndex; override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); override;
     procedure DoSelectionChanged; override; overload;
@@ -118,6 +124,7 @@ type
     procedure cm_GoToPrevEntry(const {%H-}Params: array of string);
     procedure cm_GoToFirstFile(const Params: array of string);
     procedure cm_GoToLastFile(const Params: array of string);
+    procedure cm_GoToPosition(const {%H-}Params: array of string);
   end;
 
 implementation
@@ -133,6 +140,9 @@ uses
   uFileProperty,
   uFileSource,
   uFile;
+
+resourcestring
+  rsPositionJumpHint = 'Click to jump to a position in the list';
 
 const
   CANCEL_FILTER = 0;
@@ -263,6 +273,22 @@ begin
   FLastActiveFileIndex := -1;
   FRangeSelectionState := True;
 
+  // Make the running-index label clickable to jump to a position.
+  lblPosition.OnClick  := @PositionLabelClick;
+  lblPosition.Cursor   := crHandPoint;
+  lblPosition.ShowHint := True;
+  lblPosition.Hint     := rsPositionJumpHint;
+
+  // Small borderless inline editor for jumping to a position (shown on demand).
+  edtJump            := TEdit.Create(Self);
+  edtJump.Parent     := Self;
+  edtJump.Visible    := False;
+  edtJump.AutoSize   := True;
+  edtJump.Width      := 70;
+  edtJump.AutoSelect := True;
+  edtJump.OnKeyDown  := @JumpEditKeyDown;
+  edtJump.OnExit     := @JumpEditExit;
+
   lblFilter         := TLabel.Create(pnlFooter);
   lblFilter.Parent  := pnlFooter;
   lblFilter.Align   := alRight;
@@ -304,6 +330,132 @@ begin
 
     if FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
   end;
+  UpdatePositionIndex;
+end;
+
+procedure TOrderedFileView.UpdatePositionIndex;
+var
+  idx, total, pos: Integer;
+  hasDotDot: Boolean;
+begin
+  if (csDestroying in ComponentState) or (lblPosition = nil) then Exit;
+  lblPosition.Visible := gShowPositionIndex;
+  if not gShowPositionIndex then
+  begin
+    lblPosition.Caption := EmptyStr;
+    Exit;
+  end;
+  if not Assigned(FFiles) or (FFiles.Count = 0) then
+  begin
+    lblPosition.Caption := EmptyStr;
+    Exit;
+  end;
+  // ".." is not counted (it sits at index 0 when present).
+  hasDotDot := (FFiles[0].FSFile.Name = '..');
+  total := FFiles.Count;
+  if hasDotDot then Dec(total);
+  if total <= 0 then
+  begin
+    lblPosition.Caption := EmptyStr;
+    Exit;
+  end;
+  idx := GetActiveFileIndex;
+  if (idx < 0) or (idx >= FFiles.Count) or (FFiles[idx].FSFile.Name = '..') then
+    // No real file focused (e.g. on '..'): show total only.
+    lblPosition.Caption := Format('- / %d', [total])
+  else begin
+    pos := idx + 1;
+    if hasDotDot then Dec(pos);
+    lblPosition.Caption := Format('%d / %d', [pos, total]);
+  end;
+end;
+
+procedure TOrderedFileView.PositionLabelClick(Sender: TObject);
+var
+  total, cur, idx: Integer;
+  hasDotDot: Boolean;
+begin
+  if not gShowPositionIndex then Exit;
+  if not Assigned(FFiles) or (FFiles.Count = 0) then Exit;
+  hasDotDot := (FFiles[0].FSFile.Name = '..');
+  total := FFiles.Count;
+  if hasDotDot then Dec(total);
+  if total <= 0 then Exit;
+
+  // Pre-fill with the current position.
+  idx := GetActiveFileIndex;
+  if (idx >= 0) and (idx < FFiles.Count) and (FFiles[idx].FSFile.Name <> '..') then
+  begin
+    cur := idx + 1;
+    if hasDotDot then Dec(cur);
+  end
+  else
+    cur := 1;
+  edtJump.Text := IntToStr(cur);
+
+  // Pop up the small editor just above-left of the index label.
+  edtJump.Left := pnlFooter.Left + lblPosition.Left - 10;
+  if edtJump.Left < 0 then edtJump.Left := 0;
+  edtJump.Top := pnlFooter.Top - edtJump.Height - 2;
+  if edtJump.Top < 0 then edtJump.Top := 0;
+  edtJump.Visible := True;
+  edtJump.BringToFront;
+  edtJump.SetFocus;
+  edtJump.SelectAll;
+end;
+
+procedure TOrderedFileView.JumpEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  total, n, ffIndex: Integer;
+  hasDotDot: Boolean;
+begin
+  case Key of
+    VK_RETURN:
+      begin
+        Key := 0;
+        edtJump.Visible := False;
+        if Assigned(FFiles) and (FFiles.Count > 0) and TryStrToInt(Trim(edtJump.Text), n) then
+        begin
+          hasDotDot := (FFiles[0].FSFile.Name = '..');
+          total := FFiles.Count;
+          if hasDotDot then Dec(total);
+          if total > 0 then
+          begin
+            if n < 1 then n := 1;
+            if n > total then n := total;
+            ffIndex := n - 1;
+            if hasDotDot then Inc(ffIndex);  // skip '..' at index 0
+            SetActiveFile(ffIndex, True);
+          end;
+        end;
+        SetFocus;
+      end;
+    VK_ESCAPE:
+      begin
+        Key := 0;
+        edtJump.Visible := False;
+        SetFocus;
+      end;
+  end;
+end;
+
+procedure TOrderedFileView.JumpEditExit(Sender: TObject);
+begin
+  // Dismiss when focus is lost (e.g. clicking elsewhere).
+  edtJump.Visible := False;
+end;
+
+procedure TOrderedFileView.AsyncShowJumpEditor(Data: PtrInt);
+begin
+  PositionLabelClick(Self);
+end;
+
+procedure TOrderedFileView.cm_GoToPosition(const Params: array of string);
+begin
+  if not gShowPositionIndex then Exit;
+  // Keyboard shortcut (default Ctrl+G). Open deferred so the triggering key event
+  // finishes first - otherwise focus bounces back and the editor is dismissed at once.
+  Application.QueueAsyncCall(@AsyncShowJumpEditor, 0);
 end;
 
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
