@@ -1,0 +1,57 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "fpc@latest": {
+      "last_modified": "2025-07-28T17:09:23Z",
+      "resolved": "github:NixOS/nixpkgs/648f70160c03151bc2121d179291337ad6bc564b#fpc",
+      "source": "devbox-search",
+      "version": "3.2.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0lcz7yjlmp8g65j5a39gj0jnl7rfq8bq-fpc-3.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0lcz7yjlmp8g65j5a39gj0jnl7rfq8bq-fpc-3.2.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/i1jw7v91mc6wj9yvqsvnlz3qzm3wwvdp-fpc-3.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/i1jw7v91mc6wj9yvqsvnlz3qzm3wwvdp-fpc-3.2.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jqndavmr3zqld0kr0m4yb21gz093j3nj-fpc-3.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jqndavmr3zqld0kr0m4yb21gz093j3nj-fpc-3.2.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cxdbhy8di11s8m45v6h7rqvxr1882c0q-fpc-3.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cxdbhy8di11s8m45v6h7rqvxr1882c0q-fpc-3.2.2"
+        }
+      }
+    },
+    "github:NixOS/nixpkgs/8623c4c20aa4ca2f5fb81510d2944066c3fb0d96": {
+      "last_modified": "1970-01-01T00:00:00Z",
+      "resolved": "github:NixOS/nixpkgs/8623c4c20aa4ca2f5fb81510d2944066c3fb0d96"
+    }
+  }
+}
