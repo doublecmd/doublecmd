@@ -10,7 +10,7 @@ set -e
 # release - compile in release mode (using by default)
 
 # path to lazbuild
-export lazbuild=$(which lazbuild)
+export lazbuild="$(which lazbuild) --pcp=$(pwd)/.lazarus --lazarusdir=/usr/lib/lazarus"
 
 # Set up widgetset: gtk2 or qt or qt5 or cocoa
 # Set up processor architecture: i386 or x86_64
