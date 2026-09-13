@@ -32,6 +32,7 @@ function KioOpen(const URL: String): Boolean;
 
 var
   HasKdeOpen: Boolean = False;
+  KdeOpen: String = 'kioclient';
 
 implementation
 
@@ -40,7 +41,6 @@ uses
 
 var
   KdeVersion: String;
-  KdeOpen: String = 'kioclient';
 
 function KioOpen(const URL: String): Boolean;
 begin
