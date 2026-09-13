@@ -181,6 +181,13 @@ type
     FTryAskQuestionResult: Boolean;
 
     {en
+       Timestamp of last AppProcessMessages call (ms). Used to throttle
+       message-pumping when running on the main thread, to avoid O(n²)
+       overhead from inotify-triggered panel reloads with large file sets.
+    }
+    FLastProcessMessagesTime: QWord;
+
+    {en
        Used to determine whether the operation has started or not.
     }
     FOperationInitialized : Boolean;
@@ -805,10 +812,21 @@ begin
 end;
 
 function TFileSourceOperation.AppProcessMessages(CheckState: Boolean): Boolean;
+const
+  // Minimum ms between GTK event-queue pumps. Prevents O(n²) panel-reload
+  // overhead from inotify events when copying/deleting large file sets.
+  ThrottleIntervalMs = 100;
+var
+  Ticks: QWord;
 begin
   if GetCurrentThreadId = MainThreadID then
   begin
-    WidgetSet.AppProcessMessages;
+    Ticks := GetTickCount64;
+    if Ticks - FLastProcessMessagesTime >= ThrottleIntervalMs then
+    begin
+      FLastProcessMessagesTime := Ticks;
+      WidgetSet.AppProcessMessages;
+    end;
   end;
   if CheckState then
   try
