@@ -31,15 +31,11 @@ uses
   ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn, DCClassesUtf8,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
-  uFileSourceDeleteOperation, KASProgressBar;
+  uFileSourceDeleteOperation, KASProgressBar,
+  uSyncDirsModel;
 
 const
   HotkeysCategory = 'Synchronize Directories';
-
-type
-
-  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteLeft,
-    srsDeleteRight, srsDeleteBoth, srsDoNothing);
 
 const
   SYNC_REC_STATE_SYMBOL: array[TSyncRecState] of String = (
@@ -187,6 +183,10 @@ type
     FCopyStatistics: TFileSourceCopyOperationStatistics;
     FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
+
+    function getCompareOption: TCompareOption;
+    function getFiltFlags: TFiltFlags;
+
     procedure ClearFoundItems;
     procedure Compare;
     procedure FillFoundItemsDG;
@@ -1493,6 +1493,47 @@ begin
   end;
 end;
 
+function TfrmSyncDirsDlg.getCompareOption: TCompareOption;
+var
+  flags: TCompareFlags;
+begin
+  flags:= [];
+  if self.chkOnlySelected.Checked then
+    Include( flags, TCompareFlag.coOnlySelected );
+  if self.chkEmptyDir.Checked then
+    Include( flags, TCompareFlag.coEmptyDir );
+  if self.chkAsymmetric.Checked then
+    Include( flags, TCompareFlag.coAsymmetric );
+  if self.chkSubDirs.Checked then
+    Include( flags, TCompareFlag.coSubdirs );
+  if self.chkByContent.Checked then
+    Include( flags, TCompareFlag.coByContent );
+  if self.chkIgnoreDate.Checked then
+    Include( flags, TCompareFlag.coIgnoreDate );
+
+  if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then begin
+    if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
+      Include( flags, TCompareFlag.coNtfsShift );
+  end;
+
+  Result:= TCompareOption.Create( flags );
+end;
+
+function TfrmSyncDirsDlg.getFiltFlags: TFiltFlags;
+begin
+  Result:= [];
+  if self.sbCopyRight.Down then
+    Include( Result, TFiltFlag.foCopyRight );
+  if self.sbCopyLeft.Down then
+    Include( Result, TFiltFlag.foCopyLeft );
+  if self.sbEqual.Down then
+    Include( Result, TFiltFlag.foEqual );
+  if self.sbNotEqual.Down then
+    Include( Result, TFiltFlag.foNotEqual );
+  if self.sbUnknown.Down then
+    Include( Result, TFiltFlag.foUnknown );
+end;
+
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
   function getSortIndicator: String;
   begin
@@ -2623,10 +2664,6 @@ begin
   actDeleteBoth.Enabled := actDeleteLeft.Enabled and actDeleteRight.Enabled;
   // ---------------------------------------------------------------------------
   FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
-  if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then
-  begin
-    FNtfsShift := gNtfsHourTimeDelay and NtfsHourTimeDelay(FileView1.CurrentPath, FileView2.CurrentPath);
-  end;
 end;
 
 destructor TfrmSyncDirsDlg.Destroy;
