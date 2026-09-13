@@ -29,6 +29,7 @@ interface
 
 uses
   Classes,
+  SysUtils,
   WcxPlugin,
   cpio_def, cpio_io;
 
@@ -39,10 +40,14 @@ type
     handle_file    : file;
     fname          : AnsiString;
     fdate          : Integer;
-    fgEndArchive   : Boolean;
     process_proc   : TProcessDataProc;
     changevol_proc : TChangeVolProc;
     last_header    : CPIO_Header;
+    hard_links     : TStringArray;
+    hard_ready     : Boolean;
+    hard_index     : Integer;
+    hard_result    : Integer;
+    hard_name      : String;
   end;{ArchiveRec}
 
 function  GetPackerCaps : Integer; dcpcall; export;
@@ -58,7 +63,7 @@ function  CanYouHandleThisFile(FileName: PAnsiChar): LongBool; dcpcall; export;
 implementation
 
 uses
-  SysUtils, DCDateTimeUtils, DCBasicTypes, DCFileAttributes, DCOSUtils;
+  DCDateTimeUtils, DCBasicTypes, DCFileAttributes, DCOSUtils;
 
 function GetPackerCaps: Integer;
 begin
@@ -93,9 +98,9 @@ begin
       handle_io := arch;
       fname := filename;
       fdate := FileAge(filename);
-      fgEndArchive := False;
       process_proc := nil;
       changevol_proc := nil;
+      hard_index := -1;
       if fdate = -1 then fdate := 0;
     end;
     AssignFile(arec^.handle_file, filename);
@@ -128,46 +133,100 @@ end;
 
 function ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData): Integer;
 var
-  header  : CPIO_Header;
-  arec    : PArchiveRec absolute hArcData;
+  ofs         : Int64;
+  Index       : Integer;
+  header      : CPIO_Header;
+  hard_header : CPIO_Header;
+  arec        : PArchiveRec absolute hArcData;
+
+  procedure CopyHeader(var header: CPIO_Header; const fname: String);
+  begin
+    with HeaderData do
+    begin
+      copy_str2buf(TStrBuf(ArcName), arec^.fname);
+      copy_str2buf(TStrBuf(FileName), fname);
+      PackSize := header.filesize;
+      UnpSize  := header.filesize;
+      FileAttr := UnixToWcxFileAttr(header.mode);
+      FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.mtime));
+    end;
+  end;
+
 begin
   Result := E_EREAD;
-  if arec^.fgEndArchive then Result := E_END_ARCHIVE
-  else begin
-    while True do begin
-      if CPIO_ReadHeader(arec^.handle_file, header) then begin
-        if header.filename = 'TRAILER!!!' then begin
-          Result := E_END_ARCHIVE;
-          Break
-        end
-        else begin
-          if header.filesize <> 0 then begin
-            with HeaderData do begin
-              copy_str2buf(TStrBuf(ArcName), arec^.fname);
-              copy_str2buf(TStrBuf(FileName), header.filename);
-              PackSize := header.filesize;
-              UnpSize  := header.filesize;
-              FileAttr := UnixToWcxFileAttr(header.mode);
-              FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.mtime));
-            end;{with}
-            Result := 0;
-            Break;
-          end
-          else
-            Continue;
-        end;{not end of file "TRAILER!!!"}
-      end{if header readed}
-      else begin
-        Result := E_EREAD;
+
+  if arec^.hard_index > -1 then
+  begin
+    CopyHeader(arec^.last_header, arec^.hard_links[arec^.hard_index]);
+    Result := E_SUCCESS;
+    Exit;
+  end;
+
+  while True do
+  begin
+    if CPIO_ReadHeader(arec^.handle_file, header) then
+    begin
+      if header.filename = '.' then
+        Continue;
+      if header.filename = 'TRAILER!!!' then
+      begin
+        Result := E_END_ARCHIVE;
         Break;
       end;
-    end;{while true}
-    arec^.last_header := header;
-  end;{if not end of archive}
+      // File is a hard link
+      if (header.nlink > 1) and (header.header_type = htNewChr) and
+         (header.filesize = 0) and ((header.mode and S_IFMT) <> S_IFDIR) then
+      begin
+        hard_header:= header;
+        SetLength(arec^.hard_links, header.nlink);
+        arec^.hard_links[0]:= header.filename;
+        // Read all file hard links, they follow one by one
+        for Index := 1 to header.nlink - 1 do
+        begin
+          ofs:= FilePos(arec^.handle_file);
+          if CPIO_ReadHeader(arec^.handle_file, header) then
+          begin
+            if (header.inode = hard_header.inode) then
+              arec^.hard_links[Index] := header.filename
+            else begin // Zero size hard link
+              SetLength(arec^.hard_links, Index);
+              Seek(arec^.handle_file, ofs);
+              header:= hard_header;
+              Break;
+            end;
+            // The last hard link in the sequence has a non-zero size
+            if (header.filesize > 0) then
+            begin
+              SetLength(arec^.hard_links, Index + 1);
+              Break;
+            end;
+          end
+          else begin
+            Result:= E_EREAD;
+            Break;
+          end;
+        end;
+        arec^.hard_index:= 0;
+        arec^.hard_ready:= False;
+        CopyHeader(header, arec^.hard_links[0]);
+        Result := E_SUCCESS;
+        Break;
+      end;
+      CopyHeader(header, header.filename);
+      Result := E_SUCCESS;
+      Break;
+    end{if header readed}
+    else begin
+      Result := E_EREAD;
+      Break;
+    end;
+  end;{while true}
+  arec^.last_header := header;
 end;
 
 function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath: PChar; DestName: PChar): Integer;
 var
+  handle_file : file;
   cpio_file   : file;
   cpio_name   : String;
   cpio_dir    : String;
@@ -179,10 +238,25 @@ var
   fAborted    : Boolean;
   head        : CPIO_Header;
   arec        : PArchiveRec absolute hArcData;
+
+  procedure NextLink;
+  begin
+    Inc(arec^.hard_index);
+    if (arec^.hard_index > High(arec^.hard_links)) then
+    begin
+      arec^.hard_index:= -1;
+    end;
+  end;
+
 begin
   head := arec^.last_header;
   case Operation of
     PK_TEST : begin
+      if (arec^.hard_index > -1) and (arec^.hard_ready) then
+      begin
+        NextLink;
+        Exit(arec^.hard_result);
+      end;
       faborted:=false;
       fsize := head.filesize;
       buf_size := 65536;
@@ -220,9 +294,19 @@ begin
         end;
       end;
       FreeMem(buf, 65536);
+      if (arec^.hard_index > -1) then
+      begin
+        arec^.hard_ready:= True;
+        arec^.hard_result:= Result;
+      end;
     end;{PK_TEST}
     PK_SKIP : begin
-      Seek(arec^.handle_file, FilePos(arec^.handle_file) + LongInt(head.filesize));
+      if (arec^.hard_index > -1) and (arec^.hard_index <= High(arec^.hard_links)) then
+      begin
+        NextLink;
+        Exit(E_SUCCESS);
+      end;
+      Seek(arec^.handle_file, FilePos(arec^.handle_file) + Int64(head.filesize));
       if IOResult = 0 then begin
         Result := 0;
         case arec^.last_header.header_type of
@@ -236,56 +320,84 @@ begin
     PK_EXTRACT : begin
       cpio_name := String(DestName);
       cpio_dir := ExtractFileDir(cpio_name);
-      if CreateDirectories(cpio_dir) then begin
+      if CreateDirectories(cpio_dir) then
+      begin
+        if (arec^.hard_index > -1) and (arec^.hard_ready) then
+        begin
+          // Try to restore a hard link
+          if CreateHardLink(arec^.hard_name, cpio_name) then
+          begin
+            NextLink;
+            Exit(E_SUCCESS);
+          end
+          // Create a copy instead
+          else begin
+            AssignFile(handle_file, arec^.hard_name);
+            FileMode := 0;
+            Reset(handle_file, 1);
+            if IOResult <> 0 then
+            begin
+              NextLink;
+              Exit(E_EOPEN);
+            end;
+          end;
+        end
+        else begin
+          handle_file:= arec^.handle_file;
+        end;
         AssignFile(cpio_file, cpio_name);
         Rewrite(cpio_file, 1);
         if IOResult <> 0 then Result := E_ECREATE
         else begin
+          if Assigned(arec^.process_proc) then
+          begin
+            arec^.process_proc(PAnsiChar(arec^.last_header.filename), 0);
+          end;
           fsize := head.filesize;
           buf_size := 65536;
           GetMem(buf, buf_size);
           fgReadError := False;
           fgWriteError :=False;
           fAborted := False;
-          while not fAborted do begin
-            if fsize < buf_size then Break;
-            BlockRead(arec^.handle_file, buf^, buf_size);
+          while fsize > 0 do
+          begin
+            if fsize < buf_size then
+            begin
+              buf_size:= fsize;
+            end;
+            BlockRead(handle_file, buf^, buf_size);
             if IOResult <> 0 then begin
               fgReadError := True;
               Break;
             end;{if IO error}
             BlockWrite(cpio_file, buf^, buf_size);
-            if ioresult<>0 then begin
-              fgWriteError:=true;
-              break;
+            if IOResult <> 0 then begin
+              fgWriteError:= True;
+              Break;
             end;
             Dec(fsize, buf_size);
             if Assigned(arec^.process_proc) then
-              if arec^.process_proc(nil, buf_size)=0 then
-                fAborted:=true;
-          end;{while}
-          if not fgReadError then begin
-            if fsize <> 0 then begin
-              BlockRead(arec^.handle_file, buf^, fsize);
-              if IOResult <> 0 then fgReadError := True;
-              BlockWrite(cpio_file, buf^, fsize);
-              if ioresult<>0 then
-                fgWriteError:=true;
-              if Assigned(arec^.process_proc) then
-                if arec^.process_proc(nil, fsize)=0 then
-                  fAborted:=true;
+            begin
+              if arec^.process_proc(nil, buf_size) = 0 then
+              begin
+                fAborted:= True;
+                Break;
+              end;
             end;
-          end;
+          end;{while}
           if fAborted then Result:= E_EABORTED
           else if fgWriteError then Result := E_EWRITE
           else if fgReadError then Result := E_EREAD
           else begin
-            Result := 0;
-            case arec^.last_header.header_type of
-              htOldBin:
-                if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-              htNewChr:
-                if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+            Result := E_SUCCESS;
+            if FileRec(handle_file).Handle = FileRec(arec^.handle_file).Handle then
+            begin
+              case arec^.last_header.header_type of
+                htOldBin:
+                  if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
+                htNewChr:
+                  if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
+              end;
             end;
           end;
           CloseFile(cpio_file);
@@ -297,12 +409,24 @@ begin
           end;
           FreeMem(buf, 65536);
         end;
+        if (arec^.hard_index > -1) then
+        begin
+          if (not arec^.hard_ready) then
+          begin
+            arec^.hard_ready:= True;
+            arec^.hard_result:= Result;
+            arec^.hard_name:= cpio_name;
+          end;
+          if FileRec(handle_file).Handle <> FileRec(arec^.handle_file).Handle then
+            CloseFile(handle_file);
+        end;
       end
       else Result := E_ECREATE;
     end{PK_EXTRACT}
   else
     Result := 0;
   end;{case operation}
+  if (arec^.hard_index > -1) then NextLink;
 end;
 
 procedure SetProcessDataProc(hArcData: TArcHandle; ProcessDataProc: TProcessDataProc);

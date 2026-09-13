@@ -292,7 +292,8 @@ end;
 function correct_filename(oldname : AnsiString) : AnsiString;
 begin
   Result := oldname;
-  if Length(oldname) > 1 then begin
+  if Length(oldname) > 1 then
+  begin
     case oldname[1] of
       '.' :
         case oldname[2] of
@@ -300,6 +301,11 @@ begin
         end;{case}
       '/', '\' : System.Delete(oldname, 1, 1);
     end;{case}
+  end;
+  if Length(oldname) > 0 then
+  begin
+    if (oldname[High(oldname)] = #0) then
+      System.Delete(oldname, High(oldname), 1);
   end;
   Result := oldname;
 end;
