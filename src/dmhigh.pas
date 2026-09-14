@@ -503,7 +503,17 @@ begin
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
     HighLighter:= TSynCustomHighlighter(SynHighlighterList.Objects[I]);
-    SynHighlighterHashList.Add(HighLighter.LanguageName, HighLighter);
+    // TSynUniSyn.LanguageName is a class function hardcoded to always return
+    // "UniLanguage", the same value for every instance (JSON, Rust, Kotlin, ...).
+    // Keying the hash list by it would make every uni-highlighter collide under
+    // that one key, so per-instance lookups by name (e.g. LoadUniColors, used
+    // when applying a saved color scheme) always miss and silently no-op. Key
+    // uni-highlighters by their actual (per-instance) language name instead,
+    // same as SaveUniColors already does when writing colors.json.
+    if (Highlighter is TSynUniSyn) then
+      SynHighlighterHashList.Add(TSynUniSyn(HighLighter).Info.General.Name, HighLighter)
+    else
+      SynHighlighterHashList.Add(HighLighter.LanguageName, HighLighter);
     if not (Highlighter is TSynUniSyn) then
     begin
       with HighLighter.AddSpecialAttribute(rsSynDefaultText, SYNS_XML_DefaultText) do
