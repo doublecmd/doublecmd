@@ -184,7 +184,7 @@ type
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
 
     function createCompareOption: TCompareOption;
-    function createFiltFlags: TFiltFlags;
+    function createFilterFlags: TFilterFlags;
 
     procedure ClearFoundItems;
     procedure Compare;
@@ -753,9 +753,9 @@ var
     i: Integer;
     syncRec: TFileSyncRec;
   begin
-    if NOT (coAsymmetric in FCompareOption.flags) then
+    if NOT (cfAsymmetric in FCompareOption.flags) then
       Exit;
-    if NOT (coEmptyDir in FCompareOption.flags) then
+    if NOT (cfEmptyDirs in FCompareOption.flags) then
       Exit;
 
     for i:= FVisibleItems.Count-1 downto 0 do begin
@@ -1305,8 +1305,8 @@ procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
   end;
 
 begin
-  miSelectDeleteLeft.Visible := not (coAsymmetric in FCompareOption.flags);
-  miSelectDeleteBoth.Visible := not (coAsymmetric in FCompareOption.flags);
+  miSelectDeleteLeft.Visible := not (cfAsymmetric in FCompareOption.flags);
+  miSelectDeleteBoth.Visible := not (cfAsymmetric in FCompareOption.flags);
   calcSelection;
 end;
 
@@ -1348,39 +1348,43 @@ var
 begin
   flags:= [];
   if self.chkOnlySelected.Checked then
-    Include( flags, TCompareFlag.coOnlySelected );
+    Include( flags, TCompareFlag.cfOnlySelected );
   if self.chkEmptyDir.Checked then
-    Include( flags, TCompareFlag.coEmptyDir );
+    Include( flags, TCompareFlag.cfEmptyDirs );
   if self.chkAsymmetric.Checked then
-    Include( flags, TCompareFlag.coAsymmetric );
+    Include( flags, TCompareFlag.cfAsymmetric );
   if self.chkSubDirs.Checked then
-    Include( flags, TCompareFlag.coSubdirs );
+    Include( flags, TCompareFlag.cfSubdirs );
   if self.chkByContent.Checked then
-    Include( flags, TCompareFlag.coByContent );
+    Include( flags, TCompareFlag.cfByContent );
   if self.chkIgnoreDate.Checked then
-    Include( flags, TCompareFlag.coIgnoreDate );
+    Include( flags, TCompareFlag.cfIgnoreDate );
 
   if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then begin
     if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
-      Include( flags, TCompareFlag.coNtfsShift );
+      Include( flags, TCompareFlag.cfNtfsShift );
   end;
 
   Result:= TCompareOption.Create( flags );
 end;
 
-function TfrmSyncDirsDlg.createFiltFlags: TFiltFlags;
+function TfrmSyncDirsDlg.createFilterFlags: TFilterFlags;
 begin
   Result:= [];
   if self.sbCopyRight.Down then
-    Include( Result, TFiltFlag.foCopyRight );
+    Include( Result, TFilterFlag.ffCopyRight );
   if self.sbCopyLeft.Down then
-    Include( Result, TFiltFlag.foCopyLeft );
+    Include( Result, TFilterFlag.ffCopyLeft );
   if self.sbEqual.Down then
-    Include( Result, TFiltFlag.foEqual );
+    Include( Result, TFilterFlag.ffEqual );
   if self.sbNotEqual.Down then
-    Include( Result, TFiltFlag.foNotEqual );
+    Include( Result, TFilterFlag.ffNotEqual );
   if self.sbUnknown.Down then
-    Include( Result, TFiltFlag.foUnknown );
+    Include( Result, TFilterFlag.ffUnknown );
+  if self.sbDuplicates.Down then
+    Include( Result, TFilterFlag.ffDuplicate );
+  if self.sbSingles.Down then
+    Include( Result, TFilterFlag.ffSingle );
 end;
 
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
@@ -1510,26 +1514,23 @@ end;
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
   dirIndex, fileIndex: Integer;
-  AFilter: record
-    copyLeft, copyRight, eq, neq, unkn: Boolean;
-    dup, single: Boolean;
-  end;
   r: TFileSyncRec;
   dirItem: TTwoLevelTreeDirItem;
+  filterFlags: TFilterFlags;
 
   function isMatching(const syncRec: TFileSyncRec): Boolean;
   begin
     Result:=
-      ((Assigned(syncRec.fileL) <> Assigned(syncRec.fileR)) and AFilter.single or
-       (Assigned(syncRec.fileL) = Assigned(syncRec.fileR)) and AFilter.dup)
+      ((Assigned(syncRec.fileL) <> Assigned(syncRec.fileR)) and (ffSingle in filterFlags) or
+       (Assigned(syncRec.fileL) = Assigned(syncRec.fileR)) and (ffDuplicate in filterFlags))
        and
-       ((syncRec.state = srsCopyLeft) and AFilter.copyLeft or
-        (syncRec.state = srsCopyRight) and AFilter.copyRight or
-        (syncRec.state = srsDeleteLeft) and AFilter.copyRight or
-        (syncRec.state = srsDeleteRight) and AFilter.copyLeft or
-        (syncRec.state = srsEqual) and AFilter.eq or
-        (syncRec.state = srsNotEq) and AFilter.neq or
-        (syncRec.state = srsUnknown) and AFilter.unkn);
+       ((syncRec.state = srsCopyLeft) and (ffCopyLeft in filterFlags) or
+        (syncRec.state = srsCopyRight) and (ffCopyRight in filterFlags) or
+        (syncRec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
+        (syncRec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
+        (syncRec.state = srsEqual) and (ffEqual in filterFlags) or
+        (syncRec.state = srsNotEq) and (ffNotEqual in filterFlags) or
+        (syncRec.state = srsUnknown) and (ffUnknown in filterFlags));
   end;
 
   function isDirMatching(const syncRec: TFileSyncRec): Boolean;
@@ -1552,17 +1553,7 @@ begin
     FVisibleItems := TStringListEx.Create;
     FVisibleItems.CaseSensitive := FileNameCaseSensitive;
   end;
-  { init filter }
-  with AFilter do
-  begin
-    copyLeft := sbCopyLeft.Down;
-    copyRight := sbCopyRight.Down;
-    eq := sbEqual.Down;
-    neq := sbNotEqual.Down;
-    unkn := sbUnknown.Down;
-    dup := sbDuplicates.Down;
-    single := sbSingles.Down;
-  end;
+  filterFlags:= self.createFilterFlags;
   for dirIndex := 0 to FFullTree.Count - 1 do
   begin
     dirItem := FFullTree.dirItem(dirIndex);
@@ -1631,7 +1622,7 @@ var
         dirFullPath := BaseDirR + dir;
       end;
       fs := currentFileSource.GetFiles(dirFullPath);
-      if (coOnlySelected in FCompareOption.flags) and ASide then
+      if (cfOnlySelected in FCompareOption.flags) and ASide then
       begin
         ASide:= False;
         for I:= fs.Count - 1 downto 0 do
@@ -1671,7 +1662,7 @@ var
               end else begin
                 r.fileR := f.Clone;
                 r.updateState;
-                if (coByContent in FCompareOption.flags) and (r.state = srsEqual) and (r.fileR.Size > 0) then
+                if (cfByContent in FCompareOption.flags) and (r.state = srsEqual) and (r.fileR.Size > 0) then
                 begin
                   r.action := srsUnknown;
                   r.state := srsUnknown;
@@ -1736,7 +1727,7 @@ var
       ProcessOneSide(dirItem, dirsRight, RightFirst, False);
       dirSyncRec.updateState;
       SortFoundItems(dirItem.files);
-      if not (coSubdirs in FCompareOption.flags) then Exit;
+      if not (cfSubdirs in FCompareOption.flags) then Exit;
       tot := dirsLeft.Count + dirsRight.Count;
       for i := 0 to dirsLeft.Count - 1 do
       begin
@@ -1798,7 +1789,7 @@ begin
   MaskList.Free;
   FillFoundItemsDG;
   if FCancel then Exit;
-  if (FFullTree.Count > 0) and (coByContent in FCompareOption.flags) then
+  if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
   begin
     CheckContentThread := TCheckContentThread.Create(Self);
     FComparing := True;
@@ -1971,7 +1962,7 @@ begin
       else
         ca := srsDoNothing;
     srsDeleteRight:
-      if not (coAsymmetric in FCompareOption.flags) then
+      if not (cfAsymmetric in FCompareOption.flags) then
         ca := sr.state
       else
         ca := srsDoNothing;
@@ -2060,7 +2051,7 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
     rec: TFileSyncRec;
     basePath: String;
   begin
-    if NOT (coEmptyDir in FCompareOption.flags) then
+    if NOT (cfEmptyDirs in FCompareOption.flags) then
       Exit;
 
     rec:= TFileSyncRec(FVisibleItems.Objects[index]);
@@ -2090,7 +2081,7 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
     rec:= TFileSyncRec(FVisibleItems.Objects[index]);
     basePath:= IncludeTrailingPathDelimiter(rec.relPath);
     Inc(index);
-    if NOT (coEmptyDir in FCompareOption.flags) then begin
+    if NOT (cfEmptyDirs in FCompareOption.flags) then begin
       while index < FVisibleItems.Count do
       begin
         rec:= TFileSyncRec(FVisibleItems.Objects[index]);
@@ -2533,7 +2524,7 @@ procedure TfrmSyncDirsDlg.CopyToClipboard;
     if SyncRec.isDir then
     begin
       s := FVisibleItems[R];
-      if coEmptyDir in FCompareOption.flags then begin
+      if cfEmptyDirs in FCompareOption.flags then begin
         if SyncRec.state <> srsDoNothing then
           s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
       end;

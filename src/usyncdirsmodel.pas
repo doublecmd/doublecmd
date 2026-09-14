@@ -20,17 +20,18 @@ type
     srsDeleteLeft,
     srsDeleteRight,
     srsDeleteBoth,
-    srsDoNothing );
+    srsDoNothing
+  );
 
   TCompareFlag = (
-    coOnlySelected,
-    coEmptyDir,
-    coAsymmetric,
-    coSubdirs,
-    coByContent,
-    coIgnoreDate,
+    cfOnlySelected,
+    cfEmptyDirs,
+    cfAsymmetric,
+    cfSubdirs,
+    cfByContent,
+    cfIgnoreDate,
 
-    coNtfsShift
+    cfNtfsShift
   );
 
   TCompareFlags = set of TCompareFlag;
@@ -48,15 +49,17 @@ type
     property stateWithoutLeft: TSyncRecState read _stateWithoutLeft;
   end;
 
-  TFiltFlag = (
-    foCopyRight,
-    foCopyLeft,
-    foEqual,
-    foNotEqual,
-    foUnknown
+  TFilterFlag = (
+    ffCopyRight,
+    ffCopyLeft,
+    ffEqual,
+    ffNotEqual,
+    ffUnknown,
+    ffDuplicate,
+    ffSingle
   );
 
-  TFiltFlags = set of TFiltFlag;
+  TFilterFlags = set of TFilterFlag;
 
   { TFileSyncRec }
 
@@ -141,7 +144,7 @@ implementation
 constructor TCompareOption.Create(const flags: TCompareFlags);
 begin
   _flags:= flags;
-  if coAsymmetric in flags then
+  if cfAsymmetric in flags then
     _stateWithoutLeft:= srsDeleteRight
   else
     _stateWithoutLeft:= srsCopyLeft;
@@ -174,18 +177,18 @@ begin
   if not Assigned(fileR) and Assigned(fileL) then
     _state := srsCopyRight
   else begin
-    FileTimeDiff := FileTimeCompare(fileL.ModificationTime, fileR.ModificationTime, coNtfsShift in _option.flags);
-    if ((FileTimeDiff = 0) or (coIgnoreDate in _option.flags)) and (fileL.Size = fileR.Size) then
+    FileTimeDiff := FileTimeCompare(fileL.ModificationTime, fileR.ModificationTime, cfNtfsShift in _option.flags);
+    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (fileL.Size = fileR.Size) then
       _state := srsEqual
     else
-    if not (coIgnoreDate in _option.flags) then
+    if not (cfIgnoreDate in _option.flags) then
       if FileTimeDiff > 0 then
         _state := srsCopyRight
       else
       if FileTimeDiff < 0 then
         _state := srsCopyLeft;
   end;
-  if (coAsymmetric in _option.flags) and (_state = srsCopyLeft) then
+  if (cfAsymmetric in _option.flags) and (_state = srsCopyLeft) then
     _action := srsDoNothing
   else begin
     _action := _state;
@@ -203,7 +206,7 @@ procedure TDirSyncRec.updateState;
 begin
   _state:= srsDoNothing;
   _action:= srsDoNothing;
-  if NOT (coEmptyDir in _option.flags) then
+  if NOT (cfEmptyDirs in _option.flags) then
     Exit;
   if NOT Assigned(fileL) and NOT Assigned(fileR) then
     Exit;
