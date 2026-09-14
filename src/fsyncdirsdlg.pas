@@ -165,7 +165,7 @@ type
     FCancel: Boolean;
     FScanning: Boolean;
     FComparing: Boolean;
-    FFoundItems: TStringListEx;
+    FFullTree: TTwoLevelTree;
     FVisibleItems: TStringListEx;
     FSortIndex: Integer;
     FSortDesc: Boolean;
@@ -471,9 +471,9 @@ var
   end;
 
 var
-  B: Boolean;
-  I, J: Integer;
-  R: TFileSyncRec;
+  isEqual: Boolean;
+  dirIndex, fileIndex: Integer;
+  rec: TFileSyncRec;
 begin
   Synchronize(@DoStart);
   Buffer1:= GetMem(BUF_LEN);
@@ -486,15 +486,15 @@ begin
     begin
       Statistics.DoneBytes:= 0;
       Statistics.TotalBytes:= 0;
-      for I := 0 to FFoundItems.Count - 1 do
+      for dirIndex := 0 to FFullTree.Count - 1 do
       begin
-        for J := 0 to TStringList(FFoundItems.Objects[I]).Count - 1 do
+        for fileIndex := 0 to FFullTree.dirItem(dirIndex).fileCount - 1 do
         begin
           if Terminated then Exit;
-          R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
-          if NOT R.isDir and (R.state = srsUnknown) then
+          rec := FFullTree.fileSyncRec(dirIndex, fileIndex);
+          if NOT rec.isDir and (rec.state = srsUnknown) then
           begin
-            Statistics.TotalBytes+= R.fileL.Size;
+            Statistics.TotalBytes+= rec.fileL.Size;
           end;
         end;
       end;
@@ -502,29 +502,29 @@ begin
     end;
 
     with FOwner do
-    for I := 0 to FFoundItems.Count - 1 do
+    for dirIndex := 0 to FFullTree.Count - 1 do
     begin
-      for J := 0 to TStringList(FFoundItems.Objects[I]).Count - 1 do
+      for fileIndex := 0 to FFullTree.dirItem(dirIndex).fileCount - 1 do
       begin
         if Terminated then Exit;
-        R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
-        if NOT R.isDir and (R.state = srsUnknown) then
+        rec := FFullTree.fileSyncRec(dirIndex, fileIndex);
+        if NOT rec.isDir and (rec.state = srsUnknown) then
         begin
           try
-            B:= CompareFiles(R.fileL.FullPath, R.fileR.FullPath, R.fileL.Size);
+            isEqual:= CompareFiles(rec.fileL.FullPath, rec.fileR.FullPath, rec.fileL.Size);
             if Terminated then Exit;
-            if B then
+            if isEqual then
             begin
               Inc(Fequal);
               Dec(Fnoneq);
-              R.state := srsEqual
+              rec.state := srsEqual
             end
             else begin
-              R.state := srsNotEq;
+              rec.state := srsNotEq;
             end;
-            if R.action = srsUnknown then
+            if rec.action = srsUnknown then
             begin
-              R.action := R.state;
+              rec.action := rec.state;
             end;
           except
             on E: Exception do
@@ -1423,7 +1423,7 @@ end;
 
 procedure TfrmSyncDirsDlg.ClearFoundItems;
 begin
-  FFoundItems.Clear;
+  FFullTree.Clear;
 end;
 
 procedure TfrmSyncDirsDlg.Compare;
@@ -1509,13 +1509,13 @@ end;
 
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
-  i, j: Integer;
+  dirIndex, fileIndex: Integer;
   AFilter: record
     copyLeft, copyRight, eq, neq, unkn: Boolean;
     dup, single: Boolean;
   end;
   r: TFileSyncRec;
-  dirSyncObject: TDirSyncObject;
+  dirItem: TTwoLevelTreeDirItem;
 
   function isMatching(const syncRec: TFileSyncRec): Boolean;
   begin
@@ -1563,21 +1563,21 @@ begin
     dup := sbDuplicates.Down;
     single := sbSingles.Down;
   end;
-  for i := 0 to FFoundItems.Count - 1 do
+  for dirIndex := 0 to FFullTree.Count - 1 do
   begin
-    dirSyncObject := TDirSyncObject(FFoundItems.Objects[i]);
-    if FFoundItems[i] <> '' then begin
-      r := dirSyncObject.dirSyncRec;
+    dirItem := FFullTree.dirItem(dirIndex);
+    if FFullTree.dirPath(dirIndex) <> '' then begin
+      r := dirItem.dirSyncRec;
       if isDirMatching(r) then
-        FVisibleItems.AddObject(AppendPathDelim(FFoundItems[i]), r);
+        FVisibleItems.AddObject(AppendPathDelim(FFullTree.dirPath(dirIndex)), r);
     end;
-    with dirSyncObject do
-      for j := 0 to Count - 1 do
+    with dirItem do
+      for fileIndex := 0 to fileCount - 1 do
       begin
         { check filter }
-        r := TFileSyncRec(Objects[j]);
+        r := fileSyncRec(fileIndex);
         if isMatching(r) then
-          FVisibleItems.AddObject(Strings[j], r);
+          FVisibleItems.AddObject(files[fileIndex], r);
       end;
   end;
   self.RemoveInvisibleDirs;
@@ -1611,7 +1611,7 @@ var
     const leftParentDirs: TStringList;
     const rightParentDirs: TStringList);
 
-    procedure ProcessOneSide(it, dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
+    procedure ProcessOneSide(dirItem: TTwoLevelTreeDirItem; dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
     var
       fs: TFiles;
       i, j: Integer;
@@ -1622,7 +1622,7 @@ var
       dirSyncRec: TDirSyncRec;
       currentFileSource: IFileSource;
     begin
-      dirSyncRec := TDirSyncObject(it).dirSyncRec;
+      dirSyncRec := dirItem.dirSyncRec;
       if sideLeft then begin
         currentFileSource := FFileSourceL;
         dirFullPath := BaseDirL + dir;
@@ -1659,11 +1659,11 @@ var
           begin
             if ((MaskList = nil) or MaskList.Matches(f.Name)) then
             begin
-              j := it.IndexOf(fn);
+              j := dirItem.indexOfFile(fn);
               if j < 0 then
                 r := TFileSyncRec.Create(FCompareOption, dir)
               else
-                r := TFileSyncRec(it.Objects[j]);
+                r := dirItem.fileSyncRec(j);
               if sideLeft then
               begin
                 r.fileL := f.Clone;
@@ -1677,7 +1677,7 @@ var
                   r.state := srsUnknown;
                 end;
               end;
-              it.AddObject(fn, r);
+              dirItem.addFile(fn, r);
               dirSyncRec.incChildrenCount(sideLeft);
             end;
           end;
@@ -1703,22 +1703,19 @@ var
 
   var
     i, j, tot: Integer;
-    it: TStringList;
+    dirItem: TTwoLevelTreeDirItem;
     dirsLeft, dirsRight: TStringListEx;
     d: string;
     dirSyncRec: TDirSyncRec;
   begin
-    i := FFoundItems.IndexOf(dir);
+    i := FFullTree.indexOfDir(dir);
     if i < 0 then begin
       dirSyncRec := TDirSyncRec.Create(FCompareOption, dir);
-      it := TDirSyncObject.Create(dirSyncRec);
-      it.OwnsObjects:= True;
-      it.CaseSensitive := FileNameCaseSensitive;
-      it.Sorted := True;
-      FFoundItems.AddObject(dir, it);
+      dirItem := TTwoLevelTreeDirItem.Create(dirSyncRec);
+      FFullTree.addDir(dir, dirItem);
     end else begin
-      it := TStringList(FFoundItems.Objects[i]);
-      dirSyncRec := TDirSyncObject(it).dirSyncRec;
+      dirItem := FFullTree.dirItem(i);
+      dirSyncRec := dirItem.dirSyncRec;
     end;
 
     if dir <> '' then begin
@@ -1735,10 +1732,10 @@ var
     try
       Application.ProcessMessages;
       if FCancel then Exit;
-      ProcessOneSide(it, dirsLeft, LeftFirst, True);
-      ProcessOneSide(it, dirsRight, RightFirst, False);
+      ProcessOneSide(dirItem, dirsLeft, LeftFirst, True);
+      ProcessOneSide(dirItem, dirsRight, RightFirst, False);
       dirSyncRec.updateState;
-      SortFoundItems(it);
+      SortFoundItems(dirItem.files);
       if not (coSubdirs in FCompareOption.flags) then Exit;
       tot := dirsLeft.Count + dirsRight.Count;
       for i := 0 to dirsLeft.Count - 1 do
@@ -1801,7 +1798,7 @@ begin
   MaskList.Free;
   FillFoundItemsDG;
   if FCancel then Exit;
-  if (FFoundItems.Count > 0) and (coByContent in FCompareOption.flags) then
+  if (FFullTree.Count > 0) and (coByContent in FCompareOption.flags) then
   begin
     CheckContentThread := TCheckContentThread.Create(Self);
     FComparing := True;
@@ -1816,8 +1813,8 @@ var
   i: Integer;
 begin
   if FSortIndex < 0 then Exit;
-  for i := 0 to FFoundItems.Count - 1 do
-    SortFoundItems(TStringList(FFoundItems.Objects[i]));
+  for i := 0 to FFullTree.Count - 1 do
+    SortFoundItems( FFullTree.dirItem(i).files );
 end;
 
 procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
@@ -2445,10 +2442,7 @@ var
   AFiles: TFiles;
 begin
   inherited Create(AOwner);
-  FFoundItems := TStringListEx.Create;
-  FFoundItems.OwnsObjects:= True;
-  FFoundItems.CaseSensitive := FileNameCaseSensitive;
-  FFoundItems.Sorted := True;
+  FFullTree := TTwoLevelTree.Create;
   FFileSourceL := FileView1.FileSource;
   FFileSourceR := FileView2.FileSource;
   FAddressL := FileView1.CurrentAddress;
@@ -2514,7 +2508,7 @@ begin
   FFileSourceOperationMessageBoxesUI.Free;
   FVisibleItems.Free;
   FSelectedItems.Free;
-  FFoundItems.Free;
+  FFullTree.Free;
   FCompareOption.Free;
   inherited Destroy;
 end;

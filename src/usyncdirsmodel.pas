@@ -95,15 +95,43 @@ type
     procedure resetEmpty;
   end;
 
-  { TDirSyncObject }
+  { TTwoLevelTreeDirItem }
 
-  TDirSyncObject = class(TStringListEx)
+  TTwoLevelTreeDirItem = class
   private
     _dirSyncRec: TDirSyncRec;
+    _files: TStringListEx;
   public
     constructor Create(const dirSyncRec: TDirSyncRec);
     destructor Destroy; override;
+
+    procedure addFile( const filename: String; const fileSyncRec: TFileSyncRec );
+
+    function fileCount: Integer;
+    function fileSyncRec( const fileIndex: Integer ): TFileSyncRec;
+    function files: TStringListEx;
+    function indexOfFile( const filename: String ): Integer;
+
     property dirSyncRec: TDirSyncRec read _dirSyncRec;
+  end;
+
+  { TTwoLevelTree }
+
+  TTwoLevelTree = class
+  private
+    _dirs: TStringListEx;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure addDir( const dirPath: String; const item: TTwoLevelTreeDirItem );
+    procedure Clear;
+
+    function Count: Integer;
+    function indexOfDir( const dirPath: String ): Integer;
+    function dirPath( const dirIndex: Integer ): String;
+    function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
+    function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TFileSyncRec;
   end;
 
 implementation
@@ -215,18 +243,96 @@ begin
   _childrenCount[False]:= 0;
 end;
 
-{ TDirSyncObject }
+{ TTwoLevelTreeDirItem }
 
-constructor TDirSyncObject.Create(const dirSyncRec: TDirSyncRec);
+constructor TTwoLevelTreeDirItem.Create(const dirSyncRec: TDirSyncRec);
 begin
-  Inherited Create;
   _dirSyncRec:= dirSyncRec;
+  _files:= TStringListEx.Create;
+  _files.OwnsObjects:= True;
+  _files.CaseSensitive := FileNameCaseSensitive;
+  _files.Sorted := True;
 end;
 
-destructor TDirSyncObject.Destroy;
+destructor TTwoLevelTreeDirItem.Destroy;
 begin
-  FreeAndNil(_dirSyncRec);
-  Inherited;
+  FreeAndNil( _dirSyncRec );
+  FreeAndNil( _files );
+end;
+
+procedure TTwoLevelTreeDirItem.addFile( const filename: String; const fileSyncRec: TFileSyncRec );
+begin
+  _files.AddObject( filename, fileSyncRec );
+end;
+
+function TTwoLevelTreeDirItem.fileCount: Integer;
+begin
+  Result:= _files.Count;
+end;
+
+function TTwoLevelTreeDirItem.fileSyncRec(const fileIndex: Integer): TFileSyncRec;
+begin
+  Result:= TFileSyncRec( _files.Objects[fileIndex] );
+end;
+
+function TTwoLevelTreeDirItem.files: TStringListEx;
+begin
+  Result:= _files;
+end;
+
+function TTwoLevelTreeDirItem.indexOfFile(const filename: String): Integer;
+begin
+  Result:= _files.IndexOf( filename );
+end;
+
+{ TTwoLevelTree }
+
+constructor TTwoLevelTree.Create;
+begin
+  _dirs:= TStringListEx.Create;
+  _dirs.OwnsObjects:= True;
+  _dirs.CaseSensitive := FileNameCaseSensitive;
+  _dirs.Sorted := True;
+end;
+
+destructor TTwoLevelTree.Destroy;
+begin
+  _dirs.Free;
+end;
+
+procedure TTwoLevelTree.addDir(const dirPath: String; const item: TTwoLevelTreeDirItem);
+begin
+  _dirs.AddObject( dirPath, item );
+end;
+
+function TTwoLevelTree.Count: Integer;
+begin
+  Result:= _dirs.Count;
+end;
+
+procedure TTwoLevelTree.Clear;
+begin
+  _dirs.Clear;
+end;
+
+function TTwoLevelTree.indexOfDir(const dirPath: String): Integer;
+begin
+  Result:= _dirs.IndexOf( dirPath );
+end;
+
+function TTwoLevelTree.dirPath(const dirIndex: Integer): String;
+begin
+  Result:= _dirs[dirIndex];
+end;
+
+function TTwoLevelTree.dirItem(const dirIndex: Integer): TTwoLevelTreeDirItem;
+begin
+  Result:= TTwoLevelTreeDirItem( _dirs.Objects[dirIndex] );
+end;
+
+function TTwoLevelTree.fileSyncRec(const dirIndex: Integer; const fileIndex: Integer): TFileSyncRec;
+begin
+  Result:= self.dirItem(dirIndex).fileSyncRec(fileIndex);
 end;
 
 end.
