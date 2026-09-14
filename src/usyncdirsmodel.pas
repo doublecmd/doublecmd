@@ -137,6 +137,24 @@ type
     function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TFileSyncRec;
   end;
 
+  { TFlatDirFileList }
+
+  TFlatDirFileList = class
+  private
+    _list: TStringListEx;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure addPath( const path: String; const syncRec: TFileSyncRec );
+    procedure Delete( const index: Integer );
+    procedure Clear;
+
+    function Count: Integer;
+    function path( const index: Integer ): String;
+    function fileSyncRec( const index: Integer ): TFileSyncRec;
+  end;
+
 implementation
 
 { TCompareOption }
@@ -161,8 +179,8 @@ end;
 
 destructor TFileSyncRec.Destroy;
 begin
-  FreeAndNil(fileL);
-  FreeAndNil(fileR);
+  FreeAndNil( fileL );
+  FreeAndNil( fileR );
   inherited Destroy;
 end;
 
@@ -300,7 +318,7 @@ end;
 
 destructor TTwoLevelTree.Destroy;
 begin
-  _dirs.Free;
+  FreeAndNil( _dirs );
 end;
 
 procedure TTwoLevelTree.addDir(const dirPath: String; const item: TTwoLevelTreeDirItem);
@@ -336,6 +354,50 @@ end;
 function TTwoLevelTree.fileSyncRec(const dirIndex: Integer; const fileIndex: Integer): TFileSyncRec;
 begin
   Result:= self.dirItem(dirIndex).fileSyncRec(fileIndex);
+end;
+
+{ TFlatDirFileList }
+
+constructor TFlatDirFileList.Create;
+begin
+  // not own Object
+  _list:= TStringListEx.Create;
+  _list.CaseSensitive := FileNameCaseSensitive;
+end;
+
+destructor TFlatDirFileList.Destroy;
+begin
+  FreeAndNil( _list );
+end;
+
+procedure TFlatDirFileList.addPath( const path: String; const syncRec: TFileSyncRec );
+begin
+  _list.AddObject( path, syncRec );
+end;
+
+procedure TFlatDirFileList.Delete(const index: Integer);
+begin
+  _list.Delete( index );
+end;
+
+procedure TFlatDirFileList.Clear;
+begin
+  _list.Clear;
+end;
+
+function TFlatDirFileList.Count: Integer;
+begin
+  Result:= _list.Count;
+end;
+
+function TFlatDirFileList.path(const index: Integer): String;
+begin
+  Result:= _list[index];
+end;
+
+function TFlatDirFileList.fileSyncRec(const index: Integer): TFileSyncRec;
+begin
+  Result:= TFileSyncRec( _list.Objects[index] );
 end;
 
 end.
