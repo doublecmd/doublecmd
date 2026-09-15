@@ -45,7 +45,8 @@ interface
 
 uses
   SysUtils, Classes, Graphics,
-  SynEditTypes, SynEditHighlighter, SynUniClasses, SynUniRules, Laz2_DOM;
+  SynEditTypes, SynEditHighlighter, SynUniClasses, SynUniRules, Laz2_DOM,
+  LCLVersion;
 
 Const
   _Root = 'Root';
@@ -83,6 +84,16 @@ type
     procedure SetDefaultFilter(Value: string); override;
   public
     class function GetLanguageName: string; override;
+{$if lcl_fullversion >= 4990000}
+  protected
+    // TLazEditCustomHighlighter.LanguageName is a real property (not just a
+    // DC-local class helper) as of LCL 4.99, backed by this virtual instance
+    // method; the class function GetLanguageName above stays constant for
+    // every TSynUniSyn instance ("UniLanguage"), so without this override
+    // .LanguageName would collide for every uni-highlighter (JSON, Rust,
+    // Kotlin, ...) under that one value.
+    function GetInstanceLanguageName: string; override;
+{$endif}
   public
     constructor Create(AOwner: TComponent); overload; override;
     destructor Destroy; override;
@@ -138,7 +149,7 @@ type
 implementation
 
 uses
-  CRC, Laz2_XMLRead, LCLVersion;
+  CRC, Laz2_XMLRead;
 
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
@@ -467,6 +478,13 @@ class function TSynUniSyn.GetLanguageName: string;
 begin
   Result := 'UniLanguage';
 end;
+
+{$if lcl_fullversion >= 4990000}
+function TSynUniSyn.GetInstanceLanguageName: string;
+begin
+  Result := Info.General.Name;
+end;
+{$endif}
 
 procedure TSynUniSyn.Clear;
 begin
