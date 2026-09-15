@@ -71,18 +71,24 @@ type
     _state: TSyncRecState;
     _action: TSyncRecState;
     _option: TCompareOption;
-  public
-    fileL: TFile;
-    fileR: TFile;
+    _leftFile: TFile;
+    _rightFile: TFile;
   public
     constructor Create(const option: TCompareOption; const relPath: String);
     destructor Destroy; override;
     procedure updateState; virtual;
+
     function isDir: Boolean; virtual;
+    function isDeletable( const leftSide: Boolean ): Boolean; virtual;
+
+    function fileBySide( const leftSide: Boolean ): TFile;
 
     property relPath: String read _relPath;
     property state: TSyncRecState read _state write _state;
     property action: TSyncRecState read _action write _action;
+
+    property leftFile: TFile read _leftFile write _leftFile;
+    property rightFile: TFile read _rightFile write _rightFile;
   end;
 
   { TDirSyncRec }
@@ -93,6 +99,7 @@ type
   public
     procedure updateState; override;
     function isDir: Boolean; override;
+    function isDeletable(const leftSide: Boolean): Boolean; override;
     procedure incChildrenCount(const side: Boolean);
     procedure decChildrenCount(const side: Boolean);
     function childrenCount(const side: Boolean): Integer;
@@ -189,8 +196,8 @@ end;
 
 destructor TFileSyncRec.Destroy;
 begin
-  FreeAndNil( fileL );
-  FreeAndNil( fileR );
+  FreeAndNil( _leftFile );
+  FreeAndNil( _rightFile );
   inherited Destroy;
 end;
 
@@ -199,14 +206,14 @@ var
   FileTimeDiff: Integer;
 begin
   _state := srsNotEq;
-  if Assigned(fileR) and not Assigned(fileL) then
+  if Assigned(_rightFile) and not Assigned(_leftFile) then
     _state := _option.stateWithoutLeft
   else
-  if not Assigned(fileR) and Assigned(fileL) then
+  if not Assigned(_rightFile) and Assigned(_leftFile) then
     _state := srsCopyRight
   else begin
-    FileTimeDiff := FileTimeCompare(fileL.ModificationTime, fileR.ModificationTime, cfNtfsShift in _option.flags);
-    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (fileL.Size = fileR.Size) then
+    FileTimeDiff := FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
+    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (_leftFile.Size = _rightFile.Size) then
       _state := srsEqual
     else
     if not (cfIgnoreDate in _option.flags) then
@@ -228,6 +235,19 @@ begin
   Result:= False;
 end;
 
+function TFileSyncRec.isDeletable( const leftSide: Boolean ): Boolean;
+begin
+  Result:= Assigned( self.fileBySide(leftSide) );
+end;
+
+function TFileSyncRec.fileBySide(const leftSide: Boolean): TFile;
+begin
+  if leftSide then
+    Result:= _leftFile
+  else
+    Result:= _rightFile;
+end;
+
 { TDirSyncRec }
 
 procedure TDirSyncRec.updateState;
@@ -236,9 +256,9 @@ begin
   _action:= srsDoNothing;
   if NOT (cfEmptyDirs in _option.flags) then
     Exit;
-  if NOT Assigned(fileL) and NOT Assigned(fileR) then
+  if NOT Assigned(_leftFile) and NOT Assigned(_rightFile) then
     Exit;
-  if Assigned(fileL) and Assigned(fileR) then
+  if Assigned(_leftFile) and Assigned(_rightFile) then
     Exit;
   inherited updateState;
 end;
@@ -246,6 +266,12 @@ end;
 function TDirSyncRec.isDir: Boolean;
 begin
   Result:= True;
+end;
+
+function TDirSyncRec.isDeletable( const leftSide: Boolean ): Boolean;
+begin
+  Result:= inherited isDeletable( leftSide );
+  Result:= Result and self.isEmpty( leftSide );
 end;
 
 procedure TDirSyncRec.incChildrenCount(const side: Boolean);
@@ -445,7 +471,7 @@ var
 begin
   decParentDirRecChildrenCount( index, True );
   rec:= self.fileSyncRec( index );
-  FreeAndNil( rec.fileL );
+  FreeAndNil( rec._leftFile );
 end;
 
 procedure TFlatDirFileList.removeRight(const index: Integer);
@@ -454,7 +480,7 @@ var
 begin
   decParentDirRecChildrenCount( index, False );
   rec:= self.fileSyncRec( index );
-  FreeAndNil( rec.fileR );
+  FreeAndNil( rec._rightFile );
 end;
 
 function TFlatDirFileList.Count: Integer;

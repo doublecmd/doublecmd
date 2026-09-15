@@ -496,7 +496,7 @@ begin
           rec := FFullTree.fileSyncRec(dirIndex, fileIndex);
           if NOT rec.isDir and (rec.state = srsUnknown) then
           begin
-            Statistics.TotalBytes+= rec.fileL.Size;
+            Statistics.TotalBytes+= rec.leftFile.Size;
           end;
         end;
       end;
@@ -513,7 +513,7 @@ begin
         if NOT rec.isDir and (rec.state = srsUnknown) then
         begin
           try
-            isEqual:= CompareFiles(rec.fileL.FullPath, rec.fileR.FullPath, rec.fileL.Size);
+            isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);
             if Terminated then Exit;
             if isEqual then
             begin
@@ -716,17 +716,17 @@ var
           FCmpFileSourceR,
           FCmpFilePathR + syncRec.relPath,
           FCmpFileSourceL,
-          syncRec.fileL);
+          syncRec.leftFile);
       srsCopyLeft:
         CreateDirectoryFromFile(
           FCmpFileSourceL,
           FCmpFilePathL + syncRec.relPath,
           FCmpFileSourceR,
-          syncRec.fileR);
+          syncRec.rightFile);
       srsDeleteRight:
-        DeleteFile(FCmpFileSourceR, syncRec.fileR);
+        DeleteFile(FCmpFileSourceR, syncRec.rightFile);
       srsDeleteLeft:
-        DeleteFile(FCmpFileSourceL, syncRec.fileL);
+        DeleteFile(FCmpFileSourceL, syncRec.leftFile);
     end;
   end;
 
@@ -766,12 +766,12 @@ var
         continue;
       if TDirSyncRec(syncRec).isEmpty then
         continue;
-      if NOT Assigned(syncRec.fileR) then
+      if NOT Assigned(syncRec.rightFile) then
         continue;
-      if Assigned(syncRec.fileL) then
+      if Assigned(syncRec.leftFile) then
         continue;
-      if isEmptyDir(FCmpFileSourceR,syncRec.fileR.FullPath) then
-        DeleteFile(FCmpFileSourceR, syncRec.fileR);
+      if isEmptyDir(FCmpFileSourceR,syncRec.rightFile.FullPath) then
+        DeleteFile(FCmpFileSourceR, syncRec.rightFile);
     end;
   end;
 
@@ -797,12 +797,12 @@ begin
       srsCopyLeft:
         begin
           Inc(CopyLeftCount);
-          Inc(CopyLeftSize, fsr.fileR.Size);
+          Inc(CopyLeftSize, fsr.rightFile.Size);
         end;
       srsCopyRight:
         begin
           Inc(CopyRightCount);
-          Inc(CopyRightSize, fsr.fileL.Size);
+          Inc(CopyRightSize, fsr.leftFile.Size);
         end;
       srsDeleteLeft:
         begin
@@ -888,17 +888,17 @@ begin
           Dest := fsr.relPath;
           case fsr.action of
             srsCopyRight:
-              if CopyRight then CopyRightFiles.Add(fsr.fileL.Clone);
+              if CopyRight then CopyRightFiles.Add(fsr.leftFile.Clone);
             srsCopyLeft:
-              if CopyLeft then CopyLeftFiles.Add(fsr.fileR.Clone);
+              if CopyLeft then CopyLeftFiles.Add(fsr.rightFile.Clone);
             srsDeleteRight:
-              if DeleteRight then DeleteRightFiles.Add(fsr.fileR.Clone);
+              if DeleteRight then DeleteRightFiles.Add(fsr.rightFile.Clone);
             srsDeleteLeft:
-              if DeleteLeft then DeleteLeftFiles.Add(fsr.fileL.Clone);
+              if DeleteLeft then DeleteLeftFiles.Add(fsr.leftFile.Clone);
             srsDeleteBoth:
               begin
-                if DeleteRight then DeleteRightFiles.Add(fsr.fileR.Clone);
-                if DeleteLeft then DeleteLeftFiles.Add(fsr.fileL.Clone);
+                if DeleteRight then DeleteRightFiles.Add(fsr.rightFile.Clone);
+                if DeleteLeft then DeleteLeftFiles.Add(fsr.leftFile.Clone);
               end;
           end;
           i := i + 1;
@@ -1090,10 +1090,10 @@ begin
   if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
   sr := FFilteredList.fileSyncRec(r);
   if sr.isDir
-  or not Assigned(sr.fileR) or not Assigned(sr.fileL) or (sr.state = srsEqual)
+  or not Assigned(sr.rightFile) or not Assigned(sr.leftFile) or (sr.state = srsEqual)
   then
     Exit;
-  PrepareToolData(FFileSourceL, sr.fileL, FFileSourceR, sr.fileR, @ShowDifferByGlobList);
+  PrepareToolData(FFileSourceL, sr.leftFile, FFileSourceR, sr.rightFile, @ShowDifferByGlobList);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
@@ -1132,32 +1132,32 @@ begin
         else Font.Color := clWindowText;
         end;
       end;
-      if Assigned(r.fileL) then
+      if Assigned(r.leftFile) then
       begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(r.fileL.Size);
+        s := IntToStrTS(r.leftFile.Size);
         with hCols[1] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, r.fileL.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, r.leftFile.ModificationTime);
         with hCols[2] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
       end;
-      if Assigned(r.fileR) then
+      if Assigned(r.rightFile) then
       begin
         TextOut(hCols[6].Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(r.fileR.Size);
+        s := IntToStrTS(r.rightFile.Size);
         with hCols[5] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, r.fileR.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, r.rightFile.ModificationTime);
         with hCols[4] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
@@ -1263,9 +1263,9 @@ begin
   if NOT sr.isDir then
   begin
     if Sender = MenuItemViewLeft then
-      f := sr.fileL
+      f := sr.leftFile
     else if Sender = MenuItemViewRight then begin
-      f := sr.fileR;
+      f := sr.rightFile;
     end;
     if Assigned(f) then ShowViewerByGlob(f.FullPath);
   end;
@@ -1465,11 +1465,11 @@ procedure TfrmSyncDirsDlg.FillFoundItemsDG;
       if NOT r.isDir then
       begin
         Inc(Ftotal);
-        if Assigned(r.fileL) and not Assigned(r.fileR) then Inc(FuniqueL) else
-        if Assigned(r.fileR) and not Assigned(r.fileL) then Inc(FuniqueR);
+        if Assigned(r.leftFile) and not Assigned(r.rightFile) then Inc(FuniqueL) else
+        if Assigned(r.rightFile) and not Assigned(r.leftFile) then Inc(FuniqueR);
         if r.state = srsEqual then Inc(Fequal) else
         if r.state = srsNotEq then Inc(Fnoneq) else
-        if Assigned(r.fileL) and Assigned(r.fileR) then Inc(Fnoneq);
+        if Assigned(r.leftFile) and Assigned(r.rightFile) then Inc(Fnoneq);
       end;
     end;
   end;
@@ -1523,8 +1523,8 @@ var
   function isMatching(const syncRec: TFileSyncRec): Boolean;
   begin
     Result:=
-      ((Assigned(syncRec.fileL) <> Assigned(syncRec.fileR)) and (ffSingle in filterFlags) or
-       (Assigned(syncRec.fileL) = Assigned(syncRec.fileR)) and (ffDuplicate in filterFlags))
+      ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
+       (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
        and
        ((syncRec.state = srsCopyLeft) and (ffCopyLeft in filterFlags) or
         (syncRec.state = srsCopyRight) and (ffCopyRight in filterFlags) or
@@ -1654,12 +1654,12 @@ var
                 r := dirItem.fileSyncRec(j);
               if sideLeft then
               begin
-                r.fileL := f.Clone;
+                r.leftFile := f.Clone;
                 r.updateState;
               end else begin
-                r.fileR := f.Clone;
+                r.rightFile := f.Clone;
                 r.updateState;
-                if (cfByContent in FCompareOption.flags) and (r.state = srsEqual) and (r.fileR.Size > 0) then
+                if (cfByContent in FCompareOption.flags) and (r.state = srsEqual) and (r.rightFile.Size > 0) then
                 begin
                   r.action := srsUnknown;
                   r.state := srsUnknown;
@@ -1683,10 +1683,10 @@ var
       currentDirPart:= GetLastDir(dir);
       i:= leftParentDirs.IndexOf(currentDirPart);
       if i >= 0 then
-        dirSyncRec.fileL:= TFile(leftParentDirs.Objects[i]);    // owns file
+        dirSyncRec.leftFile:= TFile(leftParentDirs.Objects[i]);    // owns file
       i:= rightParentDirs.IndexOf(currentDirPart);
       if i >= 0 then
-        dirSyncRec.fileR:= TFile(rightParentDirs.Objects[i]);   // owns file
+        dirSyncRec.rightFile:= TFile(rightParentDirs.Objects[i]);   // owns file
     end;
 
   var
@@ -1820,46 +1820,46 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
     0:
       Result := mbCompareStr(sl[i], sl[j]);
     1:
-      if (Assigned(r1.fileL) < Assigned(r2.fileL))
-      or Assigned(r2.fileL) and (r1.fileL.Size < r2.fileL.Size) then
+      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
+      or Assigned(r2.leftFile) and (r1.leftFile.Size < r2.leftFile.Size) then
         Result := -1
       else
-      if (Assigned(r1.fileL) > Assigned(r2.fileL))
-      or Assigned(r1.fileL) and (r1.fileL.Size > r2.fileL.Size) then
+      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
+      or Assigned(r1.leftFile) and (r1.leftFile.Size > r2.leftFile.Size) then
         Result := 1
       else
         Result := 0;
     2:
-      if (Assigned(r1.fileL) < Assigned(r2.fileL))
-      or Assigned(r2.fileL)
-      and (r1.fileL.ModificationTime < r2.fileL.ModificationTime) then
+      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
+      or Assigned(r2.leftFile)
+      and (r1.leftFile.ModificationTime < r2.leftFile.ModificationTime) then
         Result := -1
       else
-      if (Assigned(r1.fileL) > Assigned(r2.fileL))
-      or Assigned(r1.fileL)
-      and (r1.fileL.ModificationTime > r2.fileL.ModificationTime) then
+      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
+      or Assigned(r1.leftFile)
+      and (r1.leftFile.ModificationTime > r2.leftFile.ModificationTime) then
         Result := 1
       else
         Result := 0;
     4:
-      if (Assigned(r1.fileR) < Assigned(r2.fileR))
-      or Assigned(r2.fileR)
-      and (r1.fileR.ModificationTime < r2.fileR.ModificationTime) then
+      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
+      or Assigned(r2.rightFile)
+      and (r1.rightFile.ModificationTime < r2.rightFile.ModificationTime) then
         Result := -1
       else
-      if (Assigned(r1.fileR) > Assigned(r2.fileR))
-      or Assigned(r1.fileR)
-      and (r1.fileR.ModificationTime > r2.fileR.ModificationTime) then
+      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
+      or Assigned(r1.rightFile)
+      and (r1.rightFile.ModificationTime > r2.rightFile.ModificationTime) then
         Result := 1
       else
         Result := 0;
     5:
-      if (Assigned(r1.fileR) < Assigned(r2.fileR))
-      or Assigned(r2.fileR) and (r1.fileR.Size < r2.fileR.Size) then
+      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
+      or Assigned(r2.rightFile) and (r1.rightFile.Size < r2.rightFile.Size) then
         Result := -1
       else
-      if (Assigned(r1.fileR) > Assigned(r2.fileR))
-      or Assigned(r1.fileR) and (r1.fileR.Size > r2.fileR.Size) then
+      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
+      or Assigned(r1.rightFile) and (r1.rightFile.Size > r2.rightFile.Size) then
         Result := 1
       else
         Result := 0;
@@ -1949,12 +1949,12 @@ begin
     srsNotEq:
       ca := srsCopyRight;
     srsCopyRight:
-      if Assigned(sr.fileR) then
+      if Assigned(sr.rightFile) then
         ca := srsCopyLeft
       else
         ca := srsDoNothing;
     srsCopyLeft:
-      if Assigned(sr.fileL) then
+      if Assigned(sr.leftFile) then
         ca := srsNotEq
       else
         ca := srsDoNothing;
@@ -1968,7 +1968,7 @@ begin
     srsDeleteBoth:
       ca := sr.state;
     srsDoNothing:
-      if Assigned(sr.fileL) then
+      if Assigned(sr.leftFile) then
         ca := srsCopyRight
       else
         ca := FCompareOption.stateWithoutLeft;
@@ -2004,38 +2004,38 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
         NewAction:= rec.state;
       srsNotEq:
         begin
-          if (rec.action = srsCopyLeft) and Assigned(rec.fileL) then
+          if (rec.action = srsCopyLeft) and Assigned(rec.leftFile) then
               NewAction:= srsCopyRight
-          else if (rec.action = srsCopyRight) and Assigned(rec.fileR) then
+          else if (rec.action = srsCopyRight) and Assigned(rec.rightFile) then
               NewAction:= srsCopyLeft
           else
             NewAction:= rec.action
         end;
       srsCopyLeft:
         begin
-          if not Assigned(rec.fileR) then
+          if not Assigned(rec.rightFile) then
             NewAction:= srsDoNothing;
         end;
       srsCopyRight:
         begin
-          if not Assigned(rec.fileL) then
+          if not Assigned(rec.leftFile) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteLeft:
         begin
-          if not Assigned(rec.fileL) then
+          if not Assigned(rec.leftFile) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteRight:
         begin
-          if not Assigned(rec.fileR) then
+          if not Assigned(rec.rightFile) then
             NewAction:= srsDoNothing;
         end;
       srsDeleteBoth:
         begin
-          if not Assigned(rec.fileL) then
+          if not Assigned(rec.leftFile) then
             NewAction:= srsDeleteRight;
-          if not Assigned(rec.fileR) then
+          if not Assigned(rec.rightFile) then
             NewAction:= srsDeleteLeft;
         end;
     end;
@@ -2158,9 +2158,9 @@ procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
       if NOT MainDrawGrid.IsCellSelected[0,i] then
         continue;
       rec:= FFilteredList.fileSyncRec(i);
-      if Assigned(rec.fileL) then
+      if Assigned(rec.leftFile) then
         Inc( leftCount );
-      if Assigned(rec.fileR) then
+      if Assigned(rec.rightFile) then
         Inc( rightCount );
     end;
   end;
@@ -2273,54 +2273,20 @@ procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemove
   procedure doRemoveItem(const index: Integer);
   var
     rec: TFileSyncRec;
-
-    function isRemovableLeft: Boolean;
-    var
-      dirSyncRec: TDirSyncRec absolute rec;
-    begin
-      Result:= False;
-      if NOT ARemoveLeft then
-        Exit;
-      if NOT Assigned(rec.fileL) then
-        Exit;
-
-      if rec.isDir then begin
-        Result:= dirSyncRec.isEmpty(True);
-      end else begin
-        Result:= True;
-      end;
-    end;
-
-    function isRemovableRight: Boolean;
-    var
-      dirSyncRec: TDirSyncRec absolute rec;
-    begin
-      Result:= False;
-      if NOT ARemoveRight then
-        Exit;
-      if NOT Assigned(rec.fileR) then
-        Exit;
-
-      if rec.isDir then begin
-        Result:= dirSyncRec.isEmpty(False);
-      end else begin
-        Result:= True;
-      end;
-    end;
   begin
     rec:= FFilteredList.fileSyncRec(index);
 
-    if isRemovableLeft then begin
-      ALeft.Add(rec.fileL.Clone);
+    if ARemoveLeft and rec.isDeletable(True) then begin
+      ALeft.Add(rec.leftFile.Clone);
       FFilteredList.removeLeft( index );
     end;
 
-    if isRemovableRight then begin
-      ARight.Add(rec.fileR.Clone);
+    if ARemoveRight and rec.isDeletable(False) then begin
+      ARight.Add(rec.rightFile.Clone);
       FFilteredList.removeRight( index );
     end;
 
-    if Assigned(rec.fileL) or Assigned(rec.fileR) then
+    if Assigned(rec.leftFile) or Assigned(rec.rightFile) then
       rec.updateState
     else begin
       // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
@@ -2506,22 +2472,22 @@ procedure TfrmSyncDirsDlg.CopyToClipboard;
     end
     else
     begin
-      if Assigned(SyncRec.fileL) then
+      if Assigned(SyncRec.leftFile) then
       begin
         s := FFilteredList.path(R) + #9 +
-             IntToStrTS(SyncRec.fileL.Size) + #9 +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.fileL.ModificationTime);
+             IntToStrTS(SyncRec.leftFile.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
       end
       else
       begin
         s := #9#9;
       end;
       s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
-      if Assigned(SyncRec.fileR) then
+      if Assigned(SyncRec.rightFile) then
       begin
         s := s +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.fileR.ModificationTime) + #9 +
-             IntToStrTS(SyncRec.fileR.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
+             IntToStrTS(SyncRec.rightFile.Size) + #9 +
              FFilteredList.path(R);
       end;
     end;
