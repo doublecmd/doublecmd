@@ -192,7 +192,6 @@ type
     procedure Compare;
     procedure FillFoundItemsDG;
     procedure InitVisibleItems;
-    procedure RemoveInvisibleDirs;
     procedure RecalcHeaderCols;
     procedure ScanDirs;
     procedure SetSortIndex(AValue: Integer);
@@ -1493,26 +1492,6 @@ begin
   end;
 end;
 
-procedure TfrmSyncDirsDlg.RemoveInvisibleDirs;
-var
-  i: Integer;
-  r: TFileSyncRec;
-begin
-  for i := FFilteredList.Count - 1 downto 0 do begin
-    r := FFilteredList.fileSyncRec(i);
-    if NOT r.isDir then
-      continue;
-    if r.state <> srsDoNothing then
-      continue;
-    if (i + 1 < FFilteredList.Count) then begin
-      r := FFilteredList.fileSyncRec(i+1);
-      if NOT r.isDir then
-        continue;
-    end;
-    FFilteredList.Delete(i);
-  end;
-end;
-
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
   dirIndex, fileIndex: Integer;
@@ -1568,7 +1547,7 @@ begin
           FFilteredList.addPath(files[fileIndex], r);
       end;
   end;
-  self.RemoveInvisibleDirs;
+  FFilteredList.clearInvisibleDirs;
 end;
 
 procedure TfrmSyncDirsDlg.RecalcHeaderCols;

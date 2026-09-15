@@ -162,6 +162,7 @@ type
     procedure addPath( const path: String; const syncRec: TFileSyncRec );
     procedure Delete( const index: Integer );
     procedure FullyDelete( const index: Integer );
+    procedure clearInvisibleDirs;
     procedure Clear;
 
     procedure removeLeft( const index: Integer );
@@ -458,6 +459,26 @@ begin
   rec:= self.fileSyncRec( index );
   rec.state:= srsDeleted;
   self.Delete( index );
+end;
+
+procedure TFlatDirFileList.clearInvisibleDirs;
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  for i:= self.Count-1 downto 0 do begin
+    rec:= self.fileSyncRec( i );
+    if NOT rec.isDir then
+      continue;
+    if rec.state <> srsDoNothing then
+      continue;
+    if i + 1 < self.Count then begin
+      rec:= self.fileSyncRec(i+1);
+      if NOT rec.isDir then
+        continue;
+    end;
+    self.Delete(i);
+  end;
 end;
 
 procedure TFlatDirFileList.Clear;
