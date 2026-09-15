@@ -128,25 +128,6 @@ type
     property dirSyncRec: TDirSyncRec read _dirSyncRec;
   end;
 
-  { TTwoLevelTree }
-
-  TTwoLevelTree = class
-  private
-    _dirs: TStringListEx;
-  public
-    constructor Create;
-    destructor Destroy; override;
-
-    procedure addDir( const dirPath: String; const item: TTwoLevelTreeDirItem );
-    procedure Clear;
-
-    function Count: Integer;
-    function indexOfDir( const dirPath: String ): Integer;
-    function dirPath( const dirIndex: Integer ): String;
-    function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
-    function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TFileSyncRec;
-  end;
-
   { TFlatDirFileList }
 
   TFlatDirFileList = class
@@ -171,6 +152,27 @@ type
     function Count: Integer;
     function path( const index: Integer ): String;
     function fileSyncRec( const index: Integer ): TFileSyncRec;
+  end;
+
+  { TTwoLevelTree }
+
+  TTwoLevelTree = class
+  private
+    _dirs: TStringListEx;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure filterFlatListWithFlags( const flatList: TFlatDirFileList; const filterFlags: TFilterFlags );
+
+    procedure addDir( const dirPath: String; const item: TTwoLevelTreeDirItem );
+    procedure Clear;
+
+    function Count: Integer;
+    function indexOfDir( const dirPath: String ): Integer;
+    function dirPath( const dirIndex: Integer ): String;
+    function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
+    function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TFileSyncRec;
   end;
 
 implementation
@@ -361,6 +363,61 @@ end;
 destructor TTwoLevelTree.Destroy;
 begin
   FreeAndNil( _dirs );
+end;
+
+procedure TTwoLevelTree.filterFlatListWithFlags(
+  const flatList: TFlatDirFileList;
+  const filterFlags: TFilterFlags );
+
+  function isMatching(const syncRec: TFileSyncRec): Boolean;
+  begin
+    Result:=
+      ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
+       (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
+       and
+       (((syncRec.state = srsCopyToLeft) or (syncRec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
+        ((syncRec.state = srsCopyToRight) or (syncRec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
+        (syncRec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
+        (syncRec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
+        (syncRec.state = srsEqual) and (ffEqual in filterFlags) or
+        (syncRec.state = srsNotEq) and (ffNotEqual in filterFlags) or
+        (syncRec.state = srsUnknown) and (ffUnknown in filterFlags));
+  end;
+
+  function isDirMatching(const syncRec: TFileSyncRec): Boolean;
+  var
+    dirSyncRec: TDirSyncRec absolute syncRec;
+  begin
+    if syncRec.state = srsDoNothing then begin
+      Result:= True;
+    end else if dirSyncRec.isEmpty and (syncRec.state=srsEqual) then begin
+      Result:= False;
+    end else begin
+      Result:= isMatching(syncRec);
+    end;
+  end;
+
+var
+  dirIndex: Integer;
+  fileIndex: Integer;
+  rec: TFileSyncRec;
+  currentDirItem: TTwoLevelTreeDirItem;
+begin
+  flatList.Clear;
+  for dirIndex:= 0 to self.Count-1 do begin
+    currentDirItem:= self.dirItem( dirIndex );
+    if self.dirPath(dirIndex) <> EmptyStr then begin
+      rec:= currentDirItem.dirSyncRec;
+      if isDirMatching(rec) then
+        flatList.addPath( IncludeTrailingPathDelimiter(self.dirPath(dirIndex)), rec );
+    end;
+    for fileIndex:= 0 to currentDirItem.fileCount-1 do begin
+      rec:= currentDirItem.fileSyncRec( fileIndex );
+      if isMatching(rec) then
+        flatList.addPath( currentDirItem.files[fileIndex], rec );
+    end;
+  end;
+  flatList.clearInvisibleDirs;
 end;
 
 procedure TTwoLevelTree.addDir(const dirPath: String; const item: TTwoLevelTreeDirItem);

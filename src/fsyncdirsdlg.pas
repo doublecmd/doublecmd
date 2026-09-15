@@ -188,7 +188,6 @@ type
     function createCompareOption: TCompareOption;
     function createFilterFlags: TFilterFlags;
 
-    procedure ClearFoundItems;
     procedure Compare;
     procedure FillFoundItemsDG;
     procedure InitVisibleItems;
@@ -1426,16 +1425,11 @@ begin
   end;
 end;
 
-procedure TfrmSyncDirsDlg.ClearFoundItems;
-begin
-  FFullTree.Clear;
-end;
-
 procedure TfrmSyncDirsDlg.Compare;
 begin
   TopPanel.Enabled := False;
   try
-    ClearFoundItems;
+    FFullTree.Clear;
     FCompareOption.Free;
     FCompareOption:= self.createCompareOption;
     MainDrawGrid.RowCount := 0;
@@ -1493,61 +1487,8 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.InitVisibleItems;
-var
-  dirIndex, fileIndex: Integer;
-  r: TFileSyncRec;
-  dirItem: TTwoLevelTreeDirItem;
-  filterFlags: TFilterFlags;
-
-  function isMatching(const syncRec: TFileSyncRec): Boolean;
-  begin
-    Result:=
-      ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
-       (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
-       and
-       (((syncRec.state = srsCopyToLeft) or (syncRec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
-        ((syncRec.state = srsCopyToRight) or (syncRec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
-        (syncRec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
-        (syncRec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
-        (syncRec.state = srsEqual) and (ffEqual in filterFlags) or
-        (syncRec.state = srsNotEq) and (ffNotEqual in filterFlags) or
-        (syncRec.state = srsUnknown) and (ffUnknown in filterFlags));
-  end;
-
-  function isDirMatching(const syncRec: TFileSyncRec): Boolean;
-  var
-    dirSyncRec: TDirSyncRec absolute syncRec;
-  begin
-    if syncRec.state = srsDoNothing then begin
-      Result:= True;
-    end else if dirSyncRec.isEmpty and (syncRec.state=srsEqual) then begin
-      Result:= False;
-    end else begin
-      Result:= isMatching(syncRec);
-    end;
-  end;
-
 begin
-  FFilteredList.Clear;
-  filterFlags:= self.createFilterFlags;
-  for dirIndex := 0 to FFullTree.Count - 1 do
-  begin
-    dirItem := FFullTree.dirItem(dirIndex);
-    if FFullTree.dirPath(dirIndex) <> '' then begin
-      r := dirItem.dirSyncRec;
-      if isDirMatching(r) then
-        FFilteredList.addPath(AppendPathDelim(FFullTree.dirPath(dirIndex)), r);
-    end;
-    with dirItem do
-      for fileIndex := 0 to fileCount - 1 do
-      begin
-        { check filter }
-        r := fileSyncRec(fileIndex);
-        if isMatching(r) then
-          FFilteredList.addPath(files[fileIndex], r);
-      end;
-  end;
-  FFilteredList.clearInvisibleDirs;
+  FFullTree.filterFlatListWithFlags(FFilteredList, self.createFilterFlags);
 end;
 
 procedure TfrmSyncDirsDlg.RecalcHeaderCols;
