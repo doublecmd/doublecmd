@@ -121,7 +121,9 @@ type
 
   TSynCustomHighlighterHelper = class helper for TSynCustomHighlighter
   public
+{$if lcl_fullversion < 4990000}
     function LanguageName: String;
+{$endif}
     function Other: Boolean;
   end;
 
@@ -365,6 +367,7 @@ end;
 
 { TSynCustomHighlighterHelper }
 
+{$if lcl_fullversion < 4990000}
 function TSynCustomHighlighterHelper.LanguageName: String;
 begin
   if Self is TSynUniSyn then
@@ -372,6 +375,7 @@ begin
   else
     Result:= Self.GetLanguageName;
 end;
+{$endif}
 
 function TSynCustomHighlighterHelper.Other: Boolean;
 begin

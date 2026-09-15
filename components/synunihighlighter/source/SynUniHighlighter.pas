@@ -45,7 +45,8 @@ interface
 
 uses
   SysUtils, Classes, Graphics,
-  SynEditTypes, SynEditHighlighter, SynUniClasses, SynUniRules, Laz2_DOM;
+  SynEditTypes, SynEditHighlighter, SynUniClasses, SynUniRules, Laz2_DOM,
+  LCLVersion;
 
 Const
   _Root = 'Root';
@@ -81,6 +82,9 @@ type
     procedure SetSampleSource(Value: string); override;
     function GetDefaultFilter: string; override;
     procedure SetDefaultFilter(Value: string); override;
+{$if lcl_fullversion >= 4990000}
+    function GetInstanceLanguageName: string; override;
+{$endif}
   public
     class function GetLanguageName: string; override;
   public
@@ -138,7 +142,7 @@ type
 implementation
 
 uses
-  CRC, Laz2_XMLRead, LCLVersion;
+  CRC, Laz2_XMLRead;
 
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
@@ -615,6 +619,13 @@ begin
   else
     Info.General.Extensions:= Copy(Result, 1, Length(Result) - 1);
 end;
+
+{$if lcl_fullversion >= 4990000}
+function TSynUniSyn.GetInstanceLanguageName: string;
+begin
+  Result:= Info.General.Name;
+end;
+{$endif}
 
 procedure TSynUniSyn.LoadFromXml(xml: TDOMNode);
 var
