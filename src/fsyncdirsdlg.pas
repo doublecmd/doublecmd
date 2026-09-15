@@ -1270,25 +1270,6 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
-  function lastFileInCurrentDir(const fromIndex: Integer): Integer;
-  var
-    rec: TFileSyncRec;
-  begin
-    Result:= fromIndex;
-    rec:= FFilteredList.fileSyncRec(fromIndex);
-    if NOT rec.isDir then
-      Exit;
-
-    Inc( Result );
-    while Result < FFilteredList.Count do begin
-      rec:= FFilteredList.fileSyncRec(Result);
-      if rec.isDir then
-        break;
-      Inc( Result );
-    end;
-    Dec( Result );
-  end;
-
   procedure calcSelection;
   var
     fromIndex: Integer;
@@ -1300,7 +1281,7 @@ procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
       Exit;
 
     fromIndex:= MainDrawGrid.Row;
-    toIndex:= lastFileInCurrentDir( fromIndex );
+    toIndex:= FFilteredList.lastFileInCurrentDir( fromIndex );
     MainDrawGrid.Selection:= TGridRect.Create(0,fromIndex,3,toIndex);
   end;
 

@@ -152,6 +152,8 @@ type
     function Count: Integer;
     function path( const index: Integer ): String;
     function fileSyncRec( const index: Integer ): TFileSyncRec;
+
+    function lastFileInCurrentDir(const fromIndex: Integer): Integer;
   end;
 
   { TTwoLevelTree }
@@ -574,6 +576,25 @@ end;
 function TFlatDirFileList.fileSyncRec(const index: Integer): TFileSyncRec;
 begin
   Result:= TFileSyncRec( _list.Objects[index] );
+end;
+
+function TFlatDirFileList.lastFileInCurrentDir( const fromIndex: Integer ): Integer;
+var
+  rec: TFileSyncRec;
+begin
+  Result:= fromIndex;
+  rec:= self.fileSyncRec(fromIndex);
+  if NOT rec.isDir then
+    Exit;
+
+  Inc( Result );
+  while Result < self.Count do begin
+    rec:= self.fileSyncRec( Result );
+    if rec.isDir then
+      break;
+    Inc( Result );
+  end;
+  Dec( Result );
 end;
 
 end.
