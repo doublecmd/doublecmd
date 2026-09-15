@@ -711,13 +711,13 @@ var
   procedure processDir(const syncRec: TFileSyncRec);
   begin
     case syncRec.action of
-      srsCopyRight:
+      srsCopyToRight:
         CreateDirectoryFromFile(
           FCmpFileSourceR,
           FCmpFilePathR + syncRec.relPath,
           FCmpFileSourceL,
           syncRec.leftFile);
-      srsCopyLeft:
+      srsCopyToLeft:
         CreateDirectoryFromFile(
           FCmpFileSourceL,
           FCmpFilePathL + syncRec.relPath,
@@ -794,12 +794,12 @@ begin
   for i := 0 to FFilteredList.Count - 1 do begin
     fsr := FFilteredList.fileSyncRec(i);
     case fsr.action of
-      srsCopyLeft:
+      srsCopyToLeft:
         begin
           Inc(CopyLeftCount);
           Inc(CopyLeftSize, fsr.rightFile.Size);
         end;
-      srsCopyRight:
+      srsCopyToRight:
         begin
           Inc(CopyRightCount);
           Inc(CopyRightSize, fsr.leftFile.Size);
@@ -887,9 +887,9 @@ begin
         repeat
           Dest := fsr.relPath;
           case fsr.action of
-            srsCopyRight:
+            srsCopyToRight:
               if CopyRight then CopyRightFiles.Add(fsr.leftFile.Clone);
-            srsCopyLeft:
+            srsCopyToLeft:
               if CopyLeft then CopyLeftFiles.Add(fsr.rightFile.Clone);
             srsDeleteRight:
               if DeleteRight then DeleteRightFiles.Add(fsr.rightFile.Clone);
@@ -1125,8 +1125,8 @@ begin
       begin
         case r.state of
         srsNotEq:       Font.Color := UnknownColor;
-        srsCopyLeft:    Font.Color := RightColor;
-        srsCopyRight:   Font.Color := LeftColor;
+        srsCopyToLeft:    Font.Color := RightColor;
+        srsCopyToRight:   Font.Color := LeftColor;
         srsDeleteLeft:  Font.Color := LeftColor;
         srsDeleteRight: Font.Color := RightColor;
         else Font.Color := clWindowText;
@@ -1526,8 +1526,8 @@ var
       ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
        (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
        and
-       ((syncRec.state = srsCopyLeft) and (ffCopyLeft in filterFlags) or
-        (syncRec.state = srsCopyRight) and (ffCopyRight in filterFlags) or
+       (((syncRec.state = srsCopyToLeft) or (syncRec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
+        ((syncRec.state = srsCopyToRight) or (syncRec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
         (syncRec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
         (syncRec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
         (syncRec.state = srsEqual) and (ffEqual in filterFlags) or
@@ -1947,13 +1947,13 @@ begin
   ca := sr.action;
   case ca of
     srsNotEq:
-      ca := srsCopyRight;
-    srsCopyRight:
+      ca := srsCopyToRight;
+    srsCopyToRight:
       if Assigned(sr.rightFile) then
-        ca := srsCopyLeft
+        ca := srsCopyToLeft
       else
         ca := srsDoNothing;
-    srsCopyLeft:
+    srsCopyToLeft:
       if Assigned(sr.leftFile) then
         ca := srsNotEq
       else
@@ -1969,7 +1969,7 @@ begin
       ca := sr.state;
     srsDoNothing:
       if Assigned(sr.leftFile) then
-        ca := srsCopyRight
+        ca := srsCopyToRight
       else
         ca := FCompareOption.stateWithoutLeft;
   end;
@@ -2004,19 +2004,19 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
         NewAction:= rec.state;
       srsNotEq:
         begin
-          if (rec.action = srsCopyLeft) and Assigned(rec.leftFile) then
-              NewAction:= srsCopyRight
-          else if (rec.action = srsCopyRight) and Assigned(rec.rightFile) then
-              NewAction:= srsCopyLeft
+          if (rec.action = srsCopyToLeft) and Assigned(rec.leftFile) then
+              NewAction:= srsCopyToRight
+          else if (rec.action = srsCopyToRight) and Assigned(rec.rightFile) then
+              NewAction:= srsCopyToLeft
           else
             NewAction:= rec.action
         end;
-      srsCopyLeft:
+      srsCopyToLeft:
         begin
           if not Assigned(rec.rightFile) then
             NewAction:= srsDoNothing;
         end;
-      srsCopyRight:
+      srsCopyToRight:
         begin
           if not Assigned(rec.leftFile) then
             NewAction:= srsDoNothing;
@@ -2110,8 +2110,8 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
 
     rec:= FFilteredList.fileSyncRec(index);
     case rec.action of
-      srsCopyLeft,
-      srsCopyRight:
+      srsCopyToLeft,
+      srsCopyToRight:
         checkAncestorsDirs(index);
       srsDeleteLeft,
       srsDeleteRight,
@@ -2546,12 +2546,12 @@ end;
 
 procedure TfrmSyncDirsDlg.cm_SelectCopyLeftToRight(const Params: array of string);
 begin
-  SetSyncRecState(srsCopyRight);
+  SetSyncRecState(srsCopyToRight);
 end;
 
 procedure TfrmSyncDirsDlg.cm_SelectCopyRightToLeft(const Params: array of string);
 begin
-  SetSyncRecState(srsCopyLeft);
+  SetSyncRecState(srsCopyToLeft);
 end;
 
 procedure TfrmSyncDirsDlg.cm_DeleteLeft(const Params: array of string);

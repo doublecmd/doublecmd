@@ -15,8 +15,8 @@ type
     srsUnknown,
     srsEqual,
     srsNotEq,
-    srsCopyLeft,
-    srsCopyRight,
+    srsCopyToLeft,
+    srsCopyToRight,
     srsDeleteLeft,
     srsDeleteRight,
     srsDeleteBoth,
@@ -182,7 +182,7 @@ begin
   if cfAsymmetric in flags then
     _stateWithoutLeft:= srsDeleteRight
   else
-    _stateWithoutLeft:= srsCopyLeft;
+    _stateWithoutLeft:= srsCopyToLeft;
 end;
 
 { TFileSyncRec }
@@ -210,7 +210,7 @@ begin
     _state := _option.stateWithoutLeft
   else
   if not Assigned(_rightFile) and Assigned(_leftFile) then
-    _state := srsCopyRight
+    _state := srsCopyToRight
   else begin
     FileTimeDiff := FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
     if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (_leftFile.Size = _rightFile.Size) then
@@ -218,12 +218,12 @@ begin
     else
     if not (cfIgnoreDate in _option.flags) then
       if FileTimeDiff > 0 then
-        _state := srsCopyRight
+        _state := srsCopyToRight
       else
       if FileTimeDiff < 0 then
-        _state := srsCopyLeft;
+        _state := srsCopyToLeft;
   end;
-  if (cfAsymmetric in _option.flags) and (_state = srsCopyLeft) then
+  if (cfAsymmetric in _option.flags) and (_state = srsCopyToLeft) then
     _action := srsDoNothing
   else begin
     _action := _state;
