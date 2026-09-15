@@ -20,7 +20,9 @@ type
     srsDeleteLeft,
     srsDeleteRight,
     srsDeleteBoth,
-    srsDoNothing
+    srsDoNothing,
+
+    srsDeleted
   );
 
   TCompareFlag = (
@@ -92,6 +94,7 @@ type
     procedure updateState; override;
     function isDir: Boolean; override;
     procedure incChildrenCount(const side: Boolean);
+    procedure decChildrenCount(const side: Boolean);
     function childrenCount(const side: Boolean): Integer;
     function isEmpty(const side: Boolean): Boolean;
     function isEmpty: Boolean;
@@ -142,13 +145,20 @@ type
   TFlatDirFileList = class
   private
     _list: TStringListEx;
+  private
+    function findParentDirRec( const childIndex: Integer ): TDirSyncRec;
+    procedure decParentDirRecChildrenCount( const childIndex: Integer; const leftSide: Boolean );
   public
     constructor Create;
     destructor Destroy; override;
 
     procedure addPath( const path: String; const syncRec: TFileSyncRec );
     procedure Delete( const index: Integer );
+    procedure FullyDelete( const index: Integer );
     procedure Clear;
+
+    procedure removeLeft( const index: Integer );
+    procedure removeRight( const index: Integer );
 
     function Count: Integer;
     function path( const index: Integer ): String;
@@ -243,6 +253,11 @@ begin
   Inc( _childrenCount[side] );
 end;
 
+procedure TDirSyncRec.decChildrenCount(const side: Boolean);
+begin
+  Dec( _childrenCount[side] );
+end;
+
 function TDirSyncRec.childrenCount(const side: Boolean): Integer;
 begin
   Result:= _childrenCount[side];
@@ -326,14 +341,14 @@ begin
   _dirs.AddObject( dirPath, item );
 end;
 
-function TTwoLevelTree.Count: Integer;
-begin
-  Result:= _dirs.Count;
-end;
-
 procedure TTwoLevelTree.Clear;
 begin
   _dirs.Clear;
+end;
+
+function TTwoLevelTree.Count: Integer;
+begin
+  Result:= _dirs.Count;
 end;
 
 function TTwoLevelTree.indexOfDir(const dirPath: String): Integer;
@@ -358,6 +373,36 @@ end;
 
 { TFlatDirFileList }
 
+function TFlatDirFileList.findParentDirRec(const childIndex: Integer): TDirSyncRec;
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  Result:= nil;
+  rec:= self.fileSyncRec( childIndex );
+  if rec.isDir then
+    Exit;
+  for i:= childIndex-1 downto 0 do begin
+    rec:= self.fileSyncRec( i );
+    if rec.relPath = EmptyStr then
+      break;
+    if NOT rec.isDir then
+      continue;
+    Result:= TDirSyncRec( rec );
+    Exit;
+  end;
+end;
+
+procedure TFlatDirFileList.decParentDirRecChildrenCount(
+  const childIndex: Integer; const leftSide: Boolean);
+var
+  parentDirRec: TDirSyncRec;
+begin
+  parentDirRec:= findParentDirRec( childIndex );
+  if Assigned(parentDirRec) then
+    parentDirRec.decChildrenCount( leftSide );
+end;
+
 constructor TFlatDirFileList.Create;
 begin
   // not own Object
@@ -380,9 +425,36 @@ begin
   _list.Delete( index );
 end;
 
+procedure TFlatDirFileList.FullyDelete(const index: Integer);
+var
+  rec: TFileSyncRec;
+begin
+  rec:= self.fileSyncRec( index );
+  rec.state:= srsDeleted;
+  self.Delete( index );
+end;
+
 procedure TFlatDirFileList.Clear;
 begin
   _list.Clear;
+end;
+
+procedure TFlatDirFileList.removeLeft(const index: Integer);
+var
+  rec: TFileSyncRec;
+begin
+  decParentDirRecChildrenCount( index, True );
+  rec:= self.fileSyncRec( index );
+  FreeAndNil( rec.fileL );
+end;
+
+procedure TFlatDirFileList.removeRight(const index: Integer);
+var
+  rec: TFileSyncRec;
+begin
+  decParentDirRecChildrenCount( index, False );
+  rec:= self.fileSyncRec( index );
+  FreeAndNil( rec.fileR );
 end;
 
 function TFlatDirFileList.Count: Integer;

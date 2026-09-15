@@ -47,7 +47,9 @@ const
     'X_',
     '_X',
     'XX',
-    '' );
+    '',
+    'ERR'
+  );
 
 type
   { TDrawGrid }
@@ -2254,105 +2256,89 @@ begin
   files.Free;
 end;
 
+{
+  when deleting an item in FilterList, FullTree will be synchronized
+  the change via marking rather than actual deletion.
+
+  if an item is deleted from FilteredList during the process,
+  the SyncRec.state of that item will be marked as srsDeleted.
+
+  since FilteredList and FullTree share the SyncRec, accessing
+  the SyncRec.state of the item via FullTree also yields srcDeleted.
+
+  it eliminates the need to actually delete these items from FullTree.
+}
 procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
 
   procedure doRemoveItem(const index: Integer);
   var
     rec: TFileSyncRec;
+
+    function isRemovableLeft: Boolean;
+    var
+      dirSyncRec: TDirSyncRec absolute rec;
+    begin
+      Result:= False;
+      if NOT ARemoveLeft then
+        Exit;
+      if NOT Assigned(rec.fileL) then
+        Exit;
+
+      if rec.isDir then begin
+        Result:= dirSyncRec.isEmpty(True);
+      end else begin
+        Result:= True;
+      end;
+    end;
+
+    function isRemovableRight: Boolean;
+    var
+      dirSyncRec: TDirSyncRec absolute rec;
+    begin
+      Result:= False;
+      if NOT ARemoveRight then
+        Exit;
+      if NOT Assigned(rec.fileR) then
+        Exit;
+
+      if rec.isDir then begin
+        Result:= dirSyncRec.isEmpty(False);
+      end else begin
+        Result:= True;
+      end;
+    end;
   begin
     rec:= FFilteredList.fileSyncRec(index);
 
-    if Assigned(ALeft) and Assigned(rec.fileL) then
+    if isRemovableLeft then begin
       ALeft.Add(rec.fileL.Clone);
+      FFilteredList.removeLeft( index );
+    end;
 
-    if Assigned(ARight) and Assigned(rec.fileR) then
+    if isRemovableRight then begin
       ARight.Add(rec.fileR.Clone);
-
-    if ARemoveLeft and Assigned(rec.fileL) then
-      FreeAndNil(rec.fileL);
-    if ARemoveRight and Assigned(rec.fileR) then
-      FreeAndNil(rec.fileR);
+      FFilteredList.removeRight( index );
+    end;
 
     if Assigned(rec.fileL) or Assigned(rec.fileR) then
       rec.updateState
     else begin
       // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
       // then cause MainDrawGrid.Selection and MainDrawGrid.IsCellSelected() changed
-      FFilteredList.Delete(index);
+      FFilteredList.FullyDelete(index);
     end;
   end;
 
-  // no file and no subdir
-  function isCompletelyEmptyDir(const index: Integer): Boolean;
-  var
-    rec: TFileSyncRec;
-    basePath: String;
-  begin
-    Result:= False;
-    rec:= FFilteredList.fileSyncRec(index);
-    if NOT rec.isDir then
-      Exit;
-    if NOT TDirSyncRec(rec).isEmpty then
-      Exit;
-    if index < FFilteredList.Count-1 then begin
-      basePath:= IncludeTrailingPathDelimiter(rec.relPath);
-      rec:= FFilteredList.fileSyncRec(index+1);
-      if NOT rec.isDir then
-        Exit;
-      if PathIsInPath(rec.relPath, basePath) then
-        Exit;
-    end;
-    Result:= True;
-  end;
-
-  procedure resetDirRecIfEmpty(const index: Integer);
-  var
-    currentRec: TFileSyncRec;
-    nextRec: TFileSyncRec;
-  begin
-    currentRec:= FFilteredList.fileSyncRec(index);
-    if NOT currentRec.isDir then
-      Exit;
-    if TDirSyncRec(currentRec).isEmpty then
-      Exit;
-    if index < FFilteredList.Count-1 then begin
-      nextRec:= FFilteredList.fileSyncRec(index+1);
-      if NOT nextRec.isDir then
-        Exit;
-    end;
-    TDirSyncRec(currentRec).resetEmpty;
-    currentRec.updateState;
-  end;
-
-  function processOnlyOneSelection(const index: Integer): Boolean;
-  var
-    rec: TFileSyncRec;
-  begin
-    Result:= False;
-    rec:= FFilteredList.fileSyncRec(index);
-    if rec.isDir then begin
-      resetDirRecIfEmpty( index );
-      if NOT isCompletelyEmptyDir(index) then
-        Exit;
-    end;
-    doRemoveItem(index);
-    Result:= True;
-  end;
-
-  function processMultiSelection: Integer;
+  procedure processMultiSelection;
   var
     i: Integer;
   begin
     for i:= FFilteredList.Count-1 downto 0 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then begin
-        processOnlyOneSelection( i );
-        Result:= i;
-      end;
+      if MainDrawGrid.IsCellSelected[0,i] then
+        doRemoveItem( i );
     end;
   end;
 
-var
-  lastIndex: Integer;
 begin
   if (ARemoveLeft=False) and (ARemoveRight=False) then
     Exit;
@@ -2360,18 +2346,11 @@ begin
   MainDrawGrid.BeginUpdate;
   try
     if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then begin
-      lastIndex:= processMultiSelection
+      processMultiSelection;
     end else begin
-      lastIndex:= MainDrawGrid.Row;
-      if NOT processOnlyOneSelection(lastIndex) then
-        lastIndex:= -1;
+      doRemoveItem(MainDrawGrid.Row);
     end;
-
-    if lastIndex > 0 then
-      resetDirRecIfEmpty( lastIndex-1 );
-
-    if lastIndex >= 0 then
-      self.RemoveInvisibleDirs;
+    self.InitVisibleItems;
   finally
     MainDrawGrid.RowCount := FFilteredList.Count;
     MainDrawGrid.EndUpdate;
