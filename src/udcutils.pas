@@ -786,7 +786,9 @@ begin
   sCommand := '';
   SetLength(Args, 0);
   QuoteChar := #0;
-  for I := 1 to Length(sCmdLine) do
+  I := 1;
+  while I <= Length(sCmdLine) do
+  begin
     case QuoteChar of
       '\':
         begin
@@ -800,7 +802,16 @@ begin
         end;
       '''':
         begin
-          if sCmdLine[I] = '''' then
+          if (sCmdLine[I] = '\') and (I < Length(sCmdLine)) and (sCmdLine[I + 1] = '''') then
+          begin
+            // Preserve \' inside single quotes so the shell can interpret it.
+            // This handles filenames with apostrophes in terminal command templates
+            // like: sh -c '{command}'
+            CurrentArg := CurrentArg + '\';
+            CurrentArg := CurrentArg + '''';
+            Inc(I);
+          end
+          else if sCmdLine[I] = '''' then
             QuoteChar := #0
           else
             CurrentArg := CurrentArg + sCmdLine[I];
@@ -845,6 +856,8 @@ begin
           end;
         end;
     end;
+    Inc(I);
+  end;
   if QuoteChar <> #0 then
     raise EInvalidQuoting.Create;
   if CurrentArg <> '' then
