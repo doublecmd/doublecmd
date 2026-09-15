@@ -1209,6 +1209,7 @@ begin
       AddIfNotExists(['Ctrl+M'],[],'cm_MultiRename');
       AddIfNotExists(['Ctrl+O'],[],'cm_ToggleFullscreenConsole');
       AddIfNotExists(['Ctrl+P'],[],'cm_AddPathToCmdLine');
+      AddIfNotExists(['Ctrl+Shift+P'],[],'cm_AddTargetPathToCmdLine');
       AddIfNotExists(['Ctrl+Q'],[],'cm_QuickView');
       AddIfNotExists(['Ctrl+S'],[],'cm_QuickSearch');
       AddIfNotExists(['Ctrl+R'],[],'cm_Refresh');
