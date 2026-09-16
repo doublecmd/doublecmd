@@ -764,7 +764,6 @@ class procedure TFileListBuilder.MakeAllDisplayFileList(
   const aSortings: TFileSortings);
 var
   i: PtrInt;
-  ASourceFile: TFile;
   AFile: TDisplayFile;
   HaveIcons: Boolean;
   DirectAccess: Boolean;
@@ -781,13 +780,13 @@ begin
     end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
-      // TDisplayFile takes ownership of the TFile, so release it from the
-      // source list first, and put the TDisplayFile itself under aDisplayFiles
-      // before filling in the properties below, any of which may raise. Each
-      // object is then owned by exactly one list throughout the loop.
-      ASourceFile := aFileSourceFiles.Release(i);
-      AFile := TDisplayFile.Create(ASourceFile);
+      // Build the display file empty and put it under the list that owns it
+      // first, then move the TFile into it. Release cannot raise, so the TFile
+      // is never in flight between two owners, and the properties below, any of
+      // which may raise, are filled in with every object already owned.
+      AFile := TDisplayFile.Create(nil);
       aDisplayFiles.Add(AFile);
+      AFile.FSFile := aFileSourceFiles.Release(i);
 
       AFile.DisplayName:= fs.GetDisplayFileName(AFile.FSFile);
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
@@ -813,7 +812,6 @@ class procedure TFileListBuilder.MakeAllDisplayFileList(
 var
   i: PtrInt;
   j: Integer;
-  ASourceFile: TFile;
   AFile: TDisplayFile;
   aNewFiles: TDisplayFiles;
   HaveIcons: Boolean;
@@ -835,21 +833,23 @@ begin
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
         j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
-        // Whoever gets the TFile below owns it, so release it from the source
-        // list first: each TFile is then owned by exactly one place throughout.
-        ASourceFile := aFileSourceFiles.Release(i);
         if j >= 0 then
         begin
-          // Existing file. It was cloned without its FS file, which is now set.
+          // Existing file. It was cloned without its FS file and is already
+          // owned by aExistingDisplayFiles, so the TFile moves straight into a
+          // display file that has an owner.
           AFile := TDisplayFile(aExistingDisplayFilesHashed.List[j]^.Data);
-          AFile.FSFile := ASourceFile;
+          AFile.FSFile := aFileSourceFiles.Release(i);
         end
         else
         begin
-          // New file. Put it under aNewFiles before filling in the properties
-          // below, any of which may raise.
-          AFile := TDisplayFile.Create(ASourceFile);
+          // New file. Build it empty and put it under aNewFiles first, then move
+          // the TFile into it. Release cannot raise, so the TFile is never in
+          // flight between two owners, and the properties below, any of which
+          // may raise, are filled in with every object already owned.
+          AFile := TDisplayFile.Create(nil);
           aNewFiles.Add(AFile);
+          AFile.FSFile := aFileSourceFiles.Release(i);
 
           AFile.DisplayName:= fs.GetDisplayFileName(AFile.FSFile);
           AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
