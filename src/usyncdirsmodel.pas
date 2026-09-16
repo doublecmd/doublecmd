@@ -22,6 +22,8 @@ type
     srsDeleteBoth,
     srsDoNothing,
 
+    srsNextAction,
+    srsNoAction,
     srsDeleted
   );
 
@@ -76,7 +78,9 @@ type
   public
     constructor Create(const option: TCompareOption; const relPath: String);
     destructor Destroy; override;
+
     procedure updateState; virtual;
+    function getNextAction: TSyncRecState; virtual;
 
     function isDir: Boolean; virtual;
     function isDeletable( const leftSide: Boolean ): Boolean; virtual;
@@ -98,6 +102,8 @@ type
     _childrenCount: array [Boolean] of Integer;
   public
     procedure updateState; override;
+    function getNextAction: TSyncRecState; override;
+
     function isDir: Boolean; override;
     function isDeletable(const leftSide: Boolean): Boolean; override;
     procedure incChildrenCount(const side: Boolean);
@@ -235,6 +241,41 @@ begin
   end;
 end;
 
+function TFileSyncRec.getNextAction: TSyncRecState;
+begin
+  if _state = srsEqual then
+    Exit( srsNoAction );
+
+  Result:= _action;
+  case _action of
+    srsNotEq:
+      Result:= srsCopyToRight;
+    srsCopyToRight:
+      if Assigned(_rightFile) then
+        Result:= srsCopyToLeft
+      else
+        Result:= srsDoNothing;
+    srsCopyToLeft:
+      if Assigned(_leftFile) then
+        Result:= srsNotEq
+      else
+        Result:= srsDoNothing;
+    srsDeleteRight:
+      if not (cfAsymmetric in _option.flags) then
+        Result:= _state
+      else
+        Result:= srsDoNothing;
+    srsDeleteLeft,
+    srsDeleteBoth:
+      Result:= _state;
+    srsDoNothing:
+      if Assigned(_leftFile) then
+        Result:= srsCopyToRight
+      else
+        Result:= _option.stateWithoutLeft;
+  end;
+end;
+
 function TFileSyncRec.isDir: Boolean;
 begin
   Result:= False;
@@ -266,6 +307,14 @@ begin
   if Assigned(_leftFile) and Assigned(_rightFile) then
     Exit;
   inherited updateState;
+end;
+
+function TDirSyncRec.getNextAction: TSyncRecState;
+begin
+  if _state = srsDoNothing then
+    Result:= srsNoAction
+  else
+    Result:= inherited getNextAction;
 end;
 
 function TDirSyncRec.isDir: Boolean;

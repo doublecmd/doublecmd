@@ -48,7 +48,10 @@ const
     '_X',
     'XX',
     '',
-    'ERR'
+
+    'ERR(NextAction)',
+    'ERR(NoAction)',
+    'ERR(DEL)'
   );
 
 type
@@ -1841,39 +1844,9 @@ var
   ca: TSyncRecState;
 begin
   sr := FFilteredList.fileSyncRec(r);
-  if sr.isDir and (sr.state=srsDoNothing) then
+  ca := sr.getNextAction;
+  if ca = srsNoAction then
     Exit;
-  if sr.state = srsEqual then
-    Exit;
-  ca := sr.action;
-  case ca of
-    srsNotEq:
-      ca := srsCopyToRight;
-    srsCopyToRight:
-      if Assigned(sr.rightFile) then
-        ca := srsCopyToLeft
-      else
-        ca := srsDoNothing;
-    srsCopyToLeft:
-      if Assigned(sr.leftFile) then
-        ca := srsNotEq
-      else
-        ca := srsDoNothing;
-    srsDeleteRight:
-      if not (cfAsymmetric in FCompareOption.flags) then
-        ca := sr.state
-      else
-        ca := srsDoNothing;
-    srsDeleteLeft:
-      ca := sr.state;
-    srsDeleteBoth:
-      ca := sr.state;
-    srsDoNothing:
-      if Assigned(sr.leftFile) then
-        ca := srsCopyToRight
-      else
-        ca := FCompareOption.stateWithoutLeft;
-  end;
   if sr.state<>srsDoNothing then begin
     self.MainDrawGrid.Row:= R;
     self.SetSyncRecState(ca);
