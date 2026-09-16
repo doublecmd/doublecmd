@@ -972,8 +972,10 @@ begin
     if FFilesToInsert.Count = 1 then
     begin
       InsertSort(FFilesToInsert[0], AlreadySortedFiles);
-      // Inserted: the file now belongs to AlreadySortedFiles.
-      FFilesToInsert[0] := nil;
+      // Inserted: the file now belongs to AlreadySortedFiles. Cleared through
+      // the raw list, like the bulk path below, so that it does not depend on
+      // what TDisplayFiles.Put does with the file it replaces.
+      FFilesToInsert.List.Items[0] := nil;
       Exit;
     end
     else

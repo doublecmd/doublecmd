@@ -536,8 +536,8 @@ begin
     end;
 
     // Make display file list from file source file list. MakeAllDisplayFileList
-    // hands the TFile objects over to FAllDisplayFiles one by one, clearing each
-    // one from FileSourceFiles as it goes, so FileSourceFiles keeps owning
+    // hands the TFile objects over to FAllDisplayFiles one by one, releasing
+    // each one from FileSourceFiles as it goes, so FileSourceFiles keeps owning
     // exactly those not transferred yet, whether the transfer completes or is
     // interrupted midway by an exception.
     if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
@@ -781,12 +781,11 @@ begin
     end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
-      // TDisplayFile takes ownership of the TFile, so drop it from the source
-      // list first, and put the TDisplayFile itself under aDisplayFiles before
-      // filling in the properties below, any of which may raise. Each object is
-      // then owned by exactly one list at every point of the loop.
-      ASourceFile := aFileSourceFiles[i];
-      aFileSourceFiles[i] := nil;
+      // TDisplayFile takes ownership of the TFile, so release it from the
+      // source list first, and put the TDisplayFile itself under aDisplayFiles
+      // before filling in the properties below, any of which may raise. Each
+      // object is then owned by exactly one list throughout the loop.
+      ASourceFile := aFileSourceFiles.Release(i);
       AFile := TDisplayFile.Create(ASourceFile);
       aDisplayFiles.Add(AFile);
 
@@ -836,10 +835,9 @@ begin
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
         j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
-        // Whoever gets the TFile below owns it, so drop it from the source list
-        // first: each TFile is then owned by exactly one place at every point.
-        ASourceFile := aFileSourceFiles[i];
-        aFileSourceFiles[i] := nil;
+        // Whoever gets the TFile below owns it, so release it from the source
+        // list first: each TFile is then owned by exactly one place throughout.
+        ASourceFile := aFileSourceFiles.Release(i);
         if j >= 0 then
         begin
           // Existing file. It was cloned without its FS file, which is now set.
