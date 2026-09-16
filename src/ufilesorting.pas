@@ -112,6 +112,12 @@ type
 
       procedure Sort;
 
+      {en
+         Moves the files from FilesToInsert into their sorted position in
+         AlreadySortedFiles. Each moved file is replaced by @nil in FilesToInsert,
+         so that at any point a file is referenced by exactly one of the two
+         lists, including when the insertion is interrupted by an exception.
+      }
       class procedure InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles;
                                  const ASortings: TFileSortings);
       class procedure InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles;
@@ -966,6 +972,8 @@ begin
     if FFilesToInsert.Count = 1 then
     begin
       InsertSort(FFilesToInsert[0], AlreadySortedFiles);
+      // Inserted: the file now belongs to AlreadySortedFiles.
+      FFilesToInsert[0] := nil;
       Exit;
     end
     else
@@ -982,7 +990,10 @@ begin
     begin
       // Add remaining files at the end.
       for j := 0 to FilesToInsert.Count - 1 do
+      begin
         DestList.Add(Psrc^[j]);
+        Psrc^[j] := nil;
+      end;
     end
     else
     begin
@@ -999,11 +1010,15 @@ begin
         begin
           // Add remaining files at the end.
           for j := i to FilesToInsert.Count - 1 do
+          begin
             DestList.Add(Psrc^[j]);
+            Psrc^[j] := nil;
+          end;
           Break;
         end;
 
         DestList.Insert(FoundIndex, Pcur);
+        Psrc^[i] := nil;
         L := FoundIndex + 1; // Next time start searching from the next element after the one just inserted.
         Inc(R); // Number of elements has increased so also increase right boundary.
       end;
