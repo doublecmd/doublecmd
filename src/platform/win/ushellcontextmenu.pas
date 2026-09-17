@@ -55,6 +55,7 @@ type
   TShellContextMenu = class
   private
     FOnClose: TNotifyEvent;
+    FCommandSelected: Boolean;
     FParent: HWND;
     FFiles: TFiles;
     FBackground: boolean;
@@ -70,6 +71,7 @@ type
     destructor Destroy; override;
     procedure PopUp(X, Y: integer);
     property OnClose: TNotifyEvent read FOnClose write FOnClose;
+    property CommandSelected: Boolean read FCommandSelected;
   end;
 
   procedure PasteFromClipboard(Parent: HWND; const Path: String);
@@ -807,6 +809,10 @@ begin
             DestroyMenu(hActionsSubMenu);
         end;
 
+      FCommandSelected := cmd <> 0;
+      if Assigned(FOnClose) then
+        FOnClose(Self);
+
       if (cmd > 0) and (cmd < USER_CMD_ID) then
       begin
         iCmd := longint(Cmd) - 1;
@@ -958,9 +964,6 @@ begin
     on e: EOleError do
       raise EContextMenuException.Create(e.Message);
   end;
-
-  if Assigned(FOnClose) then
-    FOnClose(Self);
 end;
 
 procedure PasteFromClipboard(Parent: HWND; const Path: String);
