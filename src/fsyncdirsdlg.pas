@@ -201,7 +201,7 @@ type
     procedure SortFoundItems(sl: TStringList);
     procedure UpdateStatusBar;
     procedure StopCheckContentThread;
-    procedure UpdateSelection(R: Integer);
+    procedure toggleSelectionActions;
     procedure EnableControls(AEnabled: Boolean);
     procedure SetSyncRecState(AState: TSyncRecState);
     procedure DeleteFiles(ALeft, ARight: Boolean);
@@ -1179,7 +1179,7 @@ var
 begin
   case Key of
     VK_SPACE:
-      UpdateSelection(MainDrawGrid.Row);
+      toggleSelectionActions;
     VK_A:
     begin
       if (Shift = [ssModifier]) then
@@ -1215,7 +1215,7 @@ begin
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
-  UpdateSelection(R);
+  toggleSelectionActions;
 end;
 
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
@@ -1838,20 +1838,9 @@ begin
   end;
 end;
 
-procedure TfrmSyncDirsDlg.UpdateSelection(R: Integer);
-var
-  sr: TFileSyncRec;
-  ca: TSyncRecState;
+procedure TfrmSyncDirsDlg.toggleSelectionActions;
 begin
-  sr := FFilteredList.fileSyncRec(r);
-  ca := sr.getNextAction;
-  if ca = srsNoAction then
-    Exit;
-  if sr.state<>srsDoNothing then begin
-    self.MainDrawGrid.Row:= R;
-    self.SetSyncRecState(ca);
-  end;
-  MainDrawGrid.InvalidateRow(r);
+  SetSyncRecState(srsNextAction);
 end;
 
 procedure TfrmSyncDirsDlg.EnableControls(AEnabled: Boolean);
@@ -1867,11 +1856,28 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
+var
+  _handled: TIntegerList = nil;
+
+  procedure addHandled( const i: Integer );
+  begin
+    _handled.Add( i );
+  end;
+
+  function isHandled( const i : Integer ): Boolean;
+  begin
+    Result:= _handled.IndexOf(i) >= 0;
+  end;
 
   procedure doUpdateAction(const index: Integer; NewAction: TSyncRecState);
   var
     rec: TFileSyncRec;
   begin
+    if isHandled(index) then
+      Exit;
+
+    addHandled(index);
+
     rec:= FFilteredList.fileSyncRec(index);
     case NewAction of
       srsUnknown:
@@ -1912,12 +1918,14 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
           if not Assigned(rec.rightFile) then
             NewAction:= srsDeleteLeft;
         end;
+      srsNextAction:
+        NewAction:= rec.getNextAction;
     end;
     rec.action:= NewAction;
     MainDrawGrid.InvalidateRow(index);
   end;
 
-  procedure checkAncestorsDirs(index: Integer);
+  procedure checkAncestorsDirs(index: Integer; const NewAction: TSyncRecState);
   var
     rec: TFileSyncRec;
     basePath: String;
@@ -1938,13 +1946,13 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
       if rec.isDir then begin
         if rec.state = srsDoNothing then
           break;
-        doUpdateAction(index, AState);
+        doUpdateAction(index, NewAction);
       end;
       Dec(index);
     end;
   end;
 
-  procedure uncheckDescendantsDirsAndFiles(index: Integer);
+  procedure uncheckDescendantsDirsAndFiles(index: Integer; const NewAction: TSyncRecState);
   var
     rec: TFileSyncRec;
     basePath: String;
@@ -1958,7 +1966,7 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
         rec:= FFilteredList.fileSyncRec(index);
         if rec.isDir then
           break;
-        doUpdateAction(index, AState);
+        doUpdateAction(index, NewAction);
         Inc(index);
       end;
     end else begin
@@ -1967,7 +1975,7 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
         rec:= FFilteredList.fileSyncRec(index);
         if NOT PathIsInPath(rec.relPath, basePath) then
           break;
-        doUpdateAction(index, AState);
+        doUpdateAction(index, NewAction);
         Inc(index);
       end;
     end;
@@ -1980,19 +1988,25 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
     if (index < 0) or (index >= FFilteredList.Count) then
       Exit;
 
-    doUpdateAction(index, AState);
+    if isHandled(index) then
+      Exit;
 
     rec:= FFilteredList.fileSyncRec(index);
+    if rec.state = srsDoNothing then
+      Exit;
+
+    doUpdateAction(index, AState);
+
     case rec.action of
       srsCopyToLeft,
       srsCopyToRight:
-        checkAncestorsDirs(index);
+        checkAncestorsDirs(index, rec.action);
       srsDeleteLeft,
       srsDeleteRight,
       srsDeleteBoth,
       srsDoNothing:
         if rec.isDir then
-          uncheckDescendantsDirsAndFiles(index);
+          uncheckDescendantsDirsAndFiles(index, rec.action);
     end;
   end;
 
@@ -2002,21 +2016,20 @@ procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
   begin
     for i:= 0 to FFilteredList.Count-1 do begin
       if MainDrawGrid.IsCellSelected[0,i] then begin
-        if AState <> srsNotEq then begin
-          processOnlyOneSelection( i );
-        end else begin
-          // CopyReverse, exactly update one row, dont't extend
-          doUpdateAction( i, AState );
-        end;
+        processOnlyOneSelection( i );
       end;
     end;
   end;
 
 begin
+  _handled:= TIntegerList.Create;
+
   if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then
     processMultiSelection
   else
     processOnlyOneSelection( MainDrawGrid.Row );
+
+  _handled.Free;
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
