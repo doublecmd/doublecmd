@@ -82,6 +82,7 @@ type
     destructor Destroy; override;
 
     procedure updateState; virtual;
+    function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
     function getNextAction: TSyncRecState; virtual;
 
     function isDir: Boolean; virtual;
@@ -242,6 +243,41 @@ begin
     _action := srsDoNothing
   else begin
     _action := _state;
+  end;
+end;
+
+function TFileSyncRec.getProperAction( const expectAction: TSyncRecState ): TSyncRecState;
+begin
+  Result:= expectAction;
+  case expectAction of
+    srsUnknown:             // expect CopyDefault
+      Result:= _state;
+    srsNotEq:               // expect CopyReverse
+      begin
+        if (_action = srsCopyToLeft) and Assigned(_leftFile) then
+          Result:= srsCopyToRight
+        else if (_action = srsCopyToRight) and Assigned(_rightFile) then
+          Result:= srsCopyToLeft
+        else
+          Result:= _action;
+      end;
+    srsCopyToLeft,
+    srsDeleteRight:
+      if NOT Assigned(_rightFile) then
+        Result:= srsDoNothing;
+    srsCopyToRight,
+    srsDeleteLeft:
+      if NOT Assigned(_leftFile) then
+        Result:= srsDoNothing;
+    srsDeleteBoth:
+      begin
+        if NOT Assigned(_leftFile) then
+          Result:= srsDeleteRight;
+        if NOT Assigned(_rightFile) then
+          Result:= srsDeleteLeft;
+      end;
+    srsNextAction:
+      Result:= self.getNextAction;
   end;
 end;
 
@@ -656,59 +692,16 @@ procedure TFlatDirFileList.setNewAction(
 var
   handled: TBooleanDynArray;
 
-  procedure doUpdateAction(const index: Integer; action: TSyncRecState);
+  procedure doUpdateAction(const index: Integer; const expectAction: TSyncRecState);
   var
     rec: TFileSyncRec;
   begin
     if handled[index] then
       Exit;
-
     handled[index]:= True;
 
     rec:= self.fileSyncRec(index);
-    case action of
-      srsUnknown:
-        action:= rec.state;
-      srsNotEq:
-        begin
-          if (rec.action = srsCopyToLeft) and Assigned(rec.leftFile) then
-              action:= srsCopyToRight
-          else if (rec.action = srsCopyToRight) and Assigned(rec.rightFile) then
-              action:= srsCopyToLeft
-          else
-            action:= rec.action
-        end;
-      srsCopyToLeft:
-        begin
-          if not Assigned(rec.rightFile) then
-            action:= srsDoNothing;
-        end;
-      srsCopyToRight:
-        begin
-          if not Assigned(rec.leftFile) then
-            action:= srsDoNothing;
-        end;
-      srsDeleteLeft:
-        begin
-          if not Assigned(rec.leftFile) then
-            action:= srsDoNothing;
-        end;
-      srsDeleteRight:
-        begin
-          if not Assigned(rec.rightFile) then
-            action:= srsDoNothing;
-        end;
-      srsDeleteBoth:
-        begin
-          if not Assigned(rec.leftFile) then
-            action:= srsDeleteRight;
-          if not Assigned(rec.rightFile) then
-            action:= srsDeleteLeft;
-        end;
-      srsNextAction:
-        action:= rec.getNextAction;
-    end;
-    rec.action:= action;
+    rec.action:= rec.getProperAction( expectAction );
   end;
 
   procedure checkAncestorsDirs(index: Integer; const cascadingAction: TSyncRecState);
