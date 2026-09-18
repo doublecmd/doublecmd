@@ -1850,7 +1850,7 @@ end;
 { TfrmMultiRename.sReplaceXX }
 function TfrmMultiRename.sReplaceXX(const sFormatStr, sOrig: string): string;
 var
-  iFrom, iTo, iDelim: integer;
+  iFrom, iTo, iDelim, iLength: integer;
 begin
   if Length(sFormatStr) = 1 then
     Result := sOrig
@@ -1865,7 +1865,7 @@ begin
       begin
         iFrom := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 1);
         if iFrom < 0 then
-          iFrom := sOrig.Length + iFrom + 1;
+          iFrom := UTF8Length(sOrig) + iFrom + 1;
         iTo := iFrom;
       end
       // Range e.g. N1,3 (from 1, 3 symbols)
@@ -1877,7 +1877,7 @@ begin
           iTo := iDelim + iFrom - 1
         else
         begin
-          iTo := sOrig.Length + iFrom + 1;
+          iTo := UTF8Length(sOrig) + iFrom + 1;
           iFrom := Max(iTo - iDelim + 1, 1);
         end;
       end;
@@ -1886,12 +1886,15 @@ begin
     else
     begin
       iFrom := StrToIntDef(Copy(sFormatStr, 2, iDelim - 2), 1);
-      if iFrom < 0 then
-        iFrom := sOrig.Length + iFrom + 1;
       iTo := StrToIntDef(Copy(sFormatStr, iDelim + 1, MaxSmallint), MaxSmallint);
+      if (iFrom < 0) or (iTo < 0) then
+      begin
+        iLength := UTF8Length(sOrig);
+      end;
+      if iFrom < 0 then
+        iFrom := iLength + iFrom + 1;
       if iTo < 0 then
-        iTo := sOrig.Length + iTo + 1;
-      ;
+        iTo := iLength + iTo + 1;
       if iTo < iFrom then
       begin
         iDelim := iTo;
