@@ -89,6 +89,7 @@ type
     FThumbnailManager: TThumbnailManager;
     procedure ThumbnailsRetrieverOnAbort(AStart: Integer; AList: TFPList);
     procedure ThumbnailsRetrieverOnUpdate(const UpdatedFile: TDisplayFile; const UserData: Pointer);
+    procedure dgPanelMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure AfterChangePath; override;
@@ -661,12 +662,25 @@ begin
   end;
 end;
 
+procedure TThumbFileView.dgPanelMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+begin
+  // Always scroll by one row
+  if WheelDelta < 0 then
+    WheelDelta:= dgPanel.DefaultRowHeight
+  else begin
+    WheelDelta:= -dgPanel.DefaultRowHeight;
+  end;
+  Handled:= TThumbDrawGrid(dgPanel).TrySmoothScrollBy(0, WheelDelta);
+end;
+
 procedure TThumbFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
 
   tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
+  dgPanel.OnMouseWheel:= @dgPanelMouseWheel;
   FThumbnailManager:= TThumbnailManager.Create(self, gColors.FilePanel^.BackColor);
 
   {$IFDEF DARWIN}
