@@ -32,7 +32,7 @@ uses
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceDeleteOperation, KASProgressBar,
-  uSyncDirsModel;
+  uSyncDirsModel, uSyncDirsService;
 
 const
   HotkeysCategory = 'Synchronize Directories';
@@ -170,6 +170,7 @@ type
     FCancel: Boolean;
     FScanning: Boolean;
     FComparing: Boolean;
+    FService: TSyncDirsService;
     FFullTree: TTwoLevelTree;
     FFilteredList: TFlatDirFileList;
     FSortIndex: Integer;
@@ -200,8 +201,6 @@ type
     procedure RecalcHeaderCols;
     procedure ScanDirs;
     procedure SetSortIndex(AValue: Integer);
-    procedure SortFoundItems;
-    procedure SortFoundItems(sl: TStringList);
     procedure UpdateStatusBar;
     procedure StopCheckContentThread;
     procedure EnableControls(AEnabled: Boolean);
@@ -1385,14 +1384,16 @@ procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
 var
   s: string;
 begin
+  FService.sortIndex := AValue;
   if AValue = FSortIndex then
   begin
     s := HeaderDG.Columns[AValue].Title.Caption;
     UTF8Delete(s, 1, 1);
     FSortDesc := not FSortDesc;
+    FService.sortDesc := FSortDesc;
     s := getSortIndicator() + s;
     HeaderDG.Columns[AValue].Title.Caption := s;
-    SortFoundItems;
+    FService.sortTree(FFullTree);
     FillFoundItemsDG;
   end else begin
     if FSortIndex >= 0 then
@@ -1403,9 +1404,10 @@ begin
     end;
     FSortIndex := AValue;
     FSortDesc := False;
+    FService.sortDesc := FSortDesc;
     with HeaderDG.Columns[FSortIndex].Title do
       Caption := getSortIndicator() + Caption;
-    SortFoundItems;
+    FService.sortTree(FFullTree);
     FillFoundItemsDG;
   end;
 end;
@@ -1628,7 +1630,7 @@ var
       ProcessOneSide(dirItem, dirsLeft, LeftFirst, True);
       ProcessOneSide(dirItem, dirsRight, RightFirst, False);
       dirSyncRec.updateState;
-      SortFoundItems(dirItem.files);
+      FService.sortDirItem(dirItem);
       if not (cfSubdirs in FCompareOption.flags) then Exit;
       tot := dirsLeft.Count + dirsRight.Count;
       for i := 0 to dirsLeft.Count - 1 do
@@ -1699,121 +1701,6 @@ begin
   finally
   FScanning := False;
   end;
-end;
-
-procedure TfrmSyncDirsDlg.SortFoundItems;
-var
-  i: Integer;
-begin
-  if FSortIndex < 0 then Exit;
-  for i := 0 to FFullTree.Count - 1 do
-    SortFoundItems( FFullTree.dirItem(i).files );
-end;
-
-procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
-
-  function CompareFn(sl: TStringList; i, j: Integer): Integer;
-  var
-    r1, r2: TFileSyncRec;
-  begin
-    if FSortIndex in [1..5] then
-    begin
-      r1 := TFileSyncRec(sl.Objects[i]);
-      r2 := TFileSyncRec(sl.Objects[j]);
-    end;
-    case FSortIndex of
-    0:
-      Result := mbCompareStr(sl[i], sl[j]);
-    1:
-      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
-      or Assigned(r2.leftFile) and (r1.leftFile.Size < r2.leftFile.Size) then
-        Result := -1
-      else
-      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
-      or Assigned(r1.leftFile) and (r1.leftFile.Size > r2.leftFile.Size) then
-        Result := 1
-      else
-        Result := 0;
-    2:
-      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
-      or Assigned(r2.leftFile)
-      and (r1.leftFile.ModificationTime < r2.leftFile.ModificationTime) then
-        Result := -1
-      else
-      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
-      or Assigned(r1.leftFile)
-      and (r1.leftFile.ModificationTime > r2.leftFile.ModificationTime) then
-        Result := 1
-      else
-        Result := 0;
-    4:
-      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
-      or Assigned(r2.rightFile)
-      and (r1.rightFile.ModificationTime < r2.rightFile.ModificationTime) then
-        Result := -1
-      else
-      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
-      or Assigned(r1.rightFile)
-      and (r1.rightFile.ModificationTime > r2.rightFile.ModificationTime) then
-        Result := 1
-      else
-        Result := 0;
-    5:
-      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
-      or Assigned(r2.rightFile) and (r1.rightFile.Size < r2.rightFile.Size) then
-        Result := -1
-      else
-      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
-      or Assigned(r1.rightFile) and (r1.rightFile.Size > r2.rightFile.Size) then
-        Result := 1
-      else
-        Result := 0;
-    6:
-      Result := mbCompareStr(sl[i], sl[j]);
-    end;
-    if FSortDesc then
-      Result := -Result;
-  end;
-
-  procedure QuickSort(L, R: Integer; sl: TStringList);
-  var
-    Pivot, vL, vR: Integer;
-  begin
-    if R - L <= 1 then begin // a little bit of time saver
-      if L < R then
-        if CompareFn(sl, L, R) > 0 then
-          sl.Exchange(L, R);
-      Exit;
-    end;
-
-    vL := L;
-    vR := R;
-
-    Pivot := L + Random(R - L); // they say random is best
-
-    while vL < vR do begin
-      while (vL < Pivot) and (CompareFn(sl, vL, Pivot) <= 0) do
-        Inc(vL);
-
-      while (vR > Pivot) and (CompareFn(sl, vR, Pivot) > 0) do
-        Dec(vR);
-
-      sl.Exchange(vL, vR);
-
-      if Pivot = vL then // swap pivot if we just hit it from one side
-        Pivot := vR
-      else if Pivot = vR then
-        Pivot := vL;
-    end;
-
-    if Pivot - 1 >= L then
-      QuickSort(L, Pivot - 1, sl);
-    if Pivot + 1 <= R then
-      QuickSort(Pivot + 1, R, sl);
-  end;
-
-begin
-  QuickSort(0, sl.Count - 1, sl);
 end;
 
 procedure TfrmSyncDirsDlg.UpdateStatusBar;
@@ -2110,6 +1997,7 @@ var
   AFiles: TFiles;
 begin
   inherited Create(AOwner);
+  FService := TSyncDirsService.Create;
   FFullTree := TTwoLevelTree.Create;
   FFilteredList := TFlatDirFileList.Create;
   FFileSourceL := FileView1.FileSource;
@@ -2178,6 +2066,7 @@ begin
   FFilteredList.Free;
   FSelectedItems.Free;
   FFullTree.Free;
+  FService.Free;
   FCompareOption.Free;
   inherited Destroy;
 end;
