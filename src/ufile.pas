@@ -240,6 +240,12 @@ type
     function Add(AFile: TFile): Integer;
     procedure Insert(AFile: TFile; AtIndex: Integer);
     procedure Delete(AtIndex: Integer);
+    {en
+       Gives up ownership of the file at AtIndex and returns it, leaving @nil
+       in its place. The file is not removed from the list, so that the indexes
+       of the other files do not change.
+    }
+    function Release(AtIndex: Integer): TFile;
     procedure Clear;
 
     procedure sort;
@@ -954,6 +960,12 @@ begin
   p := FList.Items[AtIndex];
   TFile(p).Free;
   FList.Delete(AtIndex);
+end;
+
+function TFiles.Release(AtIndex: Integer): TFile;
+begin
+  Result := TFile(FList.Items[AtIndex]);
+  FList.Items[AtIndex] := nil;
 end;
 
 procedure TFiles.Clear;
