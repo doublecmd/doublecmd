@@ -6,6 +6,8 @@ interface
 
 uses
   Classes, SysUtils,
+  IntegerList,
+  LazFileUtils,
   DCClassesUtf8, DCDateTimeUtils,
   uFile;
 
@@ -160,6 +162,8 @@ type
     function fileSyncRec( const index: Integer ): TFileSyncRec;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
+
+    procedure setNewAction( const indexes: TIntegerList; const newAction: TSyncRecState );
   end;
 
   { TTwoLevelTree }
@@ -644,6 +648,169 @@ begin
     Inc( Result );
   end;
   Dec( Result );
+end;
+
+procedure TFlatDirFileList.setNewAction(
+  const indexes: TIntegerList;
+  const newAction: TSyncRecState );
+var
+  handled: TIntegerList;
+
+  procedure addHandled( const i: Integer );
+  begin
+    handled.Add( i );
+  end;
+
+  function isHandled( const i : Integer ): Boolean;
+  begin
+    Result:= handled.IndexOf(i) >= 0;
+  end;
+
+  procedure doUpdateAction(const index: Integer; action: TSyncRecState);
+  var
+    rec: TFileSyncRec;
+  begin
+    if isHandled(index) then
+      Exit;
+
+    addHandled(index);
+
+    rec:= self.fileSyncRec(index);
+    case action of
+      srsUnknown:
+        action:= rec.state;
+      srsNotEq:
+        begin
+          if (rec.action = srsCopyToLeft) and Assigned(rec.leftFile) then
+              action:= srsCopyToRight
+          else if (rec.action = srsCopyToRight) and Assigned(rec.rightFile) then
+              action:= srsCopyToLeft
+          else
+            action:= rec.action
+        end;
+      srsCopyToLeft:
+        begin
+          if not Assigned(rec.rightFile) then
+            action:= srsDoNothing;
+        end;
+      srsCopyToRight:
+        begin
+          if not Assigned(rec.leftFile) then
+            action:= srsDoNothing;
+        end;
+      srsDeleteLeft:
+        begin
+          if not Assigned(rec.leftFile) then
+            action:= srsDoNothing;
+        end;
+      srsDeleteRight:
+        begin
+          if not Assigned(rec.rightFile) then
+            action:= srsDoNothing;
+        end;
+      srsDeleteBoth:
+        begin
+          if not Assigned(rec.leftFile) then
+            action:= srsDeleteRight;
+          if not Assigned(rec.rightFile) then
+            action:= srsDeleteLeft;
+        end;
+      srsNextAction:
+        action:= rec.getNextAction;
+    end;
+    rec.action:= action;
+  end;
+
+  procedure checkAncestorsDirs(index: Integer; const cascadingAction: TSyncRecState);
+  var
+    rec: TFileSyncRec;
+    basePath: String;
+  begin
+    rec:= self.fileSyncRec(index);
+    if NOT (cfEmptyDirs in rec._option.flags) then
+      Exit;
+
+    basePath:= IncludeTrailingPathDelimiter(rec.relPath);
+
+    Dec(index);
+    while index >= 0 do begin
+      rec := self.fileSyncRec(index);
+      if rec.relPath = EmptyStr then
+        break;
+      if NOT PathIsInPath(basePath, rec.relPath) then
+        break;
+      if rec.isDir then begin
+        if rec.state = srsDoNothing then
+          break;
+        doUpdateAction(index, cascadingAction);
+      end;
+      Dec(index);
+    end;
+  end;
+
+  procedure uncheckDescendantsDirsAndFiles(index: Integer; const cascadingAction: TSyncRecState);
+  var
+    rec: TFileSyncRec;
+    basePath: String;
+  begin
+    rec:= self.fileSyncRec(index);
+    basePath:= IncludeTrailingPathDelimiter(rec.relPath);
+    Inc(index);
+    if NOT (cfEmptyDirs in rec._option.flags) then begin
+      while index < self.Count do
+      begin
+        rec:= self.fileSyncRec(index);
+        if rec.isDir then
+          break;
+        doUpdateAction(index, cascadingAction);
+        Inc(index);
+      end;
+    end else begin
+      while index < self.Count do
+      begin
+        rec:= self.fileSyncRec(index);
+        if NOT PathIsInPath(rec.relPath, basePath) then
+          break;
+        doUpdateAction(index, cascadingAction);
+        Inc(index);
+      end;
+    end;
+  end;
+
+  procedure processOneRec( const index: Integer );
+  var
+    rec: TFileSyncRec;
+  begin
+    if isHandled(index) then
+      Exit;
+
+    rec:= self.fileSyncRec(index);
+    if rec.state = srsDoNothing then
+      Exit;
+
+    doUpdateAction(index, newAction);
+
+    case rec.action of
+      srsCopyToLeft,
+      srsCopyToRight:
+        checkAncestorsDirs(index, rec.action);
+      srsDeleteLeft,
+      srsDeleteRight,
+      srsDeleteBoth,
+      srsDoNothing:
+        if rec.isDir then
+          uncheckDescendantsDirsAndFiles(index, rec.action);
+    end;
+  end;
+
+var
+  i: Integer;
+begin
+  handled:= TIntegerList.Create;
+  for i in indexes do begin
+    processOneRec( i );
+  end;
+  handled.Free;
 end;
 
 end.
