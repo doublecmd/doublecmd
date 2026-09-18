@@ -643,7 +643,7 @@ begin
       end;
 
       // Add the "Add to Stash"
-      if (not Background) and (FUserWishForContextMenu = uwcmComplete) then
+      if (not Background) and Assigned(Files) and (FUserWishForContextMenu = uwcmComplete) then
       begin
         MenuItem:= TMenuItem.Create(PopupMenu);
         MenuItem.Action:= frmMain.actAddToStash;
@@ -783,20 +783,21 @@ begin
               end;
             end;
             { /Actions submenu }
-          end;
-          // Add FileSource specific items
-          if FUserWishForContextMenu = uwcmComplete then
-          begin
-            for J:= 0 to PopupMenu.Items.Count - 1 do
-            begin
-              MenuItem:= PopupMenu.Items[J];
 
-              if MenuItem.IsLine then
-                InsertMenuItemEx(FShellMenu, 0, nil, I + J, 0, MFT_SEPARATOR)
-              else begin
-                sVerb:= 'cm_' + Copy(MenuItem.Action.Name, 4, MaxInt);
-                iCmd:= InnerExtActionList.Add(TExtActionCommand.Create(MenuItem.Caption, sVerb, '', ''));
-                InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(MenuItem.Caption)), I + J, iCmd + USER_CMD_ID, MFT_STRING);
+            // Add FileSource specific items
+            if FUserWishForContextMenu = uwcmComplete then
+            begin
+              for J:= 0 to PopupMenu.Items.Count - 1 do
+              begin
+                MenuItem:= PopupMenu.Items[J];
+
+                if MenuItem.IsLine then
+                  InsertMenuItemEx(FShellMenu, 0, nil, I + J, 0, MFT_SEPARATOR)
+                else begin
+                  sVerb:= 'cm_' + Copy(MenuItem.Action.Name, 4, MaxInt);
+                  iCmd:= InnerExtActionList.Add(TExtActionCommand.Create(MenuItem.Caption, sVerb, '', ''));
+                  InsertMenuItemEx(FShellMenu, 0, PWideChar(CeUtf8ToUtf16(MenuItem.Caption)), I + J, iCmd + USER_CMD_ID, MFT_STRING);
+                end;
               end;
             end;
           end;

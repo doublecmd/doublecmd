@@ -757,7 +757,7 @@ begin
     contextFiles:= Files;
     // Create new context menu
     ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background, UserWishForContextMenu);
-    if UserWishForContextMenu = uwcmComplete then
+    if (UserWishForContextMenu = uwcmComplete) and Assigned(contextFiles) then
     begin
       frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, ShellContextMenu.PopupMenu);
     end;
