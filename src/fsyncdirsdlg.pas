@@ -27,7 +27,7 @@ unit fSyncDirsDlg;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, IntegerList, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn, DCClassesUtf8,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
@@ -36,23 +36,6 @@ uses
 
 const
   HotkeysCategory = 'Synchronize Directories';
-
-const
-  SYNC_REC_STATE_SYMBOL: array[TSyncRecState] of String = (
-    '?',
-    '=',
-    '!=',
-    '<-',
-    '->',
-    'X_',
-    '_X',
-    'XX',
-    '',
-
-    'ERR(NextAction)',
-    'ERR(NoAction)',
-    'ERR(DEL)'
-  );
 
 type
   { TDrawGrid }
@@ -191,6 +174,7 @@ type
 
     function createCompareOption: TCompareOption;
     function createFilterFlags: TFilterFlags;
+    function createSelectionIndexes: TIntegerList;
 
     procedure toggleSelectionAction;
     procedure setSelectionAction(const newAction: TSyncRecState);
@@ -256,7 +240,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
-  uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
+  uOSUtils, uLng, uMasks, Math, uClipboard, fMaskInputDlg, uSearchTemplate,
   LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles,
   uFileSourceManager, uFileSourceProperty, uShowMsg;
 
@@ -1371,6 +1355,17 @@ begin
     Include( Result, TFilterFlag.ffSingle );
 end;
 
+function TfrmSyncDirsDlg.createSelectionIndexes: TIntegerList;
+var
+  i: Integer;
+begin
+  Result:= TIntegerList.Create;
+  for i:= 0 to self.MainDrawGrid.RowCount-1 do begin
+    if MainDrawGrid.IsCellSelected[0,i] then
+      Result.Add( i );
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
   function getSortIndicator: String;
   begin
@@ -1746,20 +1741,8 @@ end;
 procedure TfrmSyncDirsDlg.setSelectionAction(const newAction: TSyncRecState);
 var
   indexes: TIntegerList;
-
-  procedure buildIndexes;
-  var
-    i: Integer;
-  begin
-    indexes:= TIntegerList.Create;
-    for i:= 0 to MainDrawGrid.RowCount-1 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then
-        indexes.Add( i );
-    end;
-  end;
-
 begin
-  buildIndexes;
+  indexes:= self.createSelectionIndexes;
   MainDrawGrid.BeginUpdate;
   try
     FFilteredList.setNewAction( indexes, newAction );
@@ -2072,71 +2055,17 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.CopyToClipboard;
-  procedure FillRowList(RowList: TIntegerList);
-  var
-    i: Integer;
-  begin
-    for i:= 0 to MainDrawGrid.RowCount-1 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then
-        RowList.Add( i );
-    end;
-  end;
-
-  procedure PrintRow(sl: TStringList; R: Integer);
-  var
-    s: string;
-    SyncRec: TFileSyncRec;
-  begin
-    SyncRec := FFilteredList.fileSyncRec(R);
-    if SyncRec.isDir then
-    begin
-      s := FFilteredList.path(R);
-      if cfEmptyDirs in FCompareOption.flags then begin
-        if SyncRec.state <> srsDoNothing then
-          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
-      end;
-    end
-    else
-    begin
-      if Assigned(SyncRec.leftFile) then
-      begin
-        s := FFilteredList.path(R) + #9 +
-             IntToStrTS(SyncRec.leftFile.Size) + #9 +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
-      end
-      else
-      begin
-        s := #9#9;
-      end;
-      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
-      if Assigned(SyncRec.rightFile) then
-      begin
-        s := s +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
-             IntToStrTS(SyncRec.rightFile.Size) + #9 +
-             FFilteredList.path(R);
-      end;
-    end;
-    sl.Add(s);
-  end;
-
 var
-  sl: TStringList;
-  RowList: TIntegerList;
-  I: Integer;
+  indexes: TIntegerList = nil;
+  sl: TStringList = nil;
 begin
-  sl := TStringList.Create;
-  RowList := TIntegerList.Create;
   try
-    FillRowList(RowList);
-    for I := 0 to RowList.Count - 1 do
-    begin
-      PrintRow(sl, RowList[I]);
-    end;
+    indexes:= self.createSelectionIndexes;
+    sl:= FService.selectionToStringList(FFilteredList, indexes, FCompareOption);
     ClipboardSetText(sl.Text);
   finally
     FreeAndNil(sl);
-    FreeAndNil(RowList);
+    FreeAndNil(indexes);
   end;
 end;
 

@@ -6,8 +6,27 @@ interface
 
 uses
   Classes, SysUtils,
-  DCStrUtils,
+  IntegerList,
+  DCStrUtils, uDCUtils,
+  uGlobs,
   uSyncDirsModel;
+
+const
+  SYNC_REC_STATE_SYMBOL: array[TSyncRecState] of String = (
+    '?',
+    '=',
+    '!=',
+    '<-',
+    '->',
+    'X_',
+    '_X',
+    'XX',
+    '',
+
+    'ERR(NextAction)',
+    'ERR(NoAction)',
+    'ERR(DEL)'
+  );
 
 type
 
@@ -20,6 +39,10 @@ type
   public
     procedure sortTree( const tree: TTwoLevelTree );
     procedure sortDirItem( const dirItem: TTwoLevelTreeDirItem );
+    function selectionToStringList(
+      const FFilteredList: TFlatDirFileList;
+      const indexes: TIntegerList;
+      const Option: TCompareOption ): TStringList;
 
     property sortIndex: Integer write _sortIndex;
     property sortDesc: Boolean write _sortDesc;
@@ -143,6 +166,59 @@ procedure TSyncDirsService.sortDirItem( const dirItem: TTwoLevelTreeDirItem );
 
 begin
   QuickSort( 0, dirItem.fileCount-1, dirItem.files );
+end;
+
+function TSyncDirsService.selectionToStringList(
+  const FFilteredList: TFlatDirFileList;
+  const indexes: TIntegerList;
+  const Option: TCompareOption ): TStringList;
+
+  procedure PrintRow(sl: TStringList; R: Integer);
+  var
+    s: string;
+    SyncRec: TFileSyncRec;
+  begin
+    SyncRec := FFilteredList.fileSyncRec(R);
+    if SyncRec.isDir then
+    begin
+      s := FFilteredList.path(R);
+      if cfEmptyDirs in Option.flags then begin
+        if SyncRec.state <> srsDoNothing then
+          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
+      end;
+    end
+    else
+    begin
+      if Assigned(SyncRec.leftFile) then
+      begin
+        s := FFilteredList.path(R) + #9 +
+             IntToStrTS(SyncRec.leftFile.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
+      end
+      else
+      begin
+        s := #9#9;
+      end;
+      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
+      if Assigned(SyncRec.rightFile) then
+      begin
+        s := s +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
+             IntToStrTS(SyncRec.rightFile.Size) + #9 +
+             FFilteredList.path(R);
+      end;
+    end;
+    sl.Add(s);
+  end;
+
+var
+  sl: TStringList;
+  i: Integer;
+begin
+  sl:= TStringList.Create;
+  for i:= 0 to indexes.Count-1 do
+    PrintRow(sl, indexes[i]);
+  Result:= sl;
 end;
 
 end.
