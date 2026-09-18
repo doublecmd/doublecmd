@@ -5,7 +5,7 @@ unit uSyncDirsModel;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Types,
   IntegerList,
   LazFileUtils,
   DCClassesUtf8, DCDateTimeUtils,
@@ -654,26 +654,16 @@ procedure TFlatDirFileList.setNewAction(
   const indexes: TIntegerList;
   const newAction: TSyncRecState );
 var
-  handled: TIntegerList;
-
-  procedure addHandled( const i: Integer );
-  begin
-    handled.Add( i );
-  end;
-
-  function isHandled( const i : Integer ): Boolean;
-  begin
-    Result:= handled.IndexOf(i) >= 0;
-  end;
+  handled: TBooleanDynArray;
 
   procedure doUpdateAction(const index: Integer; action: TSyncRecState);
   var
     rec: TFileSyncRec;
   begin
-    if isHandled(index) then
+    if handled[index] then
       Exit;
 
-    addHandled(index);
+    handled[index]:= True;
 
     rec:= self.fileSyncRec(index);
     case action of
@@ -781,7 +771,7 @@ var
   var
     rec: TFileSyncRec;
   begin
-    if isHandled(index) then
+    if handled[index] then
       Exit;
 
     rec:= self.fileSyncRec(index);
@@ -806,11 +796,9 @@ var
 var
   i: Integer;
 begin
-  handled:= TIntegerList.Create;
-  for i in indexes do begin
+  SetLength( handled, self.Count );    // handled auto released
+  for i in indexes do
     processOneRec( i );
-  end;
-  handled.Free;
 end;
 
 end.
