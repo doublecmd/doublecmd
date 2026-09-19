@@ -1139,18 +1139,11 @@ begin
 
   initStash;
 
-  {$IF DEFINED(DARWIN)}
-  // in LCL's DARWIN implements, there is no way but to Use LCL's method of dropping files
-  // from external applications
-  frmMain.OnDropFiles := @FormDropFiles;
-  AllowDropFiles := true; // DARWIN support external DragDragSource only, not DragDragTarget
-  {$ELSE}
   // Use LCL's method of dropping files from external
   // applications if we don't support it ourselves.
   if not IsExternalDraggingSupported then
     frmMain.OnDropFiles := @FormDropFiles;
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
-  {$ENDIF}
 
   {$IF DEFINED(DARWIN)}
   // MainForm receives in Mac OS closing events on system shortcut Command-Q
