@@ -356,9 +356,10 @@ begin
     MouseToCell(X, Y, {%H-}C, {%H-}R);
     if (R >= 0) and (R < RowCount) then
     begin
-      if not IsCellSelected[Col, R] then
-        MoveExtend(False, Col, R, False)
-      else begin
+      if not IsCellSelected[Col, R] then begin
+        self.Row:= R;
+        self.ClearSelections;
+      end else begin
         C:= Row;
         PInteger(@Row)^:= R;
         InvalidateRow(C);
@@ -1199,12 +1200,18 @@ procedure TfrmSyncDirsDlg.MainDrawGridMouseDown(Sender: TObject;
 var
   c, r: Integer;
 begin
+  if Button <> mbLeft then
+    Exit;
+
   MainDrawGrid.MouseToCell(X, Y, c, r);
   if (r < 0) or (r >= FFilteredList.Count)
   or (x - 2 < hCols[3].Left)
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
+
+  MainDrawGrid.Row:= r;
+  MainDrawGrid.ClearSelections;
   toggleSelectionAction;
 end;
 
