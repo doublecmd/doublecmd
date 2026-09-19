@@ -477,6 +477,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         MinSize = 10
         MaxSize = 200
         SizePriority = 0
+        Title.Alignment = taCenter
         Title.Caption = '<=>'
         Width = 30
       end    
