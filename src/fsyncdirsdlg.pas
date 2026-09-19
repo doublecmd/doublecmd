@@ -1097,9 +1097,15 @@ begin
     if r.isDir then
     begin
       if gdSelected in aState then begin
-        Brush.Color:= gColors.SyncDirs^.DirSelectedColor;
-        FillRect(aRect);
+        Brush.Color:= gColors.SyncDirs^.DirSelectedColor
+      end else begin
+        {$IFDEF DARWIN}
+        Brush.Color := clInfoBk;
+        {$ELSE}
+        Brush.Color := clBtnFace;
+        {$ENDIF}
       end;
+      FillRect(aRect);
       Font.Bold := True;
       Font.Color := clWindowText;
       with hCols[0] do
