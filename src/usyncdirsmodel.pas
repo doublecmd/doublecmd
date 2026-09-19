@@ -448,7 +448,18 @@ begin
   _dirs:= TStringListEx.Create;
   _dirs.OwnsObjects:= True;
   _dirs.CaseSensitive := FileNameCaseSensitive;
-  _dirs.Sorted := True;
+  // since the default comparison function performs a simple string comparison
+  // without considering the path structure, the resulting path order does not
+  // follow standard conventions.
+  // Sorting is simply disabled here, it can be re-enabled if an efficient
+  // path comparison function becomes available.
+  // eg.
+  // 1. /a/b
+  // 2. /a-/b
+  // 1st should come before 2nd, but if sorting is enabled with the default
+  // comparison function is used, 2nd will come before 1st.
+  //
+  // _dirs.Sorted := True;
 end;
 
 destructor TTwoLevelTree.Destroy;
