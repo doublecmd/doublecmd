@@ -102,19 +102,24 @@ type
 
   TDirSyncRec = class(TFileSyncRec)
   private
-    _childrenCount: array [Boolean] of Integer;
+    _dirCount: array [Boolean] of Integer;
+    _fileCount: array [Boolean] of Integer;
   public
     procedure updateState; override;
     function getNextAction: TSyncRecState; override;
 
     function isDir: Boolean; override;
     function isDeletable(const leftSide: Boolean): Boolean; override;
-    procedure incChildrenCount(const side: Boolean);
-    procedure decChildrenCount(const side: Boolean);
-    function childrenCount(const side: Boolean): Integer;
+    procedure incDirCount(const side: Boolean);
+    procedure decDirCount(const side: Boolean);
+    procedure incFileCount(const side: Boolean);
+    procedure decFileCount(const side: Boolean);
+    function fileCount(const side: Boolean): Integer;
+    function noDir(const side: Boolean): Boolean;
+    function noDir: Boolean;
+    function noFile(const side: Boolean): Boolean;
+    function noFile: Boolean;
     function isEmpty(const side: Boolean): Boolean;
-    function isEmpty: Boolean;
-    procedure resetEmpty;
   end;
 
   { TTwoLevelTreeDirItem }
@@ -368,35 +373,54 @@ begin
   Result:= Result and self.isEmpty( leftSide );
 end;
 
-procedure TDirSyncRec.incChildrenCount(const side: Boolean);
+procedure TDirSyncRec.incDirCount(const side: Boolean);
 begin
-  Inc( _childrenCount[side] );
+  Inc( _dirCount[side] );
 end;
 
-procedure TDirSyncRec.decChildrenCount(const side: Boolean);
+procedure TDirSyncRec.decDirCount(const side: Boolean);
 begin
-  Dec( _childrenCount[side] );
+  Dec( _dirCount[side] );
 end;
 
-function TDirSyncRec.childrenCount(const side: Boolean): Integer;
+procedure TDirSyncRec.incFileCount(const side: Boolean);
 begin
-  Result:= _childrenCount[side];
+  Inc( _fileCount[side] );
+end;
+
+procedure TDirSyncRec.decFileCount(const side: Boolean);
+begin
+  Dec( _fileCount[side] );
+end;
+
+function TDirSyncRec.fileCount(const side: Boolean): Integer;
+begin
+  Result:= _fileCount[side];
+end;
+
+function TDirSyncRec.noDir(const side: Boolean): Boolean;
+begin
+  Result:= _dirCount[side] = 0;
+end;
+
+function TDirSyncRec.noDir: Boolean;
+begin
+  Result:= noDir(True) and noDir(False);
+end;
+
+function TDirSyncRec.noFile(const side: Boolean): Boolean;
+begin
+  Result:= _fileCount[side] = 0;
+end;
+
+function TDirSyncRec.noFile: Boolean;
+begin
+  Result:= noFile(True) and noFile(False);
 end;
 
 function TDirSyncRec.isEmpty(const side: Boolean): Boolean;
 begin
-  Result:= _childrenCount[side] = 0;
-end;
-
-function TDirSyncRec.isEmpty: Boolean;
-begin
-  Result:= isEmpty(True) and isEmpty(False);
-end;
-
-procedure TDirSyncRec.resetEmpty;
-begin
-  _childrenCount[True]:= 0;
-  _childrenCount[False]:= 0;
+  Result:= self.noDir(side) and self.noFile(side);
 end;
 
 { TTwoLevelTreeDirItem }
@@ -492,7 +516,7 @@ procedure TTwoLevelTree.filterFlatListWithFlags(
   begin
     if syncRec.state = srsDoNothing then begin
       Result:= True;
-    end else if dirSyncRec.isEmpty and (syncRec.state=srsEqual) then begin
+    end else if dirSyncRec.noFile and (syncRec.state=srsEqual) then begin
       Result:= False;
     end else begin
       Result:= isMatching(syncRec);
@@ -583,10 +607,17 @@ procedure TFlatDirFileList.decParentDirRecChildrenCount(
   const childIndex: Integer; const leftSide: Boolean);
 var
   parentDirRec: TDirSyncRec;
+  childRec: TFileSyncRec;
 begin
   parentDirRec:= findParentDirRec( childIndex );
-  if Assigned(parentDirRec) then
-    parentDirRec.decChildrenCount( leftSide );
+  if Assigned(parentDirRec) then begin
+    childRec:= self.fileSyncRec( childIndex );
+    if childRec.isDir then begin
+      parentDirRec.decDirCount( leftSide );
+    end else begin
+      parentDirRec.decFileCount( leftSide );
+    end;
+  end;
 end;
 
 constructor TFlatDirFileList.Create;

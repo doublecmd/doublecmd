@@ -749,7 +749,7 @@ var
       syncRec:= FFilteredList.fileSyncRec(i);
       if NOT syncRec.isDir then
         continue;
-      if TDirSyncRec(syncRec).isEmpty then
+      if TDirSyncRec(syncRec).noFile then
         continue;
       if NOT Assigned(syncRec.rightFile) then
         continue;
@@ -1541,8 +1541,10 @@ var
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
             begin
-              if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
+              if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then begin
                 dirs.AddObject(fn, f.Clone);  // dirs don't own Object
+                dirSyncRec.incDirCount(sideLeft);
+              end;
             end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
@@ -1568,7 +1570,7 @@ var
                 end;
               end;
               dirItem.addFile(fn, r);
-              dirSyncRec.incChildrenCount(sideLeft);
+              dirSyncRec.incFileCount(sideLeft);
             end;
           end;
         end;
