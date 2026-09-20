@@ -96,6 +96,8 @@ type
 
     property leftFile: TFile read _leftFile write _leftFile;
     property rightFile: TFile read _rightFile write _rightFile;
+
+    property option: TCompareOption read _option;
   end;
 
   { TDirSyncRec }
@@ -224,20 +226,41 @@ end;
 
 procedure TFileSyncRec.updateState;
   procedure compareTwoSides;
-  var
-    FileTimeDiff: Integer;
-  begin
-    FileTimeDiff := FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
-    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (_leftFile.Size = _rightFile.Size) then begin
-      _state:= srsEqual;
-    end else begin
-      if not (cfIgnoreDate in _option.flags) then begin
-        if FileTimeDiff > 0 then begin
-          _state:= srsCopyToRight;
-        end else if FileTimeDiff < 0 then begin
-          _state:= srsCopyToLeft;
-        end;
+    procedure compareDate;
+    var
+      dateDiff: Integer;
+    begin
+      if cfIgnoreDate in _option.flags then begin
+        _state:= srsEqual;
+        Exit;
       end;
+
+      dateDiff:= FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
+      if dateDiff = 0 then begin
+        _state:= srsEqual;
+      end else if dateDiff > 0 then begin
+        _state:= srsCopyToRight;
+      end else if dateDiff < 0 then begin
+        _state:= srsCopyToLeft;
+      end;
+    end;
+  begin
+    // by datetime
+    compareDate;
+    // by size
+    if _state = srsEqual then begin
+      if _leftFile.Size <> _rightFile.Size then
+        _state:= srsNotEq;
+    end;
+    // by content
+    if _state = srsEqual then begin
+      if cfByContent in _option.flags then
+        _state:= srsUnknown;
+    end;
+    // asymmetric
+    if NOT (_state in [srsUnknown,srsEqual]) then begin
+      if cfAsymmetric in _option.flags then
+        _state:= srsCopyToRight;
     end;
   end;
 
@@ -248,11 +271,7 @@ begin
   end else if NOT Assigned(_rightFile) and Assigned(_leftFile) then begin
     _state:= srsCopyToRight;
   end else begin
-    if cfAsymmetric in _option.flags then begin
-      _state:= srsCopyToRight;
-    end else begin
-      compareTwoSides;
-    end;
+    compareTwoSides;
   end;
   _action := _state;
 end;

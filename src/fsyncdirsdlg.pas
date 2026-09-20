@@ -508,7 +508,11 @@ begin
               rec.state := srsEqual
             end
             else begin
-              rec.state := srsNotEq;
+              if cfAsymmetric in rec.option.flags then begin
+                rec.state := srsCopyToRight;
+              end else begin
+                rec.state := srsNotEq;
+              end;
             end;
             if rec.action = srsUnknown then
             begin
@@ -1572,16 +1576,10 @@ var
               if sideLeft then
               begin
                 r.leftFile := f.Clone;
-                r.updateState;
               end else begin
                 r.rightFile := f.Clone;
-                r.updateState;
-                if (cfByContent in FCompareOption.flags) and (r.state = srsEqual) and (r.rightFile.Size > 0) then
-                begin
-                  r.action := srsUnknown;
-                  r.state := srsUnknown;
-                end;
               end;
+              r.updateState;
               dirItem.addFile(fn, r);
               dirSyncRec.incFileCount(sideLeft);
             end;
