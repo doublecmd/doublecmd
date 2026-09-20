@@ -223,32 +223,38 @@ begin
 end;
 
 procedure TFileSyncRec.updateState;
-var
-  FileTimeDiff: Integer;
+  procedure compareTwoSides;
+  var
+    FileTimeDiff: Integer;
+  begin
+    FileTimeDiff := FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
+    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (_leftFile.Size = _rightFile.Size) then begin
+      _state:= srsEqual;
+    end else begin
+      if not (cfIgnoreDate in _option.flags) then begin
+        if FileTimeDiff > 0 then begin
+          _state:= srsCopyToRight;
+        end else if FileTimeDiff < 0 then begin
+          _state:= srsCopyToLeft;
+        end;
+      end;
+    end;
+  end;
+
 begin
   _state := srsNotEq;
-  if Assigned(_rightFile) and not Assigned(_leftFile) then
-    _state := _option.stateWithoutLeft
-  else
-  if not Assigned(_rightFile) and Assigned(_leftFile) then
-    _state := srsCopyToRight
-  else begin
-    FileTimeDiff := FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
-    if ((FileTimeDiff = 0) or (cfIgnoreDate in _option.flags)) and (_leftFile.Size = _rightFile.Size) then
-      _state := srsEqual
-    else
-    if not (cfIgnoreDate in _option.flags) then
-      if FileTimeDiff > 0 then
-        _state := srsCopyToRight
-      else
-      if FileTimeDiff < 0 then
-        _state := srsCopyToLeft;
+  if Assigned(_rightFile) and NOT Assigned(_leftFile) then begin
+    _state:= _option.stateWithoutLeft;
+  end else if NOT Assigned(_rightFile) and Assigned(_leftFile) then begin
+    _state:= srsCopyToRight;
+  end else begin
+    if cfAsymmetric in _option.flags then begin
+      _state:= srsCopyToRight;
+    end else begin
+      compareTwoSides;
+    end;
   end;
-  if (cfAsymmetric in _option.flags) and (_state = srsCopyToLeft) then
-    _action := srsDoNothing
-  else begin
-    _action := _state;
-  end;
+  _action := _state;
 end;
 
 function TFileSyncRec.getProperAction( const expectAction: TSyncRecState ): TSyncRecState;
