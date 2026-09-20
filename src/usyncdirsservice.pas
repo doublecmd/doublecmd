@@ -1,14 +1,15 @@
 unit uSyncDirsService;
 
 {$mode ObjFPC}{$H+}
+{$interfaces CORBA}
 
 interface
 
 uses
-  Classes, SysUtils,
-  IntegerList,
-  DCStrUtils, uDCUtils,
-  uGlobs,
+  Classes, SysUtils, SysConst, syncobjs, IntegerList,
+  DCStrUtils, uDCUtils, DCClassesUtf8,
+  uDebug, uGlobs,
+  uFileSourceCopyOperation,
   uSyncDirsModel;
 
 const
@@ -46,6 +47,34 @@ type
 
     property sortIndex: Integer write _sortIndex;
     property sortDesc: Boolean write _sortDesc;
+  end;
+
+  { ISyncDirsCheckContentThreadCallback }
+
+  ISyncDirsCheckContentThreadCallback = interface
+    procedure onCheckContentThreadStart;
+    procedure onCheckContentThreadFinish;
+    procedure onCheckContentThreadReapplyFilter;
+    procedure onCheckContentThreadCountUpdated( const equalInc: Integer; const notEqInc: Integer );
+  end;
+
+  { TSyncDirsCheckContentThread }
+
+  TSyncDirsCheckContentThread = class( TThread )
+  private
+    _fullTree: TTwoLevelTree;
+    _callback: ISyncDirsCheckContentThreadCallback;
+    _done: Boolean;
+    _mutex: TCriticalSection;
+    _statistics: TFileSourceCopyOperationStatistics;
+  protected
+    procedure Execute; override;
+    procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
+  public
+    constructor Create(const fullTree: TTwoLevelTree; const callback: ISyncDirsCheckContentThreadCallback);
+    destructor Destroy; override;
+    function RetrieveStatistics: TFileSourceCopyOperationStatistics;
+    property Done: Boolean read _done;
   end;
 
 implementation
@@ -219,6 +248,167 @@ begin
   for i:= 0 to indexes.Count-1 do
     PrintRow(sl, indexes[i]);
   Result:= sl;
+end;
+
+{ TSyncDirsCheckContentThread }
+
+procedure TSyncDirsCheckContentThread.Execute;
+const
+  BUF_LEN = 1024 * 1024;
+var
+  Buffer1, Buffer2: PByte;
+  Statistics: TFileSourceCopyOperationStatistics;
+
+  function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
+  var
+    DoneBytes, Count: Int64;
+    File1, File2: TFileStreamEx;
+  begin
+    File1 := TFileStreamEx.Create(FileName1, fmOpenRead or fmShareDenyWrite);
+    try
+      File2 := TFileStreamEx.Create(FileName2, fmOpenRead or fmShareDenyWrite);
+      try
+        DoneBytes := 0;
+
+        repeat
+          if Size - DoneBytes <= BUF_LEN then
+            Count := Size - DoneBytes
+          else begin
+            Count := BUF_LEN;
+          end;
+
+          File1.ReadBuffer(Buffer1^, Count);
+          File2.ReadBuffer(Buffer2^, Count);
+
+          if (Count <> BUF_LEN) then
+            Result := CompareByte(Buffer1^, Buffer2^, Count) = 0
+          else begin
+            Result := CompareDWord(Buffer1^, Buffer2^, Count div SizeOf(Dword)) = 0;
+          end;
+
+          Statistics.DoneBytes += Count;
+          DoneBytes := DoneBytes + Count;
+
+          UpdateStatistics(Statistics);
+
+        until Terminated or not Result or (DoneBytes >= Size);
+      finally
+        File2.Free;
+      end;
+    finally
+      File1.Free;
+    end;
+  end;
+
+var
+  isEqual: Boolean;
+  dirIndex, fileIndex: Integer;
+  rec: TFileSyncRec;
+begin
+  Synchronize(@_callback.onCheckContentThreadStart);
+  Buffer1:= GetMem(BUF_LEN);
+  Buffer2:= GetMem(BUF_LEN);
+  try
+    if (Buffer1 = nil) or (Buffer2 = nil) then
+      raise EOutOfMemory.Create(SOutOfMemory);
+
+    with _callback do
+    begin
+      Statistics.DoneBytes:= 0;
+      Statistics.TotalBytes:= 0;
+      for dirIndex := 0 to _fullTree.Count - 1 do
+      begin
+        for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
+        begin
+          if Terminated then Exit;
+          rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
+          if NOT rec.isDir and (rec.state = srsUnknown) then
+          begin
+            Statistics.TotalBytes+= rec.leftFile.Size;
+          end;
+        end;
+      end;
+      UpdateStatistics(Statistics);
+    end;
+
+    with _callback do
+    for dirIndex := 0 to _fullTree.Count - 1 do
+    begin
+      for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
+      begin
+        if Terminated then Exit;
+        rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
+        if NOT rec.isDir and (rec.state = srsUnknown) then
+        begin
+          try
+            isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);
+            if Terminated then Exit;
+            if isEqual then
+            begin
+              _callback.onCheckContentThreadCountUpdated( 1, -1 );
+              rec.state := srsEqual
+            end
+            else begin
+              if cfAsymmetric in rec.option.flags then begin
+                rec.state := srsCopyToRight;
+              end else begin
+                rec.state := srsNotEq;
+              end;
+            end;
+            if rec.action = srsUnknown then
+            begin
+              rec.action := rec.state;
+            end;
+          except
+            on E: Exception do
+              DCDebug('[SyncDirs::CmpContentThread] ' + E.Message);
+          end;
+        end;
+      end;
+    end;
+    _done := True;
+    Synchronize(@_callback.onCheckContentThreadReapplyFilter);
+  finally
+    Synchronize(@_callback.onCheckContentThreadFinish);
+    if Assigned(Buffer1) then FreeMem(Buffer1);
+    if Assigned(Buffer2) then FreeMem(Buffer2);
+  end;
+end;
+
+function TSyncDirsCheckContentThread.RetrieveStatistics: TFileSourceCopyOperationStatistics;
+begin
+  _mutex.Acquire;
+  try
+    Result := _statistics;
+  finally
+    _mutex.Release;
+  end;
+end;
+
+procedure TSyncDirsCheckContentThread.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
+begin
+  _mutex.Acquire;
+  try
+    _statistics := NewStatistics;
+  finally
+    _mutex.Release;
+  end;
+end;
+
+constructor TSyncDirsCheckContentThread.Create(
+  const fullTree: TTwoLevelTree;
+  const callback: ISyncDirsCheckContentThreadCallback );
+begin
+  _fullTree:= fullTree;
+  _callback:= callback;
+  _mutex:= TCriticalSection.Create;
+  inherited Create(False);
+end;
+
+destructor TSyncDirsCheckContentThread.Destroy;
+begin
+  inherited Destroy;
+  _mutex.Free;
 end;
 
 end.

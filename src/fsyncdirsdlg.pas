@@ -47,7 +47,7 @@ type
 
   { TfrmSyncDirsDlg }
 
-  TfrmSyncDirsDlg = class(TForm, IFormCommands)
+  TfrmSyncDirsDlg = class(TForm, IFormCommands, ISyncDirsCheckContentThreadCallback)
     actDeleteLeft: TAction;
     actDeleteRight: TAction;
     actDeleteBoth: TAction;
@@ -152,7 +152,6 @@ type
     { private declarations }
     FCancel: Boolean;
     FScanning: Boolean;
-    FComparing: Boolean;
     FService: TSyncDirsService;
     FFullTree: TTwoLevelTree;
     FFilteredList: TFlatDirFileList;
@@ -165,7 +164,6 @@ type
     FCmpFilePathL, FCmpFilePathR: string;
     FAddressL, FAddressR: string;
     hCols: array [0..6] of record Left, Width: Integer end;
-    CheckContentThread: TObject;
     Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
     FOperation: TFileSourceOperation;
     FCopyStatistics: TFileSourceCopyOperationStatistics;
@@ -186,7 +184,6 @@ type
     procedure ScanDirs;
     procedure SetSortIndex(AValue: Integer);
     procedure UpdateStatusBar;
-    procedure StopCheckContentThread;
     procedure EnableControls(AEnabled: Boolean);
     procedure DeleteFiles(ALeft, ARight: Boolean);
     function DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
@@ -194,6 +191,22 @@ type
     procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
+
+  private
+    FCheckContentThread: TSyncDirsCheckContentThread;
+    FCheckContentThreadTimerCount: Integer;
+    FCheckContentThreadComparing: Boolean;
+  private
+    procedure onCheckContentThreadStart;
+    procedure onCheckContentThreadFinish;
+    procedure onCheckContentThreadReapplyFilter;
+    procedure onCheckContentThreadCountUpdated( const equalInc: Integer; const notEqInc: Integer );
+
+    procedure checkContentThreadStart;
+    procedure checkContentThreadStop;
+    procedure checkContentThreadUpdateGrid;
+    procedure checkContentThreadSetProgressBytes(const AProgressBar: TKASProgressBar; const CurrentBytes: Int64; const TotalBytes: Int64);
+
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -238,43 +251,16 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
-  uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
+  uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, fMaskInputDlg, uSearchTemplate,
-  LCLVersion, SysConst, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles,
+  LCLVersion, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles,
   uFileSourceManager, uFileSourceProperty, uShowMsg;
 
 {$R *.lfm}
 
 const
   GRID_COLUMN_FMT = 'HeaderDG_Column%d_Width';
-
-type
-
-  { TCheckContentThread }
-
-  TCheckContentThread = class(TThread)
-  private
-    FDone: Boolean;
-    FTimer: Integer;
-    FOwner: TfrmSyncDirsDlg;
-    FMutex: TCriticalSection;
-    FStatistics: TFileSourceCopyOperationStatistics;
-  private
-    procedure DoStart;
-    procedure DoFinish;
-    procedure UpdateGrid;
-    procedure ReapplyFilter;
-  protected
-    procedure Execute; override;
-    function RetrieveStatistics: TFileSourceCopyOperationStatistics;
-    procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
-    procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
-  public
-    constructor Create(Owner: TfrmSyncDirsDlg);
-    destructor Destroy; override;
-    property Done: Boolean read FDone;
-  end;
 
 function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
 begin
@@ -369,213 +355,6 @@ begin
   end;
 end;
 
-{ TCheckContentThread }
-
-procedure TCheckContentThread.DoStart;
-begin
-  with FOwner do
-  begin
-    Timer.Enabled:= True;
-    HeaderDG.Enabled:= False;
-    GroupBox1.Enabled:= False;
-    MainDrawGrid.Enabled:= False;
-    pnlCopyProgress.Visible:= True;
-    ProgressBar.SetProgress(0, 100);
-    pnlDeleteProgress.Visible:= False;
-    lblProgress.Caption:= rsDiffComparing;
-  end;
-  FOwner.pnlProgress.Visible:= True;
-end;
-
-procedure TCheckContentThread.DoFinish;
-begin
-  FOwner.FComparing:= False;
-  FOwner.Timer.Enabled:= False;
-  FOwner.HeaderDG.Enabled:= True;
-  FOwner.TopPanel.Enabled:= True;
-  FOwner.GroupBox1.Enabled:= True;
-  FOwner.MainDrawGrid.Enabled:= True;
-  FOwner.pnlProgress.Visible:= False;
-end;
-
-procedure TCheckContentThread.UpdateGrid;
-begin
-  FOwner.MainDrawGrid.Invalidate;
-  FOwner.UpdateStatusBar;
-end;
-
-procedure TCheckContentThread.ReapplyFilter;
-begin
-  FOwner.FillFoundItemsDG;
-  FOwner.UpdateStatusBar;
-end;
-
-procedure TCheckContentThread.Execute;
-const
-  BUF_LEN = 1024 * 1024;
-var
-  Buffer1, Buffer2: PByte;
-  Statistics: TFileSourceCopyOperationStatistics;
-
-  function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
-  var
-    DoneBytes, Count: Int64;
-    File1, File2: TFileStreamEx;
-  begin
-    File1 := TFileStreamEx.Create(FileName1, fmOpenRead or fmShareDenyWrite);
-    try
-      File2 := TFileStreamEx.Create(FileName2, fmOpenRead or fmShareDenyWrite);
-      try
-        DoneBytes := 0;
-
-        repeat
-          if Size - DoneBytes <= BUF_LEN then
-            Count := Size - DoneBytes
-          else begin
-            Count := BUF_LEN;
-          end;
-
-          File1.ReadBuffer(Buffer1^, Count);
-          File2.ReadBuffer(Buffer2^, Count);
-
-          if (Count <> BUF_LEN) then
-            Result := CompareByte(Buffer1^, Buffer2^, Count) = 0
-          else begin
-            Result := CompareDWord(Buffer1^, Buffer2^, Count div SizeOf(Dword)) = 0;
-          end;
-
-          Statistics.DoneBytes += Count;
-          DoneBytes := DoneBytes + Count;
-
-          UpdateStatistics(Statistics);
-
-        until Terminated or not Result or (DoneBytes >= Size);
-      finally
-        File2.Free;
-      end;
-    finally
-      File1.Free;
-    end;
-  end;
-
-var
-  isEqual: Boolean;
-  dirIndex, fileIndex: Integer;
-  rec: TFileSyncRec;
-begin
-  Synchronize(@DoStart);
-  Buffer1:= GetMem(BUF_LEN);
-  Buffer2:= GetMem(BUF_LEN);
-  try
-    if (Buffer1 = nil) or (Buffer2 = nil) then
-      raise EOutOfMemory.Create(SOutOfMemory);
-
-    with FOwner do
-    begin
-      Statistics.DoneBytes:= 0;
-      Statistics.TotalBytes:= 0;
-      for dirIndex := 0 to FFullTree.Count - 1 do
-      begin
-        for fileIndex := 0 to FFullTree.dirItem(dirIndex).fileCount - 1 do
-        begin
-          if Terminated then Exit;
-          rec := FFullTree.fileSyncRec(dirIndex, fileIndex);
-          if NOT rec.isDir and (rec.state = srsUnknown) then
-          begin
-            Statistics.TotalBytes+= rec.leftFile.Size;
-          end;
-        end;
-      end;
-      UpdateStatistics(Statistics);
-    end;
-
-    with FOwner do
-    for dirIndex := 0 to FFullTree.Count - 1 do
-    begin
-      for fileIndex := 0 to FFullTree.dirItem(dirIndex).fileCount - 1 do
-      begin
-        if Terminated then Exit;
-        rec := FFullTree.fileSyncRec(dirIndex, fileIndex);
-        if NOT rec.isDir and (rec.state = srsUnknown) then
-        begin
-          try
-            isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);
-            if Terminated then Exit;
-            if isEqual then
-            begin
-              Inc(Fequal);
-              Dec(Fnoneq);
-              rec.state := srsEqual
-            end
-            else begin
-              if cfAsymmetric in rec.option.flags then begin
-                rec.state := srsCopyToRight;
-              end else begin
-                rec.state := srsNotEq;
-              end;
-            end;
-            if rec.action = srsUnknown then
-            begin
-              rec.action := rec.state;
-            end;
-          except
-            on E: Exception do
-              DCDebug('[SyncDirs::CmpContentThread] ' + E.Message);
-          end;
-        end;
-      end;
-    end;
-    FDone := True;
-    Synchronize(@ReapplyFilter);
-  finally
-    Synchronize(@DoFinish);
-    if Assigned(Buffer1) then FreeMem(Buffer1);
-    if Assigned(Buffer2) then FreeMem(Buffer2);
-  end;
-end;
-
-function TCheckContentThread.RetrieveStatistics: TFileSourceCopyOperationStatistics;
-begin
-  FMutex.Acquire;
-  try
-    Result := Self.FStatistics;
-  finally
-    FMutex.Release;
-  end;
-end;
-
-procedure TCheckContentThread.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
-begin
-  FMutex.Acquire;
-  try
-    FStatistics := NewStatistics;
-  finally
-    FMutex.Release;
-  end;
-end;
-
-procedure TCheckContentThread.SetProgressBytes(AProgressBar: TKASProgressBar;
-  CurrentBytes: Int64; TotalBytes: Int64);
-var
-  BarText : String;
-begin
-  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
-  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
-end;
-
-constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
-begin
-  FOwner := Owner;
-  FMutex := TCriticalSection.Create;
-  inherited Create(False);
-end;
-
-destructor TCheckContentThread.Destroy;
-begin
-  inherited Destroy;
-  FMutex.Free;
-end;
-
 { TfrmSyncDirsDlg }
 
 procedure TfrmSyncDirsDlg.actExecute(Sender: TObject);
@@ -610,8 +389,8 @@ procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
   if Assigned(FOperation) then
     FOperation.Stop
-  else if FComparing then
-    StopCheckContentThread
+  else if FCheckContentThreadComparing then
+    checkContentThreadStop
   else begin
     pnlProgress.Hide;
   end;
@@ -622,7 +401,7 @@ begin
   if not IsMaskSearchTemplate(cbExtFilter.Text) then
     InsertFirstItem(Trim(cbExtFilter.Text), cbExtFilter);
   StatusBar1.Panels[0].Text := Format(rsComparingPercent, [0]);
-  StopCheckContentThread;
+  checkContentThreadStop;
   Compare;
 end;
 
@@ -961,7 +740,7 @@ procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
 var
   Index: Integer;
 begin
-  StopCheckContentThread;
+  checkContentThreadStop;
   CloseAction := caFree;
   { settings }
   gSyncDirsEmptyDirs            := chkEmptyDir.Checked;
@@ -1003,10 +782,10 @@ begin
     FCancel := True;
     CanClose := False;
   end
-  else if FComparing then
+  else if FCheckContentThreadComparing then
   begin
     CanClose := False;
-    StopCheckContentThread;
+    checkContentThreadStop;
   end;
 end;
 
@@ -1227,8 +1006,8 @@ begin
     Key := 0;
     if FScanning then
       FCancel := True
-    else if FComparing then
-      StopCheckContentThread
+    else if FCheckContentThreadComparing then
+      checkContentThreadStop
     else
       Close;
   end;
@@ -1315,15 +1094,12 @@ begin
                        DeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
     end;
   end
-  else if Assigned(CheckContentThread) then
+  else if Assigned(FCheckContentThread) then
   begin
-    with TCheckContentThread(CheckContentThread) do
-    begin
-      Inc(FTimer);
-      CopyStatistics:= RetrieveStatistics;
-      if (FTimer mod 5 = 0) then UpdateGrid;
-      SetProgressBytes(ProgressBar, CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
-    end;
+    Inc(FCheckContentThreadTimerCount);
+    CopyStatistics:= FCheckContentThread.RetrieveStatistics;
+    if (FCheckContentThreadTimerCount mod 5 = 0) then checkContentThreadUpdateGrid;
+    checkContentThreadSetProgressBytes(ProgressBar, CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
   end;
 end;
 
@@ -1435,7 +1211,7 @@ begin
     ScanDirs;
     MainDrawGrid.SetFocus;
   finally
-    TopPanel.Enabled := not FComparing;
+    TopPanel.Enabled := not FCheckContentThreadComparing;
   end;
 end;
 
@@ -1702,10 +1478,7 @@ begin
   FillFoundItemsDG;
   if FCancel then Exit;
   if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
-  begin
-    CheckContentThread := TCheckContentThread.Create(Self);
-    FComparing := True;
-  end;
+    checkContentThreadStart;
   finally
   FScanning := False;
   end;
@@ -1715,23 +1488,10 @@ procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var s: string;
 begin
   s := Format(rsFilesFound, [Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR]);
-  if Assigned(CheckContentThread)
-  and not TCheckContentThread(CheckContentThread).Done then
+  if Assigned(FCheckContentThread)
+  and not FCheckContentThread.Done then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
-end;
-
-procedure TfrmSyncDirsDlg.StopCheckContentThread;
-begin
-  if Assigned(CheckContentThread) then
-  begin
-    with TCheckContentThread(CheckContentThread) do
-    begin
-      Terminate;
-      WaitFor;
-    end;
-    FreeAndNil(CheckContentThread);
-  end;
 end;
 
 procedure TfrmSyncDirsDlg.toggleSelectionAction;
@@ -1763,6 +1523,83 @@ begin
     indexes.Free;
     MainDrawGrid.EndUpdate;
   end;
+end;
+
+procedure TfrmSyncDirsDlg.onCheckContentThreadStart;
+begin
+  Timer.Enabled:= True;
+  HeaderDG.Enabled:= False;
+  GroupBox1.Enabled:= False;
+  MainDrawGrid.Enabled:= False;
+  pnlCopyProgress.Visible:= True;
+  ProgressBar.SetProgress(0, 100);
+  pnlDeleteProgress.Visible:= False;
+  lblProgress.Caption:= rsDiffComparing;
+  pnlProgress.Visible:= True;
+end;
+
+procedure TfrmSyncDirsDlg.onCheckContentThreadFinish;
+begin
+  FCheckContentThreadComparing:= False;
+  Timer.Enabled:= False;
+  HeaderDG.Enabled:= True;
+  TopPanel.Enabled:= True;
+  GroupBox1.Enabled:= True;
+  MainDrawGrid.Enabled:= True;
+  pnlProgress.Visible:= False;
+end;
+
+procedure TfrmSyncDirsDlg.onCheckContentThreadReapplyFilter;
+begin
+  FillFoundItemsDG;
+  UpdateStatusBar;
+end;
+
+procedure TfrmSyncDirsDlg.onCheckContentThreadCountUpdated(
+  const equalInc: Integer;
+  const notEqInc: Integer);
+begin
+  Inc( Fequal, equalInc );
+  Inc( Fnoneq, notEqInc );
+end;
+
+procedure TfrmSyncDirsDlg.checkContentThreadStart;
+begin
+  if Assigned(FCheckContentThread) then
+    Exit;
+  FCheckContentThread := TSyncDirsCheckContentThread.Create(FFullTree, Self);
+  FCheckContentThreadTimerCount := 0;
+  FCheckContentThreadComparing := True;
+end;
+
+procedure TfrmSyncDirsDlg.checkContentThreadStop;
+begin
+  if Assigned(FCheckContentThread) then
+  begin
+    with FCheckContentThread do
+    begin
+      Terminate;
+      WaitFor;
+    end;
+    FreeAndNil(FCheckContentThread);
+  end;
+end;
+
+procedure TfrmSyncDirsDlg.checkContentThreadUpdateGrid;
+begin
+  MainDrawGrid.Invalidate;
+  UpdateStatusBar;
+end;
+
+procedure TfrmSyncDirsDlg.checkContentThreadSetProgressBytes(
+  const AProgressBar: TKASProgressBar;
+  const CurrentBytes: Int64;
+  const TotalBytes: Int64 );
+var
+  BarText : String;
+begin
+  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
+  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
