@@ -1597,9 +1597,18 @@ procedure TfrmSyncDirsDlg.checkContentThreadSetProgressBytes(
   const TotalBytes: Int64 );
 var
   BarText : String;
+  CaptionText : String;
 begin
   BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
   AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
+
+  {$IFDEF LCLCOCOA}
+  if TotalBytes > 0 then
+    CaptionText := Format(rsComparingPercent, [CurrentBytes*100 div TotalBytes])
+  else
+    CaptionText := Format(rsComparingPercent, [0]);
+  lblProgress.Caption := CaptionText;
+  {$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
