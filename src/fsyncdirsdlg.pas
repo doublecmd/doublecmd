@@ -32,6 +32,7 @@ uses
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceDeleteOperation, KASProgressBar,
+  uMasks, uSearchTemplate,
   uSyncDirsModel, uSyncDirsService;
 
 const
@@ -47,7 +48,12 @@ type
 
   { TfrmSyncDirsDlg }
 
-  TfrmSyncDirsDlg = class(TForm, IFormCommands, ISyncDirsCheckContentThreadCallback)
+  TfrmSyncDirsDlg = class(
+    TForm,
+    IFormCommands,
+    ISyncDirsCheckContentThreadCallback,
+    ISyncDirsTreeBuilderCallback)
+
     actDeleteLeft: TAction;
     actDeleteRight: TAction;
     actDeleteBoth: TAction;
@@ -158,6 +164,8 @@ type
     FSortIndex: Integer;
     FSortDesc: Boolean;
     FCompareOption: TCompareOption;
+    FMaskList: TMaskList;
+    FTemplate: TSearchTemplate;
     FSelectedItems: TStringListEx;
     FFileSourceL, FFileSourceR: IFileSource;
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
@@ -208,6 +216,12 @@ type
     procedure checkContentThreadSetProgressBytes(const AProgressBar: TKASProgressBar; const CurrentBytes: Int64; const TotalBytes: Int64);
 
   private
+    function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
+    function treeBuilderMaskFilt( const f: TFile ): Boolean;
+    function treeBuilderSelectedFilt( const filename: String ): Boolean;
+    function onTreeBuilderUpdateProgress( const percent: Integer ): Boolean;
+
+  private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
   protected
@@ -253,7 +267,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
-  uOSUtils, uLng, uMasks, Math, uClipboard, fMaskInputDlg, uSearchTemplate,
+  uOSUtils, uLng, Math, uClipboard, fMaskInputDlg,
   LCLVersion, DCStrUtils, DCOSUtils, uTypes, uFileSystemDeleteOperation, uFindFiles,
   uFileSourceManager, uFileSourceProperty, uShowMsg;
 
@@ -1281,206 +1295,54 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.ScanDirs;
-
 var
-  MaskList: TMaskList;
-  Template: TSearchTemplate;
-  LeftFirst: Boolean = True;
-  RightFirst: Boolean = True;
-  BaseDirL, BaseDirR: string;
-
-  procedure ScanDir(
-    dir: string;
-    const leftParentDirs: TStringList;
-    const rightParentDirs: TStringList);
-
-    procedure ProcessOneSide(dirItem: TTwoLevelTreeDirItem; dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
-    var
-      fs: TFiles;
-      i, j: Integer;
-      f: TFile;
-      r: TFileSyncRec;
-      fn: String;
-      dirFullPath: String;
-      dirSyncRec: TDirSyncRec;
-      currentFileSource: IFileSource;
-    begin
-      dirSyncRec := dirItem.dirSyncRec;
-      if sideLeft then begin
-        currentFileSource := FFileSourceL;
-        dirFullPath := BaseDirL + dir;
-      end else begin
-        currentFileSource := FFileSourceR;
-        dirFullPath := BaseDirR + dir;
-      end;
-      fs := currentFileSource.GetFiles(dirFullPath);
-      if (cfOnlySelected in FCompareOption.flags) and ASide then
-      begin
-        ASide:= False;
-        for I:= fs.Count - 1 downto 0 do
-        begin
-          if FSelectedItems.IndexOf(fs[I].Name) < 0 then
-            fs.Delete(I);
-        end;
-      end;
-      try
-        for i := 0 to fs.Count - 1 do
-        begin
-          f := fs.Items[i];
-          if f.Name = EmptyStr then
-            f.Name := currentFileSource.GetDisplayFileName(f);
-          fn := NormalizeFileName(f.Name);
-          if f.IsDirectory or f.IsLinkToDirectory then
-          begin
-            if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
-            begin
-              if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then begin
-                dirs.AddObject(fn, f.Clone);  // dirs don't own Object
-                dirSyncRec.incDirCount(sideLeft);
-              end;
-            end;
-          end
-          else if (Template = nil) or Template.CheckFile(f) then
-          begin
-            if ((MaskList = nil) or MaskList.Matches(f.Name)) then
-            begin
-              j := dirItem.indexOfFile(fn);
-              if j < 0 then
-                r := TFileSyncRec.Create(FCompareOption, dir)
-              else
-                r := dirItem.fileSyncRec(j);
-              if sideLeft then
-              begin
-                r.leftFile := f.Clone;
-              end else begin
-                r.rightFile := f.Clone;
-              end;
-              r.updateState;
-              dirItem.addFile(fn, r);
-              dirSyncRec.incFileCount(sideLeft);
-            end;
-          end;
-        end;
-      finally
-        fs.Free;
-      end;
-    end;
-
-    procedure setDirSyncRecFile(dirSyncRec: TDirSyncRec);
-    var
-      i: Integer;
-      currentDirPart: String;
-    begin
-      currentDirPart:= GetLastDir(dir);
-      i:= leftParentDirs.IndexOf(currentDirPart);
-      if i >= 0 then
-        dirSyncRec.leftFile:= TFile(leftParentDirs.Objects[i]);    // owns file
-      i:= rightParentDirs.IndexOf(currentDirPart);
-      if i >= 0 then
-        dirSyncRec.rightFile:= TFile(rightParentDirs.Objects[i]);   // owns file
-    end;
-
-  var
-    i, j, tot: Integer;
-    dirItem: TTwoLevelTreeDirItem;
-    dirsLeft, dirsRight: TStringListEx;
-    d: string;
-    dirSyncRec: TDirSyncRec;
-  begin
-    i := FFullTree.indexOfDir(dir);
-    if i < 0 then begin
-      dirSyncRec := TDirSyncRec.Create(FCompareOption, dir);
-      dirItem := TTwoLevelTreeDirItem.Create(dirSyncRec);
-      FFullTree.addDir(dir, dirItem);
-    end else begin
-      dirItem := FFullTree.dirItem(i);
-      dirSyncRec := dirItem.dirSyncRec;
-    end;
-
-    if dir <> '' then begin
-      setDirSyncRecFile(dirSyncRec);
-      dir := AppendPathDelim(dir);
-    end;
-
-    dirsLeft := TStringListEx.Create;
-    dirsLeft.CaseSensitive := FileNameCaseSensitive;
-    dirsLeft.Sorted := True;
-    dirsRight := TStringListEx.Create;
-    dirsRight.CaseSensitive := FileNameCaseSensitive;
-    dirsRight.Sorted := True;
-    try
-      Application.ProcessMessages;
-      if FCancel then Exit;
-      ProcessOneSide(dirItem, dirsLeft, LeftFirst, True);
-      ProcessOneSide(dirItem, dirsRight, RightFirst, False);
-      dirSyncRec.updateState;
-      FService.sortDirItem(dirItem);
-      if not (cfSubdirs in FCompareOption.flags) then Exit;
-      tot := dirsLeft.Count + dirsRight.Count;
-      for i := 0 to dirsLeft.Count - 1 do
-      begin
-        if dir = '' then
-          StatusBar1.Panels[0].Text :=
-            Format(rsComparingPercent, [i * 100 div tot]);
-        d := dirsLeft[i];
-        ScanDir(dir + d, dirsLeft, dirsRight);
-        if FCancel then Exit;
-        j := dirsRight.IndexOf(d);
-        if j >= 0 then
-        begin
-          dirsRight.Delete(j);
-          Dec(tot);
-        end
-      end;
-      for i := 0 to dirsRight.Count - 1 do
-      begin
-        if dir = '' then
-          StatusBar1.Panels[0].Text :=
-            Format(rsComparingPercent, [(dirsLeft.Count + i) * 100 div tot]);
-        d := dirsRight[i];
-        ScanDir(dir + d, dirsLeft, dirsRight);
-        if FCancel then Exit;
-      end;
-    finally
-      dirsLeft.Free;
-      dirsRight.Free;
-    end;
-  end;
-
+  builder: TSyncDirsTreeBuilder = nil;
+  BaseDirL: String;
+  BaseDirR: String;
 begin
   FScanning := True;
   try
-  FCancel := False;
-  FCmpFileSourceL := FFileSourceL;
-  FCmpFileSourceR := FFileSourceR;
-  BaseDirL := AppendPathDelim(edPath1.Text);
-  if IsMaskSearchTemplate(cbExtFilter.Text) then
-  begin
-    MaskList := nil;
-    Template:= gSearchTemplateList.TemplateByName[cbExtFilter.Text];
-  end
-  else begin
-    Template := nil;
-    if cbExtFilter.Text <> EmptyStr then
-      MaskList := TMaskList.Create(cbExtFilter.Text)
-    else
-      MaskList := TMaskList.Create( '*' );
-  end;
-  if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
-    Delete(BaseDirL, 1, Length(FAddressL));
-  BaseDirR := AppendPathDelim(edPath2.Text);
-  if (FAddressR <> '') and (Copy(BaseDirR, 1, Length(FAddressR)) = FAddressR) then
-    Delete(BaseDirR, 1, Length(FAddressR));
-  FCmpFilePathL := BaseDirL;
-  FCmpFilePathR := BaseDirR;
-  ScanDir('', nil, nil);
-  MaskList.Free;
-  FillFoundItemsDG;
-  if FCancel then Exit;
-  if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
-    checkContentThreadStart;
+    FCancel := False;
+    if IsMaskSearchTemplate(cbExtFilter.Text) then
+    begin
+      FMaskList := nil;
+      FTemplate:= gSearchTemplateList.TemplateByName[cbExtFilter.Text];
+    end
+    else begin
+      FTemplate := nil;
+      if cbExtFilter.Text <> EmptyStr then
+        FMaskList := TMaskList.Create(cbExtFilter.Text)
+      else
+        FMaskList := TMaskList.Create( '*' );
+    end;
+    FCmpFileSourceL := FFileSourceL;
+    FCmpFileSourceR := FFileSourceR;
+    BaseDirL := AppendPathDelim(edPath1.Text);
+    if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
+      Delete(BaseDirL, 1, Length(FAddressL));
+    BaseDirR := AppendPathDelim(edPath2.Text);
+    if (FAddressR <> '') and (Copy(BaseDirR, 1, Length(FAddressR)) = FAddressR) then
+      Delete(BaseDirR, 1, Length(FAddressR));
+    FCmpFilePathL := BaseDirL;
+    FCmpFilePathR := BaseDirR;
+
+    builder:= TSyncDirsTreeBuilder.Create( self, FService, FCompareOption );
+    builder.baseDirL:= BaseDirL;
+    builder.baseDirR:= BaseDirR;
+    builder.fileSourceL:= FFileSourceL;
+    builder.fileSourceR:= FFileSourceR;
+    builder.build( FFullTree );
+
+    FillFoundItemsDG;
+    if FCancel then
+      Exit;
+    if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
+      checkContentThreadStart;
   finally
-  FScanning := False;
+    FreeAndNil(builder);
+    FreeAndNil(FMaskList);
+    FTemplate := nil;
+    FScanning := False;
   end;
 end;
 
@@ -1609,6 +1471,34 @@ begin
     CaptionText := Format(rsComparingPercent, [0]);
   lblProgress.Caption := CaptionText;
   {$ENDIF}
+end;
+
+function TfrmSyncDirsDlg.treeBuilderCheckRunning(const processMessages: Boolean): Boolean;
+begin
+  if processMessages then
+    Application.ProcessMessages;
+  Result:= NOT FCancel;
+end;
+
+function TfrmSyncDirsDlg.treeBuilderMaskFilt(const f: TFile): Boolean;
+begin
+  if f.IsDirectory or f.IsLinkToDirectory then begin
+    Result:= (FTemplate = nil) or (CheckDirectoryName(FTemplate.FileChecks, f.Name));
+  end else begin
+    Result:= (FTemplate = nil) or FTemplate.CheckFile(f);
+    if NOT Result then
+      Result:= ((FMaskList = nil) or FMaskList.Matches(f.Name));
+  end;
+end;
+
+function TfrmSyncDirsDlg.treeBuilderSelectedFilt(const filename: String): Boolean;
+begin
+  Result:= FSelectedItems.IndexOf(filename) >= 0;
+end;
+
+function TfrmSyncDirsDlg.onTreeBuilderUpdateProgress(const percent: Integer): Boolean;
+begin
+  StatusBar1.Panels[0].Text:= Format(rsComparingPercent, [percent]);
 end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);

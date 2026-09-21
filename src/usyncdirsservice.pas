@@ -7,9 +7,10 @@ interface
 
 uses
   Classes, SysUtils, SysConst, syncobjs, IntegerList,
-  DCStrUtils, uDCUtils, DCClassesUtf8,
+  LazFileUtils,
+  DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
   uDebug, uGlobs,
-  uFileSourceCopyOperation,
+  uFile, uFileSource, uFileSourceCopyOperation,
   uSyncDirsModel;
 
 const
@@ -47,6 +48,41 @@ type
 
     property sortIndex: Integer write _sortIndex;
     property sortDesc: Boolean write _sortDesc;
+  end;
+
+  { ISyncDirsTreeBuilderCallback }
+
+  ISyncDirsTreeBuilderCallback = interface
+    function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
+    function treeBuilderMaskFilt( const f: TFile ): Boolean;
+    function treeBuilderSelectedFilt( const filename: String ): Boolean;
+    function onTreeBuilderUpdateProgress( const percent: Integer ): Boolean;
+  end;
+
+  { TSyncDirsTreeBuilder }
+
+  TSyncDirsTreeBuilder = class
+  private
+    _callback: ISyncDirsTreeBuilderCallback;
+    _sortedService: TSyncDirsService;
+    _compareOption: TCompareOption;
+    _baseDirL: String;
+    _baseDirR: String;
+    _fileSourceL: IFileSource;
+    _fileSourceR: IFileSource;
+    _leftFirst: Boolean;
+    _rightFirst: Boolean;
+  public
+    constructor Create(
+      const callback: ISyncDirsTreeBuilderCallback;
+      const sortService: TSyncDirsService;
+      const compareOption: TCompareOption );
+    procedure build( const FFullTree: TTwoLevelTree );
+
+    property baseDirL: String write _baseDirL;
+    property baseDirR: String write _baseDirR;
+    property fileSourceL: IFileSource write _fileSourceL;
+    property fileSourceR: IFileSource write _fileSourceR;
   end;
 
   { ISyncDirsCheckContentThreadCallback }
@@ -248,6 +284,177 @@ begin
   for i:= 0 to indexes.Count-1 do
     PrintRow(sl, indexes[i]);
   Result:= sl;
+end;
+
+{ TSyncDirsTreeBuilder }
+
+constructor TSyncDirsTreeBuilder.Create(
+  const callback: ISyncDirsTreeBuilderCallback;
+  const sortService: TSyncDirsService;
+  const compareOption: TCompareOption );
+begin
+  _callback:= callback;
+  _sortedService:= sortService;
+  _compareOption:= compareOption;
+  _leftFirst:= True;
+  _rightFirst:= True;
+end;
+
+procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
+  procedure ScanDir(
+    dir: string;
+    const leftParentDirs: TStringList;
+    const rightParentDirs: TStringList);
+
+    procedure ProcessOneSide(dirItem: TTwoLevelTreeDirItem; dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
+    var
+      fs: TFiles;
+      i, j: Integer;
+      f: TFile;
+      r: TFileSyncRec;
+      fn: String;
+      dirFullPath: String;
+      dirSyncRec: TDirSyncRec;
+      currentFileSource: IFileSource;
+    begin
+      dirSyncRec := dirItem.dirSyncRec;
+      if sideLeft then begin
+        currentFileSource := _fileSourceL;
+        dirFullPath := _baseDirL + dir;
+      end else begin
+        currentFileSource := _fileSourceR;
+        dirFullPath := _baseDirR + dir;
+      end;
+      fs := currentFileSource.GetFiles(dirFullPath);
+      if (cfOnlySelected in _compareOption.flags) and ASide then
+      begin
+        ASide:= False;
+        for I:= fs.Count - 1 downto 0 do
+        begin
+          if NOT _callback.treeBuilderSelectedFilt(fs[I].Name) then
+            fs.Delete(I);
+        end;
+      end;
+      try
+        for i := 0 to fs.Count - 1 do
+        begin
+          f := fs.Items[i];
+          if f.Name = EmptyStr then
+            f.Name := currentFileSource.GetDisplayFileName(f);
+          fn := NormalizeFileName(f.Name);
+          if f.IsDirectory or f.IsLinkToDirectory then begin
+            if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
+            begin
+              if _callback.treeBuilderMaskFilt(f) then begin
+                dirs.AddObject(fn, f.Clone);  // dirs don't own Object
+                dirSyncRec.incDirCount(sideLeft);
+              end;
+            end;
+          end else if _callback.treeBuilderMaskFilt(f) then begin
+            j := dirItem.indexOfFile(fn);
+            if j < 0 then
+              r := TFileSyncRec.Create(_compareOption, dir)
+            else
+              r := dirItem.fileSyncRec(j);
+            if sideLeft then
+            begin
+              r.leftFile := f.Clone;
+            end else begin
+              r.rightFile := f.Clone;
+            end;
+            r.updateState;
+            dirItem.addFile(fn, r);
+            dirSyncRec.incFileCount(sideLeft);
+          end;
+        end;
+      finally
+        fs.Free;
+      end;
+    end;
+
+    procedure setDirSyncRecFile(dirSyncRec: TDirSyncRec);
+    var
+      i: Integer;
+      currentDirPart: String;
+    begin
+      currentDirPart:= GetLastDir(dir);
+      i:= leftParentDirs.IndexOf(currentDirPart);
+      if i >= 0 then
+        dirSyncRec.leftFile:= TFile(leftParentDirs.Objects[i]);    // owns file
+      i:= rightParentDirs.IndexOf(currentDirPart);
+      if i >= 0 then
+        dirSyncRec.rightFile:= TFile(rightParentDirs.Objects[i]);   // owns file
+    end;
+
+  var
+    i, j, tot: Integer;
+    dirItem: TTwoLevelTreeDirItem;
+    dirsLeft, dirsRight: TStringListEx;
+    d: string;
+    dirSyncRec: TDirSyncRec;
+  begin
+    i := FFullTree.indexOfDir(dir);
+    if i < 0 then begin
+      dirSyncRec := TDirSyncRec.Create(_compareOption, dir);
+      dirItem := TTwoLevelTreeDirItem.Create(dirSyncRec);
+      FFullTree.addDir(dir, dirItem);
+    end else begin
+      dirItem := FFullTree.dirItem(i);
+      dirSyncRec := dirItem.dirSyncRec;
+    end;
+
+    if dir <> '' then begin
+      setDirSyncRecFile(dirSyncRec);
+      dir := AppendPathDelim(dir);
+    end;
+
+    dirsLeft := TStringListEx.Create;
+    dirsLeft.CaseSensitive := FileNameCaseSensitive;
+    dirsLeft.Sorted := True;
+    dirsRight := TStringListEx.Create;
+    dirsRight.CaseSensitive := FileNameCaseSensitive;
+    dirsRight.Sorted := True;
+    try
+      if NOT _callback.treeBuilderCheckRunning(True) then
+        Exit;
+      ProcessOneSide(dirItem, dirsLeft, _leftFirst, True);
+      ProcessOneSide(dirItem, dirsRight, _rightFirst, False);
+      dirSyncRec.updateState;
+      _sortedService.sortDirItem(dirItem);
+      if not (cfSubdirs in _compareOption.flags) then Exit;
+      tot := dirsLeft.Count + dirsRight.Count;
+      for i := 0 to dirsLeft.Count - 1 do
+      begin
+        if dir = '' then
+          _callback.onTreeBuilderUpdateProgress( i * 100 div tot );
+        d := dirsLeft[i];
+        ScanDir(dir + d, dirsLeft, dirsRight);
+        if  NOT _callback.treeBuilderCheckRunning(False) then
+          Exit;
+        j := dirsRight.IndexOf(d);
+        if j >= 0 then
+        begin
+          dirsRight.Delete(j);
+          Dec(tot);
+        end
+      end;
+      for i := 0 to dirsRight.Count - 1 do
+      begin
+        if dir = '' then
+          _callback.onTreeBuilderUpdateProgress( (dirsLeft.Count + i) * 100 div tot );
+        d := dirsRight[i];
+        ScanDir(dir + d, dirsLeft, dirsRight);
+        if  NOT _callback.treeBuilderCheckRunning(False) then
+          Exit;
+      end;
+    finally
+      dirsLeft.Free;
+      dirsRight.Free;
+    end;
+  end;
+
+begin
+  ScanDir('', nil, nil);
 end;
 
 { TSyncDirsCheckContentThread }
