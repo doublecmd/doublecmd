@@ -522,6 +522,9 @@ procedure TTwoLevelTree.filterFlatListWithFlags(
 
   function isMatching(const syncRec: TFileSyncRec): Boolean;
   begin
+    if syncRec.state = srsDeleted then
+      Exit(False);
+
     Result:=
       ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
        (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
