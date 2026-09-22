@@ -11,7 +11,7 @@ uses
   LazFileUtils,
   DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
   uDebug, uGlobs,
-  uFile, uFileSource, uFileSourceManager,
+  uFile, uFileSource, uFileSourceManager, uFileSourceUtil,
   uFileSourceOperation, uFileSourceCopyOperation, uFileSourceOperationTypes,
   uSyncDirsModel;
 
@@ -56,6 +56,22 @@ type
       const fs: IFileSource;
       var files: TFiles;
       const operationHandle: TSyncDirsOperationHandle ): Boolean;
+  end;
+
+  { ISyncDirsFileProcessorWithUI }
+
+  ISyncDirsFileProcessorWithUI = interface
+    function fileProcessorWithUICopyFiles(
+      const sourceFS: IFileSource;
+      const targetFS: IFileSource;
+      const files: TFiles;
+      const targetPath: String): Boolean;
+    function fileProcessorWithUIDeleteFiles(
+      const fs: IFileSource;
+      var files: TFiles): Boolean;
+    function fileProcessorWithUIDeleteFile(
+      const fs: IFileSource;
+      const f: TFile): Boolean;
   end;
 
   { TSyncDirsService }
@@ -111,15 +127,35 @@ type
     property fileSourceR: IFileSource write _fileSourceR;
   end;
 
+  { ISyncDirsSynchronizerCallback }
+
+  ISyncDirsSynchronizerCallback = interface
+    function synchronizerCheckRunning: Boolean;
+  end;
+
   { TSyncDirsSynchronizer }
 
   TSyncDirsSynchronizer = class
   private
+    _callback: ISyncDirsSynchronizerCallback;
+    _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
+    _leftFS: IFileSource;
+    _rightFS: IFileSource;
+    _leftBasePath: String;
+    _rightBasePath: String;
   public
-    constructor Create( const filteredList: TFlatDirFileList );
+    constructor Create(
+      const callback: ISyncDirsSynchronizerCallback;
+      const fileProcessor: ISyncDirsFileProcessorWithUI;
+      const filteredList: TFlatDirFileList );
     function count: TSyncDirsSyncCount;
     procedure sync( const syncFlags: TSyncDirsSyncFlags );
+
+    property leftFS: IFileSource write _leftFS;
+    property rightFS: IFileSource write _rightFS;
+    property leftBasePath: String write _leftBasePath;
+    property rightBasePath: String write _rightBasePath;
   end;
 
   { ISyncDirsCheckContentThreadCallback }
@@ -620,8 +656,13 @@ end;
 
 { TSyncDirsSynchronizer }
 
-constructor TSyncDirsSynchronizer.Create( const filteredList: TFlatDirFileList );
+constructor TSyncDirsSynchronizer.Create(
+  const callback: ISyncDirsSynchronizerCallback;
+  const fileProcessor: ISyncDirsFileProcessorWithUI;
+  const filteredList: TFlatDirFileList );
 begin
+  _callback:= callback;
+  _fileProcessor:= fileProcessor;
   _filteredList:= filteredList;
 end;
 
@@ -662,8 +703,111 @@ begin
 end;
 
 procedure TSyncDirsSynchronizer.sync(const syncFlags: TSyncDirsSyncFlags);
-begin
 
+  procedure processDir(const syncRec: TFileSyncRec);
+  begin
+    case syncRec.action of
+      srsCopyToRight:
+        CreateDirectoryFromFile(
+          _rightFS,
+          _rightBasePath + syncRec.relPath,
+          _leftFS,
+          syncRec.leftFile);
+      srsCopyToLeft:
+        CreateDirectoryFromFile(
+          _leftFS,
+          _leftBasePath + syncRec.relPath,
+          _rightFS,
+          syncRec.rightFile);
+      srsDeleteRight:
+        _fileProcessor.fileProcessorWithUIDeleteFile(_rightFS, syncRec.rightFile);
+      srsDeleteLeft:
+        _fileProcessor.fileProcessorWithUIDeleteFile(_leftFS, syncRec.leftFile);
+    end;
+  end;
+
+var
+  i: Integer;
+  rec: TFileSyncRec;
+  copyToLeftFiles: TFiles;
+  copyToRightFiles: TFiles;
+  deleteLeftFiles: TFiles;
+  deleteRightFiles: TFiles;
+  targetPath: string;
+begin
+  i:= 0;
+  while i < _filteredList.Count do begin
+    copyToLeftFiles:= TFiles.Create('');
+    copyToRightFiles:= TFiles.Create('');
+    deleteLeftFiles:= TFiles.Create('');
+    deleteRightFiles:= TFiles.Create('');
+
+    rec:= _filteredList.fileSyncRec(i);
+    if rec.isDir then begin
+      processDir(rec);
+      i:= i + 1;
+      continue;
+    end;
+
+    repeat
+      targetPath := rec.relPath;
+      case rec.action of
+        srsCopyToRight:
+          if sfCopyToRight in syncFlags then
+            copyToRightFiles.Add(rec.leftFile.Clone);
+        srsCopyToLeft:
+          if sfCopyToLeft in syncFlags then
+            copyToLeftFiles.Add(rec.rightFile.Clone);
+        srsDeleteRight:
+          if sfDeleteRight in syncFlags then
+            deleteRightFiles.Add(rec.rightFile.Clone);
+        srsDeleteLeft:
+          if sfDeleteLeft in syncFlags then
+            deleteLeftFiles.Add(rec.leftFile.Clone);
+        srsDeleteBoth:
+          begin
+            if sfDeleteRight in syncFlags then
+              deleteRightFiles.Add(rec.rightFile.Clone);
+            if sfDeleteLeft in syncFlags then
+              deleteLeftFiles.Add(rec.leftFile.Clone);
+          end;
+      end;
+      i:= i + 1;
+      if i < _filteredList.Count then
+        rec:= _filteredList.fileSyncRec(i);
+    until (i = _filteredList.Count) or rec.isDir;
+
+    if copyToLeftFiles.Count > 0 then begin
+      if NOT _fileProcessor.fileProcessorWithUICopyFiles(_rightFS, _leftFS, copyToLeftFiles, _leftBasePath + targetPath) then
+        Break;
+    end else begin
+      copyToLeftFiles.Free;
+    end;
+
+    if copyToRightFiles.Count > 0 then begin
+      if NOT _fileProcessor.fileProcessorWithUICopyFiles(_leftFS, _rightFS, copyToRightFiles, _rightBasePath + targetPath) then
+        Break;
+    end else begin
+      copyToRightFiles.Free;
+    end;
+
+    if deleteLeftFiles.Count > 0 then begin
+      if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(_leftFS, deleteLeftFiles) then
+        Break;
+    end else begin
+      deleteLeftFiles.Free;
+    end;
+
+    if deleteRightFiles.Count > 0 then begin
+      if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(_rightFS, deleteRightFiles) then
+        Break;
+    end else begin
+      deleteRightFiles.Free;
+    end;
+
+    if NOT _callback.synchronizerCheckRunning then
+      Break;
+  end;
 end;
 
 { TSyncDirsCheckContentThread }
