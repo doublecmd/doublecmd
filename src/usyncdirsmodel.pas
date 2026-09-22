@@ -444,6 +444,9 @@ end;
 
 function TDirSyncRec.isDeletable( const leftSide: Boolean ): Boolean;
 begin
+  Result:= False;
+  if NOT (cfEmptyDirs in _option.flags) then
+    Exit;
   Result:= inherited isDeletable( leftSide );
   Result:= Result and self.isEmpty( leftSide );
 end;
