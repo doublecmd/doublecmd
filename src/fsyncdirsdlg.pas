@@ -23,6 +23,7 @@
 unit fSyncDirsDlg;
 
 {$mode objfpc}{$H+}
+{$modeswitch nestedprocvars}
 
 interface
 
@@ -219,7 +220,7 @@ type
     function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
     function treeBuilderSelectedFilt( const filename: String ): Boolean;
-    function onTreeBuilderUpdateProgress( const percent: Integer ): Boolean;
+    procedure onTreeBuilderUpdateProgress( const percent: Integer );
 
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
@@ -276,42 +277,6 @@ uses
 const
   GRID_COLUMN_FMT = 'HeaderDG_Column%d_Width';
 
-function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
-begin
-  Result:= False;
-  params.operationType:= fsoCopy;
-  FileSourceManager.consultOperation(params);
-  if params.consultResult <> fscrSuccess then
-    Exit;
-  if params.operationTemp then
-    Exit;
-  Result:= True;
-end;
-
-function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
-begin
-  Result:= False;
-  if consultCopyOperation(params) then
-    FileSourceManager.confirmOperation(params);
-  if params.consultResult <> fscrSuccess then
-    Exit;
-  if params.operationTemp then
-    Exit;
-  Result:= True;
-end;
-
-function supportsSyncDirs(
-  const sourceFS: IFileSource;
-  const targetFS: IFileSource ): Boolean;
-var
-  params: TFileSourceConsultParams;
-begin
-  params:= Default(TFileSourceConsultParams);
-  params.sourceFS:= sourceFS;
-  params.targetFS:= targetFS;
-  Result:= consultCopyOperation(params);
-end;
-
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
   function isSupported: Boolean;
   var
@@ -325,7 +290,7 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
       Exit;
     if NOT (fspSynchronizable in rightFS.GetProperties) then
       Exit;
-    if NOT supportsSyncDirs(leftFS,rightFS) then
+    if NOT TSyncDirsFileUtil.supportsSyncDirs(leftFS,rightFS) then
       Exit;
     Result:= True;
   end;
@@ -424,71 +389,29 @@ var
   FileExistsOption: TFileSourceOperationOptionFileExists;
   SymLinkOption: TFileSourceOperationOptionSymLink = fsooslNone;
 
-  function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
-  var
-    params: TFileSourceConsultParams;
+  procedure operationHandle( const operation: TFileSourceOperation; const state: TFileSourceOperationState );
   begin
-    fs.Path:= fs[0].Path;
+    case state of
+      fsosStarting: begin
+        operation.Elevate:= ElevateAction;
+        TFileSourceCopyOperation(operation).SymLinkOption := SymLinkOption;
+        TFileSourceCopyOperation(operation).FileExistsOption := FileExistsOption;
+        operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+      end;
+      fsosStopped: begin
+        SymLinkOption := TFileSourceCopyOperation(operation).SymLinkOption;
+        FileExistsOption := TFileSourceCopyOperation(operation).FileExistsOption;
+        FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(operation).RetrieveStatistics.TotalBytes;
+        SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
+      end;
+    end;
+  end;
 
-    params:= Default(TFileSourceConsultParams);
-    params.sourceFS:= src;
-    params.targetFS:= dst;
-    params.files:= fs;
-    params.targetPath:= Dest;
-    if NOT consultAndConfirmCopyOperation(params) then
-    begin
+  function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: String): Boolean;
+  begin
+    Result:= TSyncDirsFileUtil.copyFiles(src, dst, fs, Dest, @operationHandle );
+    if NOT Result then
       MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
-      Exit(False);
-    end;
-
-    // Create destination directory
-    Dst.CreateDirectory(ExcludeBackPathDelimiter(Dest));
-
-    // Determine operation type
-    case params.resultOperationType of
-      fsoCopy:
-        begin
-          // Copy within the same file source.
-          FOperation := params.resultFS.CreateCopyOperation(
-                        params.files,
-                        params.resultTargetPath ) as TFileSourceCopyOperation;
-        end;
-      fsoCopyOut:
-        begin
-          // CopyOut to filesystem.
-          FOperation := params.resultFS.CreateCopyOutOperation(
-                         Dst,
-                         params.files,
-                         params.resultTargetPath) as TFileSourceCopyOperation;
-        end;
-      fsoCopyIn:
-        begin
-          // CopyIn from filesystem.
-          FOperation := params.resultFS.CreateCopyInOperation(
-                         Src,
-                         params.files,
-                         params.resultTargetPath) as TFileSourceCopyOperation;
-        end;
-    end;
-    if not Assigned(FOperation) then
-    begin
-      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
-      Exit(False);
-    end;
-    FOperation.Elevate:= ElevateAction;
-    TFileSourceCopyOperation(FOperation).SymLinkOption := SymLinkOption;
-    TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
-    FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
-    try
-      FOperation.Execute;
-      Result := FOperation.Result = fsorFinished;
-      SymLinkOption := TFileSourceCopyOperation(FOperation).SymLinkOption;
-      FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
-      FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
-      SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
-    finally
-      FreeAndNil(FOperation);
-    end;
   end;
 
   procedure processDir(const syncRec: TFileSyncRec);
@@ -561,17 +484,17 @@ var
 var
   i: Integer;
   fsr: TFileSyncRec;
-  DeleteLeft, DeleteRight,
-  CopyLeft, CopyRight: Boolean;
   DeleteLeftFiles, DeleteRightFiles,
   CopyLeftFiles, CopyRightFiles: TFiles;
   Dest: string;
 
   synchronizer: TSyncDirsSynchronizer;
   syncCount: TSyncDirsSyncCount;
+  syncFlags: TSyncDirsSyncFlags;
 begin
   synchronizer:= TSyncDirsSynchronizer.Create( FFilteredList );
   syncCount:= synchronizer.count;
+  syncFlags:= [];
 
   FCopyStatistics.DoneBytes:= 0;
   FDeleteStatistics.DoneFiles:= 0;
@@ -612,17 +535,22 @@ begin
       else begin
         FileExistsOption := fsoofeOverwrite;
       end;
-      CopyLeft := chkRightToLeft.Checked;
-      CopyRight := chkLeftToRight.Checked;
-      DeleteLeft := chkDeleteLeft.Checked;
-      DeleteRight := chkDeleteRight.Checked;
+
+      if chkRightToLeft.Checked then
+        Include( syncFlags, sfCopyToLeft );
+      if chkLeftToRight.Checked then
+        Include( syncFlags, sfCopyToRight );
+      if chkDeleteLeft.Checked then
+        Include( syncFlags, sfDeleteLeft );
+      if chkDeleteRight.Checked then
+        Include( syncFlags, sfDeleteRight );
 
       lblProgress.Caption := rsOperCopying;
       lblProgressDelete.Caption := rsOperDeleting;
       ProgressBar.Position:=0;
       ProgressBarDelete.Position:=0;
-      pnlCopyProgress.Visible:= CopyLeft or CopyRight;
-      pnlDeleteProgress.Visible:= DeleteLeft or DeleteRight;
+      pnlCopyProgress.Visible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
+      pnlDeleteProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags);
 
       i := 0;
       while i < FFilteredList.Count do
@@ -642,17 +570,23 @@ begin
           Dest := fsr.relPath;
           case fsr.action of
             srsCopyToRight:
-              if CopyRight then CopyRightFiles.Add(fsr.leftFile.Clone);
+              if sfCopyToRight in syncFlags then
+                CopyRightFiles.Add(fsr.leftFile.Clone);
             srsCopyToLeft:
-              if CopyLeft then CopyLeftFiles.Add(fsr.rightFile.Clone);
+              if sfCopyToLeft in syncFlags then
+                CopyLeftFiles.Add(fsr.rightFile.Clone);
             srsDeleteRight:
-              if DeleteRight then DeleteRightFiles.Add(fsr.rightFile.Clone);
+              if sfDeleteRight in syncFlags then
+                DeleteRightFiles.Add(fsr.rightFile.Clone);
             srsDeleteLeft:
-              if DeleteLeft then DeleteLeftFiles.Add(fsr.leftFile.Clone);
+              if sfDeleteLeft in syncFlags then
+                DeleteLeftFiles.Add(fsr.leftFile.Clone);
             srsDeleteBoth:
               begin
-                if DeleteRight then DeleteRightFiles.Add(fsr.rightFile.Clone);
-                if DeleteLeft then DeleteLeftFiles.Add(fsr.leftFile.Clone);
+                if sfDeleteRight in syncFlags then
+                  DeleteRightFiles.Add(fsr.rightFile.Clone);
+                if sfDeleteLeft in syncFlags then
+                  DeleteLeftFiles.Add(fsr.leftFile.Clone);
               end;
           end;
           i := i + 1;
@@ -1468,7 +1402,7 @@ begin
   Result:= FSelectedItems.IndexOf(filename) >= 0;
 end;
 
-function TfrmSyncDirsDlg.onTreeBuilderUpdateProgress(const percent: Integer): Boolean;
+procedure TfrmSyncDirsDlg.onTreeBuilderUpdateProgress(const percent: Integer);
 begin
   StatusBar1.Panels[0].Text:= Format(rsComparingPercent, [percent]);
 end;

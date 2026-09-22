@@ -2,6 +2,7 @@ unit uSyncDirsService;
 
 {$mode ObjFPC}{$H+}
 {$interfaces CORBA}
+{$modeswitch nestedprocvars}
 
 interface
 
@@ -10,7 +11,8 @@ uses
   LazFileUtils,
   DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
   uDebug, uGlobs,
-  uFile, uFileSource, uFileSourceCopyOperation,
+  uFile, uFileSource, uFileSourceManager,
+  uFileSourceOperation, uFileSourceCopyOperation, uFileSourceOperationTypes,
   uSyncDirsModel;
 
 const
@@ -31,6 +33,27 @@ const
   );
 
 type
+
+  { TSyncDirsOperationHandle }
+
+  TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
+
+  { TSyncDirsFileUtil }
+
+  TSyncDirsFileUtil = class
+  public
+    class function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
+    class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
+    class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
+  public
+    class function copyFiles(
+      const sourceFS: IFileSource;
+      const targetFS: IFileSource;
+      const files: TFiles;
+      const targetPath: String;
+      const operationHandle: TSyncDirsOperationHandle ): Boolean;
+      const operationHandle: TSyncDirsOperationHandle ): Boolean;
+  end;
 
   { TSyncDirsService }
 
@@ -56,7 +79,7 @@ type
     function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
     function treeBuilderSelectedFilt( const filename: String ): Boolean;
-    function onTreeBuilderUpdateProgress( const percent: Integer ): Boolean;
+    procedure onTreeBuilderUpdateProgress( const percent: Integer );
   end;
 
   { TSyncDirsTreeBuilder }
@@ -125,6 +148,108 @@ type
   end;
 
 implementation
+
+{ TSyncDirsFileUtil }
+
+class function TSyncDirsFileUtil.consultCopyOperation( var params: TFileSourceConsultParams ): Boolean;
+begin
+  Result:= False;
+  params.operationType:= fsoCopy;
+  FileSourceManager.consultOperation(params);
+  if params.consultResult <> fscrSuccess then
+    Exit;
+  if params.operationTemp then
+    Exit;
+  Result:= True;
+end;
+
+class function TSyncDirsFileUtil.consultAndConfirmCopyOperation( var params: TFileSourceConsultParams ): Boolean;
+begin
+  Result:= False;
+  if consultCopyOperation(params) then
+    FileSourceManager.confirmOperation(params);
+  if params.consultResult <> fscrSuccess then
+    Exit;
+  if params.operationTemp then
+    Exit;
+  Result:= True;
+end;
+
+class function TSyncDirsFileUtil.supportsSyncDirs(
+  const sourceFS: IFileSource;
+  const targetFS: IFileSource): Boolean;
+var
+  params: TFileSourceConsultParams;
+begin
+  params:= Default(TFileSourceConsultParams);
+  params.sourceFS:= sourceFS;
+  params.targetFS:= targetFS;
+  Result:= consultCopyOperation(params);
+end;
+
+class function TSyncDirsFileUtil.copyFiles(
+  const sourceFS: IFileSource;
+  const targetFS: IFileSource;
+  const files: TFiles;
+  const targetPath: String;
+  const operationHandle: TSyncDirsOperationHandle ): Boolean;
+var
+  params: TFileSourceConsultParams;
+  fsOperation: TFileSourceOperation;
+begin
+  files.Path:= files[0].Path;
+
+  params:= Default(TFileSourceConsultParams);
+  params.sourceFS:= sourceFS;
+  params.targetFS:= targetFS;
+  params.files:= files;
+  params.targetPath:= targetPath;
+  Result:= TSyncDirsFileUtil.consultAndConfirmCopyOperation(params);
+  if NOT Result then
+    Exit;
+
+  // Create destination directory
+  targetFS.CreateDirectory(ExcludeBackPathDelimiter(targetPath));
+
+  // Determine fsOperation type
+  case params.resultOperationType of
+    fsoCopy:
+      begin
+        // Copy within the same file source.
+        fsOperation := params.resultFS.CreateCopyOperation(
+                      params.files,
+                      params.resultTargetPath ) as TFileSourceCopyOperation;
+      end;
+    fsoCopyOut:
+      begin
+        // CopyOut to filesystem.
+        fsOperation := params.resultFS.CreateCopyOutOperation(
+                       targetFS,
+                       params.files,
+                       params.resultTargetPath) as TFileSourceCopyOperation;
+      end;
+    fsoCopyIn:
+      begin
+        // CopyIn from filesystem.
+        fsOperation := params.resultFS.CreateCopyInOperation(
+                       sourceFS,
+                       params.files,
+                       params.resultTargetPath) as TFileSourceCopyOperation;
+      end;
+  end;
+  Result:= Assigned(fsOperation);
+  if NOT Result then
+    Exit;
+
+  try
+    operationHandle( fsOperation, TFileSourceOperationState.fsosStarting );
+    fsOperation.Execute;
+    Result := fsOperation.Result = fsorFinished;
+    operationHandle( fsOperation, TFileSourceOperationState.fsosStopped );
+  finally
+    FreeAndNil(fsOperation);
+  end;
+end;
 
 { TSyncDirsService }
 
