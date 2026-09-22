@@ -1482,32 +1482,30 @@ begin
 end;
 
 function TfrmSyncDirsDlg.DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
+  procedure operationHandle( const operation: TFileSourceOperation; const state: TFileSourceOperationState );
+  begin
+    case state of
+      fsosStarting: begin
+        if (operation is TFileSystemDeleteOperation) then
+        begin
+          TFileSystemDeleteOperation(operation).Recycle:= gUseTrash;
+        end;
+        operation.Elevate:= ElevateAction;
+        operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+      end;
+      fsosStopped: begin
+        FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(operation).RetrieveStatistics.TotalFiles;
+        SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
+      end;
+    end;
+  end;
 begin
-  Files.Path := Files[0].Path;
-  FOperation:= FileSource.CreateDeleteOperation(Files);
-  if not Assigned(FOperation) then
-  begin
+  Result:= TSyncDirsFileUtil.deleteFiles(FileSource, Files, @operationHandle);
+  if NOT Result then
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
-    Exit(False);
-  end;
-  if (FOperation is TFileSystemDeleteOperation) then
-  begin
-    TFileSystemDeleteOperation(FOperation).Recycle:= gUseTrash;
-  end;
-  FOperation.Elevate:= ElevateAction;
-  FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
-  try
-    FOperation.Execute;
-    Result := FOperation.Result = fsorFinished;
-    FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(FOperation).RetrieveStatistics.TotalFiles;
-    SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
-  finally
-    FreeAndNil(FOperation);
-  end;
 end;
 
-function TfrmSyncDirsDlg.DeleteFile(FileSource: IFileSource; const f: TFile
-  ): Boolean;
+function TfrmSyncDirsDlg.DeleteFile(FileSource: IFileSource; const f: TFile): Boolean;
 var
   files: TFiles;
 begin

@@ -52,6 +52,9 @@ type
       const files: TFiles;
       const targetPath: String;
       const operationHandle: TSyncDirsOperationHandle ): Boolean;
+    class function deleteFiles(
+      const fs: IFileSource;
+      var files: TFiles;
       const operationHandle: TSyncDirsOperationHandle ): Boolean;
   end;
 
@@ -245,6 +248,28 @@ begin
     operationHandle( fsOperation, TFileSourceOperationState.fsosStarting );
     fsOperation.Execute;
     Result := fsOperation.Result = fsorFinished;
+    operationHandle( fsOperation, TFileSourceOperationState.fsosStopped );
+  finally
+    FreeAndNil(fsOperation);
+  end;
+end;
+
+class function TSyncDirsFileUtil.deleteFiles(
+  const fs: IFileSource;
+  var files: TFiles;
+  const operationHandle: TSyncDirsOperationHandle ): Boolean;
+var
+  fsOperation: TFileSourceOperation;
+begin
+  files.Path:= files[0].Path;
+  fsOperation:= fs.CreateDeleteOperation(files);
+  Result:= Assigned( fsOperation );
+  if NOT Result then
+    Exit;
+  try
+    operationHandle( fsOperation, TFileSourceOperationState.fsosStarting );
+    fsOperation.Execute;
+    Result:= fsOperation.Result = fsorFinished;
     operationHandle( fsOperation, TFileSourceOperationState.fsosStopped );
   finally
     FreeAndNil(fsOperation);
