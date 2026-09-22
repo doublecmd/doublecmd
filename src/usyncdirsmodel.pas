@@ -815,13 +815,16 @@ var
   procedure doUpdateAction(const index: Integer; const expectAction: TSyncRecState);
   var
     rec: TFileSyncRec;
+    properAction: TSyncRecState;
   begin
     if handled[index] then
       Exit;
     handled[index]:= True;
 
     rec:= self.fileSyncRec(index);
-    rec.action:= rec.getProperAction( expectAction );
+    properAction:= rec.getProperAction( expectAction );
+    if properAction <> srsNoAction then
+      rec.action:= properAction;
   end;
 
   procedure checkAncestorsDirs(index: Integer; const cascadingAction: TSyncRecState);
