@@ -163,7 +163,7 @@ type
     FFilteredList: TFlatDirFileList;
     FSortIndex: Integer;
     FSortDesc: Boolean;
-    FCompareOption: TCompareOption;
+    FCompareOption: TSyncDirsCompareOption;
     FMaskList: TMaskList;
     FTemplate: TSearchTemplate;
     FSelectedItems: TStringListEx;
@@ -178,7 +178,7 @@ type
     FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
 
-    function createCompareOption: TCompareOption;
+    function createCompareOption: TSyncDirsCompareOption;
     function createFilterFlags: TFilterFlags;
     function createSelectionIndexes: TIntegerList;
 
@@ -559,80 +559,51 @@ var
   end;
 
 var
-  i,
-  DeleteLeftCount, DeleteRightCount,
-  CopyLeftCount, CopyRightCount: Integer;
-  CopyLeftSize, CopyRightSize: Int64;
+  i: Integer;
   fsr: TFileSyncRec;
   DeleteLeft, DeleteRight,
   CopyLeft, CopyRight: Boolean;
   DeleteLeftFiles, DeleteRightFiles,
   CopyLeftFiles, CopyRightFiles: TFiles;
   Dest: string;
-begin
-  DeleteLeftCount := 0; DeleteRightCount := 0;
-  CopyLeftCount := 0; CopyRightCount := 0;
-  CopyLeftSize := 0;  CopyRightSize := 0;
 
-  for i := 0 to FFilteredList.Count - 1 do begin
-    fsr := FFilteredList.fileSyncRec(i);
-    case fsr.action of
-      srsCopyToLeft:
-        begin
-          Inc(CopyLeftCount);
-          Inc(CopyLeftSize, fsr.rightFile.Size);
-        end;
-      srsCopyToRight:
-        begin
-          Inc(CopyRightCount);
-          Inc(CopyRightSize, fsr.leftFile.Size);
-        end;
-      srsDeleteLeft:
-        begin
-          Inc(DeleteLeftCount);
-        end;
-      srsDeleteRight:
-        begin
-          Inc(DeleteRightCount);
-        end;
-      srsDeleteBoth:
-        begin
-          Inc(DeleteLeftCount);
-          Inc(DeleteRightCount);
-        end;
-    end;
-  end;
+  synchronizer: TSyncDirsSynchronizer;
+  syncCount: TSyncDirsSyncCount;
+begin
+  synchronizer:= TSyncDirsSynchronizer.Create( FFilteredList );
+  syncCount:= synchronizer.count;
+
   FCopyStatistics.DoneBytes:= 0;
   FDeleteStatistics.DoneFiles:= 0;
-  FCopyStatistics.TotalBytes:= CopyLeftSize + CopyRightSize;
-  FDeleteStatistics.TotalFiles:= DeleteLeftCount + DeleteRightCount;
+  FCopyStatistics.TotalBytes:= syncCount.copySize;
+  FDeleteStatistics.TotalFiles:= syncCount.deleteCount;
 
   with TfrmSyncDirsPerformDlg.Create(Self) do
   try
     edLeftPath.Text := FCmpFileSourceL.CurrentAddress + FCmpFilePathL;
     edRightPath.Text := FCmpFileSourceR.CurrentAddress + FCmpFilePathR;
-    if CopyLeftCount > 0 then
+    if syncCount.copyToLeftCount > 0 then
     begin
       chkRightToLeft.Enabled := True;
       chkRightToLeft.Checked := True;
       edLeftPath.Enabled := True;
     end;
-    if CopyRightCount > 0 then
+    if syncCount.copyToRightCount > 0 then
     begin
       chkLeftToRight.Enabled := True;
       chkLeftToRight.Checked := True;
       edRightPath.Enabled := True;
     end;
-    chkDeleteLeft.Enabled := DeleteLeftCount > 0;
+    chkDeleteLeft.Enabled := syncCount.deleteLeftCount > 0;
     chkDeleteLeft.Checked := chkDeleteLeft.Enabled;
-    chkDeleteRight.Enabled := DeleteRightCount > 0;
+    chkDeleteRight.Enabled := syncCount.deleteRightCount > 0;
     chkDeleteRight.Checked := chkDeleteRight.Enabled;
-    chkDeleteLeft.Caption := Format(rsDeleteLeft, [DeleteLeftCount]);
-    chkDeleteRight.Caption := Format(rsDeleteRight, [DeleteRightCount]);
+    chkDeleteLeft.Caption := Format(rsDeleteLeft, [syncCount.deleteLeftCount]);
+    chkDeleteRight.Caption := Format(rsDeleteRight, [syncCount.deleteRightCount]);
     chkLeftToRight.Caption :=
-      Format(rsLeftToRightCopy, [CopyRightCount, cnvFormatFileSize(CopyRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(CopyRightSize)]);
+      Format(rsLeftToRightCopy, [syncCount.copyToRightCount, cnvFormatFileSize(syncCount.copyToRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToRightSize)]);
     chkRightToLeft.Caption :=
-      Format(rsRightToLeftCopy, [CopyLeftCount, cnvFormatFileSize(CopyLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(CopyLeftSize)]);
+      Format(rsRightToLeftCopy, [syncCount.copyToLeftCount, cnvFormatFileSize(syncCount.copyToLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToLeftSize)]);
     if ShowModal = mrOk then
     begin
       EnableControls(False);
@@ -718,6 +689,7 @@ begin
       btnCompare.Click;
     end;
   finally
+    synchronizer.Free;
     Free;
   end;
 end;
@@ -1117,49 +1089,49 @@ begin
   end;
 end;
 
-function TfrmSyncDirsDlg.createCompareOption: TCompareOption;
+function TfrmSyncDirsDlg.createCompareOption: TSyncDirsCompareOption;
 var
-  flags: TCompareFlags;
+  flags: TSyncDirsCompareFlags;
 begin
   flags:= [];
   if self.chkOnlySelected.Checked then
-    Include( flags, TCompareFlag.cfOnlySelected );
+    Include( flags, TSyncDirsCompareFlag.cfOnlySelected );
   if self.chkEmptyDir.Checked then
-    Include( flags, TCompareFlag.cfEmptyDirs );
+    Include( flags, TSyncDirsCompareFlag.cfEmptyDirs );
   if self.chkAsymmetric.Checked then
-    Include( flags, TCompareFlag.cfAsymmetric );
+    Include( flags, TSyncDirsCompareFlag.cfAsymmetric );
   if self.chkSubDirs.Checked then
-    Include( flags, TCompareFlag.cfSubdirs );
+    Include( flags, TSyncDirsCompareFlag.cfSubdirs );
   if self.chkByContent.Checked then
-    Include( flags, TCompareFlag.cfByContent );
+    Include( flags, TSyncDirsCompareFlag.cfByContent );
   if self.chkIgnoreDate.Checked then
-    Include( flags, TCompareFlag.cfIgnoreDate );
+    Include( flags, TSyncDirsCompareFlag.cfIgnoreDate );
 
   if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then begin
     if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
-      Include( flags, TCompareFlag.cfNtfsShift );
+      Include( flags, TSyncDirsCompareFlag.cfNtfsShift );
   end;
 
-  Result:= TCompareOption.Create( flags );
+  Result:= TSyncDirsCompareOption.Create( flags );
 end;
 
 function TfrmSyncDirsDlg.createFilterFlags: TFilterFlags;
 begin
   Result:= [];
   if self.sbCopyRight.Down then
-    Include( Result, TFilterFlag.ffCopyRight );
+    Include( Result, TSyncDirsFilterFlag.ffCopyRight );
   if self.sbCopyLeft.Down then
-    Include( Result, TFilterFlag.ffCopyLeft );
+    Include( Result, TSyncDirsFilterFlag.ffCopyLeft );
   if self.sbEqual.Down then
-    Include( Result, TFilterFlag.ffEqual );
+    Include( Result, TSyncDirsFilterFlag.ffEqual );
   if self.sbNotEqual.Down then
-    Include( Result, TFilterFlag.ffNotEqual );
+    Include( Result, TSyncDirsFilterFlag.ffNotEqual );
   if self.sbUnknown.Down then
-    Include( Result, TFilterFlag.ffUnknown );
+    Include( Result, TSyncDirsFilterFlag.ffUnknown );
   if self.sbDuplicates.Down then
-    Include( Result, TFilterFlag.ffDuplicate );
+    Include( Result, TSyncDirsFilterFlag.ffDuplicate );
   if self.sbSingles.Down then
-    Include( Result, TFilterFlag.ffSingle );
+    Include( Result, TSyncDirsFilterFlag.ffSingle );
 end;
 
 function TfrmSyncDirsDlg.createSelectionIndexes: TIntegerList;

@@ -1,6 +1,7 @@
 unit uSyncDirsModel;
 
 {$mode ObjFPC}{$H+}
+{$modeswitch advancedrecords}
 
 interface
 
@@ -12,6 +13,8 @@ uses
   uFile;
 
 type
+
+  { TSyncRecState }
 
   TSyncRecState = (
     srsUnknown,
@@ -29,7 +32,9 @@ type
     srsDeleted
   );
 
-  TCompareFlag = (
+  { TSyncDirsCompareFlag }
+
+  TSyncDirsCompareFlag = (
     cfOnlySelected,
     cfEmptyDirs,
     cfAsymmetric,
@@ -40,22 +45,24 @@ type
     cfNtfsShift
   );
 
-  TCompareFlags = set of TCompareFlag;
+  TSyncDirsCompareFlags = set of TSyncDirsCompareFlag;
 
-  { TCompareOption }
+  { TSyncDirsCompareOption }
 
-  TCompareOption = class
+  TSyncDirsCompareOption = class
   private
-    _flags: TCompareFlags;
+    _flags: TSyncDirsCompareFlags;
     _stateWithoutLeft: TSyncRecState;
 
   public
-    constructor Create(const flags: TCompareFlags);
-    property flags: TCompareFlags read _flags;
+    constructor Create(const flags: TSyncDirsCompareFlags);
+    property flags: TSyncDirsCompareFlags read _flags;
     property stateWithoutLeft: TSyncRecState read _stateWithoutLeft;
   end;
 
-  TFilterFlag = (
+  { TSyncDirsFilterFlag }
+
+  TSyncDirsFilterFlag = (
     ffCopyRight,
     ffCopyLeft,
     ffEqual,
@@ -65,7 +72,33 @@ type
     ffSingle
   );
 
-  TFilterFlags = set of TFilterFlag;
+  TFilterFlags = set of TSyncDirsFilterFlag;
+
+  { TSyncDirsSyncFlag }
+
+  TSyncDirsSyncFlag = (
+    sfCopyToLeft,
+    sfCopyToRight,
+    sfDeleteLeft,
+    sfDeleteRight
+  );
+
+  TSyncDirsSyncFlags = set of TSyncDirsSyncFlag;
+
+  { TSyncDirsSyncCount }
+
+  TSyncDirsSyncCount = record
+    copyToLeftSize: Int64;
+    copyToRightSize: Int64;
+    copyToLeftCount: Integer;
+    copyToRightCount: Integer;
+    deleteLeftCount: Integer;
+    deleteRightCount: Integer;
+
+    function copySize: Int64;
+    function copyCount: Integer;
+    function deleteCount: Integer;
+  end;
 
   { TFileSyncRec }
 
@@ -74,11 +107,11 @@ type
     _relPath: String;
     _state: TSyncRecState;
     _action: TSyncRecState;
-    _option: TCompareOption;
+    _option: TSyncDirsCompareOption;
     _leftFile: TFile;
     _rightFile: TFile;
   public
-    constructor Create(const option: TCompareOption; const relPath: String);
+    constructor Create(const option: TSyncDirsCompareOption; const relPath: String);
     destructor Destroy; override;
 
     procedure updateState; virtual;
@@ -97,7 +130,7 @@ type
     property leftFile: TFile read _leftFile write _leftFile;
     property rightFile: TFile read _rightFile write _rightFile;
 
-    property option: TCompareOption read _option;
+    property option: TSyncDirsCompareOption read _option;
   end;
 
   { TDirSyncRec }
@@ -197,9 +230,9 @@ type
 
 implementation
 
-{ TCompareOption }
+{ TSyncDirsCompareOption }
 
-constructor TCompareOption.Create(const flags: TCompareFlags);
+constructor TSyncDirsCompareOption.Create(const flags: TSyncDirsCompareFlags);
 begin
   _flags:= flags;
   if cfAsymmetric in flags then
@@ -208,9 +241,26 @@ begin
     _stateWithoutLeft:= srsCopyToLeft;
 end;
 
+{ TSyncDirsSyncCount }
+
+function TSyncDirsSyncCount.copySize: Int64;
+begin
+  Result:= self.copyToLeftSize + self.copyToRightSize;
+end;
+
+function TSyncDirsSyncCount.copyCount: Integer;
+begin
+  Result:= self.copyToLeftCount + self.copyToRightCount;
+end;
+
+function TSyncDirsSyncCount.deleteCount: Integer;
+begin
+  Result:= self.deleteLeftCount + self.deleteRightCount;
+end;
+
 { TFileSyncRec }
 
-constructor TFileSyncRec.Create(const option: TCompareOption;
+constructor TFileSyncRec.Create(const option: TSyncDirsCompareOption;
   const relPath: String);
 begin
   _option:= option;
