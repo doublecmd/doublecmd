@@ -161,7 +161,7 @@ type
     { private declarations }
     FCancel: Boolean;
     FScanning: Boolean;
-    FService: TSyncDirsService;
+    FSortService: TSyncDirsSortService;
     FFullTree: TTwoLevelTree;
     FFilteredList: TFlatDirFileList;
     FSortIndex: Integer;
@@ -198,8 +198,8 @@ type
     procedure SetSortIndex(AValue: Integer);
     procedure UpdateStatusBar;
     procedure EnableControls(AEnabled: Boolean);
-    procedure DeleteFiles(ALeft, ARight: Boolean);
-    procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
+    procedure DeleteSelectedFiles(ALeft, ARight: Boolean);
+    procedure GetDeleteList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
 
@@ -949,16 +949,16 @@ procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
 var
   s: string;
 begin
-  FService.sortIndex := AValue;
+  FSortService.sortIndex := AValue;
   if AValue = FSortIndex then
   begin
     s := HeaderDG.Columns[AValue].Title.Caption;
     UTF8Delete(s, 1, 1);
     FSortDesc := not FSortDesc;
-    FService.sortDesc := FSortDesc;
+    FSortService.sortDesc := FSortDesc;
     s := getSortIndicator() + s;
     HeaderDG.Columns[AValue].Title.Caption := s;
-    FService.sortTree(FFullTree);
+    FSortService.sortTree(FFullTree);
     FillFoundItemsDG;
   end else begin
     if FSortIndex >= 0 then
@@ -969,10 +969,10 @@ begin
     end;
     FSortIndex := AValue;
     FSortDesc := False;
-    FService.sortDesc := FSortDesc;
+    FSortService.sortDesc := FSortDesc;
     with HeaderDG.Columns[FSortIndex].Title do
       Caption := getSortIndicator() + Caption;
-    FService.sortTree(FFullTree);
+    FSortService.sortTree(FFullTree);
     FillFoundItemsDG;
   end;
 end;
@@ -1089,7 +1089,7 @@ begin
     FCmpFilePathL := BaseDirL;
     FCmpFilePathR := BaseDirR;
 
-    builder:= TSyncDirsTreeBuilder.Create( self, FService, FCompareOption );
+    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption );
     builder.baseDirL:= BaseDirL;
     builder.baseDirR:= BaseDirR;
     builder.fileSourceL:= FFileSourceL;
@@ -1269,7 +1269,7 @@ begin
   Result:= pnlProgress.Visible;
 end;
 
-procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
+procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);
 
   procedure countSelectedDeletableItems(var leftCount: Integer; var rightCount: Integer);
   var
@@ -1333,7 +1333,7 @@ begin
         ALeftList:= TFiles.Create(EmptyStr);
       if ARight then
         ARightList:= TFiles.Create(EmptyStr);
-      UpdateList(ALeftList, ARightList, ALeft, ARight);
+      GetDeleteList(ALeftList, ARightList, ALeft, ARight);
 
       if ALeft then fileProcessorWithUIDeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then fileProcessorWithUIDeleteFiles(FCmpFileSourceR, ARightList);
@@ -1430,7 +1430,7 @@ end;
 
   it eliminates the need to actually delete these items from FullTree.
 }
-procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
+procedure TfrmSyncDirsDlg.GetDeleteList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
 
   procedure doRemoveItem(const index: Integer);
   var
@@ -1535,7 +1535,7 @@ var
   AFiles: TFiles;
 begin
   inherited Create(AOwner);
-  FService := TSyncDirsService.Create;
+  FSortService := TSyncDirsSortService.Create;
   FFullTree := TTwoLevelTree.Create;
   FFilteredList := TFlatDirFileList.Create;
   FFileSourceL := FileView1.FileSource;
@@ -1604,7 +1604,7 @@ begin
   FFilteredList.Free;
   FSelectedItems.Free;
   FFullTree.Free;
-  FService.Free;
+  FSortService.Free;
   FCompareOption.Free;
   inherited Destroy;
 end;
@@ -1616,7 +1616,7 @@ var
 begin
   try
     indexes:= self.createSelectionIndexes;
-    sl:= FService.selectionToStringList(FFilteredList, indexes, FCompareOption);
+    sl:= TSyncDirsFileUtil.selectionToStringList(FFilteredList, indexes, FCompareOption);
     ClipboardSetText(sl.Text);
   finally
     FreeAndNil(sl);
@@ -1666,17 +1666,17 @@ end;
 
 procedure TfrmSyncDirsDlg.cm_DeleteLeft(const Params: array of string);
 begin
-  DeleteFiles(True, False);
+  DeleteSelectedFiles(True, False);
 end;
 
 procedure TfrmSyncDirsDlg.cm_DeleteRight(const Params: array of string);
 begin
-  DeleteFiles(False, True);
+  DeleteSelectedFiles(False, True);
 end;
 
 procedure TfrmSyncDirsDlg.cm_DeleteBoth(const Params: array of string);
 begin
-  DeleteFiles(True, True);
+  DeleteSelectedFiles(True, True);
 end;
 
 initialization

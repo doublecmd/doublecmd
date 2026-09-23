@@ -46,6 +46,11 @@ type
     class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
   public
+    class function selectionToStringList(
+      const FFilteredList: TFlatDirFileList;
+      const indexes: TIntegerList;
+      const Option: TSyncDirsCompareOption ): TStringList;
+  public
     class function copyFiles(
       const sourceFS: IFileSource;
       const targetFS: IFileSource;
@@ -74,19 +79,15 @@ type
       const f: TFile): Boolean;
   end;
 
-  { TSyncDirsService }
+  { TSyncDirsSortService }
 
-  TSyncDirsService = class
+  TSyncDirsSortService = class
   private
     _sortIndex: Integer;
     _sortDesc: Boolean;
   public
     procedure sortTree( const tree: TTwoLevelTree );
     procedure sortDirItem( const dirItem: TTwoLevelTreeDirItem );
-    function selectionToStringList(
-      const FFilteredList: TFlatDirFileList;
-      const indexes: TIntegerList;
-      const Option: TSyncDirsCompareOption ): TStringList;
 
     property sortIndex: Integer write _sortIndex;
     property sortDesc: Boolean write _sortDesc;
@@ -106,7 +107,7 @@ type
   TSyncDirsTreeBuilder = class
   private
     _callback: ISyncDirsTreeBuilderCallback;
-    _sortedService: TSyncDirsService;
+    _sortedService: TSyncDirsSortService;
     _compareOption: TSyncDirsCompareOption;
     _baseDirL: String;
     _baseDirR: String;
@@ -117,7 +118,7 @@ type
   public
     constructor Create(
       const callback: ISyncDirsTreeBuilderCallback;
-      const sortService: TSyncDirsService;
+      const sortService: TSyncDirsSortService;
       const compareOption: TSyncDirsCompareOption );
     procedure build( const FFullTree: TTwoLevelTree );
 
@@ -226,6 +227,59 @@ begin
   Result:= consultCopyOperation(params);
 end;
 
+class function TSyncDirsFileUtil.selectionToStringList(
+  const FFilteredList: TFlatDirFileList;
+  const indexes: TIntegerList;
+  const Option: TSyncDirsCompareOption ): TStringList;
+
+  procedure PrintRow(sl: TStringList; R: Integer);
+  var
+    s: string;
+    SyncRec: TFileSyncRec;
+  begin
+    SyncRec := FFilteredList.fileSyncRec(R);
+    if SyncRec.isDir then
+    begin
+      s := FFilteredList.path(R);
+      if cfEmptyDirs in Option.flags then begin
+        if SyncRec.state <> srsDoNothing then
+          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
+      end;
+    end
+    else
+    begin
+      if Assigned(SyncRec.leftFile) then
+      begin
+        s := FFilteredList.path(R) + #9 +
+             IntToStrTS(SyncRec.leftFile.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
+      end
+      else
+      begin
+        s := #9#9;
+      end;
+      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
+      if Assigned(SyncRec.rightFile) then
+      begin
+        s := s +
+             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
+             IntToStrTS(SyncRec.rightFile.Size) + #9 +
+             FFilteredList.path(R);
+      end;
+    end;
+    sl.Add(s);
+  end;
+
+var
+  sl: TStringList;
+  i: Integer;
+begin
+  sl:= TStringList.Create;
+  for i:= 0 to indexes.Count-1 do
+    PrintRow(sl, indexes[i]);
+  Result:= sl;
+end;
+
 class function TSyncDirsFileUtil.copyFiles(
   const sourceFS: IFileSource;
   const targetFS: IFileSource;
@@ -316,9 +370,9 @@ begin
   end;
 end;
 
-{ TSyncDirsService }
+{ TSyncDirsSortService }
 
-procedure TSyncDirsService.sortTree( const tree: TTwoLevelTree );
+procedure TSyncDirsSortService.sortTree( const tree: TTwoLevelTree );
 var
   i: Integer;
 begin
@@ -328,7 +382,7 @@ begin
     self.sortDirItem( tree.dirItem(i) );
 end;
 
-procedure TSyncDirsService.sortDirItem( const dirItem: TTwoLevelTreeDirItem );
+procedure TSyncDirsSortService.sortDirItem( const dirItem: TTwoLevelTreeDirItem );
 
   function CompareFn(sl: TStringList; i, j: Integer): Integer;
   var
@@ -434,64 +488,11 @@ begin
   QuickSort( 0, dirItem.fileCount-1, dirItem.files );
 end;
 
-function TSyncDirsService.selectionToStringList(
-  const FFilteredList: TFlatDirFileList;
-  const indexes: TIntegerList;
-  const Option: TSyncDirsCompareOption ): TStringList;
-
-  procedure PrintRow(sl: TStringList; R: Integer);
-  var
-    s: string;
-    SyncRec: TFileSyncRec;
-  begin
-    SyncRec := FFilteredList.fileSyncRec(R);
-    if SyncRec.isDir then
-    begin
-      s := FFilteredList.path(R);
-      if cfEmptyDirs in Option.flags then begin
-        if SyncRec.state <> srsDoNothing then
-          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
-      end;
-    end
-    else
-    begin
-      if Assigned(SyncRec.leftFile) then
-      begin
-        s := FFilteredList.path(R) + #9 +
-             IntToStrTS(SyncRec.leftFile.Size) + #9 +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
-      end
-      else
-      begin
-        s := #9#9;
-      end;
-      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
-      if Assigned(SyncRec.rightFile) then
-      begin
-        s := s +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
-             IntToStrTS(SyncRec.rightFile.Size) + #9 +
-             FFilteredList.path(R);
-      end;
-    end;
-    sl.Add(s);
-  end;
-
-var
-  sl: TStringList;
-  i: Integer;
-begin
-  sl:= TStringList.Create;
-  for i:= 0 to indexes.Count-1 do
-    PrintRow(sl, indexes[i]);
-  Result:= sl;
-end;
-
 { TSyncDirsTreeBuilder }
 
 constructor TSyncDirsTreeBuilder.Create(
   const callback: ISyncDirsTreeBuilderCallback;
-  const sortService: TSyncDirsService;
+  const sortService: TSyncDirsSortService;
   const compareOption: TSyncDirsCompareOption );
 begin
   _callback:= callback;
