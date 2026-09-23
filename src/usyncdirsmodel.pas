@@ -851,6 +851,10 @@ var
       if rec.isDir then begin
         if rec.state = srsDoNothing then
           break;
+        if cascadingAction = srsDoNothing then begin
+          if NOT (rec.action in [srsDeleteLeft, srsDeleteRight, srsDeleteBoth]) then
+            break;
+        end;
         doUpdateAction(index, cascadingAction);
       end;
       Dec(index);
@@ -878,6 +882,12 @@ var
       while index < self.Count do
       begin
         rec:= self.fileSyncRec(index);
+        if cascadingAction = srsDoNothing then begin
+          if NOT (rec.action in [srsCopyToLeft, srsCopyToRight]) then begin
+            Inc(index);
+            continue;
+          end;
+        end;
         if NOT PathIsInPath(rec.relPath, basePath) then
           break;
         doUpdateAction(index, cascadingAction);
@@ -905,10 +915,14 @@ var
         checkAncestorsDirs(index, rec.action);
       srsDeleteLeft,
       srsDeleteRight,
-      srsDeleteBoth,
-      srsDoNothing:
+      srsDeleteBoth:
         if rec.isDir then
           uncheckDescendantsDirsAndFiles(index, rec.action);
+      srsDoNothing:
+        if rec.isDir then
+          uncheckDescendantsDirsAndFiles(index, rec.action)
+        else
+          checkAncestorsDirs(index, rec.action);
     end;
   end;
 
