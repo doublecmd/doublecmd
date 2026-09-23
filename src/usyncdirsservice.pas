@@ -275,8 +275,8 @@ var
   i: Integer;
 begin
   sl:= TStringList.Create;
-  for i:= 0 to indexes.Count-1 do
-    PrintRow(sl, indexes[i]);
+  for i in indexes do
+    PrintRow( sl, i );
   Result:= sl;
 end;
 

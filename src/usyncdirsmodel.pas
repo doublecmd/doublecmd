@@ -203,6 +203,8 @@ type
     function fileSyncRec( const index: Integer ): TFileSyncRec;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
+    procedure countDeletable(const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer);
+    procedure deleteAndGetSelected(const indexes: TIntegerList; const leftFiles: TFiles; const rightFiles: TFiles);
 
     procedure setNewAction( const indexes: TIntegerList; const newAction: TSyncRecState );
   end;
@@ -807,6 +809,74 @@ begin
     Inc( Result );
   end;
   Dec( Result );
+end;
+
+procedure TFlatDirFileList.countDeletable(
+  const indexes: TIntegerList;
+  out leftCount: Integer;
+  out rightCount: Integer);
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  leftCount:= 0;
+  rightCount:= 0;
+  for i in indexes do begin
+    rec:= self.fileSyncRec( i );
+    if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
+      continue;
+    if Assigned(rec.leftFile) then
+      Inc( leftCount );
+    if Assigned(rec.rightFile) then
+      Inc( rightCount );
+  end;
+end;
+
+{
+  when deleting an item in FilterList, FullTree will be synchronized
+  the change via marking rather than actual deletion.
+
+  if an item is deleted from FilteredList during the process,
+  the SyncRec.state of that item will be marked as srsDeleted.
+
+  since FilteredList and FullTree share the SyncRec, accessing
+  the SyncRec.state of the item via FullTree also yields srcDeleted.
+
+  it eliminates the need to actually delete these items from FullTree.
+}
+procedure TFlatDirFileList.deleteAndGetSelected(
+  const indexes: TIntegerList;
+  const leftFiles: TFiles;
+  const rightFiles: TFiles );
+
+  procedure doRemoveItem(const index: Integer);
+  var
+    rec: TFileSyncRec;
+  begin
+    rec:= self.fileSyncRec(index);
+
+    if Assigned(leftFiles) and rec.isDeletable(True) then begin
+      leftFiles.Add(rec.leftFile.Clone);
+      self.removeLeft( index );
+    end;
+
+    if Assigned(rightFiles) and rec.isDeletable(False) then begin
+      rightFiles.Add(rec.rightFile.Clone);
+      self.removeRight( index );
+    end;
+
+    if Assigned(rec.leftFile) or Assigned(rec.rightFile) then begin
+      rec.updateState;
+    end else begin
+      self.FullyDelete(index);
+    end;
+  end;
+
+var
+  i: Integer;
+begin
+  for i:=indexes.Count-1 downto 0 do
+    doRemoveItem( indexes[i] );
 end;
 
 procedure TFlatDirFileList.setNewAction(

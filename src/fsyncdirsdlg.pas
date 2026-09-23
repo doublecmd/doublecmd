@@ -199,10 +199,9 @@ type
     procedure UpdateStatusBar;
     procedure EnableControls(AEnabled: Boolean);
     procedure DeleteSelectedFiles(ALeft, ARight: Boolean);
-    procedure GetDeleteList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
+    procedure GetDeleteList(leftFiles, rightFiles: TFiles);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
-
 
   private
     function fileProcessorWithUICopyFiles(
@@ -1270,29 +1269,9 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);
-
-  procedure countSelectedDeletableItems(var leftCount: Integer; var rightCount: Integer);
-  var
-    i: Integer;
-    rec: TFileSyncRec;
-  begin
-    leftCount:= 0;
-    rightCount:= 0;
-    for i:= 0 to FFilteredList.Count-1 do begin
-      if NOT MainDrawGrid.IsCellSelected[0,i] then
-        continue;
-      rec:= FFilteredList.fileSyncRec(i);
-      if rec.isDir and NOT (cfEmptyDirs in FCompareOption.flags) then
-        continue;
-      if Assigned(rec.leftFile) then
-        Inc( leftCount );
-      if Assigned(rec.rightFile) then
-        Inc( rightCount );
-    end;
-  end;
-
 var
   Message: String;
+  indexes: TIntegerList = nil;
   ALeftList: TFiles = nil;
   ARightList: TFiles = nil;
   leftCount: Integer;
@@ -1301,7 +1280,8 @@ var
 begin
   try
     Message:= EmptyStr;
-    countSelectedDeletableItems( leftCount, rightCount );
+    indexes:= self.createSelectionIndexes;
+    FFilteredList.countDeletable( indexes, leftCount, rightCount);
 
     ALeft:= ALeft and (leftCount > 0);
     ARight:= ARight and (rightCount > 0);
@@ -1333,7 +1313,7 @@ begin
         ALeftList:= TFiles.Create(EmptyStr);
       if ARight then
         ARightList:= TFiles.Create(EmptyStr);
-      GetDeleteList(ALeftList, ARightList, ALeft, ARight);
+      GetDeleteList(ALeftList, ARightList);
 
       if ALeft then fileProcessorWithUIDeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then fileProcessorWithUIDeleteFiles(FCmpFileSourceR, ARightList);
@@ -1342,6 +1322,7 @@ begin
   finally
     ALeftList.Free;
     ARightList.Free;
+    indexes.Free;
   end;
 end;
 
@@ -1418,70 +1399,19 @@ begin
   files.Free;
 end;
 
-{
-  when deleting an item in FilterList, FullTree will be synchronized
-  the change via marking rather than actual deletion.
-
-  if an item is deleted from FilteredList during the process,
-  the SyncRec.state of that item will be marked as srsDeleted.
-
-  since FilteredList and FullTree share the SyncRec, accessing
-  the SyncRec.state of the item via FullTree also yields srcDeleted.
-
-  it eliminates the need to actually delete these items from FullTree.
-}
-procedure TfrmSyncDirsDlg.GetDeleteList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
-
-  procedure doRemoveItem(const index: Integer);
-  var
-    rec: TFileSyncRec;
-  begin
-    rec:= FFilteredList.fileSyncRec(index);
-
-    if ARemoveLeft and rec.isDeletable(True) then begin
-      ALeft.Add(rec.leftFile.Clone);
-      FFilteredList.removeLeft( index );
-    end;
-
-    if ARemoveRight and rec.isDeletable(False) then begin
-      ARight.Add(rec.rightFile.Clone);
-      FFilteredList.removeRight( index );
-    end;
-
-    if Assigned(rec.leftFile) or Assigned(rec.rightFile) then
-      rec.updateState
-    else begin
-      // don't call MainDrawGrid.DeleteRow() here, it may cause MainDrawGrid.Row changed
-      // then cause MainDrawGrid.Selection and MainDrawGrid.IsCellSelected() changed
-      FFilteredList.FullyDelete(index);
-    end;
-  end;
-
-  procedure processMultiSelection;
-  var
-    i: Integer;
-  begin
-    for i:= FFilteredList.Count-1 downto 0 do begin
-      if MainDrawGrid.IsCellSelected[0,i] then
-        doRemoveItem( i );
-    end;
-  end;
-
+procedure TfrmSyncDirsDlg.GetDeleteList(leftFiles, rightFiles: TFiles);
+var
+  indexes: TIntegerList;
 begin
-  if (ARemoveLeft=False) and (ARemoveRight=False) then
+  if (leftFiles=nil) and (rightFiles=nil) then
     Exit;
 
-  MainDrawGrid.BeginUpdate;
+  indexes:= self.createSelectionIndexes;
   try
-    if MainDrawGrid.HasMultiSelection or (MainDrawGrid.Selection.Height>0) then begin
-      processMultiSelection;
-    end else begin
-      doRemoveItem(MainDrawGrid.Row);
-    end;
+    FFilteredList.deleteAndGetSelected(indexes, leftFiles, rightFiles);
     self.FillFoundItemsDG;
   finally
-    MainDrawGrid.RowCount := FFilteredList.Count;
-    MainDrawGrid.EndUpdate;
+    indexes.Free;
   end;
 end;
 
