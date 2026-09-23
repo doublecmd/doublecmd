@@ -404,52 +404,6 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
-
-  procedure removeAsymmetricRightEmptyDirs;
-    function isEmptyDir(const fs: IFileSource; const path: String): Boolean;
-    var
-      files: TFiles;
-      f: TFile;
-      i: Integer;
-    begin
-      Result:= False;
-      files:= fs.GetFiles(path);
-      try
-        for i:= 0 to files.Count-1 do begin
-          f:= files[i];
-          if (f.Name<>'.') and (f.Name<>'..') then
-            Exit;
-        end;
-        Result:= True;
-      finally
-        files.Free;
-      end;
-    end;
-
-  var
-    i: Integer;
-    syncRec: TFileSyncRec;
-  begin
-    if NOT (cfAsymmetric in FCompareOption.flags) then
-      Exit;
-    if NOT (cfEmptyDirs in FCompareOption.flags) then
-      Exit;
-
-    for i:= FFilteredList.Count-1 downto 0 do begin
-      syncRec:= FFilteredList.fileSyncRec(i);
-      if NOT syncRec.isDir then
-        continue;
-      if TDirSyncRec(syncRec).noFile then
-        continue;
-      if NOT Assigned(syncRec.rightFile) then
-        continue;
-      if Assigned(syncRec.leftFile) then
-        continue;
-      if isEmptyDir(FCmpFileSourceR,syncRec.rightFile.FullPath) then
-        fileProcessorWithUIDeleteFile(FCmpFileSourceR, syncRec.rightFile);
-    end;
-  end;
-
 var
   synchronizer: TSyncDirsSynchronizer;
   syncCount: TSyncDirsSyncCount;
@@ -521,7 +475,6 @@ begin
       pnlDeleteProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags);
 
       synchronizer.sync( syncFlags );
-      removeAsymmetricRightEmptyDirs;
 
       EnableControls(True);
       btnCompare.Click;
