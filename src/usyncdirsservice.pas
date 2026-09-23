@@ -297,6 +297,10 @@ class function TSyncDirsFileUtil.deleteFiles(
 var
   fsOperation: TFileSourceOperation;
 begin
+  Result:= True;
+  if files.Count = 0 then
+    Exit;
+
   files.Path:= files[0].Path;
   fsOperation:= fs.CreateDeleteOperation(files);
   Result:= Assigned( fsOperation );
