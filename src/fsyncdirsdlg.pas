@@ -1318,7 +1318,7 @@ end;
 
 procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
 
-  procedure countSelectedVisibleItems(var leftCount: Integer; var rightCount: Integer);
+  procedure countSelectedDeletableItems(var leftCount: Integer; var rightCount: Integer);
   var
     i: Integer;
     rec: TFileSyncRec;
@@ -1329,6 +1329,8 @@ procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
       if NOT MainDrawGrid.IsCellSelected[0,i] then
         continue;
       rec:= FFilteredList.fileSyncRec(i);
+      if rec.isDir and NOT (cfEmptyDirs in FCompareOption.flags) then
+        continue;
       if Assigned(rec.leftFile) then
         Inc( leftCount );
       if Assigned(rec.rightFile) then
@@ -1346,7 +1348,7 @@ var
 begin
   try
     Message:= EmptyStr;
-    countSelectedVisibleItems( leftCount, rightCount );
+    countSelectedDeletableItems( leftCount, rightCount );
 
     ALeft:= ALeft and (leftCount > 0);
     ARight:= ARight and (rightCount > 0);
