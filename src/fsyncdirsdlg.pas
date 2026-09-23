@@ -1525,7 +1525,7 @@ begin
     end else begin
       doRemoveItem(MainDrawGrid.Row);
     end;
-    self.InitVisibleItems;
+    self.FillFoundItemsDG;
   finally
     MainDrawGrid.RowCount := FFilteredList.Count;
     MainDrawGrid.EndUpdate;
