@@ -93,6 +93,23 @@ type
     property sortDesc: Boolean write _sortDesc;
   end;
 
+  { TSyncDirsDeleteService }
+
+  TSyncDirsDeleteService = class
+  private
+    _fileProcessor: ISyncDirsFileProcessorWithUI;
+    _filteredList: TFlatDirFileList;
+    _leftFS: IFileSource;
+    _rightFS: IFileSource;
+  public
+    constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList );
+    procedure count( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
+    procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
+
+    property leftFS: IFileSource write _leftFS;
+    property rightFS: IFileSource write _rightFS;
+  end;
+
   { ISyncDirsTreeBuilderCallback }
 
   ISyncDirsTreeBuilderCallback = interface
@@ -486,6 +503,63 @@ procedure TSyncDirsSortService.sortDirItem( const dirItem: TTwoLevelTreeDirItem 
 
 begin
   QuickSort( 0, dirItem.fileCount-1, dirItem.files );
+end;
+
+{ TSyncDirsDeleteService }
+
+constructor TSyncDirsDeleteService.Create(
+  const fileProcessor: ISyncDirsFileProcessorWithUI;
+  const filteredList: TFlatDirFileList );
+begin
+  _fileProcessor:= fileProcessor;
+  _filteredList:= filteredList;
+end;
+
+procedure TSyncDirsDeleteService.count(
+  const indexes: TIntegerList;
+  out leftCount: Integer;
+  out rightCount: Integer);
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  leftCount:= 0;
+  rightCount:= 0;
+  for i in indexes do begin
+    rec:= _filteredList.fileSyncRec( i );
+    if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
+      continue;
+    if Assigned(rec.leftFile) then
+      Inc( leftCount );
+    if Assigned(rec.rightFile) then
+      Inc( rightCount );
+  end;
+end;
+
+procedure TSyncDirsDeleteService.delete(
+  const indexes: TIntegerList;
+  const deleteLeft: Boolean;
+  const deleteRight: Boolean );
+var
+  leftFiles: TFiles = nil;
+  rightFiles: TFiles = nil;
+begin
+  try
+    if deleteLeft then
+      leftFiles:= TFiles.Create(EmptyStr);
+    if deleteRight then
+      rightFiles:= TFiles.Create(EmptyStr);
+
+    _filteredList.deleteAndGetSelected( indexes, leftFiles, rightFiles );
+
+    if deleteLeft then
+      _fileProcessor.fileProcessorWithUIDeleteFiles( _leftFS, leftFiles );
+    if deleteRight then
+      _fileProcessor.fileProcessorWithUIDeleteFiles( _rightFS, rightFiles );
+  finally
+    leftFiles.Free;
+    rightFiles.Free;
+  end;
 end;
 
 { TSyncDirsTreeBuilder }

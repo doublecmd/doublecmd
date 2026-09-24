@@ -203,7 +203,6 @@ type
     function fileSyncRec( const index: Integer ): TFileSyncRec;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
-    procedure countDeletable(const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer);
     procedure deleteAndGetSelected(const indexes: TIntegerList; const leftFiles: TFiles; const rightFiles: TFiles);
 
     procedure setNewAction( const indexes: TIntegerList; const newAction: TSyncRecState );
@@ -809,27 +808,6 @@ begin
     Inc( Result );
   end;
   Dec( Result );
-end;
-
-procedure TFlatDirFileList.countDeletable(
-  const indexes: TIntegerList;
-  out leftCount: Integer;
-  out rightCount: Integer);
-var
-  i: Integer;
-  rec: TFileSyncRec;
-begin
-  leftCount:= 0;
-  rightCount:= 0;
-  for i in indexes do begin
-    rec:= self.fileSyncRec( i );
-    if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
-      continue;
-    if Assigned(rec.leftFile) then
-      Inc( leftCount );
-    if Assigned(rec.rightFile) then
-      Inc( rightCount );
-  end;
 end;
 
 {

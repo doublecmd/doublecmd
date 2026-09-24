@@ -199,7 +199,6 @@ type
     procedure UpdateStatusBar;
     procedure EnableControls(AEnabled: Boolean);
     procedure DeleteSelectedFiles(ALeft, ARight: Boolean);
-    procedure GetDeleteList(leftFiles, rightFiles: TFiles);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
 
@@ -1270,18 +1269,19 @@ end;
 
 procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);
 var
+  deleteService: TSyncDirsDeleteService;
   Message: String;
   indexes: TIntegerList = nil;
-  ALeftList: TFiles = nil;
-  ARightList: TFiles = nil;
   leftCount: Integer;
   rightCount: Integer;
-
 begin
+  deleteService:= TSyncDirsDeleteService.Create(self, FFilteredList);
+  deleteService.leftFS:= FCmpFileSourceL;
+  deleteService.rightFS:= FCmpFileSourceR;
+
   try
-    Message:= EmptyStr;
     indexes:= self.createSelectionIndexes;
-    FFilteredList.countDeletable( indexes, leftCount, rightCount);
+    deleteService.count( indexes, leftCount, rightCount);
 
     ALeft:= ALeft and (leftCount > 0);
     ARight:= ARight and (rightCount > 0);
@@ -1291,37 +1291,28 @@ begin
     FDeleteStatistics.DoneFiles:= 0;
     FDeleteStatistics.TotalFiles:= 0;
 
-    if ALeft then
-    begin
+    Message:= EmptyStr;
+    if ALeft then begin
       FDeleteStatistics.TotalFiles+= leftCount;
       Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [leftCount]) + LineEnding;
     end;
-
-    if ARight then
-    begin
+    if ARight then begin
       FDeleteStatistics.TotalFiles+= rightCount;
       Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [rightCount]) + LineEnding;
     end;
 
-    if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
-    begin
+    if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
       EnableControls(False);
       pnlCopyProgress.Visible:= False;
       pnlDeleteProgress.Visible:= True;
 
-      if ALeft then
-        ALeftList:= TFiles.Create(EmptyStr);
-      if ARight then
-        ARightList:= TFiles.Create(EmptyStr);
-      GetDeleteList(ALeftList, ARightList);
+      deleteService.delete(indexes, ALeft, ARight);
+      self.FillFoundItemsDG;
 
-      if ALeft then fileProcessorWithUIDeleteFiles(FCmpFileSourceL, ALeftList);
-      if ARight then fileProcessorWithUIDeleteFiles(FCmpFileSourceR, ARightList);
       EnableControls(True);
     end;
   finally
-    ALeftList.Free;
-    ARightList.Free;
+    deleteService.Free;
     indexes.Free;
   end;
 end;
@@ -1397,22 +1388,6 @@ begin
   files.Add(f);
   Result:= fileProcessorWithUIDeleteFiles(FileSource, files);
   files.Free;
-end;
-
-procedure TfrmSyncDirsDlg.GetDeleteList(leftFiles, rightFiles: TFiles);
-var
-  indexes: TIntegerList;
-begin
-  if (leftFiles=nil) and (rightFiles=nil) then
-    Exit;
-
-  indexes:= self.createSelectionIndexes;
-  try
-    FFilteredList.deleteAndGetSelected(indexes, leftFiles, rightFiles);
-    self.FillFoundItemsDG;
-  finally
-    indexes.Free;
-  end;
 end;
 
 procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
