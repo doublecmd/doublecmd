@@ -18,6 +18,7 @@ type
     FAddressLabel: TPathLabel;
     FPathLabel: TPathLabel;
     FPathEdit: TKASPathEdit;
+    function GetDisplayPath: String;
     procedure HeaderResize(Sender: TObject);
     procedure PathEditExit(Sender: TObject);
     procedure onKeyESCAPE(Sender: TObject);
@@ -102,6 +103,11 @@ const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
 
 { TFileViewHeader }
+
+function TFileViewHeader.GetDisplayPath: String;
+begin
+  Result := FFileView.CurrentPath + FFileView.FileFilter;
+end;
 
 procedure TFileViewHeader.PathEditExit(Sender: TObject);
 begin
@@ -346,13 +352,18 @@ end;
 // 2. so set hint to the full path, only when the path in PathLabel is shortened
 //    due to insufficient width
 procedure TFileViewHeader.HeaderShowHint(Sender: TObject; HintInfo: PHintInfo);
+var
+  DisplayPath: String;
 begin
   HintInfo^.HintStr := '';
   if FFileView.CurrentAddress<>'' then
     exit;
 
-  if IncludeTrailingPathDelimiter(FPathLabel.Caption) <> FFileView.CurrentPath then
-    HintInfo^.HintStr := FFileView.CurrentPath;
+  DisplayPath := FPathLabel.Caption;
+  if FFileView.FileFilter = EmptyStr then
+    DisplayPath := IncludeTrailingPathDelimiter(DisplayPath);
+  if DisplayPath <> GetDisplayPath then
+    HintInfo^.HintStr := GetDisplayPath;
 end;
 
 procedure TFileViewHeader.UpdateAddressLabel;
@@ -371,7 +382,8 @@ end;
 
 procedure TFileViewHeader.UpdatePathLabel;
 begin
-  FPathLabel.Caption := MinimizeFilePath(FFileView.CurrentPath, FPathLabel.Canvas, FPathLabel.Width);
+  FPathLabel.Path := FFileView.CurrentPath;
+  FPathLabel.Caption := MinimizeFilePath(GetDisplayPath, FPathLabel.Canvas, FPathLabel.Width);
 end;
 
 procedure TFileViewHeader.UpdateColor;

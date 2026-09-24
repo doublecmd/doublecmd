@@ -80,7 +80,6 @@ type
     procedure LoadControlStates;
     procedure PushFilter;
     procedure PopFilter;
-    procedure ClearFilter;
     procedure CancelFilter;
     procedure SetFocus(Data: PtrInt);
     procedure RestoreFocus(Data: PtrInt);
@@ -95,6 +94,7 @@ type
     destructor Destroy; override;
     procedure CloneTo(AQuickSearch: TfrmQuickSearch);
     procedure Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
+    procedure ClearFilter;
     procedure Reset;
     procedure Finalize;
     function CheckSearchOrFilter(var Key: Word): Boolean; overload;
