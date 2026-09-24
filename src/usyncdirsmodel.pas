@@ -669,16 +669,18 @@ function TFlatDirFileList.findParentDirRec(const childIndex: Integer): TDirSyncR
 var
   i: Integer;
   rec: TFileSyncRec;
+  basePath: String;
 begin
   Result:= nil;
   rec:= self.fileSyncRec( childIndex );
-  if rec.isDir then
-    Exit;
+  basePath:= IncludeTrailingPathDelimiter(rec.relPath);
   for i:= childIndex-1 downto 0 do begin
     rec:= self.fileSyncRec( i );
     if rec.relPath = EmptyStr then
       break;
     if NOT rec.isDir then
+      continue;
+    if NOT PathIsInPath(basePath, rec.relPath) then
       continue;
     Result:= TDirSyncRec( rec );
     Exit;
