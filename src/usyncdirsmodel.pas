@@ -920,8 +920,7 @@ var
     basePath:= IncludeTrailingPathDelimiter(rec.relPath);
     Inc(index);
     if NOT (cfEmptyDirs in rec._option.flags) then begin
-      while index < self.Count do
-      begin
+      while index < self.Count do begin
         rec:= self.fileSyncRec(index);
         if rec.isDir then
           break;
@@ -929,8 +928,7 @@ var
         Inc(index);
       end;
     end else begin
-      while index < self.Count do
-      begin
+      while index < self.Count do begin
         rec:= self.fileSyncRec(index);
         if cascadingAction = srsDoNothing then begin
           if NOT (rec.action in [srsCopyToLeft, srsCopyToRight]) then begin

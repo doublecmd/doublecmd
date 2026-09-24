@@ -204,10 +204,10 @@ type
 
   private
     function fileProcessorWithUICopyFiles(
-      const src: IFileSource;
-      const dst: IFileSource;
-      const fs: TFiles;
-      const Dest: String): Boolean;
+      const sourceFS: IFileSource;
+      const targetFS: IFileSource;
+      var files: TFiles;
+      const targetPath: String): Boolean;
     function fileProcessorWithUIDeleteFiles(
       const FileSource: IFileSource;
       var Files: TFiles): Boolean;
@@ -1318,10 +1318,10 @@ begin
 end;
 
 function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
-  const src: IFileSource;
-  const dst: IFileSource;
-  const fs: TFiles;
-  const Dest: String): Boolean;
+  const sourceFS: IFileSource;
+  const targetFS: IFileSource;
+  var files: TFiles;
+  const targetPath: String): Boolean;
 
   procedure operationHandle( const operation: TFileSourceOperation; const state: TFileSourceOperationState );
   begin
@@ -1344,7 +1344,7 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
   end;
 
 begin
-  Result:= TSyncDirsFileUtil.copyFiles(src, dst, fs, Dest, @operationHandle );
+  Result:= TSyncDirsFileUtil.copyFiles(sourceFS, targetFS, files, targetPath, @operationHandle );
   if NOT Result then
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
 end;
