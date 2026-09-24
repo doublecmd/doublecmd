@@ -103,6 +103,7 @@ type
     FPublicKey, FPrivateKey: String;
     function Connect: Boolean; override;
     function DataSocket: Boolean; override;
+    procedure ApplyKeepAlive;
     function ListMachine(Directory: String): Boolean;
     procedure DoStatus(Response: Boolean; const Value: string); override;
     procedure OnSocketStatus(Sender: TObject; Reason: THookSocketReason; const Value: String);
@@ -135,7 +136,7 @@ type
   public
     property Encoding: String write SetEncoding;
     property UseAllocate: Boolean write FUseAllocate;
-    property TcpKeepAlive: Boolean write FTcpKeepAlive;
+    property TcpKeepAlive: Boolean read FTcpKeepAlive write FTcpKeepAlive;
     property PublicKey: String read FPublicKey write FPublicKey;
     property PrivateKey: String read FPrivateKey write FPrivateKey;
     property ShowHidden: Boolean read FShowHidden write FShowHidden;
@@ -427,21 +428,51 @@ begin
 end;
 
 function TFTPSendEx.Connect: Boolean;
+begin
+  Result:= inherited Connect;
+  if Result then
+  begin
+    LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+    ApplyKeepAlive;
+  end;
+end;
+
+{ Enable TCP keep-alive on the control socket so that connections survive long
+  idle periods: the probes keep NAT/firewall mappings open, and a peer that
+  silently went away is detected (the socket errors) instead of the link
+  appearing alive until the next operation blocks. Called for both the FTP
+  control connection and the SSH connection (see TScpSend.Connect). }
+procedure TFTPSendEx.ApplyKeepAlive;
+{$IFDEF UNIX}
+const
+  // From netinet/tcp.h (Linux). Defined locally to avoid an extra dependency.
+  TCP_KEEPIDLE_  = 4;   // begin probing after N seconds of idle
+  TCP_KEEPINTVL_ = 5;   // seconds between probes
+  TCP_KEEPCNT_   = 6;   // dropped after this many unanswered probes
+{$ENDIF}
 var
   Option: Cardinal = 1;
   Message: UnicodeString;
+{$IFDEF UNIX}
+  KeepIdle: Integer = 30;
+  KeepIntvl: Integer = 10;
+  KeepCnt: Integer = 3;
+{$ENDIF}
 begin
-  Result:= inherited Connect;
-  if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
-  // Apply TcpKeepAlive option
-  if FTcpKeepAlive and Result then
+  if not FTcpKeepAlive then Exit;
+  if SetSockOpt(FSock.Socket, SOL_SOCKET, SO_KEEPALIVE, @Option, SizeOf(Option)) <> 0 then
   begin
-    if SetSockOpt(FSock.Socket, SOL_SOCKET, SO_KEEPALIVE, @Option, SizeOf(Option)) <> 0 then
-    begin
-      Message := UTF8ToUTF16(FSock.GetErrorDesc(synsock.WSAGetLastError));
-      LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + Message));
-    end;
+    Message := UTF8ToUTF16(FSock.GetErrorDesc(synsock.WSAGetLastError));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + Message));
+    Exit;
   end;
+{$IFDEF UNIX}
+  // Probe idle connections within ~1 minute instead of the OS default (~2 h),
+  // so a dropped link is noticed on the next refresh and NAT mappings survive.
+  SetSockOpt(FSock.Socket, IPPROTO_TCP, TCP_KEEPIDLE_, @KeepIdle, SizeOf(KeepIdle));
+  SetSockOpt(FSock.Socket, IPPROTO_TCP, TCP_KEEPINTVL_, @KeepIntvl, SizeOf(KeepIntvl));
+  SetSockOpt(FSock.Socket, IPPROTO_TCP, TCP_KEEPCNT_, @KeepCnt, SizeOf(KeepCnt));
+{$ENDIF}
 end;
 
 function TFTPSendEx.DataSocket: Boolean;
