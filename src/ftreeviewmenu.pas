@@ -253,6 +253,24 @@ begin
   if TCustomTreeView(Sender).Color <> BackgroundColor then
     TCustomTreeView(Sender).Color := BackgroundColor;
 
+  // The default-drawn node text is not always covered exactly by our own
+  // painting done in cdPostPaint (with Qt6/Wayland the two use different
+  // x offsets, leaving the text visibly doubled), so paint the default text
+  // with the row background color to make it invisible instead of relying
+  // on erasing it later. Requires tvoThemedDraw to be off so the default
+  // drawing uses the canvas font color.
+  if Stage = cdPrePaint then
+  begin
+    if cdsSelected in State then
+    begin
+      TTreeView(Sender).Canvas.Font.Color := CursorColor;
+      TTreeView(Sender).Canvas.Brush.Color := CursorColor;
+    end
+    else
+      TTreeView(Sender).Canvas.Font.Color := BackgroundColor;
+    Exit;
+  end;
+
   if Stage = cdPostPaint then
   begin
     if Node <> nil then
