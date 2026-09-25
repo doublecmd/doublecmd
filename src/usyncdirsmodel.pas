@@ -593,13 +593,11 @@ procedure TTwoLevelTree.filterFlatListWithFlags(
   end;
 
   function isDirMatching(const syncRec: TFileSyncRec): Boolean;
-  var
-    dirSyncRec: TDirSyncRec absolute syncRec;
   begin
-    if syncRec.state = srsDoNothing then begin
-      Result:= True;
-    end else if dirSyncRec.noFile and (syncRec.state=srsEqual) then begin
+    if syncRec.state = srsDeleted then begin
       Result:= False;
+    end else if syncRec.state = srsDoNothing then begin
+      Result:= True;
     end else begin
       Result:= isMatching(syncRec);
     end;
