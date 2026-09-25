@@ -175,7 +175,7 @@ type
     FCmpFilePathL, FCmpFilePathR: string;
     FAddressL, FAddressR: string;
     hCols: array [0..6] of record Left, Width: Integer end;
-    Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
+    FFilteredCount: TSyncDirsFlatCount;
     FOperation: TFileSourceOperation;
     FileExistsOption: TFileSourceOperationOptionFileExists;
     SymLinkOption: TFileSourceOperationOptionSymLink;
@@ -991,38 +991,12 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.FillFoundItemsDG;
-
-  procedure CalcStat;
-  var
-    i: Integer;
-    r: TFileSyncRec;
-  begin
-    Ftotal := 0;
-    Fequal := 0;
-    Fnoneq := 0;
-    FuniqueL := 0;
-    FuniqueR := 0;
-    for i := 0 to FFilteredList.Count - 1 do
-    begin
-      r := FFilteredList.fileSyncRec(i);
-      if NOT r.isDir then
-      begin
-        Inc(Ftotal);
-        if Assigned(r.leftFile) and not Assigned(r.rightFile) then Inc(FuniqueL) else
-        if Assigned(r.rightFile) and not Assigned(r.leftFile) then Inc(FuniqueR);
-        if r.state = srsEqual then Inc(Fequal) else
-        if r.state = srsNotEq then Inc(Fnoneq) else
-        if Assigned(r.leftFile) and Assigned(r.rightFile) then Inc(Fnoneq);
-      end;
-    end;
-  end;
-
 begin
   InitVisibleItems;
   MainDrawGrid.ColCount := 1;
   MainDrawGrid.RowCount := FFilteredList.Count;
   MainDrawGrid.Invalidate;
-  CalcStat;
+  FFilteredCount:= FFilteredList.flatCount;
   UpdateStatusBar;
   if FFilteredList.Count > 0 then
   begin
@@ -1110,7 +1084,7 @@ end;
 procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var s: string;
 begin
-  s := Format(rsFilesFound, [Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR]);
+  s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
   if Assigned(FCheckContentThread)
   and not FCheckContentThread.Done then
     s := s + ' ...';
@@ -1182,8 +1156,8 @@ procedure TfrmSyncDirsDlg.onCheckContentThreadCountUpdated(
   const equalInc: Integer;
   const notEqInc: Integer);
 begin
-  Inc( Fequal, equalInc );
-  Inc( Fnoneq, notEqInc );
+  Inc( FFilteredCount.equal, equalInc );
+  Inc( FFilteredCount.notEqual, notEqInc );
 end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStart;

@@ -177,6 +177,16 @@ type
     property dirSyncRec: TDirSyncRec read _dirSyncRec;
   end;
 
+  { TSyncDirsFlatCount }
+
+  TSyncDirsFlatCount = record
+    total: Integer;
+    equal: Integer;
+    notEqual: Integer;
+    leftUnique: Integer;
+    rightUnique: Integer;
+  end;
+
   { TFlatDirFileList }
 
   TFlatDirFileList = class
@@ -201,6 +211,7 @@ type
     function Count: Integer;
     function path( const index: Integer ): String;
     function fileSyncRec( const index: Integer ): TFileSyncRec;
+    function flatCount: TSyncDirsFlatCount;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
     procedure deleteAndGetSelected(const indexes: TIntegerList; const leftFiles: TFiles; const rightFiles: TFiles);
@@ -789,6 +800,33 @@ end;
 function TFlatDirFileList.fileSyncRec(const index: Integer): TFileSyncRec;
 begin
   Result:= TFileSyncRec( _list.Objects[index] );
+end;
+
+function TFlatDirFileList.flatCount: TSyncDirsFlatCount;
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  Result:= Default( TSyncDirsFlatCount );
+  for i:= 0 to self.Count-1 do begin
+    rec:= self.fileSyncRec(i);
+    if rec.isDir then
+      continue;
+
+    Inc( Result.total);
+
+    if Assigned(rec.leftFile) and NOT Assigned(rec.rightFile) then
+      Inc( Result.leftUnique )
+    else if Assigned(rec.rightFile) and NOT Assigned(rec.leftFile) then
+      Inc( Result.rightUnique );
+
+    if rec.state = srsEqual then
+      Inc( Result.equal )
+    else if rec.state = srsNotEq then
+      Inc( Result.notEqual )
+    else if Assigned(rec.leftFile) and Assigned(rec.rightFile) then
+      Inc( Result.notEqual );
+  end;
 end;
 
 function TFlatDirFileList.lastFileInCurrentDir( const fromIndex: Integer ): Integer;
