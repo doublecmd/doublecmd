@@ -843,10 +843,38 @@ procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
     MainDrawGrid.Selection:= TGridRect.Create(0,fromIndex,3,toIndex);
   end;
 
+  procedure enableMenuItems;
+  var
+    indexes: TIntegerList;
+    leftCount: Integer;
+    rightCount: Integer;
+    hasLeft: Boolean;
+    hasRight: Boolean;
+    hasBoth: Boolean;
+  begin
+    indexes:= self.createSelectionIndexes;
+    FFilteredList.countLeftRight(indexes, leftCount, rightCount);
+    indexes.Free;
+
+    hasLeft:= (leftCount > 0);
+    hasRight:= (rightCount > 0);
+    hasBoth:= hasLeft AND hasRight;
+
+    miSelectCopyLeftToRight.Enabled:= hasLeft;
+    miSelectCopyRightToLeft.Enabled:= hasRight;
+    MenuItemViewLeft.Enabled:= hasLeft;
+    MenuItemViewRight.Enabled:= hasRight;
+    MenuItemCompare.Enabled:= hasBoth;          // Not accurate enough
+    miSelectDeleteLeft.Enabled := hasLeft;
+    miSelectDeleteRight.Enabled := hasRight;
+    miSelectDeleteBoth.Enabled := hasBoth;
+    miDeleteLeft.Enabled := hasLeft;
+    miDeleteRight.Enabled := hasRight;
+    miDeleteBoth.Enabled := hasBoth;
+  end;
 begin
-  miSelectDeleteLeft.Visible := not (cfAsymmetric in FCompareOption.flags);
-  miSelectDeleteBoth.Visible := not (cfAsymmetric in FCompareOption.flags);
   calcSelection;
+  enableMenuItems;
 end;
 
 procedure TfrmSyncDirsDlg.TimerTimer(Sender: TObject);
