@@ -764,7 +764,7 @@ var
 begin
   decParentDirRecChildrenCount( index, True );
   rec:= self.fileSyncRec( index );
-  FreeAndNil( rec._leftFile );
+  rec.leftFile:= nil;
 end;
 
 procedure TFlatDirFileList.removeRight(const index: Integer);
@@ -773,7 +773,7 @@ var
 begin
   decParentDirRecChildrenCount( index, False );
   rec:= self.fileSyncRec( index );
-  FreeAndNil( rec._rightFile );
+  rec.rightFile:= nil;
 end;
 
 function TFlatDirFileList.Count: Integer;
@@ -834,12 +834,12 @@ procedure TFlatDirFileList.deleteAndGetSelected(
     rec:= self.fileSyncRec(index);
 
     if Assigned(leftFiles) and rec.isDeletable(True) then begin
-      leftFiles.Add(rec.leftFile.Clone);
+      leftFiles.Add( rec.leftFile );
       self.removeLeft( index );
     end;
 
     if Assigned(rightFiles) and rec.isDeletable(False) then begin
-      rightFiles.Add(rec.rightFile.Clone);
+      rightFiles.Add( rec.rightFile );
       self.removeRight( index );
     end;
 
