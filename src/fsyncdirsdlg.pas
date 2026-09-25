@@ -1255,7 +1255,7 @@ begin
 
   try
     indexes:= self.createSelectionIndexes;
-    deleteService.count( indexes, leftCount, rightCount);
+    FFilteredList.countLeftRight(indexes, leftCount, rightCount);
 
     ALeft:= ALeft and (leftCount > 0);
     ARight:= ARight and (rightCount > 0);

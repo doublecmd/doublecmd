@@ -211,6 +211,7 @@ type
     function Count: Integer;
     function path( const index: Integer ): String;
     function fileSyncRec( const index: Integer ): TFileSyncRec;
+    procedure countLeftRight( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
     function flatCount: TSyncDirsFlatCount;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
@@ -800,6 +801,27 @@ end;
 function TFlatDirFileList.fileSyncRec(const index: Integer): TFileSyncRec;
 begin
   Result:= TFileSyncRec( _list.Objects[index] );
+end;
+
+procedure TFlatDirFileList.countLeftRight(
+  const indexes: TIntegerList;
+  out leftCount: Integer;
+  out rightCount: Integer );
+var
+  i: Integer;
+  rec: TFileSyncRec;
+begin
+  leftCount:= 0;
+  rightCount:= 0;
+  for i in indexes do begin
+    rec:= self.fileSyncRec( i );
+    if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
+      continue;
+    if Assigned(rec.leftFile) then
+      Inc( leftCount );
+    if Assigned(rec.rightFile) then
+      Inc( rightCount );
+  end;
 end;
 
 function TFlatDirFileList.flatCount: TSyncDirsFlatCount;
