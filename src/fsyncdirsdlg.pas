@@ -1329,9 +1329,12 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
   const targetFS: IFileSource;
   var files: TFiles;
   const targetPath: String): Boolean;
+var
+  supported: Boolean = False;
 
   procedure operationHandle( const operation: TFileSourceOperation; const state: TFileSourceOperationState );
   begin
+    supported:= True;
     case state of
       fsosStarting: begin
         operation.Elevate:= ElevateAction;
@@ -1354,16 +1357,21 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
 
 begin
   Result:= TSyncDirsUtil.copyFiles(sourceFS, targetFS, files, targetPath, @operationHandle );
-  if NOT Result then
-    MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+  if NOT Result then begin
+    if NOT supported then
+      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+  end;
 end;
 
 function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFiles(
   const FileSource: IFileSource;
   var Files: TFiles ): Boolean;
+var
+  supported: Boolean = False;
 
   procedure operationHandle( const operation: TFileSourceOperation; const state: TFileSourceOperationState );
   begin
+    supported:= True;
     case state of
       fsosStarting: begin
         if (operation is TFileSystemDeleteOperation) then begin
@@ -1382,8 +1390,10 @@ function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFiles(
   end;
 begin
   Result:= TSyncDirsUtil.deleteFiles(FileSource, Files, @operationHandle);
-  if NOT Result then
-    MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+  if NOT Result then begin
+    if NOT supported then
+      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+  end;
 end;
 
 function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFile(
