@@ -343,6 +343,9 @@ function TFileSyncRec.getProperAction( const expectAction: TSyncRecState ): TSyn
 begin
   Result:= expectAction;
   case expectAction of
+    srsDoNothing:           // expect Clear Action
+      if _state = srsEqual then
+        Result:= srsEqual;
     srsUnknown:             // expect CopyDefault
       Result:= _state;
     srsNotEq:               // expect CopyReverse
