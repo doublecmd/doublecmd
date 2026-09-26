@@ -767,14 +767,15 @@ begin
     Exit;
 
   MainDrawGrid.MouseToCell(X, Y, c, r);
+  MainDrawGrid.Row:= r;
+  MainDrawGrid.ClearSelections;
+
   if (r < 0) or (r >= FFilteredList.Count)
   or (x - 2 < hCols[3].Left)
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
 
-  MainDrawGrid.Row:= r;
-  MainDrawGrid.ClearSelections;
   toggleSelectionAction;
 end;
 
