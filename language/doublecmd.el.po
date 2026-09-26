@@ -9364,6 +9364,10 @@ msgstr "Συγχρονισμός"
 msgid "Confirm overwrites"
 msgstr "Επιβεβαίωση αντικαταστημένων"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

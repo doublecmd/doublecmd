@@ -9168,6 +9168,10 @@ msgstr "Synkronisera"
 msgid "Confirm overwrites"
 msgstr "Bekräfta överskrivningar"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

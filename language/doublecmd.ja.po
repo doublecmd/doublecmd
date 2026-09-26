@@ -9392,6 +9392,10 @@ msgstr "同期"
 msgid "Confirm overwrites"
 msgstr "上書きを確認"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

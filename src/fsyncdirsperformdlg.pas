@@ -20,6 +20,7 @@ type
     chkConfirmOverwrites: TCheckBox;
     chkLeftToRight: TCheckBox;
     chkRightToLeft: TCheckBox;
+    chkVerify: TCheckBox;
     edRightPath: TEdit;
     edLeftPath: TEdit;
   private

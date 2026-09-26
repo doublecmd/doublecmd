@@ -11,7 +11,7 @@ uses
   LazFileUtils,
   DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
   uDebug, uGlobs,
-  uFile, uFileSource, uFileSourceManager, uFileSourceUtil,
+  uFile, uFileSource, uFileSourceManager, uFileSourceUtil, uFileSystemFileSource,
   uFileSourceOperation, uFileSourceCopyOperation, uFileSourceOperationTypes,
   uSyncDirsModel;
 
@@ -38,18 +38,19 @@ type
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
 
-  { TSyncDirsFileUtil }
+  { TSyncDirsUtil }
 
-  TSyncDirsFileUtil = class
+  TSyncDirsUtil = class
   public
     class function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
+    class function supportsVerify(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
   public
     class function selectionToStringList(
-      const FFilteredList: TFlatDirFileList;
+      const filteredList: TFlatDirFileList;
       const indexes: TIntegerList;
-      const Option: TSyncDirsCompareOption ): TStringList;
+      const option: TSyncDirsCompareOption ): TStringList;
   public
     class function copyFiles(
       const sourceFS: IFileSource;
@@ -205,9 +206,9 @@ type
 
 implementation
 
-{ TSyncDirsFileUtil }
+{ TSyncDirsUtil }
 
-class function TSyncDirsFileUtil.consultCopyOperation( var params: TFileSourceConsultParams ): Boolean;
+class function TSyncDirsUtil.consultCopyOperation( var params: TFileSourceConsultParams ): Boolean;
 begin
   Result:= False;
   params.operationType:= fsoCopy;
@@ -219,7 +220,7 @@ begin
   Result:= True;
 end;
 
-class function TSyncDirsFileUtil.consultAndConfirmCopyOperation( var params: TFileSourceConsultParams ): Boolean;
+class function TSyncDirsUtil.consultAndConfirmCopyOperation( var params: TFileSourceConsultParams ): Boolean;
 begin
   Result:= False;
   if consultCopyOperation(params) then
@@ -231,7 +232,7 @@ begin
   Result:= True;
 end;
 
-class function TSyncDirsFileUtil.supportsSyncDirs(
+class function TSyncDirsUtil.supportsSyncDirs(
   const sourceFS: IFileSource;
   const targetFS: IFileSource): Boolean;
 var
@@ -243,21 +244,28 @@ begin
   Result:= consultCopyOperation(params);
 end;
 
-class function TSyncDirsFileUtil.selectionToStringList(
-  const FFilteredList: TFlatDirFileList;
+class function TSyncDirsUtil.supportsVerify(
+  const sourceFS: IFileSource;
+  const targetFS: IFileSource): Boolean;
+begin
+  Result:= sourceFS.IsClass(TFileSystemFileSource) AND targetFS.IsClass(TFileSystemFileSource);
+end;
+
+class function TSyncDirsUtil.selectionToStringList(
+  const filteredList: TFlatDirFileList;
   const indexes: TIntegerList;
-  const Option: TSyncDirsCompareOption ): TStringList;
+  const option: TSyncDirsCompareOption ): TStringList;
 
   procedure PrintRow(sl: TStringList; R: Integer);
   var
     s: string;
     SyncRec: TFileSyncRec;
   begin
-    SyncRec := FFilteredList.fileSyncRec(R);
+    SyncRec := filteredList.fileSyncRec(R);
     if SyncRec.isDir then
     begin
-      s := FFilteredList.path(R);
-      if cfEmptyDirs in Option.flags then begin
+      s := filteredList.path(R);
+      if cfEmptyDirs in option.flags then begin
         if SyncRec.state <> srsDoNothing then
           s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
       end;
@@ -266,7 +274,7 @@ class function TSyncDirsFileUtil.selectionToStringList(
     begin
       if Assigned(SyncRec.leftFile) then
       begin
-        s := FFilteredList.path(R) + #9 +
+        s := filteredList.path(R) + #9 +
              IntToStrTS(SyncRec.leftFile.Size) + #9 +
              FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
       end
@@ -280,7 +288,7 @@ class function TSyncDirsFileUtil.selectionToStringList(
         s := s +
              FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
              IntToStrTS(SyncRec.rightFile.Size) + #9 +
-             FFilteredList.path(R);
+             filteredList.path(R);
       end;
     end;
     sl.Add(s);
@@ -296,7 +304,7 @@ begin
   Result:= sl;
 end;
 
-class function TSyncDirsFileUtil.copyFiles(
+class function TSyncDirsUtil.copyFiles(
   const sourceFS: IFileSource;
   const targetFS: IFileSource;
   var files: TFiles;
@@ -313,7 +321,7 @@ begin
   params.targetFS:= targetFS;
   params.files:= files;
   params.targetPath:= targetPath;
-  Result:= TSyncDirsFileUtil.consultAndConfirmCopyOperation(params);
+  Result:= TSyncDirsUtil.consultAndConfirmCopyOperation(params);
   if NOT Result then
     Exit;
 
@@ -361,7 +369,7 @@ begin
   end;
 end;
 
-class function TSyncDirsFileUtil.deleteFiles(
+class function TSyncDirsUtil.deleteFiles(
   const fs: IFileSource;
   var files: TFiles;
   const operationHandle: TSyncDirsOperationHandle ): Boolean;

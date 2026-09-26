@@ -9168,6 +9168,10 @@ msgstr "Szinkronizálás"
 msgid "Confirm overwrites"
 msgstr "Felülírások megerősítése"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

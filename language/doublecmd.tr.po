@@ -9726,6 +9726,10 @@ msgstr ""
 msgid "Confirm overwrites"
 msgstr ""
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

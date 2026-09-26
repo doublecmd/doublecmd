@@ -9401,6 +9401,10 @@ msgstr "同步"
 msgid "Confirm overwrites"
 msgstr "確認覆蓋"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

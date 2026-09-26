@@ -9168,6 +9168,10 @@ msgstr "Synchronizovať"
 msgid "Confirm overwrites"
 msgstr "Potvrdiť prepísanie"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

@@ -9168,6 +9168,10 @@ msgstr "동기화"
 msgid "Confirm overwrites"
 msgstr "덮어쓰기 확인"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

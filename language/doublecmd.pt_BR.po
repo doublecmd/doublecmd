@@ -9529,6 +9529,10 @@ msgstr "Sincronizar"
 msgid "Confirm overwrites"
 msgstr "Confirmar substituições"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

@@ -9482,6 +9482,10 @@ msgstr "Synchroniser"
 msgid "Confirm overwrites"
 msgstr "Confirmer l'écrasement"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

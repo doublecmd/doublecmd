@@ -92,10 +92,11 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     Caption = 'Confirm overwrites'
     Checked = True
     State = cbChecked
-    TabOrder = 5
+    TabOrder = 6
   end
   object ButtonPanel1: TButtonPanel
     AnchorSideTop.Control = chkConfirmOverwrites
+    AnchorSideTop.Control = chkVerify
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 26
@@ -111,7 +112,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 6
+    TabOrder = 8
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
@@ -135,6 +136,19 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     Top = 118
     Width = 20
     BorderSpacing.Top = 6
-    TabOrder = 4
+    TabOrder = 5
+  end
+  object chkVerify: TCheckBox
+    AnchorSideLeft.Control = chkConfirmOverwrites
+    AnchorSideTop.Control = chkConfirmOverwrites
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 18
+    Top = 172
+    Width = 59
+    BorderSpacing.Top = 6
+    Caption = 'Verify'
+    TabOrder = 7
+    Visible = False
   end
 end

@@ -179,6 +179,7 @@ type
     FOperation: TFileSourceOperation;
     FileExistsOption: TFileSourceOperationOptionFileExists;
     SymLinkOption: TFileSourceOperationOptionSymLink;
+    VerifyOption: Boolean;
     FCopyStatistics: TFileSourceCopyOperationStatistics;
     FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
@@ -286,7 +287,7 @@ uses
   uFileSystemFileSource, DCDateTimeUtils,
   uDCUtils, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, Math, uClipboard, fMaskInputDlg,
-  LCLVersion, uTypes, uFileSystemDeleteOperation, uFindFiles,
+  LCLVersion, uTypes, uFileSystemCopyOperation, uFileSystemDeleteOperation, uFindFiles,
   uFileSourceManager, uFileSourceProperty, uShowMsg;
 
 {$R *.lfm}
@@ -307,7 +308,7 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
       Exit;
     if NOT (fspSynchronizable in rightFS.GetProperties) then
       Exit;
-    if NOT TSyncDirsFileUtil.supportsSyncDirs(leftFS,rightFS) then
+    if NOT TSyncDirsUtil.supportsSyncDirs(leftFS,rightFS) then
       Exit;
     Result:= True;
   end;
@@ -446,6 +447,9 @@ begin
       Format(rsLeftToRightCopy, [syncCount.copyToRightCount, cnvFormatFileSize(syncCount.copyToRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToRightSize)]);
     chkRightToLeft.Caption :=
       Format(rsRightToLeftCopy, [syncCount.copyToLeftCount, cnvFormatFileSize(syncCount.copyToLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToLeftSize)]);
+    chkVerify.Visible := TSyncDirsUtil.supportsVerify(FCmpFileSourceL, FCmpFileSourceR);
+    chkVerify.Checked := gOperationOptionVerify;
+
     if ShowModal = mrOk then
     begin
       EnableControls(False);
@@ -455,6 +459,7 @@ begin
       else begin
         FileExistsOption := fsoofeOverwrite;
       end;
+      VerifyOption := chkVerify.Checked;
 
       if chkRightToLeft.Checked then
         Include( syncFlags, sfCopyToLeft );
@@ -1332,6 +1337,8 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
         operation.Elevate:= ElevateAction;
         TFileSourceCopyOperation(operation).SymLinkOption := SymLinkOption;
         TFileSourceCopyOperation(operation).FileExistsOption := FileExistsOption;
+        if operation is TFileSystemCopyOperation then
+          TFileSystemCopyOperation(operation).Verify := VerifyOption;
         operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
         FOperation:= operation;
       end;
@@ -1346,7 +1353,7 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyFiles(
   end;
 
 begin
-  Result:= TSyncDirsFileUtil.copyFiles(sourceFS, targetFS, files, targetPath, @operationHandle );
+  Result:= TSyncDirsUtil.copyFiles(sourceFS, targetFS, files, targetPath, @operationHandle );
   if NOT Result then
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
 end;
@@ -1374,7 +1381,7 @@ function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFiles(
     end;
   end;
 begin
-  Result:= TSyncDirsFileUtil.deleteFiles(FileSource, Files, @operationHandle);
+  Result:= TSyncDirsUtil.deleteFiles(FileSource, Files, @operationHandle);
   if NOT Result then
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
 end;
@@ -1523,7 +1530,7 @@ var
 begin
   try
     indexes:= self.createSelectionIndexes;
-    sl:= TSyncDirsFileUtil.selectionToStringList(FFilteredList, indexes, FCompareOption);
+    sl:= TSyncDirsUtil.selectionToStringList(FFilteredList, indexes, FCompareOption);
     ClipboardSetText(sl.Text);
   finally
     FreeAndNil(sl);

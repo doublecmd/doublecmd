@@ -9181,6 +9181,10 @@ msgstr "Uskladi"
 msgid "Confirm overwrites"
 msgstr "Potrdi prepisovanje"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"

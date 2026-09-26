@@ -9483,6 +9483,10 @@ msgstr "Синхронізація"
 msgid "Confirm overwrites"
 msgstr "Підтвердження перезапису"
 
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"
