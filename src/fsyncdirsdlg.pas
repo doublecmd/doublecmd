@@ -1178,6 +1178,7 @@ begin
   GroupBox1.Enabled:= True;
   MainDrawGrid.Enabled:= True;
   pnlProgress.Visible:= False;
+  MainDrawGrid.SetFocus;
 end;
 
 procedure TfrmSyncDirsDlg.onCheckContentThreadReapplyFilter;
