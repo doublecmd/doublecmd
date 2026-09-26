@@ -16,8 +16,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="2"/>
-      <StringTable FileDescription="UnRAR WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2020 Alexander Koblov"/>
+      <MinorVersionNr Value="3"/>
+      <StringTable FileDescription="UnRAR WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2026 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>

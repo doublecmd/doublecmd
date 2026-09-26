@@ -69,6 +69,13 @@ const
   MHD_FIRSTVOLUME    = $0100;
   MHD_ENCRYPTVER     = $0200;
 
+  // Error codes.
+  ERAR_UNKNOWN          = 21;
+  ERAR_MISSING_PASSWORD = 22;
+  ERAR_EREFERENCE       = 23;
+  ERAR_BAD_PASSWORD     = 24;
+  ERAR_LARGE_DICT       = 25;
+
 type
 
 {$IFDEF UNIX}
@@ -192,7 +199,7 @@ implementation
 
 uses
   SysUtils, DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes,
-  RarLng;
+  RarLng, UnRarCache;
 
 type
   // From libunrar (dll.hpp)
@@ -207,11 +214,32 @@ type
   );
 
   TRARHandle = class
+    Password: String;
     Handle: TArcHandle;
+    ArchiveName: String;
+    NeedPassword: Boolean;
     ChangeVolProcW: TChangeVolProcW;
     ProcessDataProcW: TProcessDataProcW;
     ProcessFileNameW: array [0..1023] of WideChar;
   end;
+
+var
+  PasswordCache: TPasswordCache;
+
+function UnRarToWcx(Error: Integer): Integer;
+begin
+  if Error <= E_SMALL_BUF then
+    Result:= Error
+  else begin
+    case Error of
+      ERAR_UNKNOWN,
+      ERAR_MISSING_PASSWORD,
+      ERAR_EREFERENCE,
+      ERAR_LARGE_DICT:       Result:= E_UNKNOWN;
+      ERAR_BAD_PASSWORD:     Result:= E_EREAD;
+    end;
+  end;
+end;
 
 function StrLCopy(Dest, Source: PRarUnicodeChar; MaxLen: SizeInt): PRarUnicodeChar; overload;
 var
@@ -341,16 +369,24 @@ begin
       // P1 - contains the address pointing to the buffer for a password.
       // You need to copy a password here.
       // P2 - contains the size of password buffer in characters.
-      StrLCopy(VolumeNameA, PRarUnicodeChar(P1), High(VolumeNameA));
-      PasswordU := CeUtf16ToUtf8(RarUnicodeStringToWideString(VolumeNameA));
-      StrLCopy(PasswordA, PAnsiChar(PasswordU), High(PasswordA));
-      if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PasswordA, High(PasswordA)) then
-        Result := -1
+
+      if not AHandle.NeedPassword and (Length(AHandle.Password) > 0) then
+        PasswordA:= AHandle.Password
       else begin
-        Result :=  1;
-        StrPLCopy(VolumeNameW, CeUtf8ToUtf16(PasswordA), High(VolumeNameW));
-        StrLCopy(PRarUnicodeChar(P1), PRarUnicodeChar(WideStringToRarUnicodeString(VolumeNameW)), P2 - 1);
+        StrLCopy(VolumeNameA, PRarUnicodeChar(P1), High(VolumeNameA));
+        PasswordU := CeUtf16ToUtf8(RarUnicodeStringToWideString(VolumeNameA));
+        StrLCopy(PasswordA, PAnsiChar(PasswordU), High(PasswordA));
+
+        if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PasswordA, High(PasswordA)) then
+          Exit(-1);
+
+        AHandle.Password:= PasswordA;
       end;
+
+      Result :=  1;
+      AHandle.NeedPassword:= True;
+      StrPLCopy(VolumeNameW, CeUtf8ToUtf16(PasswordA), High(VolumeNameW));
+      StrLCopy(PRarUnicodeChar(P1), PRarUnicodeChar(WideStringToRarUnicodeString(VolumeNameW)), P2 - 1);
     end;
   UCM_LARGEDICT:
     begin
@@ -392,7 +428,9 @@ begin
   else begin
     AHandle:= TRARHandle.Create;
 
+    AHandle.ArchiveName := CeUtf16ToUtf8(ArchiveData.ArcName);
     RarArcName := WideStringToRarUnicodeString(ArchiveData.ArcName);
+    AHandle.Password := PasswordCache.GetPassword(AHandle.ArchiveName);
 
     RarArchiveData            := Default(RAROpenArchiveDataEx);
     RarArchiveData.ArcNameW   := PRarUnicodeChar(RarArcName);
@@ -401,13 +439,20 @@ begin
     RarArchiveData.UserData   := PtrInt(Result);
 
     AHandle.Handle := RAROpenArchiveEx(RarArchiveData);
-    ArchiveData.OpenResult    := RarArchiveData.OpenResult;
+    ArchiveData.OpenResult    := UnRarToWcx(RarArchiveData.OpenResult);
 
     if AHandle.Handle = 0 then
       FreeAndNil(AHandle)
     else begin
       ArchiveData.CmtSize    := RarArchiveData.CmtSize;
       ArchiveData.CmtState   := RarArchiveData.CmtState;
+
+      if (AHandle.NeedPassword) and (ArchiveData.OpenResult = E_SUCCESS) then
+      begin
+        AHandle.NeedPassword:= False;
+        PasswordCache.SetPassword(AHandle.ArchiveName, AHandle.Password);
+        AHandle.Password:= EmptyStr;
+      end;
 
       RARSetCallback(AHandle.Handle, @UnrarCallback, PtrInt(Result));
     end;
@@ -434,7 +479,7 @@ begin
 
     Result := RARReadHeaderEx(AHandle.Handle, RarHeader);
 
-    if Result <> E_SUCCESS then Exit;
+    if Result <> E_SUCCESS then Exit(UnRarToWcx(Result));
 
 {$PUSH}{$Q-}{$R-}
     StringToArrayW(
@@ -497,6 +542,15 @@ begin
       pwcDestName := PRarUnicodeChar(SysSpecDestName);
     end;
     Result := RARProcessFileW(AHandle.Handle, Operation, pwcDestPath, pwcDestName);
+
+    if (AHandle.NeedPassword) and (Operation <> PK_SKIP) and (Result = E_SUCCESS) then
+    begin
+      AHandle.NeedPassword:= False;
+      PasswordCache.SetPassword(AHandle.ArchiveName, AHandle.Password);
+      AHandle.Password:= EmptyStr;
+    end;
+
+    Result := UnRarToWcx(Result);
   end;
 end;
 
@@ -508,6 +562,7 @@ begin
     Result := E_ECLOSE
   else begin
     Result := RARCloseArchive(AHandle.Handle);
+    Result := UnRarToWcx(Result);
   end;
   AHandle.Free;
 end;
@@ -557,6 +612,8 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; expo
 begin
   gStartupInfo := StartupInfo^;
   TranslateResourceStrings;
+  // Create password cache object
+  PasswordCache:= TPasswordCache.Create;
 
   if ModuleHandle = NilHandle then
   begin
