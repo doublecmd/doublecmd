@@ -257,7 +257,8 @@ uses
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
-  uFileSourceOperationOptions;
+  uFileSourceOperationOptions,
+  uFileSystemFileSource;
 
 {$IFDEF timeFileView}
 procedure filelistPrintTime(const AMessage: String); inline;
@@ -449,6 +450,10 @@ begin
   try
     if Aborted then
       Exit;
+
+    // Panel refresh does not go through TFileSource.Reload, so drop cached
+    // ".hidden" names here and re-read them for this listing.
+    TFileSystemFileSource.InvalidateDotHiddenCache;
 
     if fsoList in FFileSource.GetOperationsTypes then
     begin

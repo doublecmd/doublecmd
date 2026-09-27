@@ -90,6 +90,10 @@ type
 
     function IsSystemFile(aFile: TFile): Boolean; override;
     function IsHiddenFile(aFile: TFile): Boolean; override;
+    {en
+       Drop cached ".hidden" names so the next listing re-reads the file.
+    }
+    class procedure InvalidateDotHiddenCache;
 
     function CreateDirectory(const Path: String): Boolean; override;
     function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
@@ -189,7 +193,17 @@ begin
   DotHiddenCache.Clear;
 end;
 
-// Loads GNOME-style ".hidden" names for a directory (one name per line).
+class procedure TFileSystemFileSource.InvalidateDotHiddenCache;
+begin
+  DotHiddenCacheLock.Enter;
+  try
+    ClearDotHiddenCache;
+  finally
+    DotHiddenCacheLock.Leave;
+  end;
+end;
+
+// Loads names from a directory's ".hidden" file (GTK/Qt/GNOME desktop convention).
 function LoadDotHiddenNames(const APath: String): TStringListEx;
 var
   I: Integer;
@@ -238,6 +252,9 @@ begin
 
   DotHiddenCacheLock.Enter;
   try
+    // Cache hit: reuse the already parsed names. The cache is dropped on
+    // panel refresh (TFileListBuilder.Execute) and when ".hidden" itself
+    // changes (watcher), so a modified file is not kept indefinitely.
     Index := DotHiddenCache.IndexOf(CachedPath);
     if Index < 0 then
     begin
@@ -931,12 +948,7 @@ end;
 procedure TFileSystemFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
   FDescr.Reset;
-  DotHiddenCacheLock.Enter;
-  try
-    ClearDotHiddenCache;
-  finally
-    DotHiddenCacheLock.Leave;
-  end;
+  InvalidateDotHiddenCache;
 end;
 
 function TFileSystemFileSource.IsSystemFile(aFile: TFile): Boolean;
