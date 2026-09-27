@@ -78,7 +78,7 @@ function mbFileCopyXattr(const Source, Target: String): Boolean;
 implementation
 
 uses
-  InitC, DCConvertEncoding, DCOSUtils;
+  InitC, DCConvertEncoding, DCOSUtils, DCUnix;
 
 function lremovexattr(const path, name: PAnsiChar): cint; cdecl; external clib;
 function llistxattr(const path: PAnsiChar; list: PAnsiChar; size: csize_t): ssize_t; cdecl; external clib;
@@ -159,26 +159,45 @@ end;
 
 function mbFileCopyXattr(const Source, Target: String): Boolean;
 var
+  Name: String;
   Value: String;
+  Sbfs: TStatFS;
   Index: Integer;
   ALength: ssize_t;
   Names: TStringArray;
+  Ntfs: Boolean = False;
   ASource, ATarget: String;
+
+  function SkipAttr: Boolean;
+  begin
+    // Skip NTFS3 reserved attributes
+    Result:= (Name = '$LXUID') or (Name = '$LXGID') or (Name = '$LXMOD') or (Name = '$LXDEV');
+  end;
+
 begin
   Result:= True;
   ASource:= CeUtf8ToSys(Source);
   ATarget:= CeUtf8ToSys(Target);
+  // Check target file system
+  if (fpStatFS(ATarget, @Sbfs) = 0) then
+  begin
+    Ntfs:= (UInt32(Sbfs.fstype) = NTFS3_SUPER_MAGIC);
+  end;
   // Remove attributes from target
   Names:= mbFileGetXattr(Target);
   for Index:= 0 to High(Names) do
   begin
+    Name:= Names[Index];
+    if Ntfs and SkipAttr then Continue;
     lremovexattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]));
   end;
   SetLength(Value, MaxSmallint);
   Names:= mbFileGetXattr(Source);
   for Index:= 0 to High(Names) do
   begin
-    ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+    Name:= Names[Index];
+    if Ntfs and SkipAttr then Continue;
+    ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Name), Pointer(Value), Length(Value));
     if (ALength < 0) then
     begin
       if (fpgetCerrno <> ESysERANGE) then
@@ -187,14 +206,14 @@ begin
         Exit(False);
       end
       else begin
-        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), nil, 0);
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Name), nil, 0);
         if ALength < 0 then
         begin
           fpseterrno(fpgetCerrno);
           Exit(False);
         end;
         SetLength(Value, ALength);
-        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Name), Pointer(Value), Length(Value));
         if ALength < 0 then
         begin
           fpseterrno(fpgetCerrno);
@@ -202,7 +221,7 @@ begin
         end;
       end;
     end;
-    if (lsetxattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]), Pointer(Value), ALength, 0) < 0) then
+    if (lsetxattr(PAnsiChar(ATarget), PAnsiChar(Name), Pointer(Value), ALength, 0) < 0) then
     begin
       fpseterrno(fpgetCerrno);
       Exit(fpgeterrno = ESysEOPNOTSUPP);
