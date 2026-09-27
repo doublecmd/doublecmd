@@ -91,4 +91,5 @@ const
 { manually added  }
   SMB2_MAGIC_NUMBER = $fe534d42;
   CIFS_MAGIC_NUMBER = $ff534d42;
+  NTFS3_SUPER_MAGIC = $7366746e;
 
