@@ -167,6 +167,7 @@ type
    // 35. Make sure we see the shortcut if any and that the description is correct.
    // 36. Test the help for the command from there to make sure it links to the correct place in the help file.
    procedure cm_AddPathToCmdLine(const {%H-}Params: array of string);
+   procedure cm_AddTargetPathToCmdLine(const {%H-}Params: array of string);
    procedure cm_AddFilenameToCmdLine(const {%H-}Params: array of string);
    procedure cm_AddPathAndFilenameToCmdLine(const {%H-}Params: array of string);
    procedure cm_CmdLineNext(const {%H-}Params: array of string);
@@ -1052,6 +1053,12 @@ end;
 procedure TMainCommands.cm_AddPathToCmdLine(const Params: array of string);
 begin
   DoActualAddToCommandLine(Params, frmMain.ActiveFrame.CurrentPath, False);
+end;
+
+{ TMainCommands.cm_AddTargetPathToCmdLine }
+procedure TMainCommands.cm_AddTargetPathToCmdLine(const Params: array of string);
+begin
+  DoActualAddToCommandLine(Params, frmMain.NotActiveFrame.CurrentPath, False);
 end;
 
 { TMainCommands.cm_AddFilenameToCmdLine }
