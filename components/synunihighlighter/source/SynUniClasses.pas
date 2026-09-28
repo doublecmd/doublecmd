@@ -35,7 +35,11 @@ interface
 
 uses
   SysUtils, Graphics,
-  Classes, SynEditHighlighter, Contnrs, Laz2_DOM;
+  Classes, SynEditHighlighter, Contnrs, Laz2_DOM, LCLVersion
+{$IF DEFINED(LCL_VER_599)}
+  , LazEditHighlighter
+{$ENDIF}
+  ;
 
 type
   TSymbSet  = set of char;
@@ -94,6 +98,10 @@ type
     procedure WriteParam(Key, Value: string; CloseTag: string = '');
     procedure WriteBoolParam(Key: string; Value, Default: boolean; CloseTag: string = '');
   end;
+
+{$if lcl_fullversion >= 5990000}
+  TSynHighlighterAttributes = TLazEditHighlighterAttributes;
+{$endif}
 
   TSynAttributes = class (TSynHighlighterAttributes)
   public

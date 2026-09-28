@@ -10,6 +10,10 @@
         <OtherUnitFiles Value="source"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Conditionals Value="if (Laz_FullVersion >= 5990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_599&apos;;
+end;"/>
       <Parsing>
         <SyntaxOptions>
           <SyntaxMode Value="Delphi"/>

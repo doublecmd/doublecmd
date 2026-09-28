@@ -47,7 +47,11 @@ unit SynHighlighterLua;
 interface
 
 uses
-  SysUtils, Classes, Graphics, SynEditHighlighter, SynEditTypes, SynEditStrConst;
+  SysUtils, Classes, Graphics, SynEditHighlighter, SynEditTypes, LCLVersion
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditHighlighter
+{$ENDIF}
+  ;
 
 type
   TtkTokenKind = (
@@ -68,6 +72,10 @@ type
 
   PIdentFuncTableFunc = ^TIdentFuncTableFunc;
   TIdentFuncTableFunc = function: TtkTokenKind of object;
+
+{$if lcl_fullversion >= 5990000}
+  TSynHighlighterAttributes = TLazEditHighlighterAttributes;
+{$endif}
 
 const
   MaxKey = 185;
@@ -251,6 +259,9 @@ type
   end;
 
 implementation
+
+uses
+  SynEditStrConst;
 
 resourcestring
   SYNS_LangLua   = 'Lua Script';

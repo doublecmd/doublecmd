@@ -963,7 +963,7 @@ begin
   begin
     while (i > 0) do
     begin
-     ch:= S[UTF8CharToByteIndex(PAnsiChar(S), Length(S), i)];
+     ch:= S[UTF8CodepointToByteIndex(PAnsiChar(S), Length(S), i)];
      if Pos(ch, T) = 0 then
        Dec(i)
      else
@@ -973,7 +973,7 @@ begin
   else
     while (i <= cnt) do
     begin
-      ch:= S[UTF8CharToByteIndex(PAnsiChar(S), Length(S), i)];
+      ch:= S[UTF8CodepointToByteIndex(PAnsiChar(S), Length(S), i)];
       if Pos(ch, T) = 0 then
         Inc(i)
       else

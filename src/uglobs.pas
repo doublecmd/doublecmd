@@ -774,7 +774,7 @@ uses
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    dmHigh, uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
-   FileUtil, uSynDiffControls, InterfaceBase
+   FileUtil, uSynDiffControls, InterfaceBase, LazLogger
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}

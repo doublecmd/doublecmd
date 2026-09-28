@@ -370,7 +370,11 @@ begin
   SynDiffEdit:= TSynDiffEdit(SynEdit);
   LineHeight:= SynDiffEdit.LineHeight;
   LineCount:= SynDiffEdit.Lines.Count;
+{$if lcl_fullversion < 5990000}
   LineTop:= ToIdx(GutterArea.TextArea.TopLine);
+{$else}
+  LineTop:= ToIdx(GutterArea.TextArea.TopViewedLine);
+{$endif}
 
   if MarkupInfo.Background <> clNone then
   begin
@@ -561,7 +565,11 @@ begin
   SynDiffEdit:= TSynDiffEdit(SynEdit);
   LineHeight:= SynDiffEdit.LineHeight;
   LineCount:= SynDiffEdit.Lines.Count;
+{$if lcl_fullversion < 5990000}
   LineTop:= ToIdx(GutterArea.TextArea.TopLine);
+{$else}
+  LineTop:= ToIdx(GutterArea.TextArea.TopViewedLine);
+{$endif}
   // Changed to use fTextDrawer.BeginDrawing and fTextDrawer.EndDrawing only
   // when absolutely necessary.  Note: Never change brush / pen / font of the
   // canvas inside of this block (only through methods of fTextDrawer)!

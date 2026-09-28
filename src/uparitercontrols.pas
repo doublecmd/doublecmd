@@ -37,11 +37,21 @@ uses
   Classes,
   SynEditHighlighter,
   uSynDiffControls,
-  uDiffONP;
+  uDiffONP,
+  LCLVersion
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditHighlighter
+{$ENDIF}
+  ;
 
 const
   SynSpaceGlyph = Chr($B7);     //'·'
   SynTabGlyph = Chr($BB);       //'»'
+
+{$if lcl_fullversion >= 5990000}
+type
+  TSynHighlighterAttributes = TLazEditHighlighterAttributes;
+{$endif}
 
 type
 

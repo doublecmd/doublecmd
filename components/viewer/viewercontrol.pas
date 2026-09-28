@@ -527,7 +527,7 @@ procedure Register;
 implementation
 
 uses
-  Math, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
+  Math, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding, LazLogger,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF LCL_FULLVERSION >= 4990000}
   , LazUTF16

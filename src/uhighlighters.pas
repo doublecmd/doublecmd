@@ -127,6 +127,11 @@ type
     function Other: Boolean;
   end;
 
+{$if lcl_fullversion >= 5990000}
+  TSynLineStyle = TLazTextAttrLineStyle;
+  TSynFrameEdges = TLazTextAttrFrameEdges;
+{$endif}
+
 {$if lcl_fullversion < 4990000}
   TLazEditTextAttribute = TSynHighlighterAttributes;
 {$endif}

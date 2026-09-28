@@ -178,7 +178,7 @@ uses
   {$IF FPC_FULLVERSION < 30300}
   , uDCReadPNM
   {$ENDIF}
-  , uDCReadSVG, uTurboJPEG;
+  , LazLogger, uDCReadSVG, uTurboJPEG;
 
 { TAloneForm }
 
