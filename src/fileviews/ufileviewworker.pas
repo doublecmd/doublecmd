@@ -520,11 +520,20 @@ begin
       Exit;
 
     // Retrieve RetrievableFileProperties which used in sorting
-    if FFilePropertiesNeeded <> [] then
+    if (FFilePropertiesNeeded <> []) and Assigned(FileSourceFiles) then
     begin
       for I:= 0 to FileSourceFiles.Count - 1 do
         FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
     end;
+
+    // MakeAllDisplayFileList transfers the TFile objects to FAllDisplayFiles one
+    // by one, and each TDisplayFile destroys the TFile it was given. Give up
+    // ownership before that starts: if the transfer is interrupted midway by an
+    // exception, the files not reached yet are leaked, whereas holding ownership
+    // until after the loop would leave both lists owning the transferred ones and
+    // free them twice in the finally block below.
+    if Assigned(FileSourceFiles) then
+      FileSourceFiles.OwnsObjects := False;
 
     // Make display file list from file source file list.
     if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
@@ -542,10 +551,6 @@ begin
         FAllDisplayFiles := TDisplayFiles.Create(True);
       MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
     end;
-
-    // By now the TFile objects have been transfered to FAllDisplayFiles.
-    if Assigned(FileSourceFiles) then
-      FileSourceFiles.OwnsObjects := False;
 
     {$IFDEF timeFileView}
     filelistPrintTime('Made sorted disp.lst: ');
