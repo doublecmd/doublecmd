@@ -3476,7 +3476,6 @@ begin
   // add/update/delete of ".hidden" itself is not enough.
   if (EventData.FileName = '.hidden') or (EventData.NewFileName = '.hidden') then
   begin
-    TFileSystemFileSource.InvalidateDotHiddenCache;
     Reload();
     Exit;
   end;
