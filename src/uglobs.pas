@@ -77,6 +77,7 @@ type
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
   TTabsPosition = (tbpos_top, tbpos_bottom);
+  TDrivesListPosition = (dlpLegacy, dlpActiveRow, dlpMouseCursor);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
   { Custom icons mode }
@@ -313,6 +314,7 @@ var
   gShowColonAfterDrive,
   gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
+  gDrivesListPositionMode: TDrivesListPosition;
   gSeparateTree: Boolean;
 
   { Toolbar }
@@ -2045,6 +2047,7 @@ begin
   gHorizontalFilePanels := False;
   gUpperCaseDriveLetter := False;
   gShowColonAfterDrive := False;
+  gDrivesListPositionMode := dlpLegacy;
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
   gSeparateTree := False;
 
@@ -2966,6 +2969,8 @@ begin
           LoadOption(SubNode, gDrivesListButtonOptions, dlbShowFreeSpace, 'ShowFreeSpace');
         end;
       end;
+      gDrivesListPositionMode := TDrivesListPosition(
+        GetValue(Node, 'DrivesListPosition', Integer(gDrivesListPositionMode)));
       gSeparateTree := GetValue(Node, 'SeparateTree', gSeparateTree);
       gDirectoryTabs := GetValue(Node, 'DirectoryTabs', gDirectoryTabs);
       gCurDir := GetValue(Node, 'CurrentDirectory', gCurDir);
@@ -3686,6 +3691,7 @@ begin
     SetValue(SubNode, 'ShowLabel', dlbShowLabel in gDrivesListButtonOptions);
     SetValue(SubNode, 'ShowFileSystem', dlbShowFileSystem in gDrivesListButtonOptions);
     SetValue(SubNode, 'ShowFreeSpace', dlbShowFreeSpace in gDrivesListButtonOptions);
+    SetValue(Node, 'DrivesListPosition', Integer(gDrivesListPositionMode));
     SetValue(Node, 'SeparateTree', gSeparateTree);
     SetValue(Node, 'DirectoryTabs', gDirectoryTabs);
     SetValue(Node, 'CurrentDirectory', gCurDir);
