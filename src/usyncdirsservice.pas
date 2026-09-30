@@ -47,6 +47,11 @@ type
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
     class function supportsVerify(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
   public
+    class procedure filterFlatListWithFlags(
+      const fullTree: TTwoLevelTree;
+      const filterList: TFlatDirFileList;
+      const filterFlags: TFilterFlags );
+
     class function selectionToStringList(
       const filteredList: TFlatDirFileList;
       const indexes: TIntegerList;
@@ -249,6 +254,65 @@ class function TSyncDirsUtil.supportsVerify(
   const targetFS: IFileSource): Boolean;
 begin
   Result:= sourceFS.IsClass(TFileSystemFileSource) AND targetFS.IsClass(TFileSystemFileSource);
+end;
+
+class procedure TSyncDirsUtil.filterFlatListWithFlags(
+  const fullTree: TTwoLevelTree;
+  const filterList: TFlatDirFileList;
+  const filterFlags: TFilterFlags );
+
+  function isMatching(const rec: TSyncRec): Boolean;
+  begin
+    if rec.state = srsDeleted then
+      Exit(False);
+
+    Result:=
+      ((rec.hasFileOnOnlyOneSide and (ffSingle in filterFlags)) or
+       (rec.hasFilesOnBothSides and (ffDuplicate in filterFlags)))
+       and
+       (((rec.state = srsCopyToLeft) or (rec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
+        ((rec.state = srsCopyToRight) or (rec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
+        (rec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
+        (rec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
+        (rec.state = srsEqual) and (ffEqual in filterFlags) or
+        (rec.state = srsNotEq) and (ffNotEqual in filterFlags) or
+        (rec.state = srsUnknown) and (ffUnknown in filterFlags));
+  end;
+
+  function isDirMatching(const syncRec: TSyncRec): Boolean;
+  begin
+    if syncRec.state = srsDeleted then begin
+      Result:= False;
+    end else if syncRec.state = srsDoNothing then begin
+      Result:= True;
+    end else begin
+      Result:= isMatching(syncRec);
+    end;
+  end;
+
+var
+  dirIndex: Integer;
+  fileIndex: Integer;
+  rec: TSyncRec;
+  currentDirItem: TTwoLevelTreeDirItem;
+  currentDirPath: String;
+begin
+  filterList.Clear;
+  for dirIndex:= 0 to fullTree.Count-1 do begin
+    currentDirItem:= fullTree.dirItem( dirIndex );
+    currentDirPath:= fullTree.dirPath( dirIndex );
+    if currentDirPath <> EmptyStr then begin
+      rec:= currentDirItem.dirSyncRec;
+      if isDirMatching(rec) then
+        filterList.addPath( IncludeTrailingPathDelimiter(currentDirPath), rec );
+    end;
+    for fileIndex:= 0 to currentDirItem.fileCount-1 do begin
+      rec:= currentDirItem.fileSyncRec( fileIndex );
+      if isMatching(rec) then
+        filterList.addPath( currentDirItem.files[fileIndex], rec );
+    end;
+  end;
+  filterList.clearInvisibleDirs;
 end;
 
 class function TSyncDirsUtil.selectionToStringList(

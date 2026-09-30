@@ -1044,7 +1044,7 @@ end;
 
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 begin
-  FFullTree.filterFlatListWithFlags(FFilteredList, self.createFilterFlags);
+  TSyncDirsUtil.filterFlatListWithFlags(FFullTree, FFilteredList, self.createFilterFlags);
 end;
 
 procedure TfrmSyncDirsDlg.RecalcHeaderCols;
@@ -1461,7 +1461,7 @@ begin
   inherited Create(AOwner);
   FSortService := TSyncDirsSortService.Create;
   FFullTree := TTwoLevelTree.Create;
-  FFilteredList := TFlatDirFileList.Create;
+  FFilteredList := TFlatDirFileList.Create(FFullTree);
   FFileSourceL := FileView1.FileSource;
   FFileSourceR := FileView2.FileSource;
   FAddressL := FileView1.CurrentAddress;
