@@ -238,6 +238,10 @@ const
   // 16 -  Move DirectoryHotList to localconfig.xml
   ConfigVersion = 16;
 
+  twmSingle = 0;
+  twmPerPanel = 1;
+  twmPerTab = 2;
+
   COLORS_JSON = 'colors.json';
 
   // Configuration related filenames
@@ -314,6 +318,13 @@ var
   gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
   gSeparateTree: Boolean;
+  // 0 = Detach, 1 = Sync Panel->Terminal, 2 = Sync Terminal->Panel
+  gTermSyncModeLeft: Integer;
+  gTermSyncModeRight: Integer;
+  gTermSyncDirLeft: Integer;
+  gTermSyncDirRight: Integer;
+
+  gTermWindowMode: Integer;
 
   { Toolbar }
   gMiddleToolBarFlat,
@@ -2035,6 +2046,11 @@ begin
   gCmdLine := True;
   gLogWindow := False;
   gTermWindow := False;
+  gTermWindowMode := twmSingle;
+  gTermSyncModeLeft := 0; // Detach
+  gTermSyncModeRight := 0; // Detach
+  gTermSyncDirLeft := 1;
+  gTermSyncDirRight := 1;
   gKeyButtons := True;
   gInterfaceFlat := True;
   gDriveInd := False;
@@ -2974,6 +2990,14 @@ begin
       gCmdLine := GetValue(Node, 'CmdLine', gCmdLine);
       gLogWindow := GetValue(Node, 'LogWindow', gLogWindow);
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
+      if GetValue(Node, 'TermWindowSplit', False) then
+        gTermWindowMode := twmPerPanel
+      else
+        gTermWindowMode := GetValue(Node, 'TermWindowMode', gTermWindowMode);
+      gTermSyncModeLeft := GetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
+      gTermSyncModeRight := GetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
+      gTermSyncDirLeft := GetValue(Node, 'TermSyncDirLeft', gTermSyncDirLeft);
+      gTermSyncDirRight := GetValue(Node, 'TermSyncDirRight', gTermSyncDirRight);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
       gInterfaceFlat := GetValue(Node, 'InterfaceFlat', gInterfaceFlat);
       gDriveFreeSpace := GetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
@@ -3694,6 +3718,11 @@ begin
     SetValue(Node, 'CmdLine', gCmdLine);
     SetValue(Node, 'LogWindow', gLogWindow);
     SetValue(Node, 'TermWindow', gTermWindow);
+    SetValue(Node, 'TermWindowMode', gTermWindowMode);
+    SetValue(Node, 'TermSyncModeLeft', gTermSyncModeLeft);
+    SetValue(Node, 'TermSyncModeRight', gTermSyncModeRight);
+    SetValue(Node, 'TermSyncDirLeft', gTermSyncDirLeft);
+    SetValue(Node, 'TermSyncDirRight', gTermSyncDirRight);
     SetValue(Node, 'KeyButtons', gKeyButtons);
     SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
     SetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
