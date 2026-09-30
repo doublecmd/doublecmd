@@ -631,18 +631,18 @@ end;
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
 var
   r, x: Integer;
-  sr: TFileSyncRec;
+  rec: TSyncRec;
 begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FFilteredList.Count) then Exit;
   x := MainDrawGrid.ScreenToClient(Mouse.CursorPos).X;
   if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
-  sr := FFilteredList.fileSyncRec(r);
-  if sr.isDir
-  or not Assigned(sr.rightFile) or not Assigned(sr.leftFile) or (sr.state = srsEqual)
+  rec := FFilteredList.fileSyncRec(r);
+  if rec.isDir
+  or not Assigned(rec.rightFile) or not Assigned(rec.leftFile) or (rec.state = srsEqual)
   then
     Exit;
-  PrepareToolData(FFileSourceL, sr.leftFile, FFileSourceR, sr.rightFile, @ShowDifferByGlobList);
+  PrepareToolData(FFileSourceL, rec.leftFile, FFileSourceR, rec.rightFile, @ShowDifferByGlobList);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
@@ -650,15 +650,15 @@ procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
 const
   LEFT_FILE_INDENTATION = 8;
 var
-  r: TFileSyncRec;
+  rec: TSyncRec;
   x: Integer;
   s: string;
 begin
   if (FFilteredList = nil) or (aRow >= FFilteredList.Count) then Exit;
   with MainDrawGrid.Canvas do
   begin
-    r := FFilteredList.fileSyncRec(aRow);
-    if r.isDir then
+    rec := FFilteredList.fileSyncRec(aRow);
+    if rec.isDir then
     begin
       if gdSelected in aState then begin
         Brush.Color:= gColors.SyncDirs^.DirSelectedColor
@@ -678,7 +678,7 @@ begin
     end else begin
       with gColors.SyncDirs^ do
       begin
-        case r.state of
+        case rec.state of
         srsNotEq:       Font.Color := UnknownColor;
         srsCopyToLeft:    Font.Color := RightColor;
         srsCopyToRight:   Font.Color := LeftColor;
@@ -687,41 +687,41 @@ begin
         else Font.Color := clWindowText;
         end;
       end;
-      if Assigned(r.leftFile) then
+      if Assigned(rec.leftFile) then
       begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(r.leftFile.Size);
+        s := IntToStrTS(rec.leftFile.Size);
         with hCols[1] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, r.leftFile.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
         with hCols[2] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
       end;
-      if Assigned(r.rightFile) then
+      if Assigned(rec.rightFile) then
       begin
         TextOut(hCols[6].Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(r.rightFile.Size);
+        s := IntToStrTS(rec.rightFile.Size);
         with hCols[5] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, r.rightFile.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime);
         with hCols[4] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
       end;
     end;
-    if NOT r.isDir or (r.state<>srsDoNothing) then begin
+    if NOT rec.isDir or (rec.state<>srsDoNothing) then begin
       ImageList1.Draw(MainDrawGrid.Canvas,
         hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
-        (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(r.action));
+        (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(rec.action));
     end;
   end;
 end;
@@ -817,17 +817,17 @@ procedure TfrmSyncDirsDlg.MenuItemViewClick(Sender: TObject);
 var
   r: Integer;
   f: TFile = nil;
-  sr: TFileSyncRec;
+  rec: TSyncRec;
 begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FFilteredList.Count) then Exit;
-  sr := FFilteredList.fileSyncRec(r);
-  if NOT sr.isDir then
+  rec := FFilteredList.fileSyncRec(r);
+  if NOT rec.isDir then
   begin
     if Sender = MenuItemViewLeft then
-      f := sr.leftFile
+      f := rec.leftFile
     else if Sender = MenuItemViewRight then begin
-      f := sr.rightFile;
+      f := rec.rightFile;
     end;
     if Assigned(f) then ShowViewerByGlob(f.FullPath);
   end;

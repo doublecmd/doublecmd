@@ -259,35 +259,35 @@ class function TSyncDirsUtil.selectionToStringList(
   procedure PrintRow(sl: TStringList; R: Integer);
   var
     s: string;
-    SyncRec: TFileSyncRec;
+    rec: TSyncRec;
   begin
-    SyncRec := filteredList.fileSyncRec(R);
-    if SyncRec.isDir then
+    rec := filteredList.fileSyncRec(R);
+    if rec.isDir then
     begin
       s := filteredList.path(R);
       if cfEmptyDirs in option.flags then begin
-        if SyncRec.state <> srsDoNothing then
-          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[SyncRec.action];
+        if rec.state <> srsDoNothing then
+          s := s + #9#9#9 + SYNC_REC_STATE_SYMBOL[rec.action];
       end;
     end
     else
     begin
-      if Assigned(SyncRec.leftFile) then
+      if Assigned(rec.leftFile) then
       begin
         s := filteredList.path(R) + #9 +
-             IntToStrTS(SyncRec.leftFile.Size) + #9 +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.leftFile.ModificationTime);
+             IntToStrTS(rec.leftFile.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
       end
       else
       begin
         s := #9#9;
       end;
-      s := s + #9 + SYNC_REC_STATE_SYMBOL[SyncRec.action] + #9;
-      if Assigned(SyncRec.rightFile) then
+      s := s + #9 + SYNC_REC_STATE_SYMBOL[rec.action] + #9;
+      if Assigned(rec.rightFile) then
       begin
         s := s +
-             FormatDateTime(gDateTimeFormatSync, SyncRec.rightFile.ModificationTime) + #9 +
-             IntToStrTS(SyncRec.rightFile.Size) + #9 +
+             FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime) + #9 +
+             IntToStrTS(rec.rightFile.Size) + #9 +
              filteredList.path(R);
       end;
     end;
@@ -411,7 +411,7 @@ procedure TSyncDirsSortService.sortDirItem( const dirItem: TTwoLevelTreeDirItem 
 
   function CompareFn(sl: TStringList; i, j: Integer): Integer;
   var
-    r1, r2: TFileSyncRec;
+    r1, r2: TSyncRec;
   begin
     if _sortIndex in [1..5] then
     begin
@@ -574,10 +574,10 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
       fs: TFiles;
       i, j: Integer;
       f: TFile;
-      r: TFileSyncRec;
+      rec: TSyncRec;
       fn: String;
       dirFullPath: String;
-      dirSyncRec: TDirSyncRec;
+      dirSyncRec: TSyncDirRec;
       currentFileSource: IFileSource;
     begin
       dirSyncRec := dirItem.dirSyncRec;
@@ -616,17 +616,17 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
           end else if _callback.treeBuilderMaskFilt(f) then begin
             j := dirItem.indexOfFile(fn);
             if j < 0 then
-              r := TFileSyncRec.Create(_compareOption, dir)
+              rec := TSyncFileRec.Create(_compareOption, dir)
             else
-              r := dirItem.fileSyncRec(j);
+              rec := dirItem.fileSyncRec(j);
             if sideLeft then
             begin
-              r.leftFile := f.Clone;
+              rec.leftFile := f.Clone;
             end else begin
-              r.rightFile := f.Clone;
+              rec.rightFile := f.Clone;
             end;
-            r.updateState;
-            dirItem.addFile(fn, r);
+            rec.updateState;
+            dirItem.addFile(fn, rec);
             dirSyncRec.incFileCount(sideLeft);
           end;
         end;
@@ -635,7 +635,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
       end;
     end;
 
-    procedure setDirSyncRecFile(dirSyncRec: TDirSyncRec);
+    procedure setDirSyncRecFile(dirSyncRec: TSyncDirRec);
     var
       i: Integer;
       currentDirPart: String;
@@ -654,11 +654,11 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     dirItem: TTwoLevelTreeDirItem;
     dirsLeft, dirsRight: TStringListEx;
     d: string;
-    dirSyncRec: TDirSyncRec;
+    dirSyncRec: TSyncDirRec;
   begin
     i := FFullTree.indexOfDir(dir);
     if i < 0 then begin
-      dirSyncRec := TDirSyncRec.Create(_compareOption, dir);
+      dirSyncRec := TSyncDirRec.Create(_compareOption, dir);
       dirItem := TTwoLevelTreeDirItem.Create(dirSyncRec);
       FFullTree.addDir(dir, dirItem);
     end else begin
@@ -735,7 +735,7 @@ end;
 function TSyncDirsSynchronizer.count: TSyncDirsSyncCount;
 var
   i: Integer;
-  rec: TFileSyncRec;
+  rec: TSyncRec;
 begin
   Result:= Default( TSyncDirsSyncCount );
   for i:= 0 to _filteredList.Count-1 do begin
@@ -771,7 +771,7 @@ end;
 procedure TSyncDirsSynchronizer.sync(const syncFlags: TSyncDirsSyncFlags);
 var
   index: Integer;
-  rec: TFileSyncRec;
+  rec: TSyncRec;
 
   function processDir: Boolean;
   begin
@@ -949,7 +949,7 @@ var
 var
   isEqual: Boolean;
   dirIndex, fileIndex: Integer;
-  rec: TFileSyncRec;
+  rec: TSyncRec;
 begin
   Synchronize(@_callback.onCheckContentThreadStart);
   Buffer1:= GetMem(BUF_LEN);
