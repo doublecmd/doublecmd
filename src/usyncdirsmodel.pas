@@ -139,6 +139,8 @@ type
   TSyncFileRec = class( TSyncRec )
   public
     function isDir: Boolean; override;
+    procedure updateState; override;
+    function getNextAction: TSyncRecState; override;
   end;
 
   { TSyncDirRec }
@@ -296,53 +298,11 @@ begin
 end;
 
 procedure TSyncRec.updateState;
-  procedure compareTwoSides;
-    procedure compareDate;
-    var
-      dateDiff: Integer;
-    begin
-      if cfIgnoreDate in _option.flags then begin
-        _state:= srsEqual;
-        Exit;
-      end;
-
-      dateDiff:= FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
-      if dateDiff = 0 then begin
-        _state:= srsEqual;
-      end else if dateDiff > 0 then begin
-        _state:= srsCopyToRight;
-      end else if dateDiff < 0 then begin
-        _state:= srsCopyToLeft;
-      end;
-    end;
-  begin
-    // by datetime
-    compareDate;
-    // by size
-    if _state = srsEqual then begin
-      if _leftFile.Size <> _rightFile.Size then
-        _state:= srsNotEq;
-    end;
-    // by content
-    if _state = srsEqual then begin
-      if cfByContent in _option.flags then
-        _state:= srsUnknown;
-    end;
-    // asymmetric
-    if NOT (_state in [srsUnknown,srsEqual]) then begin
-      if cfAsymmetric in _option.flags then
-        _state:= srsCopyToRight;
-    end;
-  end;
-
 begin
-  _state := srsNotEq;
   if Assigned(_rightFile) and NOT Assigned(_leftFile) then begin
     _state:= _option.stateWithoutLeft;
   end else if NOT Assigned(_rightFile) and Assigned(_leftFile) then begin
     _state:= srsCopyToRight;
-  end else begin
-    compareTwoSides;
   end;
   _action := _state;
 end;
@@ -387,9 +347,6 @@ end;
 
 function TSyncRec.getNextAction: TSyncRecState;
 begin
-  if _state = srsEqual then
-    Exit( srsNoAction );
-
   Result:= _action;
   case _action of
     srsNotEq:
@@ -440,6 +397,62 @@ begin
   Result:= False;
 end;
 
+procedure TSyncFileRec.updateState;
+  procedure compareTwoSides;
+    procedure compareDate;
+    var
+      dateDiff: Integer;
+    begin
+      if cfIgnoreDate in _option.flags then begin
+        _state:= srsEqual;
+        Exit;
+      end;
+
+      dateDiff:= FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
+      if dateDiff = 0 then begin
+        _state:= srsEqual;
+      end else if dateDiff > 0 then begin
+        _state:= srsCopyToRight;
+      end else if dateDiff < 0 then begin
+        _state:= srsCopyToLeft;
+      end;
+    end;
+  begin
+    _state:= srsNotEq;
+    // by datetime
+    compareDate;
+    // by size
+    if _state = srsEqual then begin
+      if _leftFile.Size <> _rightFile.Size then
+        _state:= srsNotEq;
+    end;
+    // by content
+    if _state = srsEqual then begin
+      if cfByContent in _option.flags then
+        _state:= srsUnknown;
+    end;
+    // asymmetric
+    if NOT (_state in [srsUnknown,srsEqual]) then begin
+      if cfAsymmetric in _option.flags then
+        _state:= srsCopyToRight;
+    end;
+    _action:= _state;
+  end;
+begin
+  if Assigned(_rightFile) and Assigned(_leftFile) then begin
+    compareTwoSides;
+  end else begin
+    inherited;
+  end;
+end;
+
+function TSyncFileRec.getNextAction: TSyncRecState;
+begin
+  if _state = srsEqual then
+    Exit( srsNoAction );
+  Result:=inherited getNextAction;
+end;
+
 { TSyncDirRec }
 
 procedure TSyncDirRec.updateState;
@@ -452,7 +465,7 @@ begin
     Exit;
   if Assigned(_leftFile) and Assigned(_rightFile) then
     Exit;
-  inherited updateState;
+  inherited;
 end;
 
 function TSyncDirRec.getNextAction: TSyncRecState;
