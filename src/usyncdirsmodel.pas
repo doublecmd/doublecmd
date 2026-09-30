@@ -105,13 +105,14 @@ type
   TSyncRec = class
   protected
     _relPath: String;
+    _parentDirIndex: Integer;
     _state: TSyncRecState;
     _action: TSyncRecState;
     _option: TSyncDirsCompareOption;
     _leftFile: TFile;
     _rightFile: TFile;
   public
-    constructor Create(const option: TSyncDirsCompareOption; const relPath: String);
+    constructor Create(const option: TSyncDirsCompareOption; const relPath: String; const parentDirIndex: Integer);
     destructor Destroy; override;
 
     function isFile: Boolean;
@@ -128,6 +129,7 @@ type
     function getNextAction: TSyncRecState; virtual;
 
     property relPath: String read _relPath;
+    property parentDirIndex: Integer read _parentDirIndex;
     property state: TSyncRecState read _state write _state;
     property action: TSyncRecState read _action write _action;
 
@@ -244,7 +246,7 @@ type
 
     procedure filterFlatListWithFlags( const flatList: TFlatDirFileList; const filterFlags: TFilterFlags );
 
-    procedure addDir( const dirPath: String; const item: TTwoLevelTreeDirItem );
+    function addDir( const dirPath: String; const item: TTwoLevelTreeDirItem ): Integer;
     procedure Clear;
 
     function Count: Integer;
@@ -286,11 +288,14 @@ end;
 
 { TSyncRec }
 
-constructor TSyncRec.Create(const option: TSyncDirsCompareOption;
-  const relPath: String);
+constructor TSyncRec.Create(
+  const option: TSyncDirsCompareOption;
+  const relPath: String;
+  const parentDirIndex: Integer );
 begin
   _option:= option;
-  _relPath := relPath;
+  _relPath:= relPath;
+  _parentDirIndex:= parentDirIndex;
 end;
 
 destructor TSyncRec.Destroy;
@@ -312,7 +317,7 @@ begin
   end else if NOT Assigned(_rightFile) and Assigned(_leftFile) then begin
     _state:= srsCopyToRight;
   end;
-  _action := _state;
+  _action:= _state;
 end;
 
 function TSyncRec.getProperAction( const expectAction: TSyncRecState ): TSyncRecState;
@@ -567,8 +572,8 @@ begin
   _dirSyncRec:= dirSyncRec;
   _files:= TStringListEx.Create;
   _files.OwnsObjects:= True;
-  _files.CaseSensitive := FileNameCaseSensitive;
-  _files.Sorted := True;
+  _files.CaseSensitive:= FileNameCaseSensitive;
+  _files.Sorted:= True;
 end;
 
 destructor TTwoLevelTreeDirItem.Destroy;
@@ -608,7 +613,7 @@ constructor TTwoLevelTree.Create;
 begin
   _dirs:= TStringListEx.Create;
   _dirs.OwnsObjects:= True;
-  _dirs.CaseSensitive := FileNameCaseSensitive;
+  _dirs.CaseSensitive:= FileNameCaseSensitive;
   // since the default comparison function performs a simple string comparison
   // without considering the path structure, the resulting path order does not
   // follow standard conventions.
@@ -620,7 +625,7 @@ begin
   // 1st should come before 2nd, but if sorting is enabled with the default
   // comparison function is used, 2nd will come before 1st.
   //
-  // _dirs.Sorted := True;
+  // _dirs.Sorted:= True;
 end;
 
 destructor TTwoLevelTree.Destroy;
@@ -684,9 +689,9 @@ begin
   flatList.clearInvisibleDirs;
 end;
 
-procedure TTwoLevelTree.addDir(const dirPath: String; const item: TTwoLevelTreeDirItem);
+function TTwoLevelTree.addDir(const dirPath: String; const item: TTwoLevelTreeDirItem): Integer;
 begin
-  _dirs.AddObject( dirPath, item );
+  Result:= _dirs.AddObject( dirPath, item );
 end;
 
 procedure TTwoLevelTree.Clear;
@@ -764,7 +769,7 @@ constructor TFlatDirFileList.Create;
 begin
   // not own Object
   _list:= TStringListEx.Create;
-  _list.CaseSensitive := FileNameCaseSensitive;
+  _list.CaseSensitive:= FileNameCaseSensitive;
 end;
 
 destructor TFlatDirFileList.Destroy;
@@ -997,7 +1002,7 @@ var
 
     Dec(index);
     while index >= 0 do begin
-      rec := self.fileSyncRec(index);
+      rec:= self.fileSyncRec(index);
       if rec.relPath = EmptyStr then
         break;
       if NOT PathIsInPath(basePath, rec.relPath) then
