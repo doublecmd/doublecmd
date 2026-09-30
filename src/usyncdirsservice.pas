@@ -968,7 +968,7 @@ begin
         begin
           if Terminated then Exit;
           rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
-          if NOT rec.isDir and (rec.state = srsUnknown) then
+          if rec.isFile and (rec.state = srsUnknown) then
           begin
             Statistics.TotalBytes+= rec.leftFile.Size;
           end;
@@ -984,7 +984,7 @@ begin
       begin
         if Terminated then Exit;
         rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
-        if NOT rec.isDir and (rec.state = srsUnknown) then
+        if rec.isFile and (rec.state = srsUnknown) then
         begin
           try
             isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);

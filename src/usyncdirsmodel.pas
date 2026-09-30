@@ -114,15 +114,18 @@ type
     constructor Create(const option: TSyncDirsCompareOption; const relPath: String);
     destructor Destroy; override;
 
+    function isFile: Boolean;
     function isDir: Boolean; virtual; abstract;
+    function isDeletable( const leftSide: Boolean ): Boolean; virtual;
+
+    function fileBySide( const leftSide: Boolean ): TFile;
+    function hasFilesOnBothSides: Boolean;
+    function hasFileOnOnlyOneSide: Boolean;
+    function hasFileOnAnySide: Boolean;
 
     procedure updateState; virtual;
     function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
     function getNextAction: TSyncRecState; virtual;
-
-    function isDeletable( const leftSide: Boolean ): Boolean; virtual;
-
-    function fileBySide( const leftSide: Boolean ): TFile;
 
     property relPath: String read _relPath;
     property state: TSyncRecState read _state write _state;
@@ -160,10 +163,10 @@ type
     procedure incFileCount(const side: Boolean);
     procedure decFileCount(const side: Boolean);
     function fileCount(const side: Boolean): Integer;
-    function noDir(const side: Boolean): Boolean;
-    function noDir: Boolean;
-    function noFile(const side: Boolean): Boolean;
-    function noFile: Boolean;
+    function noDirDescendant(const side: Boolean): Boolean;
+    function noDirDescendant: Boolean;
+    function noFileDescendant(const side: Boolean): Boolean;
+    function noFileDescendant: Boolean;
     function isEmpty(const side: Boolean): Boolean;
   end;
 
@@ -297,6 +300,11 @@ begin
   inherited Destroy;
 end;
 
+function TSyncRec.isFile: Boolean;
+begin
+  Result:= NOT self.isDir;
+end;
+
 procedure TSyncRec.updateState;
 begin
   if Assigned(_rightFile) and NOT Assigned(_leftFile) then begin
@@ -390,6 +398,21 @@ begin
     Result:= _rightFile;
 end;
 
+function TSyncRec.hasFilesOnBothSides: Boolean;
+begin
+  Result:= Assigned(_leftFile) and Assigned(_rightFile);
+end;
+
+function TSyncRec.hasFileOnOnlyOneSide: Boolean;
+begin
+  Result:= Assigned(_leftFile) <> Assigned(_rightFile);
+end;
+
+function TSyncRec.hasFileOnAnySide: Boolean;
+begin
+  Result:= Assigned(_leftFile) or Assigned(_rightFile);
+end;
+
 { TSyncFileRec }
 
 function TSyncFileRec.isDir: Boolean;
@@ -439,7 +462,7 @@ procedure TSyncFileRec.updateState;
     _action:= _state;
   end;
 begin
-  if Assigned(_rightFile) and Assigned(_leftFile) then begin
+  if self.hasFilesOnBothSides then begin
     compareTwoSides;
   end else begin
     inherited;
@@ -461,11 +484,8 @@ begin
   _action:= srsDoNothing;
   if NOT (cfEmptyDirs in _option.flags) then
     Exit;
-  if NOT Assigned(_leftFile) and NOT Assigned(_rightFile) then
-    Exit;
-  if Assigned(_leftFile) and Assigned(_rightFile) then
-    Exit;
-  inherited;
+  if self.hasFileOnOnlyOneSide then
+    inherited;
 end;
 
 function TSyncDirRec.getNextAction: TSyncRecState;
@@ -515,29 +535,29 @@ begin
   Result:= _fileCount[side];
 end;
 
-function TSyncDirRec.noDir(const side: Boolean): Boolean;
+function TSyncDirRec.noDirDescendant(const side: Boolean): Boolean;
 begin
   Result:= _dirCount[side] = 0;
 end;
 
-function TSyncDirRec.noDir: Boolean;
+function TSyncDirRec.noDirDescendant: Boolean;
 begin
-  Result:= noDir(True) and noDir(False);
+  Result:= noDirDescendant(True) and noDirDescendant(False);
 end;
 
-function TSyncDirRec.noFile(const side: Boolean): Boolean;
+function TSyncDirRec.noFileDescendant(const side: Boolean): Boolean;
 begin
   Result:= _fileCount[side] = 0;
 end;
 
-function TSyncDirRec.noFile: Boolean;
+function TSyncDirRec.noFileDescendant: Boolean;
 begin
-  Result:= noFile(True) and noFile(False);
+  Result:= noFileDescendant(True) and noFileDescendant(False);
 end;
 
 function TSyncDirRec.isEmpty(const side: Boolean): Boolean;
 begin
-  Result:= self.noDir(side) and self.noFile(side);
+  Result:= self.noDirDescendant(side) and self.noFileDescendant(side);
 end;
 
 { TTwoLevelTreeDirItem }
@@ -612,22 +632,22 @@ procedure TTwoLevelTree.filterFlatListWithFlags(
   const flatList: TFlatDirFileList;
   const filterFlags: TFilterFlags );
 
-  function isMatching(const syncRec: TSyncRec): Boolean;
+  function isMatching(const rec: TSyncRec): Boolean;
   begin
-    if syncRec.state = srsDeleted then
+    if rec.state = srsDeleted then
       Exit(False);
 
     Result:=
-      ((Assigned(syncRec.leftFile) <> Assigned(syncRec.rightFile)) and (ffSingle in filterFlags) or
-       (Assigned(syncRec.leftFile) = Assigned(syncRec.rightFile)) and (ffDuplicate in filterFlags))
+      ((rec.hasFileOnOnlyOneSide and (ffSingle in filterFlags)) or
+       (rec.hasFilesOnBothSides and (ffDuplicate in filterFlags)))
        and
-       (((syncRec.state = srsCopyToLeft) or (syncRec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
-        ((syncRec.state = srsCopyToRight) or (syncRec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
-        (syncRec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
-        (syncRec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
-        (syncRec.state = srsEqual) and (ffEqual in filterFlags) or
-        (syncRec.state = srsNotEq) and (ffNotEqual in filterFlags) or
-        (syncRec.state = srsUnknown) and (ffUnknown in filterFlags));
+       (((rec.state = srsCopyToLeft) or (rec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
+        ((rec.state = srsCopyToRight) or (rec.action = srsCopyToRight)) and (ffCopyRight in filterFlags) or
+        (rec.state = srsDeleteLeft) and (ffCopyRight in filterFlags) or
+        (rec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
+        (rec.state = srsEqual) and (ffEqual in filterFlags) or
+        (rec.state = srsNotEq) and (ffNotEqual in filterFlags) or
+        (rec.state = srsUnknown) and (ffUnknown in filterFlags));
   end;
 
   function isDirMatching(const syncRec: TSyncRec): Boolean;
@@ -714,7 +734,7 @@ begin
     rec:= self.fileSyncRec( i );
     if rec.relPath = EmptyStr then
       break;
-    if NOT rec.isDir then
+    if rec.isFile then
       continue;
     if NOT PathIsInPath(basePath, rec.relPath) then
       continue;
@@ -778,13 +798,13 @@ var
 begin
   for i:= self.Count-1 downto 0 do begin
     rec:= self.fileSyncRec( i );
-    if NOT rec.isDir then
+    if rec.isFile then
       continue;
     if rec.state <> srsDoNothing then
       continue;
     if i + 1 < self.Count then begin
       rec:= self.fileSyncRec(i+1);
-      if NOT rec.isDir then
+      if rec.isFile then
         continue;
     end;
     self.Delete(i);
@@ -872,7 +892,7 @@ begin
       Inc( Result.equal )
     else if rec.state = srsNotEq then
       Inc( Result.notEqual )
-    else if Assigned(rec.leftFile) and Assigned(rec.rightFile) then
+    else if rec.hasFilesOnBothSides then
       Inc( Result.notEqual );
   end;
 end;
@@ -883,7 +903,7 @@ var
 begin
   Result:= fromIndex;
   rec:= self.fileSyncRec(fromIndex);
-  if NOT rec.isDir then
+  if rec.isFile then
     Exit;
 
   Inc( Result );
@@ -929,7 +949,7 @@ procedure TFlatDirFileList.deleteAndGetSelected(
       self.removeRight( index );
     end;
 
-    if Assigned(rec.leftFile) or Assigned(rec.rightFile) then begin
+    if rec.hasFileOnAnySide then begin
       rec.updateState;
     end else begin
       self.FullyDelete(index);

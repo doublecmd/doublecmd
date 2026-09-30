@@ -638,9 +638,7 @@ begin
   x := MainDrawGrid.ScreenToClient(Mouse.CursorPos).X;
   if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
   rec := FFilteredList.fileSyncRec(r);
-  if rec.isDir
-  or not Assigned(rec.rightFile) or not Assigned(rec.leftFile) or (rec.state = srsEqual)
-  then
+  if rec.isDir or NOT rec.hasFilesOnBothSides or (rec.state = srsEqual) then
     Exit;
   PrepareToolData(FFileSourceL, rec.leftFile, FFileSourceR, rec.rightFile, @ShowDifferByGlobList);
 end;
@@ -718,7 +716,7 @@ begin
             Left + 2, aRect.Top + 2, s)
       end;
     end;
-    if NOT rec.isDir or (rec.state<>srsDoNothing) then begin
+    if rec.isFile or (rec.state<>srsDoNothing) then begin
       ImageList1.Draw(MainDrawGrid.Canvas,
         hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
         (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(rec.action));
@@ -822,7 +820,7 @@ begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FFilteredList.Count) then Exit;
   rec := FFilteredList.fileSyncRec(r);
-  if NOT rec.isDir then
+  if rec.isFile then
   begin
     if Sender = MenuItemViewLeft then
       f := rec.leftFile
