@@ -160,10 +160,8 @@ type
 
     function isDir: Boolean; override;
     function isDeletable(const leftSide: Boolean): Boolean; override;
-    procedure incDirCount(const side: Boolean);
-    procedure decDirCount(const side: Boolean);
-    procedure incFileCount(const side: Boolean);
-    procedure decFileCount(const side: Boolean);
+    procedure incDirCount(const side: Boolean; const delta: Integer);
+    procedure incFileCount(const side: Boolean; const delta: Integer);
     function fileCount(const side: Boolean): Integer;
     function noDirDescendant(const side: Boolean): Boolean;
     function noDirDescendant: Boolean;
@@ -229,7 +227,7 @@ type
     _fullTree: TTwoLevelTree;
   private
     function findParentDirRec( const childIndex: Integer ): TSyncDirRec;
-    procedure decParentDirRecChildrenCount( const childIndex: Integer; const leftSide: Boolean );
+    procedure incParentDirRecChildrenCount( const childIndex: Integer; const leftSide: Boolean; const delta: Integer );
   public
     constructor Create( const fullTree: TTwoLevelTree );
     destructor Destroy; override;
@@ -240,6 +238,8 @@ type
     procedure clearInvisibleDirs;
     procedure Clear;
 
+    procedure addLeft( const index: Integer; const f: TFile );
+    procedure addRight( const index: Integer; const f: TFile );
     procedure removeLeft( const index: Integer );
     procedure removeRight( const index: Integer );
 
@@ -514,24 +514,14 @@ begin
   Result:= Result and self.isEmpty( leftSide );
 end;
 
-procedure TSyncDirRec.incDirCount(const side: Boolean);
+procedure TSyncDirRec.incDirCount(const side: Boolean; const delta: Integer);
 begin
-  Inc( _dirCount[side] );
+  Inc( _dirCount[side], delta );
 end;
 
-procedure TSyncDirRec.decDirCount(const side: Boolean);
+procedure TSyncDirRec.incFileCount(const side: Boolean; const delta: Integer);
 begin
-  Dec( _dirCount[side] );
-end;
-
-procedure TSyncDirRec.incFileCount(const side: Boolean);
-begin
-  Inc( _fileCount[side] );
-end;
-
-procedure TSyncDirRec.decFileCount(const side: Boolean);
-begin
-  Dec( _fileCount[side] );
+  Inc( _fileCount[side], delta );
 end;
 
 function TSyncDirRec.fileCount(const side: Boolean): Integer;
@@ -682,8 +672,10 @@ begin
   Result:= _fullTree.dirItem(parentDirIndexInTree).dirSyncRec;
 end;
 
-procedure TFlatDirFileList.decParentDirRecChildrenCount(
-  const childIndex: Integer; const leftSide: Boolean);
+procedure TFlatDirFileList.incParentDirRecChildrenCount(
+  const childIndex: Integer;
+  const leftSide: Boolean;
+  const delta: Integer );
 var
   parentDirRec: TSyncDirRec;
   childRec: TSyncRec;
@@ -692,9 +684,9 @@ begin
   if Assigned(parentDirRec) then begin
     childRec:= self.fileSyncRec( childIndex );
     if childRec.isDir then begin
-      parentDirRec.decDirCount( leftSide );
+      parentDirRec.incDirCount( leftSide, delta );
     end else begin
-      parentDirRec.decFileCount( leftSide );
+      parentDirRec.incFileCount( leftSide, delta );
     end;
   end;
 end;
@@ -756,11 +748,29 @@ begin
   _list.Clear;
 end;
 
+procedure TFlatDirFileList.addLeft(const index: Integer; const f: TFile);
+var
+  rec: TSyncRec;
+begin
+  incParentDirRecChildrenCount( index, True, 1 );
+  rec:= self.fileSyncRec( index );
+  rec.leftFile:= f;
+end;
+
+procedure TFlatDirFileList.addRight(const index: Integer; const f: TFile);
+var
+  rec: TSyncRec;
+begin
+  incParentDirRecChildrenCount( index, False, 1 );
+  rec:= self.fileSyncRec( index );
+  rec.rightFile:= f;
+end;
+
 procedure TFlatDirFileList.removeLeft(const index: Integer);
 var
   rec: TSyncRec;
 begin
-  decParentDirRecChildrenCount( index, True );
+  incParentDirRecChildrenCount( index, True, -1 );
   rec:= self.fileSyncRec( index );
   rec.leftFile:= nil;
 end;
@@ -769,7 +779,7 @@ procedure TFlatDirFileList.removeRight(const index: Integer);
 var
   rec: TSyncRec;
 begin
-  decParentDirRecChildrenCount( index, False );
+  incParentDirRecChildrenCount( index, False, -1 );
   rec:= self.fileSyncRec( index );
   rec.rightFile:= nil;
 end;

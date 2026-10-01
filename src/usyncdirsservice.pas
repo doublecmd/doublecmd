@@ -676,7 +676,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
           begin
             if _callback.treeBuilderMaskFilt(f) then begin
               dirs.AddObject(fn, f.Clone);  // dirs don't own Object
-              dirSyncRec.incDirCount(sideLeft);
+              dirSyncRec.incDirCount(sideLeft, 1);
             end;
           end;
         end else if _callback.treeBuilderMaskFilt(f) then begin
@@ -693,7 +693,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
           end;
           rec.updateState;
           dirItem.addFile(fn, rec);
-          dirSyncRec.incFileCount(sideLeft);
+          dirSyncRec.incFileCount(sideLeft, 1);
         end;
       end;
     finally
@@ -896,22 +896,64 @@ var
       Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
   end;
 
+  procedure doCopyDir;
+  var
+    newPath: String;
+    newFile: TFile;
+  begin
+    if rec.action = srsCopyToRight then begin
+      newPath:= _rightBasePath + rec.relPath;
+      CreateDirectoryFromFile(
+        _rightFS,
+        newPath,
+        _leftFS,
+        rec.leftFile);
+      newFile:= _rightFS.CreateFileObject( EmptyStr );
+      newFile.FullPath:= newPath;
+      _filteredList.addRight( index, newFile );
+    end else begin
+      newPath:= _leftBasePath + rec.relPath;
+      CreateDirectoryFromFile(
+        _leftFS,
+        newPath,
+        _rightFS,
+        rec.rightFile);
+      newFile:= _leftFS.CreateFileObject( EmptyStr );
+      newFile.FullPath:= newPath;
+      _filteredList.addLeft( index, newFile );
+    end;
+  end;
+
+  procedure doCopyFile( const copyToLeftFiles: TFiles; const copyToRightFiles: TFiles );
+  var
+    newPath: String;
+    oldFile: TFile;
+    newFile: TFile;
+  begin
+    if Assigned(copyToRightFiles) then begin
+      oldFile:= rec.leftFile.Clone;
+      copyToRightFiles.Add( oldFile );
+      newPath:= _rightBasePath + rec.relPath;
+      newFile:= _rightFS.CreateFileObject( newPath );
+      newFile.Name:= oldFile.Name;
+      _filteredList.addRight( index, newFile );
+    end else if Assigned(copyToLeftFiles) then begin
+      oldFile:= rec.rightFile.Clone;
+      copyToLeftFiles.Add( oldFile );
+      newPath:= _leftBasePath + rec.relPath;
+      newFile:= _leftFS.CreateFileObject( newPath );
+      newFile.Name:= oldFile.Name;
+      _filteredList.addLeft( index, newFile );
+    end;
+  end;
+
   function processDir: Boolean;
   begin
     Result:= False;
     case rec.action of
-      srsCopyToRight:
-        CreateDirectoryFromFile(
-          _rightFS,
-          _rightBasePath + rec.relPath,
-          _leftFS,
-          rec.leftFile);
+      srsCopyToRight,
       srsCopyToLeft:
-        CreateDirectoryFromFile(
-          _leftFS,
-          _leftBasePath + rec.relPath,
-          _rightFS,
-          rec.rightFile);
+        doCopyDir;
       srsDeleteRight:
         if NOT doRemoveDir(nil, _rightFS) then
           Exit;
@@ -939,10 +981,10 @@ var
         case rec.action of
           srsCopyToRight:
             if sfCopyToRight in syncFlags then
-              copyToRightFiles.Add(rec.leftFile.Clone);
+              doCopyFile( nil, copyToRightFiles );
           srsCopyToLeft:
             if sfCopyToLeft in syncFlags then
-              copyToLeftFiles.Add(rec.rightFile.Clone);
+              doCopyFile( copyToLeftFiles, nil );
           srsDeleteRight:
             if sfDeleteRight in syncFlags then
               doRemoveFile( nil, deleteRightFiles );
@@ -1013,7 +1055,6 @@ begin
       if NOT processFiles then
         break;
     end;
-
     if NOT _callback.synchronizerCheckRunning then
       break;
   end;
