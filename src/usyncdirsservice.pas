@@ -857,6 +857,45 @@ var
   index: Integer;
   rec: TSyncRec;
 
+  procedure doRemoveFile( const leftFiles: TFiles; const rightFiles: TFiles );
+  begin
+    if Assigned(leftFiles) and Assigned(rec.leftFile) then begin
+      leftFiles.Add( rec.leftFile );
+      _filteredList.removeLeft( index );
+    end;
+
+    if Assigned(rightFiles) and Assigned(rec.rightFile) then begin
+      rightFiles.Add( rec.rightFile );
+      _filteredList.removeRight( index );
+    end;
+
+    if NOT rec.hasFileOnAnySide then
+      rec.state:= srsDeleted;
+  end;
+
+  function doRemoveDir(const leftFS: IFileSource; const rightFS: IFileSource): Boolean;
+  var
+    fs: IFileSource;
+    f: TFile;
+  begin
+    if Assigned(leftFS) then begin
+      fs:= leftFS;
+      f:= rec.leftFile;
+      _filteredList.removeLeft( index );
+    end else if Assigned(rightFS) then begin
+      fs:= rightFS;
+      f:= rec.rightFile;
+      _filteredList.removeRight( index );
+    end;
+
+    if NOT rec.hasFileOnAnySide then
+      rec.state:= srsDeleted;
+
+    Result:= Assigned(fs) and Assigned(f);
+    if Result then
+      Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
+  end;
+
   function processDir: Boolean;
   begin
     Result:= False;
@@ -874,10 +913,10 @@ var
           _rightFS,
           rec.rightFile);
       srsDeleteRight:
-        if NOT _fileProcessor.fileProcessorWithUIDeleteFile(_rightFS, rec.rightFile) then
+        if NOT doRemoveDir(nil, _rightFS) then
           Exit;
       srsDeleteLeft:
-        if NOT _fileProcessor.fileProcessorWithUIDeleteFile(_leftFS, rec.leftFile) then
+        if NOT doRemoveDir(_leftFS, nil) then
           Exit;
     end;
     Inc( index );
@@ -906,16 +945,16 @@ var
               copyToLeftFiles.Add(rec.rightFile.Clone);
           srsDeleteRight:
             if sfDeleteRight in syncFlags then
-              deleteRightFiles.Add(rec.rightFile.Clone);
+              doRemoveFile( nil, deleteRightFiles );
           srsDeleteLeft:
             if sfDeleteLeft in syncFlags then
-              deleteLeftFiles.Add(rec.leftFile.Clone);
+              doRemoveFile( deleteLeftFiles, nil );
           srsDeleteBoth:
             begin
               if sfDeleteRight in syncFlags then
-                deleteRightFiles.Add(rec.rightFile.Clone);
+                doRemoveFile( nil, deleteRightFiles );
               if sfDeleteLeft in syncFlags then
-                deleteLeftFiles.Add(rec.leftFile.Clone);
+                doRemoveFile( deleteLeftFiles, nil );
             end;
         end;
         index:= index + 1;
