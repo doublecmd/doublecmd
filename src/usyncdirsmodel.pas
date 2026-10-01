@@ -128,6 +128,10 @@ type
     function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
     function getNextAction: TSyncRecState; virtual;
 
+    {$IFOPT D+}
+    function ToString: ansistring; override;
+    {$ENDIF}
+  public
     property relPath: String read _relPath;
     property parentDirIndex: Integer read _parentDirIndex;
     property state: TSyncRecState read _state write _state;
@@ -168,6 +172,10 @@ type
     function noFileDescendant(const side: Boolean): Boolean;
     function noFileDescendant: Boolean;
     function isEmpty(const side: Boolean): Boolean;
+
+    {$IFOPT D+}
+    function ToString: ansistring; override;
+    {$ENDIF}
   end;
 
   { TTwoLevelTreeDirItem }
@@ -207,6 +215,10 @@ type
     function dirPath( const dirIndex: Integer ): String;
     function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
     function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec;
+
+    {$IFOPT D+}
+    function ToString: ansistring; override;
+    {$ENDIF}
   end;
 
   { TSyncDirsFlatCount }
@@ -253,6 +265,12 @@ type
     procedure deleteAndGetSelected(const indexes: TIntegerList; const leftFiles: TFiles; const rightFiles: TFiles);
 
     procedure setNewAction( const indexes: TIntegerList; const newAction: TSyncRecState );
+
+    {$IFOPT D+}
+    function ToString: ansistring; override;
+    {$ENDIF}
+  public
+    property fullTree: TTwoLevelTree read _fullTree;
   end;
 
 implementation
@@ -388,6 +406,23 @@ begin
         Result:= _option.stateWithoutLeft;
   end;
 end;
+
+{$IFOPT D+}
+function TSyncRec.ToString: ansistring;
+var
+  stateStr: String;
+  leftFileStr: String = '';
+  rightFileStr: String = '';
+begin
+  WriteStr( stateStr, 'state=', _state, ', action=', _action );
+  if Assigned(_leftFile) then
+    leftFileStr:= _leftFile.FullPath;
+  if Assigned(_rightFile) then
+    rightFileStr:= _rightFile.FullPath;
+  Result:= _relPath + ' : isDir=' + BoolToStr(isDir,True) + ', ' + stateStr +
+           ', left=' + leftFileStr + ', right=' + rightFileStr;
+end;
+{$ENDIF}
 
 function TSyncRec.isDeletable( const leftSide: Boolean ): Boolean;
 begin
@@ -554,6 +589,16 @@ begin
   Result:= self.noDirDescendant(side) and self.noFileDescendant(side);
 end;
 
+{$IFOPT D+}
+function TSyncDirRec.ToString: ansistring;
+begin
+  Result:= inherited;
+  Result:= Result + #10 +
+           '  leftDirCount=' + IntToStr(_dirCount[True]) + ', rightDirCount=' + IntToStr(_dirCount[False]) + #10 +
+           '  leftFileCount=' + IntToStr(_fileCount[True]) + ', rightFileCount=' + IntToStr(_fileCount[False]);
+end;
+{$ENDIF}
+
 { TTwoLevelTreeDirItem }
 
 constructor TTwoLevelTreeDirItem.Create(const dirSyncRec: TSyncDirRec);
@@ -656,6 +701,23 @@ function TTwoLevelTree.fileSyncRec(const dirIndex: Integer; const fileIndex: Int
 begin
   Result:= self.dirItem(dirIndex).fileSyncRec(fileIndex);
 end;
+
+{$IFOPT D+}
+function TTwoLevelTree.ToString: ansistring;
+var
+  dirIndex: Integer;
+  fileIndex: Integer;
+begin
+  Result:= '';
+  for dirIndex:= 0 to self.Count-1 do begin
+    Result:= Result + IntToStr(dirIndex) + '. ' + self.dirItem(dirIndex).dirSyncRec.ToString + #10;
+    for fileIndex:= 0 to dirItem(dirIndex).fileCount-1 do begin
+      Result:= Result + '    ' + IntToStr(dirIndex) + '.' + IntToStr(fileIndex) + ' ' +
+               self.fileSyncRec(dirIndex,fileIndex).ToString + #10;
+    end;
+  end;
+end;
+{$ENDIF}
 
 { TFlatDirFileList }
 
@@ -1035,6 +1097,17 @@ begin
   for i in indexes do
     processOneRec( i );
 end;
+
+{$IFOPT D+}
+function TFlatDirFileList.ToString: ansistring;
+var
+  index: Integer;
+begin
+  Result:= '';
+  for index:= 0 to self.Count-1 do
+    Result:= Result + IntToStr(index) + '. ' + self.fileSyncRec(index).ToString + #10;
+end;
+{$ENDIF}
 
 end.
 
