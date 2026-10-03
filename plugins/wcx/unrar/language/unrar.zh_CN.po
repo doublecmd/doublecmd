@@ -11,7 +11,7 @@ msgstr "WinRAR 可执行文件的路径(&R)"
 
 #: tdialogbox.gboptions.caption
 msgid "Archiving options"
-msgstr "存档选项"
+msgstr "压缩选项"
 
 #: tdialogbox.gboptions.chkrecovery.caption
 msgid "Add r&ecovery record"
@@ -23,7 +23,7 @@ msgstr "加密文件名(&N)"
 
 #: tdialogbox.gboptions.chksolid.caption
 msgid "Create &solid archive"
-msgstr "创建可靠的存档(&S)"
+msgstr "创建固实压缩文件(&S)"
 
 #: tdialogbox.lblmethod.caption
 msgid "&Compression method"
@@ -43,24 +43,24 @@ msgstr "附加参数"
 
 #: rarlng.rsdictlargewarning
 msgid "Large dictionary warning"
-msgstr ""
+msgstr "大字典警告"
 
 #: rarlng.rsdictnotallowed
 #, object-pascal-format
 msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
-msgstr ""
+msgstr "%u GB字典超过 %u GB限制，需要超过 %u GB内存来解压。"
 
 #: rarlng.rsmsgbuttoncancel
 msgid "&Cancel"
-msgstr ""
+msgstr "取消(&C)"
 
 #: rarlng.rsmsgbuttonextract
 msgid "&Extract"
-msgstr ""
+msgstr "解压(&E)"
 
 #: rarlng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr ""
+msgstr "请输入密码："
 
 #: rarlng.rsmsgexecutablenotfound
 #, object-pascal-format
@@ -71,8 +71,13 @@ msgid ""
 "\n"
 "Please check the plugin settings."
 msgstr ""
+"找不到 RAR 可执行文件！\n"
+"\n"
+"%s\n"
+"\n"
+"请检查插件设置。"
 
 #: rarlng.rsmsglibrarynotfound
 #, object-pascal-format
 msgid "Cannot load library %s! Please check your installation."
-msgstr ""
+msgstr "无法加载库 %s！请检查您的安装环境。"

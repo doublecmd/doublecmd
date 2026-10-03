@@ -32,7 +32,7 @@ msgstr ""
 
 #: tdialogbox.chkagentssh.caption
 msgid "Use SSH-agent authentication"
-msgstr ""
+msgstr "使用 SSH-agent 认证"
 
 #: tdialogbox.chkcopyscp.caption
 msgid "Copy using SCP protocol (faster)"
@@ -40,11 +40,11 @@ msgstr "使用 SCP 协议复制（更快）"
 
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
-msgstr "在传输期间发送 keepalive"
+msgstr "在传输期间发送keepalive"
 
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use main password to protect the password"
-msgstr "使用主密码保护密码"
+msgstr "使用主密码来保护密码"
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -78,23 +78,23 @@ msgstr ""
 
 #: tdialogbox.lblencoding.caption
 msgid "Encoding:"
-msgstr "编码:"
+msgstr "编码："
 
 #: tdialogbox.lblhost.caption
 msgid "Host[:Port]:"
-msgstr "主机[:端口]:"
+msgstr "主机[:端口]："
 
 #: tdialogbox.lblinitcommands.caption
 msgid "Init commands:"
-msgstr "初始化命令:"
+msgstr "初始化命令："
 
 #: tdialogbox.lblname.caption
 msgid "Connection name:"
-msgstr "连接名称:"
+msgstr "连接名称："
 
 #: tdialogbox.lblpassword.caption
 msgid "Password:"
-msgstr "密码:"
+msgstr "密码："
 
 #: tdialogbox.lblprivatekey.caption
 msgid "Private key file (*.pem):"
@@ -102,7 +102,7 @@ msgstr "私钥文件(*.pem):"
 
 #: tdialogbox.lblprotocol.caption
 msgid "Protocol:"
-msgstr "协议:"
+msgstr "协议："
 
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
@@ -110,27 +110,27 @@ msgstr "使用防火墙(代理服务器)"
 
 #: tdialogbox.lblproxyhost.caption
 msgid "&Host name:"
-msgstr "主机名(&H):"
+msgstr "主机名(&H)："
 
 #: tdialogbox.lblproxypassword.caption
 msgid "&Password:"
-msgstr "密码(&P):"
+msgstr "密码(&P)："
 
 #: tdialogbox.lblproxyuser.caption
 msgid "&User name:"
-msgstr "用户名(&U):"
+msgstr "用户名(&U)："
 
 #: tdialogbox.lblpublickey.caption
 msgid "Public key file (*.pub):"
-msgstr "公钥文件(*.pub):"
+msgstr "公钥文件(*.pub)："
 
 #: tdialogbox.lblremotedir.caption
 msgid "Remote dir:"
-msgstr "远程目录:"
+msgstr "远程目录："
 
 #: tdialogbox.lblusername.caption
 msgid "User name:"
-msgstr "用户名:"
+msgstr "用户名："
 
 #: tdialogbox.rgproxytype.caption
 msgid "Connect method"
@@ -150,13 +150,13 @@ msgstr "代理"
 
 #: tfrmfileproperties.caption
 msgid "Properties"
-msgstr ""
+msgstr "属性"
 
 #: ftplng.rsaddconnection
 msgid "Add connection"
-msgstr ""
+msgstr "添加连接"
 
 #: ftplng.rsquickconnection
 msgid "Quick connection"
-msgstr ""
+msgstr "快速连接"
 
