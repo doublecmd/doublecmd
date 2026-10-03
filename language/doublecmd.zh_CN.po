@@ -20,7 +20,7 @@ msgstr "正在比较... %d%%（按下 ESC 键可取消）"
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
 msgid "Left: Delete %d file(s)"
-msgstr "左侧: 删除%d个文件"
+msgstr "左侧：删除 %d 个文件"
 
 #: fsyncdirsdlg.rsdeleteright
 #, object-pascal-format
@@ -9168,16 +9168,16 @@ msgstr "确认覆盖"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "左侧：删除全部空文件夹"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "右侧：删除全部空文件夹"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
-msgstr ""
+msgstr "校验"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -9210,7 +9210,7 @@ msgstr "搜索时不区分大小写 "
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr "搜索时区别重音和连字"
+msgstr "搜索时区分重音和连字"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
