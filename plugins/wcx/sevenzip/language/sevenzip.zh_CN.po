@@ -1,0 +1,108 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.btnapply.caption
+msgid "Apply"
+msgstr "应用"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "选项"
+
+#: tdialogbox.lblarchiveformat.caption
+msgid "Archive &format:"
+msgstr "压缩格式(&F)："
+
+#: tdialogbox.lblcompressiondictionary.caption
+msgid "&Dictionary size:"
+msgstr "字典大小(&D)："
+
+#: tdialogbox.lblcompressionlevel.caption
+msgid "Compression &level:"
+msgstr "压缩等级(&L)："
+
+#: tdialogbox.lblcompressionmethod.caption
+msgid "Compression &method:"
+msgstr "压缩方法(&M)："
+
+#: tdialogbox.lblcompressionsolid.caption
+msgid "&Solid Block size:"
+msgstr "固实数据大小(&S)："
+
+#: tdialogbox.lblcompressionword.caption
+msgid "&Word size:"
+msgstr "单词大小(&W)："
+
+#: tdialogbox.lblmemorycompression.caption
+msgid "Memory usage for Compressing:"
+msgstr "压缩时的内存使用量：               "
+
+#: tdialogbox.lblmemorydecompression.caption
+msgid "Memory usage for Decompressing:"
+msgstr "解压时的内存使用量：               "
+
+#: tdialogbox.lblparameters.caption
+msgid "&Parameters:"
+msgstr "参数(&P)："
+
+#: tdialogbox.lblthreads.caption
+msgid "&Number of CPU threads:"
+msgstr "CPU线程数(&N)："
+
+#: tpasswordbox.caption
+msgid "Enter password"
+msgstr "输入密码"
+
+#: tpasswordbox.cbencryptnames.caption
+msgid "Encrypt file &names"
+msgstr "加密文件名"
+
+#: tpasswordbox.cbshowpassword.caption
+msgid "&Show password"
+msgstr "显示密码(&S)"
+
+#: tpasswordbox.lblpassword.caption
+msgid "&Enter password:"
+msgstr "输入密码(&E)："
+
+#: sevenziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "快速"
+
+#: sevenziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "极速"
+
+#: sevenziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "最大"
+
+#: sevenziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "标准"
+
+#: sevenziplng.rscompressionlevelstore
+msgid "Store"
+msgstr "存储"
+
+#: sevenziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "极限"
+
+#: sevenziplng.rssevenziploaderror
+#, object-pascal-format
+msgid "Failed to load 7-Zip library (%s)!"
+msgstr "无法加载 7-Zip 库 (%s)！"
+
+#: sevenziplng.rssevenzipsfxnotfound
+msgid "Cannot find specified SFX module!"
+msgstr "找不到指定的 SFX 模块！"
+
+#: sevenziplng.rssolidblocknonsolid
+msgid "Non-solid"
+msgstr "非固实"
+
+#: sevenziplng.rssolidblocksolid
+msgid "Solid"
+msgstr "固实"
+
