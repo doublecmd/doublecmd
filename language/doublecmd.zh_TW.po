@@ -20,12 +20,12 @@ msgstr "正在比較... %d%% (按下 ESC 鍵可取消)"
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
 msgid "Left: Delete %d file(s)"
-msgstr "左邊: 刪除 %d個檔案"
+msgstr "左邊: 刪除 %d 個檔案"
 
 #: fsyncdirsdlg.rsdeleteright
 #, object-pascal-format
 msgid "Right: Delete %d file(s)"
-msgstr "右邊: 刪除 %d個檔案"
+msgstr "右邊: 刪除 %d 個檔案"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
@@ -9403,16 +9403,16 @@ msgstr "確認覆蓋"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "左邊: 刪除所有空白資料夾"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "右邊: 刪除所有空白資料夾"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
-msgstr ""
+msgstr "校驗"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -9421,19 +9421,19 @@ msgstr "樹形檢視選單"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
-msgstr ""
+msgstr "選擇常用資料夾:"
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
-msgstr ""
+msgstr "搜尋時區分大小寫"
 
 #: tfrmtreeviewmenu.pmifullcollapse.caption
 msgid "Full collapse"
-msgstr ""
+msgstr "完全摺疊"
 
 #: tfrmtreeviewmenu.pmifullexpand.caption
 msgid "Full expand"
-msgstr ""
+msgstr "完全展開"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
@@ -9441,23 +9441,23 @@ msgstr "搜尋時忽略變音符號和連字"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
-msgstr ""
+msgstr "搜尋時不區分大小寫"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr ""
+msgstr "搜尋時區分重音和連字"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr ""
+msgstr "不顯示分支內容, 因為要搜尋的字串在分支名稱中找到"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr ""
+msgstr "如果在分支名稱中找到了搜尋字串，則顯示整個分支即使其中的元素不符"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
-msgstr ""
+msgstr "關閉樹形檢視選單"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
