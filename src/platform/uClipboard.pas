@@ -52,6 +52,8 @@ const
 
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
 
+  CRLF = #13#10;
+
   // General MIME
   uriListMime     = 'text/uri-list';
   textPlainMime   = 'text/plain';
@@ -316,7 +318,7 @@ begin
     // Separate previous uris with line endings,
     // but do not end the whole string with it.
     if i > 0 then
-      Result := Result + LineEnding;
+      Result := Result + CRLF;   // CRLF, per RFC 2483 §5
 
     Result := Result
             + fileScheme + '//'  { don't put hostname }
@@ -332,7 +334,7 @@ begin
   for i := 0 to filenames.Count-1 do
   begin
     if i > 0 then
-      Result := Result + LineEnding;
+      Result := Result + CRLF;   // CRLF, per RFC 2483 §5
 
     Result := Result
             + fileScheme + '//'  { don't put hostname }
