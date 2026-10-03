@@ -469,6 +469,10 @@ begin
         Include( syncFlags, sfDeleteLeft );
       if chkDeleteRight.Checked then
         Include( syncFlags, sfDeleteRight );
+      if chkDeleteLeftAllEmptyDirs.Checked then
+        Include( syncFlags, sfDeleteLeftAllEmptyDirs );
+      if chkDeleteRightAllEmptyDirs.Checked then
+        Include( syncFlags, sfDeleteRightAllEmptyDirs );
 
       lblProgress.Caption := rsOperCopying;
       lblProgressDelete.Caption := rsOperDeleting;

@@ -650,6 +650,8 @@ begin
     dirSyncRec:= fullTree.dirItem(dirIndex).dirSyncRec;
     if dirSyncRec.state = srsDeleted then
       continue;
+    if dirSyncRec.relPath = EmptyStr then
+      continue;
     if dirSyncRec.isEmpty(leftSide) then begin
       Result:= doRemoveDir;
       if NOT Result then

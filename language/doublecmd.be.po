@@ -9189,6 +9189,15 @@ msgstr "Сінхранізаваць"
 msgid "Confirm overwrites"
 msgstr "Пацвердзіць перазапіс"
 
+#: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
+msgid "Left: Delete all empty directories"
+msgstr ""
+
+#: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
+msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
+msgid "Right: Delete all empty directories"
+msgstr ""
+
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
 msgstr ""

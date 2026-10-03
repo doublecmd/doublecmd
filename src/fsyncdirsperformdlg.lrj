@@ -1,5 +1,7 @@
 {"version":1,"strings":[
 {"hash":267343253,"name":"tfrmsyncdirsperformdlg.caption","sourcebytes":[83,121,110,99,104,114,111,110,105,122,101],"value":"Synchronize"},
+{"hash":80946963,"name":"tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption","sourcebytes":[76,101,102,116,58,32,68,101,108,101,116,101,32,97,108,108,32,101,109,112,116,121,32,100,105,114,101,99,116,111,114,105,101,115],"value":"Left: Delete all empty directories"},
+{"hash":78311731,"name":"tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption","sourcebytes":[82,105,103,104,116,58,32,68,101,108,101,116,101,32,97,108,108,32,101,109,112,116,121,32,100,105,114,101,99,116,111,114,105,101,115],"value":"Right: Delete all empty directories"},
 {"hash":96086787,"name":"tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption","sourcebytes":[67,111,110,102,105,114,109,32,111,118,101,114,119,114,105,116,101,115],"value":"Confirm overwrites"},
 {"hash":97292249,"name":"tfrmsyncdirsperformdlg.chkverify.caption","sourcebytes":[86,101,114,105,102,121],"value":"Verify"}
 ]}
