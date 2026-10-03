@@ -110,6 +110,7 @@ type
   public
     constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
+    procedure deleteAllEmptyDirs( const leftSide: Boolean );
 
     property leftFS: IFileSource write _leftFS;
     property rightFS: IFileSource write _rightFS;
@@ -610,6 +611,48 @@ begin
   finally
     leftFiles.Free;
     rightFiles.Free;
+  end;
+end;
+
+procedure TSyncDirsDeleteService.deleteAllEmptyDirs(const leftSide: Boolean);
+var
+  fs: IFileSource;
+  fullTree: TTwoLevelTree;
+  dirSyncRec: TSyncDirRec;
+  dirIndex: Integer;
+
+  function doRemoveDir: Boolean;
+  var
+    f: TFile;
+  begin
+    if leftSide then
+      f:= dirSyncRec.leftFile
+    else
+      f:= dirSyncRec.rightFile;
+
+    Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
+    if NOT Result then
+      Exit;
+
+    if NOT dirSyncRec.hasFileOnAnySide then
+      dirSyncRec.state:= srsDeleted;
+  end;
+
+begin
+  if leftSide then
+    fs:= _leftFS
+  else
+    fs:= _rightFS;
+
+  fullTree:= _filteredList.fullTree;
+  for dirIndex:= 0 to fullTree.Count-1 do begin
+    dirSyncRec:= fullTree.dirItem(dirIndex).dirSyncRec;
+    if dirSyncRec.state = srsDeleted then
+      continue;
+    if dirSyncRec.isEmpty(leftSide) then begin
+      if NOT doRemoveDir then
+        break;
+    end;
   end;
 end;
 
