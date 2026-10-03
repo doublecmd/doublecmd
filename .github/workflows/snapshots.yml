@@ -17,12 +17,33 @@ concurrency:
 
 jobs:
   build-mac:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
-    - name: Install Free Pascal
-      uses: doublecmd/lazarus-install@mac
+    - name: Restore fpc from cache
+      id: fpc-restore
+      uses: actions/cache/restore@v6
       with:
-        lazarus-version: "stable"
+        path: ${{ runner.temp }}/fpc-dmg
+        key: ${{ runner.os }}-fpc
+
+    - name: Download fpc from site
+      if: steps.fpc-restore.outputs.cache-hit != 'true'
+      run: |
+            curl -L -o "${{ runner.temp }}/fpc.dmg" \
+              https://github.com/doublecmd/fpc-3.2.x/releases/download/v3.2.4-rc2/fpc-3.2.4-rc2-aarch64-macosx.dmg
+            hdiutil attach "${{ runner.temp }}/fpc.dmg" -mountpoint "${{ runner.temp }}/fpc-dmg"
+
+    - name: Save fpc to cache
+      if: steps.fpc-restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v6
+      with:
+        path: ${{ runner.temp }}/fpc-dmg
+        key: ${{ runner.os }}-fpc
+
+    - name: Install Free Pascal
+      run: |
+           sudo installer -pkg "${{ runner.temp }}/fpc-dmg/fpc-3.2.4-rc2-aarch64-macosx.pkg" -target /
+           sudo fpcmkcfg -d "basepath=/usr/local/lib/fpc/3.2.4" -o /etc/fpc.cfg
 
     - name: Get Lazarus source
       uses: actions/checkout@v7
