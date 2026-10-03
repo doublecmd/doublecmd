@@ -110,7 +110,7 @@ type
   public
     constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
-    procedure deleteAllEmptyDirs( const leftSide: Boolean );
+    function deleteAllEmptyDirs( const leftSide: Boolean ): Boolean;
 
     property leftFS: IFileSource write _leftFS;
     property rightFS: IFileSource write _rightFS;
@@ -174,7 +174,7 @@ type
       const fileProcessor: ISyncDirsFileProcessorWithUI;
       const filteredList: TFlatDirFileList );
     function count: TSyncDirsSyncCount;
-    procedure sync( const syncFlags: TSyncDirsSyncFlags );
+    function sync( const syncFlags: TSyncDirsSyncFlags ): Boolean;
 
     property leftFS: IFileSource write _leftFS;
     property rightFS: IFileSource write _rightFS;
@@ -614,7 +614,7 @@ begin
   end;
 end;
 
-procedure TSyncDirsDeleteService.deleteAllEmptyDirs(const leftSide: Boolean);
+function TSyncDirsDeleteService.deleteAllEmptyDirs(const leftSide: Boolean): Boolean;
 var
   fs: IFileSource;
   fullTree: TTwoLevelTree;
@@ -639,6 +639,7 @@ var
   end;
 
 begin
+  Result:= True;
   if leftSide then
     fs:= _leftFS
   else
@@ -650,7 +651,8 @@ begin
     if dirSyncRec.state = srsDeleted then
       continue;
     if dirSyncRec.isEmpty(leftSide) then begin
-      if NOT doRemoveDir then
+      Result:= doRemoveDir;
+      if NOT Result then
         break;
     end;
   end;
@@ -895,7 +897,7 @@ begin
   end;
 end;
 
-procedure TSyncDirsSynchronizer.sync(const syncFlags: TSyncDirsSyncFlags);
+function TSyncDirsSynchronizer.sync(const syncFlags: TSyncDirsSyncFlags): Boolean;
 var
   index: Integer;
   rec: TSyncRec;
@@ -1087,7 +1089,23 @@ var
     end;
   end;
 
+  function deleteAllEmptyDirs( const leftSide: Boolean ): Boolean;
+  var
+    deleteService: TSyncDirsDeleteService;
+  begin
+    deleteService:= TSyncDirsDeleteService.Create(_fileProcessor, _filteredList);
+    deleteService.leftFS:= _leftFS;
+    deleteService.rightFS:= _rightFS;
+
+    try
+      Result:= deleteService.deleteAllEmptyDirs( leftSide );
+    finally
+      deleteService.Free;
+    end;
+  end;
+
 begin
+  Result:= True;
   index:= 0;
   while index < _filteredList.Count do begin
     rec:= _filteredList.fileSyncRec(index);
@@ -1098,9 +1116,15 @@ begin
       if NOT processFiles then
         break;
     end;
-    if NOT _callback.synchronizerCheckRunning then
+    Result:= _callback.synchronizerCheckRunning;
+    if NOT Result then
       break;
   end;
+
+  if Result AND (sfDeleteLeftAllEmptyDirs in syncFlags) then
+    Result:= deleteAllEmptyDirs( True );
+  if Result AND (sfDeleteRightAllEmptyDirs in syncFlags) then
+    Result:= deleteAllEmptyDirs( False );
 end;
 
 { TSyncDirsCheckContentThread }

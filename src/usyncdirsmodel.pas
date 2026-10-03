@@ -80,7 +80,10 @@ type
     sfCopyToLeft,
     sfCopyToRight,
     sfDeleteLeft,
-    sfDeleteRight
+    sfDeleteRight,
+
+    sfDeleteLeftAllEmptyDirs,
+    sfDeleteRightAllEmptyDirs
   );
 
   TSyncDirsSyncFlags = set of TSyncDirsSyncFlag;
