@@ -1034,7 +1034,7 @@ begin
   MainDrawGrid.Invalidate;
   FFilteredCount:= FFilteredList.flatCount;
   UpdateStatusBar;
-  if FFilteredList.Count > 0 then
+  if FFullTree.Count > 0 then
   begin
     btnCompare.Default := False;
     btnSynchronize.Enabled := True;
