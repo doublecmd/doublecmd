@@ -625,14 +625,23 @@ var
   var
     f: TFile;
   begin
+    Result:= True;
     if leftSide then
       f:= dirSyncRec.leftFile
     else
       f:= dirSyncRec.rightFile;
 
+    if NOT Assigned(f) then
+      Exit;
+
     Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
     if NOT Result then
       Exit;
+
+    if leftSide then
+      fullTree.removeLeft( dirSyncRec )
+    else
+      fullTree.removeRight( dirSyncRec );
 
     if NOT dirSyncRec.hasFileOnAnySide then
       dirSyncRec.state:= srsDeleted;
@@ -646,7 +655,7 @@ begin
     fs:= _rightFS;
 
   fullTree:= _filteredList.fullTree;
-  for dirIndex:= 0 to fullTree.Count-1 do begin
+  for dirIndex:= fullTree.Count-1 downto 0 do begin
     dirSyncRec:= fullTree.dirItem(dirIndex).dirSyncRec;
     if dirSyncRec.state = srsDeleted then
       continue;

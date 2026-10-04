@@ -206,11 +206,16 @@ type
   TTwoLevelTree = class
   private
     _dirs: TStringListEx;
+  private
+    function findParentDirRec(const childSyncRec: TSyncRec): TSyncDirRec;
   public
     constructor Create;
     destructor Destroy; override;
 
     function addDir( const dirPath: String; const item: TTwoLevelTreeDirItem ): Integer;
+    procedure incParentDirRecChildrenCount( const childRec: TSyncRec; const leftSide: Boolean; const delta: Integer );
+    procedure removeLeft(const rec: TSyncRec);
+    procedure removeRight(const rec: TSyncRec);
     procedure Clear;
 
     function Count: Integer;
@@ -241,7 +246,6 @@ type
     _list: TStringListEx;
     _fullTree: TTwoLevelTree;
   private
-    function findParentDirRec( const childIndex: Integer ): TSyncDirRec;
     procedure incParentDirRecChildrenCount( const childIndex: Integer; const leftSide: Boolean; const delta: Integer );
   public
     constructor Create( const fullTree: TTwoLevelTree );
@@ -675,6 +679,35 @@ begin
   Result:= _dirs.AddObject( dirPath, item );
 end;
 
+procedure TTwoLevelTree.incParentDirRecChildrenCount(
+  const childRec: TSyncRec;
+  const leftSide: Boolean;
+  const delta: Integer);
+var
+  parentDirRec: TSyncDirRec;
+begin
+  parentDirRec:= self.findParentDirRec( childRec );
+  if Assigned(parentDirRec) then begin
+    if childRec.isDir then begin
+      parentDirRec.incDirCount( leftSide, delta );
+    end else begin
+      parentDirRec.incFileCount( leftSide, delta );
+    end;
+  end;
+end;
+
+procedure TTwoLevelTree.removeLeft(const rec: TSyncRec);
+begin
+  incParentDirRecChildrenCount( rec, True, -1 );
+  rec.leftFile:= nil;
+end;
+
+procedure TTwoLevelTree.removeRight(const rec: TSyncRec);
+begin
+  incParentDirRecChildrenCount( rec, False, -1 );
+  rec.rightFile:= nil;
+end;
+
 procedure TTwoLevelTree.Clear;
 begin
   _dirs.Clear;
@@ -705,6 +738,17 @@ begin
   Result:= self.dirItem(dirIndex).fileSyncRec(fileIndex);
 end;
 
+function TTwoLevelTree.findParentDirRec( const childSyncRec: TSyncRec ): TSyncDirRec;
+var
+  parentDirIndexInTree: Integer;
+begin
+  Result:= nil;
+  parentDirIndexInTree:= childSyncRec.parentDirIndex;
+  if parentDirIndexInTree < 0 then
+    Exit;
+  Result:= self.dirItem(parentDirIndexInTree).dirSyncRec;
+end;
+
 {$IFOPT D+}
 function TTwoLevelTree.ToString: ansistring;
 var
@@ -724,36 +768,15 @@ end;
 
 { TFlatDirFileList }
 
-function TFlatDirFileList.findParentDirRec(const childIndex: Integer): TSyncDirRec;
-var
-  rec: TSyncRec;
-  parentDirIndexInTree: Integer;
-begin
-  Result:= nil;
-  rec:= self.fileSyncRec( childIndex );
-  parentDirIndexInTree:= rec.parentDirIndex;
-  if parentDirIndexInTree < 0 then
-    Exit;
-  Result:= _fullTree.dirItem(parentDirIndexInTree).dirSyncRec;
-end;
-
 procedure TFlatDirFileList.incParentDirRecChildrenCount(
   const childIndex: Integer;
   const leftSide: Boolean;
   const delta: Integer );
 var
-  parentDirRec: TSyncDirRec;
   childRec: TSyncRec;
 begin
-  parentDirRec:= findParentDirRec( childIndex );
-  if Assigned(parentDirRec) then begin
-    childRec:= self.fileSyncRec( childIndex );
-    if childRec.isDir then begin
-      parentDirRec.incDirCount( leftSide, delta );
-    end else begin
-      parentDirRec.incFileCount( leftSide, delta );
-    end;
-  end;
+  childRec:= self.fileSyncRec( childIndex );
+  _fullTree.incParentDirRecChildrenCount( childRec, leftSide, delta );
 end;
 
 constructor TFlatDirFileList.Create( const fullTree: TTwoLevelTree );
