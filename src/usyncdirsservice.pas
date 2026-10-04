@@ -1007,15 +1007,20 @@ var
   begin
     Result:= False;
     case rec.action of
-      srsCopyToRight,
+      srsCopyToRight:
+        if sfCopyToRight in syncFlags then
+          doCopyDir;
       srsCopyToLeft:
-        doCopyDir;
+        if sfCopyToLeft in syncFlags then
+          doCopyDir;
       srsDeleteRight:
-        if NOT doRemoveDir(nil, _rightFS) then
-          Exit;
+        if sfDeleteRight in syncFlags then
+          if NOT doRemoveDir(nil, _rightFS) then
+            Exit;
       srsDeleteLeft:
-        if NOT doRemoveDir(_leftFS, nil) then
-          Exit;
+        if sfDeleteLeft in syncFlags then
+          if NOT doRemoveDir(_leftFS, nil) then
+            Exit;
     end;
     Inc( index );
     Result:= True;
