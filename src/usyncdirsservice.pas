@@ -626,11 +626,7 @@ var
     f: TFile;
   begin
     Result:= True;
-    if leftSide then
-      f:= dirSyncRec.leftFile
-    else
-      f:= dirSyncRec.rightFile;
-
+    f:= dirSyncRec.doubleFiles[leftSide];
     if NOT Assigned(f) then
       Exit;
 
@@ -638,11 +634,7 @@ var
     if NOT Result then
       Exit;
 
-    if leftSide then
-      fullTree.removeLeft( dirSyncRec )
-    else
-      fullTree.removeRight( dirSyncRec );
-
+    fullTree.removeFile( dirSyncRec, leftSide );
     if NOT dirSyncRec.hasFileOnAnySide then
       dirSyncRec.state:= srsDeleted;
   end;
@@ -741,12 +733,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
             rec := TSyncFileRec.Create(_compareOption, dir, parentDirIndex)
           else
             rec := dirItem.fileSyncRec(j);
-          if sideLeft then
-          begin
-            rec.leftFile := f.Clone;
-          end else begin
-            rec.rightFile := f.Clone;
-          end;
+          rec.doubleFiles[sideLeft]:= f.Clone;
           rec.updateState;
           dirItem.addFile(fn, rec);
           dirSyncRec.incFileCount(sideLeft, 1);
@@ -917,12 +904,12 @@ var
   begin
     if Assigned(leftFiles) and Assigned(rec.leftFile) then begin
       leftFiles.Add( rec.leftFile );
-      _filteredList.removeLeft( index );
+      _filteredList.removeFile( index, True );
     end;
 
     if Assigned(rightFiles) and Assigned(rec.rightFile) then begin
       rightFiles.Add( rec.rightFile );
-      _filteredList.removeRight( index );
+      _filteredList.removeFile( index, False );
     end;
 
     if NOT rec.hasFileOnAnySide then
@@ -937,11 +924,11 @@ var
     if Assigned(leftFS) then begin
       fs:= leftFS;
       f:= rec.leftFile;
-      _filteredList.removeLeft( index );
+      _filteredList.removeFile( index, True );
     end else if Assigned(rightFS) then begin
       fs:= rightFS;
       f:= rec.rightFile;
-      _filteredList.removeRight( index );
+      _filteredList.removeFile( index, False );
     end;
 
     if NOT rec.hasFileOnAnySide then
@@ -966,7 +953,7 @@ var
         rec.leftFile);
       newFile:= _rightFS.CreateFileObject( EmptyStr );
       newFile.FullPath:= newPath;
-      _filteredList.addRight( index, newFile );
+      _filteredList.addFile( index, False, newFile );
     end else begin
       newPath:= _leftBasePath + rec.relPath;
       CreateDirectoryFromFile(
@@ -976,7 +963,7 @@ var
         rec.rightFile);
       newFile:= _leftFS.CreateFileObject( EmptyStr );
       newFile.FullPath:= newPath;
-      _filteredList.addLeft( index, newFile );
+      _filteredList.addFile( index, True, newFile );
     end;
   end;
 
@@ -992,14 +979,14 @@ var
       newPath:= _rightBasePath + rec.relPath;
       newFile:= _rightFS.CreateFileObject( newPath );
       newFile.Name:= oldFile.Name;
-      _filteredList.addRight( index, newFile );
+      _filteredList.addFile( index, False, newFile );
     end else if Assigned(copyToLeftFiles) then begin
       oldFile:= rec.rightFile.Clone;
       copyToLeftFiles.Add( oldFile );
       newPath:= _leftBasePath + rec.relPath;
       newFile:= _leftFS.CreateFileObject( newPath );
       newFile.Name:= oldFile.Name;
-      _filteredList.addLeft( index, newFile );
+      _filteredList.addFile( index, True, newFile );
     end;
   end;
 

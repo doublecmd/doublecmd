@@ -103,6 +103,8 @@ type
     function deleteCount: Integer;
   end;
 
+  TDoubleFiles = array [Boolean] of TFile;
+
   { TSyncRec }
 
   TSyncRec = class
@@ -112,11 +114,13 @@ type
     _state: TSyncRecState;
     _action: TSyncRecState;
     _option: TSyncDirsCompareOption;
-    _leftFile: TFile;
-    _rightFile: TFile;
+    _doubleFiles: TDoubleFiles;
   public
     constructor Create(const option: TSyncDirsCompareOption; const relPath: String; const parentDirIndex: Integer);
     destructor Destroy; override;
+
+    function getFile(const leftSide: Boolean): TFile;
+    procedure setFile(const leftSide: Boolean; const f: TFile);
 
     function isFile: Boolean;
     function isDir: Boolean; virtual; abstract;
@@ -140,8 +144,9 @@ type
     property state: TSyncRecState read _state write _state;
     property action: TSyncRecState read _action write _action;
 
-    property leftFile: TFile read _leftFile write _leftFile;
-    property rightFile: TFile read _rightFile write _rightFile;
+    property doubleFiles[leftSide: Boolean]: TFile read getFile write setFile;
+    property leftFile: TFile read _doubleFiles[True] write _doubleFiles[True] ;
+    property rightFile: TFile read _doubleFiles[False]  write _doubleFiles[False];
 
     property option: TSyncDirsCompareOption read _option;
   end;
@@ -214,8 +219,7 @@ type
 
     function addDir( const dirPath: String; const item: TTwoLevelTreeDirItem ): Integer;
     procedure incParentDirRecChildrenCount( const childRec: TSyncRec; const leftSide: Boolean; const delta: Integer );
-    procedure removeLeft(const rec: TSyncRec);
-    procedure removeRight(const rec: TSyncRec);
+    procedure removeFile(const rec: TSyncRec; const leftSide: Boolean);
     procedure Clear;
 
     function Count: Integer;
@@ -257,10 +261,8 @@ type
     procedure clearInvisibleDirs;
     procedure Clear;
 
-    procedure addLeft( const index: Integer; const f: TFile );
-    procedure addRight( const index: Integer; const f: TFile );
-    procedure removeLeft( const index: Integer );
-    procedure removeRight( const index: Integer );
+    procedure addFile( const index: Integer; const leftSide: Boolean; const f: TFile );
+    procedure removeFile(const index: Integer; const leftSide: Boolean);
 
     function Count: Integer;
     function path( const index: Integer ): String;
@@ -324,9 +326,19 @@ end;
 
 destructor TSyncRec.Destroy;
 begin
-  FreeAndNil( _leftFile );
-  FreeAndNil( _rightFile );
+  leftFile.Free;
+  rightFile.Free;
   inherited Destroy;
+end;
+
+function TSyncRec.getFile(const leftSide: Boolean): TFile;
+begin
+  Result:= _doubleFiles[leftSide];
+end;
+
+procedure TSyncRec.setFile(const leftSide: Boolean; const f: TFile);
+begin
+  _doubleFiles[leftSide]:= f;
 end;
 
 function TSyncRec.isFile: Boolean;
@@ -336,9 +348,9 @@ end;
 
 procedure TSyncRec.updateState;
 begin
-  if Assigned(_rightFile) and NOT Assigned(_leftFile) then begin
+  if Assigned(rightFile) and NOT Assigned(leftFile) then begin
     _state:= _option.stateWithoutLeft;
-  end else if NOT Assigned(_rightFile) and Assigned(_leftFile) then begin
+  end else if NOT Assigned(rightFile) and Assigned(leftFile) then begin
     _state:= srsCopyToRight;
   end;
   _action:= _state;
@@ -355,26 +367,26 @@ begin
       Result:= _state;
     srsNotEq:               // expect CopyReverse
       begin
-        if (_action = srsCopyToLeft) and Assigned(_leftFile) then
+        if (_action = srsCopyToLeft) and Assigned(leftFile) then
           Result:= srsCopyToRight
-        else if (_action = srsCopyToRight) and Assigned(_rightFile) then
+        else if (_action = srsCopyToRight) and Assigned(rightFile) then
           Result:= srsCopyToLeft
         else
           Result:= _action;
       end;
     srsCopyToLeft,
     srsDeleteRight:
-      if NOT Assigned(_rightFile) then
+      if NOT Assigned(rightFile) then
         Result:= srsDoNothing;
     srsCopyToRight,
     srsDeleteLeft:
-      if NOT Assigned(_leftFile) then
+      if NOT Assigned(leftFile) then
         Result:= srsDoNothing;
     srsDeleteBoth:
       begin
-        if NOT Assigned(_leftFile) then
+        if NOT Assigned(leftFile) then
           Result:= srsDeleteRight;
-        if NOT Assigned(_rightFile) then
+        if NOT Assigned(rightFile) then
           Result:= srsDeleteLeft;
       end;
     srsNextAction:
@@ -389,12 +401,12 @@ begin
     srsNotEq:
       Result:= srsCopyToRight;
     srsCopyToRight:
-      if Assigned(_rightFile) then
+      if Assigned(rightFile) then
         Result:= srsCopyToLeft
       else
         Result:= srsDoNothing;
     srsCopyToLeft:
-      if Assigned(_leftFile) then
+      if Assigned(leftFile) then
         Result:= srsNotEq
       else
         Result:= srsDoNothing;
@@ -407,7 +419,7 @@ begin
     srsDeleteBoth:
       Result:= _state;
     srsDoNothing:
-      if Assigned(_leftFile) then
+      if Assigned(leftFile) then
         Result:= srsCopyToRight
       else
         Result:= _option.stateWithoutLeft;
@@ -422,10 +434,10 @@ var
   rightFileStr: String = '';
 begin
   WriteStr( stateStr, 'state=', _state, ', action=', _action );
-  if Assigned(_leftFile) then
-    leftFileStr:= _leftFile.FullPath;
-  if Assigned(_rightFile) then
-    rightFileStr:= _rightFile.FullPath;
+  if Assigned(leftFile) then
+    leftFileStr:= leftFile.FullPath;
+  if Assigned(rightFile) then
+    rightFileStr:= rightFile.FullPath;
   Result:= _relPath + ' : isDir=' + BoolToStr(isDir,True) + ', ' + stateStr +
            ', left=' + leftFileStr + ', right=' + rightFileStr;
 end;
@@ -438,25 +450,22 @@ end;
 
 function TSyncRec.fileBySide(const leftSide: Boolean): TFile;
 begin
-  if leftSide then
-    Result:= _leftFile
-  else
-    Result:= _rightFile;
+  Result:= _doubleFiles[leftSide];
 end;
 
 function TSyncRec.hasFilesOnBothSides: Boolean;
 begin
-  Result:= Assigned(_leftFile) and Assigned(_rightFile);
+  Result:= Assigned(leftFile) and Assigned(rightFile);
 end;
 
 function TSyncRec.hasFileOnOnlyOneSide: Boolean;
 begin
-  Result:= Assigned(_leftFile) <> Assigned(_rightFile);
+  Result:= Assigned(leftFile) <> Assigned(rightFile);
 end;
 
 function TSyncRec.hasFileOnAnySide: Boolean;
 begin
-  Result:= Assigned(_leftFile) or Assigned(_rightFile);
+  Result:= Assigned(leftFile) or Assigned(rightFile);
 end;
 
 { TSyncFileRec }
@@ -477,7 +486,7 @@ procedure TSyncFileRec.updateState;
         Exit;
       end;
 
-      dateDiff:= FileTimeCompare(_leftFile.ModificationTime, _rightFile.ModificationTime, cfNtfsShift in _option.flags);
+      dateDiff:= FileTimeCompare(leftFile.ModificationTime, rightFile.ModificationTime, cfNtfsShift in _option.flags);
       if dateDiff = 0 then begin
         _state:= srsEqual;
       end else if dateDiff > 0 then begin
@@ -492,7 +501,7 @@ procedure TSyncFileRec.updateState;
     compareDate;
     // by size
     if _state = srsEqual then begin
-      if _leftFile.Size <> _rightFile.Size then
+      if leftFile.Size <> rightFile.Size then
         _state:= srsNotEq;
     end;
     // by content
@@ -696,16 +705,10 @@ begin
   end;
 end;
 
-procedure TTwoLevelTree.removeLeft(const rec: TSyncRec);
+procedure TTwoLevelTree.removeFile(const rec: TSyncRec;  const leftSide: Boolean);
 begin
-  incParentDirRecChildrenCount( rec, True, -1 );
-  rec.leftFile:= nil;
-end;
-
-procedure TTwoLevelTree.removeRight(const rec: TSyncRec);
-begin
-  incParentDirRecChildrenCount( rec, False, -1 );
-  rec.rightFile:= nil;
+  incParentDirRecChildrenCount( rec, leftSide, -1 );
+  rec.doubleFiles[leftSide]:= nil;
 end;
 
 procedure TTwoLevelTree.Clear;
@@ -836,40 +839,24 @@ begin
   _list.Clear;
 end;
 
-procedure TFlatDirFileList.addLeft(const index: Integer; const f: TFile);
+procedure TFlatDirFileList.addFile(
+  const index: Integer;
+  const leftSide: Boolean;
+  const f: TFile);
 var
   rec: TSyncRec;
 begin
-  incParentDirRecChildrenCount( index, True, 1 );
+  incParentDirRecChildrenCount( index, leftSide, 1 );
   rec:= self.fileSyncRec( index );
-  rec.leftFile:= f;
+  rec.doubleFiles[leftSide]:= f;
 end;
 
-procedure TFlatDirFileList.addRight(const index: Integer; const f: TFile);
+procedure TFlatDirFileList.removeFile(const index: Integer; const leftSide: Boolean);
 var
   rec: TSyncRec;
 begin
-  incParentDirRecChildrenCount( index, False, 1 );
   rec:= self.fileSyncRec( index );
-  rec.rightFile:= f;
-end;
-
-procedure TFlatDirFileList.removeLeft(const index: Integer);
-var
-  rec: TSyncRec;
-begin
-  incParentDirRecChildrenCount( index, True, -1 );
-  rec:= self.fileSyncRec( index );
-  rec.leftFile:= nil;
-end;
-
-procedure TFlatDirFileList.removeRight(const index: Integer);
-var
-  rec: TSyncRec;
-begin
-  incParentDirRecChildrenCount( index, False, -1 );
-  rec:= self.fileSyncRec( index );
-  rec.rightFile:= nil;
+  _fullTree.removeFile( rec, leftSide );
 end;
 
 function TFlatDirFileList.Count: Integer;
@@ -979,12 +966,12 @@ procedure TFlatDirFileList.deleteAndGetSelected(
 
     if Assigned(leftFiles) and rec.isDeletable(True) then begin
       leftFiles.Add( rec.leftFile );
-      self.removeLeft( index );
+      self.removeFile( index, True );
     end;
 
     if Assigned(rightFiles) and rec.isDeletable(False) then begin
       rightFiles.Add( rec.rightFile );
-      self.removeRight( index );
+      self.removeFile( index, False );
     end;
 
     if rec.hasFileOnAnySide then begin
