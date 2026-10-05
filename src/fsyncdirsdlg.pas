@@ -143,7 +143,7 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure MainDrawGridKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure MainDrawGridMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure MainDrawGridMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure HeaderDGHeaderClick(Sender: TObject; IsColumn: Boolean;
@@ -507,6 +507,24 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.MainDrawGridMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  c, r: Integer;
+begin
+  if Button <> mbLeft then
+    Exit;
+
+  MainDrawGrid.MouseToCell(X, Y, c, r);
+  if (r < 0) or (r >= FFilteredList.Count)
+  or (x - 2 < hCols[3].Left)
+  or (x - 2 > hCols[3].Left + hCols[3].Width)
+  then
+    Exit;
+
+  toggleSelectionAction;
+end;
+
 procedure TfrmSyncDirsDlg.RestoreProperties(Sender: TObject);
 var
   Index: Integer;
@@ -758,27 +776,6 @@ begin
         CopyToClipboard;
       end;
   end;
-end;
-
-procedure TfrmSyncDirsDlg.MainDrawGridMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  c, r: Integer;
-begin
-  if Button <> mbLeft then
-    Exit;
-
-  MainDrawGrid.MouseToCell(X, Y, c, r);
-  MainDrawGrid.Row:= r;
-  MainDrawGrid.ClearSelections;
-
-  if (r < 0) or (r >= FFilteredList.Count)
-  or (x - 2 < hCols[3].Left)
-  or (x - 2 > hCols[3].Left + hCols[3].Width)
-  then
-    Exit;
-
-  toggleSelectionAction;
 end;
 
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;

@@ -549,7 +549,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     OnDblClick = MainDrawGridDblClick
     OnDrawCell = MainDrawGridDrawCell
     OnKeyDown = MainDrawGridKeyDown
-    OnMouseDown = MainDrawGridMouseDown
+    OnMouseUp = MainDrawGridMouseUp
   end
   object pnlProgress: TPanel
     AnchorSideLeft.Control = Owner
