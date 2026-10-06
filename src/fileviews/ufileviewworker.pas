@@ -155,11 +155,20 @@ type
                                         aFileFilter: String;
                                         const aFilterOptions: TQuickSearchOptions);
 
+    {en
+       Builds the display file list from aFileSourceFiles. Each TFile is handed
+       over to the TDisplayFile that from then on owns it, and is replaced by
+       @nil in aFileSourceFiles, so that no TFile is ever referenced by both
+       lists, not even when the transfer is interrupted by an exception.
+    }
     class procedure MakeAllDisplayFileList(const fs: IFileSource;
                                            aFileSourceFiles: TFiles;
                                            aDisplayFiles: TDisplayFiles;
                                            const aSortings: TFileSortings);
 
+    {en
+       Same as above, but updates an existing display file list in place.
+    }
     class procedure MakeAllDisplayFileList(const fs: IFileSource;
                                            aFileSourceFiles: TFiles;
                                            aExistingDisplayFiles: TDisplayFiles;
@@ -520,13 +529,17 @@ begin
       Exit;
 
     // Retrieve RetrievableFileProperties which used in sorting
-    if FFilePropertiesNeeded <> [] then
+    if (FFilePropertiesNeeded <> []) and Assigned(FileSourceFiles) then
     begin
       for I:= 0 to FileSourceFiles.Count - 1 do
         FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded, FVariantProperties);
     end;
 
-    // Make display file list from file source file list.
+    // Make display file list from file source file list. MakeAllDisplayFileList
+    // hands the TFile objects over to FAllDisplayFiles one by one, releasing
+    // each one from FileSourceFiles as it goes, so FileSourceFiles keeps owning
+    // exactly those not transferred yet, whether the transfer completes or is
+    // interrupted midway by an exception.
     if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
     begin
       // Updating existing list.
@@ -542,10 +555,6 @@ begin
         FAllDisplayFiles := TDisplayFiles.Create(True);
       MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
     end;
-
-    // By now the TFile objects have been transfered to FAllDisplayFiles.
-    if Assigned(FileSourceFiles) then
-      FileSourceFiles.OwnsObjects := False;
 
     {$IFDEF timeFileView}
     filelistPrintTime('Made sorted disp.lst: ');
@@ -771,8 +780,15 @@ begin
     end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
-      AFile := TDisplayFile.Create(aFileSourceFiles[i]);
-      AFile.DisplayName:= fs.GetDisplayFileName(aFileSourceFiles[i]);
+      // Build the display file empty and put it under the list that owns it
+      // first, then move the TFile into it. Release cannot raise, so the TFile
+      // is never in flight between two owners, and the properties below, any of
+      // which may raise, are filled in with every object already owned.
+      AFile := TDisplayFile.Create(nil);
+      aDisplayFiles.Add(AFile);
+      AFile.FSFile := aFileSourceFiles.Release(i);
+
+      AFile.DisplayName:= fs.GetDisplayFileName(AFile.FSFile);
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
       if HaveIcons then
       begin
@@ -782,8 +798,6 @@ begin
                                                     not gLoadIconsSeparately,
                                                     gShowIcons);
       end;
-
-      aDisplayFiles.Add(AFile);
     end;
     TDisplayFileSorter.Sort(aDisplayFiles, aSortings);
   end;
@@ -811,21 +825,33 @@ begin
     begin
       DirectAccess := not IsInPathList(gIconsExcludeDirs, aFileSourceFiles.Path);
     end;
-    aNewFiles := TDisplayFiles.Create(False);
+    // Owns the new display files until InsertSort below moves them into
+    // aExistingDisplayFiles, so that they are not leaked if the loop is
+    // interrupted by an exception.
+    aNewFiles := TDisplayFiles.Create(True);
     try
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
         j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
         if j >= 0 then
         begin
-          // Existing file.
+          // Existing file. It was cloned without its FS file and is already
+          // owned by aExistingDisplayFiles, so the TFile moves straight into a
+          // display file that has an owner.
           AFile := TDisplayFile(aExistingDisplayFilesHashed.List[j]^.Data);
-          AFile.FSFile := aFileSourceFiles[i];
+          AFile.FSFile := aFileSourceFiles.Release(i);
         end
         else
         begin
-          AFile := TDisplayFile.Create(aFileSourceFiles[i]);
-          AFile.DisplayName:= fs.GetDisplayFileName(aFileSourceFiles[i]);
+          // New file. Build it empty and put it under aNewFiles first, then move
+          // the TFile into it. Release cannot raise, so the TFile is never in
+          // flight between two owners, and the properties below, any of which
+          // may raise, are filled in with every object already owned.
+          AFile := TDisplayFile.Create(nil);
+          aNewFiles.Add(AFile);
+          AFile.FSFile := aFileSourceFiles.Release(i);
+
+          AFile.DisplayName:= fs.GetDisplayFileName(AFile.FSFile);
           AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
           if HaveIcons then
           begin
@@ -835,9 +861,6 @@ begin
                                                         not gLoadIconsSeparately,
                                                         gShowIcons);
           end;
-
-          // New file.
-          aNewFiles.Add(AFile);
         end;
       end;
 
@@ -848,7 +871,8 @@ begin
           aExistingDisplayFiles.Delete(i);
       end;
 
-      // Merge new files into existing files list.
+      // Merge new files into existing files list. Every file moved there is
+      // cleared from aNewFiles, so ownership never overlaps.
       TDisplayFileSorter.InsertSort(aNewFiles, aExistingDisplayFiles, aSortings);
 
     finally
