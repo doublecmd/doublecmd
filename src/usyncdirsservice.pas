@@ -110,7 +110,7 @@ type
   public
     constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
-    function deleteAllEmptyDirs( const leftSide: Boolean ): Boolean;
+    function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
 
     property leftFS: IFileSource write _leftFS;
     property rightFS: IFileSource write _rightFS;
@@ -614,7 +614,7 @@ begin
   end;
 end;
 
-function TSyncDirsDeleteService.deleteAllEmptyDirs(const leftSide: Boolean): Boolean;
+function TSyncDirsDeleteService.deleteAllEmptyDirs(const side: TDoubleSide): Boolean;
 var
   fs: IFileSource;
   fullTree: TTwoLevelTree;
@@ -626,7 +626,7 @@ var
     f: TFile;
   begin
     Result:= True;
-    f:= dirSyncRec.doubleFiles[leftSide];
+    f:= dirSyncRec.doubleFiles[side];
     if NOT Assigned(f) then
       Exit;
 
@@ -634,14 +634,14 @@ var
     if NOT Result then
       Exit;
 
-    fullTree.removeFile( dirSyncRec, leftSide );
+    fullTree.removeFile( dirSyncRec, side );
     if NOT dirSyncRec.hasFileOnAnySide then
       dirSyncRec.state:= srsDeleted;
   end;
 
 begin
   Result:= True;
-  if leftSide then
+  if side = dsLeft then
     fs:= _leftFS
   else
     fs:= _rightFS;
@@ -653,7 +653,7 @@ begin
       continue;
     if dirSyncRec.relPath = EmptyStr then
       continue;
-    if dirSyncRec.isEmpty(leftSide) then begin
+    if dirSyncRec.isEmpty(side) then begin
       Result:= doRemoveDir;
       if NOT Result then
         break;
@@ -680,8 +680,8 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     const dirItem: TTwoLevelTreeDirItem;
     const parentDirIndex: Integer;
     const dirs: TStringList;
-    var ASide: Boolean;
-    const sideLeft: Boolean);
+    var isFirst: Boolean;
+    const side: TDoubleSide);
   var
     dir: String;
     fs: TFiles;
@@ -695,7 +695,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
   begin
     dirSyncRec := dirItem.dirSyncRec;
     dir:= dirSyncRec.relPath;
-    if sideLeft then begin
+    if side = dsLeft then begin
       currentFileSource := _fileSourceL;
       dirFullPath := _baseDirL + dir;
     end else begin
@@ -703,9 +703,9 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
       dirFullPath := _baseDirR + dir;
     end;
     fs := currentFileSource.GetFiles(dirFullPath);
-    if (cfOnlySelected in _compareOption.flags) and ASide then
+    if (cfOnlySelected in _compareOption.flags) and isFirst then
     begin
-      ASide:= False;
+      isFirst:= False;
       for I:= fs.Count - 1 downto 0 do
       begin
         if NOT _callback.treeBuilderSelectedFilt(fs[I].Name) then
@@ -724,7 +724,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
           begin
             if _callback.treeBuilderMaskFilt(f) then begin
               dirs.AddObject(fn, f.Clone);  // dirs don't own Object
-              dirSyncRec.incDirCount(sideLeft, 1);
+              dirSyncRec.incDirCount(side, 1);
             end;
           end;
         end else if _callback.treeBuilderMaskFilt(f) then begin
@@ -733,10 +733,10 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
             rec := TSyncFileRec.Create(_compareOption, dir, parentDirIndex)
           else
             rec := dirItem.fileSyncRec(j);
-          rec.doubleFiles[sideLeft]:= f.Clone;
+          rec.doubleFiles[side]:= f.Clone;
           rec.updateState;
           dirItem.addFile(fn, rec);
-          dirSyncRec.incFileCount(sideLeft, 1);
+          dirSyncRec.incFileCount(side, 1);
         end;
       end;
     finally
@@ -830,8 +830,8 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     try
       if NOT _callback.treeBuilderCheckRunning(True) then
         Exit;
-      processOneSide(dirItem, currentDirIndex, dirsLeft, _leftFirst, True);
-      processOneSide(dirItem, currentDirIndex, dirsRight, _rightFirst, False);
+      processOneSide(dirItem, currentDirIndex, dirsLeft, _leftFirst, dsLeft);
+      processOneSide(dirItem, currentDirIndex, dirsRight, _rightFirst, dsRight);
       dirSyncRec.updateState;
       _sortedService.sortDirItem(dirItem);
       if not (cfSubdirs in _compareOption.flags) then
@@ -904,12 +904,12 @@ var
   begin
     if Assigned(leftFiles) and Assigned(rec.leftFile) then begin
       leftFiles.Add( rec.leftFile );
-      _filteredList.removeFile( index, True );
+      _filteredList.removeFile( index, dsLeft );
     end;
 
     if Assigned(rightFiles) and Assigned(rec.rightFile) then begin
       rightFiles.Add( rec.rightFile );
-      _filteredList.removeFile( index, False );
+      _filteredList.removeFile( index, dsRight );
     end;
 
     if NOT rec.hasFileOnAnySide then
@@ -924,11 +924,11 @@ var
     if Assigned(leftFS) then begin
       fs:= leftFS;
       f:= rec.leftFile;
-      _filteredList.removeFile( index, True );
+      _filteredList.removeFile( index, dsLeft );
     end else if Assigned(rightFS) then begin
       fs:= rightFS;
       f:= rec.rightFile;
-      _filteredList.removeFile( index, False );
+      _filteredList.removeFile( index, dsRight );
     end;
 
     if NOT rec.hasFileOnAnySide then
@@ -953,7 +953,7 @@ var
         rec.leftFile);
       newFile:= _rightFS.CreateFileObject( EmptyStr );
       newFile.FullPath:= newPath;
-      _filteredList.addFile( index, False, newFile );
+      _filteredList.addFile( index, dsRight, newFile );
     end else begin
       newPath:= _leftBasePath + rec.relPath;
       CreateDirectoryFromFile(
@@ -963,7 +963,7 @@ var
         rec.rightFile);
       newFile:= _leftFS.CreateFileObject( EmptyStr );
       newFile.FullPath:= newPath;
-      _filteredList.addFile( index, True, newFile );
+      _filteredList.addFile( index, dsLeft, newFile );
     end;
   end;
 
@@ -979,14 +979,14 @@ var
       newPath:= _rightBasePath + rec.relPath;
       newFile:= _rightFS.CreateFileObject( newPath );
       newFile.Name:= oldFile.Name;
-      _filteredList.addFile( index, False, newFile );
+      _filteredList.addFile( index, dsRight, newFile );
     end else if Assigned(copyToLeftFiles) then begin
       oldFile:= rec.rightFile.Clone;
       copyToLeftFiles.Add( oldFile );
       newPath:= _leftBasePath + rec.relPath;
       newFile:= _leftFS.CreateFileObject( newPath );
       newFile.Name:= oldFile.Name;
-      _filteredList.addFile( index, True, newFile );
+      _filteredList.addFile( index, dsLeft, newFile );
     end;
   end;
 
@@ -1092,7 +1092,7 @@ var
     end;
   end;
 
-  function deleteAllEmptyDirs( const leftSide: Boolean ): Boolean;
+  function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
   var
     deleteService: TSyncDirsDeleteService;
   begin
@@ -1101,7 +1101,7 @@ var
     deleteService.rightFS:= _rightFS;
 
     try
-      Result:= deleteService.deleteAllEmptyDirs( leftSide );
+      Result:= deleteService.deleteAllEmptyDirs( side );
     finally
       deleteService.Free;
     end;
@@ -1125,9 +1125,9 @@ begin
   end;
 
   if Result AND (sfDeleteLeftAllEmptyDirs in syncFlags) then
-    Result:= deleteAllEmptyDirs( True );
+    Result:= deleteAllEmptyDirs( dsLeft );
   if Result AND (sfDeleteRightAllEmptyDirs in syncFlags) then
-    Result:= deleteAllEmptyDirs( False );
+    Result:= deleteAllEmptyDirs( dsRight );
 end;
 
 { TSyncDirsCheckContentThread }
