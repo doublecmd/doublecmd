@@ -47,7 +47,7 @@ uses
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uColors,
   uHotDir, uSpecialDir, SynEdit, SynEditTypes, uFavoriteTabs, fTreeViewMenu,
-  uConvEncoding, DCJsonConfig, uFileSourceOperationTypes;
+  uFilePanelSelect, uConvEncoding, DCJsonConfig, uFileSourceOperationTypes;
 
 type
   { Configuration options }
@@ -177,7 +177,11 @@ procedure SetGlob1KBase(const value: UInt64);
 
 const
   { Default hotkey list version number }
-  hkVersion = 72;
+  hkVersion = 73;
+  // 73 - In "Main" context, added:
+  //      "Ctrl+F10" for "cm_PersistentViewFilter" + "action=clear"
+  //      "Ctrl+F11" for "cm_PersistentViewFilter" + "action=last"
+  //      "Ctrl+F12" for "cm_PersistentViewFilter" + "action=dialog"
   // 72 - In "Viewer" and "Editor" context, for macOS, added:
   //      "Cmd+G" for Find Next
   //      "Cmd+L" for Goto Line
@@ -382,6 +386,8 @@ var
   glsDirHistory:TStringListEx;
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
+  glsPersistentViewFilterHistoryLeft: TStringListEx;
+  glsPersistentViewFilterHistoryRight: TStringListEx;
   glsSyncMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsSearchPathHistory : TStringListEx;
@@ -758,6 +764,8 @@ procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
 function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
+function GetPersistentViewFilterHistory(const APanel: TFilePanelSelect): TStringListEx;
+procedure ExchangePersistentViewFilterHistories;
 
 procedure RegisterInitialization(InitProc: TProcedure);
 
@@ -996,6 +1004,8 @@ begin
       LoadHistory('CommandLine', glsCmdLineHistory);
       LoadHistory('VolumeSize', glsVolumeSizeHistory);
       LoadHistory('FileMask', glsMaskHistory);
+      LoadHistory('PersistentViewFilter/Left', glsPersistentViewFilterHistoryLeft);
+      LoadHistory('PersistentViewFilter/Right', glsPersistentViewFilterHistoryRight);
       LoadHistory('SyncDirsMask', glsSyncMaskHistory);
       LoadHistory('SearchText', glsSearchHistory, True);
       LoadHistory('SearchTextPath', glsSearchPathHistory);
@@ -1070,8 +1080,13 @@ begin
     Root:= History.FindNode(History.RootNode, 'History', True);
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
     if gSaveCmdLineHistory then SaveHistory('CommandLine', glsCmdLineHistory);
-    if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
-    if gSaveFileMaskHistory then SaveHistory('SyncDirsMask', glsSyncMaskHistory);
+    if gSaveFileMaskHistory then
+    begin
+      SaveHistory('FileMask', glsMaskHistory);
+      SaveHistory('PersistentViewFilter/Left', glsPersistentViewFilterHistoryLeft);
+      SaveHistory('PersistentViewFilter/Right', glsPersistentViewFilterHistoryRight);
+      SaveHistory('SyncDirsMask', glsSyncMaskHistory);
+    end;
     if gSaveVolumeSizeHistory then SaveHistory('VolumeSize', glsVolumeSizeHistory);
     if gSaveCreateDirectoriesHistory then begin
       SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
@@ -1120,6 +1135,23 @@ begin
     on EConvertError do
       Result := ADefaultFormat;
   end;
+end;
+
+function GetPersistentViewFilterHistory(const APanel: TFilePanelSelect): TStringListEx;
+begin
+  if APanel = fpRight then
+    Result := glsPersistentViewFilterHistoryRight
+  else
+    Result := glsPersistentViewFilterHistoryLeft;
+end;
+
+procedure ExchangePersistentViewFilterHistories;
+var
+  Temp: TStringListEx;
+begin
+  Temp := glsPersistentViewFilterHistoryLeft;
+  glsPersistentViewFilterHistoryLeft := glsPersistentViewFilterHistoryRight;
+  glsPersistentViewFilterHistoryRight := Temp;
 end;
 
 procedure RegisterInitialization(InitProc: TProcedure);
@@ -1240,6 +1272,9 @@ begin
       AddIfNotExists(['Ctrl+Up'],[],'cm_OpenDirInNewTab');
       AddIfNotExists(['Ctrl+\'],[],'cm_ChangeDirToRoot');
       AddIfNotExists(['Ctrl+.'],[],'cm_ShowSysFiles');
+      AddIfNotExists(['Ctrl+F10','','action=clear','',
+                      'Ctrl+F11','','action=last','',
+                      'Ctrl+F12','','action=dialog',''], 'cm_PersistentViewFilter');
       AddIfNotExists(['Shift+F2'],[],'cm_FocusCmdLine');
       AddIfNotExists(['Shift+F4'],[],'cm_EditNew');
       AddIfNotExists(['Shift+F5'],[],'cm_CopySamePanel');
@@ -1734,6 +1769,8 @@ begin
   glsCmdLineHistory := TStringListEx.Create;
   glsVolumeSizeHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
+  glsPersistentViewFilterHistoryLeft := TStringListEx.Create;
+  glsPersistentViewFilterHistoryRight := TStringListEx.Create;
   glsSyncMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsSearchPathHistory := TStringListEx.Create;
@@ -1770,6 +1807,8 @@ begin
   FreeAndNil(gDirectoryHotlist);
   FreeAndNil(gFavoriteTabsList);
   FreeAndNil(glsMaskHistory);
+  FreeAndNil(glsPersistentViewFilterHistoryLeft);
+  FreeAndNil(glsPersistentViewFilterHistoryRight);
   FreeAndNil(glsSyncMaskHistory);
   FreeAndNil(glsSearchHistory);
   FreeAndNil(glsSearchPathHistory);
@@ -2384,6 +2423,8 @@ begin
   gFavoriteTabsList.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
+  glsPersistentViewFilterHistoryLeft.Clear;
+  glsPersistentViewFilterHistoryRight.Clear;
   glsSyncMaskHistory.Clear;
   glsSearchHistory.Clear;
   glsSearchPathHistory.Clear;

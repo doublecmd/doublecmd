@@ -10,7 +10,7 @@ uses
   DCBasicTypes,
   uFileSourceOperation,
   uFileSourceListOperation,
-  fQuickSearch,uMasks;
+  fQuickSearch, uMasks, uSearchTemplate;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -80,6 +80,20 @@ type
   { TFileListBuilder }
 
   TFileListBuilder = class(TFileViewWorker)
+  private type
+    { Owns compiled masks or a private search-template snapshot. }
+    TPreparedFileFilter = class
+    private
+      FMasks: TMaskList;
+      FSearchTemplate: TSearchTemplate;
+      FItems: TQuickSearchItems;
+      FEnabled: Boolean;
+    public
+      constructor Create(const AText: String; const AOptions: TQuickSearchOptions;
+                         AUseExactMaskSyntax: Boolean);
+      destructor Destroy; override;
+      function FiltersOut(AFile: TFile): Boolean;
+    end;
   private
     FFilteredDisplayFiles: TDisplayFiles;
     FAllDisplayFiles: TDisplayFiles;
@@ -91,8 +105,8 @@ type
     // Data captured from the file view before start.
     FFileSource: IFileSource;
     FFileSourceIndex: Integer;
-    FFileFilter: String;
-    FFilterOptions: TQuickSearchOptions;
+    FPersistentFilter: TPreparedFileFilter;
+    FQuickFilter: TPreparedFileFilter;
     FCurrentPath: String;
     FFlatView: Boolean;
     FSortings: TFileSortings;
@@ -105,14 +119,10 @@ type
     }
     procedure DoSetFileList;
 
-    class function InternalMatchesFilter(const fs: IFileSource; aFile: TFile;
-                                         const aFileFilter: String;
-                                         const aFilterOptions: TQuickSearchOptions): Boolean;overload;
-
-
-    class function InternalMatchesFilter(const fs: IFileSource; aFile: TFile;
-      const aMasks: TMaskList; const aFilterOptions: TQuickSearchOptions): Boolean;overload;
-
+    class function IsGloballyFiltered(const fs: IFileSource; aFile: TFile): Boolean;
+    class procedure MakeDisplayFileList(const fs: IFileSource;
+                                        allDisplayFiles, filteredDisplayFiles: TDisplayFiles;
+                                        PersistentFilter, QuickFilter: TPreparedFileFilter); overload;
 
   protected
     {en
@@ -126,6 +136,8 @@ type
                        AFileSourceIndex: Integer;
                        const AFileFilter: String;
                        const AFilterOptions: TQuickSearchOptions;
+                       const AQuickFilter: String;
+                       const AQuickFilterOptions: TQuickSearchOptions;
                        const ACurrentPath: String;
                        const ASorting: TFileSortings;
                        AFlatView: Boolean;
@@ -153,7 +165,9 @@ type
                                         allDisplayFiles: TDisplayFiles;
                                         filteredDisplayFiles: TDisplayFiles;
                                         aFileFilter: String;
-                                        const aFilterOptions: TQuickSearchOptions);
+                                        const aFilterOptions: TQuickSearchOptions;
+                                        aQuickFilter: String;
+                                        const aQuickFilterOptions: TQuickSearchOptions); overload;
 
     class procedure MakeAllDisplayFileList(const fs: IFileSource;
                                            aFileSourceFiles: TFiles;
@@ -169,7 +183,9 @@ type
     class function MatchesFilter(const fs: IFileSource;
                                  aFile: TFile;
                                  aFileFilter: String;
-                                 const aFilterOptions: TQuickSearchOptions): Boolean;
+                                 const aFilterOptions: TQuickSearchOptions;
+                                 aQuickFilter: String;
+                                 const aQuickFilterOptions: TQuickSearchOptions): Boolean;
   end;
 
   { TFilePropertiesRetriever }
@@ -386,7 +402,10 @@ end;
 
 constructor TFileListBuilder.Create(AFileSource: IFileSource;
   AFileSourceIndex: Integer; const AFileFilter: String;
-  const AFilterOptions: TQuickSearchOptions; const ACurrentPath: String;
+  const AFilterOptions: TQuickSearchOptions;
+  const AQuickFilter: String;
+  const AQuickFilterOptions: TQuickSearchOptions;
+  const ACurrentPath: String;
   const ASorting: TFileSortings; AFlatView: Boolean; AThread: TThread;
   AFilePropertiesNeeded: TFilePropertiesTypes;
   AVariantProperties: TDynamicStringArray;
@@ -408,8 +427,9 @@ begin
   FFileSource           := AFileSource;
   FFileSourceIndex      := AFileSourceIndex;
   FFlatView             := AFlatView;
-  FFileFilter           := AFileFilter;
-  FFilterOptions        := AFilterOptions;
+  // Resolve templates on the GUI thread before the worker is queued.
+  FPersistentFilter    := TPreparedFileFilter.Create(AFileFilter, AFilterOptions, True);
+  FQuickFilter         := TPreparedFileFilter.Create(AQuickFilter, AQuickFilterOptions, False);
   FCurrentPath          := ACurrentPath;
   FSortings             := CloneSortings(ASorting);
   FVariantProperties    := AVariantProperties;
@@ -421,6 +441,8 @@ destructor TFileListBuilder.Destroy;
 begin
   inherited Destroy;
   FListOperationLock.Free;
+  FPersistentFilter.Free;
+  FQuickFilter.Free;
   FExistingDisplayFilesHashed.Free;
   FFilteredDisplayFiles.Free;
   FAllDisplayFiles.Free;
@@ -552,7 +574,8 @@ begin
     {$ENDIF}
 
     FFilteredDisplayFiles := TDisplayFiles.Create(False);
-    MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
+    MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles,
+                        FPersistentFilter, FQuickFilter);
 
     {$IFDEF timeFileView}
     filelistPrintTime('Made filtered list  : ');
@@ -579,92 +602,93 @@ begin
   end;
 end;
 
-class function TFileListBuilder.InternalMatchesFilter(
-  const fs: IFileSource;
-  aFile: TFile;
-  const aFileFilter: String;
-  const aFilterOptions: TQuickSearchOptions): Boolean;
-var
-  AOptions: TMaskOptions = [];
+class function TFileListBuilder.IsGloballyFiltered(const fs: IFileSource; aFile: TFile): Boolean;
 begin
-  if (gShowSystemFiles = False) and fs.IsSystemFile(AFile) and (AFile.Name <> '..') then
-    Result := True
-
-  // Ignore list
-  else if gIgnoreListFileEnabled and MatchesMaskListEx(AFile, glsIgnoreList) then
-    Result := True
-
-  // Filter files.
-  else if aFileFilter <> EmptyStr then
-  begin
-    Result := True;
-
-    if (AFile.Name = '..') or (AFile.Name = '.') then
-      Result := False
-    else
-    if (aFilterOptions.Items = qsiFiles) and
-       (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-      Result := False
-    else
-    if (aFilterOptions.Items = qsiDirectories) and
-       not AFile.IsDirectory and not AFile.IsLinkToDirectory then
-      Result := False
-    else
-    begin
-      if (not aFilterOptions.Diacritics) then
-        AOptions += [moIgnoreAccents];
-
-      if (aFilterOptions.SearchCase = qscSensitive) then
-        AOptions += [moCaseSensitive];
-
-      if MatchesMask(AFile.Name,
-                     aFileFilter,
-                     AOptions)
-      then
-        Result := False;
-    end;
-  end
-  else
-    Result := False;
+  try
+    Result := ((not gShowSystemFiles) and fs.IsSystemFile(aFile) and (aFile.Name <> '..')) or
+              (gIgnoreListFileEnabled and MatchesMaskListEx(aFile, glsIgnoreList));
+  except
+    on EConvertError do
+      Result := False;
+  end;
 end;
 
-class function TFileListBuilder.InternalMatchesFilter(
-  const fs: IFileSource;
-  aFile: TFile;
-  const aMasks: TMaskList;
-  const aFilterOptions: TQuickSearchOptions): Boolean;
+constructor TFileListBuilder.TPreparedFileFilter.Create(const AText: String;
+  const AOptions: TQuickSearchOptions; AUseExactMaskSyntax: Boolean);
+var
+  I: Integer;
+  SearchTemplate: TSearchTemplate;
+  MaskOptions: TMaskOptions = [moPinyin];
 begin
-  if (gShowSystemFiles = False) and fs.IsSystemFile(AFile) and (AFile.Name <> '..') then
-    Result := True
+  inherited Create;
+  FItems := AOptions.Items;
+  FEnabled := AText <> EmptyStr;
+  if not FEnabled then Exit;
 
-  // Ignore list
-  else if gIgnoreListFileEnabled and MatchesMaskListEx(AFile, glsIgnoreList) then
-    Result := True
-
-  // Filter files.
-  else if aMasks.Count <> 0 then
-  begin
-    Result := True;
-
-    if (AFile.Name = '..') or (AFile.Name = '.') then
-      Result := False
-    else
-    if (aFilterOptions.Items = qsiFiles) and
-       (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-      Result := False
-    else
-    if (aFilterOptions.Items = qsiDirectories) and
-       not AFile.IsDirectory and not AFile.IsLinkToDirectory then
-      Result := False
+  try
+    if IsMaskSearchTemplate(AText) then
+    begin
+      SearchTemplate := gSearchTemplateList.TemplateByName[AText];
+      if Assigned(SearchTemplate) then
+      begin
+        FSearchTemplate := TSearchTemplate.Create;
+        FSearchTemplate.SearchRecord := SearchTemplate.SearchRecord;
+      end;
+    end
     else
     begin
-      // Match the file name and Pinyin letter
-      if aMasks.Matches(AFile.Name) then
-         Result := False;
+      if not AOptions.Diacritics then Include(MaskOptions, moIgnoreAccents);
+      if AOptions.SearchCase = qscSensitive then Include(MaskOptions, moCaseSensitive);
+      FMasks := TMaskList.Create(AText, ';,', MaskOptions);
+      if not AUseExactMaskSyntax then
+        for I := 0 to FMasks.Count - 1 do
+          FMasks.Items[I].Template := TFileListBuilder.PrepareFilter(
+            FMasks.Items[I].Template, AOptions);
+      FEnabled := FMasks.Count <> 0;
     end;
-  end
-  else
-    Result := False;
+  except
+    on EConvertError do
+    begin
+      FEnabled := False;
+      FreeAndNil(FMasks);
+    end;
+  end;
+end;
+
+destructor TFileListBuilder.TPreparedFileFilter.Destroy;
+begin
+  FMasks.Free;
+  FSearchTemplate.Free;
+  inherited Destroy;
+end;
+
+function TFileListBuilder.TPreparedFileFilter.FiltersOut(AFile: TFile): Boolean;
+begin
+  Result := False;
+  if not FEnabled then Exit;
+
+  try
+    if (AFile.Name = '..') or (AFile.Name = '.') then Exit;
+    if (FItems = qsiFiles) and
+       (AFile.IsDirectory or AFile.IsLinkToDirectory) then Exit;
+    if (FItems = qsiDirectories) and
+       not AFile.IsDirectory and not AFile.IsLinkToDirectory then Exit;
+
+    if Assigned(FMasks) then
+      Result := not FMasks.Matches(AFile.Name)
+    else
+      // TODO: Make content-plugin template checks file-source aware. CheckFile passes
+      // AFile.FullPath to local WDX plugins even for archive/WFX entries, so results
+      // can be wrong or describe an unrelated local file.
+      Result := not Assigned(FSearchTemplate) or not FSearchTemplate.CheckFile(AFile);
+  except
+    on EConvertError do
+    begin
+      FEnabled := False;
+      FreeAndNil(FMasks);
+      Result := False;
+    end;
+  end;
 end;
 
 class function TFileListBuilder.PrepareFilter(const aFileFilter: String;
@@ -675,7 +699,7 @@ var
   sFilterNameNoExt: String;
 begin
   Result := aFileFilter;
-  if Result <> EmptyStr then
+  if (Result <> EmptyStr) and not IsMaskSearchTemplate(Result) then
   begin
     Index:= Pos('.', Result);
     if (Index > 0) and ((Index > 1) or FirstDotAtFileNameStartIsExtension) then
@@ -697,54 +721,44 @@ begin
   end;
 end;
 
-
 class procedure TFileListBuilder.MakeDisplayFileList(
   const fs: IFileSource;
   allDisplayFiles: TDisplayFiles;
   filteredDisplayFiles: TDisplayFiles;
   aFileFilter: String;
-  const aFilterOptions: TQuickSearchOptions);
+  const aFilterOptions: TQuickSearchOptions;
+  aQuickFilter: String;
+  const aQuickFilterOptions: TQuickSearchOptions);
 var
-  S: String;
-  I: Integer;
-  AFile: TFile;
-  AFilter: Boolean;
-  Masks: TMaskList;
-  AOptions: TMaskOptions = [moPinyin];
+  PersistentFilter: TPreparedFileFilter = nil;
+  QuickFilter: TPreparedFileFilter = nil;
 begin
   filteredDisplayFiles.Clear;
-  if (not aFilterOptions.Diacritics) then
-    AOptions += [moIgnoreAccents];
-  if qscSensitive in [aFilterOptions.SearchCase] then
-    AOptions += [moCaseSensitive];
+  if not Assigned(allDisplayFiles) then Exit;
 
-  if Assigned(allDisplayFiles) then
   try
-    Masks:= TMaskList.Create(aFileFilter, ';,', AOptions);
-
-    for I := 0 to Masks.Count - 1 do
-    begin
-      S:= Masks.Items[I].Template;
-      S:= PrepareFilter(S, aFilterOptions);
-      Masks.Items[I].Template:= S;
-    end;
-
-    for I := 0 to allDisplayFiles.Count - 1 do
-    begin
-      AFile := allDisplayFiles[I].FSFile;
-
-      try
-        AFilter := InternalMatchesFilter(fs, AFile, Masks, aFilterOptions);
-      except
-        on EConvertError do
-          aFileFilter := EmptyStr;
-      end;
-
-      if not AFilter then
-        filteredDisplayFiles.Add(allDisplayFiles[I]);
-    end;
+    PersistentFilter := TPreparedFileFilter.Create(aFileFilter, aFilterOptions, True);
+    QuickFilter := TPreparedFileFilter.Create(aQuickFilter, aQuickFilterOptions, False);
+    MakeDisplayFileList(fs, allDisplayFiles, filteredDisplayFiles, PersistentFilter, QuickFilter);
   finally
-    Masks.Free;
+    PersistentFilter.Free;
+    QuickFilter.Free;
+  end;
+end;
+
+class procedure TFileListBuilder.MakeDisplayFileList(const fs: IFileSource;
+  allDisplayFiles, filteredDisplayFiles: TDisplayFiles;
+  PersistentFilter, QuickFilter: TPreparedFileFilter);
+var
+  I: Integer;
+  AFile: TFile;
+begin
+  for I := 0 to allDisplayFiles.Count - 1 do
+  begin
+    AFile := allDisplayFiles[I].FSFile;
+    if not (IsGloballyFiltered(fs, AFile) or
+            PersistentFilter.FiltersOut(AFile) or QuickFilter.FiltersOut(AFile)) then
+      filteredDisplayFiles.Add(allDisplayFiles[I]);
   end;
 end;
 
@@ -865,14 +879,23 @@ class function TFileListBuilder.MatchesFilter(
   const fs: IFileSource;
   aFile: TFile;
   aFileFilter: String;
-  const aFilterOptions: TQuickSearchOptions): Boolean;
+  const aFilterOptions: TQuickSearchOptions;
+  aQuickFilter: String;
+  const aQuickFilterOptions: TQuickSearchOptions): Boolean;
+var
+  PersistentFilter: TPreparedFileFilter = nil;
+  QuickFilter: TPreparedFileFilter = nil;
 begin
-  aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
+  Result := IsGloballyFiltered(fs, aFile);
+  if Result or ((aFileFilter = EmptyStr) and (aQuickFilter = EmptyStr)) then Exit;
+
   try
-    Result := InternalMatchesFilter(fs, AFile, aFileFilter, aFilterOptions);
-  except
-    on EConvertError do
-      Result := False;
+    PersistentFilter := TPreparedFileFilter.Create(aFileFilter, aFilterOptions, True);
+    QuickFilter := TPreparedFileFilter.Create(aQuickFilter, aQuickFilterOptions, False);
+    Result := PersistentFilter.FiltersOut(aFile) or QuickFilter.FiltersOut(aFile);
+  finally
+    PersistentFilter.Free;
+    QuickFilter.Free;
   end;
 end;
 

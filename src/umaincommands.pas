@@ -257,6 +257,10 @@ type
    procedure cm_VisitHomePage(const {%H-}Params: array of string);
    procedure cm_About(const {%H-}Params: array of string);
    procedure cm_ShowSysFiles(const {%H-}Params: array of string);
+   procedure cm_PersistentViewFilter(const {%H-}Params: array of string);
+   procedure cm_PersistentViewFilterClear(const {%H-}Params: array of string);
+   procedure cm_PersistentViewFilterLast(const {%H-}Params: array of string);
+   procedure cm_PersistentViewFilterDialog(const {%H-}Params: array of string);
    procedure cm_SwitchIgnoreList(const Params: array of string);
    procedure cm_Options(const Params: array of string);
    procedure cm_CompareContents(const Params: array of string);
@@ -416,7 +420,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource,
      uColumnsFileView, uTypes,
      uStashFileSource, uStashFilesBackend,
-     LCLVersion
+     LCLVersion, fMaskInputDlg
      {$IFDEF DARWIN}
      , uDarwinApplication, uDarwinPanel, uDarwinFileView
      {$ENDIF}
@@ -459,7 +463,10 @@ end;
 
 function TMainCommands.CommandsFilter(Command: String): Boolean;
 begin
-  Result := Command = 'cm_ExecuteToolbarItem';
+  Result := (Command = 'cm_ExecuteToolbarItem') or
+            (Command = 'cm_PersistentViewFilterClear') or
+            (Command = 'cm_PersistentViewFilterLast') or
+            (Command = 'cm_PersistentViewFilterDialog');
 end;
 
 //------------------------------------------------------
@@ -1153,12 +1160,15 @@ begin
 
     DoTransferPath(AFileView, NotActiveNotebook);
 
+    ExchangePersistentViewFilterHistories;
+
     if AFree then AFileView.Free;
     if NFree then NFileView.Free;
 
     ActiveFrame.SetFocus;
 
     UpdateSelectedDrive(NotActiveNotebook);
+    UpdatePersistentViewFilterMenu;
   end;
 end;
 
@@ -3009,6 +3019,77 @@ begin
     // Update all tabs
     ForEachView(@DoUpdateFileView, nil);
   end;
+end;
+
+procedure TMainCommands.cm_PersistentViewFilter(const Params: array of string);
+var
+  ActionName: String;
+  FileView: TFileView;
+  HistoryList: TStringList;
+  sMask: String;
+begin
+  FileView := frmMain.ActiveFrame;
+  if not Assigned(FileView) then Exit;
+  if FileView.LoadingFileList then Exit;
+  HistoryList := FileView.GetPersistentViewFilterHistory;
+
+  GetParamValue(Params, 'action', ActionName);
+  GetParamValue(Params, 'mask', sMask);
+  if ActionName = EmptyStr then
+    ActionName := 'dialog';
+
+  if SameText(ActionName, 'apply') then
+  begin
+    if sMask = EmptyStr then Exit;
+    FileView.ApplyPersistentViewFilter(sMask);
+  end
+  else if SameText(ActionName, 'clear') then
+  begin
+    FileView.ClearPersistentViewFilter;
+  end
+  else if SameText(ActionName, 'dialog') then
+  begin
+    if sMask = EmptyStr then
+    begin
+      sMask := FileView.FileFilter;
+      if sMask = EmptyStr then
+        sMask := FileView.GetLastPersistentViewFilter;
+    end;
+
+    if ShowMaskInputDlg(rsShowCustomFiles, rsMaskInput, HistoryList, sMask) then
+    begin
+      if (sMask = EmptyStr) or (sMask = '*') then
+      begin
+        HistoryList.Delete(0); // The dialog inserted the accepted mask first.
+        frmMain.UpdatePersistentViewFilterMenu;
+      end;
+      FileView.ApplyPersistentViewFilter(sMask);
+    end;
+  end
+  else if SameText(ActionName, 'last') then
+  begin
+    sMask := FileView.GetLastPersistentViewFilter;
+    if sMask <> EmptyStr then
+      FileView.ApplyPersistentViewFilter(sMask);
+  end;
+end;
+
+procedure TMainCommands.cm_PersistentViewFilterClear(const Params: array of string);
+begin
+  if Length(Params) <> 0 then Exit;
+  cm_PersistentViewFilter(['action=clear']);
+end;
+
+procedure TMainCommands.cm_PersistentViewFilterLast(const Params: array of string);
+begin
+  if Length(Params) <> 0 then Exit;
+  cm_PersistentViewFilter(['action=last']);
+end;
+
+procedure TMainCommands.cm_PersistentViewFilterDialog(const Params: array of string);
+begin
+  if Length(Params) <> 0 then Exit;
+  cm_PersistentViewFilter(['action=dialog']);
 end;
 
 procedure TMainCommands.cm_SwitchIgnoreList(const Params: array of string);
