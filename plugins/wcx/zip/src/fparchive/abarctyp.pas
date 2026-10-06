@@ -1964,7 +1964,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.SaveIfNeeded(aItem : TAbArchiveItem);
 begin
-  if (aItem.Action <> aaNone) then
+  if AutoSave and (aItem.Action <> aaNone) then
     Save;
 end;
 { -------------------------------------------------------------------------- }
