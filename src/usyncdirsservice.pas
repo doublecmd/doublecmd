@@ -622,7 +622,7 @@ var
     f: TFile;
   begin
     Result:= True;
-    f:= dirSyncRec.doubleFiles[side];
+    f:= dirSyncRec.filesOnSide[side];
     if NOT Assigned(f) then
       Exit;
 
@@ -729,7 +729,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
             rec := TSyncFileRec.Create(_compareOption, dir, parentDirIndex)
           else
             rec := dirItem.fileSyncRec(j);
-          rec.doubleFiles[side]:= f.Clone;
+          rec.filesOnSide[side]:= f.Clone;
           rec.updateState;
           dirItem.addFile(fn, rec);
           dirSyncRec.incFileCount(side, 1);
@@ -897,36 +897,36 @@ var
   rec: TSyncRec;
 
   procedure doRemoveFile( const leftFiles: TFiles; const rightFiles: TFiles );
+    procedure action( const files: TFiles; const side: TDoubleSide );
+    begin
+      if Assigned(files) and rec.hasFileOnSide(side) then begin
+        files.Add( rec.filesOnSide[side] );
+        _filteredList.removeFile( index, side );
+      end;
+    end;
   begin
-    if Assigned(leftFiles) and rec.hasLeftFile then begin
-      leftFiles.Add( rec.leftFile );
-      _filteredList.removeFile( index, dsLeft );
-    end;
-
-    if Assigned(rightFiles) and rec.hasRightFile then begin
-      rightFiles.Add( rec.rightFile );
-      _filteredList.removeFile( index, dsRight );
-    end;
-
+    action( leftFiles, dsLeft );
+    action( rightFiles, dsRight );
     if NOT rec.hasFileOnAnySide then
       rec.state:= srsDeleted;
   end;
 
   function doRemoveDir(const leftFS: IFileSource; const rightFS: IFileSource): Boolean;
   var
+    side: TDoubleSide;
     fs: IFileSource;
     f: TFile;
   begin
     if Assigned(leftFS) then begin
+      side:= dsLeft;
       fs:= leftFS;
-      f:= rec.leftFile;
-      _filteredList.removeFile( index, dsLeft );
     end else if Assigned(rightFS) then begin
+      side:= dsRight;
       fs:= rightFS;
-      f:= rec.rightFile;
-      _filteredList.removeFile( index, dsRight );
     end;
 
+    f:= rec.filesOnSide[side];
+    _filteredList.removeFile( index, side );
     if NOT rec.hasFileOnAnySide then
       rec.state:= srsDeleted;
 
@@ -937,52 +937,58 @@ var
 
   procedure doCopyDir;
   var
-    newPath: String;
-    newFile: TFile;
+    sourceSide: TDoubleSide;
+    targetSide: TDoubleSide;
+    sourceFS: IFileSource;
+    targetFS: IFileSource;
+    targetPath: String;
+    targetFile: TFile;
   begin
     if rec.action = srsCopyToRight then begin
-      newPath:= _rightBasePath + rec.relPath;
-      CreateDirectoryFromFile(
-        _rightFS,
-        newPath,
-        _leftFS,
-        rec.leftFile);
-      newFile:= _rightFS.CreateFileObject( EmptyStr );
-      newFile.FullPath:= newPath;
-      _filteredList.addFile( index, dsRight, newFile );
+      sourceSide:= dsLeft;
+      targetSide:= dsRight;
+      sourceFS:= _leftFS;
+      targetFS:= _rightFS;
+      targetPath:= _rightBasePath + rec.relPath;
     end else begin
-      newPath:= _leftBasePath + rec.relPath;
-      CreateDirectoryFromFile(
-        _leftFS,
-        newPath,
-        _rightFS,
-        rec.rightFile);
-      newFile:= _leftFS.CreateFileObject( EmptyStr );
-      newFile.FullPath:= newPath;
-      _filteredList.addFile( index, dsLeft, newFile );
+      sourceSide:= dsRight;
+      targetSide:= dsLeft;
+      sourceFS:= _rightFS;
+      targetFS:= _leftFS;
+      targetPath:= _leftBasePath + rec.relPath;
     end;
+    CreateDirectoryFromFile(
+      targetFS,
+      targetPath,
+      sourceFS,
+      rec.filesOnSide[sourceSide] );
+    targetFile:= targetFS.CreateFileObject( EmptyStr );
+    targetFile.FullPath:= targetPath;
+    _filteredList.addFile( index, targetSide, targetFile );
   end;
 
   procedure doCopyFile( const copyToLeftFiles: TFiles; const copyToRightFiles: TFiles );
-  var
-    newPath: String;
-    oldFile: TFile;
-    newFile: TFile;
+    procedure action( const targetFS: IFileSource; const files: TFiles; const targetPath: String; const targetSide: TDoubleSide );
+    var
+      sourceSide: TDoubleSide;
+      sourceFile: TFile;
+      targetFile: TFile;
+    begin
+      if targetSide = dsLeft then
+        sourceSide:= dsRight
+      else
+        sourceSide:= dsLeft;
+      sourceFile:= rec.filesOnSide[sourceSide].Clone;
+      files.Add( sourceFile );
+      targetFile:= targetFS.CreateFileObject( targetPath );
+      targetFile.Name:= sourceFile.Name;
+      _filteredList.addFile( index, targetSide, targetFile );
+    end;
   begin
     if Assigned(copyToRightFiles) then begin
-      oldFile:= rec.leftFile.Clone;
-      copyToRightFiles.Add( oldFile );
-      newPath:= _rightBasePath + rec.relPath;
-      newFile:= _rightFS.CreateFileObject( newPath );
-      newFile.Name:= oldFile.Name;
-      _filteredList.addFile( index, dsRight, newFile );
+      action( _rightFS, copyToRightFiles, _rightBasePath + rec.relPath, dsRight );
     end else if Assigned(copyToLeftFiles) then begin
-      oldFile:= rec.rightFile.Clone;
-      copyToLeftFiles.Add( oldFile );
-      newPath:= _leftBasePath + rec.relPath;
-      newFile:= _leftFS.CreateFileObject( newPath );
-      newFile.Name:= oldFile.Name;
-      _filteredList.addFile( index, dsLeft, newFile );
+      action( _leftFS, copyToLeftFiles, _leftBasePath + rec.relPath, dsLeft );
     end;
   end;
 
