@@ -707,7 +707,7 @@ begin
         else Font.Color := clWindowText;
         end;
       end;
-      if Assigned(rec.leftFile) then
+      if rec.hasLeftFile then
       begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
@@ -723,7 +723,7 @@ begin
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
       end;
-      if Assigned(rec.rightFile) then
+      if rec.hasRightFile then
       begin
         TextOut(hCols[6].Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
         s := IntToStrTS(rec.rightFile.Size);

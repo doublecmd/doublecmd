@@ -337,19 +337,15 @@ class function TSyncDirsUtil.selectionToStringList(
     end
     else
     begin
-      if Assigned(rec.leftFile) then
-      begin
+      if rec.hasLeftFile then begin
         s := filteredList.path(R) + #9 +
              IntToStrTS(rec.leftFile.Size) + #9 +
              FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
-      end
-      else
-      begin
+      end else begin
         s := #9#9;
       end;
       s := s + #9 + SYNC_REC_STATE_SYMBOL[rec.action] + #9;
-      if Assigned(rec.rightFile) then
-      begin
+      if rec.hasRightFile then begin
         s := s +
              FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime) + #9 +
              IntToStrTS(rec.rightFile.Size) + #9 +
@@ -487,46 +483,46 @@ procedure TSyncDirsSortService.sortDirItem( const dirItem: TTwoLevelTreeDirItem 
     0:
       Result := mbCompareStr(sl[i], sl[j]);
     1:
-      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
-      or Assigned(r2.leftFile) and (r1.leftFile.Size < r2.leftFile.Size) then
+      if (r1.hasLeftFile < r2.hasLeftFile)
+      or r2.hasLeftFile and (r1.leftFile.Size < r2.leftFile.Size) then
         Result := -1
       else
-      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
-      or Assigned(r1.leftFile) and (r1.leftFile.Size > r2.leftFile.Size) then
+      if (r1.hasLeftFile > r2.hasLeftFile)
+      or r1.hasLeftFile and (r1.leftFile.Size > r2.leftFile.Size) then
         Result := 1
       else
         Result := 0;
     2:
-      if (Assigned(r1.leftFile) < Assigned(r2.leftFile))
-      or Assigned(r2.leftFile)
+      if (r1.hasLeftFile < r2.hasLeftFile)
+      or r2.hasLeftFile
       and (r1.leftFile.ModificationTime < r2.leftFile.ModificationTime) then
         Result := -1
       else
-      if (Assigned(r1.leftFile) > Assigned(r2.leftFile))
-      or Assigned(r1.leftFile)
+      if (r1.hasLeftFile > r2.hasLeftFile)
+      or r1.hasLeftFile
       and (r1.leftFile.ModificationTime > r2.leftFile.ModificationTime) then
         Result := 1
       else
         Result := 0;
     4:
-      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
-      or Assigned(r2.rightFile)
+      if (r1.hasRightFile < r2.hasRightFile)
+      or r2.hasRightFile
       and (r1.rightFile.ModificationTime < r2.rightFile.ModificationTime) then
         Result := -1
       else
-      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
-      or Assigned(r1.rightFile)
+      if (r1.hasRightFile > r2.hasRightFile)
+      or r1.hasRightFile
       and (r1.rightFile.ModificationTime > r2.rightFile.ModificationTime) then
         Result := 1
       else
         Result := 0;
     5:
-      if (Assigned(r1.rightFile) < Assigned(r2.rightFile))
-      or Assigned(r2.rightFile) and (r1.rightFile.Size < r2.rightFile.Size) then
+      if (r1.hasRightFile < r2.hasRightFile)
+      or r2.hasRightFile and (r1.rightFile.Size < r2.rightFile.Size) then
         Result := -1
       else
-      if (Assigned(r1.rightFile) > Assigned(r2.rightFile))
-      or Assigned(r1.rightFile) and (r1.rightFile.Size > r2.rightFile.Size) then
+      if (r1.hasRightFile > r2.hasRightFile)
+      or r1.hasRightFile and (r1.rightFile.Size > r2.rightFile.Size) then
         Result := 1
       else
         Result := 0;
@@ -902,12 +898,12 @@ var
 
   procedure doRemoveFile( const leftFiles: TFiles; const rightFiles: TFiles );
   begin
-    if Assigned(leftFiles) and Assigned(rec.leftFile) then begin
+    if Assigned(leftFiles) and rec.hasLeftFile then begin
       leftFiles.Add( rec.leftFile );
       _filteredList.removeFile( index, dsLeft );
     end;
 
-    if Assigned(rightFiles) and Assigned(rec.rightFile) then begin
+    if Assigned(rightFiles) and rec.hasRightFile then begin
       rightFiles.Add( rec.rightFile );
       _filteredList.removeFile( index, dsRight );
     end;

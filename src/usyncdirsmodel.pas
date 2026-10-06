@@ -128,6 +128,8 @@ type
     function isDir: Boolean; virtual; abstract;
     function isDeletable( const side: TDoubleSide ): Boolean; virtual;
 
+    function hasLeftFile: Boolean;
+    function hasRightFile: Boolean;
     function hasFilesOnBothSides: Boolean;
     function hasFileOnOnlyOneSide: Boolean;
     function hasFileOnAnySide: Boolean;
@@ -349,9 +351,9 @@ end;
 
 procedure TSyncRec.updateState;
 begin
-  if Assigned(rightFile) and NOT Assigned(leftFile) then begin
+  if self.hasRightFile and NOT self.hasLeftFile then begin
     _state:= _option.stateWithoutLeft;
-  end else if NOT Assigned(rightFile) and Assigned(leftFile) then begin
+  end else if NOT self.hasRightFile and self.hasLeftFile then begin
     _state:= srsCopyToRight;
   end;
   _action:= _state;
@@ -368,26 +370,26 @@ begin
       Result:= _state;
     srsNotEq:               // expect CopyReverse
       begin
-        if (_action = srsCopyToLeft) and Assigned(leftFile) then
+        if (_action = srsCopyToLeft) and self.hasLeftFile then
           Result:= srsCopyToRight
-        else if (_action = srsCopyToRight) and Assigned(rightFile) then
+        else if (_action = srsCopyToRight) and self.hasRightFile then
           Result:= srsCopyToLeft
         else
           Result:= _action;
       end;
     srsCopyToLeft,
     srsDeleteRight:
-      if NOT Assigned(rightFile) then
+      if NOT self.hasRightFile then
         Result:= srsDoNothing;
     srsCopyToRight,
     srsDeleteLeft:
-      if NOT Assigned(leftFile) then
+      if NOT self.hasLeftFile then
         Result:= srsDoNothing;
     srsDeleteBoth:
       begin
-        if NOT Assigned(leftFile) then
+        if NOT self.hasLeftFile then
           Result:= srsDeleteRight;
-        if NOT Assigned(rightFile) then
+        if NOT self.hasRightFile then
           Result:= srsDeleteLeft;
       end;
     srsNextAction:
@@ -402,12 +404,12 @@ begin
     srsNotEq:
       Result:= srsCopyToRight;
     srsCopyToRight:
-      if Assigned(rightFile) then
+      if self.hasRightFile then
         Result:= srsCopyToLeft
       else
         Result:= srsDoNothing;
     srsCopyToLeft:
-      if Assigned(leftFile) then
+      if self.hasLeftFile then
         Result:= srsNotEq
       else
         Result:= srsDoNothing;
@@ -420,7 +422,7 @@ begin
     srsDeleteBoth:
       Result:= _state;
     srsDoNothing:
-      if Assigned(leftFile) then
+      if self.hasLeftFile then
         Result:= srsCopyToRight
       else
         Result:= _option.stateWithoutLeft;
@@ -435,10 +437,10 @@ var
   rightFileStr: String = '';
 begin
   WriteStr( stateStr, 'state=', _state, ', action=', _action );
-  if Assigned(leftFile) then
-    leftFileStr:= leftFile.FullPath;
-  if Assigned(rightFile) then
-    rightFileStr:= rightFile.FullPath;
+  if self.hasLeftFile then
+    leftFileStr:= self.leftFile.FullPath;
+  if self.hasRightFile then
+    rightFileStr:= self.rightFile.FullPath;
   Result:= _relPath + ' : isDir=' + BoolToStr(isDir,True) + ', ' + stateStr +
            ', left=' + leftFileStr + ', right=' + rightFileStr;
 end;
@@ -449,19 +451,29 @@ begin
   Result:= Assigned( self.getFile(side) );
 end;
 
+function TSyncRec.hasLeftFile: Boolean;
+begin
+  Result:= Assigned( self.leftFile );
+end;
+
+function TSyncRec.hasRightFile: Boolean;
+begin
+  Result:= Assigned( self.rightFile );
+end;
+
 function TSyncRec.hasFilesOnBothSides: Boolean;
 begin
-  Result:= Assigned(leftFile) and Assigned(rightFile);
+  Result:= self.hasLeftFile and self.hasRightFile;
 end;
 
 function TSyncRec.hasFileOnOnlyOneSide: Boolean;
 begin
-  Result:= Assigned(leftFile) <> Assigned(rightFile);
+  Result:= self.hasLeftFile <> self.hasRightFile;
 end;
 
 function TSyncRec.hasFileOnAnySide: Boolean;
 begin
-  Result:= Assigned(leftFile) or Assigned(rightFile);
+  Result:= self.hasLeftFile or self.hasRightFile;
 end;
 
 { TSyncFileRec }
@@ -482,7 +494,7 @@ procedure TSyncFileRec.updateState;
         Exit;
       end;
 
-      dateDiff:= FileTimeCompare(leftFile.ModificationTime, rightFile.ModificationTime, cfNtfsShift in _option.flags);
+      dateDiff:= FileTimeCompare(self.leftFile.ModificationTime, self.rightFile.ModificationTime, cfNtfsShift in _option.flags);
       if dateDiff = 0 then begin
         _state:= srsEqual;
       end else if dateDiff > 0 then begin
@@ -497,7 +509,7 @@ procedure TSyncFileRec.updateState;
     compareDate;
     // by size
     if _state = srsEqual then begin
-      if leftFile.Size <> rightFile.Size then
+      if self.leftFile.Size <> self.rightFile.Size then
         _state:= srsNotEq;
     end;
     // by content
@@ -884,9 +896,9 @@ begin
     rec:= self.fileSyncRec( i );
     if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
       continue;
-    if Assigned(rec.leftFile) then
+    if rec.hasLeftFile then
       Inc( leftCount );
-    if Assigned(rec.rightFile) then
+    if rec.hasRightFile then
       Inc( rightCount );
   end;
 end;
@@ -904,9 +916,9 @@ begin
 
     Inc( Result.total);
 
-    if Assigned(rec.leftFile) and NOT Assigned(rec.rightFile) then
+    if rec.hasLeftFile and NOT rec.hasRightFile then
       Inc( Result.leftUnique )
-    else if Assigned(rec.rightFile) and NOT Assigned(rec.leftFile) then
+    else if rec.hasRightFile and NOT rec.hasLeftFile then
       Inc( Result.rightUnique );
 
     if rec.state = srsEqual then
