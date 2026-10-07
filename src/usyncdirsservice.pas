@@ -34,6 +34,8 @@ const
 
 type
 
+  TDoubleFileSources = array [TDoubleSide] of IFileSource;
+
   { TSyncDirsOperationHandle }
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
@@ -45,7 +47,7 @@ type
     class function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
-    class function supportsVerify(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
+    class function supportsVerify(const fileSources: TDoubleFileSources): Boolean;
   public
     class procedure filterFlatListWithFlags(
       const fullTree: TTwoLevelTree;
@@ -105,15 +107,14 @@ type
   private
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
-    _leftFS: IFileSource;
-    _rightFS: IFileSource;
+    _fileSources: TDoubleFileSources;
   public
-    constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList );
+    constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList; const fileSources: TDoubleFileSources );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
     function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
 
-    property leftFS: IFileSource write _leftFS;
-    property rightFS: IFileSource write _rightFS;
+    property leftFS: IFileSource read _fileSources[dsLeft];
+    property rightFS: IFileSource read _fileSources[dsRight];
   end;
 
   { ISyncDirsTreeBuilderCallback }
@@ -134,21 +135,19 @@ type
     _compareOption: TSyncDirsCompareOption;
     _baseDirL: String;
     _baseDirR: String;
-    _fileSourceL: IFileSource;
-    _fileSourceR: IFileSource;
+    _fileSources: TDoubleFileSources;
     _leftFirst: Boolean;
     _rightFirst: Boolean;
   public
     constructor Create(
       const callback: ISyncDirsTreeBuilderCallback;
       const sortService: TSyncDirsSortService;
-      const compareOption: TSyncDirsCompareOption );
+      const compareOption: TSyncDirsCompareOption;
+      const fileSources: TDoubleFileSources );
     procedure build( const FFullTree: TTwoLevelTree );
 
     property baseDirL: String write _baseDirL;
     property baseDirR: String write _baseDirR;
-    property fileSourceL: IFileSource write _fileSourceL;
-    property fileSourceR: IFileSource write _fileSourceR;
   end;
 
   { ISyncDirsSynchronizerCallback }
@@ -164,20 +163,20 @@ type
     _callback: ISyncDirsSynchronizerCallback;
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
-    _leftFS: IFileSource;
-    _rightFS: IFileSource;
+    _fileSources: TDoubleFileSources;
     _leftBasePath: String;
     _rightBasePath: String;
   public
     constructor Create(
       const callback: ISyncDirsSynchronizerCallback;
       const fileProcessor: ISyncDirsFileProcessorWithUI;
-      const filteredList: TFlatDirFileList );
+      const filteredList: TFlatDirFileList;
+      const fileSources: TDoubleFileSources );
     function count: TSyncDirsSyncCount;
     function sync( const syncFlags: TSyncDirsSyncFlags ): Boolean;
 
-    property leftFS: IFileSource write _leftFS;
-    property rightFS: IFileSource write _rightFS;
+    property leftFS: IFileSource read _fileSources[dsLeft];
+    property rightFS: IFileSource read _fileSources[dsRight];
     property leftBasePath: String write _leftBasePath;
     property rightBasePath: String write _rightBasePath;
   end;
@@ -250,11 +249,9 @@ begin
   Result:= consultCopyOperation(params);
 end;
 
-class function TSyncDirsUtil.supportsVerify(
-  const sourceFS: IFileSource;
-  const targetFS: IFileSource): Boolean;
+class function TSyncDirsUtil.supportsVerify( const fileSources: TDoubleFileSources ): Boolean;
 begin
-  Result:= sourceFS.IsClass(TFileSystemFileSource) AND targetFS.IsClass(TFileSystemFileSource);
+  Result:= fileSources[dsLeft].IsClass(TFileSystemFileSource) AND fileSources[dsRight].IsClass(TFileSystemFileSource);
 end;
 
 class procedure TSyncDirsUtil.filterFlatListWithFlags(
@@ -578,10 +575,12 @@ end;
 
 constructor TSyncDirsDeleteService.Create(
   const fileProcessor: ISyncDirsFileProcessorWithUI;
-  const filteredList: TFlatDirFileList );
+  const filteredList: TFlatDirFileList;
+  const fileSources: TDoubleFileSources );
 begin
   _fileProcessor:= fileProcessor;
   _filteredList:= filteredList;
+  _fileSources:= fileSources;
 end;
 
 procedure TSyncDirsDeleteService.delete(
@@ -601,9 +600,9 @@ begin
     _filteredList.deleteAndGetSelected( indexes, leftFiles, rightFiles );
 
     if deleteLeft then
-      _fileProcessor.fileProcessorWithUIDeleteFiles( _leftFS, leftFiles );
+      _fileProcessor.fileProcessorWithUIDeleteFiles( self.leftFS, leftFiles );
     if deleteRight then
-      _fileProcessor.fileProcessorWithUIDeleteFiles( _rightFS, rightFiles );
+      _fileProcessor.fileProcessorWithUIDeleteFiles( self.rightFS, rightFiles );
   finally
     leftFiles.Free;
     rightFiles.Free;
@@ -612,7 +611,6 @@ end;
 
 function TSyncDirsDeleteService.deleteAllEmptyDirs(const side: TDoubleSide): Boolean;
 var
-  fs: IFileSource;
   fullTree: TTwoLevelTree;
   dirSyncRec: TSyncDirRec;
   dirIndex: Integer;
@@ -626,7 +624,7 @@ var
     if NOT Assigned(f) then
       Exit;
 
-    Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
+    Result:= _fileProcessor.fileProcessorWithUIDeleteFile( _fileSources[side], f );
     if NOT Result then
       Exit;
 
@@ -637,11 +635,6 @@ var
 
 begin
   Result:= True;
-  if side = dsLeft then
-    fs:= _leftFS
-  else
-    fs:= _rightFS;
-
   fullTree:= _filteredList.fullTree;
   for dirIndex:= fullTree.Count-1 downto 0 do begin
     dirSyncRec:= fullTree.dirItem(dirIndex).dirSyncRec;
@@ -662,11 +655,13 @@ end;
 constructor TSyncDirsTreeBuilder.Create(
   const callback: ISyncDirsTreeBuilderCallback;
   const sortService: TSyncDirsSortService;
-  const compareOption: TSyncDirsCompareOption );
+  const compareOption: TSyncDirsCompareOption;
+  const fileSources: TDoubleFileSources );
 begin
   _callback:= callback;
   _sortedService:= sortService;
   _compareOption:= compareOption;
+  _fileSources:= fileSources;
   _leftFirst:= True;
   _rightFirst:= True;
 end;
@@ -691,11 +686,11 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
   begin
     dirSyncRec := dirItem.dirSyncRec;
     dir:= dirSyncRec.relPath;
+    currentFileSource := _fileSources[side];
+
     if side = dsLeft then begin
-      currentFileSource := _fileSourceL;
       dirFullPath := _baseDirL + dir;
     end else begin
-      currentFileSource := _fileSourceR;
       dirFullPath := _baseDirR + dir;
     end;
     fs := currentFileSource.GetFiles(dirFullPath);
@@ -848,11 +843,13 @@ end;
 constructor TSyncDirsSynchronizer.Create(
   const callback: ISyncDirsSynchronizerCallback;
   const fileProcessor: ISyncDirsFileProcessorWithUI;
-  const filteredList: TFlatDirFileList );
+  const filteredList: TFlatDirFileList;
+  const fileSources: TDoubleFileSources );
 begin
   _callback:= callback;
   _fileProcessor:= fileProcessor;
   _filteredList:= filteredList;
+  _fileSources:= fileSources;
 end;
 
 function TSyncDirsSynchronizer.count: TSyncDirsSyncCount;
@@ -911,28 +908,18 @@ var
       rec.state:= srsDeleted;
   end;
 
-  function doRemoveDir(const leftFS: IFileSource; const rightFS: IFileSource): Boolean;
+  function doRemoveDir(const side: TDoubleSide): Boolean;
   var
-    side: TDoubleSide;
-    fs: IFileSource;
     f: TFile;
   begin
-    if Assigned(leftFS) then begin
-      side:= dsLeft;
-      fs:= leftFS;
-    end else if Assigned(rightFS) then begin
-      side:= dsRight;
-      fs:= rightFS;
-    end;
-
     f:= rec.filesOnSide[side];
     _filteredList.removeFile( index, side );
     if NOT rec.hasFileOnAnySide then
       rec.state:= srsDeleted;
 
-    Result:= Assigned(fs) and Assigned(f);
+    Result:= Assigned(f);
     if Result then
-      Result:= _fileProcessor.fileProcessorWithUIDeleteFile( fs, f );
+      Result:= _fileProcessor.fileProcessorWithUIDeleteFile( _fileSources[side], f );
   end;
 
   procedure doCopyDir;
@@ -947,16 +934,14 @@ var
     if rec.action = srsCopyToRight then begin
       sourceSide:= dsLeft;
       targetSide:= dsRight;
-      sourceFS:= _leftFS;
-      targetFS:= _rightFS;
       targetPath:= _rightBasePath + rec.relPath;
     end else begin
       sourceSide:= dsRight;
       targetSide:= dsLeft;
-      sourceFS:= _rightFS;
-      targetFS:= _leftFS;
       targetPath:= _leftBasePath + rec.relPath;
     end;
+    sourceFS:= _fileSources[sourceSide];
+    targetFS:= _fileSources[targetSide];
     CreateDirectoryFromFile(
       targetFS,
       targetPath,
@@ -968,7 +953,7 @@ var
   end;
 
   procedure doCopyFile( const copyToLeftFiles: TFiles; const copyToRightFiles: TFiles );
-    procedure action( const targetFS: IFileSource; const files: TFiles; const targetPath: String; const targetSide: TDoubleSide );
+    procedure action( const files: TFiles; const targetPath: String; const targetSide: TDoubleSide );
     var
       sourceSide: TDoubleSide;
       sourceFile: TFile;
@@ -980,15 +965,15 @@ var
         sourceSide:= dsLeft;
       sourceFile:= rec.filesOnSide[sourceSide].Clone;
       files.Add( sourceFile );
-      targetFile:= targetFS.CreateFileObject( targetPath );
+      targetFile:= _fileSources[targetSide].CreateFileObject( targetPath );
       targetFile.Name:= sourceFile.Name;
       _filteredList.addFile( index, targetSide, targetFile );
     end;
   begin
     if Assigned(copyToRightFiles) then begin
-      action( _rightFS, copyToRightFiles, _rightBasePath + rec.relPath, dsRight );
+      action( copyToRightFiles, _rightBasePath + rec.relPath, dsRight );
     end else if Assigned(copyToLeftFiles) then begin
-      action( _leftFS, copyToLeftFiles, _leftBasePath + rec.relPath, dsLeft );
+      action( copyToLeftFiles, _leftBasePath + rec.relPath, dsLeft );
     end;
   end;
 
@@ -1004,11 +989,11 @@ var
           doCopyDir;
       srsDeleteRight:
         if sfDeleteRight in syncFlags then
-          if NOT doRemoveDir(nil, _rightFS) then
+          if NOT doRemoveDir(dsRight) then
             Exit;
       srsDeleteLeft:
         if sfDeleteLeft in syncFlags then
-          if NOT doRemoveDir(_leftFS, nil) then
+          if NOT doRemoveDir(dsLeft) then
             Exit;
     end;
     Inc( index );
@@ -1055,22 +1040,22 @@ var
       until (index = _filteredList.Count) or rec.isDir;
 
       if copyToLeftFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUICopyFiles(_rightFS, _leftFS, copyToLeftFiles, _leftBasePath + targetPath) then
+        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.rightFS, self.leftFS, copyToLeftFiles, _leftBasePath + targetPath) then
           Exit;
       end;
 
       if copyToRightFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUICopyFiles(_leftFS, _rightFS, copyToRightFiles, _rightBasePath + targetPath) then
+        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.leftFS, self.rightFS, copyToRightFiles, _rightBasePath + targetPath) then
           Exit;
       end;
 
       if deleteLeftFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(_leftFS, deleteLeftFiles) then
+        if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(self.leftFS, deleteLeftFiles) then
           Exit;
       end;
 
       if deleteRightFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(_rightFS, deleteRightFiles) then
+        if NOT _fileProcessor.fileProcessorWithUIDeleteFiles(self.rightFS, deleteRightFiles) then
           Exit;
       end;
 
@@ -1098,10 +1083,7 @@ var
   var
     deleteService: TSyncDirsDeleteService;
   begin
-    deleteService:= TSyncDirsDeleteService.Create(_fileProcessor, _filteredList);
-    deleteService.leftFS:= _leftFS;
-    deleteService.rightFS:= _rightFS;
-
+    deleteService:= TSyncDirsDeleteService.Create( _fileProcessor, _filteredList, _fileSources );
     try
       Result:= deleteService.deleteAllEmptyDirs( side );
     finally

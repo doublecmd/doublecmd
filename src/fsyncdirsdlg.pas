@@ -170,8 +170,8 @@ type
     FMaskList: TMaskList;
     FTemplate: TSearchTemplate;
     FSelectedItems: TStringListEx;
-    FFileSourceL, FFileSourceR: IFileSource;
-    FCmpFileSourceL, FCmpFileSourceR: IFileSource;
+    FFileSources: TDoubleFileSources;
+    FCmpFileSources: TDoubleFileSources;
     FCmpFilePathL, FCmpFilePathR: string;
     FAddressL, FAddressR: string;
     hCols: array [0..6] of record Left, Width: Integer end;
@@ -241,6 +241,11 @@ type
     function synchronizerCheckRunning: Boolean;
 
   private
+    property leftFS: IFileSource read FFileSources[dsLeft] write FFileSources[dsLeft];
+    property rightFS: IFileSource read FFileSources[dsRight] write FFileSources[dsRight];
+    property leftCmpFS: IFileSource read FCmpFileSources[dsLeft] write FCmpFileSources[dsLeft];
+    property rightCmpFS: IFileSource read FCmpFileSources[dsRight] write FCmpFileSources[dsRight];
+
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
   protected
@@ -408,9 +413,7 @@ var
   syncCount: TSyncDirsSyncCount;
   syncFlags: TSyncDirsSyncFlags;
 begin
-  synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList );
-  synchronizer.leftFS:= FCmpFileSourceL;
-  synchronizer.rightFS:= FCmpFileSourceR;
+  synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources );
   synchronizer.leftBasePath:= FCmpFilePathL;
   synchronizer.rightBasePath:= FCmpFilePathR;
   syncCount:= synchronizer.count;
@@ -423,8 +426,8 @@ begin
 
   with TfrmSyncDirsPerformDlg.Create(Self) do
   try
-    edLeftPath.Text := FCmpFileSourceL.CurrentAddress + FCmpFilePathL;
-    edRightPath.Text := FCmpFileSourceR.CurrentAddress + FCmpFilePathR;
+    edLeftPath.Text := self.leftCmpFS.CurrentAddress + FCmpFilePathL;
+    edRightPath.Text :=self.rightCmpFS.CurrentAddress + FCmpFilePathR;
     if syncCount.copyToLeftCount > 0 then
     begin
       chkRightToLeft.Enabled := True;
@@ -447,7 +450,7 @@ begin
       Format(rsLeftToRightCopy, [syncCount.copyToRightCount, cnvFormatFileSize(syncCount.copyToRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToRightSize)]);
     chkRightToLeft.Caption :=
       Format(rsRightToLeftCopy, [syncCount.copyToLeftCount, cnvFormatFileSize(syncCount.copyToLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToLeftSize)]);
-    chkVerify.Visible := TSyncDirsUtil.supportsVerify(FCmpFileSourceL, FCmpFileSourceR);
+    chkVerify.Visible := TSyncDirsUtil.supportsVerify(FCmpFileSources);
     chkVerify.Checked := gOperationOptionVerify;
 
     if ShowModal = mrOk then
@@ -497,12 +500,12 @@ procedure TfrmSyncDirsDlg.edPath1AcceptDirectory(Sender: TObject;
 begin
   if Sender = edPath1 then
   begin
-    FFileSourceL := TFileSystemFileSource.GetFileSource;
+    self.leftFS := TFileSystemFileSource.GetFileSource;
     FAddressL := '';
   end
   else if Sender = edPath2 then
   begin
-    FFileSourceR := TFileSystemFileSource.GetFileSource;
+    self.rightFS := TFileSystemFileSource.GetFileSource;
     FAddressR := '';
   end;
 end;
@@ -662,7 +665,7 @@ begin
   rec := FFilteredList.fileSyncRec(r);
   if rec.isDir or NOT rec.hasFilesOnBothSides or (rec.state = srsEqual) then
     Exit;
-  PrepareToolData(FFileSourceL, rec.leftFile, FFileSourceR, rec.rightFile, @ShowDifferByGlobList);
+  PrepareToolData(self.leftFS, rec.leftFile, self.rightFS, rec.rightFile, @ShowDifferByGlobList);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
@@ -929,7 +932,7 @@ begin
   if self.chkIgnoreDate.Checked then
     Include( flags, TSyncDirsCompareFlag.cfIgnoreDate );
 
-  if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then begin
+  if (self.leftFS.IsClass(TFileSystemFileSource)) and (self.rightFS.IsClass(TFileSystemFileSource)) then begin
     if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
       Include( flags, TSyncDirsCompareFlag.cfNtfsShift );
   end;
@@ -1083,8 +1086,7 @@ begin
       else
         FMaskList := TMaskList.Create( '*' );
     end;
-    FCmpFileSourceL := FFileSourceL;
-    FCmpFileSourceR := FFileSourceR;
+    FCmpFileSources := FFileSources;
     BaseDirL := AppendPathDelim(edPath1.Text);
     if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
       Delete(BaseDirL, 1, Length(FAddressL));
@@ -1094,11 +1096,9 @@ begin
     FCmpFilePathL := BaseDirL;
     FCmpFilePathR := BaseDirR;
 
-    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption );
+    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources );
     builder.baseDirL:= BaseDirL;
     builder.baseDirR:= BaseDirR;
-    builder.fileSourceL:= FFileSourceL;
-    builder.fileSourceR:= FFileSourceR;
     builder.build( FFullTree );
 
     FillFoundItemsDG;
@@ -1283,10 +1283,7 @@ var
   leftCount: Integer;
   rightCount: Integer;
 begin
-  deleteService:= TSyncDirsDeleteService.Create(self, FFilteredList);
-  deleteService.leftFS:= FCmpFileSourceL;
-  deleteService.rightFS:= FCmpFileSourceR;
-
+  deleteService:= TSyncDirsDeleteService.Create(self, FFilteredList, FCmpFileSources);
   try
     indexes:= self.createSelectionIndexes;
     FFilteredList.countLeftRight(indexes, leftCount, rightCount);
@@ -1463,8 +1460,8 @@ begin
   FSortService := TSyncDirsSortService.Create;
   FFullTree := TTwoLevelTree.Create;
   FFilteredList := TFlatDirFileList.Create(FFullTree);
-  FFileSourceL := FileView1.FileSource;
-  FFileSourceR := FileView2.FileSource;
+  self.leftFS := FileView1.FileSource;
+  self.rightFS := FileView2.FileSource;
   FAddressL := FileView1.CurrentAddress;
   FAddressR := FileView2.CurrentAddress;
   with FileView1 do begin
@@ -1511,8 +1508,8 @@ begin
                              (FileView2.FlatView = False);
   chkOnlySelected.Checked := chkOnlySelected.Enabled;
   // ---------------------------------------------------------------------------
-  chkByContent.Enabled := FFileSourceL.IsClass(TFileSystemFileSource) and
-                          FFileSourceR.IsClass(TFileSystemFileSource);
+  chkByContent.Enabled := self.LeftFS.IsClass(TFileSystemFileSource) and
+                          self.rightFS.IsClass(TFileSystemFileSource);
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
   // ---------------------------------------------------------------------------
   actDeleteLeft.Enabled := fsoDelete in FileView1.FileSource.GetOperationsTypes;
