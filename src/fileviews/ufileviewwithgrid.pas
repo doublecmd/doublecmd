@@ -613,12 +613,12 @@ procedure TFileViewWithGrid.FileSourceFileListLoaded;
 begin
   inherited;
 
+  dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColumnWidth;
+
   FUpdatingActiveFile := True;
   dgPanel.MoveExtend(False, 0, 0);
   FUpdatingActiveFile := False;
-
-  dgPanel.CalculateColRowCount;
-  dgPanel.CalculateColumnWidth;
 end;
 
 procedure TFileViewWithGrid.ClearAfterDragDrop;
