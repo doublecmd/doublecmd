@@ -1,8 +1,8 @@
 inherited frmOptionsLayout: TfrmOptionsLayout
-  Height = 550
+  Height = 574
   Width = 784
   HelpKeyword = '/configuration.html#ConfigLayout'
-  ClientHeight = 550
+  ClientHeight = 574
   ClientWidth = 784
   DesignLeft = 276
   DesignTop = 44
@@ -224,6 +224,17 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       BorderSpacing.Top = 2
       Caption = 'Show panel of operation in background'
       TabOrder = 20
+    end
+    object cbShowPositionIndex: TCheckBox
+      AnchorSideTop.Control = cbPanelOfOperations
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 22
+      Top = 510
+      Width = 248
+      BorderSpacing.Top = 2
+      Caption = 'Show file &position index in footer'
+      TabOrder = 21
     end
     object cbShowDriveFreeSpace: TCheckBox
       AnchorSideTop.Control = cbShowDrivesListButton
