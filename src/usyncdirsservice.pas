@@ -49,7 +49,9 @@ type
     class function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
+    class function supportsCompareByContent(const fileSources: TDoubleFileSources): Boolean;
     class function supportsVerify(const fileSources: TDoubleFileSources): Boolean;
+    class function isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean;
   public
     class procedure filterFlatListWithFlags(
       const fullTree: TTwoLevelTree;
@@ -249,7 +251,17 @@ begin
   Result:= consultCopyOperation(params);
 end;
 
+class function TSyncDirsUtil.supportsCompareByContent( const fileSources: TDoubleFileSources ): Boolean;
+begin
+  Result:= self.isBothFileSystemFileSource(fileSources);
+end;
+
 class function TSyncDirsUtil.supportsVerify( const fileSources: TDoubleFileSources ): Boolean;
+begin
+  Result:= self.isBothFileSystemFileSource(fileSources);
+end;
+
+class function TSyncDirsUtil.isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean;
 begin
   Result:= fileSources[dsLeft].IsClass(TFileSystemFileSource) AND fileSources[dsRight].IsClass(TFileSystemFileSource);
 end;

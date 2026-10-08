@@ -931,7 +931,7 @@ begin
   if self.chkIgnoreDate.Checked then
     Include( flags, TSyncDirsCompareFlag.cfIgnoreDate );
 
-  if (self.leftFS.IsClass(TFileSystemFileSource)) and (self.rightFS.IsClass(TFileSystemFileSource)) then begin
+  if TSyncDirsUtil.isBothFileSystemFileSource(FFileSources) then begin
     if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
       Include( flags, TSyncDirsCompareFlag.cfNtfsShift );
   end;
@@ -1512,8 +1512,7 @@ begin
                              (FileView2.FlatView = False);
   chkOnlySelected.Checked := chkOnlySelected.Enabled;
   // ---------------------------------------------------------------------------
-  chkByContent.Enabled := self.LeftFS.IsClass(TFileSystemFileSource) and
-                          self.rightFS.IsClass(TFileSystemFileSource);
+  chkByContent.Enabled := TSyncDirsUtil.supportsCompareByContent(FFileSources);
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
   // ---------------------------------------------------------------------------
   actDeleteLeft.Enabled := fsoDelete in FileView1.FileSource.GetOperationsTypes;
