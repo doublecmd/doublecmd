@@ -36,6 +36,8 @@ type
 
   TDoubleFileSources = array [TDoubleSide] of IFileSource;
 
+  TDoublePaths = array [TDoubleSide] of String;
+
   { TSyncDirsOperationHandle }
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
@@ -133,9 +135,8 @@ type
     _callback: ISyncDirsTreeBuilderCallback;
     _sortedService: TSyncDirsSortService;
     _compareOption: TSyncDirsCompareOption;
-    _baseDirL: String;
-    _baseDirR: String;
     _fileSources: TDoubleFileSources;
+    _basePaths: TDoublePaths;
     _leftFirst: Boolean;
     _rightFirst: Boolean;
   public
@@ -143,11 +144,9 @@ type
       const callback: ISyncDirsTreeBuilderCallback;
       const sortService: TSyncDirsSortService;
       const compareOption: TSyncDirsCompareOption;
-      const fileSources: TDoubleFileSources );
+      const fileSources: TDoubleFileSources;
+      const basePaths: TDoublePaths );
     procedure build( const FFullTree: TTwoLevelTree );
-
-    property baseDirL: String write _baseDirL;
-    property baseDirR: String write _baseDirR;
   end;
 
   { ISyncDirsSynchronizerCallback }
@@ -164,21 +163,22 @@ type
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
     _fileSources: TDoubleFileSources;
-    _leftBasePath: String;
-    _rightBasePath: String;
+    _basePaths: TDoublePaths;
+  private
+    property leftBasePath: String read _basePaths[dsLeft];
+    property rightBasePath: String read _basePaths[dsRight];
   public
     constructor Create(
       const callback: ISyncDirsSynchronizerCallback;
       const fileProcessor: ISyncDirsFileProcessorWithUI;
       const filteredList: TFlatDirFileList;
-      const fileSources: TDoubleFileSources );
+      const fileSources: TDoubleFileSources;
+      const basePaths: TDoublePaths );
     function count: TSyncDirsSyncCount;
     function sync( const syncFlags: TSyncDirsSyncFlags ): Boolean;
 
     property leftFS: IFileSource read _fileSources[dsLeft];
     property rightFS: IFileSource read _fileSources[dsRight];
-    property leftBasePath: String write _leftBasePath;
-    property rightBasePath: String write _rightBasePath;
   end;
 
   { ISyncDirsCheckContentThreadCallback }
@@ -656,12 +656,14 @@ constructor TSyncDirsTreeBuilder.Create(
   const callback: ISyncDirsTreeBuilderCallback;
   const sortService: TSyncDirsSortService;
   const compareOption: TSyncDirsCompareOption;
-  const fileSources: TDoubleFileSources );
+  const fileSources: TDoubleFileSources;
+  const basePaths: TDoublePaths );
 begin
   _callback:= callback;
   _sortedService:= sortService;
   _compareOption:= compareOption;
   _fileSources:= fileSources;
+  _basePaths:= basePaths;
   _leftFirst:= True;
   _rightFirst:= True;
 end;
@@ -688,11 +690,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     dir:= dirSyncRec.relPath;
     currentFileSource := _fileSources[side];
 
-    if side = dsLeft then begin
-      dirFullPath := _baseDirL + dir;
-    end else begin
-      dirFullPath := _baseDirR + dir;
-    end;
+    dirFullPath := _basePaths[side] + dir;
     fs := currentFileSource.GetFiles(dirFullPath);
     if (cfOnlySelected in _compareOption.flags) and isFirst then
     begin
@@ -844,12 +842,14 @@ constructor TSyncDirsSynchronizer.Create(
   const callback: ISyncDirsSynchronizerCallback;
   const fileProcessor: ISyncDirsFileProcessorWithUI;
   const filteredList: TFlatDirFileList;
-  const fileSources: TDoubleFileSources );
+  const fileSources: TDoubleFileSources;
+  const basePaths: TDoublePaths );
 begin
   _callback:= callback;
   _fileProcessor:= fileProcessor;
   _filteredList:= filteredList;
   _fileSources:= fileSources;
+  _basePaths:= basePaths;
 end;
 
 function TSyncDirsSynchronizer.count: TSyncDirsSyncCount;
@@ -934,14 +934,13 @@ var
     if rec.action = srsCopyToRight then begin
       sourceSide:= dsLeft;
       targetSide:= dsRight;
-      targetPath:= _rightBasePath + rec.relPath;
     end else begin
       sourceSide:= dsRight;
       targetSide:= dsLeft;
-      targetPath:= _leftBasePath + rec.relPath;
     end;
     sourceFS:= _fileSources[sourceSide];
     targetFS:= _fileSources[targetSide];
+    targetPath:= _basePaths[targetSide] + rec.relPath;
     CreateDirectoryFromFile(
       targetFS,
       targetPath,
@@ -953,11 +952,12 @@ var
   end;
 
   procedure doCopyFile( const copyToLeftFiles: TFiles; const copyToRightFiles: TFiles );
-    procedure action( const files: TFiles; const targetPath: String; const targetSide: TDoubleSide );
+    procedure action( const files: TFiles; const targetSide: TDoubleSide );
     var
       sourceSide: TDoubleSide;
       sourceFile: TFile;
       targetFile: TFile;
+      targetPath: String;
     begin
       if targetSide = dsLeft then
         sourceSide:= dsRight
@@ -965,15 +965,16 @@ var
         sourceSide:= dsLeft;
       sourceFile:= rec.filesOnSide[sourceSide].Clone;
       files.Add( sourceFile );
+      targetPath:= _basePaths[targetSide] + rec.relPath;
       targetFile:= _fileSources[targetSide].CreateFileObject( targetPath );
       targetFile.Name:= sourceFile.Name;
       _filteredList.addFile( index, targetSide, targetFile );
     end;
   begin
     if Assigned(copyToRightFiles) then begin
-      action( copyToRightFiles, _rightBasePath + rec.relPath, dsRight );
+      action( copyToRightFiles, dsRight );
     end else if Assigned(copyToLeftFiles) then begin
-      action( copyToLeftFiles, _leftBasePath + rec.relPath, dsLeft );
+      action( copyToLeftFiles, dsLeft );
     end;
   end;
 
@@ -1040,12 +1041,12 @@ var
       until (index = _filteredList.Count) or rec.isDir;
 
       if copyToLeftFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.rightFS, self.leftFS, copyToLeftFiles, _leftBasePath + targetPath) then
+        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.rightFS, self.leftFS, copyToLeftFiles, self.leftBasePath + targetPath) then
           Exit;
       end;
 
       if copyToRightFiles.Count > 0 then begin
-        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.leftFS, self.rightFS, copyToRightFiles, _rightBasePath + targetPath) then
+        if NOT _fileProcessor.fileProcessorWithUICopyFiles(self.leftFS, self.rightFS, copyToRightFiles, self.rightBasePath + targetPath) then
           Exit;
       end;
 

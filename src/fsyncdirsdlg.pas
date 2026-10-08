@@ -172,8 +172,8 @@ type
     FSelectedItems: TStringListEx;
     FFileSources: TDoubleFileSources;
     FCmpFileSources: TDoubleFileSources;
-    FCmpFilePathL, FCmpFilePathR: string;
-    FAddressL, FAddressR: string;
+    FCmpFilePaths: TDoublePaths;
+    FAddresses: TDoublePaths;
     hCols: array [0..6] of record Left, Width: Integer end;
     FFilteredCount: TSyncDirsFlatCount;
     FOperation: TFileSourceOperation;
@@ -243,8 +243,8 @@ type
   private
     property leftFS: IFileSource read FFileSources[dsLeft] write FFileSources[dsLeft];
     property rightFS: IFileSource read FFileSources[dsRight] write FFileSources[dsRight];
-    property leftCmpFS: IFileSource read FCmpFileSources[dsLeft] write FCmpFileSources[dsLeft];
-    property rightCmpFS: IFileSource read FCmpFileSources[dsRight] write FCmpFileSources[dsRight];
+    property leftAddress: String read FAddresses[dsLeft] write FAddresses[dsLeft];
+    property rightAddress: String read FAddresses[dsRight] write FAddresses[dsRight];
 
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -408,14 +408,16 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
+  function getAddressPath(const side: TDoubleSide): String;
+  begin
+    Result:= FCmpFileSources[side].CurrentAddress + FCmpFilePaths[side];
+  end;
 var
   synchronizer: TSyncDirsSynchronizer;
   syncCount: TSyncDirsSyncCount;
   syncFlags: TSyncDirsSyncFlags;
 begin
-  synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources );
-  synchronizer.leftBasePath:= FCmpFilePathL;
-  synchronizer.rightBasePath:= FCmpFilePathR;
+  synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources, FCmpFilePaths );
   syncCount:= synchronizer.count;
   syncFlags:= [];
 
@@ -426,8 +428,8 @@ begin
 
   with TfrmSyncDirsPerformDlg.Create(Self) do
   try
-    edLeftPath.Text := self.leftCmpFS.CurrentAddress + FCmpFilePathL;
-    edRightPath.Text :=self.rightCmpFS.CurrentAddress + FCmpFilePathR;
+    edLeftPath.Text := getAddressPath(dsLeft);
+    edRightPath.Text := getAddressPath(dsRight);;
     if syncCount.copyToLeftCount > 0 then
     begin
       chkRightToLeft.Enabled := True;
@@ -495,19 +497,16 @@ begin
   end;
 end;
 
-procedure TfrmSyncDirsDlg.edPath1AcceptDirectory(Sender: TObject;
-  var Value: String);
+procedure TfrmSyncDirsDlg.edPath1AcceptDirectory(Sender: TObject; var Value: String);
+var
+  side: TDoubleSide;
 begin
   if Sender = edPath1 then
-  begin
-    self.leftFS := TFileSystemFileSource.GetFileSource;
-    FAddressL := '';
-  end
-  else if Sender = edPath2 then
-  begin
-    self.rightFS := TFileSystemFileSource.GetFileSource;
-    FAddressR := '';
-  end;
+    side:= dsLeft
+  else
+    side:= dsRight;
+  FFileSources[side] := TFileSystemFileSource.GetFileSource;
+  FAddresses[side] := '';
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridMouseUp(Sender: TObject;
@@ -1068,8 +1067,20 @@ end;
 procedure TfrmSyncDirsDlg.ScanDirs;
 var
   builder: TSyncDirsTreeBuilder = nil;
-  BaseDirL: String;
-  BaseDirR: String;
+  basePaths: TDoublePaths;
+
+  procedure setBaseDir(const text: String; const side: TDoubleSide);
+  var
+    path: String;
+    address: String;
+  begin
+    path:= AppendPathDelim(text);
+    address:= FAddresses[side];
+    if (address <> '') and (Copy(path, 1, Length(address)) = address) then
+      Delete(path, 1, Length(address));
+    basePaths[side]:= path;
+  end;
+
 begin
   FScanning := True;
   try
@@ -1087,18 +1098,11 @@ begin
         FMaskList := TMaskList.Create( '*' );
     end;
     FCmpFileSources := FFileSources;
-    BaseDirL := AppendPathDelim(edPath1.Text);
-    if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
-      Delete(BaseDirL, 1, Length(FAddressL));
-    BaseDirR := AppendPathDelim(edPath2.Text);
-    if (FAddressR <> '') and (Copy(BaseDirR, 1, Length(FAddressR)) = FAddressR) then
-      Delete(BaseDirR, 1, Length(FAddressR));
-    FCmpFilePathL := BaseDirL;
-    FCmpFilePathR := BaseDirR;
+    setBaseDir(edPath1.Text, dsLeft);
+    setBaseDir(edPath2.Text, dsRight);
+    FCmpFilePaths := basePaths;
 
-    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources );
-    builder.baseDirL:= BaseDirL;
-    builder.baseDirR:= BaseDirR;
+    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources, basePaths );
     builder.build( FFullTree );
 
     FillFoundItemsDG;
@@ -1462,16 +1466,16 @@ begin
   FFilteredList := TFlatDirFileList.Create(FFullTree);
   self.leftFS := FileView1.FileSource;
   self.rightFS := FileView2.FileSource;
-  FAddressL := FileView1.CurrentAddress;
-  FAddressR := FileView2.CurrentAddress;
+  self.leftAddress := FileView1.CurrentAddress;
+  self.rightAddress := FileView2.CurrentAddress;
   with FileView1 do begin
-    edPath1.Text := FAddressL + CurrentPath;
+    edPath1.Text := self.leftAddress + CurrentPath;
 {$if lcl_fullversion >= 4990000}
     edPath1.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
 {$endif}
   end;
   with FileView2 do begin
-    edPath2.Text := FAddressR + CurrentPath;
+    edPath2.Text := self.rightAddress + CurrentPath;
 {$if lcl_fullversion >= 4990000}
     edPath2.DialogOptionsEx:= [ofShowsFilePackagesSwitch];
 {$endif}
