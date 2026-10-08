@@ -632,7 +632,7 @@ var
     f: TFile;
   begin
     Result:= True;
-    f:= dirSyncRec.filesOnSide[side];
+    f:= dirSyncRec.filesOnSide[side];           // refers to file
     if NOT Assigned(f) then
       Exit;
 
@@ -640,9 +640,10 @@ var
     if NOT Result then
       Exit;
 
-    fullTree.removeFile( dirSyncRec, side );
+    fullTree.removeFile( dirSyncRec, side );    // owns file
     if NOT dirSyncRec.hasFileOnAnySide then
       dirSyncRec.state:= srsDeleted;
+    f.Free;                                     // free file
   end;
 
 begin
@@ -924,14 +925,15 @@ var
   var
     f: TFile;
   begin
-    f:= rec.filesOnSide[side];
-    _filteredList.removeFile( index, side );
+    f:= rec.filesOnSide[side];                   // refers to file
+    _filteredList.removeFile( index, side );     // owns file
     if NOT rec.hasFileOnAnySide then
       rec.state:= srsDeleted;
 
     Result:= Assigned(f);
     if Result then
       Result:= _fileProcessor.fileProcessorWithUIDeleteFile( _fileSources[side], f );
+    f.Free;                                      // free file
   end;
 
   procedure doCopyDir;
