@@ -36,7 +36,7 @@ unit uDrivesList;
 interface
 
 uses
-  Classes, SysUtils, Grids, Controls, LCLType,
+  Classes, SysUtils, Grids, Controls, LCLType, Forms,
   uFilePanelSelect, uDrive;
 
 type
@@ -49,6 +49,7 @@ type
   private
     FDriveIconSize: Integer;
     FDrivesList: TDrivesList;
+    FHostForm: TCustomForm;
     FPanel: TFilePanelSelect;
     FShortCuts: array of TUTF8Char;
     FAllowSelectDummyRow: Boolean;
@@ -75,6 +76,7 @@ type
 {$IFNDEF ForceVirtualKeysShortcuts}
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 {$ENDIF}
+    procedure HostDeactivate(Sender: TObject);
     procedure SelectDrive(ADriveIndex: Integer);
     procedure DoDriveSelected(ADriveIndex: Integer);
     procedure ShowContextMenu(ADriveIndex: Integer; X, Y: Integer);
@@ -89,7 +91,7 @@ type
 
     procedure Close;
     procedure UpdateCells;
-    procedure UpdateSize;
+    procedure UpdateBounds(AtPoint: TPoint);
 
     property LowestRow: Integer read GetLowestRow;
     property HighestRow: Integer read GetHighestRow;
@@ -105,7 +107,8 @@ type
     procedure Paint; override;
 
   public
-    constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
 
     procedure UpdateDrivesList(ADrivesList: TDrivesList);
     procedure UpdateView;
@@ -113,7 +116,7 @@ type
     {en
        Shows the drive list.
        @param(AtPoint
-              Position where to show the list.)
+              Screen position where to show the list.)
        @param(APanel
               For which panel the list is to be shown.)
        @param(ASelectedDriveIndex
@@ -134,8 +137,24 @@ type
 implementation
 
 uses
-  StdCtrls, Graphics, LCLProc, LazUTF8,
-  uPixMapManager, uOSUtils, uDCUtils, uOSForms, uGlobs;
+  StdCtrls, Graphics, LCLProc, LazUTF8, ActnList,
+  uPixMapManager, uOSUtils, uDCUtils, uOSForms, uGlobs, uFormCommands, uShellContextMenu;
+
+type
+  TDrivesListForm = class(TAloneForm, IFormCommands)
+  private
+    FCommands: IFormCommands;
+  public
+    function ExecuteCommand(Command: String; const Params: array of String): TCommandFuncResult;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
+    procedure GetCommandsList(List: TStrings);
+    function GetCommandAction(const Command: String): TAction;
+    procedure GetCommandCategoriesList(List: TStringList; SortOrder: TCommandCategorySortOrder);
+    procedure GetCommandsListForACommandCategory(List: TStringList;
+      Category: String; SortOrder: TCommandSortOrder);
+    procedure ExtractCommandFields(Item: String; var Category, Command, AHint,
+      HotKey: String; var IsCategoryTitle: Boolean);
+  end;
 
 const
   DriveIconSize = 16;
@@ -144,12 +163,71 @@ const
   // TCustomGrid forces at least one row/cell to be selected or focused.
   DummyRows = 1;
 
-constructor TDrivesListPopup.Create(AOwner: TComponent; AParent: TWinControl);
+function TDrivesListForm.ExecuteCommand(Command: String;
+                                       const Params: array of String): TCommandFuncResult;
+var
+  AAction: TAction;
+begin
+  AAction := FCommands.GetCommandAction(Command);
+  if Assigned(AAction) and not AAction.Enabled then Exit(cfrDisabled);
+
+  // Restore the owner before commands can open modal dialogs.
+  TDrivesListPopup(Owner).Close;
+  Result := FCommands.ExecuteCommand(Command, Params);
+end;
+
+function TDrivesListForm.GetCommandCaption(Command: String;
+  CaptionType: TCommandCaptionType): String;
+begin
+  Result := FCommands.GetCommandCaption(Command, CaptionType);
+end;
+
+procedure TDrivesListForm.GetCommandsList(List: TStrings);
+begin
+  FCommands.GetCommandsList(List);
+end;
+
+function TDrivesListForm.GetCommandAction(const Command: String): TAction;
+begin
+  Result := FCommands.GetCommandAction(Command);
+end;
+
+procedure TDrivesListForm.GetCommandCategoriesList(List: TStringList;
+  SortOrder: TCommandCategorySortOrder);
+begin
+  FCommands.GetCommandCategoriesList(List, SortOrder);
+end;
+
+procedure TDrivesListForm.GetCommandsListForACommandCategory(List: TStringList;
+  Category: String; SortOrder: TCommandSortOrder);
+begin
+  FCommands.GetCommandsListForACommandCategory(List, Category, SortOrder);
+end;
+
+procedure TDrivesListForm.ExtractCommandFields(Item: String;
+  var Category, Command, AHint, HotKey: String; var IsCategoryTitle: Boolean);
+begin
+  FCommands.ExtractCommandFields(Item, Category, Command, AHint, HotKey, IsCategoryTitle);
+end;
+
+constructor TDrivesListPopup.Create(AOwner: TComponent);
+var
+  HostForm: TDrivesListForm;
 begin
   inherited Create(AOwner);
 
   ControlStyle := ControlStyle + [csNoFocus];
-  Parent := AParent;
+
+  HostForm := TDrivesListForm.CreateNew(Self, 0);
+  FHostForm := HostForm;
+  HostForm.FCommands := AOwner as IFormCommands;
+  HotMan.Register(HostForm, HotMan.Forms.Find(AOwner as TCustomForm).Name);
+  FHostForm.BorderStyle := bsNone;
+  FHostForm.Position := poDesigned;
+  FHostForm.ShowInTaskBar := stNever;
+  FHostForm.OnDeactivate := @HostDeactivate;
+
+  Parent := FHostForm;
 
   FDrivesList := nil;
   FShortCuts := nil;
@@ -192,6 +270,14 @@ begin
 {$ENDIF}
 end;
 
+destructor TDrivesListPopup.Destroy;
+begin
+  if Assigned(HotMan) then
+    HotMan.UnRegister(FHostForm);
+  FreeAndNil(FHostForm);
+  inherited Destroy;
+end;
+
 procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
 begin
   FDrivesList := ADrivesList;
@@ -204,7 +290,7 @@ begin
   if IsVisible then
   begin
     UpdateCells;
-    UpdateSize;
+    UpdateBounds(Classes.Point(FHostForm.Left, FHostForm.Top));
   end;
 end;
 
@@ -219,13 +305,13 @@ procedure TDrivesListPopup.Show(AtPoint: TPoint; APanel: TFilePanelSelect;
                                 ASelectedDriveIndex: Integer = -1);
 begin
   UpdateCells;
-  UpdateSize;
+  UpdateBounds(AtPoint);
 
   FPanel := APanel;
-
-  Left := AtPoint.X;
-  Top := AtPoint.Y;
   Visible := True;
+  FHostForm.Show;
+  // Hidden forms retain their previous native bounds until shown.
+  FHostForm.MakeFullyVisible(Screen.MonitorFromPoint(AtPoint), True);
 
   ASelectedDriveIndex := LowestRow + ASelectedDriveIndex;
   if (ASelectedDriveIndex >= LowestRow) and (ASelectedDriveIndex <= HighestRow) then
@@ -499,13 +585,17 @@ begin
 end;
 {$ENDIF}
 
+procedure TDrivesListPopup.HostDeactivate(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TDrivesListPopup.SelectDrive(ADriveIndex: Integer);
 begin
   if (ADriveIndex >= 0) and (ADriveIndex < DrivesCount) then
   begin
-    MouseCapture := False;
-    DoDriveSelected(ADriveIndex);
     Close;
+    DoDriveSelected(ADriveIndex);
   end;
 end;
 
@@ -527,13 +617,18 @@ begin
 
     // Context menu usually captures mouse so we have to disable ours.
     MouseCapture := False;
-    ShowDriveContextMenu(Self, FDrivesList[ADriveIndex], pt.X, pt.Y, @ContextMenuClosed);
+    ShowDriveContextMenu(Owner as TWinControl, FDrivesList[ADriveIndex], pt.X, pt.Y, @ContextMenuClosed);
   end;
 end;
 
 procedure TDrivesListPopup.ContextMenuClosed(Sender: TObject);
 begin
-  MouseCapture := True;
+{$IFDEF MSWINDOWS}
+  // Restore the owner before the selected shell command can open dialogs.
+  if (Sender is TShellContextMenu) and TShellContextMenu(Sender).CommandSelected then
+    Close;
+{$ENDIF}
+  MouseCapture := Visible;
 end;
 
 function TDrivesListPopup.CheckShortcut(AShortcut: TUTF8Char): Boolean;
@@ -557,7 +652,11 @@ end;
 procedure TDrivesListPopup.Close;
 begin
   MouseCapture := False;
+  if not Visible then Exit;
+
   Visible := False;
+  if Assigned(FHostForm) then
+    FHostForm.Hide;
 
   if Assigned(FOnClose) then
     FOnClose(Self);
@@ -609,7 +708,7 @@ begin
     end; // for
 end;
 
-procedure TDrivesListPopup.UpdateSize;
+procedure TDrivesListPopup.UpdateBounds(AtPoint: TPoint);
 var
   I : Integer;
   w, h: Integer;
@@ -632,8 +731,12 @@ begin
   if DummyRows > 0 then
     Inc(h, RowHeights[FixedRows] + GridLineWidth);
 
-  Width := w;
-  Height := h;
+  SetBounds(0, 0, w, h);
+  FHostForm.SetBounds(AtPoint.X, AtPoint.Y, Width, Height);
+
+  Screen.UpdateMonitors;
+  if FHostForm.Visible then
+    FHostForm.MakeFullyVisible(Screen.MonitorFromPoint(AtPoint), True);
 end;
 
 end.
