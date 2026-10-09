@@ -215,8 +215,6 @@ type
   TTwoLevelTree = class
   private
     _dirs: TStringListEx;
-  private
-    function findParentDirRec(const childSyncRec: TSyncRec): TSyncDirRec;
   public
     constructor Create;
     destructor Destroy; override;
@@ -231,6 +229,7 @@ type
     function dirPath( const dirIndex: Integer ): String;
     function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
     function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec;
+    function findParentDirRec(const childSyncRec: TSyncRec): TSyncDirRec;
 
     {$IFOPT D+}
     function ToString: ansistring; override;
