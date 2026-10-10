@@ -755,9 +755,11 @@ var
 begin
   case Key of
     VK_SPACE:
-      toggleSelectionAction;
+      begin
+        toggleSelectionAction;
+        Key:= 0;
+      end;
     VK_A:
-    begin
       if (Shift = [ssModifier]) then
       begin
         ASelection.Top:= 0;
@@ -765,17 +767,14 @@ begin
         ASelection.Right:= MainDrawGrid.ColCount - 1;
         ASelection.Bottom:= MainDrawGrid.RowCount - 1;
         MainDrawGrid.Selection:= ASelection;
+        Key:= 0;
       end;
-    end;
-    VK_C:
-      if (Shift = [ssModifier]) then
-      begin
-        CopyToClipboard;
-      end;
+    VK_C,
     VK_INSERT:
       if (Shift = [ssModifier]) then
       begin
         CopyToClipboard;
+        Key:= 0;
       end;
   end;
 end;
