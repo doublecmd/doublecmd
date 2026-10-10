@@ -175,6 +175,12 @@ var
   { If set to True, then transforming from external back to internal dragging is enabled. }
   AllowTransformToInternal : Boolean = True;
 
+  { The control that started the external drag currently in progress, when that
+    drag originates from this application, nil otherwise. A widgetset whose
+    drag session serves both intra- and inter-application drops needs this to
+    tell the two apart; the others leave it nil. }
+  ExternalDragSourceControl : TWinControl = nil;
+
 implementation
 
 {$IF DEFINED(MSWINDOWS)}
@@ -381,6 +387,8 @@ function CreateDragDropTarget(Control: TWinControl): TDragDropTarget;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := TDragDropTargetWindows.Create(Control);
+{$ELSEIF DEFINED(LCLCOCOA)}
+  Result := TDragDropTargetCocoa.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   Result := TDragDropTargetGTK.Create(Control);
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
