@@ -73,6 +73,12 @@ type
       const fs: IFileSource;
       var files: TFiles;
       const operationHandle: TSyncDirsOperationHandle ): Boolean;
+    class function forceDirectories(
+      const childRec: TSyncRec;
+      const fullTree: TTwoLevelTree;
+      const side: TDoubleSide;
+      const fs: IFileSource;
+      const baseDir: String ): Boolean;
   end;
 
   { ISyncDirsFileProcessorWithUI }
@@ -457,6 +463,48 @@ begin
   finally
     FreeAndNil(fsOperation);
   end;
+end;
+
+class function TSyncDirsUtil.forceDirectories(
+  const childRec: TSyncRec;
+  const fullTree: TTwoLevelTree;
+  const side: TDoubleSide;
+  const fs: IFileSource;
+  const baseDir: String ): Boolean;
+
+  function doCreate( const currentRec: TSyncRec ): Boolean;
+  var
+    parentDirRec: TSyncRec;
+    f: TFile;
+    fullPath: String;
+  begin
+    Result:= True;
+    if currentRec = nil then
+      Exit;
+    if currentRec.relPath = EmptyStr then
+      Exit;
+    f:= currentRec.filesOnSide[side];
+    if Assigned(f) then
+      Exit;
+
+    parentDirRec:= fullTree.findParentDirRec( currentRec );
+    doCreate( parentDirRec );
+
+    fullPath:= ExcludeBackPathDelimiter( baseDir + currentRec.relPath );
+    Result:= fs.CreateDirectory( fullPath );
+    f:= fs.CreateFileObject( EmptyStr );
+    f.FullPath:= fullPath;
+    currentRec.filesOnSide[side]:= f;
+  end;
+
+var
+  rec: TSyncRec;
+begin
+  Result:= True;
+  rec:= childRec;
+  if rec.isFile then
+    rec:= fullTree.findParentDirRec( rec );
+  Result:= doCreate( rec );
 end;
 
 { TSyncDirsSortService }
@@ -1018,25 +1066,6 @@ var
     sourceFS: IFileSource;
     targetFS: IFileSource;
     targetFullPath: String;
-
-    // 1. create the directory only if it does not exist
-    // 2. try creation only, keep going even fail, because most file sources can
-    //    automatically create directories
-    // 3. update sync rec also
-    procedure tryCreatingDir;
-    var
-      f: TFIle;
-    begin
-      if dirSyncRec.relPath = EmptyStr then
-        Exit;
-      f:= dirSyncRec.filesOnSide[targetSide];
-      if Assigned(f) then
-        Exit;
-      targetFS.CreateDirectory( targetFullPath );
-      f:= targetFS.CreateFileObject( EmptyStr );
-      f.FullPath:= targetFullPath;
-      dirSyncRec.filesOnSide[targetSide]:= f;
-    end;
   begin
     if targetSide = dsLeft then
       sourceSide:= dsRight
@@ -1045,7 +1074,13 @@ var
     sourceFS:= _fileSources[sourceSide];
     targetFS:= _fileSources[targetSide];
     targetFullPath:= ExcludeBackPathDelimiter( _basePaths[targetSide] + dirSyncRec.relPath );
-    tryCreatingDir;
+
+    // 1. create the directory only if it does not exist
+    // 2. try creation only, keep going even fail, because most file sources can
+    //    automatically create directories
+    // 3. update sync rec also
+    TSyncDirsUtil.forceDirectories( dirSyncRec, _filteredList.fullTree, targetSide, targetFS, _basePaths[targetSide] );
+
     Result:= _fileProcessor.fileProcessorWithUICopyFiles(
        sourceFS,
        targetFS,
