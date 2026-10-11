@@ -58,6 +58,7 @@ type
     function WriteStr(const Str: string): Integer; override;
     function SetCurrentDir(const Path: String): Boolean; override;
     function SetScreenSize(aCols, aRows: Integer): Boolean; override;
+    function GetChildPid: THandle; override;
   end;
 
 implementation
@@ -469,6 +470,11 @@ end;
 
 initialization
   Initialize;
+
+function TPtyDevice.GetChildPid: THandle;
+begin
+  Result := 0; // Not fully implemented for Windows pseudo console here
+end;
 
 end.
 
