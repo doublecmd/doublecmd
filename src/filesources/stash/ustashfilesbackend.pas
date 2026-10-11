@@ -18,6 +18,7 @@ type
     _paths: TStringList;
     _onChange: TNotifyEvent;
   private
+    procedure doOnChange; inline;
     procedure addPath( const path: String ); inline;
     procedure removePath( const path: String ); inline;
     procedure doAddFromStringArray(const pathsArray: TStringArray);
@@ -68,6 +69,12 @@ begin
   _onChange:= listener;
 end;
 
+procedure TStashFilesBackend.doOnChange;
+begin
+  if Assigned(_onChange) then
+    _onChange( _paths );
+end;
+
 procedure TStashFilesBackend.addPath(const path: String);
 var
   f: TFile;
@@ -93,7 +100,7 @@ begin
   _lockObject.Acquire;
   try
     _paths.Clear;
-    _onChange( _paths );
+    self.doOnChange;
   finally
     _lockObject.Release;
   end;
@@ -117,7 +124,7 @@ begin
   try
     for i:= 0 to files.Count-1 do
       self.addPath( files[i].FullPath );
-    _onChange( _paths );
+    self.doOnChange;
   finally
     _lockObject.Release;
   end;
@@ -131,7 +138,7 @@ begin
   try
     for i:= 0 to files.Count-1 do
       self.removePath( files[i].FullPath );
-    _onChange( _paths );
+    self.doOnChange;
   finally
     _lockObject.Release;
   end;
@@ -214,7 +221,7 @@ begin
   _lockObject.Acquire;
   try
     doAddFromStringArray( pathsArray );
-    _onChange( _paths );
+    self.doOnChange;
   finally
     _lockObject.Release;
   end;
