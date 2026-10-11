@@ -145,8 +145,6 @@ type
     _compareOption: TSyncDirsCompareOption;
     _fileSources: TDoubleFileSources;
     _basePaths: TDoublePaths;
-    _leftFirst: Boolean;
-    _rightFirst: Boolean;
   public
     constructor Create(
       const callback: ISyncDirsTreeBuilderCallback;
@@ -719,8 +717,6 @@ begin
   _compareOption:= compareOption;
   _fileSources:= fileSources;
   _basePaths:= basePaths;
-  _leftFirst:= True;
-  _rightFirst:= True;
 end;
 
 procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
@@ -728,15 +724,15 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     const dirItem: TTwoLevelTreeDirItem;
     const parentDirIndex: Integer;
     const dirs: TStringList;
-    var isFirst: Boolean;
     const side: TDoubleSide);
   var
     dir: String;
-    fs: TFiles;
-    i, j: Integer;
+    files: TFiles;
+    fileIndex: Integer;
     f: TFile;
     rec: TSyncRec;
-    fn: String;
+    recIndex: Integer;
+    filename: String;
     dirFullPath: String;
     dirSyncRec: TSyncDirRec;
     currentFileSource: IFileSource;
@@ -746,45 +742,42 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     currentFileSource := _fileSources[side];
 
     dirFullPath := _basePaths[side] + dir;
-    fs := currentFileSource.GetFiles(dirFullPath);
-    if (cfOnlySelected in _compareOption.flags) and isFirst then
-    begin
-      isFirst:= False;
-      for I:= fs.Count - 1 downto 0 do
-      begin
-        if NOT _callback.treeBuilderSelectedFilt(fs[I].Name) then
-          fs.Delete(I);
+    files := currentFileSource.GetFiles(dirFullPath);
+    if (cfOnlySelected in _compareOption.flags) and (dir=EmptyStr) then begin
+      for fileIndex:= files.Count - 1 downto 0 do begin
+        if NOT _callback.treeBuilderSelectedFilt(files[fileIndex].Name) then
+          files.Delete(fileIndex);
       end;
     end;
     try
-      for i := 0 to fs.Count - 1 do
+      for fileIndex := 0 to files.Count - 1 do
       begin
-        f := fs.Items[i];
+        f := files.Items[fileIndex];
         if f.Name = EmptyStr then
           f.Name := currentFileSource.GetDisplayFileName(f);
-        fn := NormalizeFileName(f.Name);
+        filename := NormalizeFileName(f.Name);
         if f.IsDirectory or f.IsLinkToDirectory then begin
           if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
           begin
             if _callback.treeBuilderMaskFilt(f) then begin
-              dirs.AddObject(fn, f.Clone);  // dirs don't own Object
+              dirs.AddObject(filename, f.Clone);  // dirs don't own Object
               dirSyncRec.incDirCount(side, 1);
             end;
           end;
         end else if _callback.treeBuilderMaskFilt(f) then begin
-          j := dirItem.indexOfFile(fn);
-          if j < 0 then
+          recIndex := dirItem.indexOfFile(filename);
+          if recIndex < 0 then
             rec := TSyncFileRec.Create(_compareOption, dir, parentDirIndex)
           else
-            rec := dirItem.fileSyncRec(j);
+            rec := dirItem.fileSyncRec(recIndex);
           rec.filesOnSide[side]:= f.Clone;
           rec.updateState;
-          dirItem.addFile(fn, rec);
+          dirItem.addFile(filename, rec);
           dirSyncRec.incFileCount(side, 1);
         end;
       end;
     finally
-      fs.Free;
+      files.Free;
     end;
   end;
 
@@ -814,8 +807,8 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     dirItem: TTwoLevelTreeDirItem;
     dirSyncRec: TSyncDirRec;
     currentDirIndex: Integer;
-    dirsLeft: TStringListEx;
-    dirsRight: TStringListEx;
+    leftDirs: TStringListEx;
+    rightDirs: TStringListEx;
 
     procedure addFiles;
     var
@@ -824,26 +817,26 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
       totalCount: Integer;
       dirPart: String;
     begin
-      totalCount:= dirsLeft.Count + dirsRight.Count;
-      for i:= 0 to dirsLeft.Count - 1 do begin
+      totalCount:= leftDirs.Count + rightDirs.Count;
+      for i:= 0 to leftDirs.Count - 1 do begin
         if dir = '' then
           _callback.onTreeBuilderUpdateProgress( i * 100 div totalCount );
-        dirPart:= dirsLeft[i];
-        scanDir(dir + dirPart, currentDirIndex, dirsLeft, dirsRight);
+        dirPart:= leftDirs[i];
+        scanDir(dir + dirPart, currentDirIndex, leftDirs, rightDirs);
         if NOT _callback.treeBuilderCheckRunning(False) then
           Exit;
-        rightIndex:= dirsRight.IndexOf(dirPart);
+        rightIndex:= rightDirs.IndexOf(dirPart);
         if rightIndex >= 0 then begin
-          dirsRight.Delete(rightIndex);
+          rightDirs.Delete(rightIndex);
           Dec(totalCount);
         end
       end;
 
-      for i:= 0 to dirsRight.Count-1 do begin
+      for i:= 0 to rightDirs.Count-1 do begin
         if dir = '' then
-          _callback.onTreeBuilderUpdateProgress( (dirsLeft.Count + i) * 100 div totalCount );
-        dirPart:= dirsRight[i];
-        scanDir(dir + dirPart, currentDirIndex, dirsLeft, dirsRight);
+          _callback.onTreeBuilderUpdateProgress( (leftDirs.Count + i) * 100 div totalCount );
+        dirPart:= rightDirs[i];
+        scanDir(dir + dirPart, currentDirIndex, leftDirs, rightDirs);
         if NOT _callback.treeBuilderCheckRunning(False) then
           Exit;
       end;
@@ -865,25 +858,25 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
       dir:= AppendPathDelim(dir);
     end;
 
-    dirsLeft:= TStringListEx.Create;
-    dirsLeft.CaseSensitive:= FileNameCaseSensitive;
-    dirsLeft.Sorted:= True;
-    dirsRight:= TStringListEx.Create;
-    dirsRight.CaseSensitive:= FileNameCaseSensitive;
-    dirsRight.Sorted:= True;
+    leftDirs:= TStringListEx.Create;
+    leftDirs.CaseSensitive:= FileNameCaseSensitive;
+    leftDirs.Sorted:= True;
+    rightDirs:= TStringListEx.Create;
+    rightDirs.CaseSensitive:= FileNameCaseSensitive;
+    rightDirs.Sorted:= True;
     try
       if NOT _callback.treeBuilderCheckRunning(True) then
         Exit;
-      processOneSide(dirItem, currentDirIndex, dirsLeft, _leftFirst, dsLeft);
-      processOneSide(dirItem, currentDirIndex, dirsRight, _rightFirst, dsRight);
+      processOneSide(dirItem, currentDirIndex, leftDirs, dsLeft);
+      processOneSide(dirItem, currentDirIndex, rightDirs, dsRight);
       dirSyncRec.updateState;
       _sortedService.sortDirItem(dirItem);
       if not (cfSubdirs in _compareOption.flags) then
         Exit;
       addFiles;
     finally
-      dirsLeft.Free;
-      dirsRight.Free;
+      leftDirs.Free;
+      rightDirs.Free;
     end;
   end;
 
