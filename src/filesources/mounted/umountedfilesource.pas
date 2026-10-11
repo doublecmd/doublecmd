@@ -176,6 +176,7 @@ var
 begin
   Result:= EmptyStr;
   logicPath:= APath.Substring( self.GetRootDir.Length - 1 );
+  logicPath:= IncludeTrailingPathDelimiter( logicPath );
   for mountPoint in _mountPoints do begin
     if logicPath.StartsWith(mountPoint.point) then begin
       Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
