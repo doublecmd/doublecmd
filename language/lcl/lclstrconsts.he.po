@@ -34,7 +34,7 @@ msgstr "לא יכול למצוא דפדפן HTML."
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 #, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options."
-msgstr ""
+msgstr "לא נמצא דפדפן HTML.%sאנא הגדר אחד בכלים -> אפשרויות -> עזרה -> אפשרויות עזרה."
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 #, object-pascal-format, fuzzy, badformat
@@ -57,12 +57,12 @@ msgstr "מקש קונטרול"
 
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: lclstrconsts.ifsvk_fn
 msgctxt "lclstrconsts.ifsvk_fn"
 msgid "Fn"
-msgstr ""
+msgstr "Fn"
 
 #: lclstrconsts.ifsvk_help
 msgctxt "lclstrconsts.ifsvk_help"
@@ -71,7 +71,7 @@ msgstr "עזרה"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
@@ -79,7 +79,7 @@ msgstr "מקש הזז"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
@@ -127,7 +127,7 @@ msgstr "מימי"
 #: lclstrconsts.rsascannothaveasparent
 #, object-pascal-format
 msgid "Class %s cannot have %s as parent."
-msgstr ""
+msgstr "המחלקה %s לא יכולה לקבל את %s כהורה."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -206,12 +206,12 @@ msgstr "פקד של המחלקה  '%s' לא יכול לקבל פקד של מחל
 #: lclstrconsts.rscontrolhasnoparentformorframe
 #, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
-msgstr ""
+msgstr "לפקד '%s' אין טופס או מסגרת הורים"
 
 #: lclstrconsts.rscontrolisnotaparent
 #, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
-msgstr ""
+msgstr "'%s' אינו הורה של '%s'"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -230,12 +230,12 @@ msgstr "מותאם אישית ..."
 #: lclstrconsts.rsdatetoolarge
 #, object-pascal-format
 msgid "Date cannot be past %s"
-msgstr ""
+msgstr "התאריך לא יכול להיות אחרי %s"
 
 #: lclstrconsts.rsdatetoosmall
 #, object-pascal-format
 msgid "Date cannot be before %s"
-msgstr ""
+msgstr "התאריך לא יכול להיות לפני %s"
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
@@ -379,7 +379,7 @@ msgstr "מידע קובץ"
 #: lclstrconsts.rsfilter
 msgctxt "lclstrconsts.rsfilter"
 msgid "(filter)"
-msgstr ""
+msgstr "(מסנן)"
 
 #: lclstrconsts.rsfind
 msgid "Find"
@@ -412,7 +412,7 @@ msgstr "טופס"
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 #, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr ""
+msgstr "משאב הטופס %s לא נמצא. עבור טפסים ללא משאבים יש להשתמש בבנאי CreateNew. ראה את המשתנה הגלובלי RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
 #, object-pascal-format
@@ -477,15 +477,15 @@ msgstr "ירוק"
 
 #: lclstrconsts.rsgridfiledoesnotexist
 msgid "Grid file doesn't exist"
-msgstr ""
+msgstr "קובץ הרשת אינו קיים"
 
 #: lclstrconsts.rsgridhasnocols
 msgid "Cannot insert rows into a grid when it has no columns"
-msgstr ""
+msgstr "לא ניתן להכניס שורות לרשת שאין לה עמודות"
 
 #: lclstrconsts.rsgridhasnorows
 msgid "Cannot insert columns into a grid when it has no rows"
-msgstr ""
+msgstr "לא ניתן להכניס עמודות לרשת שאין לה שורות"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -607,12 +607,12 @@ msgstr "בסיס הנתונים של העזרה %s%s%s  לא נמצא "
 #: lclstrconsts.rshelphelpfordirectivenotfound
 #, object-pascal-format
 msgid "Help for directive \"%s\" not found."
-msgstr ""
+msgstr "העזרה עבור ההנחיה \"%s\" לא נמצאה."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
 #, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
-msgstr ""
+msgstr "העזרה עבור ההנחיה \"%s\" לא נמצאה במסד הנתונים \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
 #, object-pascal-format, fuzzy, badformat
@@ -677,7 +677,7 @@ msgstr "לא נמצא מציג לעזרה"
 
 #: lclstrconsts.rshidedetails
 msgid "Hide details"
-msgstr ""
+msgstr "הסתרת פרטים"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -749,7 +749,7 @@ msgstr "אינדקס d% מחוץ לתחום 0 .. d%"
 #: lclstrconsts.rsindexoutofboundsminusone
 #, object-pascal-format
 msgid "%s Index %d out of bounds -1 .. %d"
-msgstr ""
+msgstr "האינדקס %s %d מחוץ לתחום -1 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
 #, object-pascal-format, fuzzy, badformat
@@ -798,7 +798,7 @@ msgstr "כבר משוייך ל s%"
 
 #: lclstrconsts.rsjpeg
 msgid "JPEG Files"
-msgstr ""
+msgstr "קובצי JPEG"
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
@@ -815,7 +815,7 @@ msgstr "אינדקס הרשימה עובר את הגבול"
 
 #: lclstrconsts.rsmacoscolordialogmbpick
 msgid "Pick"
-msgstr ""
+msgstr "בחירה"
 
 #: lclstrconsts.rsmacoseditmenu
 msgctxt "lclstrconsts.rsmacoseditmenu"
@@ -850,54 +850,54 @@ msgstr "בטל פעולה"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtips
 msgid "Treat File Packages (such as *.app files) as Directories to access their internal files"
-msgstr ""
+msgstr "התייחס לחבילות קבצים (כמו קבצי *.app) כתיקיות כדי לגשת לקבצים הפנימיים שלהן"
 
 #: lclstrconsts.rsmacosfiledialogpackageswitchtitle
 msgid "Show File Package Contents"
-msgstr ""
+msgstr "הצגת תוכן חבילות קבצים"
 
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
-msgstr ""
+msgstr "פורמט קובץ:"
 
 #: lclstrconsts.rsmacosfontdialogmbselect
 msgid "Select"
-msgstr ""
+msgstr "בחירה"
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
 msgid "About %s"
-msgstr ""
+msgstr "אודות %s"
 
 #: lclstrconsts.rsmacosmenuhide
 #, object-pascal-format
 msgid "Hide %s"
-msgstr ""
+msgstr "הסתרת %s"
 
 #: lclstrconsts.rsmacosmenuhideothers
 msgid "Hide Others"
-msgstr ""
+msgstr "הסתרת האחרים"
 
 #: lclstrconsts.rsmacosmenupreferences
 msgid "Preferences..."
-msgstr ""
+msgstr "העדפות..."
 
 #: lclstrconsts.rsmacosmenuquit
 #, object-pascal-format
 msgid "Quit %s"
-msgstr ""
+msgstr "יציאה מ-%s"
 
 #: lclstrconsts.rsmacosmenuservices
 msgid "Services"
-msgstr ""
+msgstr "שירותים"
 
 #: lclstrconsts.rsmacosmenushowall
 msgid "Show All"
-msgstr ""
+msgstr "הצגת הכל"
 
 #: lclstrconsts.rsmacosmenutogglefullscreen
 msgid "Toggle Full Screen"
-msgstr ""
+msgstr "מעבר למסך מלא"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -1068,7 +1068,7 @@ msgstr "אחרי"
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
 #, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
-msgstr ""
+msgstr "%s%sלחץ על אישור כדי להתעלם ולסכן את תקינות הנתונים.%sלחץ על הפסקה כדי לעצור את התוכנית."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1077,7 +1077,7 @@ msgstr "קודם"
 
 #: lclstrconsts.rspromptonreplace
 msgid "Prompt on replace"
-msgstr ""
+msgstr "שאל בעת החלפה"
 
 #: lclstrconsts.rspropertydoesnotexist
 #, object-pascal-format, fuzzy, badformat
@@ -1090,7 +1090,7 @@ msgstr "סגול"
 
 #: lclstrconsts.rsqtoptiondisableaccurateframe
 msgid "Disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
-msgstr ""
+msgstr "משבית מסגרת חלון מדויקת לחלוטין תחת X11. תכונה זו מיושמת עבור ממשקי Qt, Qt5 ו-Gtk2 ומשמשת בעיקר את GetWindowRect()."
 
 #: lclstrconsts.rsqtoptiondograb
 #, fuzzy
@@ -1276,7 +1276,7 @@ msgstr "בחר גופן"
 
 #: lclstrconsts.rsshowdetails
 msgid "Show details"
-msgstr ""
+msgstr "הצגת פרטים"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
@@ -1288,7 +1288,7 @@ msgstr "כחול שמיים"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr ""
+msgstr "פקד עם כרטיסיות"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1300,11 +1300,11 @@ msgstr "טקסט"
 
 #: lclstrconsts.rstga
 msgid "TGA Image Files"
-msgstr ""
+msgstr "קובצי תמונת TGA"
 
 #: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
 msgid "The built-in URL is read only. Change the BaseURL instead."
-msgstr ""
+msgstr "ה-URL המובנה הוא לקריאה בלבד. שנה במקום זאת את BaseURL."
 
 #: lclstrconsts.rstiff
 #, fuzzy
@@ -1315,17 +1315,17 @@ msgstr "פורמט מתוייג של קובץ דמות"
 #: lclstrconsts.rstpanelaccessibilitydescription
 msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
 msgid "Panel"
-msgstr ""
+msgstr "חלונית"
 
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
+msgstr "אחיזה לשליטה בכמה גודל להקצות לשני חלקים של אזור"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
 msgid "A tree of items"
-msgstr ""
+msgstr "עץ של פריטים"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1445,7 +1445,7 @@ msgstr "אינדקס לא חוקי של ImageList"
 
 #: lclstrconsts.smaskeditnomatch
 msgid "The current text does not match the specified mask."
-msgstr ""
+msgstr "הטקסט הנוכחי אינו תואם למסכה שצוינה."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1495,7 +1495,7 @@ msgstr "מקש בטל"
 
 #: lclstrconsts.smkcfn
 msgid "Fn+"
-msgstr ""
+msgstr "Fn+"
 
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
@@ -1553,7 +1553,7 @@ msgstr "אין קוצב זמן זמין"
 #: lclstrconsts.sparentrequired
 #, object-pascal-format
 msgid "Control \"%s\" has no parent window."
-msgstr ""
+msgstr "לפקד \"%s\" אין חלון הורים."
 
 #: lclstrconsts.sparexpected
 #, object-pascal-format
@@ -1573,7 +1573,7 @@ msgstr "מספר שלם לא חוקי %s"
 #: lclstrconsts.sparlocinfo
 #, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
-msgstr ""
+msgstr " (ב-%d,%d, היסט זרם %d)"
 
 #: lclstrconsts.sparunterminatedbinvalue
 msgid "Unterminated byte value"
@@ -1595,21 +1595,21 @@ msgstr "סוג token שגוי: %s צפוי אבל %s נמצא"
 
 #: lclstrconsts.sshellctrlsattributes
 msgid "Attributes"
-msgstr ""
+msgstr "מאפיינים"
 
 #: lclstrconsts.sshellctrlsbytes
 #, object-pascal-format
 msgid "%s bytes"
-msgstr ""
+msgstr "%s בתים"
 
 #: lclstrconsts.sshellctrlsfolder
 msgid "Folder"
-msgstr ""
+msgstr "תיקייה"
 
 #: lclstrconsts.sshellctrlsgb
 #, object-pascal-format
 msgid "%s GB"
-msgstr ""
+msgstr "%s GB"
 
 #: lclstrconsts.sshellctrlsinvalidpath
 #, object-pascal-format
@@ -1617,7 +1617,7 @@ msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
-msgstr ""
+msgstr "שם נתיב לא תקני:\n\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
 #, object-pascal-format
@@ -1626,7 +1626,7 @@ msgid ""
 "\"%s\"\n"
 "in relation to rootpath:\n"
 "\"%s\""
-msgstr ""
+msgstr "שם נתיב יחסי לא תקני:\n\"%s\"\nביחס לנתיב השורש:\n\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidroot
 #, object-pascal-format
@@ -1634,38 +1634,39 @@ msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
-msgstr ""
+msgstr "שם נתיב לא תקני:\n\"%s\""
 
 #: lclstrconsts.sshellctrlskb
 #, object-pascal-format
 msgid "%s kB"
-msgstr ""
+msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
 #, object-pascal-format
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #: lclstrconsts.sshellctrlsmodificationdate
 msgid "Date modified"
-msgstr ""
+msgstr "תאריך שינוי"
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
 #, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\""
-msgstr ""
+msgstr "הפריט הנבחר אינו קיים בדיסק:\n\"%s\""
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"
-msgstr ""
+msgstr "גודל"
 
 #: lclstrconsts.sshellctrlstype
 msgid "Type"
-msgstr ""
+msgstr "סוג"
+
 
