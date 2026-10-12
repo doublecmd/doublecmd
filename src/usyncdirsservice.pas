@@ -38,6 +38,8 @@ type
 
   TDoublePaths = array [TDoubleSide] of String;
 
+  TDoubleFiles = array [TDoubleSide] of TFiles;
+
   { TSyncDirsOperationHandle }
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
@@ -132,7 +134,6 @@ type
   ISyncDirsTreeBuilderCallback = interface
     function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
-    function treeBuilderSelectedFilt( const filename: String ): Boolean;
     procedure onTreeBuilderUpdateProgress( const percent: Integer );
   end;
 
@@ -145,6 +146,10 @@ type
     _compareOption: TSyncDirsCompareOption;
     _fileSources: TDoubleFileSources;
     _basePaths: TDoublePaths;
+    _selectedList: TStringListEx;
+  private
+    procedure fillSelectedList( const selectedFiles: TDoubleFiles );
+    function isSelectedFile( const f: TFile ): Boolean;
   public
     constructor Create(
       const callback: ISyncDirsTreeBuilderCallback;
@@ -152,7 +157,8 @@ type
       const compareOption: TSyncDirsCompareOption;
       const fileSources: TDoubleFileSources;
       const basePaths: TDoublePaths );
-    procedure build( const FFullTree: TTwoLevelTree );
+    destructor Destroy; override;
+    procedure build( const FFullTree: TTwoLevelTree; const selectedFiles: TDoubleFiles );
   end;
 
   { ISyncDirsSynchronizerCallback }
@@ -705,6 +711,23 @@ end;
 
 { TSyncDirsTreeBuilder }
 
+procedure TSyncDirsTreeBuilder.fillSelectedList( const selectedFiles: TDoubleFiles );
+var
+  i: Integer;
+begin
+  for i:= 0 to selectedFiles[dsLeft].Count-1 do begin
+    _selectedList.Add( selectedFiles[dsLeft][i].Name );
+  end;
+  for i:= 0 to selectedFiles[dsRight].Count-1 do begin
+    _selectedList.Add( selectedFiles[dsRight][i].Name );
+  end;
+end;
+
+function TSyncDirsTreeBuilder.isSelectedFile( const f: TFile ): Boolean;
+begin
+  Result:= _selectedList.IndexOf(f.Name) >= 0;
+end;
+
 constructor TSyncDirsTreeBuilder.Create(
   const callback: ISyncDirsTreeBuilderCallback;
   const sortService: TSyncDirsSortService;
@@ -717,9 +740,19 @@ begin
   _compareOption:= compareOption;
   _fileSources:= fileSources;
   _basePaths:= basePaths;
+
+  _selectedList:= TStringListEx.Create;
+  _selectedList.Sorted := True;
+  _selectedList.Duplicates := dupIgnore;
+  _selectedList.CaseSensitive := FileNameCaseSensitive;
 end;
 
-procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
+destructor TSyncDirsTreeBuilder.Destroy;
+begin
+  _selectedList.Free;
+end;
+
+procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const selectedFiles: TDoubleFiles );
   procedure processOneSide(
     const dirItem: TTwoLevelTreeDirItem;
     const parentDirIndex: Integer;
@@ -745,7 +778,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
     files := currentFileSource.GetFiles(dirFullPath);
     if (cfOnlySelected in _compareOption.flags) and (dir=EmptyStr) then begin
       for fileIndex:= files.Count - 1 downto 0 do begin
-        if NOT _callback.treeBuilderSelectedFilt(files[fileIndex].Name) then
+        if NOT isSelectedFile(files[fileIndex]) then
           files.Delete(fileIndex);
       end;
     end;
@@ -881,6 +914,7 @@ procedure TSyncDirsTreeBuilder.build(const FFullTree: TTwoLevelTree);
   end;
 
 begin
+  self.fillSelectedList( selectedFiles );
   scanDir('', -1, nil, nil);
 end;
 

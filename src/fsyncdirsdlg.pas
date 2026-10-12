@@ -169,7 +169,7 @@ type
     FCompareOption: TSyncDirsCompareOption;
     FMaskList: TMaskList;
     FTemplate: TSearchTemplate;
-    FSelectedItems: TStringListEx;
+    FSelectedFiles: TDoubleFiles;
     FFileSources: TDoubleFileSources;
     FCmpFileSources: TDoubleFileSources;
     FCmpFilePaths: TDoublePaths;
@@ -234,7 +234,6 @@ type
   private
     function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
-    function treeBuilderSelectedFilt( const filename: String ): Boolean;
     procedure onTreeBuilderUpdateProgress( const percent: Integer );
 
   private
@@ -1102,7 +1101,7 @@ begin
     FCmpFilePaths := basePaths;
 
     builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources, basePaths );
-    builder.build( FFullTree );
+    builder.build( FFullTree, FSelectedFiles );
 
     FillFoundItemsDG;
     if FCancel then
@@ -1261,11 +1260,6 @@ begin
     if NOT Result then
       Result:= ((FMaskList = nil) or FMaskList.Matches(f.Name));
   end;
-end;
-
-function TfrmSyncDirsDlg.treeBuilderSelectedFilt(const filename: String): Boolean;
-begin
-  Result:= FSelectedItems.IndexOf(filename) >= 0;
 end;
 
 procedure TfrmSyncDirsDlg.onTreeBuilderUpdateProgress(const percent: Integer);
@@ -1486,27 +1480,9 @@ begin
   SortIndex := 0;
   FScanning := False;
   MainDrawGrid.RowCount := 0;
-  // ---------------------------------------------------------------------------
-  FSelectedItems := TStringListEx.Create;
-  FSelectedItems.Sorted := True;
-  FSelectedItems.Duplicates := dupIgnore;
-  FSelectedItems.CaseSensitive := FileNameCaseSensitive;
-  // Get selected items from active panel
-  AFiles := FileView1.CloneSelectedFiles;
-  for Index := 0 to AFiles.Count - 1 do
-  begin
-    FSelectedItems.Add(AFiles[Index].Name);
-  end;
-  AFiles.Free;
-  // Get selected items from passive panel
-  AFiles := FileView2.CloneSelectedFiles;
-  for Index := 0 to AFiles.Count - 1 do
-  begin
-    FSelectedItems.Add(AFiles[Index].Name);
-  end;
-  AFiles.Free;
-  // ---------------------------------------------------------------------------
-  chkOnlySelected.Enabled := (FSelectedItems.Count > 0) and
+  FSelectedFiles[dsLeft]:= FileView1.CloneSelectedFiles;
+  FSelectedFiles[dsRight]:= FileView2.CloneSelectedFiles;
+  chkOnlySelected.Enabled := ((FSelectedFiles[dsLeft].Count>0) or (FSelectedFiles[dsRight].Count>0)) and
                              (FileView1.FlatView = False) and
                              (FileView2.FlatView = False);
   chkOnlySelected.Checked := chkOnlySelected.Enabled;
@@ -1525,8 +1501,9 @@ destructor TfrmSyncDirsDlg.Destroy;
 begin
   HotMan.UnRegister(Self);
   FFileSourceOperationMessageBoxesUI.Free;
+  FSelectedFiles[dsLeft].Free;
+  FSelectedFiles[dsRight].Free;
   FFilteredList.Free;
-  FSelectedItems.Free;
   FFullTree.Free;
   FSortService.Free;
   FCompareOption.Free;
