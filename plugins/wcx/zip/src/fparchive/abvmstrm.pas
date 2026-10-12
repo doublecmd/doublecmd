@@ -435,8 +435,16 @@ begin
     if (vmsSwapHandle <= 0) then begin
       vmsSwapHandle := 0;
       mbDeleteFile(vmsSwapFileName);
-      raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );             
+      raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );
     end;
+    { On POSIX systems, unlink the file immediately after opening so that
+      the kernel reclaims disk space automatically if the process crashes
+      before the destructor runs.  The handle remains valid for read/write
+      until it is closed normally by vmsSwapFileDestroy. }
+    {$IF DEFINED(UNIX)}
+    mbDeleteFile(vmsSwapFileName);
+    vmsSwapFileName := '';
+    {$ENDIF}
     vmsSwapFileSize := 0;
   end;
 end;
@@ -445,7 +453,10 @@ procedure TAbVirtualMemoryStream.vmsSwapFileDestroy;
 begin
   if (vmsSwapHandle <> 0) then begin
     FileClose(vmsSwapHandle);
-    mbDeleteFile(vmsSwapFileName);
+    { On POSIX the file was already unlinked in vmsSwapFileCreate, so
+      vmsSwapFileName is empty and there is nothing left to delete. }
+    if (vmsSwapFileName <> '') then
+      mbDeleteFile(vmsSwapFileName);
     vmsSwapHandle := 0;
   end;
 end;
