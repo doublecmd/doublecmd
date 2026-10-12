@@ -40,11 +40,13 @@ type
   protected
     FSelectedCount: Integer;
     lblInfo: TLabel;
+    lblPosition: TLabel;  //<en Running index: cursor position within the listing
 
     pnlFooter: TPanel;
     pnlHeader: TFileViewHeader;
 
     procedure UpdateStatusBarFont;
+    procedure UpdatePositionIndex; virtual;  //<en Update running index label (cursor pos / total)
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DisplayFileListChanged; override;
@@ -85,6 +87,7 @@ procedure TFileViewWithPanels.UpdateStatusBarFont;
 begin
   FontOptionsToFont(gFonts[dcfStatusBar], lblInfo.Font);
   lblInfo.Height := lblInfo.Canvas.TextHeight('Wg');
+  FontOptionsToFont(gFonts[dcfStatusBar], lblPosition.Font);
 end;
 
 procedure TFileViewWithPanels.AfterChangePath;
@@ -112,6 +115,15 @@ begin
   pnlFooter.BevelOuter     := bvNone;
   pnlFooter.AutoSize       := True;
   pnlFooter.DoubleBuffered := True;
+
+  lblPosition           := TLabel.Create(pnlFooter);
+  lblPosition.Parent    := pnlFooter;
+  lblPosition.AutoSize  := False;
+  lblPosition.Width     := 110;
+  lblPosition.Align     := alRight;
+  lblPosition.Alignment := taRightJustify;
+  lblPosition.BorderSpacing.Left  := 8;
+  lblPosition.BorderSpacing.Right := 6;
 
   lblInfo          := TLabel.Create(pnlFooter);
   lblInfo.Parent   := pnlFooter;
@@ -266,6 +278,18 @@ begin
   end
   else if not (csDestroying in ComponentState) then
     lblInfo.Caption := '';
+
+  UpdatePositionIndex;
+end;
+
+procedure TFileViewWithPanels.UpdatePositionIndex;
+begin
+  // Base has no notion of the active index; ordered views override this.
+  if Assigned(lblPosition) then
+  begin
+    lblPosition.Visible := gShowPositionIndex;
+    lblPosition.Caption := EmptyStr;
+  end;
 end;
 
 end.
