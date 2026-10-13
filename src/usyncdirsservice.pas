@@ -711,21 +711,27 @@ end;
 
 { TSyncDirsTreeBuilder }
 
+// for FileSources with mapped names — such as iCloud — using the filename as
+// the index is unsuitable; switching to FullPath instead provides a more
+// consistent and universal approach.
+// although the indexing has been switched to FullPath,
+// there is no need to include the FullPaths from both sides.
+// based on the logic in ScanDir(), adding the path from just one side is sufficient
+// to trigger a scan of the directory with the same name on the other side.
 procedure TSyncDirsTreeBuilder.fillSelectedList( const selectedFiles: TDoubleFiles );
 var
+  side: TDoubleSide;
   i: Integer;
 begin
-  for i:= 0 to selectedFiles[dsLeft].Count-1 do begin
-    _selectedList.Add( selectedFiles[dsLeft][i].Name );
-  end;
-  for i:= 0 to selectedFiles[dsRight].Count-1 do begin
-    _selectedList.Add( selectedFiles[dsRight][i].Name );
+  for side:= dsLeft to dsRight do begin
+    for i:= 0 to selectedFiles[side].Count-1 do
+      _selectedList.Add( selectedFiles[side][i].FullPath );
   end;
 end;
 
 function TSyncDirsTreeBuilder.isSelectedFile( const f: TFile ): Boolean;
 begin
-  Result:= _selectedList.IndexOf(f.Name) >= 0;
+  Result:= _selectedList.IndexOf(f.FullPath) >= 0;
 end;
 
 constructor TSyncDirsTreeBuilder.Create(
