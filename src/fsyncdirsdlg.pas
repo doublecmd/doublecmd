@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2026 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, IntegerList, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn, DCClassesUtf8,
+  ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceOperationOptions, uFileSourceDeleteOperation, KASProgressBar,
@@ -892,14 +892,18 @@ begin
     if (FOperation is TFileSourceCopyOperation) then
     begin
       CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
-      SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes +
-                       CopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
+      SetProgressBytes(
+        ProgressBar,
+        FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes,
+        FCopyStatistics.TotalBytes);
     end
     else if (FOperation is TFileSourceDeleteOperation) then
     begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
-      SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles +
-                       DeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
+      SetProgressFiles(
+        ProgressBarDelete,
+        FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles,
+        FDeleteStatistics.TotalFiles);
     end;
   end
   else if Assigned(FCheckContentThread) then
@@ -1410,6 +1414,14 @@ var
   BarText : String;
   CaptionText : String;
 begin
+  {
+    not all FileSources can provide precise statistical information,
+    nor can they accurately calculate the generated size, for example, MultiArchive/7z.
+    so this check has been added to prevent reporting an erroneous progress exceeding 100%
+  }
+  if CurrentBytes > TotalBytes then
+    TotalBytes:= CurrentBytes + 1;
+
   BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
   AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
 
@@ -1428,6 +1440,13 @@ var
   BarText : String;
   CaptionText : String;
 begin
+  {
+    1. defensively prevent exceeding 100%
+    2. for "Delete all empty directories"
+  }
+  if CurrentFiles > TotalFiles then
+    TotalFiles:= CurrentFiles;
+
   BarText := IntToStrTS(CurrentFiles) + '/' + IntToStrTS(TotalFiles);
   AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
 
@@ -1449,9 +1468,6 @@ end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
-var
-  Index: Integer;
-  AFiles: TFiles;
 begin
   inherited Create(AOwner);
   FSortService := TSyncDirsSortService.Create;
