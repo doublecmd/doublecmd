@@ -1515,6 +1515,11 @@ msgstr "Ідэнтыфікатар працэсу"
 msgid "Executable Path"
 msgstr "Шлях выканання"
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2065,6 +2070,7 @@ msgid "Add Plugin"
 msgstr "Дадаць убудову"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 

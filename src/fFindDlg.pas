@@ -52,6 +52,7 @@ type
     actGoToFile: TAction;
     actFeedToListbox: TAction;
     actCancelClose: TAction;
+    actAddToStash: TAction;
     actPagePrev: TAction;
     actPageNext: TAction;
     actPageResults: TAction;
@@ -84,6 +85,7 @@ type
     btnEdit: TButton;
     btnWorkWithFound: TButton;
     btnDrives: TButton;
+    btnAddToStash: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -137,6 +139,7 @@ type
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
     CheksPanel: TPanel;
+    miAddToStash: TMenuItem;
     miOpenInNewTab: TMenuItem;
     miShowInEditor: TMenuItem;
     miShowAllFound: TMenuItem;
@@ -352,6 +355,7 @@ type
     procedure cm_Edit(const {%H-}Params: array of string);
     procedure cm_GoToFile(const {%H-}Params: array of string);
     procedure cm_FeedToListbox(const {%H-}Params: array of string);
+    procedure cm_AddToStash(const {%H-}Params: array of string);
     procedure cm_PageNext(const Params: array of string);
     procedure cm_PagePrev(const Params: array of string);
     procedure cm_PageStandard(const {%H-}Params: array of string);
@@ -409,6 +413,7 @@ uses
   uColumns, uFileFunctions, uFileSorting,
   DCConvertEncoding, WcxPlugin, fChooseEncoding, dmCommonData,
   uLocalFileSource, uWcxArchiveFileSource, uSearchResultFileSource,
+  uStashFilesBackend,
   uFileSourceUtil, uArchiveFileSourceUtil, uDriveWatcher
 {$IFDEF DARkWIN}
   , uDarkStyle
@@ -1073,6 +1078,7 @@ begin
   actView.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
   actEdit.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
   actFeedToListbox.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
+  actAddToStash.Enabled:= pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
   cbReplaceTextChange(cbReplaceText);
 end;
 
@@ -1674,6 +1680,7 @@ begin
   actEdit.Enabled:= AEnabled;
   actGoToFile.Enabled:= AEnabled;
   actFeedToListbox.Enabled:= AEnabled;
+  actAddToStash.Enabled:= AEnabled;
   pnlResultsBottom.Enabled:= AEnabled;
 end;
 
@@ -2112,6 +2119,12 @@ begin
   NewPage.MakeActive;
 
   Close;
+end;
+
+procedure TfrmFindDlg.cm_AddToStash(const Params: array of string);
+begin
+  StopSearch;
+  stashFilesBackend.addFromStringArray( lsFoundedFiles.Items.ToStringArray );
 end;
 
 procedure TfrmFindDlg.cm_PageNext(const Params: array of string);

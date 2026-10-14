@@ -1499,6 +1499,12 @@ msgstr "Process-ID"
 msgid "Executable Path"
 msgstr "Sökväg till körbar fil"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "Lägg till i stash"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2049,6 +2055,7 @@ msgid "Add Plugin"
 msgstr "Lägg till insticksmodul"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Lägg till i stash"
 

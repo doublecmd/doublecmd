@@ -1523,6 +1523,12 @@ msgstr "行程 ID"
 msgid "Executable Path"
 msgstr "可執行檔案路徑"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "添加至暫存區"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -2083,6 +2089,7 @@ msgid "Add Plugin"
 msgstr "添加插件"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "添加至暫存區"
 

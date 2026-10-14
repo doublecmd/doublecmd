@@ -1499,6 +1499,12 @@ msgstr "Folyamat azonosító"
 msgid "Executable Path"
 msgstr "Végrehajtható útvonal"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "Hozzáadás a gyűjteményhez"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2049,6 +2055,7 @@ msgid "Add Plugin"
 msgstr "Bővítmény hozzáadása"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Hozzáadás a gyűjteményhez"
 

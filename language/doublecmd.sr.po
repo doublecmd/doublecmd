@@ -1538,6 +1538,11 @@ msgstr "ЛБ процеса"
 msgid "Executable Path"
 msgstr "Путања извршне датотеке"
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -2099,6 +2104,7 @@ msgid "Add Plugin"
 msgstr "Додај прикључак"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 

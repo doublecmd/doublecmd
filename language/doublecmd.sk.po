@@ -1499,6 +1499,12 @@ msgstr "ID procesu"
 msgid "Executable Path"
 msgstr "Cesta spustenia"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "Pridať do Stash"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2049,6 +2055,7 @@ msgid "Add Plugin"
 msgstr "Pridať zásuvný modul"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Pridať do Stash"
 

@@ -1516,6 +1516,11 @@ msgstr "ID opravila"
 msgid "Executable Path"
 msgstr "Pot do izvedljive datoteke"
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2066,6 +2071,7 @@ msgid "Add Plugin"
 msgstr "Dodaj vstavek"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 

@@ -1523,6 +1523,12 @@ msgstr "ИД процесса"
 msgid "Executable Path"
 msgstr "Исполняемый файл"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "Добавить в хранилище"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -2086,6 +2092,7 @@ msgid "Add Plugin"
 msgstr "Добавить плагин"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Добавить в хранилище"
 

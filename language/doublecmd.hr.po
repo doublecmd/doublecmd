@@ -1594,6 +1594,11 @@ msgstr ""
 msgid "Executable Path"
 msgstr ""
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 #, fuzzy
 #| msgid "actCancel"
@@ -2189,6 +2194,7 @@ msgid "Add Plugin"
 msgstr ""
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 

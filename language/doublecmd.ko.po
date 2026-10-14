@@ -1499,6 +1499,12 @@ msgstr "프로세스 ID"
 msgid "Executable Path"
 msgstr "실행 파일 경로"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "보관함에 추가"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2049,6 +2055,7 @@ msgid "Add Plugin"
 msgstr "플러그인 추가"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "보관함에 추가"
 

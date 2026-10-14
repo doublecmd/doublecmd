@@ -1378,6 +1378,8 @@ object frmFindDlg: TfrmFindDlg
                 Action = actFeedToListbox
                 Align = alRight
                 AutoSize = True
+                BorderSpacing.Left = 3
+                BorderSpacing.Right = 3
                 BorderSpacing.InnerBorder = 4
                 Constraints.MinWidth = 50
                 TabOrder = 0
@@ -1421,6 +1423,20 @@ object frmFindDlg: TfrmFindDlg
                 BorderSpacing.InnerBorder = 4
                 Constraints.MinWidth = 50
                 TabOrder = 2
+              end
+              object btnAddToStash: TButton
+                AnchorSideLeft.Side = asrBottom
+                Left = 330
+                Height = 34
+                Top = 0
+                Width = 108
+                Action = actAddToStash
+                Align = alRight
+                AutoSize = True
+                BorderSpacing.Left = 3
+                BorderSpacing.InnerBorder = 4
+                Constraints.MinWidth = 50
+                TabOrder = 4
               end
             end
           end
@@ -1535,8 +1551,8 @@ object frmFindDlg: TfrmFindDlg
   end
   object PopupMenuFind: TPopupMenu
     OnPopup = PopupMenuFindPopup
-    left = 312
-    top = 48
+    Left = 312
+    Top = 48
     object miOpenInNewTab: TMenuItem
       Caption = 'Open In New Tab(s)'
       OnClick = miOpenInNewTabClick
@@ -1560,8 +1576,8 @@ object frmFindDlg: TfrmFindDlg
     end
   end
   object actList: TActionList
-    left = 168
-    top = 48
+    Left = 168
+    Top = 48
     object actIntelliFocus: TAction
       Caption = 'Find Data'
       OnExecute = actExecute
@@ -1656,10 +1672,14 @@ object frmFindDlg: TfrmFindDlg
       Caption = 'Switch to &Previous Page'
       OnExecute = actExecute
     end
+    object actAddToStash: TAction
+      Caption = 'Add to Stash'
+      OnExecute = actExecute
+    end
   end
   object mmMainMenu: TMainMenu
-    left = 232
-    top = 48
+    Left = 232
+    Top = 48
     object miAction: TMenuItem
       Caption = '&Action'
       object miNewSearch: TMenuItem
@@ -1725,6 +1745,10 @@ object frmFindDlg: TfrmFindDlg
       end
       object miFeedToListbox: TMenuItem
         Action = actFeedToListbox
+      end
+      object miAddToStash: TMenuItem
+        Action = actAddToStash
+        Enabled = False
       end
       object miGoToFile: TMenuItem
         Action = actGoToFile

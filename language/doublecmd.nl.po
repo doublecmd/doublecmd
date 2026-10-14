@@ -1522,6 +1522,11 @@ msgstr ""
 msgid "Executable Path"
 msgstr "Pad van uitvoerbaar bestand"
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2072,6 +2077,7 @@ msgid "Add Plugin"
 msgstr "Invoegsel toevoegen"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 

@@ -1535,6 +1535,11 @@ msgstr "ID do processo"
 msgid "Executable Path"
 msgstr "Caminho do executável"
 
+#: tfrmfinddlg.actaddtostash.caption
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -2102,6 +2107,7 @@ msgid "Add Plugin"
 msgstr "Adicionar extensão"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr ""
 
