@@ -1531,7 +1531,6 @@ msgid "Executable Path"
 msgstr "Διαδρομή Εκτελέσιμου"
 
 #: tfrmfinddlg.actaddtostash.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Προσθήκη στο Απόθεμα"

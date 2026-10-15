@@ -1499,7 +1499,6 @@ msgid "Executable Path"
 msgstr "可执行文件路径"
 
 #: tfrmfinddlg.actaddtostash.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "添加到暂存区"

@@ -1500,7 +1500,6 @@ msgid "Executable Path"
 msgstr "실행 파일 경로"
 
 #: tfrmfinddlg.actaddtostash.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "보관함에 추가"

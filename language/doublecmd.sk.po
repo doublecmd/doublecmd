@@ -1500,7 +1500,6 @@ msgid "Executable Path"
 msgstr "Cesta spustenia"
 
 #: tfrmfinddlg.actaddtostash.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "Pridať do Stash"
