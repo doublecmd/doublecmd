@@ -483,7 +483,8 @@ begin
       ProgressBar.Position:=0;
       ProgressBarDelete.Position:=0;
       pnlCopyProgress.Visible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
-      pnlDeleteProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags);
+      pnlDeleteProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
+                                  (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
 
       synchronizer.sync( syncFlags );
 
