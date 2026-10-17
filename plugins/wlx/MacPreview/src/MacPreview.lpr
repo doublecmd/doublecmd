@@ -49,8 +49,25 @@ type
 var
   QLContentTypes: NSMutableArray;
   QLContentUTTypes: NSMutableArray;
+  DisabledExtensions: NSMutableSet;
 
 const
+  PluginKitPath = '/usr/bin/pluginkit';
+  QLPreviewExtensionPoint = 'com.apple.quicklook.preview';
+
+  // Types a Quick Look preview extension may declare that would make MacPreview
+  // claim (nearly) every file, or plain text DC's own viewer handles better.
+  ExtensionExcludeList: array[0..6] of PAnsiChar =
+    (
+      'public.item',
+      'public.data',
+      'public.content',
+      'public.text',
+      'public.plain-text',
+      'public.json',
+      'public.xml'
+    );
+
   ExcludeList: array[0..2] of PAnsiChar =
     (
       'public.plain-text',
@@ -153,6 +170,130 @@ begin
   begin
     repeat
        ParseFile(Path, FindData.Name);
+    until FindNext(FindData) <> 0;
+    FindClose(FindData);
+  end;
+end;
+
+function IsExtensionExcluded(FileType: NSString): Boolean;
+var
+  Index: Integer;
+begin
+  for Index:= 0 to High(ExtensionExcludeList) do
+  begin
+    if StrComp(FileType.UTF8String, ExtensionExcludeList[Index]) = 0 then
+      Exit(True);
+  end;
+  Result:= False;
+end;
+
+// Paths of preview extensions the user switched off (System Settings, or
+// "pluginkit -e ignore"). pluginkit prints them with a leading '-' and the
+// path in the last tab-separated column; if the tool is unavailable nothing
+// is excluded.
+procedure LoadDisabledExtensions;
+var
+  I: Integer;
+  Task: NSTask;
+  Pipe: NSPipe;
+  Output, Line: NSString;
+  Lines: NSArray;
+  Arguments: NSMutableArray;
+  Tab: NSRange;
+begin
+  DisabledExtensions:= NSMutableSet.alloc.init;
+  if not NSFileManager.defaultManager.isExecutableFileAtPath(StringToNSString(PluginKitPath)) then
+    Exit;
+
+  Arguments:= NSMutableArray.array_;
+  Arguments.addObject(StringToNSString('-m'));
+  Arguments.addObject(StringToNSString('-v'));
+  Arguments.addObject(StringToNSString('-p'));
+  Arguments.addObject(StringToNSString(QLPreviewExtensionPoint));
+
+  Pipe:= NSPipe.pipe;
+  Task:= NSTask.alloc.init;
+  Task.setLaunchPath(StringToNSString(PluginKitPath));
+  Task.setArguments(Arguments);
+  Task.setStandardOutput(Pipe);
+  Task.setStandardError(NSFileHandle.fileHandleWithNullDevice);
+  Task.launch;
+  Output:= NSString.alloc.initWithData_encoding(Pipe.fileHandleForReading.readDataToEndOfFile, NSUTF8StringEncoding);
+  Task.waitUntilExit;
+  Task.release;
+  if not Assigned(Output) then Exit;
+
+  Lines:= Output.componentsSeparatedByString(StringToNSString(#10));
+  for I:= 0 to Integer(Lines.count) - 1 do
+  begin
+    Line:= NSString(Lines.objectAtIndex(I));
+    if not Line.hasPrefix(StringToNSString('-')) then Continue;
+    Tab:= Line.rangeOfString_options(StringToNSString(#9), NSBackwardsSearch);
+    if Tab.location <> NSNotFound then
+      DisabledExtensions.addObject(Line.substringFromIndex(Tab.location + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet));
+  end;
+  Output.release;
+end;
+
+// Modern Quick Look previewers are app extensions (.appex) rather than
+// .qlgenerator bundles; their supported types are listed under
+// NSExtension/NSExtensionAttributes/QLSupportedContentTypes.
+procedure ParseExtension(const BundlePath: String);
+var
+  I: Integer;
+  Data: NSData;
+  Item: id;
+  Dict, Extension, Attributes: NSDictionary;
+  ExtensionPoint: NSString;
+  ContentTypes: NSArray;
+begin
+  if DisabledExtensions.containsObject(StringToNSString(BundlePath)) then Exit;
+  Data:= NSData.dataWithContentsOfFile(StringToNSString(BundlePath + '/Contents/Info.plist'));
+  if not Assigned(Data) then Exit;
+  Dict:= NSDictionary(NSPropertyListSerialization.propertyListWithData_options_format_error(Data, NSPropertyListImmutable, nil, nil));
+  if not (Assigned(Dict) and Dict.isKindOfClass(NSDictionary)) then Exit;
+
+  Extension:= NSDictionary(Dict.valueForKey(StringToNSString('NSExtension')));
+  if not (Assigned(Extension) and Extension.isKindOfClass(NSDictionary)) then Exit;
+  ExtensionPoint:= NSString(Extension.valueForKey(StringToNSString('NSExtensionPointIdentifier')));
+  if not (Assigned(ExtensionPoint) and ExtensionPoint.isKindOfClass(NSString)) then Exit;
+  if StrComp(ExtensionPoint.UTF8String, QLPreviewExtensionPoint) <> 0 then Exit;
+
+  Attributes:= NSDictionary(Extension.valueForKey(StringToNSString('NSExtensionAttributes')));
+  if not (Assigned(Attributes) and Attributes.isKindOfClass(NSDictionary)) then Exit;
+  ContentTypes:= NSArray(Attributes.valueForKey(StringToNSString('QLSupportedContentTypes')));
+  if not (Assigned(ContentTypes) and ContentTypes.isKindOfClass(NSArray)) then Exit;
+
+  for I:= 0 to Integer(ContentTypes.count) - 1 do
+  begin
+    Item:= ContentTypes.objectAtIndex(I);
+    if Item.isKindOfClass(NSString) and not IsExtensionExcluded(NSString(Item)) then
+      AddContentType(NSString(Item));
+  end;
+end;
+
+procedure ParseExtensionFolder(const Path: String);
+var
+  FindData: TSearchRec;
+begin
+  if FindFirst(Path + '*.appex', faDirectory, FindData) = 0 then
+  begin
+    repeat
+       ParseExtension(Path + FindData.Name);
+    until FindNext(FindData) <> 0;
+    FindClose(FindData);
+  end;
+end;
+
+// Extensions shipped inside applications: <Apps>/*.app/Contents/PlugIns/*.appex
+procedure ParseAppPlugIns(const AppsPath: String);
+var
+  FindData: TSearchRec;
+begin
+  if FindFirst(AppsPath + '*.app', faDirectory, FindData) = 0 then
+  begin
+    repeat
+       ParseExtensionFolder(AppsPath + FindData.Name + '/Contents/PlugIns/');
     until FindNext(FindData) <> 0;
     FindClose(FindData);
   end;
@@ -314,6 +455,12 @@ begin
   ParseFolder('/Library/QuickLook/');
   ParseFolder('/System/Library/QuickLook/');
   ParseFolder(IncludeTrailingBackslash(GetUserDir) + 'Library/QuickLook/');
+  LoadDisabledExtensions;
+  ParseExtensionFolder('/Library/QuickLook/');
+  ParseExtensionFolder(IncludeTrailingBackslash(GetUserDir) + 'Library/QuickLook/');
+  ParseAppPlugIns('/Applications/');
+  ParseAppPlugIns(IncludeTrailingBackslash(GetUserDir) + 'Applications/');
+  DisabledExtensions.release;
 end;
 
 procedure ListGetDetectString(DetectString:pchar;maxlen:integer); cdecl;
