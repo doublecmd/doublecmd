@@ -40,6 +40,8 @@ type
 
   TDoubleFiles = array [TDoubleSide] of TFiles;
 
+  TDoubleInteger = array [TDoubleSide] of Integer;
+
   { TSyncDirsOperationHandle }
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
@@ -714,18 +716,42 @@ end;
 // for FileSources with mapped names — such as iCloud — using the filename as
 // the index is unsuitable; switching to FullPath instead provides a more
 // consistent and universal approach.
-// although the indexing has been switched to FullPath,
-// there is no need to include the FullPaths from both sides.
-// based on the logic in ScanDir(), adding the path from just one side is sufficient
-// to trigger a scan of the directory with the same name on the other side.
 procedure TSyncDirsTreeBuilder.fillSelectedList( const selectedFiles: TDoubleFiles );
 var
   side: TDoubleSide;
+  otherSide: TDoubleSide;
   i: Integer;
+  path: String;
+  filename: String;
+  baseRealPaths: TDoublePaths;
+  baseRealPathsLength: TDoubleInteger;
+
+  procedure initRealPath( const side: TDoubleSide ); inline;
+  begin
+    baseRealPaths[side]:= IncludeTrailingPathDelimiter( _fileSources[side].GetRealPath(_basePaths[side]) );
+    baseRealPathsLength[side]:= baseRealPaths[side].Length;
+  end;
+
 begin
+  initRealPath( dsLeft );
+  initRealPath( dsRight );
+
   for side:= dsLeft to dsRight do begin
-    for i:= 0 to selectedFiles[side].Count-1 do
-      _selectedList.Add( selectedFiles[side][i].FullPath );
+    if side = dsLeft then
+      otherSide:= dsRight
+    else
+      otherSide:= dsLeft;
+    for i:= 0 to selectedFiles[side].Count-1 do begin
+      path:= selectedFiles[side][i].FullPath;
+      _selectedList.Add( path );    // add the path on the side
+      if NOT PathIsInPath(path, baseRealPaths[side]) then
+        continue;
+      filename:= path.Substring( baseRealPathsLength[side] );
+      if filename = EmptyStr then
+        continue;
+      path:= _fileSources[otherSide].GetRealPath( _basePaths[otherSide] + filename );
+      _selectedList.Add( path );    // add the path on the other side
+    end;
   end;
 end;
 
