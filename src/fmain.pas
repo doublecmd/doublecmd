@@ -840,6 +840,7 @@ type
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
     procedure HotDirActualSwitchToDir(Index:longint);
+    procedure AddToDirHistory(const APath: String);
     procedure HistorySelected(Sender:TObject);
     procedure HistorySomeSelected(Sender:TObject);
     procedure ViewHistorySelected(Sender:TObject);
@@ -969,7 +970,7 @@ uses
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   LazLogger, uDragDropEx, uKeyboard,
   uLocalFileSource, uFileSystemFileSource, uSearchResultFileSource, uStashFileSource,
-  uVfsModule, fViewOperations, uMultiListFileSource,
+  uVfsModule, uWfxPluginFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -3631,13 +3632,30 @@ begin
   HotDirActualSwitchToDir((Sender as TMenuItem).Tag);
 end;
 
+procedure TfrmMain.AddToDirHistory(const APath: String);
+var
+  Index: Integer;
+begin
+  // Store only first 255 items
+  if glsDirHistory.Count > $FF then begin
+    glsDirHistory.Delete(glsDirHistory.Count - 1);
+  end;
+  Index:= glsDirHistory.IndexOf(APath);
+  if Index = -1 then
+    glsDirHistory.Insert(0, APath)
+  else begin
+    glsDirHistory.Move(Index, 0);
+  end;
+end;
+
 procedure TfrmMain.HistorySelected(Sender: TObject);
 var
   aPath: String;
 begin
   // This handler is used by DirHistory.
   aPath := (Sender as TMenuItem).Hint;
-  aPath := mbExpandFileName(aPath);
+  if Pos('://', aPath) = 0 then
+    aPath := mbExpandFileName(aPath);
   ChooseFileSource(ActiveFrame, aPath);
 end;
 
@@ -4867,18 +4885,14 @@ begin
         begin
           if FileView.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            // Store only first 255 items
-            if glsDirHistory.Count > $FF then begin
-              glsDirHistory.Delete(glsDirHistory.Count - 1);
-            end;
-            Index:= glsDirHistory.IndexOf(FileView.CurrentPath);
-            if Index = -1 then
-              glsDirHistory.Insert(0, FileView.CurrentPath)
-            else begin
-              glsDirHistory.Move(Index, 0);
-            end;
+            AddToDirHistory(FileView.CurrentPath);
             UpdateTreeViewPath;
             UpdateMainTitleBar;
+          end
+          else if FileView.FileSource.IsClass(TWfxPluginFileSource) then
+          begin
+            // Keep the address so the path can be reopened later (wfx://FTP/Connection/dir/)
+            AddToDirHistory(FileView.FileSource.CurrentAddress + FileView.CurrentPath);
           end;
 
           if actSyncChangeDir.Checked and (FileView = ActiveFrame) then
@@ -7329,6 +7343,9 @@ begin
     begin
       for Index:= 0 to glsDirHistory.Count - 1 do
       begin
+        // Skip non-local entries (e.g. wfx://FTP/...)
+        if Pos('://', glsDirHistory[Index]) > 0 then
+          Continue;
         DriveIndex:= FindMatchingDrive(EmptyStr, glsDirHistory[Index]);
         if (DriveIndex >= 0) and (DriveIndex < DrivesList.Count) then
         begin
