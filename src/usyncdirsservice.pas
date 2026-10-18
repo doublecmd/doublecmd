@@ -127,15 +127,22 @@ type
     property sortDesc: Boolean write _sortDesc;
   end;
 
+  { ISyncDirsCommonCallback }
+
+  ISyncDirsCommonCallback = interface
+    function commonCheckRunning: Boolean;
+  end;
+
   { TSyncDirsCommonService }
 
   TSyncDirsCommonService = class
   private
+    _callback: ISyncDirsCommonCallback;
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
     _fileSources: TDoubleFileSources;
   public
-    constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList; const fileSources: TDoubleFileSources );
+    constructor Create( const callback: ISyncDirsCommonCallback; const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList; const fileSources: TDoubleFileSources );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
     function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
     procedure copyProperties( const indexes: TIntegerList; const targetSide: TDoubleSide; const attrs: TCopyAttributesOptions);
@@ -176,24 +183,18 @@ type
     procedure build( const FFullTree: TTwoLevelTree; const selectedFiles: TDoubleFiles );
   end;
 
-  { ISyncDirsSynchronizerCallback }
-
-  ISyncDirsSynchronizerCallback = interface
-    function synchronizerCheckRunning: Boolean;
-  end;
-
   { TSyncDirsSynchronizer }
 
   TSyncDirsSynchronizer = class
   private
-    _callback: ISyncDirsSynchronizerCallback;
+    _callback: ISyncDirsCommonCallback;
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
     _fileSources: TDoubleFileSources;
     _basePaths: TDoublePaths;
   public
     constructor Create(
-      const callback: ISyncDirsSynchronizerCallback;
+      const callback: ISyncDirsCommonCallback;
       const fileProcessor: ISyncDirsFileProcessorWithUI;
       const filteredList: TFlatDirFileList;
       const fileSources: TDoubleFileSources;
@@ -666,10 +667,12 @@ end;
 { TSyncDirsCommonService }
 
 constructor TSyncDirsCommonService.Create(
+  const callback: ISyncDirsCommonCallback;
   const fileProcessor: ISyncDirsFileProcessorWithUI;
   const filteredList: TFlatDirFileList;
   const fileSources: TDoubleFileSources );
 begin
+  _callback:= callback;
   _fileProcessor:= fileProcessor;
   _filteredList:= filteredList;
   _fileSources:= fileSources;
@@ -768,6 +771,8 @@ begin
       rec.filesOnSide[targetSide],
       attrs );
     if NOT ret then
+      break;
+    if NOT _callback.commonCheckRunning then
       break;
   end;
 end;
@@ -1014,7 +1019,7 @@ end;
 { TSyncDirsSynchronizer }
 
 constructor TSyncDirsSynchronizer.Create(
-  const callback: ISyncDirsSynchronizerCallback;
+  const callback: ISyncDirsCommonCallback;
   const fileProcessor: ISyncDirsFileProcessorWithUI;
   const filteredList: TFlatDirFileList;
   const fileSources: TDoubleFileSources;
@@ -1291,7 +1296,7 @@ var
   var
     commonService: TSyncDirsCommonService;
   begin
-    commonService:= TSyncDirsCommonService.Create( _fileProcessor, _filteredList, _fileSources );
+    commonService:= TSyncDirsCommonService.Create( _callback, _fileProcessor, _filteredList, _fileSources );
     try
       Result:= commonService.deleteAllEmptyDirs( side );
     finally
@@ -1311,7 +1316,7 @@ begin
       if NOT processFiles then
         break;
     end;
-    Result:= _callback.synchronizerCheckRunning;
+    Result:= _callback.commonCheckRunning;
     if NOT Result then
       break;
   end;

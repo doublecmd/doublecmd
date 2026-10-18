@@ -573,7 +573,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     ParentFont = False
     TabOrder = 7
     Visible = False
-    object pnlCopyProgress: TPanel
+    object pnlFileSizeProgress: TPanel
       AnchorSideLeft.Control = pnlProgress
       AnchorSideTop.Control = pnlProgress
       Left = 9
@@ -588,10 +588,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       ClientHeight = 47
       ClientWidth = 238
       TabOrder = 0
-      object lblProgress: TLabel
-        AnchorSideLeft.Control = pnlCopyProgress
-        AnchorSideTop.Control = pnlCopyProgress
-        AnchorSideRight.Control = pnlCopyProgress
+      object lblFileSizeProgress: TLabel
+        AnchorSideLeft.Control = pnlFileSizeProgress
+        AnchorSideTop.Control = pnlFileSizeProgress
+        AnchorSideRight.Control = pnlFileSizeProgress
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 1
@@ -601,11 +601,11 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Anchors = [akTop, akLeft, akRight]
         ParentFont = False
       end
-      object ProgressBar: TKASProgressBar
-        AnchorSideLeft.Control = pnlCopyProgress
-        AnchorSideTop.Control = lblProgress
+      object pbFileSizeProgress: TKASProgressBar
+        AnchorSideLeft.Control = pnlFileSizeProgress
+        AnchorSideTop.Control = lblFileSizeProgress
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlCopyProgress
+        AnchorSideRight.Control = pnlFileSizeProgress
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 22
@@ -618,9 +618,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         BarShowText = True
       end
     end
-    object pnlDeleteProgress: TPanel
-      AnchorSideLeft.Control = pnlCopyProgress
-      AnchorSideTop.Control = pnlCopyProgress
+    object pnlFileCountProgress: TPanel
+      AnchorSideLeft.Control = pnlFileSizeProgress
+      AnchorSideTop.Control = pnlFileSizeProgress
       AnchorSideTop.Side = asrBottom
       Left = 9
       Height = 47
@@ -634,10 +634,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       ClientHeight = 47
       ClientWidth = 238
       TabOrder = 1
-      object lblProgressDelete: TLabel
-        AnchorSideLeft.Control = pnlDeleteProgress
+      object lblFileCountProgress: TLabel
+        AnchorSideLeft.Control = pnlFileCountProgress
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlDeleteProgress
+        AnchorSideRight.Control = pnlFileCountProgress
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 1
@@ -647,11 +647,11 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Anchors = [akTop, akLeft, akRight]
         ParentFont = False
       end
-      object ProgressBarDelete: TKASProgressBar
-        AnchorSideLeft.Control = pnlDeleteProgress
-        AnchorSideTop.Control = lblProgressDelete
+      object pbFileCountProgress: TKASProgressBar
+        AnchorSideLeft.Control = pnlFileCountProgress
+        AnchorSideTop.Control = lblFileCountProgress
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlDeleteProgress
+        AnchorSideRight.Control = pnlFileCountProgress
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 22
@@ -667,7 +667,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     object btnAbort: TBitBtn
       AnchorSideLeft.Control = pnlProgress
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = pnlDeleteProgress
+      AnchorSideTop.Control = pnlFileCountProgress
       AnchorSideTop.Side = asrBottom
       Left = 79
       Height = 26
@@ -739,6 +739,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     object miSeparator2: TMenuItem
       Caption = '-'
     end
+    object miCopyPropertiesLeftToRight: TMenuItem
+      Action = actCopyPropertiesLeftToRight
+    end
+    object miCopyPropertiesRightToLeft: TMenuItem
+      Action = actCopyPropertiesRightToLeft
+    end
+    object miSeparator4: TMenuItem
+      Caption = '-'
+    end
     object miSelectDeleteLeft: TMenuItem
       Action = actSelectDeleteLeft
     end
@@ -806,6 +815,14 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
     object actDeleteBoth: TAction
       Caption = 'Delete on both sides'
+      OnExecute = actExecute
+    end
+    object actCopyPropertiesLeftToRight: TAction
+      Caption = 'Copy file properties -> (left to right)...'
+      OnExecute = actExecute
+    end
+    object actCopyPropertiesRightToLeft: TAction
+      Caption = 'Copy file properties <- (right to left)...'
       OnExecute = actExecute
     end
   end
