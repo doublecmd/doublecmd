@@ -30,6 +30,7 @@ interface
 uses
   Classes, SysUtils, IntegerList, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn,
+  DCOSUtils,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceOperationOptions, uFileSourceDeleteOperation, KASProgressBar,
@@ -212,6 +213,11 @@ type
     function fileProcessorWithUIDeleteFiles(
       const FileSource: IFileSource;
       var Files: TFiles): Boolean;
+    function fileProcessorWithUICopyProperties(
+      const targetFS: IFileSource;
+      const sourceFile: TFile;
+      const targetFile: TFile;
+      const attrs: TCopyAttributesOptions ): Boolean;
     function fileProcessorWithUIDeleteFile(
       const FileSource: IFileSource;
       const f: TFile): Boolean;
@@ -1279,13 +1285,13 @@ end;
 
 procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);
 var
-  deleteService: TSyncDirsDeleteService;
+  deleteService: TSyncDirsCommonService;
   Message: String;
   indexes: TIntegerList = nil;
   leftCount: Integer;
   rightCount: Integer;
 begin
-  deleteService:= TSyncDirsDeleteService.Create(self, FFilteredList, FCmpFileSources);
+  deleteService:= TSyncDirsCommonService.Create(self, FFilteredList, FCmpFileSources);
   try
     indexes:= self.createSelectionIndexes;
     FFilteredList.countLeftRight(indexes, leftCount, rightCount);
@@ -1394,6 +1400,13 @@ begin
     if NOT supported then
       MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
   end;
+end;
+
+function TfrmSyncDirsDlg.fileProcessorWithUICopyProperties(
+  const targetFS: IFileSource; const sourceFile: TFile;
+  const targetFile: TFile; const attrs: TCopyAttributesOptions): Boolean;
+begin
+
 end;
 
 function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFile(

@@ -11,7 +11,8 @@ uses
   LazFileUtils,
   DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
   uDebug, uGlobs,
-  uFile, uFileSource, uFileSourceManager, uFileSourceUtil, uFileSystemFileSource,
+  uFile, uFileProperty,
+  uFileSource, uFileSourceManager, uFileSourceUtil, uFileSystemFileSource,
   uFileSourceOperation, uFileSourceCopyOperation, uFileSourceOperationTypes,
   uSyncDirsModel;
 
@@ -55,6 +56,7 @@ type
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
     class function supportsCompareByContent(const fileSources: TDoubleFileSources): Boolean;
     class function supportsVerify(const fileSources: TDoubleFileSources): Boolean;
+    class function supportsCopyProperties(const fileSources: TDoubleFileSources): Boolean;
     class function isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean;
   public
     class procedure filterFlatListWithFlags(
@@ -83,6 +85,11 @@ type
       const side: TDoubleSide;
       const fs: IFileSource;
       const baseDir: String ): Boolean;
+    class function copyProperties(
+      const targetFS: IFileSource;
+      const sourceFile: TFile;
+      const targetFile: TFile;
+      const attrs: TCopyAttributesOptions ): Boolean;
   end;
 
   { ISyncDirsFileProcessorWithUI }
@@ -96,6 +103,11 @@ type
     function fileProcessorWithUIDeleteFiles(
       const fs: IFileSource;
       var files: TFiles): Boolean;
+    function fileProcessorWithUICopyProperties(
+      const targetFS: IFileSource;
+      const sourceFile: TFile;
+      const targetFile: TFile;
+      const attrs: TCopyAttributesOptions ): Boolean;
     function fileProcessorWithUIDeleteFile(
       const fs: IFileSource;
       const f: TFile): Boolean;
@@ -115,9 +127,9 @@ type
     property sortDesc: Boolean write _sortDesc;
   end;
 
-  { TSyncDirsDeleteService }
+  { TSyncDirsCommonService }
 
-  TSyncDirsDeleteService = class
+  TSyncDirsCommonService = class
   private
     _fileProcessor: ISyncDirsFileProcessorWithUI;
     _filteredList: TFlatDirFileList;
@@ -126,6 +138,7 @@ type
     constructor Create( const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList; const fileSources: TDoubleFileSources );
     procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
     function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
+    procedure copyProperties( const indexes: TIntegerList; const targetSide: TDoubleSide; const attrs: TCopyAttributesOptions);
 
     property leftFS: IFileSource read _fileSources[dsLeft];
     property rightFS: IFileSource read _fileSources[dsRight];
@@ -270,7 +283,12 @@ begin
   Result:= self.isBothFileSystemFileSource(fileSources);
 end;
 
-class function TSyncDirsUtil.isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean;
+class function TSyncDirsUtil.supportsCopyProperties( const fileSources: TDoubleFileSources ): Boolean;
+begin
+  Result:= self.isBothFileSystemFileSource(fileSources);
+end;
+
+class function TSyncDirsUtil.isBothFileSystemFileSource( const fileSources: TDoubleFileSources ): Boolean;
 begin
   Result:= fileSources[dsLeft].IsClass(TFileSystemFileSource) AND fileSources[dsRight].IsClass(TFileSystemFileSource);
 end;
@@ -513,6 +531,20 @@ begin
   Result:= doCreate( rec );
 end;
 
+class function TSyncDirsUtil.copyProperties(
+  const targetFS: IFileSource;
+  const sourceFile: TFile;
+  const targetFile: TFile;
+  const attrs: TCopyAttributesOptions ): Boolean;
+var
+  ret: TCopyAttributesOptions;
+begin
+  ret:= mbFileCopyAttr( sourceFile.FullPath, targetFile.FullPath, attrs );
+  Result:= ret = [];
+  targetFile.ClearProperties;
+  targetFS.RetrieveProperties( targetFile, fpAll, [] );
+end;
+
 { TSyncDirsSortService }
 
 procedure TSyncDirsSortService.sortTree( const tree: TTwoLevelTree );
@@ -631,9 +663,9 @@ begin
   QuickSort( 0, dirItem.fileCount-1, dirItem.files );
 end;
 
-{ TSyncDirsDeleteService }
+{ TSyncDirsCommonService }
 
-constructor TSyncDirsDeleteService.Create(
+constructor TSyncDirsCommonService.Create(
   const fileProcessor: ISyncDirsFileProcessorWithUI;
   const filteredList: TFlatDirFileList;
   const fileSources: TDoubleFileSources );
@@ -643,7 +675,7 @@ begin
   _fileSources:= fileSources;
 end;
 
-procedure TSyncDirsDeleteService.delete(
+procedure TSyncDirsCommonService.delete(
   const indexes: TIntegerList;
   const deleteLeft: Boolean;
   const deleteRight: Boolean );
@@ -669,7 +701,7 @@ begin
   end;
 end;
 
-function TSyncDirsDeleteService.deleteAllEmptyDirs(const side: TDoubleSide): Boolean;
+function TSyncDirsCommonService.deleteAllEmptyDirs(const side: TDoubleSide): Boolean;
 var
   fullTree: TTwoLevelTree;
   dirSyncRec: TSyncDirRec;
@@ -708,6 +740,35 @@ begin
       if NOT Result then
         break;
     end;
+  end;
+end;
+
+procedure TSyncDirsCommonService.copyProperties(
+  const indexes: TIntegerList;
+  const targetSide: TDoubleSide;
+  const attrs: TCopyAttributesOptions );
+var
+  i: Integer;
+  rec: TSyncRec;
+  sourceSide: TDoubleSide;
+  ret: Boolean;
+begin
+  if targetSide = dsLeft then
+    sourceSide:= dsRight
+  else
+    sourceSide:= dsLeft;
+
+  for i in indexes do begin
+    rec:= _filteredList.fileSyncRec( i );
+    if NOT rec.hasFilesOnBothSides then
+      continue;
+    ret:= _fileProcessor.fileProcessorWithUICopyProperties(
+      _fileSources[targetSide],
+      rec.filesOnSide[sourceSide],
+      rec.filesOnSide[targetSide],
+      attrs );
+    if NOT ret then
+      break;
   end;
 end;
 
@@ -1228,13 +1289,13 @@ var
 
   function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
   var
-    deleteService: TSyncDirsDeleteService;
+    commonService: TSyncDirsCommonService;
   begin
-    deleteService:= TSyncDirsDeleteService.Create( _fileProcessor, _filteredList, _fileSources );
+    commonService:= TSyncDirsCommonService.Create( _fileProcessor, _filteredList, _fileSources );
     try
-      Result:= deleteService.deleteAllEmptyDirs( side );
+      Result:= commonService.deleteAllEmptyDirs( side );
     finally
-      deleteService.Free;
+      commonService.Free;
     end;
   end;
 
