@@ -271,6 +271,7 @@ type
     function path( const index: Integer ): String;
     function fileSyncRec( const index: Integer ): TSyncRec;
     procedure countLeftRight( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
+    function countBothSides( const indexes: TIntegerList ): Integer;
     function flatCount: TSyncDirsFlatCount;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
@@ -905,6 +906,19 @@ begin
       Inc( leftCount );
     if rec.hasRightFile then
       Inc( rightCount );
+  end;
+end;
+
+function TFlatDirFileList.countBothSides(const indexes: TIntegerList): Integer;
+var
+  i: Integer;
+  rec: TSyncRec;
+begin
+  Result:= 0;
+  for i in indexes do begin
+    rec:= self.fileSyncRec( i );
+    if rec.hasFilesOnBothSides then
+      Inc( Result );
   end;
 end;
 
