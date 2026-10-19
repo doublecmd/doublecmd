@@ -1119,6 +1119,31 @@ procedure TFileViewWithMainCtrl.MainControlMouseLeave(Sender: TObject);
 begin
 end;
 
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+// True when Qt is running on the native Wayland platform (same detection
+// logic as used elsewhere for the Qt widgetset).
+function IsNativeWaylandSession: Boolean;
+var
+  Index: Integer;
+  APlatform: String;
+begin
+  Result := LowerCase(GetEnvironmentVariable('XDG_SESSION_TYPE')) = 'wayland';
+  if not Result then Exit;
+  for Index := 1 to ParamCount - 1 do
+  begin
+    if ParamStr(Index) = '-platform' then
+      Exit(StrBegins(ParamStr(Index + 1), 'wayland'));
+  end;
+  APlatform := LowerCase(GetEnvironmentVariable('QT_QPA_PLATFORM'));
+  Result := (APlatform = '') or StrBegins(APlatform, 'wayland');
+end;
+{$ELSE}
+function IsNativeWaylandSession: Boolean; inline;
+begin
+  Result := False;
+end;
+{$ENDIF}
+
 procedure TFileViewWithMainCtrl.MainControlMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   Point: TPoint;
@@ -1146,7 +1171,10 @@ begin
     Point := MainControl.ClientToScreen(Classes.Point(X, Y));
 
     // use specifically LCLIntf.WindowFromPoint to avoid confusion with Windows.WindowFromPoint
-    if LCLIntf.WindowFromPoint(Point) = 0 then
+    // On native Wayland a native drag must be started with the serial of the
+    // mouse button press, so start it right away (from a pointer event)
+    // instead of waiting for the pointer to leave or for the Alt key.
+    if (LCLIntf.WindowFromPoint(Point) = 0) or IsNativeWaylandSession then
     begin
       // If result is 0 then the window belongs to another process
       // and we transform intra-process dragging into inter-process dragging.
