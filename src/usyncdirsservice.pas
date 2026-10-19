@@ -9,7 +9,7 @@ interface
 uses
   Classes, SysUtils, SysConst, syncobjs, IntegerList,
   LazFileUtils,
-  DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils,
+  DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils, uAdministrator,
   uDebug, uGlobs,
   uFile, uFileProperty,
   uFileSource, uFileSourceManager, uFileSourceUtil, uFileSystemFileSource,
@@ -540,7 +540,7 @@ class function TSyncDirsUtil.copyProperties(
 var
   ret: TCopyAttributesOptions;
 begin
-  ret:= mbFileCopyAttr( sourceFile.FullPath, targetFile.FullPath, attrs );
+  ret:= FileCopyAttrUAC( sourceFile.FullPath, targetFile.FullPath, attrs );
   Result:= ret = [];
   targetFile.ClearProperties;
   targetFS.RetrieveProperties( targetFile, fpAll, [] );
