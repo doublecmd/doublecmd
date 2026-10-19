@@ -1209,6 +1209,10 @@ procedure TfrmSyncDirsDlg.doCopyProperties(const targetSide: TDoubleSide);
   begin
     Result:= [];
     dialog:= TfrmSyncDirsSelectPropertiesDlg.Create(nil);
+    dialog.chkTime.Checked:= gOperationOptionCopyTime;
+    dialog.chkAttributes.Checked:= gOperationOptionCopyAttributes;
+    dialog.chkPermissions.Checked:= gOperationOptionCopyOwnership or gOperationOptionCopyPermissions;
+    dialog.chkXAttributes.Checked:= gOperationOptionCopyXattributes;
     if dialog.ShowModal <> mrOK then
       Exit;
 
