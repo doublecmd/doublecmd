@@ -1497,13 +1497,15 @@ function TfrmSyncDirsDlg.fileProcessorWithUICopyProperties(
   const attrs: TCopyAttributesOptions ): Boolean;
 var
   errMsg: String;
+  askResult: TModalResult;
 begin
   Result:= TSyncDirsUtil.copyProperties(targetFS, sourceFile, targetFile, attrs);
   Inc( FFileCountProgressDone );
   Application.ProcessMessages;
   if NOT Result then begin
     errMsg:= Format(rsMsgErrSetAttribute, [targetFile.FullPath]);
-    MessageDlg(errMsg, mtError, [mbOK], 0);
+    askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);
+    Result:= (askResult = mrIgnore);
   end;
 end;
 
