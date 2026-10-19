@@ -8977,11 +8977,11 @@ msgstr "链接名(&L)"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "复制文件属性 ->（从左到右）"
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "复制文件属性 <-（从右到左）"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9195,23 +9195,23 @@ msgstr "校验"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "文件属性(&A)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "权限/所有者(&P)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "日期时间(&T)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "扩展属性(&E)"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "复制以下文件属性："
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
