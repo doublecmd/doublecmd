@@ -8977,6 +8977,14 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Názov odkazu"
 
+#: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
+msgid "Copy file properties -> (left to right)..."
+msgstr ""
+
+#: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
+msgid "Copy file properties <- (right to left)..."
+msgstr ""
+
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
 msgstr "Vymazať na oboch stranách"
@@ -9185,6 +9193,26 @@ msgstr ""
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
+msgid "File &attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
+msgid "&Permissions /  Ownership"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chktime.caption
+msgid "&Timestamp (date+time)"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
+msgid "&Extended attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
+msgid "Copy these file properties:"
 msgstr ""
 
 #: tfrmtreeviewmenu.caption

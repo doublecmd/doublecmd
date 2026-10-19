@@ -204,7 +204,7 @@ type
     procedure toggleSelectionAction;
     procedure setSelectionAction(const newAction: TSyncRecState);
 
-    procedure doCopyProperties(const side: TDoubleSide);
+    procedure doCopyProperties(const targetSide: TDoubleSide);
 
     procedure updateFileCountProgress;
 
@@ -311,7 +311,8 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
 implementation
 
 uses
-  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
+  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, fSyncDirsSelectPropertiesDlg,
+  uGlobs, LCLType, LazUTF8, LazFileUtils,
   uFileSystemFileSource, DCDateTimeUtils,
   uDCUtils, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, Math, uClipboard, fMaskInputDlg,
@@ -1201,11 +1202,35 @@ begin
   end;
 end;
 
-procedure TfrmSyncDirsDlg.doCopyProperties(const side: TDoubleSide);
+procedure TfrmSyncDirsDlg.doCopyProperties(const targetSide: TDoubleSide);
+  function selectProperties: TCopyAttributesOptions;
+  var
+    dialog: TfrmSyncDirsSelectPropertiesDlg;
+  begin
+    Result:= [];
+    dialog:= TfrmSyncDirsSelectPropertiesDlg.Create(nil);
+    if dialog.ShowModal <> mrOK then
+      Exit;
+
+    if dialog.chkTime.Checked then
+      Include(Result, caoCopyTime);
+    if dialog.chkAttributes.Checked then
+      Include(Result, caoCopyAttributes);
+    if dialog.chkPermissions.Checked then
+      Result:= Result + [caoCopyPermissions, caoCopyOwnership];
+    if dialog.chkXAttributes.Checked then
+      Include(Result, caoCopyXattributes);
+  end;
+
 var
   commonService: TSyncDirsCommonService;
   indexes: TIntegerList = nil;
+  attrs: TCopyAttributesOptions;
 begin
+  attrs:= selectProperties;
+  if attrs = [] then
+    Exit;
+
   commonService:= TSyncDirsCommonService.Create(self, self, FFilteredList, FCmpFileSources);
   try
     indexes:= self.createSelectionIndexes;
@@ -1220,7 +1245,7 @@ begin
     lblFileCountProgress.Caption:= FFileCountProgressName;
     pbFileCountProgress.Position:= 0;
 
-    commonService.copyProperties(indexes, side, CopyAttributesOptionCopyAll);
+    commonService.copyProperties(indexes, targetSide, attrs);
 
     self.MainDrawGrid.Invalidate;
     EnableControls(True);

@@ -9210,6 +9210,14 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "連結名稱 (&L)"
 
+#: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
+msgid "Copy file properties -> (left to right)..."
+msgstr ""
+
+#: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
+msgid "Copy file properties <- (right to left)..."
+msgstr ""
+
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
 msgstr "兩側均刪除"
@@ -9419,6 +9427,26 @@ msgstr "右邊: 刪除所有空白資料夾"
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
 msgstr "校驗"
+
+#: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
+msgid "File &attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
+msgid "&Permissions /  Ownership"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chktime.caption
+msgid "&Timestamp (date+time)"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
+msgid "&Extended attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
+msgid "Copy these file properties:"
+msgstr ""
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"

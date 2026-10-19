@@ -344,7 +344,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="306">
+    <Units Count="307">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2207,6 +2207,12 @@ end;"/>
         <HasResources Value="True"/>
         <UnitName Value="uStashFilesBackend"/>
       </Unit305>
+      <Unit306>
+        <Filename Value="fsyncdirsselectpropertiesdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fSyncDirsSelectPropertiesDlg"/>
+      </Unit306>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
