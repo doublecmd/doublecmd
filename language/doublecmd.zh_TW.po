@@ -3492,7 +3492,7 @@ msgstr "建立新資料夾"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "擴展語法 (&E)"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -9212,11 +9212,11 @@ msgstr "連結名稱 (&L)"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "複製檔案內容 -> (從左到右)"
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "複製檔案內容 <- (從右到左)"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9430,23 +9430,23 @@ msgstr "校驗"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "檔案屬性 (&A)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "權限/擁有者 (&P)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "日期時間 (&T)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "擴展屬性 (&E)"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "複製以下檔案內容:"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -11851,12 +11851,12 @@ msgstr "無法複製檔案 %s 到 %s"
 #: ulng.rsmsgerrcannotmovedirectory
 #, object-pascal-format
 msgid "Cannot move directory %s"
-msgstr ""
+msgstr "無法移動資料夾 %s"
 
 #: ulng.rsmsgerrcannotmovefile
 #, object-pascal-format
 msgid "Cannot move file %s"
-msgstr ""
+msgstr "無法移動檔案 %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 #, object-pascal-format
@@ -11965,12 +11965,12 @@ msgstr "無法替「%s」設置擁有者/群組"
 #: ulng.rsmsgerrsetpermissions
 #, object-pascal-format
 msgid "Can not set permissions for \"%s\""
-msgstr ""
+msgstr "無法替「%s」設置權限"
 
 #: ulng.rsmsgerrsetxattribute
 #, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
-msgstr ""
+msgstr "無法替「%s」設置擴展屬性"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -12571,12 +12571,12 @@ msgstr "預先配置檔「%s」已存在。是否要覆蓋?"
 #: ulng.rsmsgpresetconfigdelete
 #, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
-msgstr ""
+msgstr "您確定要刪除預設「%s」嗎？"
 
 #: ulng.rsmsgproblemexecutingcommand
 #, object-pascal-format
 msgid "Problem executing command (%s)"
-msgstr ""
+msgstr "執行指令「%s」時出錯"
 
 #: ulng.rsmsgprocessid
 #, object-pascal-format
@@ -12589,15 +12589,15 @@ msgstr ""
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr ""
+msgstr "請確認此檔案可用。重試？"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr ""
+msgstr "為此「我的最愛」輸入新的友善名稱"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr ""
+msgstr "為此選單輸入新名稱"
 
 #: ulng.rsmsgrenfldr
 #, object-pascal-format
@@ -12611,7 +12611,7 @@ msgstr "你確定要重新命名/移動所選擇的「%s」嗎?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
-msgstr ""
+msgstr "你確定要替換這些文字？"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -12620,12 +12620,12 @@ msgstr "請重新啟動 Double Commander 以套用變更"
 #: ulng.rsmsgscriptcantfindlibrary
 #, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr ""
+msgstr "錯誤：載入 Lua 庫檔案「%s」時出錯"
 
 #: ulng.rsmsgsekectfiletype
 #, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
-msgstr ""
+msgstr "選擇要新增副檔名「%s」的檔案類型"
 
 #: ulng.rsmsgselectedinfo
 #, object-pascal-format
@@ -12634,7 +12634,7 @@ msgstr "選擇: %s / %sB  |  檔案: %d / %d  |  資料夾: %d / %d"
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr ""
+msgstr "選擇可執行檔案"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
