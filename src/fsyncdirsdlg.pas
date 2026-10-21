@@ -202,8 +202,6 @@ type
     FIniPropStorage: TIniPropStorageEx;
   private
     { private declarations }
-    FCancel: Boolean;
-    FScanning: Boolean;
     FState: TSyncDirsDlgState;
     FSortService: TSyncDirsSortService;
     FFullTree: TTwoLevelTree;
@@ -644,9 +642,9 @@ begin
     FOperation.Stop;
     CanClose := False;
   end
-  else if FScanning then
+  else if FState = sddsScanning then
   begin
-    FCancel := True;
+    FState := sddsWaiting;
     CanClose := False;
   end
   else if FCheckContentThreadComparing then
@@ -848,8 +846,8 @@ begin
   if Key = VK_ESCAPE then
   begin
     Key := 0;
-    if FScanning then
-      FCancel := True
+    if FState = sddsScanning then
+      FState := sddsWaiting
     else if FCheckContentThreadComparing then
       checkContentThreadStop
     else if pnlProgress.Visible then
@@ -1163,9 +1161,8 @@ var
   end;
 
 begin
-  FScanning := True;
+  FState := sddsScanning;
   try
-    FCancel := False;
     if IsMaskSearchTemplate(cbExtFilter.Text) then
     begin
       FMaskList := nil;
@@ -1187,7 +1184,7 @@ begin
     builder.build( FFullTree, FSelectedFiles );
 
     FillFoundItemsDG;
-    if FCancel then
+    if FState <> sddsScanning then
       Exit;
     if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
       checkContentThreadStart;
@@ -1195,7 +1192,8 @@ begin
     FreeAndNil(builder);
     FreeAndNil(FMaskList);
     FTemplate := nil;
-    FScanning := False;
+    if FState = sddsScanning then
+      FState := sddsWaiting;
   end;
 end;
 
@@ -1390,7 +1388,7 @@ function TfrmSyncDirsDlg.treeBuilderCheckRunning(const processMessages: Boolean)
 begin
   if processMessages then
     Application.ProcessMessages;
-  Result:= NOT FCancel;
+  Result:= (FState = sddsScanning);
 end;
 
 function TfrmSyncDirsDlg.treeBuilderMaskFilt(const f: TFile): Boolean;
@@ -1676,7 +1674,6 @@ begin
   MainDrawGrid.Font.Bold := True;
   FSortIndex := -1;
   SortIndex := 0;
-  FScanning := False;
   MainDrawGrid.RowCount := 0;
   FSelectedFiles[dsLeft]:= FileView1.CloneSelectedFiles;
   FSelectedFiles[dsRight]:= FileView2.CloneSelectedFiles;
