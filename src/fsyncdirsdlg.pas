@@ -277,7 +277,6 @@ type
   private
     FCheckContentThread: TSyncDirsCheckContentThread;
     FCheckContentThreadTimerCount: Integer;
-    FCheckContentThreadComparing: Boolean;
   private
     procedure onCheckContentThreadStart;
     procedure onCheckContentThreadFinish;
@@ -451,7 +450,7 @@ procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
   if Assigned(FOperation) then
     FOperation.Stop
-  else if FCheckContentThreadComparing then
+  else if FState = sddsCheckingContent then
     checkContentThreadStop
   else begin
     pnlProgress.Hide;
@@ -647,7 +646,7 @@ begin
     FState := sddsWaiting;
     CanClose := False;
   end
-  else if FCheckContentThreadComparing then
+  else if FState = sddsCheckingContent then
   begin
     CanClose := False;
     checkContentThreadStop;
@@ -848,7 +847,7 @@ begin
     Key := 0;
     if FState = sddsScanning then
       FState := sddsWaiting
-    else if FCheckContentThreadComparing then
+    else if FState = sddsCheckingContent then
       checkContentThreadStop
     else if pnlProgress.Visible then
       self.btnAbortClick(nil)
@@ -983,7 +982,7 @@ begin
   begin
     updateFileCountProgress;
   end
-  else if Assigned(FCheckContentThread) then
+  else if FState = sddsCheckingContent then
   begin
     Inc(FCheckContentThreadTimerCount);
     CopyStatistics:= FCheckContentThread.RetrieveStatistics;
@@ -1100,7 +1099,7 @@ begin
     ScanDirs;
     MainDrawGrid.SetFocus;
   finally
-    TopPanel.Enabled := not FCheckContentThreadComparing;
+    TopPanel.Enabled := (FState <> sddsCheckingContent);
   end;
 end;
 
@@ -1201,8 +1200,7 @@ procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var s: string;
 begin
   s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
-  if Assigned(FCheckContentThread)
-  and not FCheckContentThread.Done then
+  if FState = sddsCheckingContent then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
 end;
@@ -1312,9 +1310,11 @@ end;
 procedure TfrmSyncDirsDlg.onCheckContentThreadFinish;
 begin
   Timer.Enabled:= False;
-  FCheckContentThreadComparing:= False;
-  FCheckContentThread.FreeOnTerminate:= True;
-  FCheckContentThread:= nil;
+  FState := sddsWaiting;
+  if Assigned(FCheckContentThread) then begin
+    FCheckContentThread.FreeOnTerminate:= True;
+    FCheckContentThread:= nil;
+  end;
   HeaderDG.Enabled:= True;
   TopPanel.Enabled:= True;
   GroupBox1.Enabled:= True;
@@ -1339,23 +1339,19 @@ end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStart;
 begin
-  if Assigned(FCheckContentThread) then
+  if FState = sddsCheckingContent then
     Exit;
+  FState := sddsCheckingContent;
   FCheckContentThread := TSyncDirsCheckContentThread.Create(FFullTree, Self);
   FCheckContentThreadTimerCount := 0;
-  FCheckContentThreadComparing := True;
 end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStop;
 begin
-  if Assigned(FCheckContentThread) then
-  begin
-    with FCheckContentThread do
-    begin
-      Terminate;
-      WaitFor;
-    end;
-  end;
+  if FState <> sddsCheckingContent then
+    Exit;
+  FCheckContentThread.Terminate;
+  FCheckContentThread.WaitFor;    // onCheckContentThreadFinish() will be called
 end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadUpdateGrid;
