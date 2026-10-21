@@ -48,6 +48,43 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
   end;
 
+  { TSyncDirsDlgState }
+
+  TSyncDirsDlgState = (
+    sddsWaiting,
+
+    // "Compare" button
+    // running in Main Thread
+    // update statistics of FFilteredCount in Status Bar
+    // need to call Application.ProcessMessages()
+    sddsScanning,
+
+    // Compare with "by Content" checkbox
+    // running in Background Thread, but Block other operations in Main Thread
+    // it is not possible to perform other operations at the same time
+    // update statistics of FFilteredCount in Status Bar
+    // NO need to call Application.ProcessMessages()
+    sddsCheckingContent,
+
+    // "Synchronize" button
+    // running in Main Thread
+    // update statistics of FOperation in Progress Bar (FileSize and FileCount)
+    // need to call Application.ProcessMessages()
+    sddsSynchronizing,
+
+    // "Delete left / Delete right / Delete Both" in Popup Context Menu
+    // running in Main Thread
+    // update statistics of FOperation in Progress Bar (FileCount only)
+    // need to call Application.ProcessMessages()
+    sddsDeletingFiles,
+
+    // "Copy file properties" in Popup Context Menu
+    // running in Main Thread
+    // update statistics of FileCount in Progress Bar (FileCount only)
+    // need to call Application.ProcessMessages()
+    sddsCopyingProperties
+  );
+
   { TfrmSyncDirsDlg }
 
   TfrmSyncDirsDlg = class(
@@ -167,6 +204,7 @@ type
     { private declarations }
     FCancel: Boolean;
     FScanning: Boolean;
+    FState: TSyncDirsDlgState;
     FSortService: TSyncDirsSortService;
     FFullTree: TTwoLevelTree;
     FFilteredList: TFlatDirFileList;
@@ -1613,6 +1651,7 @@ constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
 begin
   inherited Create(AOwner);
+  FState := sddsWaiting;
   FSortService := TSyncDirsSortService.Create;
   FFullTree := TTwoLevelTree.Create;
   FFilteredList := TFlatDirFileList.Create(FFullTree);
