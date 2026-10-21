@@ -1275,8 +1275,10 @@ end;
 
 procedure TfrmSyncDirsDlg.onCheckContentThreadFinish;
 begin
-  FCheckContentThreadComparing:= False;
   Timer.Enabled:= False;
+  FCheckContentThreadComparing:= False;
+  FCheckContentThread.FreeOnTerminate:= True;
+  FCheckContentThread:= nil;
   HeaderDG.Enabled:= True;
   TopPanel.Enabled:= True;
   GroupBox1.Enabled:= True;
@@ -1317,7 +1319,6 @@ begin
       Terminate;
       WaitFor;
     end;
-    FreeAndNil(FCheckContentThread);
   end;
 end;
 
