@@ -1213,17 +1213,17 @@ procedure TfrmSyncDirsDlg.doCopyProperties(const targetSide: TDoubleSide);
     dialog.chkAttributes.Checked:= gOperationOptionCopyAttributes;
     dialog.chkPermissions.Checked:= gOperationOptionCopyOwnership or gOperationOptionCopyPermissions;
     dialog.chkXAttributes.Checked:= gOperationOptionCopyXattributes;
-    if dialog.ShowModal <> mrOK then
-      Exit;
-
-    if dialog.chkTime.Checked then
-      Include(Result, caoCopyTime);
-    if dialog.chkAttributes.Checked then
-      Include(Result, caoCopyAttributes);
-    if dialog.chkPermissions.Checked then
-      Result:= Result + [caoCopyPermissions, caoCopyOwnership];
-    if dialog.chkXAttributes.Checked then
-      Include(Result, caoCopyXattributes);
+    if dialog.ShowModal = mrOK then begin
+      if dialog.chkTime.Checked then
+        Include(Result, caoCopyTime);
+      if dialog.chkAttributes.Checked then
+        Include(Result, caoCopyAttributes);
+      if dialog.chkPermissions.Checked then
+        Result:= Result + [caoCopyPermissions, caoCopyOwnership];
+      if dialog.chkXAttributes.Checked then
+        Include(Result, caoCopyXattributes);
+    end;
+    dialog.Free;
   end;
 
 var
