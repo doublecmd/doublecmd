@@ -1359,7 +1359,9 @@ begin
   if f.IsDirectory or f.IsLinkToDirectory then begin
     Result:= (FTemplate = nil) or (CheckDirectoryName(FTemplate.FileChecks, f.Name));
   end else begin
-    Result:= (FTemplate = nil) or FTemplate.CheckFile(f);
+    Result:= False;
+    if Assigned(FTemplate) then
+      Result:= FTemplate.CheckFile(f);
     if NOT Result then
       Result:= ((FMaskList = nil) or FMaskList.Matches(f.Name));
   end;
