@@ -1,0 +1,62 @@
+
+name: Build Double Commander Qt5
+
+on:
+  push:
+    branches:
+      - qt5-wayland-dnd
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: debian:testing
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            ca-certificates \
+            git \
+            nodejs \
+            lazarus \
+            fp-compiler \
+            libdbus-1-dev \
+            libglib2.0-dev \
+            libx11-dev \
+            libqt5pas-dev \
+            qtbase5-dev \
+            qtwayland5 \
+            binutils \
+            xz-utils
+
+      - name: Check compiler versions
+        run: |
+          fpc -iV
+          lazbuild --version
+
+      - name: Get source
+        run: |
+          git clone --depth 1 \
+            --branch "$GITHUB_REF_NAME" \
+            "https://github.com/$GITHUB_REPOSITORY.git" \
+            doublecmd-src
+
+      - name: Build Qt5
+        working-directory: doublecmd-src
+        run: |
+          ./build.sh release qt5
+
+      - name: Package executable
+        run: |
+          test -x doublecmd-src/doublecmd
+          tar -cJf doublecmd-qt5.tar.xz \
+            -C doublecmd-src doublecmd
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: doublecmd-qt5
+          path: doublecmd-qt5.tar.xz
+          retention-days: 30
