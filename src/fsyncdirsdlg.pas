@@ -516,6 +516,7 @@ begin
 
     if ShowModal = mrOk then
     begin
+      FState := sddsSynchronizing;
       EnableControls(False);
       SymLinkOption:= fsooslNone;
       if chkConfirmOverwrites.Checked then
@@ -552,6 +553,8 @@ begin
       btnCompare.Click;
     end;
   finally
+    if FState = sddsSynchronizing then
+      FState := sddsWaiting;
     synchronizer.Free;
     Free;
   end;
@@ -1277,6 +1280,7 @@ begin
     FFileCountProgressTotal:= FFilteredList.countBothSides(indexes);
     FFileCountProgressDone:= 0;
 
+    FState := sddsCopyingProperties;
     EnableControls(False);
     pnlFileSizeProgress.Visible:= False;
     pnlFileCountProgress.Visible:= True;
@@ -1288,6 +1292,8 @@ begin
     self.MainDrawGrid.Invalidate;
     EnableControls(True);
   finally
+    if FState = sddsCopyingProperties then
+      FState := sddsWaiting;
     FFileCountProgressName:= EmptyStr;
     commonService.Free;
     indexes.Free;
@@ -1442,6 +1448,7 @@ begin
     end;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
+      FState := sddsDeletingFiles;
       EnableControls(False);
       pnlFileSizeProgress.Visible:= False;
       pnlFileCountProgress.Visible:= True;
@@ -1452,6 +1459,8 @@ begin
       EnableControls(True);
     end;
   finally
+    if FState = sddsDeletingFiles then
+      FState := sddsWaiting;
     commonService.Free;
     indexes.Free;
   end;
