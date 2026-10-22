@@ -242,6 +242,7 @@ type
 
     procedure doCopyProperties(const targetSide: TDoubleSide);
 
+    procedure updateFileSizeProgress;
     procedure updateFileCountProgress;
 
     procedure Compare;
@@ -253,7 +254,6 @@ type
     procedure UpdateStatusBar;
     procedure EnableControls(AEnabled: Boolean);
     procedure DeleteSelectedFiles(ALeft, ARight: Boolean);
-    procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
 
   private
     function fileProcessorWithUICopyFiles(
@@ -545,6 +545,17 @@ begin
       pnlFileSizeProgress.Visible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
       pnlFileCountProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
                                   (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
+
+      if pnlFileSizeProgress.Visible then begin
+        FFileSizeProgressName := rsOperCopying;
+        FFileSizeProgressTotal := syncCount.copySize;
+        FFileSizeProgressDone := 0;
+      end;
+      if pnlFileCountProgress.Visible then begin
+        FFileCountProgressName:= rsOperDeleting;
+        FFileCountProgressTotal := syncCount.deleteCount;
+        FFileCountProgressDone := 0;
+      end;
 
       synchronizer.sync( syncFlags );
 
@@ -966,10 +977,8 @@ begin
     if (FOperation is TFileSourceCopyOperation) then
     begin
       CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
-      SetProgressBytes(
-        pbFileSizeProgress,
-        FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes,
-        FCopyStatistics.TotalBytes);
+      FFileCountProgressDone:= FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes;
+      updateFileSizeProgress;
     end
     else if (FOperation is TFileSourceDeleteOperation) then
     begin
@@ -1493,7 +1502,8 @@ var
         SymLinkOption := TFileSourceCopyOperation(operation).SymLinkOption;
         FileExistsOption := TFileSourceCopyOperation(operation).FileExistsOption;
         FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(operation).RetrieveStatistics.TotalBytes;
-        SetProgressBytes(pbFileSizeProgress, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
+        FFileSizeProgressDone := FCopyStatistics.DoneBytes;
+        updateFileSizeProgress;
         FOperation:= nil;
       end;
     end;
@@ -1573,29 +1583,26 @@ begin
   files.Free;
 end;
 
-procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
-  CurrentBytes: Int64; TotalBytes: Int64);
+procedure TfrmSyncDirsDlg.updateFileSizeProgress;
 var
-  BarText : String;
-  CaptionText : String;
+  progressBarText : String;
 begin
   {
     not all FileSources can provide precise statistical information,
     nor can they accurately calculate the generated size, for example, MultiArchive/7z.
     so this check has been added to prevent reporting an erroneous progress exceeding 100%
   }
-  if CurrentBytes > TotalBytes then
-    TotalBytes:= CurrentBytes + 1;
+  if FFileSizeProgressDone > FFileSizeProgressTotal then
+    FFileSizeProgressTotal:= FFileSizeProgressDone + 1;
 
-  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
-  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
+  progressBarText := cnvFormatFileSize(FFileSizeProgressDone, uoscOperation) + '/' + cnvFormatFileSize(FFileSizeProgressTotal, uoscOperation);
+  pbFileSizeProgress.SetProgress(FFileSizeProgressDone, FFileSizeProgressTotal, progressBarText );
 
   {$IFDEF LCLCOCOA}
-  if TotalBytes > 0 then
-    CaptionText := rsOperCopying + ': ' + BarText + ' (' + FloatToStrF((CurrentBytes / TotalBytes) * 100, ffFixed, 0, 0) + '%)'
+  if FFileSizeProgressTotal > 0 then
+    lblFileSizeProgress.Caption := FFileSizeProgressName + ': ' + progressBarText + ' (' + FloatToStrF((FFileSizeProgressDone / FFileSizeProgressTotal) * 100, ffFixed, 0, 0) + '%)'
   else
-    CaptionText := rsOperCopying;
-  lblFileSizeProgress.Caption := CaptionText;
+    lblFileSizeProgress.Caption := FFileSizeProgressName;
   {$ENDIF}
 end;
 
