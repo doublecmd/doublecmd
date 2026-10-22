@@ -254,7 +254,6 @@ type
     procedure EnableControls(AEnabled: Boolean);
     procedure DeleteSelectedFiles(ALeft, ARight: Boolean);
     procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
-    procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
 
   private
     function fileProcessorWithUICopyFiles(
@@ -975,10 +974,8 @@ begin
     else if (FOperation is TFileSourceDeleteOperation) then
     begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
-      SetProgressFiles(
-        pbFileCountProgress,
-        FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles,
-        FDeleteStatistics.TotalFiles);
+      FFileCountProgressDone:= FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles;
+      updateFileCountProgress;
     end;
   end
   else if FFileCountProgressName <> EmptyStr then
@@ -1449,6 +1446,10 @@ begin
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
       FState := sddsDeletingFiles;
+      FFileCountProgressName:= rsOperDeleting;
+      FFileCountProgressTotal:= FDeleteStatistics.TotalFiles;
+      FFileCountProgressDone:= 0;
+
       EnableControls(False);
       pnlFileSizeProgress.Visible:= False;
       pnlFileCountProgress.Visible:= True;
@@ -1461,6 +1462,7 @@ begin
   finally
     if FState = sddsDeletingFiles then
       FState := sddsWaiting;
+    FFileCountProgressName:= EmptyStr;
     commonService.Free;
     indexes.Free;
   end;
@@ -1525,7 +1527,8 @@ var
       end;
       fsosStopped: begin
         FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(operation).RetrieveStatistics.TotalFiles;
-        SetProgressFiles(pbFileCountProgress, FDeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
+        FFileCountProgressDone:= FDeleteStatistics.DoneFiles;
+        updateFileCountProgress;
         FOperation:= nil;
       end;
     end;
@@ -1593,31 +1596,6 @@ begin
   else
     CaptionText := rsOperCopying;
   lblFileSizeProgress.Caption := CaptionText;
-  {$ENDIF}
-end;
-
-procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
-  CurrentFiles: Int64; TotalFiles: Int64);
-var
-  BarText : String;
-  CaptionText : String;
-begin
-  {
-    1. defensively prevent exceeding 100%
-    2. for "Delete all empty directories"
-  }
-  if CurrentFiles > TotalFiles then
-    TotalFiles:= CurrentFiles;
-
-  BarText := IntToStrTS(CurrentFiles) + '/' + IntToStrTS(TotalFiles);
-  AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
-
-  {$IFDEF LCLCOCOA}
-  if TotalFiles > 0 then
-    CaptionText := rsOperDeleting + ': ' + BarText + ' (' + FloatToStrF((CurrentFiles / TotalFiles) * 100, ffFixed, 0, 0) + '%)'
-  else
-    CaptionText := rsOperDeleting;
-  lblFileCountProgress.Caption := CaptionText;
   {$ENDIF}
 end;
 
