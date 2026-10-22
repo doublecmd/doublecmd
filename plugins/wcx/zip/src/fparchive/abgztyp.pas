@@ -1146,9 +1146,19 @@ begin
 
     try
       {init new archive stream}
-      CreateArchive:= FOwnsStream and (FGzStream.Size = 0) and (FGzStream is TFileStreamEx);
-      if CreateArchive then
-        NewStream := FGzStream
+      { When FTarStream is nil we have a freshly-created gzipped-tar whose
+        LoadArchive was never called — we cannot read back previously-saved
+        items.  Force CreateArchive so we write directly to FGzStream
+        (truncated) and avoid creating a temp file we can never finish. }
+      CreateArchive:= FOwnsStream and (FGzStream is TFileStreamEx) and
+        ((FGzStream.Size = 0) or (IsGzippedTar and TarAutoHandle and (FTarStream = nil)));
+      if CreateArchive then begin
+        if FGzStream.Size > 0 then begin
+          FGzStream.Size := 0;
+          FGzStream.Position := 0;
+        end;
+        NewStream := FGzStream;
+      end
       else begin
         ATempName := GetTempName(FArchiveName);
         NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
@@ -1158,6 +1168,14 @@ begin
       { save the Tar data }
       if IsGzippedTar and TarAutoHandle then begin
         SwapToTar;
+        { If FStream (=FTarStream) is nil we cannot read back items from a
+          previous save — this happens when SaveIfNeeded triggers a second
+          save on a freshly-created archive whose LoadArchive was never
+          called.  Force those items to be re-read from disk. }
+        if FStream = nil then
+          for i := 0 to pred(Count) do
+            if ItemList[i].Action = aaNone then
+              ItemList[i].Action := aaAdd;
         if FGZItem.Count = 0 then begin
           CurItem := TAbGzipItem.Create;
           FGZItem.Add(CurItem);
