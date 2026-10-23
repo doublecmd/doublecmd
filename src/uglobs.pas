@@ -157,6 +157,8 @@ type
   TFiltersOnNewSearch = (fonsKeep, fonsClear, fonsPrompt);
 
   THotKeySortOrder = (hksoByCommand, hksoByHotKeyGrouped, hksoByHotKeyOnePerRow);
+  { Synchronize directories date compare mode }
+  TSyncDirsDateMode = (sdmCompare, sdmIgnoreHour, sdmIgnore);
 
   TToolTipMode = (tttmCombineDcSystem, tttmDcSystemCombine, tttmDcIfPossThenSystem, tttmDcOnly, tttmSystemOnly);
   TToolTipHideTimeOut = (ttthtSystem, tttht1Sec, tttht2Sec, tttht3Sec, tttht5Sec, tttht10Sec, tttht30Sec, tttht1Min, ttthtNeverHide);
@@ -177,7 +179,9 @@ procedure SetGlob1KBase(const value: UInt64);
 
 const
   { Default hotkey list version number }
-  hkVersion = 72;
+  hkVersion = 74;
+  // 74 - In "Main" context, added "Ctrl+Alt+V" for "cm_CompareContents".
+  // 73 - In "Main" context, added "Alt+S" for "cm_SyncDirs".
   // 72 - In "Viewer" and "Editor" context, for macOS, added:
   //      "Cmd+G" for Find Next
   //      "Cmd+L" for Goto Line
@@ -686,7 +690,6 @@ var
   gSyncDirsSubdirs,
   gSyncDirsByContent,
   gSyncDirsAsymmetric,
-  gSyncDirsIgnoreDate,
   gSyncDirsAsymmetricSave,
   gSyncDirsShowFilterCopyRight,
   gSyncDirsShowFilterEqual,
@@ -694,7 +697,9 @@ var
   gSyncDirsShowFilterUnknown,
   gSyncDirsShowFilterCopyLeft,
   gSyncDirsShowFilterDuplicates,
-  gSyncDirsShowFilterSingles: Boolean;
+  gSyncDirsShowFilterLeftOnly,
+  gSyncDirsShowFilterRightOnly: Boolean;
+  gSyncDirsDateMode: TSyncDirsDateMode;
   gSyncDirsFileMask: string;
   gSyncDirsFileMaskSave: Boolean;
   gDateTimeFormatSync : String;
@@ -1225,6 +1230,7 @@ begin
       AddIfNotExists(['Ctrl+PgDn'],[],'cm_OpenArchive');
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
+      AddIfNotExists(['Ctrl+Alt+V'],[],'cm_CompareContents');
       AddIfNotExists(['Ctrl+Shift+A'],[],'cm_ShowTabsList');
       AddIfNotExists(['Ctrl+Shift+B'],[],'cm_FlatViewSel');
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
@@ -1247,6 +1253,7 @@ begin
       AddIfNotExists(['Shift+F12'],[],'cm_DoAnyCmCommand');
       AddIfNotExists(['Shift+Tab'],[],'cm_FocusTreeView');
       AddIfNotExists(['Alt+V'],[],'cm_OperationsViewer');
+      AddIfNotExists(['Alt+S'],[],'cm_SyncDirs');
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
       AddIfNotExists(['Alt+Z'],[],'cm_TargetEqualSource');
       AddIfNotExists(['Alt+F1'],[],'cm_LeftOpenDrives');
@@ -2290,7 +2297,7 @@ begin
   gSyncDirsSubdirs := False;
   gSyncDirsByContent := False;
   gSyncDirsAsymmetric := False;
-  gSyncDirsIgnoreDate := False;
+  gSyncDirsDateMode := sdmCompare;
   gSyncDirsAsymmetricSave := False;
   gSyncDirsShowFilterCopyRight := True;
   gSyncDirsShowFilterEqual := True;
@@ -2298,7 +2305,8 @@ begin
   gSyncDirsShowFilterUnknown := True;
   gSyncDirsShowFilterCopyLeft := True;
   gSyncDirsShowFilterDuplicates := True;
-  gSyncDirsShowFilterSingles := True;
+  gSyncDirsShowFilterLeftOnly := True;
+  gSyncDirsShowFilterRightOnly := True;
   gSyncDirsFileMask := '*';
   gSyncDirsFileMaskSave := True;
   gDateTimeFormatSync := DefaultDateTimeFormatSync;
@@ -2711,7 +2719,7 @@ procedure LoadXmlConfig;
 var
   DecimalSeparator: String;
   Root, Node, SubNode: TXmlNode;
-  LoadedConfigVersion, iIndexContextMode: Integer;
+  LoadedConfigVersion, iIndexContextMode, DateMode: Integer;
   oldQuickSearch: Boolean = True;
   oldQuickFilter: Boolean = False;
   oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
@@ -3381,14 +3389,27 @@ begin
       gSyncDirsByContent := GetValue(Node, 'ByContent', gSyncDirsByContent);
       gSyncDirsAsymmetric := GetValue(Node, 'Asymmetric', gSyncDirsAsymmetric);
       gSyncDirsAsymmetricSave := GetAttr(Node, 'Asymmetric/Save', gSyncDirsAsymmetricSave);
-      gSyncDirsIgnoreDate := GetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
+      if TryGetValue(Node, 'DateMode', DateMode) then
+      begin
+        if (DateMode >= Ord(Low(TSyncDirsDateMode))) and (DateMode <= Ord(High(TSyncDirsDateMode))) then
+          gSyncDirsDateMode := TSyncDirsDateMode(DateMode)
+        else
+          gSyncDirsDateMode := sdmCompare;
+      end
+      else if GetValue(Node, 'IgnoreDate', False) then
+        gSyncDirsDateMode := sdmIgnore
+      else
+        gSyncDirsDateMode := sdmCompare;
       gSyncDirsShowFilterCopyRight := GetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
       gSyncDirsShowFilterEqual := GetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
       gSyncDirsShowFilterNotEqual := GetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
       gSyncDirsShowFilterUnknown := GetValue(Node, 'FilterUnknown', gSyncDirsShowFilterUnknown);
       gSyncDirsShowFilterCopyLeft := GetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
       gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
-      gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
+      if not TryGetValue(Node, 'FilterLeftOnly', gSyncDirsShowFilterLeftOnly) then
+        gSyncDirsShowFilterLeftOnly := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterLeftOnly);
+      if not TryGetValue(Node, 'FilterRightOnly', gSyncDirsShowFilterRightOnly) then
+        gSyncDirsShowFilterRightOnly := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterRightOnly);
       gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
       gSyncDirsFileMaskSave := GetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
       gDateTimeFormatSync := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormatSync), DefaultDateTimeFormatSync);
@@ -3970,14 +3991,15 @@ begin
     SetValue(Node, 'ByContent', gSyncDirsByContent);
     SetValue(Node, 'Asymmetric', gSyncDirsAsymmetric and gSyncDirsAsymmetricSave);
     SetAttr(Node, 'Asymmetric/Save', gSyncDirsAsymmetricSave);
-    SetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
+    SetValue(Node, 'DateMode', Integer(gSyncDirsDateMode));
     SetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
     SetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
     SetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
     SetValue(Node, 'FilterUnknown', gSyncDirsShowFilterUnknown);
     SetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
-    SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
+    SetValue(Node, 'FilterLeftOnly', gSyncDirsShowFilterLeftOnly);
+    SetValue(Node, 'FilterRightOnly', gSyncDirsShowFilterRightOnly);
     SetValue(Node, 'FileMask', gSyncDirsFileMask);
     SetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormatSync);

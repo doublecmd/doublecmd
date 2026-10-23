@@ -1285,19 +1285,25 @@ begin
   TextShortcut := ShortCutToTextEx(Shortcut);
   Control      := Form.ActiveControl;
 
-  // Don't execute hotkeys that coincide with key typing actions.
+  { Registered hotkeys take priority over QuickSearch/QuickFilter (e.g.
+    Ctrl+Alt+V for cm_CompareContents while Ctrl+Alt+letters still filters).
+    On Windows, still skip hotkeys for AltGr letter input. }
   if (TextShortcut <> '') and
      ((FSequenceStep > 0) or
-     (not ((((GetKeyTypingAction(ShiftEx) <> ktaNone) and (HMForm.Name = 'Main'))
+     (not (
 {$IFDEF MSWINDOWS}
       // Don't execute hotkeys with Ctrl+Alt = AltGr on Windows.
-      or (HasKeyboardAltGrKey and
+      (((HasKeyboardAltGrKey and
           (ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
-          (gKeyTyping[ktmNone] <> ktaNone))
+          (gKeyTyping[ktmNone] <> ktaNone) and
+          (GetKeyTypingAction(ShiftEx) = ktaNone))
       // Don't execute hotkeys with AltGr on Windows.
-      or (ShiftEx = [ssAltGr])
+      or (ShiftEx = [ssAltGr]))
+      and (Key in [VK_0..VK_9, VK_A..VK_Z]))
+{$ELSE}
+      False
 {$ENDIF}
-      ) and (Key in [VK_0..VK_9, VK_A..VK_Z])))) then
+      ))) then
     begin
       // If too much time has passed reset sequence.
       if (FSequenceStep > 0) and (DateTimeToTimeStamp(SysUtils.Now - FLastShortcutTime).Time > MaxShortcutSequenceInterval) then
