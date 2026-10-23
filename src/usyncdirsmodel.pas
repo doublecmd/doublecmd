@@ -27,6 +27,9 @@ type
     srsDeleteBoth,
     srsDoNothing,
 
+    srsTimeLeft,        // set time of left file from right file
+    srsTimeRight,       // set time of right file from left file
+
     srsNextAction,
     srsNoAction,
     srsDeleted
@@ -69,7 +72,8 @@ type
     ffNotEqual,
     ffUnknown,
     ffDuplicate,
-    ffSingle
+    ffLeftOnly,
+    ffRightOnly
   );
 
   TFilterFlags = set of TSyncDirsFilterFlag;
@@ -81,6 +85,8 @@ type
     sfCopyToRight,
     sfDeleteLeft,
     sfDeleteRight,
+    sfTimeLeft,
+    sfTimeRight,
 
     sfDeleteLeftAllEmptyDirs,
     sfDeleteRightAllEmptyDirs
@@ -97,10 +103,13 @@ type
     copyToRightCount: Integer;
     deleteLeftCount: Integer;
     deleteRightCount: Integer;
+    timeLeftCount: Integer;
+    timeRightCount: Integer;
 
     function copySize: Int64;
     function copyCount: Integer;
     function deleteCount: Integer;
+    function timeCount: Integer;
   end;
 
   TDoubleSide = (dsLeft, dsRight);
@@ -134,6 +143,7 @@ type
     function hasFilesOnBothSides: Boolean;
     function hasFileOnOnlyOneSide: Boolean;
     function hasFileOnAnySide: Boolean;
+    function canAlignTime: Boolean; virtual;
 
     procedure updateState; virtual;
     function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
@@ -160,6 +170,7 @@ type
   TSyncFileRec = class( TSyncRec )
   public
     function isDir: Boolean; override;
+    function canAlignTime: Boolean; override;
     procedure updateState; override;
     function getNextAction: TSyncRecState; override;
   end;
@@ -316,6 +327,11 @@ begin
   Result:= self.deleteLeftCount + self.deleteRightCount;
 end;
 
+function TSyncDirsSyncCount.timeCount: Integer;
+begin
+  Result:= self.timeLeftCount + self.timeRightCount;
+end;
+
 { TSyncRec }
 
 constructor TSyncRec.Create(
@@ -393,6 +409,11 @@ begin
         if NOT self.hasRightFile then
           Result:= srsDeleteLeft;
       end;
+    srsTimeLeft,
+    srsTimeRight:
+      if NOT (self.isFile and self.hasFilesOnBothSides and
+              (self.leftFile.Size = self.rightFile.Size)) then
+        Result:= srsDoNothing;
     srsNextAction:
       Result:= self.getNextAction;
   end;
@@ -410,10 +431,16 @@ begin
       else
         Result:= srsDoNothing;
     srsCopyToLeft:
-      if self.hasLeftFile then
+      if self.canAlignTime then
+        Result:= srsTimeRight
+      else if self.hasLeftFile then
         Result:= srsNotEq
       else
         Result:= srsDoNothing;
+    srsTimeRight:
+      Result:= srsTimeLeft;
+    srsTimeLeft:
+      Result:= srsNotEq;
     srsDeleteRight:
       if not (cfAsymmetric in _option.flags) then
         Result:= _state
@@ -482,11 +509,26 @@ begin
   Result:= self.hasLeftFile or self.hasRightFile;
 end;
 
+function TSyncRec.canAlignTime: Boolean;
+begin
+  Result:= False;
+end;
+
 { TSyncFileRec }
 
 function TSyncFileRec.isDir: Boolean;
 begin
   Result:= False;
+end;
+
+function TSyncFileRec.canAlignTime: Boolean;
+begin
+  Result:= self.hasFilesOnBothSides and
+           (self.leftFile.Size = self.rightFile.Size) and
+           (FileTimeCompare(
+              self.leftFile.ModificationTime,
+              self.rightFile.ModificationTime,
+              cfNtfsShift in _option.flags ) <> 0);
 end;
 
 procedure TSyncFileRec.updateState;
