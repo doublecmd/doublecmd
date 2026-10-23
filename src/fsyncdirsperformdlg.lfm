@@ -1,13 +1,13 @@
 object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
   Left = 234
-  Height = 289
+  Height = 337
   Top = 137
   Width = 413
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Synchronize'
-  ClientHeight = 289
+  ClientHeight = 337
   ClientWidth = 413
   Constraints.MinWidth = 450
   Position = poOwnerFormCenter
@@ -75,13 +75,13 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
   end
   object Bevel1: TBevel
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = chkDeleteRightAllEmptyDirs
+    AnchorSideTop.Control = chkTimeRightToLeft
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 6
-    Top = 187
+    Top = 235
     Width = 413
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 3
@@ -133,20 +133,44 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     Caption = 'Right: Delete all empty directories'
     TabOrder = 7
   end
+  object chkTimeLeftToRight: TCheckBox
+    AnchorSideLeft.Control = chkDeleteRight
+    AnchorSideTop.Control = chkDeleteRightAllEmptyDirs
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 18
+    Top = 190
+    Width = 18
+    BorderSpacing.Top = 6
+    Enabled = False
+    TabOrder = 8
+  end
+  object chkTimeRightToLeft: TCheckBox
+    AnchorSideLeft.Control = chkDeleteRight
+    AnchorSideTop.Control = chkTimeLeftToRight
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 18
+    Top = 214
+    Width = 18
+    BorderSpacing.Top = 6
+    Enabled = False
+    TabOrder = 9
+  end
   object chkConfirmOverwrites: TCheckBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Bevel1
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 18
-    Top = 199
+    Top = 247
     Width = 134
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     Caption = 'Confirm overwrites'
     Checked = True
     State = cbChecked
-    TabOrder = 8
+    TabOrder = 10
   end
   object chkVerify: TCheckBox
     AnchorSideLeft.Control = chkConfirmOverwrites
@@ -154,11 +178,11 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 18
-    Top = 223
+    Top = 271
     Width = 59
     BorderSpacing.Top = 6
     Caption = 'Verify'
-    TabOrder = 9
+    TabOrder = 11
     Visible = False
   end
   object ButtonPanel1: TButtonPanel
@@ -166,7 +190,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 27
-    Top = 247
+    Top = 295
     Width = 401
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
@@ -178,7 +202,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 10
+    TabOrder = 12
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
