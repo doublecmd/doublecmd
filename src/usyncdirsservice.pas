@@ -28,6 +28,9 @@ const
     'XX',
     '',
 
+    't<',
+    't>',
+
     'ERR(NextAction)',
     'ERR(NoAction)',
     'ERR(DEL)'
@@ -301,7 +304,8 @@ class procedure TSyncDirsUtil.filterFlatListWithFlags(
       Exit(False);
 
     Result:=
-      ((rec.hasFileOnOnlyOneSide and (ffSingle in filterFlags)) or
+      ((rec.hasLeftFile and NOT rec.hasRightFile and (ffLeftOnly in filterFlags)) or
+       (rec.hasRightFile and NOT rec.hasLeftFile and (ffRightOnly in filterFlags)) or
        (rec.hasFilesOnBothSides and (ffDuplicate in filterFlags)))
        and
        (((rec.state = srsCopyToLeft) or (rec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
@@ -1036,6 +1040,12 @@ begin
           Inc(Result.deleteLeftCount);
           Inc(Result.deleteRightCount);
         end;
+      srsTimeLeft:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.timeLeftCount);
+      srsTimeRight:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.timeRightCount);
     end;
   end;
 end;
@@ -1191,7 +1201,37 @@ var
     copyToRightFiles: TFiles;
     deleteLeftFiles: TFiles;
     deleteRightFiles: TFiles;
+    timeLeftRecs: TFPList;
+    timeRightRecs: TFPList;
     parentDirRec: TSyncDirRec;
+
+    function doAlignTime( const recs: TFPList; const targetSide: TDoubleSide ): Boolean;
+    var
+      i: Integer;
+      timeRec: TSyncRec;
+      sourceSide: TDoubleSide;
+    begin
+      Result:= True;
+      if targetSide = dsLeft then
+        sourceSide:= dsRight
+      else
+        sourceSide:= dsLeft;
+      for i:= 0 to recs.Count-1 do begin
+        timeRec:= TSyncRec( recs[i] );
+        if NOT timeRec.hasFilesOnBothSides then
+          continue;
+        Result:= _fileProcessor.fileProcessorWithUICopyProperties(
+          _fileSources[targetSide],
+          timeRec.filesOnSide[sourceSide],
+          timeRec.filesOnSide[targetSide],
+          [caoCopyTime] );
+        if NOT Result then
+          Exit;
+        timeRec.updateState;
+        if NOT _callback.commonCheckRunning then
+          Exit( False );
+      end;
+    end;
 
     function doProcessFiles: Boolean;
     begin
@@ -1218,6 +1258,12 @@ var
               if sfDeleteLeft in syncFlags then
                 prepareRemoveFile( deleteLeftFiles, nil );
             end;
+          srsTimeRight:
+            if (sfTimeRight in syncFlags) then
+              timeRightRecs.Add( rec );
+          srsTimeLeft:
+            if (sfTimeLeft in syncFlags) then
+              timeLeftRecs.Add( rec );
         end;
         index:= index + 1;
         if index < _filteredList.Count then
@@ -1244,6 +1290,16 @@ var
           Exit;
       end;
 
+      if timeLeftRecs.Count > 0 then begin
+        if NOT doAlignTime( timeLeftRecs, dsLeft ) then
+          Exit;
+      end;
+
+      if timeRightRecs.Count > 0 then begin
+        if NOT doAlignTime( timeRightRecs, dsRight ) then
+          Exit;
+      end;
+
       Result:= True;
     end;
   begin
@@ -1253,10 +1309,14 @@ var
     copyToRightFiles:= TFiles.Create('');
     deleteLeftFiles:= TFiles.Create('');
     deleteRightFiles:= TFiles.Create('');
+    timeLeftRecs:= TFPList.Create;
+    timeRightRecs:= TFPList.Create;
 
     try
       Result:= doProcessFiles;
     finally
+      timeLeftRecs.Free;
+      timeRightRecs.Free;
       copyToLeftFiles.Free;
       copyToRightFiles.Free;
       deleteLeftFiles.Free;

@@ -41,6 +41,52 @@ msgstr ""
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr ""
 
+#: fsyncdirsdlg.rsdatecompare
+msgid "compare date"
+msgstr ""
+
+#: fsyncdirsdlg.rsdateignorehour
+msgid "ignore 1 hour"
+msgstr ""
+
+#: fsyncdirsdlg.rsdateignore
+msgid "ignore date"
+msgstr ""
+
+#: fsyncdirsdlg.rslefttorightsetdate
+#, object-pascal-format
+msgid "Left to Right: Set date for %d files"
+msgstr ""
+
+#: fsyncdirsdlg.rsrighttoleftsetdate
+#, object-pascal-format
+msgid "Right to Left: Set date for %d files"
+msgstr ""
+
+#: fsyncdirsdlg.rsselecttimelefttoright
+msgid "Select for setting date -> (left to right)"
+msgstr ""
+
+#: fsyncdirsdlg.rsselecttimerighttoleft
+msgid "Select for setting date <- (right to left)"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterbothsides
+msgid "present on both sides"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterleftonly
+msgid "present on left only"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterrightonly
+msgid "present on right only"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterreset
+msgid "reset filters"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr ""
@@ -9059,10 +9105,6 @@ msgstr ""
 msgid "empty directories"
 msgstr ""
 
-#: tfrmsyncdirsdlg.chkignoredate.caption
-msgid "ignore date"
-msgstr ""
-
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
 msgstr ""
@@ -9137,7 +9179,7 @@ msgid ">"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
-msgid "duplicates"
+msgid "present on both sides"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbequal.caption
@@ -9145,13 +9187,21 @@ msgctxt "tfrmsyncdirsdlg.sbequal.caption"
 msgid "="
 msgstr ""
 
+#: tfrmsyncdirsdlg.sbfilterall.caption
+msgid "reset filters"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbleftonly.caption
+msgid "present on left only"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgctxt "tfrmsyncdirsdlg.sbnotequal.caption"
 msgid "!="
 msgstr ""
 
-#: tfrmsyncdirsdlg.sbsingles.caption
-msgid "singles"
+#: tfrmsyncdirsdlg.sbrightonly.caption
+msgid "present on right only"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbunknown.caption

@@ -44,6 +44,52 @@ msgstr "Von links nach rechts: %d Dateien kopieren, Gesamtgröße: %s (%s)"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Von rechts nach links: %d Dateien kopieren, Gesamtgröße: %s (%s)"
 
+#: fsyncdirsdlg.rsdatecompare
+msgid "compare date"
+msgstr "Datum beachten"
+
+#: fsyncdirsdlg.rsdateignorehour
+msgid "ignore 1 hour"
+msgstr "1 Stunde tolerieren"
+
+#: fsyncdirsdlg.rsdateignore
+msgid "ignore date"
+msgstr "Datum ignorieren"
+
+#: fsyncdirsdlg.rslefttorightsetdate
+#, object-pascal-format
+msgid "Left to Right: Set date for %d files"
+msgstr "Von links nach rechts: Datum für %d Dateien setzen"
+
+#: fsyncdirsdlg.rsrighttoleftsetdate
+#, object-pascal-format
+msgid "Right to Left: Set date for %d files"
+msgstr "Von rechts nach links: Datum für %d Dateien setzen"
+
+#: fsyncdirsdlg.rsselecttimelefttoright
+msgid "Select for setting date -> (left to right)"
+msgstr "Zum Setzen des Datums auswählen -> (links nach rechts)"
+
+#: fsyncdirsdlg.rsselecttimerighttoleft
+msgid "Select for setting date <- (right to left)"
+msgstr "Zum Setzen des Datums auswählen <- (rechts nach links)"
+
+#: fsyncdirsdlg.rsfilterbothsides
+msgid "present on both sides"
+msgstr "auf beiden Seiten vorhanden"
+
+#: fsyncdirsdlg.rsfilterleftonly
+msgid "present on left only"
+msgstr "nur links vorhanden"
+
+#: fsyncdirsdlg.rsfilterrightonly
+msgid "present on right only"
+msgstr "nur rechts vorhanden"
+
+#: fsyncdirsdlg.rsfilterreset
+msgid "reset filters"
+msgstr "Filter zurücksetzen"
+
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr "Vorlage wählen …"
@@ -1090,7 +1136,7 @@ msgstr "Datei unter anderem Namen speichern"
 
 #: tfrmeditor.actwordwrap.caption
 msgid "&Word wrap"
-msgstr ""
+msgstr "&Zeilenumbruch"
 
 #: tfrmeditor.actzoomin.caption
 msgctxt "tfrmeditor.actzoomin.caption"
@@ -1512,7 +1558,7 @@ msgstr "Pfad der ausführbaren Datei"
 #: tfrmfinddlg.actaddtostash.caption
 msgctxt "tfrmfinddlg.actaddtostash.caption"
 msgid "Add to Stash"
-msgstr ""
+msgstr "Zur Ablage hinzufügen"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
@@ -1621,7 +1667,7 @@ msgstr "&Hilfe"
 
 #: tfrmfinddlg.btndrives.caption
 msgid "Drives"
-msgstr ""
+msgstr "Laufwerke"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
@@ -2066,7 +2112,7 @@ msgstr "Plugin hinzufügen"
 #: tfrmmain.actaddtostash.caption
 msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
-msgstr ""
+msgstr "Zur Ablage hinzufügen"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2086,11 +2132,11 @@ msgstr "Belegten &Speicherplatz berechnen"
 
 #: tfrmmain.actcallplatformfunctions.caption
 msgid "Call platform functions"
-msgstr ""
+msgstr "Plattformfunktionen aufrufen"
 
 #: tfrmmain.actcallplatformfunctions.hint
 msgid "Call platform functions (the function to be called is specified by the parameter 'func')"
-msgstr ""
+msgstr "Plattformfunktionen aufrufen (die aufzurufende Funktion wird über den Parameter ‚func‘ angegeben)"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2335,7 +2381,7 @@ msgstr "Pfadzeile über der Dateiliste bearbeiten"
 
 #: tfrmmain.actemptystash.caption
 msgid "Empty Stash"
-msgstr ""
+msgstr "Ablage leeren"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
@@ -2679,7 +2725,7 @@ msgstr "Zuletzt geladenen ☆-Tab erneut laden"
 
 #: tfrmmain.actremovefromstash.caption
 msgid "Remove Stash Items"
-msgstr ""
+msgstr "Ablage-Einträge entfernen"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2809,7 +2855,7 @@ msgstr "Dateieigensch&aften ändern …"
 
 #: tfrmmain.actsetsortmode.caption
 msgid "Set Sort Mode"
-msgstr ""
+msgstr "Sortiermodus setzen"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -3224,7 +3270,7 @@ msgstr "&Netzwerk"
 #: tfrmmain.mnuopenstash.caption
 msgctxt "tfrmmain.mnuopenstash.caption"
 msgid "Open Stash"
-msgstr ""
+msgstr "Ablage öffnen"
 
 #: tfrmmain.mnushow.caption
 msgctxt "tfrmmain.mnushow.caption"
@@ -4328,7 +4374,7 @@ msgstr "Entfernt:"
 
 #: tfrmoptionscolors.lbldirselection.caption
 msgid "Directory Selection:"
-msgstr ""
+msgstr "Verzeichnisauswahl:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -6321,7 +6367,7 @@ msgstr "Sortierung"
 
 #: tfrmoptionsfilesviews.lbl1k.caption
 msgid "1K ="
-msgstr ""
+msgstr "1K ="
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
@@ -6389,11 +6435,11 @@ msgstr "Aktualisierte Dateien verschiebe&n:"
 
 #: tfrmoptionsfilesviews.rb1000.caption
 msgid "1000"
-msgstr ""
+msgstr "1000"
 
 #: tfrmoptionsfilesviews.rb1024.caption
 msgid "1024"
-msgstr ""
+msgstr "1024"
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6460,7 +6506,7 @@ msgstr "Standardwert der Attributmaske wählen:"
 #: tfrmoptionsfilesviewscomplement.lblextralinespan.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lblextralinespan.caption"
 msgid "Extra line span:"
-msgstr ""
+msgstr "Zusätzlicher Zeilenabstand:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6735,6 +6781,8 @@ msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
 msgstr ""
+"F1, F2 usw. zwingend als Funktionstasten behandeln\n"
+"Einstellungen unter Systemeinstellungen > Tastatur ignorieren"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6746,6 +6794,13 @@ msgid ""
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
 msgstr ""
+"Diese Funktion benötigt zusätzliche Systemberechtigungen.\n"
+"\n"
+"Beim Aktivieren wirst du automatisch zu\n"
+"Systemeinstellungen > Datenschutz && Sicherheit > Bedienungshilfen geführt.\n"
+"\n"
+"Nach jeder Installation einer neuen DC-Version musst du DC zuerst\n"
+"aus der Liste entfernen und anschließend erneut hinzufügen."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7419,7 +7474,7 @@ msgstr "Immer Laufwerksbuchstaben im Tab-Titel anzeigen"
 
 #: tfrmoptionstabs.cbtabsunavailablemarker.caption
 msgid "Mark unavailable path in tab title with &a question mark ?"
-msgstr ""
+msgstr "Nicht verfügbaren Pfad im Tab-Titel mit einem &Fragezeichen ? markieren"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
@@ -8981,11 +9036,11 @@ msgstr "Name des Links"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "Dateieigenschaften kopieren -> (links nach rechts)…"
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "Dateieigenschaften kopieren <- (rechts nach links)…"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9070,11 +9125,7 @@ msgstr "nach Inhalt"
 
 #: tfrmsyncdirsdlg.chkemptydir.caption
 msgid "empty directories"
-msgstr ""
-
-#: tfrmsyncdirsdlg.chkignoredate.caption
-msgid "ignore date"
-msgstr "Datum ignorieren"
+msgstr "leere Verzeichnisse"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
@@ -9150,26 +9201,34 @@ msgid ">"
 msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
-msgid "duplicates"
-msgstr "Duplikate"
+msgid "present on both sides"
+msgstr "auf beiden Seiten vorhanden"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgctxt "tfrmsyncdirsdlg.sbequal.caption"
 msgid "="
 msgstr "="
 
+#: tfrmsyncdirsdlg.sbfilterall.caption
+msgid "reset filters"
+msgstr "Filter zurücksetzen"
+
+#: tfrmsyncdirsdlg.sbleftonly.caption
+msgid "present on left only"
+msgstr "nur links vorhanden"
+
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgctxt "tfrmsyncdirsdlg.sbnotequal.caption"
 msgid "!="
-msgstr "≠"
+msgstr "<>"
 
-#: tfrmsyncdirsdlg.sbsingles.caption
-msgid "singles"
-msgstr "Einzelne"
+#: tfrmsyncdirsdlg.sbrightonly.caption
+msgid "present on right only"
+msgstr "nur rechts vorhanden"
 
 #: tfrmsyncdirsdlg.sbunknown.caption
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
@@ -9186,36 +9245,36 @@ msgstr "Überschreiben bestätigen"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "Links: Alle leeren Verzeichnisse löschen"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "Rechts: Alle leeren Verzeichnisse löschen"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
-msgstr ""
+msgstr "Überprüfen"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "Datei&attribute"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "&Rechte / Besitz"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "&Zeitstempel (Datum+Zeit)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "&Erweiterte Attribute"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "Diese Dateieigenschaften kopieren:"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -10714,7 +10773,7 @@ msgstr "Dateien suchen"
 
 #: ulng.rsfindselectdrives
 msgid "Select drives"
-msgstr ""
+msgstr "Laufwerke auswählen"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
@@ -11014,10 +11073,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(z. B. smb://server/freigabe; https://dav.server.com; nfs://server/pfad)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS …"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11137,22 +11199,22 @@ msgstr "Finder"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "Zurück"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "Zurück"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "Vorwärts"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "Vorwärts"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -11198,11 +11260,11 @@ msgstr "Als Dateimanager benötigt Double Commander volle Festplattenzugriffsrec
 
 #: ulng.rsmfstbiprivilegetips2
 msgid "If you can see me, it means DC has not been authorized yet. DC will hide me once it is complete."
-msgstr ""
+msgstr "Wenn du mich siehst, ist DC noch nicht autorisiert. Sobald die Autorisierung abgeschlossen ist, werde ich ausgeblendet."
 
 #: ulng.rsmfstbiprivilegetips3
 msgid "You must re-authorize every time you install a new version. In this case you need to remove DC from the list first and then add DC back again. Because the new version has different fingerprints, simply enabling the checkboxes will not work."
-msgstr ""
+msgstr "Nach jeder Installation einer neuen Version musst du erneut autorisieren. Entferne DC dazu zuerst aus der Liste und füge es danach wieder hinzu. Weil die neue Version andere Fingerabdrücke hat, reicht das bloße Aktivieren der Kontrollkästchen nicht aus."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
@@ -14182,7 +14244,7 @@ msgstr "Wähle Verzeichnis:"
 
 #: ulng.rsstashname
 msgid "Stash"
-msgstr ""
+msgstr "Ablage"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
