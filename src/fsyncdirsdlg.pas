@@ -63,6 +63,7 @@ type
     // running in Background Thread, but Block other operations in Main Thread
     // it is not possible to perform other operations at the same time
     // update statistics of FFilteredCount in Status Bar
+    // update statistics of FileSize in Progress Bar
     // NO need to call Application.ProcessMessages()
     sddsCheckingContent,
 
@@ -84,6 +85,27 @@ type
     // need to call Application.ProcessMessages()
     sddsCopyingProperties
   );
+
+  { TSyncDirsDlgProgressHelper }
+
+  TSyncDirsDlgProgressHelper = class
+    isSize: Boolean;
+
+    panelControl: TPanel;
+    labelControl: TLabel;
+    barControl: TKASProgressBar;
+
+    caption: String;
+    total: Int64;
+    done: Int64;
+
+    constructor Create(const aIsSize: Boolean; const aPanelControl: TPanel; const aLabelControl: TLabel; const aBarControl: TKASProgressBar);
+
+    procedure open(const aCaption: String; const aTotal: Int64);
+    procedure close;
+    procedure update(const aDone: Int64);
+    procedure updateBarControl;
+  end;
 
   { TfrmSyncDirsDlg }
 
@@ -226,12 +248,8 @@ type
     FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
 
-    FFileSizeProgressName: String;
-    FFileSizeProgressTotal: Int64;
-    FFileSizeProgressDone: Int64;
-    FFileCountProgressName: String;
-    FFileCountProgressTotal: Integer;
-    FFileCountProgressDone: Integer;
+    FFileSizeProgressHelper: TSyncDirsDlgProgressHelper;
+    FFileCountProgressHelper: TSyncDirsDlgProgressHelper;
 
     function createCompareOption: TSyncDirsCompareOption;
     function createFilterFlags: TFilterFlags;
@@ -241,9 +259,6 @@ type
     procedure setSelectionAction(const newAction: TSyncRecState);
 
     procedure doCopyProperties(const targetSide: TDoubleSide);
-
-    procedure updateFileSizeProgress;
-    procedure updateFileCountProgress;
 
     procedure Compare;
     procedure FillFoundItemsDG;
@@ -415,6 +430,75 @@ begin
   end;
 end;
 
+{ TSyncDirsDlgProgressHelper }
+
+constructor TSyncDirsDlgProgressHelper.Create(
+  const aIsSize: Boolean;
+  const aPanelControl: TPanel;
+  const aLabelControl: TLabel;
+  const aBarControl: TKASProgressBar);
+begin
+  self.isSize:= aIsSize;
+  self.panelControl:= aPanelControl;
+  self.labelControl:= aLabelControl;
+  self.barControl:= aBarControl;
+end;
+
+procedure TSyncDirsDlgProgressHelper.open(const aCaption: String; const aTotal: Int64);
+begin
+  self.labelControl.Caption:= aCaption;
+  self.caption:= aCaption;
+  self.total:= aTotal;
+  self.done:= 0;
+  self.updateBarControl;
+  self.panelControl.Show;
+end;
+
+procedure TSyncDirsDlgProgressHelper.close;
+begin
+  self.caption:= EmptyStr;
+  self.panelControl.Hide;
+end;
+
+procedure TSyncDirsDlgProgressHelper.update(const aDone: Int64);
+begin
+  self.done:= aDone;
+  self.updateBarControl;
+end;
+
+procedure TSyncDirsDlgProgressHelper.updateBarControl;
+var
+  barText : String;
+begin
+  if self.isSize then begin
+    {
+      not all FileSources can provide precise statistical information,
+      nor can they accurately calculate the generated size, for example, MultiArchive/7z.
+      so this check has been added to prevent reporting an erroneous progress exceeding 100%
+    }
+    if self.done > self.total then
+      self.total:= self.done + 1;
+    barText := cnvFormatFileSize(self.done, uoscOperation) + '/' + cnvFormatFileSize(self.total, uoscOperation);
+  end else begin
+    {
+      1. defensively prevent exceeding 100%
+      2. for "Delete all empty directories"
+    }
+    if self.done > self.total then
+      self.total:= self.done;
+    barText := IntToStrTS(self.done) + '/' + IntToStrTS(self.total);
+  end;
+
+  self.barControl.SetProgress(self.done, self.total, barText);
+
+  {$IFDEF LCLCOCOA}
+  if self.total > 0 then
+    self.labelControl.Caption := self.caption + ': ' + barText + ' (' + FloatToStrF((self.done / self.total) * 100, ffFixed, 0, 0) + '%)'
+  else
+    self.labelControl.Caption := self.caption;
+  {$ENDIF}
+end;
+
 { TfrmSyncDirsDlg }
 
 procedure TfrmSyncDirsDlg.actExecute(Sender: TObject);
@@ -474,6 +558,8 @@ var
   synchronizer: TSyncDirsSynchronizer;
   syncCount: TSyncDirsSyncCount;
   syncFlags: TSyncDirsSyncFlags;
+  fileSizeVisible: Boolean;
+  fileCountVisible: Boolean;
 begin
   synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources, FCmpFilePaths );
   syncCount:= synchronizer.count;
@@ -538,24 +624,18 @@ begin
       if chkDeleteRightAllEmptyDirs.Checked then
         Include( syncFlags, sfDeleteRightAllEmptyDirs );
 
-      lblFileSizeProgress.Caption := rsOperCopying;
-      lblFileCountProgress.Caption := rsOperDeleting;
-      pbFileSizeProgress.Position:=0;
-      pbFileCountProgress.Position:=0;
-      pnlFileSizeProgress.Visible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
-      pnlFileCountProgress.Visible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
-                                  (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
+      fileSizeVisible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
+      fileCountVisible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
+                         (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
 
-      if pnlFileSizeProgress.Visible then begin
-        FFileSizeProgressName := rsOperCopying;
-        FFileSizeProgressTotal := syncCount.copySize;
-        FFileSizeProgressDone := 0;
-      end;
-      if pnlFileCountProgress.Visible then begin
-        FFileCountProgressName:= rsOperDeleting;
-        FFileCountProgressTotal := syncCount.deleteCount;
-        FFileCountProgressDone := 0;
-      end;
+      if fileSizeVisible then
+        FFileSizeProgressHelper.open(rsOperCopying, syncCount.copySize)
+      else
+        FFileSizeProgressHelper.close;
+      if fileCountVisible then
+        FFileCountProgressHelper.open(rsOperDeleting, syncCount.deleteCount)
+      else
+        FFileCountProgressHelper.close;
 
       synchronizer.sync( syncFlags );
 
@@ -563,8 +643,11 @@ begin
       btnCompare.Click;
     end;
   finally
-    if FState = sddsSynchronizing then
+    if FState = sddsSynchronizing then begin
+      FFileSizeProgressHelper.close;
+      FFileCountProgressHelper.close;
       FState := sddsWaiting;
+    end;
     synchronizer.Free;
     Free;
   end;
@@ -684,8 +767,17 @@ begin
   {$ENDIF}
   MainDrawGrid.SelectedColor:= gColors.SyncDirs^.SelectedColor;
 
-  lblFileSizeProgress.Caption    := rsOperCopying;
-  lblFileCountProgress.Caption   := rsOperDeleting;
+  FFileSizeProgressHelper:= TSyncDirsDlgProgressHelper.Create(
+    True,
+    pnlFileSizeProgress,
+    lblFileSizeProgress,
+    pbFileSizeProgress);
+  FFileCountProgressHelper:= TSyncDirsDlgProgressHelper.Create(
+    False,
+    pnlFileCountProgress,
+    lblFileCountProgress,
+    pbFileCountProgress);
+
   { settings }
   chkEmptyDir.Checked    := gSyncDirsEmptyDirs;
   chkSubDirs.Checked     := gSyncDirsSubdirs;
@@ -977,19 +1069,17 @@ begin
     if (FOperation is TFileSourceCopyOperation) then
     begin
       CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
-      FFileCountProgressDone:= FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes;
-      updateFileSizeProgress;
+      FFileSizeProgressHelper.update(FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes);
     end
     else if (FOperation is TFileSourceDeleteOperation) then
     begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
-      FFileCountProgressDone:= FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles;
-      updateFileCountProgress;
+      FFileCountProgressHelper.update(FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles);
     end;
   end
-  else if FFileCountProgressName <> EmptyStr then
+  else if FFileCountProgressHelper.caption <> EmptyStr then
   begin
-    updateFileCountProgress;
+    FFileCountProgressHelper.updateBarControl;
   end
   else if FState = sddsCheckingContent then
   begin
@@ -1282,25 +1372,20 @@ begin
   try
     indexes:= self.createSelectionIndexes;
 
-    FFileCountProgressName:= rsOperSettingProperty;
-    FFileCountProgressTotal:= FFilteredList.countBothSides(indexes);
-    FFileCountProgressDone:= 0;
-
     FState := sddsCopyingProperties;
+    FFileSizeProgressHelper.close;
+    FFileCountProgressHelper.open(rsOperSettingProperty, FFilteredList.countBothSides(indexes));
     EnableControls(False);
-    pnlFileSizeProgress.Visible:= False;
-    pnlFileCountProgress.Visible:= True;
-    lblFileCountProgress.Caption:= FFileCountProgressName;
-    pbFileCountProgress.Position:= 0;
 
     commonService.copyProperties(indexes, targetSide, attrs);
 
     self.MainDrawGrid.Invalidate;
     EnableControls(True);
   finally
-    if FState = sddsCopyingProperties then
+    if FState = sddsCopyingProperties then begin
+      FFileCountProgressHelper.close;
       FState := sddsWaiting;
-    FFileCountProgressName:= EmptyStr;
+    end;
     commonService.Free;
     indexes.Free;
   end;
@@ -1312,10 +1397,8 @@ begin
   HeaderDG.Enabled:= False;
   GroupBox1.Enabled:= False;
   MainDrawGrid.Enabled:= False;
-  pnlFileSizeProgress.Visible:= True;
-  pbFileSizeProgress.SetProgress(0, 100);
-  pnlFileCountProgress.Visible:= False;
-  lblFileSizeProgress.Caption:= rsDiffComparing;
+  FFileSizeProgressHelper.open(rsDiffComparing, 100);
+  FFileCountProgressHelper.close;
   pnlProgress.Visible:= True;
 end;
 
@@ -1455,13 +1538,9 @@ begin
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
       FState := sddsDeletingFiles;
-      FFileCountProgressName:= rsOperDeleting;
-      FFileCountProgressTotal:= FDeleteStatistics.TotalFiles;
-      FFileCountProgressDone:= 0;
-
+      FFileSizeProgressHelper.close;
+      FFileCountProgressHelper.open(rsOperDeleting, FDeleteStatistics.TotalFiles);
       EnableControls(False);
-      pnlFileSizeProgress.Visible:= False;
-      pnlFileCountProgress.Visible:= True;
 
       commonService.delete(indexes, ALeft, ARight);
       self.FillFoundItemsDG;
@@ -1469,9 +1548,10 @@ begin
       EnableControls(True);
     end;
   finally
-    if FState = sddsDeletingFiles then
+    if FState = sddsDeletingFiles then begin
+      FFileCountProgressHelper.close;
       FState := sddsWaiting;
-    FFileCountProgressName:= EmptyStr;
+    end;
     commonService.Free;
     indexes.Free;
   end;
@@ -1502,8 +1582,7 @@ var
         SymLinkOption := TFileSourceCopyOperation(operation).SymLinkOption;
         FileExistsOption := TFileSourceCopyOperation(operation).FileExistsOption;
         FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(operation).RetrieveStatistics.TotalBytes;
-        FFileSizeProgressDone := FCopyStatistics.DoneBytes;
-        updateFileSizeProgress;
+        FFileSizeProgressHelper.update(FCopyStatistics.DoneBytes);
         FOperation:= nil;
       end;
     end;
@@ -1537,8 +1616,7 @@ var
       end;
       fsosStopped: begin
         FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(operation).RetrieveStatistics.TotalFiles;
-        FFileCountProgressDone:= FDeleteStatistics.DoneFiles;
-        updateFileCountProgress;
+        FFileCountProgressHelper.update(FDeleteStatistics.DoneFiles);
         FOperation:= nil;
       end;
     end;
@@ -1561,7 +1639,7 @@ var
   askResult: TModalResult;
 begin
   Result:= TSyncDirsUtil.copyProperties(targetFS, sourceFile, targetFile, attrs);
-  Inc( FFileCountProgressDone );
+  Inc( FFileCountProgressHelper.done );
   Application.ProcessMessages;
   if NOT Result then begin
     errMsg:= Format(rsMsgErrSetAttribute, [targetFile.FullPath]);
@@ -1581,51 +1659,6 @@ begin
   files.Add(f);
   Result:= fileProcessorWithUIDeleteFiles(FileSource, files);
   files.Free;
-end;
-
-procedure TfrmSyncDirsDlg.updateFileSizeProgress;
-var
-  progressBarText : String;
-begin
-  {
-    not all FileSources can provide precise statistical information,
-    nor can they accurately calculate the generated size, for example, MultiArchive/7z.
-    so this check has been added to prevent reporting an erroneous progress exceeding 100%
-  }
-  if FFileSizeProgressDone > FFileSizeProgressTotal then
-    FFileSizeProgressTotal:= FFileSizeProgressDone + 1;
-
-  progressBarText := cnvFormatFileSize(FFileSizeProgressDone, uoscOperation) + '/' + cnvFormatFileSize(FFileSizeProgressTotal, uoscOperation);
-  pbFileSizeProgress.SetProgress(FFileSizeProgressDone, FFileSizeProgressTotal, progressBarText );
-
-  {$IFDEF LCLCOCOA}
-  if FFileSizeProgressTotal > 0 then
-    lblFileSizeProgress.Caption := FFileSizeProgressName + ': ' + progressBarText + ' (' + FloatToStrF((FFileSizeProgressDone / FFileSizeProgressTotal) * 100, ffFixed, 0, 0) + '%)'
-  else
-    lblFileSizeProgress.Caption := FFileSizeProgressName;
-  {$ENDIF}
-end;
-
-procedure TfrmSyncDirsDlg.updateFileCountProgress;
-var
-  progressBarText : String;
-begin
-  {
-    1. defensively prevent exceeding 100%
-    2. for "Delete all empty directories"
-  }
-  if FFileCountProgressDone > FFileCountProgressTotal then
-    FFileCountProgressTotal:= FFileCountProgressDone;
-
-  progressBarText := IntToStrTS(FFileCountProgressDone) + '/' + IntToStrTS(FFileCountProgressTotal);
-  pbFileCountProgress.SetProgress(FFileCountProgressDone, FFileCountProgressTotal, progressBarText );
-
-  {$IFDEF LCLCOCOA}
-  if FFileCountProgressTotal > 0 then
-    lblFileCountProgress.Caption := FFileCountProgressName + ': ' + progressBarText + ' (' + FloatToStrF((FFileCountProgressDone / FFileCountProgressTotal) * 100, ffFixed, 0, 0) + '%)'
-  else
-    lblFileCountProgress.Caption := FFileCountProgressName;
-  {$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
@@ -1692,6 +1725,8 @@ begin
   FFullTree.Free;
   FSortService.Free;
   FCompareOption.Free;
+  FFileSizeProgressHelper.Free;
+  FFileCountProgressHelper.Free;
   inherited Destroy;
 end;
 
