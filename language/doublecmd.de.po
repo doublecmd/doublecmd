@@ -31,8 +31,8 @@ msgstr "Rechts: %d Datei(en) löschen"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
-msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Dateien gefunden: %d  (Identisch: %d, Unterschiedlich: %d, Nur links: %d, Nur rechts: %d)"
+msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d, Renamed: %d)"
+msgstr "Dateien gefunden: %d  (Identisch: %d, Unterschiedlich: %d, Nur links: %d, Nur rechts: %d, Umbenannt: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format
@@ -56,6 +56,34 @@ msgstr "1 Stunde tolerieren"
 msgid "ignore date"
 msgstr "Datum ignorieren"
 
+#: fsyncdirsdlg.rsdetectrenames
+msgid "detect renames"
+msgstr "Umbenennungen erkennen"
+
+#: fsyncdirsdlg.rsasymmetrichint
+msgid "Delete files that exist only on the right side (left side is the master)"
+msgstr "Dateien löschen, die nur rechts existieren (linke Seite ist die Vorlage)"
+
+#: fsyncdirsdlg.rsdetectrenameshint
+msgid "Match unpaired files with equal size and date and propose renaming instead of copy/delete"
+msgstr "Ungepaarte Dateien mit gleicher Größe und gleichem Datum zuordnen und Umbenennung statt Kopieren/Löschen vorschlagen"
+
+#: fsyncdirsdlg.rsemptydirshint
+msgid "Include empty directories in the comparison and allow synchronizing or deleting them"
+msgstr "Leere Verzeichnisse in den Vergleich einbeziehen und deren Synchronisieren oder Löschen erlauben"
+
+#: fsyncdirsdlg.rsdatemodehint
+msgid ""
+"How file dates are compared:\n"
+"- compare date: use timestamps as stored\n"
+"- ignore 1 hour: treat a difference of exactly one hour as equal. This often appears when files were copied between NTFS and FAT/exFAT, which handle daylight-saving time differently\n"
+"- ignore date: do not compare timestamps at all"
+msgstr ""
+"Wie Dateidaten verglichen werden:\n"
+"- Datum beachten: gespeicherte Zeitstempel verwenden\n"
+"- 1 Stunde tolerieren: einen Unterschied von genau einer Stunde als gleich werten. Das tritt oft auf, wenn Dateien zwischen NTFS und FAT/exFAT kopiert wurden, weil Sommer-/Winterzeit dort unterschiedlich behandelt wird\n"
+"- Datum ignorieren: Zeitstempel gar nicht vergleichen"
+
 #: fsyncdirsdlg.rslefttorightsetdate
 #, object-pascal-format
 msgid "Left to Right: Set date for %d files"
@@ -65,6 +93,16 @@ msgstr "Von links nach rechts: Datum für %d Dateien setzen"
 #, object-pascal-format
 msgid "Right to Left: Set date for %d files"
 msgstr "Von rechts nach links: Datum für %d Dateien setzen"
+
+#: fsyncdirsdlg.rslefttorightrename
+#, object-pascal-format
+msgid "Left to Right: Rename %d file(s)"
+msgstr "Von links nach rechts: %d Datei(en) umbenennen"
+
+#: fsyncdirsdlg.rsrighttoleftrename
+#, object-pascal-format
+msgid "Right to Left: Rename %d file(s)"
+msgstr "Von rechts nach links: %d Datei(en) umbenennen"
 
 #: fsyncdirsdlg.rsselecttimelefttoright
 msgid "Select for setting date -> (left to right)"
