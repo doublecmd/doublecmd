@@ -180,6 +180,8 @@ begin
   for mountPoint in _mountPoints do begin
     if logicPath.StartsWith(mountPoint.point) then begin
       Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
+      if NOT APath.EndsWith(PathDelim) then
+        Result:= ExcludeTrailingPathDelimiter(Result);
       Exit;
     end;
   end;
