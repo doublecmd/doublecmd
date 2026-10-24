@@ -41,8 +41,6 @@ type
 
   TDoubleFiles = array [TDoubleSide] of TFiles;
 
-  TDoubleInteger = array [TDoubleSide] of Integer;
-
   { TSyncDirsOperationHandle }
 
   TSyncDirsOperationHandle = procedure ( const operation: TFileSourceOperation; const state: TFileSourceOperationState ) is nested;
@@ -170,8 +168,8 @@ type
     _basePaths: TDoublePaths;
     _selectedList: TStringListEx;
   private
-    procedure fillSelectedList( const selectedFiles: TDoubleFiles );
-    function isSelectedFile( const f: TFile ): Boolean;
+    procedure fillSelectedList( const fileSources: TDoubleFileSources; const selectedFiles: TDoubleFiles );
+    function isSelectedFile( const fs: IFileSource; const f: TFile ): Boolean;
   public
     constructor Create(
       const callback: ISyncDirsTreeBuilderCallback;
@@ -779,51 +777,30 @@ end;
 
 { TSyncDirsTreeBuilder }
 
-// for FileSources with mapped names — such as iCloud — using the filename as
-// the index is unsuitable; switching to FullPath instead provides a more
-// consistent and universal approach.
-procedure TSyncDirsTreeBuilder.fillSelectedList( const selectedFiles: TDoubleFiles );
+procedure TSyncDirsTreeBuilder.fillSelectedList( const fileSources: TDoubleFileSources; const selectedFiles: TDoubleFiles );
 var
   side: TDoubleSide;
-  otherSide: TDoubleSide;
   i: Integer;
-  path: String;
   filename: String;
-  baseRealPaths: TDoublePaths;
-  baseRealPathsLength: TDoubleInteger;
-
-  procedure initRealPath( const side: TDoubleSide ); inline;
-  begin
-    baseRealPaths[side]:= IncludeTrailingPathDelimiter( _fileSources[side].GetRealPath(_basePaths[side]) );
-    baseRealPathsLength[side]:= baseRealPaths[side].Length;
-  end;
-
 begin
-  initRealPath( dsLeft );
-  initRealPath( dsRight );
-
   for side:= dsLeft to dsRight do begin
-    if side = dsLeft then
-      otherSide:= dsRight
-    else
-      otherSide:= dsLeft;
     for i:= 0 to selectedFiles[side].Count-1 do begin
-      path:= selectedFiles[side][i].FullPath;
-      _selectedList.Add( path );    // add the path on the side
-      if NOT PathIsInPath(path, baseRealPaths[side]) then
-        continue;
-      filename:= path.Substring( baseRealPathsLength[side] );
+      filename:= selectedFiles[side][i].Name;
       if filename = EmptyStr then
-        continue;
-      path:= _fileSources[otherSide].GetRealPath( _basePaths[otherSide] + filename );
-      _selectedList.Add( path );    // add the path on the other side
+        filename:= fileSources[side].GetDisplayFileName( selectedFiles[side][i] );
+      _selectedList.Add( filename );
     end;
   end;
 end;
 
-function TSyncDirsTreeBuilder.isSelectedFile( const f: TFile ): Boolean;
+function TSyncDirsTreeBuilder.isSelectedFile( const fs: IFileSource; const f: TFile ): Boolean;
+var
+  filename: String;
 begin
-  Result:= _selectedList.IndexOf(f.FullPath) >= 0;
+  filename:= f.Name;
+  if filename = EmptyStr then
+    filename:= fs.GetDisplayFileName( f );
+  Result:= _selectedList.IndexOf(filename) >= 0;
 end;
 
 constructor TSyncDirsTreeBuilder.Create(
@@ -876,7 +853,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
     files := currentFileSource.GetFiles(dirFullPath);
     if (cfOnlySelected in _compareOption.flags) and (dir=EmptyStr) then begin
       for fileIndex:= files.Count - 1 downto 0 do begin
-        if NOT isSelectedFile(files[fileIndex]) then
+        if NOT isSelectedFile(currentFileSource, files[fileIndex]) then
           files.Delete(fileIndex);
       end;
     end;
@@ -1012,7 +989,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
   end;
 
 begin
-  self.fillSelectedList( selectedFiles );
+  self.fillSelectedList( _fileSources, selectedFiles );
   scanDir('', -1, nil, nil);
 end;
 
