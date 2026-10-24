@@ -167,6 +167,7 @@ type
     btnSynchronize: TButton;
     btnClose: TButton;
     chkEmptyDir: TCheckBox;
+    chkDetectRenames: TCheckBox;
     chkAsymmetric: TCheckBox;
     chkSubDirs: TCheckBox;
     chkByContent: TCheckBox;
@@ -343,6 +344,10 @@ type
       const sourceFile: TFile;
       const targetFile: TFile;
       const attrs: TCopyAttributesOptions ): Boolean;
+    function fileProcessorWithUIRenameFile(
+      const FileSource: IFileSource;
+      const f: TFile;
+      const newName: String): Boolean;
 
   private
     FCheckContentThread: TSyncDirsCheckContentThread;
@@ -409,12 +414,22 @@ resourcestring
   rsDeleteLeft = 'Left: Delete %d file(s)';
   rsDeleteRight = 'Right: Delete %d file(s)';
   rsFilesFound = 'Files found: %d  (Identical: %d, Different: %d, '
-    + 'Unique left: %d, Unique right: %d)';
+    + 'Unique left: %d, Unique right: %d, Renamed: %d)';
   rsDateCompare = 'compare date';
   rsDateIgnoreHour = 'ignore 1 hour';
   rsDateIgnore = 'ignore date';
+  rsDetectRenames = 'detect renames';
+  rsAsymmetricHint = 'Delete files that exist only on the right side (left side is the master)';
+  rsDetectRenamesHint = 'Match unpaired files with equal size and date and propose renaming instead of copy/delete';
+  rsEmptyDirsHint = 'Include empty directories in the comparison and allow synchronizing or deleting them';
+  rsDateModeHint = 'How file dates are compared:'#10 +
+    '- compare date: use timestamps as stored'#10 +
+    '- ignore 1 hour: treat a difference of exactly one hour as equal. This often appears when files were copied between NTFS and FAT/exFAT, which handle daylight-saving time differently'#10 +
+    '- ignore date: do not compare timestamps at all';
   rsLeftToRightSetDate = 'Left to Right: Set date for %d files';
   rsRightToLeftSetDate = 'Right to Left: Set date for %d files';
+  rsLeftToRightRename = 'Left to Right: Rename %d file(s)';
+  rsRightToLeftRename = 'Right to Left: Rename %d file(s)';
   rsSelectTimeLeftToRight = 'Select for setting date -> (left to right)';
   rsSelectTimeRightToLeft = 'Select for setting date <- (right to left)';
   rsFilterBothSides = 'present on both sides';
@@ -433,7 +448,8 @@ uses
   uDCUtils, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, Math, uClipboard, fMaskInputDlg,
   LCLVersion, uTypes, uFileSystemCopyOperation, uFileSystemDeleteOperation, uFindFiles,
-  uFileSourceManager, uFileSourceProperty, uShowMsg, uFileViewWorker;
+  uFileSourceManager, uFileSourceProperty, uShowMsg, uFileViewWorker,
+  uFileSourceUtil, uFileSourceSetFilePropertyOperation;
 
 {$R *.lfm}
 
@@ -704,6 +720,7 @@ var
   syncFlags: TSyncDirsSyncFlags;
   fileSizeVisible: Boolean;
   fileCountVisible: Boolean;
+  fileCountTotal: Integer;
 begin
   synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources, FCmpFilePaths );
   syncCount:= synchronizer.count;
@@ -748,6 +765,12 @@ begin
     chkTimeRightToLeft.Checked := chkTimeRightToLeft.Enabled;
     chkTimeLeftToRight.Caption := Format(rsLeftToRightSetDate, [syncCount.timeRightCount]);
     chkTimeRightToLeft.Caption := Format(rsRightToLeftSetDate, [syncCount.timeLeftCount]);
+    chkRenameLeftToRight.Enabled := syncCount.renameRightCount > 0;
+    chkRenameLeftToRight.Checked := chkRenameLeftToRight.Enabled;
+    chkRenameRightToLeft.Enabled := syncCount.renameLeftCount > 0;
+    chkRenameRightToLeft.Checked := chkRenameRightToLeft.Enabled;
+    chkRenameLeftToRight.Caption := Format(rsLeftToRightRename, [syncCount.renameRightCount]);
+    chkRenameRightToLeft.Caption := Format(rsRightToLeftRename, [syncCount.renameLeftCount]);
     chkVerify.Visible := TSyncDirsUtil.supportsVerify(FCmpFileSources);
     chkVerify.Checked := gOperationOptionVerify;
 
@@ -775,6 +798,10 @@ begin
         Include( syncFlags, sfTimeLeft );
       if chkTimeLeftToRight.Checked then
         Include( syncFlags, sfTimeRight );
+      if chkRenameRightToLeft.Checked then
+        Include( syncFlags, sfRenameLeft );
+      if chkRenameLeftToRight.Checked then
+        Include( syncFlags, sfRenameRight );
       if chkDeleteLeftAllEmptyDirs.Checked then
         Include( syncFlags, sfDeleteLeftAllEmptyDirs );
       if chkDeleteRightAllEmptyDirs.Checked then
@@ -782,15 +809,35 @@ begin
 
       fileSizeVisible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
       fileCountVisible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
-                         (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
+                         (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags) or
+                         (sfTimeLeft in syncFlags) or (sfTimeRight in syncFlags) or
+                         (sfRenameLeft in syncFlags) or (sfRenameRight in syncFlags);
 
       if fileSizeVisible then
         FFileSizeProgressHelper.open(rsOperCopying, syncCount.copySize)
       else
         FFileSizeProgressHelper.close;
-      if fileCountVisible then
-        FFileCountProgressHelper.open(rsOperDeleting, syncCount.deleteCount)
-      else
+
+      if fileCountVisible then begin
+        fileCountTotal:= 0;
+        if (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
+           (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags) then
+          Inc(fileCountTotal, syncCount.deleteCount);
+        if sfTimeLeft in syncFlags then
+          Inc(fileCountTotal, syncCount.timeLeftCount);
+        if sfTimeRight in syncFlags then
+          Inc(fileCountTotal, syncCount.timeRightCount);
+        if sfRenameLeft in syncFlags then
+          Inc(fileCountTotal, syncCount.renameLeftCount);
+        if sfRenameRight in syncFlags then
+          Inc(fileCountTotal, syncCount.renameRightCount);
+
+        if (sfTimeLeft in syncFlags) or (sfTimeRight in syncFlags) or
+           (sfRenameLeft in syncFlags) or (sfRenameRight in syncFlags) then
+          FFileCountProgressHelper.open(rsOperSettingProperty, fileCountTotal)
+        else
+          FFileCountProgressHelper.open(rsOperDeleting, fileCountTotal);
+      end else
         FFileCountProgressHelper.close;
 
       synchronizer.sync( syncFlags );
@@ -861,6 +908,7 @@ begin
   gSyncDirsSubdirs              := chkSubDirs.Checked;
   gSyncDirsAsymmetric           := chkAsymmetric.Checked and gSyncDirsAsymmetricSave;
   gSyncDirsDateMode             := getDateMode(cmbDateMode);
+  gSyncDirsDetectRenames        := chkDetectRenames.Checked;
   gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
   gSyncDirsShowFilterEqual      := sbEqual.Down;
   gSyncDirsShowFilterNotEqual   := sbNotEqual.Down;
@@ -923,14 +971,28 @@ begin
 
   { settings }
   chkEmptyDir.Checked    := gSyncDirsEmptyDirs;
+  chkEmptyDir.ParentShowHint := False;
+  chkEmptyDir.ShowHint := True;
+  chkEmptyDir.Hint := rsEmptyDirsHint;
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkAsymmetric.Checked  := gSyncDirsAsymmetric;
+  chkAsymmetric.ParentShowHint := False;
+  chkAsymmetric.ShowHint := True;
+  chkAsymmetric.Hint := rsAsymmetricHint;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
+  chkDetectRenames.Checked := gSyncDirsDetectRenames;
+  chkDetectRenames.Caption := rsDetectRenames;
+  chkDetectRenames.ParentShowHint := False;
+  chkDetectRenames.ShowHint := True;
+  chkDetectRenames.Hint := rsDetectRenamesHint;
   cmbDateMode.Items.Clear;
   cmbDateMode.Items.Add(rsDateCompare);
   cmbDateMode.Items.Add(rsDateIgnoreHour);
   cmbDateMode.Items.Add(rsDateIgnore);
   cmbDateMode.ItemIndex  := Ord(gSyncDirsDateMode);
+  cmbDateMode.ParentShowHint := False;
+  cmbDateMode.ShowHint := True;
+  cmbDateMode.Hint := rsDateModeHint;
   // Fit combo to the longest translated item.
   TextWidthPx := 0;
   for Index := 0 to cmbDateMode.Items.Count - 1 do
@@ -1078,13 +1140,19 @@ begin
         case rec.action of
         srsTimeLeft:  Font.Color := RightColor;
         srsTimeRight: Font.Color := LeftColor;
+        srsRenameLeft:  Font.Color := RightColor;
+        srsRenameRight: Font.Color := LeftColor;
         end;
       end;
       if rec.hasLeftFile then
       begin
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := rec.leftFile.Name
+        else
+          s := getDisplayText(0, aRow);
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, getDisplayText(0, aRow));
+            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, s);
         with hCols[1] do begin
           s := getDisplayText(1, aRow);
           x := Left + Width - 8 - TextWidth(s);
@@ -1097,7 +1165,11 @@ begin
       end;
       if rec.hasRightFile then
       begin
-        TextOut(hCols[6].Left + 2, aRect.Top + 2, getDisplayText(6, aRow));
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := rec.rightFile.Name
+        else
+          s := getDisplayText(6, aRow);
+        TextOut(hCols[6].Left + 2, aRect.Top + 2, s);
         with hCols[5] do begin
           s := getDisplayText(5, aRow);
           x := Left + Width - 8 - TextWidth(s);
@@ -1110,11 +1182,13 @@ begin
       end;
     end;
     if rec.isFile or (rec.state<>srsDoNothing) then begin
-      if rec.action in [srsTimeLeft, srsTimeRight] then begin
-        if rec.action = srsTimeRight then
-          s := 't>'
-        else
-          s := 't<';
+      if rec.action in [srsTimeLeft, srsTimeRight, srsRenameLeft, srsRenameRight] then begin
+        case rec.action of
+          srsTimeRight:   s := 't>';
+          srsTimeLeft:    s := 't<';
+          srsRenameRight: s := 'r>';
+          else            s := 'r<';
+        end;
         with hCols[3] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + (Width - TextWidth(s)) div 2, aRect.Top + 2, s);
@@ -1251,7 +1325,7 @@ begin
 
       repeat
         { Directory header rows are not searchable. }
-        Matched := FFilteredList.fileSyncRec(Index).isFile;
+        Matched := FFilteredList.getSyncRec(Index).isFile;
         if Matched and (SearchOptions.Items = qsiDirectories) then
           Matched := False;
         if Matched and not Masks.Matches(FFilteredList.path(Index)) then
@@ -1561,6 +1635,8 @@ begin
     Include( flags, TSyncDirsCompareFlag.cfSubdirs );
   if self.chkByContent.Checked then
     Include( flags, TSyncDirsCompareFlag.cfByContent );
+  if self.chkDetectRenames.Checked then
+    Include( flags, TSyncDirsCompareFlag.cfDetectRenames );
 
   dateMode:= getDateMode(cmbDateMode);
   if dateMode = sdmIgnore then
@@ -1769,7 +1845,8 @@ procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var
   s: string;
 begin
-  s := Format(rsFilesFound, [FFilteredCountRec.total, FFilteredCountRec.equal, FFilteredCountRec.notEqual, FFilteredCountRec.leftUnique, FFilteredCountRec.rightUnique]);
+  s := Format(rsFilesFound, [FFilteredCountRec.total, FFilteredCountRec.equal, FFilteredCountRec.notEqual,
+    FFilteredCountRec.leftUnique, FFilteredCountRec.rightUnique, FFilteredCountRec.renamed]);
   if FState.isRunningInState(sddsCheckingContent) then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
@@ -2140,6 +2217,24 @@ begin
   Inc( FFileCountProgressHelper.done );
   if NOT Result then begin
     errMsg:= Format(rsMsgErrSetAttribute, [targetFile.FullPath]);
+    askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);
+    Result:= (askResult = mrIgnore);
+  end;
+end;
+
+function TfrmSyncDirsDlg.fileProcessorWithUIRenameFile(
+  const FileSource: IFileSource;
+  const f: TFile;
+  const newName: String ): Boolean;
+var
+  errMsg: String;
+  askResult: TModalResult;
+begin
+  Result:= RenameFile(FileSource, f, newName, True, False) = sfprSuccess;
+  Inc( FFileCountProgressHelper.done );
+  Application.ProcessMessages;
+  if NOT Result then begin
+    errMsg:= Format(rsMsgErrRename, [f.FullPath, newName]);
     askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);
     Result:= (askResult = mrIgnore);
   end;

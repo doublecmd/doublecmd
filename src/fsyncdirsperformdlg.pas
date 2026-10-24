@@ -24,6 +24,8 @@ type
     chkRightToLeft: TCheckBox;
     chkTimeLeftToRight: TCheckBox;
     chkTimeRightToLeft: TCheckBox;
+    chkRenameLeftToRight: TCheckBox;
+    chkRenameRightToLeft: TCheckBox;
     chkVerify: TCheckBox;
     edRightPath: TEdit;
     edLeftPath: TEdit;

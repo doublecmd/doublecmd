@@ -14,6 +14,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   OnResize = FormResize
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
+  ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '2.2.0.4'
   object edPath1: TDirectoryEdit
@@ -253,6 +254,19 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         ParentFont = False
         Style = csDropDownList
         TabOrder = 3
+      end
+      object chkDetectRenames: TCheckBox
+        AnchorSideLeft.Control = LeftPanel2
+        AnchorSideTop.Control = cmbDateMode
+        AnchorSideTop.Side = asrBottom
+        Left = 0
+        Height = 18
+        Top = 85
+        Width = 120
+        BorderSpacing.Top = 2
+        Caption = 'detect renames'
+        ParentFont = False
+        TabOrder = 4
       end
     end
     object GroupBox1: TGroupBox

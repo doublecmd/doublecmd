@@ -702,7 +702,8 @@ var
   gSyncDirsShowFilterCopyLeft,
   gSyncDirsShowFilterDuplicates,
   gSyncDirsShowFilterLeftOnly,
-  gSyncDirsShowFilterRightOnly: Boolean;
+  gSyncDirsShowFilterRightOnly,
+  gSyncDirsDetectRenames: Boolean;
   gSyncDirsDateMode: TSyncDirsDateMode;
   gSyncDirsFileMask: string;
   gSyncDirsFileMaskSave: Boolean;
@@ -2311,6 +2312,7 @@ begin
   gSyncDirsShowFilterDuplicates := True;
   gSyncDirsShowFilterLeftOnly := True;
   gSyncDirsShowFilterRightOnly := True;
+  gSyncDirsDetectRenames := False;
   gSyncDirsFileMask := '*';
   gSyncDirsFileMaskSave := True;
   gDateTimeFormatSync := DefaultDateTimeFormatSync;
@@ -3420,6 +3422,7 @@ begin
         gSyncDirsShowFilterLeftOnly := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterLeftOnly);
       if not TryGetValue(Node, 'FilterRightOnly', gSyncDirsShowFilterRightOnly) then
         gSyncDirsShowFilterRightOnly := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterRightOnly);
+      gSyncDirsDetectRenames := GetValue(Node, 'DetectRenames', gSyncDirsDetectRenames);
       gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
       gSyncDirsFileMaskSave := GetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
       gDateTimeFormatSync := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormatSync), DefaultDateTimeFormatSync);
@@ -4010,6 +4013,7 @@ begin
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
     SetValue(Node, 'FilterLeftOnly', gSyncDirsShowFilterLeftOnly);
     SetValue(Node, 'FilterRightOnly', gSyncDirsShowFilterRightOnly);
+    SetValue(Node, 'DetectRenames', gSyncDirsDetectRenames);
     SetValue(Node, 'FileMask', gSyncDirsFileMask);
     SetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormatSync);
