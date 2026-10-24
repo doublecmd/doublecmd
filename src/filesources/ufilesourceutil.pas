@@ -51,6 +51,8 @@ function FileExists(const fs: IFileSource; const path: String): Boolean; overloa
 function DirectoryExists(const fs: IFileSource; const path: String): Boolean; overload;
 function FileOrDirExists(const fs: IFileSource; const path: String): Boolean; overload;
 
+function GetSuitableFileName(const fs: IFileSource; const f: TFile): String;
+
 function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
 
 implementation
@@ -560,6 +562,13 @@ begin
   // treat notSupported as existing, maintaining compatibility with
   // the previous TFileSource.FileSystemEntryExists().
   Result:= ret <> TFileSourceExistsResult.notExist;
+end;
+
+function GetSuitableFileName(const fs: IFileSource; const f: TFile): String;
+begin
+  Result:= f.Name;
+  if Result = EmptyStr then
+    Result:= fs.GetDisplayFileName( f );
 end;
 
 function isCompatibleFileSourceForCopyOperation(fs1: IFileSource; fs2: IFileSource): Boolean;

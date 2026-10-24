@@ -785,9 +785,7 @@ var
 begin
   for side:= dsLeft to dsRight do begin
     for i:= 0 to selectedFiles[side].Count-1 do begin
-      filename:= selectedFiles[side][i].Name;
-      if filename = EmptyStr then
-        filename:= fileSources[side].GetDisplayFileName( selectedFiles[side][i] );
+      filename:= GetSuitableFileName( fileSources[side], selectedFiles[side][i] );
       _selectedList.Add( filename );
     end;
   end;
@@ -797,9 +795,7 @@ function TSyncDirsTreeBuilder.isSelectedFile( const fs: IFileSource; const f: TF
 var
   filename: String;
 begin
-  filename:= f.Name;
-  if filename = EmptyStr then
-    filename:= fs.GetDisplayFileName( f );
+  filename:= GetSuitableFileName( fs, f );
   Result:= _selectedList.IndexOf(filename) >= 0;
 end;
 
