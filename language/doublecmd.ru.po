@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.3.0 alpha\n"
-"POT-Creation-Date: 2026-08-21 04:30+0300\n"
-"PO-Revision-Date: 2026-08-21 12:30+0300\n"
+"POT-Creation-Date: 2026-10-20 03:10+0300\n"
+"PO-Revision-Date: 2026-10-20 11:01+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9214,11 +9214,11 @@ msgstr "&Имя ссылки"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "Копировать свойства файлов -> (слева направо)..."
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "Копировать свойства файлов <- (справа налево)..."
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9420,12 +9420,12 @@ msgstr "Подтвердить замену"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "Слева: Удалить все пустые каталоги"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "Справа: Удалить все пустые каталоги"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
@@ -9433,23 +9433,23 @@ msgstr "Проверить после завершения"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "&Атрибуты файла"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "&Права / владелец"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "Отметка &времени (дата+время)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "&Расширенные атрибуты"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "Копировать следующие свойства файлов:"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
