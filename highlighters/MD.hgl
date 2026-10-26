@@ -1,7 +1,7 @@
 <UniHighlighter version="1.8">
   <Info>
     <General Name="Markdown" Extensions="md,markdown,mdown,mkdn,mdtxt,mdtext" Other="0"/>
-    <Author Name="" Email="" Web="" Copyright="" Company="" Remark="Markdown syntax highlighting"/>
+    <Author Name="Ronen Rozner" Email="" Web="" Copyright="" Company="" Remark="Markdown syntax highlighting"/>
     <Version Version="1" Revision="1" Date="45338,8541038426"/>
     <History>
     </History>
