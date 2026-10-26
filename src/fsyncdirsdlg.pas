@@ -300,8 +300,7 @@ type
 
     procedure checkContentThreadStart;
     procedure checkContentThreadStop;
-    procedure checkContentThreadUpdateGrid;
-    procedure checkContentThreadUpdateProgressBar(const doneBytes: Int64; const totalBytes: Int64);
+    procedure checkContentThreadUpdateStat(const doneBytes: Int64; const totalBytes: Int64);
 
   private
     function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
@@ -473,6 +472,9 @@ var
   barText : String;
   labelText : String;
 begin
+  if self.caption = EmptyStr then
+    Exit;
+
   if self.isSize then begin
     {
       not all FileSources can provide precise statistical information,
@@ -1070,30 +1072,23 @@ var
   CopyStatistics: TFileSourceCopyOperationStatistics;
   DeleteStatistics: TFileSourceDeleteOperationStatistics;
 begin
-  if Assigned(FOperation) then
-  begin
-    if (FOperation is TFileSourceCopyOperation) then
-    begin
+  if Assigned(FOperation) then begin
+    if (FOperation is TFileSourceCopyOperation) then begin
       CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
-      FFileSizeProgressHelper.update(FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes);
-    end
-    else if (FOperation is TFileSourceDeleteOperation) then
-    begin
+      FFileSizeProgressHelper.done:= FCopyStatistics.DoneBytes + CopyStatistics.DoneBytes;
+    end else if (FOperation is TFileSourceDeleteOperation) then begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
-      FFileCountProgressHelper.update(FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles);
+      FFileCountProgressHelper.done:= FDeleteStatistics.DoneFiles + DeleteStatistics.DoneFiles;
     end;
-  end
-  else if FFileCountProgressHelper.caption <> EmptyStr then
-  begin
-    FFileCountProgressHelper.updateBarControl;
-  end
-  else if FState = sddsCheckingContent then
-  begin
-    Inc(FCheckContentThreadTimerCount);
-    CopyStatistics:= FCheckContentThread.RetrieveStatistics;
-    if (FCheckContentThreadTimerCount mod 5 = 0) then checkContentThreadUpdateGrid;
-    checkContentThreadUpdateProgressBar(CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
   end;
+
+  if FState = sddsCheckingContent then begin
+    CopyStatistics:= FCheckContentThread.RetrieveStatistics;
+    checkContentThreadUpdateStat(CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
+  end;
+
+  FFileSizeProgressHelper.updateBarControl;
+  FFileCountProgressHelper.updateBarControl;
 end;
 
 function TfrmSyncDirsDlg.createCompareOption: TSyncDirsCompareOption;
@@ -1302,7 +1297,8 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.UpdateStatusBar;
-var s: string;
+var
+  s: string;
 begin
   s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
   if FState = sddsCheckingContent then
@@ -1455,13 +1451,7 @@ begin
   FCheckContentThread.WaitFor;    // onCheckContentThreadFinish() will be called
 end;
 
-procedure TfrmSyncDirsDlg.checkContentThreadUpdateGrid;
-begin
-  MainDrawGrid.Invalidate;
-  UpdateStatusBar;
-end;
-
-procedure TfrmSyncDirsDlg.checkContentThreadUpdateProgressBar(
+procedure TfrmSyncDirsDlg.checkContentThreadUpdateStat(
   const doneBytes: Int64;
   const totalBytes: Int64 );
 begin
@@ -1472,7 +1462,13 @@ begin
     FFileSizeProgressHelper.predefinedCaption := Format(rsComparingPercent, [0]);
   {$ENDIF}
   FFileSizeProgressHelper.total := totalBytes;
-  FFileSizeProgressHelper.update( doneBytes );
+  FFileSizeProgressHelper.done := doneBytes;
+
+  Inc(FCheckContentThreadTimerCount);
+  if (FCheckContentThreadTimerCount mod 5 = 0) then begin
+    MainDrawGrid.Invalidate;
+    UpdateStatusBar;
+  end;
 end;
 
 function TfrmSyncDirsDlg.treeBuilderCheckRunning(const processMessages: Boolean): Boolean;
