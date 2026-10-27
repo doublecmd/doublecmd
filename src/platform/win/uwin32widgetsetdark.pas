@@ -757,6 +757,8 @@ begin
 
   Info.cbSize:= SizeOf(Info);
   Win32Extra.GetComboBoxInfo(Result, @Info);
+  // Mark drop-down list like other controls, so its theme is intercepted too
+  SetWindowLongPtr(Info.hwndList, GWL_EXSTYLE, GetWindowLongPtr(Info.hwndList, GWL_EXSTYLE) or WS_EX_CONTEXTHELP);
   EnableDarkStyle(Info.hwndList);
 
   AllowDarkModeForWindow(Result, True);
@@ -1393,6 +1395,7 @@ var
   TrampolineDrawThemeText: function(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; pszText: LPCWSTR; iCharCount: Integer;
                                     dwTextFlags, dwTextFlags2: DWORD; const pRect: TRect): HRESULT; stdcall = nil;
   TrampolineDrawThemeBackground: function(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect; pClipRect: Pointer): HRESULT; stdcall =  nil;
+  TrampolineGetThemeColor: function(hTheme: HTHEME; iPartId, iStateId, iPropId: Integer; out pColor: COLORREF): HRESULT; stdcall = nil;
 
 procedure DrawCheckBox(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
   pClipRect: PRECT);
@@ -1730,6 +1733,34 @@ begin
   Result:= TrampolineDrawThemeBackground(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
 end;
 
+{
+  Newer comctl32 versions take the selected list box item colors from the visual
+  style, but the dark style returns a white fill, so the white text is unreadable
+}
+function InterceptGetThemeColor(hTheme: HTHEME; iPartId, iStateId, iPropId: Integer;
+  out pColor: COLORREF): HRESULT; stdcall;
+var
+  ClassName: String;
+begin
+  if (iPartId = LBCP_ITEM) and ThemeClass.TryGetValue(hTheme, ClassName) and
+     SameText(ClassName, VSCLASS_LISTBOX) then
+  begin
+    case iPropId of
+      TMT_FILLCOLOR:
+        begin
+          pColor:= SysColor[COLOR_HIGHLIGHT];
+          Exit(S_OK);
+        end;
+      TMT_TEXTCOLOR:
+        begin
+          pColor:= SysColor[COLOR_HIGHLIGHTTEXT];
+          Exit(S_OK);
+        end;
+    end;
+  end;
+  Result:= TrampolineGetThemeColor(hTheme, iPartId, iStateId, iPropId, pColor);
+end;
+
 function DrawThemeEdgeDark(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pDestRect: TRect; uEdge,
   uFlags: UINT; pContentRect: PRECT): HRESULT; stdcall;
 var
@@ -1889,10 +1920,12 @@ begin
     Pointer(TrampolineOpenThemeData):= GetProcAddress(hUxTheme, 'OpenThemeData');
     Pointer(TrampolineDrawThemeText):= GetProcAddress(hUxTheme, 'DrawThemeText');
     Pointer(TrampolineDrawThemeBackground):= GetProcAddress(hUxTheme, 'DrawThemeBackground');
+    Pointer(TrampolineGetThemeColor):= GetProcAddress(hUxTheme, 'GetThemeColor');
 
     ReplaceDelayImportFunction(hModule, pImpDesc, 'OpenThemeData', @InterceptOpenThemeData);
     ReplaceDelayImportFunction(hModule, pImpDesc, 'DrawThemeText', @InterceptDrawThemeText);
     ReplaceDelayImportFunction(hModule, pImpDesc, 'DrawThemeBackground', @InterceptDrawThemeBackground);
+    ReplaceDelayImportFunction(hModule, pImpDesc, 'GetThemeColor', @InterceptGetThemeColor);
 
     ReplaceDelayImportFunction(hModule, pImpDesc, 'DrawThemeEdge', @DrawThemeEdgeDark);
   end;
