@@ -210,7 +210,7 @@ type
     procedure onCheckContentThreadStart;
     procedure onCheckContentThreadFinish;
     procedure onCheckContentThreadReapplyFilter;
-    procedure onCheckContentThreadCountUpdated( const equalInc: Integer; const notEqInc: Integer );
+    procedure onCheckContentThreadCountUpdated( const totalInc: Integer; const equalInc: Integer; const notEqInc: Integer );
   end;
 
   { TSyncDirsCheckContentThread }
@@ -218,6 +218,7 @@ type
   TSyncDirsCheckContentThread = class( TThread )
   private
     _fullTree: TTwoLevelTree;
+    _filterFlags: TFilterFlags;
     _callback: ISyncDirsCheckContentThreadCallback;
     _done: Boolean;
     _mutex: TCriticalSection;
@@ -226,7 +227,7 @@ type
     procedure Execute; override;
     procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
   public
-    constructor Create(const fullTree: TTwoLevelTree; const callback: ISyncDirsCheckContentThreadCallback);
+    constructor Create(const fullTree: TTwoLevelTree; const filterFlags: TFilterFlags; const callback: ISyncDirsCheckContentThreadCallback);
     destructor Destroy; override;
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
     property Done: Boolean read _done;
@@ -1308,6 +1309,9 @@ const
 var
   Buffer1, Buffer2: PByte;
   Statistics: TFileSourceCopyOperationStatistics;
+  totalInc: Integer;
+  equalInc: Integer;
+  notEqualInc: Integer;
 
   function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
   var
@@ -1350,11 +1354,41 @@ var
     end;
   end;
 
+  procedure initInc;
+  var
+    isEqualSelected: Boolean = False;
+    isUnknowSelected: Boolean = False;
+  begin
+    totalInc:= 0;
+    equalInc:= 0;
+    notEqualInc:= 0;
+
+    if NOT (ffDuplicate in _filterFlags) then
+      Exit;
+
+    if ffEqual in _filterFlags then
+      isEqualSelected:= True;
+    if ffUnknown in _filterFlags then
+      isUnknowSelected:= True;
+
+    if isEqualSelected and isUnknowSelected then begin
+      equalInc:= 1;
+      notEqualInc:= -1;
+    end else if isEqualSelected then begin
+      equalInc:= 1;
+      totalInc:= 1;
+    end else if isUnknowSelected then begin
+      notEqualInc:= -1;
+      totalInc:= -1;
+    end;
+  end;
+
 var
   isEqual: Boolean;
   dirIndex, fileIndex: Integer;
   rec: TSyncRec;
 begin
+  initInc;
   Synchronize(@_callback.onCheckContentThreadStart);
   Buffer1:= GetMem(BUF_LEN);
   Buffer2:= GetMem(BUF_LEN);
@@ -1362,26 +1396,22 @@ begin
     if (Buffer1 = nil) or (Buffer2 = nil) then
       raise EOutOfMemory.Create(SOutOfMemory);
 
-    with _callback do
+    Statistics.DoneBytes:= 0;
+    Statistics.TotalBytes:= 0;
+    for dirIndex := 0 to _fullTree.Count - 1 do
     begin
-      Statistics.DoneBytes:= 0;
-      Statistics.TotalBytes:= 0;
-      for dirIndex := 0 to _fullTree.Count - 1 do
+      for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
       begin
-        for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
+        if Terminated then Exit;
+        rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
+        if rec.isFile and (rec.state = srsUnknown) then
         begin
-          if Terminated then Exit;
-          rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
-          if rec.isFile and (rec.state = srsUnknown) then
-          begin
-            Statistics.TotalBytes+= rec.leftFile.Size;
-          end;
+          Statistics.TotalBytes+= rec.leftFile.Size;
         end;
       end;
-      UpdateStatistics(Statistics);
     end;
+    UpdateStatistics(Statistics);
 
-    with _callback do
     for dirIndex := 0 to _fullTree.Count - 1 do
     begin
       for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
@@ -1395,7 +1425,7 @@ begin
             if Terminated then Exit;
             if isEqual then
             begin
-              _callback.onCheckContentThreadCountUpdated( 1, -1 );
+              _callback.onCheckContentThreadCountUpdated( totalInc, equalInc, notEqualInc );
               rec.state := srsEqual
             end
             else begin
@@ -1447,9 +1477,11 @@ end;
 
 constructor TSyncDirsCheckContentThread.Create(
   const fullTree: TTwoLevelTree;
+  const filterFlags: TFilterFlags;
   const callback: ISyncDirsCheckContentThreadCallback );
 begin
   _fullTree:= fullTree;
+  _filterFlags:= filterFlags;
   _callback:= callback;
   _mutex:= TCriticalSection.Create;
   inherited Create(False);

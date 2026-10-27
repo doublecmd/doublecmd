@@ -296,7 +296,7 @@ type
     procedure onCheckContentThreadStart;
     procedure onCheckContentThreadFinish;
     procedure onCheckContentThreadReapplyFilter;
-    procedure onCheckContentThreadCountUpdated( const equalInc: Integer; const notEqInc: Integer );
+    procedure onCheckContentThreadCountUpdated( const totalInc: Integer; const equalInc: Integer; const notEqInc: Integer );
 
     procedure checkContentThreadStart;
     procedure checkContentThreadStop;
@@ -985,7 +985,7 @@ end;
 
 procedure TfrmSyncDirsDlg.FilterSpeedButtonClick(Sender: TObject);
 begin
-  FillFoundItemsDG
+  FillFoundItemsDG;
 end;
 
 procedure TfrmSyncDirsDlg.MenuItemViewClick(Sender: TObject);
@@ -1427,9 +1427,11 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.onCheckContentThreadCountUpdated(
+  const totalInc: Integer;
   const equalInc: Integer;
   const notEqInc: Integer);
 begin
+  Inc( FFilteredCount.total, totalInc );
   Inc( FFilteredCount.equal, equalInc );
   Inc( FFilteredCount.notEqual, notEqInc );
 end;
@@ -1439,7 +1441,7 @@ begin
   if FState = sddsCheckingContent then
     Exit;
   FState := sddsCheckingContent;
-  FCheckContentThread := TSyncDirsCheckContentThread.Create(FFullTree, Self);
+  FCheckContentThread := TSyncDirsCheckContentThread.Create(FFullTree, self.createFilterFlags, Self);
   FCheckContentThreadTimerCount := 0;
 end;
 
