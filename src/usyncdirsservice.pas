@@ -220,7 +220,6 @@ type
     _fullTree: TTwoLevelTree;
     _filterFlags: TFilterFlags;
     _callback: ISyncDirsCheckContentThreadCallback;
-    _done: Boolean;
     _mutex: TCriticalSection;
     _statistics: TFileSourceCopyOperationStatistics;
   protected
@@ -230,7 +229,6 @@ type
     constructor Create(const fullTree: TTwoLevelTree; const filterFlags: TFilterFlags; const callback: ISyncDirsCheckContentThreadCallback);
     destructor Destroy; override;
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
-    property Done: Boolean read _done;
   end;
 
 implementation
@@ -1416,37 +1414,32 @@ begin
     begin
       for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
       begin
-        if Terminated then Exit;
+        if Terminated then
+          Break;
         rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
-        if rec.isFile and (rec.state = srsUnknown) then
-        begin
-          try
-            isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);
-            if Terminated then Exit;
-            if isEqual then
-            begin
-              _callback.onCheckContentThreadCountUpdated( totalInc, equalInc, notEqualInc );
-              rec.state := srsEqual
-            end
-            else begin
-              if cfAsymmetric in rec.option.flags then begin
-                rec.state := srsCopyToRight;
-              end else begin
-                rec.state := srsNotEq;
-              end;
-            end;
-            if rec.action = srsUnknown then
-            begin
-              rec.action := rec.state;
-            end;
-          except
-            on E: Exception do
-              DCDebug('[SyncDirs::CmpContentThread] ' + E.Message);
+        if rec.isDir then
+          continue;
+        if rec.state <> srsUnknown then
+          continue;
+        try
+          isEqual:= CompareFiles(rec.leftFile.FullPath, rec.rightFile.FullPath, rec.leftFile.Size);
+          if isEqual then begin
+            _callback.onCheckContentThreadCountUpdated( totalInc, equalInc, notEqualInc );
+            rec.state := srsEqual;
+          end else begin
+            if cfAsymmetric in rec.option.flags then
+              rec.state := srsCopyToRight
+            else
+              rec.state := srsNotEq;
           end;
+          if rec.action = srsUnknown then
+            rec.action := rec.state;
+        except
+          on E: Exception do
+            DCDebug('[SyncDirs::CmpContentThread] ' + E.Message);
         end;
       end;
     end;
-    _done := True;
     Synchronize(@_callback.onCheckContentThreadReapplyFilter);
   finally
     Synchronize(@_callback.onCheckContentThreadFinish);
