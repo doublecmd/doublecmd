@@ -1510,6 +1510,7 @@ var
   indexes: TIntegerList = nil;
   leftCount: Integer;
   rightCount: Integer;
+  fullyDone: Boolean;
 begin
   commonService:= TSyncDirsCommonService.Create(self, self, FFilteredList, FCmpFileSources);
   try
@@ -1540,10 +1541,13 @@ begin
       FFileCountProgressHelper.open(rsOperDeleting, FDeleteStatistics.TotalFiles);
       EnableControls(False);
 
-      commonService.delete(indexes, ALeft, ARight);
-      self.FillFoundItemsDG;
+      fullyDone:= commonService.delete(indexes, ALeft, ARight);
+      if fullyDone then
+        self.FillFoundItemsDG;
 
       EnableControls(True);
+      if NOT fullyDone then
+        btnCompare.Click;
     end;
   finally
     if FState = sddsDeletingFiles then begin

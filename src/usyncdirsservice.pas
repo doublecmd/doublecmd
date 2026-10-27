@@ -141,7 +141,7 @@ type
     _fileSources: TDoubleFileSources;
   public
     constructor Create( const callback: ISyncDirsCommonCallback; const fileProcessor: ISyncDirsFileProcessorWithUI; const filteredList: TFlatDirFileList; const fileSources: TDoubleFileSources );
-    procedure delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean );
+    function delete( const indexes: TIntegerList; const deleteLeft: Boolean; const deleteRight: Boolean ): Boolean;
     function deleteAllEmptyDirs( const side: TDoubleSide ): Boolean;
     procedure copyProperties( const indexes: TIntegerList; const targetSide: TDoubleSide; const attrs: TCopyAttributesOptions);
 
@@ -675,14 +675,15 @@ begin
   _fileSources:= fileSources;
 end;
 
-procedure TSyncDirsCommonService.delete(
+function TSyncDirsCommonService.delete(
   const indexes: TIntegerList;
   const deleteLeft: Boolean;
-  const deleteRight: Boolean );
+  const deleteRight: Boolean ): Boolean;
 var
   leftFiles: TFiles = nil;
   rightFiles: TFiles = nil;
 begin
+  Result:= True;
   try
     if deleteLeft then
       leftFiles:= TFiles.Create(EmptyStr);
@@ -692,9 +693,9 @@ begin
     _filteredList.deleteAndGetSelected( indexes, leftFiles, rightFiles );
 
     if deleteLeft then
-      _fileProcessor.fileProcessorWithUIDeleteFiles( self.leftFS, leftFiles );
-    if deleteRight then
-      _fileProcessor.fileProcessorWithUIDeleteFiles( self.rightFS, rightFiles );
+      Result:= _fileProcessor.fileProcessorWithUIDeleteFiles( self.leftFS, leftFiles );
+    if Result AND deleteRight then
+      Result:= _fileProcessor.fileProcessorWithUIDeleteFiles( self.rightFS, rightFiles );
   finally
     leftFiles.Free;
     rightFiles.Free;
