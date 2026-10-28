@@ -86,9 +86,27 @@ type
     sddsCopyingProperties
   );
 
+  { TSyncDirsDlgStateHelper }
+
+  TSyncDirsDlgStateHelper = class
+  private
+    _state: TSyncDirsDlgState;
+    _running: Boolean;
+
+    constructor Create;
+    procedure enter(const state: TSyncDirsDlgState);
+    procedure stop;
+    procedure reset;
+
+    function isInState(const state: TSyncDirsDlgState): Boolean;
+    function isRunningInState(const state: TSyncDirsDlgState): Boolean;
+    function isRunning: Boolean;
+  end;
+
   { TSyncDirsDlgProgressHelper }
 
   TSyncDirsDlgProgressHelper = class
+  private
     isSize: Boolean;
 
     panelControl: TPanel;
@@ -225,7 +243,7 @@ type
     FIniPropStorage: TIniPropStorageEx;
   private
     { private declarations }
-    FState: TSyncDirsDlgState;
+    FState: TSyncDirsDlgStateHelper;
     FSortService: TSyncDirsSortService;
     FFullTree: TTwoLevelTree;
     FFilteredList: TFlatDirFileList;
@@ -430,6 +448,45 @@ begin
   end;
 end;
 
+{ TSyncDirsDlgStateHelper }
+
+constructor TSyncDirsDlgStateHelper.Create;
+begin
+  self.reset;
+end;
+
+procedure TSyncDirsDlgStateHelper.enter(const state: TSyncDirsDlgState);
+begin
+  _state:= state;
+  _running:= True;
+end;
+
+procedure TSyncDirsDlgStateHelper.stop;
+begin
+  _running:= False;
+end;
+
+procedure TSyncDirsDlgStateHelper.reset;
+begin
+  _state:= sddsWaiting;
+  _running:= True;
+end;
+
+function TSyncDirsDlgStateHelper.isInState(const state: TSyncDirsDlgState): Boolean;
+begin
+  Result:= (_state=state);
+end;
+
+function TSyncDirsDlgStateHelper.isRunningInState(const state: TSyncDirsDlgState): Boolean;
+begin
+  Result:= _running AND self.isInState(state);
+end;
+
+function TSyncDirsDlgStateHelper.isRunning: Boolean;
+begin
+  Result:= _running AND NOT self.isInState(sddsWaiting);
+end;
+
 { TSyncDirsDlgProgressHelper }
 
 constructor TSyncDirsDlgProgressHelper.Create(
@@ -541,7 +598,7 @@ procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
   if Assigned(FOperation) then
     FOperation.Stop
-  else if FState = sddsCheckingContent then
+  else if FState.isRunningInState(sddsCheckingContent) then
     checkContentThreadStop
   else begin
     pnlProgress.Hide;
@@ -609,7 +666,7 @@ begin
 
     if ShowModal = mrOk then
     begin
-      FState := sddsSynchronizing;
+      FState.enter(sddsSynchronizing);
       EnableControls(False);
       SymLinkOption:= fsooslNone;
       if chkConfirmOverwrites.Checked then
@@ -651,10 +708,10 @@ begin
       btnCompare.Click;
     end;
   finally
-    if FState = sddsSynchronizing then begin
+    if FState.isInState(sddsSynchronizing) then begin
       FFileSizeProgressHelper.close;
       FFileCountProgressHelper.close;
-      FState := sddsWaiting;
+      FState.reset;
     end;
     synchronizer.Free;
     Free;
@@ -745,12 +802,12 @@ begin
     FOperation.Stop;
     CanClose := False;
   end
-  else if FState = sddsScanning then
+  else if FState.isRunningInState(sddsScanning) then
   begin
-    FState := sddsWaiting;
+    FState.reset;
     CanClose := False;
   end
-  else if FState = sddsCheckingContent then
+  else if FState.isRunningInState(sddsCheckingContent) then
   begin
     CanClose := False;
     checkContentThreadStop;
@@ -958,9 +1015,9 @@ begin
   if Key = VK_ESCAPE then
   begin
     Key := 0;
-    if FState = sddsScanning then
-      FState := sddsWaiting
-    else if FState = sddsCheckingContent then
+    if FState.isRunningInState(sddsScanning) then
+      FState.reset
+    else if FState.isRunningInState(sddsCheckingContent) then
       checkContentThreadStop
     else if pnlProgress.Visible then
       self.btnAbortClick(nil)
@@ -1082,7 +1139,7 @@ begin
     end;
   end;
 
-  if FState = sddsCheckingContent then begin
+  if FState.isRunningInState(sddsCheckingContent) then begin
     CopyStatistics:= FCheckContentThread.RetrieveStatistics;
     checkContentThreadUpdateStat(CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
   end;
@@ -1199,7 +1256,7 @@ begin
     ScanDirs;
     MainDrawGrid.SetFocus;
   finally
-    TopPanel.Enabled := (FState <> sddsCheckingContent);
+    TopPanel.Enabled := NOT FState.isRunningInState(sddsCheckingContent);
   end;
 end;
 
@@ -1260,7 +1317,7 @@ var
   end;
 
 begin
-  FState := sddsScanning;
+  FState.enter(sddsScanning);
   try
     if IsMaskSearchTemplate(cbExtFilter.Text) then
     begin
@@ -1283,7 +1340,7 @@ begin
     builder.build( FFullTree, FSelectedFiles );
 
     FillFoundItemsDG;
-    if FState <> sddsScanning then
+    if NOT FState.isRunningInState(sddsScanning) then
       Exit;
     if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
       checkContentThreadStart;
@@ -1291,8 +1348,8 @@ begin
     FreeAndNil(builder);
     FreeAndNil(FMaskList);
     FTemplate := nil;
-    if FState = sddsScanning then
-      FState := sddsWaiting;
+    if FState.isInState(sddsScanning) then
+      FState.reset;
   end;
 end;
 
@@ -1301,7 +1358,7 @@ var
   s: string;
 begin
   s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
-  if FState = sddsCheckingContent then
+  if FState.isRunningInState(sddsCheckingContent) then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
 end;
@@ -1374,7 +1431,7 @@ begin
   try
     indexes:= self.createSelectionIndexes;
 
-    FState := sddsCopyingProperties;
+    FState.enter(sddsCopyingProperties);
     FFileSizeProgressHelper.close;
     FFileCountProgressHelper.open(rsOperSettingProperty, FFilteredList.countBothSides(indexes));
     EnableControls(False);
@@ -1384,9 +1441,9 @@ begin
     self.MainDrawGrid.Invalidate;
     EnableControls(True);
   finally
-    if FState = sddsCopyingProperties then begin
+    if FState.isInState(sddsCopyingProperties) then begin
       FFileCountProgressHelper.close;
-      FState := sddsWaiting;
+      FState.reset;
     end;
     commonService.Free;
     indexes.Free;
@@ -1407,11 +1464,12 @@ end;
 procedure TfrmSyncDirsDlg.onCheckContentThreadFinish;
 begin
   Timer.Enabled:= False;
-  FState := sddsWaiting;
+  FState.reset;
   if Assigned(FCheckContentThread) then begin
     FCheckContentThread.FreeOnTerminate:= True;
     FCheckContentThread:= nil;
   end;
+  UpdateStatusBar;
   HeaderDG.Enabled:= True;
   TopPanel.Enabled:= True;
   GroupBox1.Enabled:= True;
@@ -1423,7 +1481,6 @@ end;
 procedure TfrmSyncDirsDlg.onCheckContentThreadReapplyFilter;
 begin
   FillFoundItemsDG;
-  UpdateStatusBar;
 end;
 
 procedure TfrmSyncDirsDlg.onCheckContentThreadCountUpdated(
@@ -1438,16 +1495,16 @@ end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStart;
 begin
-  if FState = sddsCheckingContent then
+  if FState.isRunningInState(sddsCheckingContent) then
     Exit;
-  FState := sddsCheckingContent;
+  FState.enter(sddsCheckingContent);
   FCheckContentThread := TSyncDirsCheckContentThread.Create(FFullTree, self.createFilterFlags, Self);
   FCheckContentThreadTimerCount := 0;
 end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStop;
 begin
-  if FState <> sddsCheckingContent then
+  if NOT FState.isRunningInState(sddsCheckingContent) then
     Exit;
   FCheckContentThread.Terminate;
   FCheckContentThread.WaitFor;    // onCheckContentThreadFinish() will be called
@@ -1477,7 +1534,7 @@ function TfrmSyncDirsDlg.treeBuilderCheckRunning(const processMessages: Boolean)
 begin
   if processMessages then
     Application.ProcessMessages;
-  Result:= (FState = sddsScanning);
+  Result:= FState.isRunningInState(sddsScanning);
 end;
 
 function TfrmSyncDirsDlg.treeBuilderMaskFilt(const f: TFile): Boolean;
@@ -1536,7 +1593,7 @@ begin
     end;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
-      FState := sddsDeletingFiles;
+      FState.enter(sddsDeletingFiles);
       FFileSizeProgressHelper.close;
       FFileCountProgressHelper.open(rsOperDeleting, FDeleteStatistics.TotalFiles);
       EnableControls(False);
@@ -1550,9 +1607,9 @@ begin
         btnCompare.Click;
     end;
   finally
-    if FState = sddsDeletingFiles then begin
+    if FState.isInState(sddsDeletingFiles) then begin
       FFileCountProgressHelper.close;
-      FState := sddsWaiting;
+      FState.reset;
     end;
     commonService.Free;
     indexes.Free;
@@ -1674,7 +1731,7 @@ constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
 begin
   inherited Create(AOwner);
-  FState := sddsWaiting;
+  FState := TSyncDirsDlgStateHelper.Create;
   FSortService := TSyncDirsSortService.Create;
   FFullTree := TTwoLevelTree.Create;
   FFilteredList := TFlatDirFileList.Create(FFullTree);
@@ -1729,6 +1786,7 @@ begin
   FCompareOption.Free;
   FFileSizeProgressHelper.Free;
   FFileCountProgressHelper.Free;
+  FState.Free;
   inherited Destroy;
 end;
 
