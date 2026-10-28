@@ -6438,12 +6438,24 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     end;
   end;
 
+  procedure LoadSorting(aNoteBook: TFileViewNotebook; const aSorting: String);
+  var
+    ASortings: TFileSortings;
+  begin
+    if (Length(aSorting) <> 0) and StrToSorting(aSorting, ASortings) then
+      aNoteBook.ActivePage.FileView.Sorting:= ASortings;
+  end;
+
 begin
   //-- set path for left panel (if set)
   LoadPanel(nbLeft,  Params.LeftPath);
 
   //-- set path for right panel (if set)
   LoadPanel(nbRight, Params.RightPath);
+
+  //-- set sorting for panels (if set)
+  LoadSorting(nbLeft,  Params.LeftSort);
+  LoadSorting(nbRight, Params.RightSort);
 
   //-- set active panel, if needed
   if Params.ActivePanelSpecified then

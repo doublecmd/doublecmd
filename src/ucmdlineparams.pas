@@ -15,6 +15,8 @@ type
     ActivePanelPath: array[0..1023] of AnsiChar;
     Client: Boolean;
     Servername: array[0..1023] of AnsiChar;
+    LeftSort: array[0..63] of AnsiChar;
+    RightSort: array[0..63] of AnsiChar;
   end;
 
 procedure ProcessCommandLineParams;
@@ -26,7 +28,7 @@ implementation
 
 uses
   Forms, Dialogs, SysUtils, uOSUtils, uDCUtils, uGlobsPaths, getopts, uDebug,
-  uLng, uClipboard, DCStrUtils;
+  uLng, uClipboard, DCStrUtils, uFileSorting;
 
 function DecodePath(const Path: String): String;
 begin
@@ -42,8 +44,9 @@ procedure ProcessCommandLineParams;
 var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
-  Options: array[1..5] of TOption;
+  Options: array[1..7] of TOption;
   OptionUnknown: String;
+  Sortings: TFileSortings;
 begin
   FillChar(Options, SizeOf(Options), #0);
   with Options[1] do
@@ -68,6 +71,16 @@ begin
   with Options[5] do
   begin
     Name:= 'no-splash';
+  end;
+  with Options[6] do
+  begin
+    Name:= 'left-sort';
+    Has_arg:= 1;
+  end;
+  with Options[7] do
+  begin
+    Name:= 'right-sort';
+    Has_arg:= 1;
   end;
   FillChar(CommandLineParams, SizeOf(TCommandLineParams), #0);
   repeat
@@ -101,6 +114,19 @@ begin
             5:
               begin
                 CommandLineParams.NoSplash:= True;
+              end;
+            6, 7:
+              begin
+                OptArg:= TrimQuotes(OptArg);
+                if not StrToSorting(OptArg, Sortings) then
+                begin
+                  MessageDlg(Application.Title, rsMsgInvalidCommandLine + ': ' + OptArg, mtError, [mbOK], 0, mbOK);
+                  Exit;
+                end;
+                if OptionIndex = 6 then
+                  CommandLineParams.LeftSort:= OptArg
+                else
+                  CommandLineParams.RightSort:= OptArg;
               end;
           end;
         end;

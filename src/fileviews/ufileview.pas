@@ -2133,8 +2133,14 @@ var
   SortingProperties: TFilePropertiesTypes;
 begin
   FSortings := CloneSortings(NewSortings);
-  if not IsLoadingFileList then
+  if IsLoadingFileList then
   begin
+    // File list is being created with the previous sorting, so start it again
+    FSortingProperties:= GetSortingProperties;
+    StopWorkers;
+    MakeFileSourceFileList;
+  end
+  else begin
     SortingProperties:= GetSortingProperties;
     // Force reload if new sorting properties needed
     FForceReload:= (SortingProperties <> []) and (SortingProperties <> FSortingProperties);

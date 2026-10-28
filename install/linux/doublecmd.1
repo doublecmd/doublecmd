@@ -52,6 +52,16 @@ for right.
 .B "\-T"
 Opens the passed directory(ies) in new tab(s)
 .TP
+.B "\-\-left\-sort=<column>[,asc|desc]"
+Set sorting of the left panel. Column is one of: name, namenoext, ext, size, datetime, attr.
+.br
+Default order is ascending, for example
+.B \-\-left\-sort=size,desc
+.TP
+.B "\-\-right\-sort=<column>[,asc|desc]"
+Set sorting of the right panel, same as
+.B \-\-left\-sort
+.TP
 .B "\-\-config\-dir=<path>"
 Set custom directory path with Double Commander configurations files.
 .br
