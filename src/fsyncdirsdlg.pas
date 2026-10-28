@@ -600,9 +600,8 @@ begin
     FOperation.Stop
   else if FState.isRunningInState(sddsCheckingContent) then
     checkContentThreadStop
-  else begin
-    pnlProgress.Hide;
-  end;
+  else
+    FState.stop;
 end;
 
 procedure TfrmSyncDirsDlg.btnCompareClick(Sender: TObject);
@@ -1012,18 +1011,18 @@ end;
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = VK_ESCAPE then
-  begin
-    Key := 0;
-    if FState.isRunningInState(sddsScanning) then
-      FState.reset
-    else if FState.isRunningInState(sddsCheckingContent) then
-      checkContentThreadStop
-    else if pnlProgress.Visible then
-      self.btnAbortClick(nil)
-    else
-      Close;
-  end;
+  if Key <> VK_ESCAPE then
+    Exit;
+
+  Key := 0;
+  if FState.isRunningInState(sddsScanning) then
+    FState.reset
+  else if FState.isRunningInState(sddsCheckingContent) then
+    checkContentThreadStop
+  else if FState.isRunning then
+    FState.stop
+  else
+    Close;
 end;
 
 procedure TfrmSyncDirsDlg.HeaderDGHeaderClick(Sender: TObject;
@@ -1557,7 +1556,7 @@ end;
 
 function TfrmSyncDirsDlg.commonCheckRunning: Boolean;
 begin
-  Result:= pnlProgress.Visible;
+  Result:= FState.isRunning;
 end;
 
 procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);
