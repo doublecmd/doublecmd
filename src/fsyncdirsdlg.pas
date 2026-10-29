@@ -321,12 +321,11 @@ type
     procedure checkContentThreadUpdateStat(const doneBytes: Int64; const totalBytes: Int64);
 
   private
-    function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
     procedure onTreeBuilderUpdateProgress( const percent: Integer );
 
   private
-    function commonCheckRunning: Boolean;
+    function commonCheckRunning(const processMessages: Boolean): Boolean;
 
   private
     property leftFS: IFileSource read FFileSources[dsLeft] write FFileSources[dsLeft];
@@ -1529,13 +1528,6 @@ begin
   end;
 end;
 
-function TfrmSyncDirsDlg.treeBuilderCheckRunning(const processMessages: Boolean): Boolean;
-begin
-  if processMessages then
-    Application.ProcessMessages;
-  Result:= FState.isRunningInState(sddsScanning);
-end;
-
 function TfrmSyncDirsDlg.treeBuilderMaskFilt(const f: TFile): Boolean;
 begin
   if f.IsDirectory or f.IsLinkToDirectory then begin
@@ -1554,9 +1546,11 @@ begin
   StatusBar1.Panels[0].Text:= Format(rsComparingPercent, [percent]);
 end;
 
-function TfrmSyncDirsDlg.commonCheckRunning: Boolean;
+function TfrmSyncDirsDlg.commonCheckRunning(const processMessages: Boolean): Boolean;
 begin
   Result:= FState.isRunning;
+  if processMessages then
+    Application.ProcessMessages;
 end;
 
 procedure TfrmSyncDirsDlg.DeleteSelectedFiles(ALeft, ARight: Boolean);

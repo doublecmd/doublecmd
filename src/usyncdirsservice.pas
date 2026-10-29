@@ -128,7 +128,7 @@ type
   { ISyncDirsCommonCallback }
 
   ISyncDirsCommonCallback = interface
-    function commonCheckRunning: Boolean;
+    function commonCheckRunning( const processMessages: Boolean = False ): Boolean;
   end;
 
   { TSyncDirsCommonService }
@@ -151,8 +151,7 @@ type
 
   { ISyncDirsTreeBuilderCallback }
 
-  ISyncDirsTreeBuilderCallback = interface
-    function treeBuilderCheckRunning( const processMessages: Boolean ): Boolean;
+  ISyncDirsTreeBuilderCallback = interface( ISyncDirsCommonCallback )
     function treeBuilderMaskFilt( const f: TFile ): Boolean;
     procedure onTreeBuilderUpdateProgress( const percent: Integer );
   end;
@@ -927,7 +926,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
           _callback.onTreeBuilderUpdateProgress( i * 100 div totalCount );
         dirPart:= leftDirs[i];
         scanDir(dir + dirPart, currentDirIndex, leftDirs, rightDirs);
-        if NOT _callback.treeBuilderCheckRunning(False) then
+        if NOT _callback.commonCheckRunning then
           Exit;
         rightIndex:= rightDirs.IndexOf(dirPart);
         if rightIndex >= 0 then begin
@@ -941,7 +940,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
           _callback.onTreeBuilderUpdateProgress( (leftDirs.Count + i) * 100 div totalCount );
         dirPart:= rightDirs[i];
         scanDir(dir + dirPart, currentDirIndex, leftDirs, rightDirs);
-        if NOT _callback.treeBuilderCheckRunning(False) then
+        if NOT _callback.commonCheckRunning then
           Exit;
       end;
     end;
@@ -969,7 +968,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
     rightDirs.CaseSensitive:= FileNameCaseSensitive;
     rightDirs.Sorted:= True;
     try
-      if NOT _callback.treeBuilderCheckRunning(True) then
+      if NOT _callback.commonCheckRunning(True) then
         Exit;
       processOneSide(dirItem, currentDirIndex, leftDirs, dsLeft);
       processOneSide(dirItem, currentDirIndex, rightDirs, dsRight);
