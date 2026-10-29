@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, Types,
   IntegerList,
   LazFileUtils,
-  DCClassesUtf8, DCDateTimeUtils,
+  DCClassesUtf8, DCDateTimeUtils, DCOSUtils,
   uFile;
 
 type
@@ -27,6 +27,12 @@ type
     srsDeleteBoth,
     srsDoNothing,
 
+    srsTimeLeft,        // set time of left file from right file
+    srsTimeRight,       // set time of right file from left file
+
+    srsRenameLeft,      // rename left file to right file name
+    srsRenameRight,     // rename right file to left file name
+
     srsNextAction,
     srsNoAction,
     srsDeleted
@@ -42,7 +48,8 @@ type
     cfByContent,
     cfIgnoreDate,
 
-    cfNtfsShift
+    cfNtfsShift,
+    cfDetectRenames
   );
 
   TSyncDirsCompareFlags = set of TSyncDirsCompareFlag;
@@ -69,7 +76,8 @@ type
     ffNotEqual,
     ffUnknown,
     ffDuplicate,
-    ffSingle
+    ffLeftOnly,
+    ffRightOnly
   );
 
   TFilterFlags = set of TSyncDirsFilterFlag;
@@ -81,6 +89,10 @@ type
     sfCopyToRight,
     sfDeleteLeft,
     sfDeleteRight,
+    sfTimeLeft,
+    sfTimeRight,
+    sfRenameLeft,
+    sfRenameRight,
 
     sfDeleteLeftAllEmptyDirs,
     sfDeleteRightAllEmptyDirs
@@ -97,10 +109,16 @@ type
     copyToRightCount: Integer;
     deleteLeftCount: Integer;
     deleteRightCount: Integer;
+    timeLeftCount: Integer;
+    timeRightCount: Integer;
+    renameLeftCount: Integer;
+    renameRightCount: Integer;
 
     function copySize: Int64;
     function copyCount: Integer;
     function deleteCount: Integer;
+    function timeCount: Integer;
+    function renameCount: Integer;
   end;
 
   TDoubleSide = (dsLeft, dsRight);
@@ -134,6 +152,8 @@ type
     function hasFilesOnBothSides: Boolean;
     function hasFileOnOnlyOneSide: Boolean;
     function hasFileOnAnySide: Boolean;
+    function canAlignTime: Boolean; virtual;
+    function isRenamePair: Boolean; virtual;
 
     procedure updateState; virtual;
     function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
@@ -160,6 +180,8 @@ type
   TSyncFileRec = class( TSyncRec )
   public
     function isDir: Boolean; override;
+    function canAlignTime: Boolean; override;
+    function isRenamePair: Boolean; override;
     procedure updateState; override;
     function getNextAction: TSyncRecState; override;
   end;
@@ -201,6 +223,7 @@ type
     destructor Destroy; override;
 
     procedure addFile( const filename: String; const fileSyncRec: TSyncRec );
+    procedure deleteFileAt( const fileIndex: Integer );
 
     function fileCount: Integer;
     function fileSyncRec( const fileIndex: Integer ): TSyncRec;
@@ -244,6 +267,7 @@ type
     notEqual: Integer;
     leftUnique: Integer;
     rightUnique: Integer;
+    renamed: Integer;
   end;
 
   { TFlatDirFileList }
@@ -314,6 +338,16 @@ end;
 function TSyncDirsSyncCount.deleteCount: Integer;
 begin
   Result:= self.deleteLeftCount + self.deleteRightCount;
+end;
+
+function TSyncDirsSyncCount.timeCount: Integer;
+begin
+  Result:= self.timeLeftCount + self.timeRightCount;
+end;
+
+function TSyncDirsSyncCount.renameCount: Integer;
+begin
+  Result:= self.renameLeftCount + self.renameRightCount;
 end;
 
 { TSyncRec }
@@ -393,6 +427,15 @@ begin
         if NOT self.hasRightFile then
           Result:= srsDeleteLeft;
       end;
+    srsTimeLeft,
+    srsTimeRight:
+      if NOT (self.isFile and self.hasFilesOnBothSides and
+              (self.leftFile.Size = self.rightFile.Size)) then
+        Result:= srsDoNothing;
+    srsRenameLeft,
+    srsRenameRight:
+      if NOT self.isRenamePair then
+        Result:= srsDoNothing;
     srsNextAction:
       Result:= self.getNextAction;
   end;
@@ -410,10 +453,20 @@ begin
       else
         Result:= srsDoNothing;
     srsCopyToLeft:
-      if self.hasLeftFile then
+      if self.canAlignTime then
+        Result:= srsTimeRight
+      else if self.hasLeftFile then
         Result:= srsNotEq
       else
         Result:= srsDoNothing;
+    srsTimeRight:
+      Result:= srsTimeLeft;
+    srsTimeLeft:
+      Result:= srsNotEq;
+    srsRenameRight:
+      Result:= srsRenameLeft;
+    srsRenameLeft:
+      Result:= srsDoNothing;
     srsDeleteRight:
       if not (cfAsymmetric in _option.flags) then
         Result:= _state
@@ -423,7 +476,9 @@ begin
     srsDeleteBoth:
       Result:= _state;
     srsDoNothing:
-      if self.hasLeftFile then
+      if self.isRenamePair or (_state in [srsRenameLeft, srsRenameRight]) then
+        Result:= srsRenameRight
+      else if self.hasLeftFile then
         Result:= srsCopyToRight
       else
         Result:= _option.stateWithoutLeft;
@@ -482,11 +537,43 @@ begin
   Result:= self.hasLeftFile or self.hasRightFile;
 end;
 
+function TSyncRec.canAlignTime: Boolean;
+begin
+  Result:= False;
+end;
+
+function TSyncRec.isRenamePair: Boolean;
+begin
+  Result:= False;
+end;
+
 { TSyncFileRec }
 
 function TSyncFileRec.isDir: Boolean;
 begin
   Result:= False;
+end;
+
+function TSyncFileRec.canAlignTime: Boolean;
+begin
+  Result:= self.hasFilesOnBothSides and
+           (self.leftFile.Size = self.rightFile.Size) and
+           (FileTimeCompare(
+              self.leftFile.ModificationTime,
+              self.rightFile.ModificationTime,
+              cfNtfsShift in _option.flags ) <> 0);
+end;
+
+function TSyncFileRec.isRenamePair: Boolean;
+begin
+  Result:= self.hasFilesOnBothSides and
+           (NormalizeFileName(self.leftFile.Name) <> NormalizeFileName(self.rightFile.Name)) and
+           (self.leftFile.Size = self.rightFile.Size) and
+           (NOT (cfIgnoreDate in _option.flags)) and
+           (FileTimeCompare(
+              self.leftFile.ModificationTime,
+              self.rightFile.ModificationTime,
+              cfNtfsShift in _option.flags ) = 0);
 end;
 
 procedure TSyncFileRec.updateState;
@@ -530,9 +617,24 @@ procedure TSyncFileRec.updateState;
     end;
     _action:= _state;
   end;
+
+  procedure setRenameState;
+  begin
+    _state:= srsRenameRight;
+    if NOT (_action in [srsRenameLeft, srsRenameRight, srsDoNothing]) then
+      _action:= srsRenameRight;
+  end;
 begin
   if self.hasFilesOnBothSides then begin
-    compareTwoSides;
+    if NormalizeFileName(self.leftFile.Name) <> NormalizeFileName(self.rightFile.Name) then begin
+      if self.isRenamePair then
+        setRenameState
+      else begin
+        _state:= srsNotEq;
+        _action:= srsNotEq;
+      end;
+    end else
+      compareTwoSides;
   end else begin
     inherited;
   end;
@@ -649,6 +751,11 @@ end;
 procedure TTwoLevelTreeDirItem.addFile( const filename: String; const fileSyncRec: TSyncRec );
 begin
   _files.AddObject( filename, fileSyncRec );
+end;
+
+procedure TTwoLevelTreeDirItem.deleteFileAt( const fileIndex: Integer );
+begin
+  _files.Delete( fileIndex );
 end;
 
 function TTwoLevelTreeDirItem.fileCount: Integer;
@@ -934,6 +1041,11 @@ begin
       continue;
 
     Inc( Result.total);
+
+    if rec.state in [srsRenameLeft, srsRenameRight] then begin
+      Inc( Result.renamed );
+      continue;
+    end;
 
     if rec.hasLeftFile and NOT rec.hasRightFile then
       Inc( Result.leftUnique )

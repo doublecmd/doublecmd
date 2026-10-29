@@ -14,6 +14,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   OnResize = FormResize
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
+  ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '2.2.0.4'
   object edPath1: TDirectoryEdit
@@ -192,14 +193,14 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = TopPanel
       Left = 140
-      Height = 78
+      Height = 83
       Top = 1
-      Width = 92
+      Width = 170
       AutoSize = True
       BorderSpacing.Left = 10
       BevelOuter = bvNone
-      ClientHeight = 78
-      ClientWidth = 92
+      ClientHeight = 83
+      ClientWidth = 170
       ParentFont = False
       TabOrder = 1
       object chkAsymmetric: TCheckBox
@@ -241,17 +242,31 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         ParentFont = False
         TabOrder = 2
       end
-      object chkIgnoreDate: TCheckBox
+      object cmbDateMode: TComboBox
         AnchorSideLeft.Control = LeftPanel2
         AnchorSideTop.Control = chkByContent
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 18
+        Height = 23
         Top = 60
-        Width = 91
-        Caption = 'ignore date'
+        Width = 170
+        ItemHeight = 15
         ParentFont = False
+        Style = csDropDownList
         TabOrder = 3
+      end
+      object chkDetectRenames: TCheckBox
+        AnchorSideLeft.Control = LeftPanel2
+        AnchorSideTop.Control = cmbDateMode
+        AnchorSideTop.Side = asrBottom
+        Left = 0
+        Height = 18
+        Top = 85
+        Width = 120
+        BorderSpacing.Top = 2
+        Caption = 'detect renames'
+        ParentFont = False
+        TabOrder = 4
       end
     end
     object GroupBox1: TGroupBox
@@ -260,15 +275,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideTop.Control = TopPanel
       AnchorSideBottom.Control = TopPanel
       AnchorSideBottom.Side = asrBottom
-      Left = 247
-      Height = 64
+      Left = 325
+      Height = 83
       Top = 1
-      Width = 234
+      Width = 560
       AutoSize = True
       BorderSpacing.Left = 15
       Caption = 'Show:'
-      ClientHeight = 45
-      ClientWidth = 224
+      ClientHeight = 63
+      ClientWidth = 550
       ParentFont = False
       TabOrder = 2
       object sbCopyRight: TSpeedButton
@@ -277,12 +292,13 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Left = 6
         Height = 24
         Top = 6
-        Width = 24
+        Width = 32
         AllowAllUp = True
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
         Caption = '>'
         Down = True
+        Flat = False
         GroupIndex = 1
         OnClick = FilterSpeedButtonClick
         ParentFont = False
@@ -291,14 +307,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Control = sbCopyRight
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 32
+        Left = 40
         Height = 24
         Top = 6
-        Width = 24
+        Width = 32
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '='
         Down = True
+        Flat = False
         GroupIndex = 2
         OnClick = FilterSpeedButtonClick
         ParentFont = False
@@ -307,14 +324,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Control = sbEqual
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 58
+        Left = 74
         Height = 24
         Top = 6
-        Width = 24
+        Width = 36
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '!='
         Down = True
+        Flat = False
         GroupIndex = 3
         OnClick = FilterSpeedButtonClick
         ParentFont = False
@@ -323,14 +341,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Control = sbNotEqual
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 84
+        Left = 112
         Height = 24
         Top = 6
-        Width = 24
+        Width = 32
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '?'
         Down = True
+        Flat = False
         GroupIndex = 4
         OnClick = FilterSpeedButtonClick
         ParentFont = False
@@ -339,14 +358,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Control = sbUnknown
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 110
+        Left = 146
         Height = 24
         Top = 6
-        Width = 24
+        Width = 32
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '<'
         Down = True
+        Flat = False
         GroupIndex = 5
         OnClick = FilterSpeedButtonClick
         ParentFont = False
@@ -354,37 +374,73 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       object sbDuplicates: TSpeedButton
         AnchorSideLeft.Control = sbCopyLeft
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = GroupBox1
-        Left = 138
-        Height = 18
-        Top = 0
-        Width = 80
+        AnchorSideTop.Control = sbCopyRight
+        Left = 182
+        Height = 24
+        Top = 6
+        Width = 180
         AllowAllUp = True
-        BorderSpacing.Left = 4
-        BorderSpacing.Right = 6
-        Caption = 'duplicates'
+        AutoSize = True
+        BorderSpacing.Left = 8
+        Caption = 'present on both sides'
         Down = True
+        Flat = False
         GroupIndex = 6
         OnClick = FilterSpeedButtonClick
         ParentFont = False
       end
-      object sbSingles: TSpeedButton
-        AnchorSideLeft.Control = sbCopyLeft
-        AnchorSideLeft.Side = asrBottom
+      object sbLeftOnly: TSpeedButton
+        AnchorSideLeft.Control = sbDuplicates
         AnchorSideTop.Control = sbDuplicates
         AnchorSideTop.Side = asrBottom
-        Left = 138
-        Height = 18
-        Top = 21
-        Width = 80
+        Left = 182
+        Height = 24
+        Top = 33
+        Width = 180
         AllowAllUp = True
-        BorderSpacing.Left = 4
+        AutoSize = True
         BorderSpacing.Top = 3
         BorderSpacing.Bottom = 6
-        Caption = 'singles'
+        Caption = 'present on left only'
         Down = True
+        Flat = False
         GroupIndex = 7
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
+      end
+      object sbRightOnly: TSpeedButton
+        AnchorSideLeft.Control = sbDuplicates
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = sbCopyRight
+        Left = 370
+        Height = 24
+        Top = 6
+        Width = 180
+        AllowAllUp = True
+        AutoSize = True
+        BorderSpacing.Left = 4
+        Caption = 'present on right only'
+        Down = True
+        Flat = False
+        GroupIndex = 8
+        OnClick = FilterSpeedButtonClick
+        ParentFont = False
+      end
+      object sbFilterAll: TSpeedButton
+        AnchorSideLeft.Control = sbRightOnly
+        AnchorSideTop.Control = sbRightOnly
+        AnchorSideTop.Side = asrBottom
+        Left = 370
+        Height = 24
+        Top = 33
+        Width = 180
+        AutoSize = True
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 6
+        Caption = 'reset filters'
+        Flat = False
+        OnClick = sbFilterAllClick
         ParentFont = False
       end
     end
@@ -718,6 +774,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     object miSelectCopyReverse: TMenuItem
       Action = actSelectCopyReverse
     end
+    object miSeparatorTime: TMenuItem
+      Caption = '-'
+    end
+    object miSelectTimeLeftToRight: TMenuItem
+      Action = actSelectTimeLeftToRight
+    end
+    object miSelectTimeRightToLeft: TMenuItem
+      Action = actSelectTimeRightToLeft
+    end
     object miSeparator1: TMenuItem
       Caption = '-'
     end
@@ -791,6 +856,14 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
     object actSelectCopyReverse: TAction
       Caption = 'Reverse copy direction'
+      OnExecute = actExecute
+    end
+    object actSelectTimeLeftToRight: TAction
+      Caption = 'Select for setting date -> (left to right)'
+      OnExecute = actExecute
+    end
+    object actSelectTimeRightToLeft: TAction
+      Caption = 'Select for setting date <- (right to left)'
       OnExecute = actExecute
     end
     object actSelectDeleteLeft: TAction

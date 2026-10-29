@@ -30,11 +30,11 @@ interface
 uses
   Classes, SysUtils, IntegerList, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn,
-  DCOSUtils,
+  DCOSUtils, LCLType,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceOperationOptions, uFileSourceDeleteOperation, KASProgressBar,
-  uMasks, uSearchTemplate,
+  uMasks, uSearchTemplate, fQuickSearch,
   uSyncDirsModel, uSyncDirsService;
 
 const
@@ -149,16 +149,19 @@ type
     actSelectCopyLeftToRight: TAction;
     actSelectCopyRightToLeft: TAction;
     actSelectCopyDefault: TAction;
+    actSelectTimeLeftToRight: TAction;
+    actSelectTimeRightToLeft: TAction;
     ActionList: TActionList;
     btnAbort: TBitBtn;
     btnCompare: TButton;
     btnSynchronize: TButton;
     btnClose: TButton;
     chkEmptyDir: TCheckBox;
+    chkDetectRenames: TCheckBox;
     chkAsymmetric: TCheckBox;
     chkSubDirs: TCheckBox;
     chkByContent: TCheckBox;
-    chkIgnoreDate: TCheckBox;
+    cmbDateMode: TComboBox;
     chkOnlySelected: TCheckBox;
     cbExtFilter: TComboBox;
     edPath1: TDirectoryEdit;
@@ -189,6 +192,9 @@ type
     miSelectCopyRightToLeft: TMenuItem;
     miSelectCopyDefault: TMenuItem;
     miSelectClear: TMenuItem;
+    miSelectTimeLeftToRight: TMenuItem;
+    miSelectTimeRightToLeft: TMenuItem;
+    miSeparatorTime: TMenuItem;
     MenuItemCompare: TMenuItem;
     MenuItemViewRight: TMenuItem;
     MenuItemViewLeft: TMenuItem;
@@ -205,7 +211,9 @@ type
     sbUnknown: TSpeedButton;
     sbCopyLeft: TSpeedButton;
     sbDuplicates: TSpeedButton;
-    sbSingles: TSpeedButton;
+    sbLeftOnly: TSpeedButton;
+    sbRightOnly: TSpeedButton;
+    sbFilterAll: TSpeedButton;
     btnSearchTemplate: TSpeedButton;
     StatusBar1: TStatusBar;
     Timer: TTimer;
@@ -229,12 +237,23 @@ type
       Shift: TShiftState);
     procedure MainDrawGridMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure MainDrawGridUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure QuickSearchChangeSearch(Sender: TObject; ASearchText: String;
+      const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
+    procedure QuickSearchHide(Sender: TObject);
     procedure HeaderDGHeaderClick(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
     procedure HeaderDGHeaderSizing(sender: TObject; const IsColumn: boolean;
       const aIndex, aSize: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
+    procedure sbFilterAllClick(Sender: TObject);
+    procedure FilterButtonMouseEnter(Sender: TObject);
+    procedure FilterButtonMouseLeave(Sender: TObject);
+    procedure UpdateFilterButtonVisual(AButton: TSpeedButton);
+    procedure UpdateAllFilterButtonsVisual;
+    procedure DelayedFilterButtonVisual(Data: PtrInt);
+    procedure HookFilterButtonEvents;
     procedure MenuItemViewClick(Sender: TObject);
     procedure pmGridMenuPopup(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
@@ -266,6 +285,7 @@ type
     FCopyStatistics: TFileSourceCopyOperationStatistics;
     FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
+    FQuickSearch: TfrmQuickSearch;
 
     FFileSizeProgressHelper: TSyncDirsDlgProgressHelper;
     FFileCountProgressHelper: TSyncDirsDlgProgressHelper;
@@ -278,6 +298,8 @@ type
     procedure setSelectionAction(const newAction: TSyncRecState);
 
     procedure doCopyProperties(const targetSide: TDoubleSide);
+    procedure SearchFile(const SearchTerm: String; const SearchOptions: TQuickSearchOptions);
+    procedure UpdateQuickSearchLayout;
 
     procedure Compare;
     procedure FillFoundItemsDG;
@@ -306,6 +328,10 @@ type
     function fileProcessorWithUIDeleteFile(
       const FileSource: IFileSource;
       const f: TFile): Boolean;
+    function fileProcessorWithUIRenameFile(
+      const FileSource: IFileSource;
+      const f: TFile;
+      const newName: String): Boolean;
 
   private
     FCheckContentThread: TSyncDirsCheckContentThread;
@@ -354,6 +380,8 @@ type
     procedure cm_SelectCopyReverse(const {%H-}Params:array of string);
     procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
     procedure cm_SelectCopyRightToLeft(const {%H-}Params:array of string);
+    procedure cm_SelectTimeLeftToRight(const {%H-}Params:array of string);
+    procedure cm_SelectTimeRightToLeft(const {%H-}Params:array of string);
 
     procedure cm_DeleteLeft(const {%H-}Params:array of string);
     procedure cm_DeleteRight(const {%H-}Params:array of string);
@@ -370,7 +398,28 @@ resourcestring
   rsDeleteLeft = 'Left: Delete %d file(s)';
   rsDeleteRight = 'Right: Delete %d file(s)';
   rsFilesFound = 'Files found: %d  (Identical: %d, Different: %d, '
-    + 'Unique left: %d, Unique right: %d)';
+    + 'Unique left: %d, Unique right: %d, Renamed: %d)';
+  rsDateCompare = 'compare date';
+  rsDateIgnoreHour = 'ignore 1 hour';
+  rsDateIgnore = 'ignore date';
+  rsDetectRenames = 'detect renames';
+  rsAsymmetricHint = 'Delete files that exist only on the right side (left side is the master)';
+  rsDetectRenamesHint = 'Match unpaired files with equal size and date and propose renaming instead of copy/delete';
+  rsEmptyDirsHint = 'Include empty directories in the comparison and allow synchronizing or deleting them';
+  rsDateModeHint = 'How file dates are compared:'#10 +
+    '- compare date: use timestamps as stored'#10 +
+    '- ignore 1 hour: treat a difference of exactly one hour as equal. This often appears when files were copied between NTFS and FAT/exFAT, which handle daylight-saving time differently'#10 +
+    '- ignore date: do not compare timestamps at all';
+  rsLeftToRightSetDate = 'Left to Right: Set date for %d files';
+  rsRightToLeftSetDate = 'Right to Left: Set date for %d files';
+  rsLeftToRightRename = 'Left to Right: Rename %d file(s)';
+  rsRightToLeftRename = 'Right to Left: Rename %d file(s)';
+  rsSelectTimeLeftToRight = 'Select for setting date -> (left to right)';
+  rsSelectTimeRightToLeft = 'Select for setting date <- (right to left)';
+  rsFilterBothSides = 'present on both sides';
+  rsFilterLeftOnly = 'present on left only';
+  rsFilterRightOnly = 'present on right only';
+  rsFilterReset = 'reset filters';
 
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
 
@@ -378,17 +427,26 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, fSyncDirsSelectPropertiesDlg,
-  uGlobs, LCLType, LazUTF8, LazFileUtils,
+  uGlobs, LazUTF8, LazFileUtils,
   uFileSystemFileSource, DCDateTimeUtils,
   uDCUtils, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, Math, uClipboard, fMaskInputDlg,
   LCLVersion, uTypes, uFileSystemCopyOperation, uFileSystemDeleteOperation, uFindFiles,
-  uFileSourceManager, uFileSourceProperty, uShowMsg;
+  uFileSourceManager, uFileSourceProperty, uShowMsg, uFileViewWorker,
+  uFileSourceUtil, uFileSourceSetFilePropertyOperation;
 
 {$R *.lfm}
 
 const
   GRID_COLUMN_FMT = 'HeaderDG_Column%d_Width';
+
+function getDateMode(const combo: TComboBox): TSyncDirsDateMode;
+begin
+  if combo.ItemIndex in [Ord(Low(TSyncDirsDateMode))..Ord(High(TSyncDirsDateMode))] then
+    Result:= TSyncDirsDateMode(combo.ItemIndex)
+  else
+    Result:= sdmCompare;
+end;
 
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
   function isSupported: Boolean;
@@ -620,6 +678,7 @@ var
   syncFlags: TSyncDirsSyncFlags;
   fileSizeVisible: Boolean;
   fileCountVisible: Boolean;
+  fileCountTotal: Integer;
 begin
   synchronizer:= TSyncDirsSynchronizer.Create( self, self, FFilteredList, FCmpFileSources, FCmpFilePaths );
   syncCount:= synchronizer.count;
@@ -656,6 +715,20 @@ begin
       Format(rsLeftToRightCopy, [syncCount.copyToRightCount, cnvFormatFileSize(syncCount.copyToRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToRightSize)]);
     chkRightToLeft.Caption :=
       Format(rsRightToLeftCopy, [syncCount.copyToLeftCount, cnvFormatFileSize(syncCount.copyToLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(syncCount.copyToLeftSize)]);
+    chkTimeLeftToRight.Enabled := (syncCount.timeRightCount > 0) and
+      TSyncDirsUtil.supportsCopyProperties(FCmpFileSources);
+    chkTimeLeftToRight.Checked := chkTimeLeftToRight.Enabled;
+    chkTimeRightToLeft.Enabled := (syncCount.timeLeftCount > 0) and
+      TSyncDirsUtil.supportsCopyProperties(FCmpFileSources);
+    chkTimeRightToLeft.Checked := chkTimeRightToLeft.Enabled;
+    chkTimeLeftToRight.Caption := Format(rsLeftToRightSetDate, [syncCount.timeRightCount]);
+    chkTimeRightToLeft.Caption := Format(rsRightToLeftSetDate, [syncCount.timeLeftCount]);
+    chkRenameLeftToRight.Enabled := syncCount.renameRightCount > 0;
+    chkRenameLeftToRight.Checked := chkRenameLeftToRight.Enabled;
+    chkRenameRightToLeft.Enabled := syncCount.renameLeftCount > 0;
+    chkRenameRightToLeft.Checked := chkRenameRightToLeft.Enabled;
+    chkRenameLeftToRight.Caption := Format(rsLeftToRightRename, [syncCount.renameRightCount]);
+    chkRenameRightToLeft.Caption := Format(rsRightToLeftRename, [syncCount.renameLeftCount]);
     chkVerify.Visible := TSyncDirsUtil.supportsVerify(FCmpFileSources);
     chkVerify.Checked := gOperationOptionVerify;
 
@@ -679,6 +752,14 @@ begin
         Include( syncFlags, sfDeleteLeft );
       if chkDeleteRight.Checked then
         Include( syncFlags, sfDeleteRight );
+      if chkTimeRightToLeft.Checked then
+        Include( syncFlags, sfTimeLeft );
+      if chkTimeLeftToRight.Checked then
+        Include( syncFlags, sfTimeRight );
+      if chkRenameRightToLeft.Checked then
+        Include( syncFlags, sfRenameLeft );
+      if chkRenameLeftToRight.Checked then
+        Include( syncFlags, sfRenameRight );
       if chkDeleteLeftAllEmptyDirs.Checked then
         Include( syncFlags, sfDeleteLeftAllEmptyDirs );
       if chkDeleteRightAllEmptyDirs.Checked then
@@ -686,15 +767,35 @@ begin
 
       fileSizeVisible:= (sfCopyToLeft in syncFlags) or (sfCopyToRight in syncFlags);
       fileCountVisible:= (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
-                         (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags);
+                         (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags) or
+                         (sfTimeLeft in syncFlags) or (sfTimeRight in syncFlags) or
+                         (sfRenameLeft in syncFlags) or (sfRenameRight in syncFlags);
 
       if fileSizeVisible then
         FFileSizeProgressHelper.open(rsOperCopying, syncCount.copySize)
       else
         FFileSizeProgressHelper.close;
-      if fileCountVisible then
-        FFileCountProgressHelper.open(rsOperDeleting, syncCount.deleteCount)
-      else
+
+      if fileCountVisible then begin
+        fileCountTotal:= 0;
+        if (sfDeleteLeft in syncFlags) or (sfDeleteRight in syncFlags) or
+           (sfDeleteLeftAllEmptyDirs in syncFlags) or (sfDeleteRightAllEmptyDirs in syncFlags) then
+          Inc(fileCountTotal, syncCount.deleteCount);
+        if sfTimeLeft in syncFlags then
+          Inc(fileCountTotal, syncCount.timeLeftCount);
+        if sfTimeRight in syncFlags then
+          Inc(fileCountTotal, syncCount.timeRightCount);
+        if sfRenameLeft in syncFlags then
+          Inc(fileCountTotal, syncCount.renameLeftCount);
+        if sfRenameRight in syncFlags then
+          Inc(fileCountTotal, syncCount.renameRightCount);
+
+        if (sfTimeLeft in syncFlags) or (sfTimeRight in syncFlags) or
+           (sfRenameLeft in syncFlags) or (sfRenameRight in syncFlags) then
+          FFileCountProgressHelper.open(rsOperSettingProperty, fileCountTotal)
+        else
+          FFileCountProgressHelper.open(rsOperDeleting, fileCountTotal);
+      end else
         FFileCountProgressHelper.close;
 
       synchronizer.sync( syncFlags );
@@ -765,14 +866,16 @@ begin
   gSyncDirsEmptyDirs            := chkEmptyDir.Checked;
   gSyncDirsSubdirs              := chkSubDirs.Checked;
   gSyncDirsAsymmetric           := chkAsymmetric.Checked and gSyncDirsAsymmetricSave;
-  gSyncDirsIgnoreDate           := chkIgnoreDate.Checked;
+  gSyncDirsDateMode             := getDateMode(cmbDateMode);
+  gSyncDirsDetectRenames        := chkDetectRenames.Checked;
   gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
   gSyncDirsShowFilterEqual      := sbEqual.Down;
   gSyncDirsShowFilterNotEqual   := sbNotEqual.Down;
   gSyncDirsShowFilterUnknown    := sbUnknown.Down;
   gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
-  gSyncDirsShowFilterSingles    := sbSingles.Down;
+  gSyncDirsShowFilterLeftOnly   := sbLeftOnly.Down;
+  gSyncDirsShowFilterRightOnly  := sbRightOnly.Down;
   if gSyncDirsFileMaskSave = True then
   begin
     if not IsMaskSearchTemplate(cbExtFilter.Text) then
@@ -810,7 +913,7 @@ end;
 
 procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
 var
-  Index: Integer;
+  Index, TextWidthPx: Integer;
   HMSync: THMForm;
 begin
   // Initialize property storage
@@ -839,17 +942,51 @@ begin
 
   { settings }
   chkEmptyDir.Checked    := gSyncDirsEmptyDirs;
+  chkEmptyDir.ParentShowHint := False;
+  chkEmptyDir.ShowHint := True;
+  chkEmptyDir.Hint := rsEmptyDirsHint;
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkAsymmetric.Checked  := gSyncDirsAsymmetric;
+  chkAsymmetric.ParentShowHint := False;
+  chkAsymmetric.ShowHint := True;
+  chkAsymmetric.Hint := rsAsymmetricHint;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
-  chkIgnoreDate.Checked  := gSyncDirsIgnoreDate;
+  chkDetectRenames.Checked := gSyncDirsDetectRenames;
+  chkDetectRenames.Caption := rsDetectRenames;
+  chkDetectRenames.ParentShowHint := False;
+  chkDetectRenames.ShowHint := True;
+  chkDetectRenames.Hint := rsDetectRenamesHint;
+  cmbDateMode.Items.Clear;
+  cmbDateMode.Items.Add(rsDateCompare);
+  cmbDateMode.Items.Add(rsDateIgnoreHour);
+  cmbDateMode.Items.Add(rsDateIgnore);
+  cmbDateMode.ItemIndex  := Ord(gSyncDirsDateMode);
+  cmbDateMode.ParentShowHint := False;
+  cmbDateMode.ShowHint := True;
+  cmbDateMode.Hint := rsDateModeHint;
+  // Fit combo to the longest translated item.
+  TextWidthPx := 0;
+  for Index := 0 to cmbDateMode.Items.Count - 1 do
+    TextWidthPx := Max(TextWidthPx, cmbDateMode.Canvas.TextWidth(cmbDateMode.Items[Index]));
+  cmbDateMode.Constraints.MinWidth := TextWidthPx + 32;
+  cmbDateMode.Width := cmbDateMode.Constraints.MinWidth;
+  actSelectTimeLeftToRight.Caption := rsSelectTimeLeftToRight;
+  actSelectTimeRightToLeft.Caption := rsSelectTimeRightToLeft;
+  sbDuplicates.Caption := rsFilterBothSides;
+  sbLeftOnly.Caption := rsFilterLeftOnly;
+  sbRightOnly.Caption := rsFilterRightOnly;
+  sbFilterAll.Caption := rsFilterReset;
   sbCopyRight.Down       := gSyncDirsShowFilterCopyRight;
   sbEqual.Down           := gSyncDirsShowFilterEqual;
   sbNotEqual.Down        := gSyncDirsShowFilterNotEqual;
   sbUnknown.Down         := gSyncDirsShowFilterUnknown;
   sbCopyLeft.Down        := gSyncDirsShowFilterCopyLeft;
   sbDuplicates.Down      := gSyncDirsShowFilterDuplicates;
-  sbSingles.Down         := gSyncDirsShowFilterSingles;
+  sbLeftOnly.Down        := gSyncDirsShowFilterLeftOnly;
+  sbRightOnly.Down       := gSyncDirsShowFilterRightOnly;
+  // Themes often clear the Down look on mouse leave; re-apply after enter/leave.
+  HookFilterButtonEvents;
+  UpdateAllFilterButtonsVisual;
   if gSyncDirsFileMaskSave = False then
   begin
     Index := glsSyncMaskHistory.IndexOf(gSyncDirsFileMask);
@@ -860,6 +997,21 @@ begin
   end;
   cbExtFilter.Items.Assign(glsSyncMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
+
+  FQuickSearch := TfrmQuickSearch.Create(Self);
+  FQuickSearch.Parent := Self;
+  FQuickSearch.Visible := False;
+  FQuickSearch.Align := alNone;
+  FQuickSearch.Anchors := [akLeft, akRight, akBottom];
+  FQuickSearch.AnchorSideLeft.Control := Self;
+  FQuickSearch.AnchorSideRight.Control := Self;
+  FQuickSearch.AnchorSideRight.Side := asrBottom;
+  FQuickSearch.AnchorSideBottom.Control := StatusBar1;
+  FQuickSearch.AnchorSideBottom.Side := asrTop;
+  FQuickSearch.OnChangeSearch := @QuickSearchChangeSearch;
+  FQuickSearch.OnHide := @QuickSearchHide;
+  MainDrawGrid.OnUTF8KeyPress := @MainDrawGridUTF8KeyPress;
+  UpdateQuickSearchLayout;
 
   HMSync := HotMan.Register(Self, HotkeysCategory);
   HMSync.RegisterActionList(ActionList);
@@ -932,12 +1084,22 @@ begin
         srsDeleteRight: Font.Color := RightColor;
         else Font.Color := clWindowText;
         end;
+        case rec.action of
+        srsTimeLeft:  Font.Color := RightColor;
+        srsTimeRight: Font.Color := LeftColor;
+        srsRenameLeft:  Font.Color := RightColor;
+        srsRenameRight: Font.Color := LeftColor;
+        end;
       end;
       if rec.hasLeftFile then
       begin
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := rec.leftFile.Name
+        else
+          s := FFilteredList.path(aRow);
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, FFilteredList.path(aRow));
+            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, s);
         s := IntToStrTS(rec.leftFile.Size);
         with hCols[1] do begin
           x := Left + Width - 8 - TextWidth(s);
@@ -951,7 +1113,11 @@ begin
       end;
       if rec.hasRightFile then
       begin
-        TextOut(hCols[6].Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := rec.rightFile.Name
+        else
+          s := FFilteredList.path(aRow);
+        TextOut(hCols[6].Left + 2, aRect.Top + 2, s);
         s := IntToStrTS(rec.rightFile.Size);
         with hCols[5] do begin
           x := Left + Width - 8 - TextWidth(s);
@@ -965,9 +1131,20 @@ begin
       end;
     end;
     if rec.isFile or (rec.state<>srsDoNothing) then begin
-      ImageList1.Draw(MainDrawGrid.Canvas,
-        hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
-        (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(rec.action));
+      if rec.action in [srsTimeLeft, srsTimeRight, srsRenameLeft, srsRenameRight] then begin
+        case rec.action of
+          srsTimeRight:   s := 't>';
+          srsTimeLeft:    s := 't<';
+          srsRenameRight: s := 'r>';
+          else            s := 'r<';
+        end;
+        with hCols[3] do
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            Left + (Width - TextWidth(s)) div 2, aRect.Top + 2, s);
+      end else
+        ImageList1.Draw(MainDrawGrid.Canvas,
+          hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
+          (aRect.Top + aRect.Bottom - ImageList1.Height - 1) div 2, Ord(rec.action));
     end;
   end;
 end;
@@ -977,6 +1154,9 @@ procedure TfrmSyncDirsDlg.MainDrawGridKeyDown(Sender: TObject; var Key: Word;
 var
   ASelection: TGridRect;
 begin
+  if FQuickSearch.CheckSearchOrFilter(Key) then
+    Exit;
+
   case Key of
     VK_SPACE:
       begin
@@ -1003,19 +1183,152 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.MainDrawGridUTF8KeyPress(Sender: TObject;
+  var UTF8Key: TUTF8Char);
+begin
+  if FQuickSearch.CheckSearchOrFilter(UTF8Key) then
+    Exit;
+end;
+
+procedure TfrmSyncDirsDlg.UpdateQuickSearchLayout;
+begin
+  if not Assigned(FQuickSearch) then Exit;
+  if FQuickSearch.Visible then
+    MainDrawGrid.AnchorSideBottom.Control := FQuickSearch
+  else
+    MainDrawGrid.AnchorSideBottom.Control := StatusBar1;
+end;
+
+procedure TfrmSyncDirsDlg.QuickSearchHide(Sender: TObject);
+begin
+  UpdateQuickSearchLayout;
+  if MainDrawGrid.CanFocus then
+    MainDrawGrid.SetFocus;
+end;
+
+procedure TfrmSyncDirsDlg.QuickSearchChangeSearch(Sender: TObject;
+  ASearchText: String; const ASearchOptions: TQuickSearchOptions;
+  InvertSelection: Boolean);
+begin
+  UpdateQuickSearchLayout;
+  SearchFile(ASearchText, ASearchOptions);
+end;
+
+procedure TfrmSyncDirsDlg.SearchFile(const SearchTerm: String;
+  const SearchOptions: TQuickSearchOptions);
+var
+  I, Index, StopIndex: Integer;
+  S: String;
+  Matched: Boolean;
+  Masks: TMaskList;
+  AOptions: TMaskOptions = [moPinyin];
+
+  function NextIndexWrap(AIndex: Integer): Integer;
+  begin
+    Result := AIndex + 1;
+    if Result >= FFilteredList.Count then
+      Result := 0;
+  end;
+
+  function PrevIndexWrap(AIndex: Integer): Integer;
+  begin
+    Result := AIndex - 1;
+    if Result < 0 then
+      Result := FFilteredList.Count - 1;
+  end;
+
+begin
+  if not Assigned(FFilteredList) or (FFilteredList.Count = 0) then
+    Exit;
+
+  Index := MainDrawGrid.Row;
+  if (Index < 0) or (Index >= FFilteredList.Count) then
+    Index := 0;
+
+  case SearchOptions.Direction of
+    qsdFirst:
+      Index := 0;
+    qsdLast:
+      Index := FFilteredList.Count - 1;
+    qsdNext:
+      Index := NextIndexWrap(Index);
+    qsdPrevious:
+      Index := PrevIndexWrap(Index);
+  end;
+
+  StopIndex := Index;
+  try
+    if not SearchOptions.Diacritics then
+      AOptions += [moIgnoreAccents];
+    if SearchOptions.SearchCase = qscSensitive then
+      AOptions += [moCaseSensitive];
+
+    Masks := TMaskList.Create(SearchTerm, ';,', AOptions);
+    try
+      for I := 0 to Masks.Count - 1 do
+      begin
+        S := Masks.Items[I].Template;
+        S := TFileListBuilder.PrepareFilter(S, SearchOptions);
+        Masks.Items[I].Template := S;
+      end;
+
+      repeat
+        { Directory header rows are not searchable. }
+        Matched := FFilteredList.fileSyncRec(Index).isFile;
+        if Matched and (SearchOptions.Items = qsiDirectories) then
+          Matched := False;
+        if Matched and not Masks.Matches(FFilteredList.path(Index)) then
+          Matched := False;
+
+        if Matched then
+        begin
+          MainDrawGrid.Row := Index;
+          Break;
+        end;
+
+        if SearchOptions.Direction in [qsdNone, qsdFirst, qsdNext] then
+          Index := NextIndexWrap(Index)
+        else
+          Index := PrevIndexWrap(Index);
+      until Index = StopIndex;
+    finally
+      Masks.Free;
+    end;
+  except
+    on EConvertError do ; // bypass
+    else
+      raise;
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key <> VK_ESCAPE then
-    Exit;
-
-  Key := 0;
-  if FState.isRunningInState(sddsScanning) then
-    FState.reset
-  else if FState.isRunning then
-    FState.stop
-  else
-    Close;
+  if Key = VK_ESCAPE then
+  begin
+    if Assigned(FQuickSearch) and FQuickSearch.Visible then
+    begin
+      FQuickSearch.Finalize;
+      QuickSearchHide(FQuickSearch);
+      Key := 0;
+      Exit;
+    end;
+    Key := 0;
+    if FState.isRunningInState(sddsScanning) then
+      FState.reset
+    else if FState.isRunning then
+      FState.stop
+    else
+      Close;
+  end
+  else if (Key = VK_RETURN) and (Shift = []) and
+          cbExtFilter.Focused and not cbExtFilter.DroppedDown then
+  begin
+    { Mask is applied during Compare; do not fire the Default button
+      (Synchronize after a successful compare). }
+    Key := 0;
+    btnCompare.Click;
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.HeaderDGHeaderClick(Sender: TObject;
@@ -1032,8 +1345,96 @@ begin
   MainDrawGrid.Invalidate;
 end;
 
+procedure TfrmSyncDirsDlg.UpdateFilterButtonVisual(AButton: TSpeedButton);
+begin
+  // Themes often paint only the hot/hover look and clear it on mouse leave,
+  // even when Down=True. Keep an explicit color + bold style for the Down state.
+  // Transparent=True lets Color fill theme faces that have transparent areas.
+  if AButton.Down then
+  begin
+    AButton.Transparent := True;
+    AButton.Color := clHighlight;
+    AButton.Font.Color := clHighlightText;
+    AButton.Font.Style := [fsBold];
+  end
+  else begin
+    AButton.Transparent := True;
+    AButton.Color := clBtnFace;
+    AButton.Font.Color := clBtnText;
+    AButton.Font.Style := [];
+  end;
+  AButton.Invalidate;
+end;
+
+procedure TfrmSyncDirsDlg.UpdateAllFilterButtonsVisual;
+begin
+  UpdateFilterButtonVisual(sbCopyRight);
+  UpdateFilterButtonVisual(sbEqual);
+  UpdateFilterButtonVisual(sbNotEqual);
+  UpdateFilterButtonVisual(sbUnknown);
+  UpdateFilterButtonVisual(sbCopyLeft);
+  UpdateFilterButtonVisual(sbDuplicates);
+  UpdateFilterButtonVisual(sbLeftOnly);
+  UpdateFilterButtonVisual(sbRightOnly);
+end;
+
+procedure TfrmSyncDirsDlg.DelayedFilterButtonVisual(Data: PtrInt);
+begin
+  if (csDestroying in ComponentState) then Exit;
+  if TObject(Data) is TSpeedButton then
+    UpdateFilterButtonVisual(TSpeedButton(Data));
+end;
+
+procedure TfrmSyncDirsDlg.FilterButtonMouseEnter(Sender: TObject);
+begin
+  if Sender is TSpeedButton then
+    UpdateFilterButtonVisual(TSpeedButton(Sender));
+end;
+
+procedure TfrmSyncDirsDlg.FilterButtonMouseLeave(Sender: TObject);
+begin
+  // Re-apply after the widgetset finishes its mouse-leave paint.
+  if Sender is TSpeedButton then
+    Application.QueueAsyncCall(@DelayedFilterButtonVisual, PtrInt(Sender));
+end;
+
+procedure TfrmSyncDirsDlg.HookFilterButtonEvents;
+
+  procedure Hook(AButton: TSpeedButton);
+  begin
+    AButton.OnMouseEnter := @FilterButtonMouseEnter;
+    AButton.OnMouseLeave := @FilterButtonMouseLeave;
+  end;
+
+begin
+  Hook(sbCopyRight);
+  Hook(sbEqual);
+  Hook(sbNotEqual);
+  Hook(sbUnknown);
+  Hook(sbCopyLeft);
+  Hook(sbDuplicates);
+  Hook(sbLeftOnly);
+  Hook(sbRightOnly);
+end;
+
 procedure TfrmSyncDirsDlg.FilterSpeedButtonClick(Sender: TObject);
 begin
+  if Sender is TSpeedButton then
+    UpdateFilterButtonVisual(TSpeedButton(Sender));
+  FillFoundItemsDG;
+end;
+
+procedure TfrmSyncDirsDlg.sbFilterAllClick(Sender: TObject);
+begin
+  { Leave "=" as the user left it; reset everything else. }
+  sbCopyRight.Down := True;
+  sbNotEqual.Down := True;
+  sbUnknown.Down := True;
+  sbCopyLeft.Down := True;
+  sbDuplicates.Down := True;
+  sbLeftOnly.Down := True;
+  sbRightOnly.Down := True;
+  UpdateAllFilterButtonsVisual;
   FillFoundItemsDG;
 end;
 
@@ -1099,6 +1500,8 @@ procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
 
     miSelectCopyLeftToRight.Enabled:= hasLeft;
     miSelectCopyRightToLeft.Enabled:= hasRight;
+    miSelectTimeLeftToRight.Enabled:= enableCopyProperties;
+    miSelectTimeRightToLeft.Enabled:= enableCopyProperties;
     MenuItemViewLeft.Enabled:= hasLeft;
     MenuItemViewRight.Enabled:= hasRight;
     MenuItemCompare.Enabled:= hasBothWithinSameRec;
@@ -1143,6 +1546,8 @@ end;
 function TfrmSyncDirsDlg.createCompareOption: TSyncDirsCompareOption;
 var
   flags: TSyncDirsCompareFlags;
+  dateMode: TSyncDirsDateMode;
+  ntfsShift: Boolean;
 begin
   flags:= [];
   if self.chkOnlySelected.Checked then
@@ -1155,13 +1560,20 @@ begin
     Include( flags, TSyncDirsCompareFlag.cfSubdirs );
   if self.chkByContent.Checked then
     Include( flags, TSyncDirsCompareFlag.cfByContent );
-  if self.chkIgnoreDate.Checked then
+  if self.chkDetectRenames.Checked then
+    Include( flags, TSyncDirsCompareFlag.cfDetectRenames );
+
+  dateMode:= getDateMode(cmbDateMode);
+  if dateMode = sdmIgnore then
     Include( flags, TSyncDirsCompareFlag.cfIgnoreDate );
 
-  if TSyncDirsUtil.isBothFileSystemFileSource(FFileSources) then begin
-    if gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text) then
-      Include( flags, TSyncDirsCompareFlag.cfNtfsShift );
+  // "ignore 1 hour" mode behaves like a detected NTFS/FAT one-hour shift
+  ntfsShift:= (dateMode = sdmIgnoreHour);
+  if NOT ntfsShift and TSyncDirsUtil.isBothFileSystemFileSource(FFileSources) then begin
+    ntfsShift:= gNtfsHourTimeDelay and NtfsHourTimeDelay(self.edPath1.Text, self.edPath2.Text);
   end;
+  if ntfsShift then
+    Include( flags, TSyncDirsCompareFlag.cfNtfsShift );
 
   Result:= TSyncDirsCompareOption.Create( flags );
 end;
@@ -1181,8 +1593,10 @@ begin
     Include( Result, TSyncDirsFilterFlag.ffUnknown );
   if self.sbDuplicates.Down then
     Include( Result, TSyncDirsFilterFlag.ffDuplicate );
-  if self.sbSingles.Down then
-    Include( Result, TSyncDirsFilterFlag.ffSingle );
+  if self.sbLeftOnly.Down then
+    Include( Result, TSyncDirsFilterFlag.ffLeftOnly );
+  if self.sbRightOnly.Down then
+    Include( Result, TSyncDirsFilterFlag.ffRightOnly );
 end;
 
 function TfrmSyncDirsDlg.createSelectionIndexes: TIntegerList;
@@ -1349,7 +1763,8 @@ procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var
   s: string;
 begin
-  s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
+  s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual,
+    FFilteredCount.leftUnique, FFilteredCount.rightUnique, FFilteredCount.renamed]);
   if FState.isRunningInState(sddsCheckingContent) then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
@@ -1706,6 +2121,24 @@ begin
   files.Free;
 end;
 
+function TfrmSyncDirsDlg.fileProcessorWithUIRenameFile(
+  const FileSource: IFileSource;
+  const f: TFile;
+  const newName: String ): Boolean;
+var
+  errMsg: String;
+  askResult: TModalResult;
+begin
+  Result:= RenameFile(FileSource, f, newName, True, False) = sfprSuccess;
+  Inc( FFileCountProgressHelper.done );
+  Application.ProcessMessages;
+  if NOT Result then begin
+    errMsg:= Format(rsMsgErrRename, [f.FullPath, newName]);
+    askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);
+    Result:= (askResult = mrIgnore);
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                                              const AXProportion, AYProportion: Double);
 begin
@@ -1829,6 +2262,16 @@ end;
 procedure TfrmSyncDirsDlg.cm_SelectCopyRightToLeft(const Params: array of string);
 begin
   setSelectionAction(srsCopyToLeft);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectTimeLeftToRight(const Params: array of string);
+begin
+  setSelectionAction(srsTimeRight);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectTimeRightToLeft(const Params: array of string);
+begin
+  setSelectionAction(srsTimeLeft);
 end;
 
 procedure TfrmSyncDirsDlg.cm_DeleteLeft(const Params: array of string);

@@ -9,7 +9,7 @@ interface
 uses
   Classes, SysUtils, SysConst, syncobjs, IntegerList,
   LazFileUtils,
-  DCStrUtils, DCOSUtils, DCClassesUtf8, uDCUtils, uAdministrator,
+  DCStrUtils, DCOSUtils, DCClassesUtf8, DCDateTimeUtils, uDCUtils, uAdministrator,
   uDebug, uGlobs,
   uFile, uFileProperty,
   uFileSource, uFileSourceManager, uFileSourceUtil, uFileSystemFileSource,
@@ -27,6 +27,12 @@ const
     '_X',
     'XX',
     '',
+
+    't<',
+    't>',
+
+    'r<',
+    'r>',
 
     'ERR(NextAction)',
     'ERR(NoAction)',
@@ -109,6 +115,10 @@ type
     function fileProcessorWithUIDeleteFile(
       const fs: IFileSource;
       const f: TFile): Boolean;
+    function fileProcessorWithUIRenameFile(
+      const fs: IFileSource;
+      const f: TFile;
+      const newName: String): Boolean;
   end;
 
   { TSyncDirsSortService }
@@ -301,7 +311,8 @@ class procedure TSyncDirsUtil.filterFlatListWithFlags(
       Exit(False);
 
     Result:=
-      ((rec.hasFileOnOnlyOneSide and (ffSingle in filterFlags)) or
+      ((rec.hasLeftFile and NOT rec.hasRightFile and (ffLeftOnly in filterFlags)) or
+       (rec.hasRightFile and NOT rec.hasLeftFile and (ffRightOnly in filterFlags)) or
        (rec.hasFilesOnBothSides and (ffDuplicate in filterFlags)))
        and
        (((rec.state = srsCopyToLeft) or (rec.action = srsCopyToLeft)) and (ffCopyLeft in filterFlags) or
@@ -310,7 +321,9 @@ class procedure TSyncDirsUtil.filterFlatListWithFlags(
         (rec.state = srsDeleteRight) and (ffCopyLeft in filterFlags) or
         (rec.state = srsEqual) and (ffEqual in filterFlags) or
         (rec.state = srsNotEq) and (ffNotEqual in filterFlags) or
-        (rec.state = srsUnknown) and (ffUnknown in filterFlags));
+        (rec.state = srsUnknown) and (ffUnknown in filterFlags) or
+        ((rec.state in [srsRenameLeft, srsRenameRight]) or
+         (rec.action in [srsRenameLeft, srsRenameRight])));
   end;
 
   function isDirMatching(const syncRec: TSyncRec): Boolean;
@@ -371,7 +384,11 @@ class function TSyncDirsUtil.selectionToStringList(
     else
     begin
       if rec.hasLeftFile then begin
-        s := filteredList.path(R) + #9 +
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := rec.leftFile.Name
+        else
+          s := filteredList.path(R);
+        s := s + #9 +
              IntToStrTS(rec.leftFile.Size) + #9 +
              FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
       end else begin
@@ -379,10 +396,16 @@ class function TSyncDirsUtil.selectionToStringList(
       end;
       s := s + #9 + SYNC_REC_STATE_SYMBOL[rec.action] + #9;
       if rec.hasRightFile then begin
-        s := s +
-             FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime) + #9 +
-             IntToStrTS(rec.rightFile.Size) + #9 +
-             filteredList.path(R);
+        if rec.state in [srsRenameLeft, srsRenameRight] then
+          s := s +
+               FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime) + #9 +
+               IntToStrTS(rec.rightFile.Size) + #9 +
+               rec.rightFile.Name
+        else
+          s := s +
+               FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime) + #9 +
+               IntToStrTS(rec.rightFile.Size) + #9 +
+               filteredList.path(R);
       end;
     end;
     sl.Add(s);
@@ -901,6 +924,88 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
       dirSyncRec.rightFile:= TFile(rightParentDirs.Objects[i]);   // owns file
   end;
 
+  procedure detectRenames(const dirItem: TTwoLevelTreeDirItem);
+  var
+    leftIndexes: TIntegerList;
+    rightIndexes: TIntegerList;
+    leftMatched: array of Boolean;
+    rightMatched: array of Boolean;
+    i, j: Integer;
+    leftRec, rightRec: TSyncRec;
+    rightFile: TFile;
+
+    function filesMatch(const leftFile, rightFile: TFile): Boolean;
+    begin
+      Result:= (leftFile.Size = rightFile.Size) and
+               (FileTimeCompare(
+                  leftFile.ModificationTime,
+                  rightFile.ModificationTime,
+                  cfNtfsShift in _compareOption.flags) = 0);
+    end;
+  begin
+    if NOT (cfDetectRenames in _compareOption.flags) then
+      Exit;
+    if cfIgnoreDate in _compareOption.flags then
+      Exit;
+
+    leftIndexes:= TIntegerList.Create;
+    rightIndexes:= TIntegerList.Create;
+    try
+      for i:= 0 to dirItem.fileCount - 1 do begin
+        leftRec:= dirItem.fileSyncRec(i);
+        if NOT leftRec.isFile then
+          continue;
+        if leftRec.hasLeftFile and NOT leftRec.hasRightFile then
+          leftIndexes.Add(i)
+        else if leftRec.hasRightFile and NOT leftRec.hasLeftFile then
+          rightIndexes.Add(i);
+      end;
+
+      if (leftIndexes.Count = 0) or (rightIndexes.Count = 0) then
+        Exit;
+
+      SetLength(leftMatched, leftIndexes.Count);
+      SetLength(rightMatched, rightIndexes.Count);
+      FillChar(leftMatched[0], SizeOf(Boolean) * Length(leftMatched), 0);
+      FillChar(rightMatched[0], SizeOf(Boolean) * Length(rightMatched), 0);
+
+      for i:= 0 to leftIndexes.Count - 1 do begin
+        if leftMatched[i] then
+          continue;
+        leftRec:= dirItem.fileSyncRec(leftIndexes[i]);
+        for j:= 0 to rightIndexes.Count - 1 do begin
+          if rightMatched[j] then
+            continue;
+          rightRec:= dirItem.fileSyncRec(rightIndexes[j]);
+          if NOT filesMatch(leftRec.leftFile, rightRec.rightFile) then
+            continue;
+
+          rightFile:= rightRec.rightFile;
+          rightRec.rightFile:= nil;
+          leftRec.rightFile:= rightFile;
+          leftRec.state:= srsRenameRight;
+          leftRec.action:= srsRenameRight;
+
+          rightMatched[j]:= True;
+          leftMatched[i]:= True;
+          // Mark right-only slot for deletion (process descending later).
+          rightIndexes[j]:= -1 - rightIndexes[j];
+          break;
+        end;
+      end;
+
+      // Delete matched right-only records (highest index first).
+      for j:= rightIndexes.Count - 1 downto 0 do begin
+        if rightIndexes[j] >= 0 then
+          continue;
+        dirItem.deleteFileAt(-1 - rightIndexes[j]);
+      end;
+    finally
+      leftIndexes.Free;
+      rightIndexes.Free;
+    end;
+  end;
+
   procedure scanDir(
     dir: string;
     const parentDirIndex: Integer;
@@ -972,6 +1077,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
         Exit;
       processOneSide(dirItem, currentDirIndex, leftDirs, dsLeft);
       processOneSide(dirItem, currentDirIndex, rightDirs, dsRight);
+      detectRenames(dirItem);
       dirSyncRec.updateState;
       _sortedService.sortDirItem(dirItem);
       if not (cfSubdirs in _compareOption.flags) then
@@ -1036,6 +1142,18 @@ begin
           Inc(Result.deleteLeftCount);
           Inc(Result.deleteRightCount);
         end;
+      srsTimeLeft:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.timeLeftCount);
+      srsTimeRight:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.timeRightCount);
+      srsRenameLeft:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.renameLeftCount);
+      srsRenameRight:
+        if rec.isFile and rec.hasFilesOnBothSides then
+          Inc(Result.renameRightCount);
     end;
   end;
 end;
@@ -1191,7 +1309,71 @@ var
     copyToRightFiles: TFiles;
     deleteLeftFiles: TFiles;
     deleteRightFiles: TFiles;
+    timeLeftRecs: TFPList;
+    timeRightRecs: TFPList;
+    renameLeftRecs: TFPList;
+    renameRightRecs: TFPList;
     parentDirRec: TSyncDirRec;
+
+    function doAlignTime( const recs: TFPList; const targetSide: TDoubleSide ): Boolean;
+    var
+      i: Integer;
+      timeRec: TSyncRec;
+      sourceSide: TDoubleSide;
+    begin
+      Result:= True;
+      if targetSide = dsLeft then
+        sourceSide:= dsRight
+      else
+        sourceSide:= dsLeft;
+      for i:= 0 to recs.Count-1 do begin
+        timeRec:= TSyncRec( recs[i] );
+        if NOT timeRec.hasFilesOnBothSides then
+          continue;
+        Result:= _fileProcessor.fileProcessorWithUICopyProperties(
+          _fileSources[targetSide],
+          timeRec.filesOnSide[sourceSide],
+          timeRec.filesOnSide[targetSide],
+          [caoCopyTime] );
+        if NOT Result then
+          Exit;
+        timeRec.updateState;
+        if NOT _callback.commonCheckRunning then
+          Exit( False );
+      end;
+    end;
+
+    function doRenameFiles( const recs: TFPList; const targetSide: TDoubleSide ): Boolean;
+    var
+      i: Integer;
+      renameRec: TSyncRec;
+      sourceSide: TDoubleSide;
+      targetFile: TFile;
+      newName: String;
+    begin
+      Result:= True;
+      if targetSide = dsLeft then
+        sourceSide:= dsRight
+      else
+        sourceSide:= dsLeft;
+      for i:= 0 to recs.Count-1 do begin
+        renameRec:= TSyncRec( recs[i] );
+        if NOT renameRec.hasFilesOnBothSides then
+          continue;
+        targetFile:= renameRec.filesOnSide[targetSide];
+        newName:= renameRec.filesOnSide[sourceSide].Name;
+        Result:= _fileProcessor.fileProcessorWithUIRenameFile(
+          _fileSources[targetSide],
+          targetFile,
+          newName );
+        if NOT Result then
+          Exit;
+        targetFile.Name:= newName;
+        renameRec.updateState;
+        if NOT _callback.commonCheckRunning then
+          Exit( False );
+      end;
+    end;
 
     function doProcessFiles: Boolean;
     begin
@@ -1218,6 +1400,18 @@ var
               if sfDeleteLeft in syncFlags then
                 prepareRemoveFile( deleteLeftFiles, nil );
             end;
+          srsTimeRight:
+            if (sfTimeRight in syncFlags) then
+              timeRightRecs.Add( rec );
+          srsTimeLeft:
+            if (sfTimeLeft in syncFlags) then
+              timeLeftRecs.Add( rec );
+          srsRenameRight:
+            if (sfRenameRight in syncFlags) then
+              renameRightRecs.Add( rec );
+          srsRenameLeft:
+            if (sfRenameLeft in syncFlags) then
+              renameLeftRecs.Add( rec );
         end;
         index:= index + 1;
         if index < _filteredList.Count then
@@ -1244,6 +1438,26 @@ var
           Exit;
       end;
 
+      if timeLeftRecs.Count > 0 then begin
+        if NOT doAlignTime( timeLeftRecs, dsLeft ) then
+          Exit;
+      end;
+
+      if timeRightRecs.Count > 0 then begin
+        if NOT doAlignTime( timeRightRecs, dsRight ) then
+          Exit;
+      end;
+
+      if renameLeftRecs.Count > 0 then begin
+        if NOT doRenameFiles( renameLeftRecs, dsLeft ) then
+          Exit;
+      end;
+
+      if renameRightRecs.Count > 0 then begin
+        if NOT doRenameFiles( renameRightRecs, dsRight ) then
+          Exit;
+      end;
+
       Result:= True;
     end;
   begin
@@ -1253,10 +1467,18 @@ var
     copyToRightFiles:= TFiles.Create('');
     deleteLeftFiles:= TFiles.Create('');
     deleteRightFiles:= TFiles.Create('');
+    timeLeftRecs:= TFPList.Create;
+    timeRightRecs:= TFPList.Create;
+    renameLeftRecs:= TFPList.Create;
+    renameRightRecs:= TFPList.Create;
 
     try
       Result:= doProcessFiles;
     finally
+      timeLeftRecs.Free;
+      timeRightRecs.Free;
+      renameLeftRecs.Free;
+      renameRightRecs.Free;
       copyToLeftFiles.Free;
       copyToRightFiles.Free;
       deleteLeftFiles.Free;

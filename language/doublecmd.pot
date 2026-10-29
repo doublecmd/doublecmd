@@ -28,7 +28,7 @@ msgstr ""
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
-msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d, Renamed: %d)"
 msgstr ""
 
 #: fsyncdirsdlg.rslefttorightcopy
@@ -39,6 +39,86 @@ msgstr ""
 #: fsyncdirsdlg.rsrighttoleftcopy
 #, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
+msgstr ""
+
+#: fsyncdirsdlg.rsdatecompare
+msgid "compare date"
+msgstr ""
+
+#: fsyncdirsdlg.rsdateignorehour
+msgid "ignore 1 hour"
+msgstr ""
+
+#: fsyncdirsdlg.rsdateignore
+msgid "ignore date"
+msgstr ""
+
+#: fsyncdirsdlg.rsdetectrenames
+msgid "detect renames"
+msgstr ""
+
+#: fsyncdirsdlg.rsasymmetrichint
+msgid "Delete files that exist only on the right side (left side is the master)"
+msgstr ""
+
+#: fsyncdirsdlg.rsdetectrenameshint
+msgid "Match unpaired files with equal size and date and propose renaming instead of copy/delete"
+msgstr ""
+
+#: fsyncdirsdlg.rsemptydirshint
+msgid "Include empty directories in the comparison and allow synchronizing or deleting them"
+msgstr ""
+
+#: fsyncdirsdlg.rsdatemodehint
+msgid ""
+"How file dates are compared:\n"
+"- compare date: use timestamps as stored\n"
+"- ignore 1 hour: treat a difference of exactly one hour as equal. This often appears when files were copied between NTFS and FAT/exFAT, which handle daylight-saving time differently\n"
+"- ignore date: do not compare timestamps at all"
+msgstr ""
+
+#: fsyncdirsdlg.rslefttorightsetdate
+#, object-pascal-format
+msgid "Left to Right: Set date for %d files"
+msgstr ""
+
+#: fsyncdirsdlg.rsrighttoleftsetdate
+#, object-pascal-format
+msgid "Right to Left: Set date for %d files"
+msgstr ""
+
+#: fsyncdirsdlg.rslefttorightrename
+#, object-pascal-format
+msgid "Left to Right: Rename %d file(s)"
+msgstr ""
+
+#: fsyncdirsdlg.rsrighttoleftrename
+#, object-pascal-format
+msgid "Right to Left: Rename %d file(s)"
+msgstr ""
+
+#: fsyncdirsdlg.rsselecttimelefttoright
+msgid "Select for setting date -> (left to right)"
+msgstr ""
+
+#: fsyncdirsdlg.rsselecttimerighttoleft
+msgid "Select for setting date <- (right to left)"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterbothsides
+msgid "present on both sides"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterleftonly
+msgid "present on left only"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterrightonly
+msgid "present on right only"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilterreset
+msgid "reset filters"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
@@ -9059,10 +9139,6 @@ msgstr ""
 msgid "empty directories"
 msgstr ""
 
-#: tfrmsyncdirsdlg.chkignoredate.caption
-msgid "ignore date"
-msgstr ""
-
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
 msgstr ""
@@ -9137,7 +9213,7 @@ msgid ">"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
-msgid "duplicates"
+msgid "present on both sides"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbequal.caption
@@ -9145,13 +9221,21 @@ msgctxt "tfrmsyncdirsdlg.sbequal.caption"
 msgid "="
 msgstr ""
 
+#: tfrmsyncdirsdlg.sbfilterall.caption
+msgid "reset filters"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbleftonly.caption
+msgid "present on left only"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgctxt "tfrmsyncdirsdlg.sbnotequal.caption"
 msgid "!="
 msgstr ""
 
-#: tfrmsyncdirsdlg.sbsingles.caption
-msgid "singles"
+#: tfrmsyncdirsdlg.sbrightonly.caption
+msgid "present on right only"
 msgstr ""
 
 #: tfrmsyncdirsdlg.sbunknown.caption
