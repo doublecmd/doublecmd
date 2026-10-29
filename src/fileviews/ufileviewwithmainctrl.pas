@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
-  Graphics, LCLVersion,
+  Graphics, LCLVersion, Types,
   uFile, uDisplayFile,
   uFileViewWorker,
   uOrderedFileView,
@@ -224,6 +224,7 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
     function Focused: Boolean; override;
+    function GetActiveFileScreenRect: TRect;
     procedure SetFocus; override;
     procedure SetDragCursor(Shift: TShiftState); override;
 
@@ -679,6 +680,21 @@ end;
 function TFileViewWithMainCtrl.Focused: Boolean;
 begin
   Result := Assigned(MainControl) and MainControl.Focused;
+end;
+
+function TFileViewWithMainCtrl.GetActiveFileScreenRect: TRect;
+var
+  FileIndex: PtrInt;
+begin
+  Result := Rect(0, 0, 0, 0);
+  if not Assigned(MainControl) or not MainControl.IsVisible then Exit;
+
+  FileIndex := GetActiveFileIndex;
+  if not IsFileIndexInRange(FileIndex) or not IsFileIndexVisible(FileIndex) then Exit;
+  if not IntersectRect(Result, GetFileRect(FileIndex), MainControl.ClientRect) then Exit;
+
+  Result.TopLeft := MainControl.ClientToScreen(Result.TopLeft);
+  Result.BottomRight := MainControl.ClientToScreen(Result.BottomRight);
 end;
 
 procedure TFileViewWithMainCtrl.InitializeDragDropEx(AControl: TWinControl);

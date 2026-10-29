@@ -38,6 +38,7 @@ type
     cbFlatDiskPanel: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFreespaceInd: TCheckBox;
+    cmbDrivesListPosition: TComboBox;
     cbLogWindow: TCheckBox;
     cbPanelOfOperations: TCheckBox;
     cbProgInMenuBar: TCheckBox;
@@ -57,9 +58,11 @@ type
     cbShowShortDriveFreeSpace: TCheckBox;
     chkShowMiddleToolBar: TCheckBox;
     gbScreenLayout: TGroupBox;
+    lblDrivesListPosition: TLabel;
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowDriveFreeSpaceChange(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -72,9 +75,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng;
 
 { TfrmOptionsLayout }
+
+procedure TfrmOptionsLayout.Init;
+begin
+  ParseLineToList(rsOptDrivesListPosition, cmbDrivesListPosition.Items);
+end;
 
 procedure TfrmOptionsLayout.cbShowDiskPanelChange(Sender: TObject);
 begin
@@ -107,6 +115,7 @@ begin
   cbTwoDiskPanels.Checked := gDriveBar2;
   cbFlatDiskPanel.Checked := gDriveBarFlat;
   cbShowDrivesListButton.Checked := gDrivesListButton;
+  cmbDrivesListPosition.ItemIndex := Ord(gDrivesListPositionMode);
   cbShowTabs.Checked := gDirectoryTabs;
   cbShowCurDir.Checked := gCurDir;
   cbShowTabHeader.Checked := gTabHeader;
@@ -134,6 +143,8 @@ begin
   gDriveBar2 := cbTwoDiskPanels.Checked;
   gDriveBarFlat := cbFlatDiskPanel.Checked;
   gDrivesListButton := cbShowDrivesListButton.Checked;
+  if cmbDrivesListPosition.ItemIndex >= 0 then
+    gDrivesListPositionMode := TDrivesListPosition(cmbDrivesListPosition.ItemIndex);
   gDirectoryTabs := cbShowTabs.Checked;
   gCurDir := cbShowCurDir.Checked;
   gTabHeader := cbShowTabHeader.Checked;

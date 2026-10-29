@@ -665,7 +665,7 @@ end;
 
 function TColumnsFileView.GetFileRect(FileIndex: PtrInt): TRect;
 begin
-  Result := dgPanel.CellRect(0, FileIndex + dgPanel.FixedRows);
+  Result := dgPanel.CellRect(dgPanel.LeftCol, FileIndex + dgPanel.FixedRows);
 end;
 
 function TColumnsFileView.GetIconRect(FileIndex: PtrInt): TRect;
