@@ -597,8 +597,6 @@ procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
   if Assigned(FOperation) then
     FOperation.Stop
-  else if FState.isRunningInState(sddsCheckingContent) then
-    checkContentThreadStop
   else
     FState.stop;
 end;
@@ -608,7 +606,6 @@ begin
   if not IsMaskSearchTemplate(cbExtFilter.Text) then
     InsertFirstItem(Trim(cbExtFilter.Text), cbExtFilter);
   StatusBar1.Panels[0].Text := Format(rsComparingPercent, [0]);
-  checkContentThreadStop;
   Compare;
 end;
 
@@ -758,8 +755,7 @@ begin
   RecalcHeaderCols;
 end;
 
-procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+procedure TfrmSyncDirsDlg.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   Index: Integer;
 begin
@@ -1016,8 +1012,6 @@ begin
   Key := 0;
   if FState.isRunningInState(sddsScanning) then
     FState.reset
-  else if FState.isRunningInState(sddsCheckingContent) then
-    checkContentThreadStop
   else if FState.isRunning then
     FState.stop
   else
@@ -1502,7 +1496,7 @@ end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStop;
 begin
-  if NOT FState.isRunningInState(sddsCheckingContent) then
+  if NOT FState.isInState(sddsCheckingContent) then
     Exit;
   FCheckContentThread.Terminate;
   FCheckContentThread.WaitFor;    // onCheckContentThreadFinish() will be called

@@ -205,7 +205,7 @@ type
 
   { ISyncDirsCheckContentThreadCallback }
 
-  ISyncDirsCheckContentThreadCallback = interface
+  ISyncDirsCheckContentThreadCallback = interface( ISyncDirsCommonCallback )
     procedure onCheckContentThreadStart;
     procedure onCheckContentThreadFinish;
     procedure onCheckContentThreadReapplyFilter;
@@ -1381,26 +1381,18 @@ var
     end;
   end;
 
-var
-  isEqual: Boolean;
-  dirIndex, fileIndex: Integer;
-  rec: TSyncRec;
-begin
-  initInc;
-  Synchronize(@_callback.onCheckContentThreadStart);
-  Buffer1:= GetMem(BUF_LEN);
-  Buffer2:= GetMem(BUF_LEN);
-  try
-    if (Buffer1 = nil) or (Buffer2 = nil) then
-      raise EOutOfMemory.Create(SOutOfMemory);
-
+  procedure doCompareByContent;
+  var
+    isEqual: Boolean;
+    dirIndex, fileIndex: Integer;
+    rec: TSyncRec;
+  begin
     Statistics.DoneBytes:= 0;
     Statistics.TotalBytes:= 0;
     for dirIndex := 0 to _fullTree.Count - 1 do
     begin
       for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
       begin
-        if Terminated then Exit;
         rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
         if rec.isFile and (rec.state = srsUnknown) then
         begin
@@ -1414,8 +1406,8 @@ begin
     begin
       for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
       begin
-        if Terminated then
-          Break;
+        if NOT _callback.commonCheckRunning then
+          Exit;
         rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
         if rec.isDir then
           continue;
@@ -1440,6 +1432,17 @@ begin
         end;
       end;
     end;
+  end;
+
+begin
+  initInc;
+  Synchronize(@_callback.onCheckContentThreadStart);
+  Buffer1:= GetMem(BUF_LEN);
+  Buffer2:= GetMem(BUF_LEN);
+  try
+    if (Buffer1 = nil) or (Buffer2 = nil) then
+      raise EOutOfMemory.Create(SOutOfMemory);
+    doCompareByContent;
     Synchronize(@_callback.onCheckContentThreadReapplyFilter);
   finally
     Synchronize(@_callback.onCheckContentThreadFinish);
