@@ -1686,7 +1686,6 @@ var
 begin
   Result:= TSyncDirsUtil.copyProperties(targetFS, sourceFile, targetFile, attrs);
   Inc( FFileCountProgressHelper.done );
-  Application.ProcessMessages;
   if NOT Result then begin
     errMsg:= Format(rsMsgErrSetAttribute, [targetFile.FullPath]);
     askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);

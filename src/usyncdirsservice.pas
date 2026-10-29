@@ -769,7 +769,7 @@ begin
       attrs );
     if NOT ret then
       break;
-    if NOT _callback.commonCheckRunning then
+    if NOT _callback.commonCheckRunning(True) then
       break;
   end;
 end;
