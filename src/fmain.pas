@@ -963,7 +963,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh, uFileSourceOperationMisc
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc, uVfsModule
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
