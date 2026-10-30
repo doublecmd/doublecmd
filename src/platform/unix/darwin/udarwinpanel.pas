@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   Controls, Forms,
-  CocoaAll, QuickLookUI, CocoaUtils,
+  CocoaAll, QuickLookUI, CocoaUtils, CocoaPrivate,
   uDarwinApplication, uDarwinFinderModel, uDarwinFinder;
 
 type
@@ -18,6 +18,8 @@ type
   TDarwinPanelUtil = class
   public
     class procedure showQuickLook;
+    class procedure updateQuickLook;
+    class function hideQuickLook: Boolean;
     class procedure showEditFinderTags( const Sender: id; const control: TWinControl );
     class procedure showSharingService;
     class procedure showAirDrop;
@@ -29,12 +31,14 @@ type
 
   { TQLPreviewPanelMate }
 
-  TQLPreviewPanelMate = objcclass( NSObject, QLPreviewPanelDataSourceProtocol )
+  TQLPreviewPanelMate = objcclass( NSObject, QLPreviewPanelDataSourceProtocol, QLPreviewPanelDelegateProtocol )
   private
     _urlArray: NSArray;
   public
     function numberOfPreviewItemsInPreviewPanel (panel: QLPreviewPanel): NSInteger;
     function previewPanel_previewItemAtIndex (panel: QLPreviewPanel; index: NSInteger): QLPreviewItemProtocol;
+    function previewPanel_handleEvent (panel: QLPreviewPanel; event: NSEvent): ObjCBOOL;
+      message 'previewPanel:handleEvent:';
   public
     function initWithItems( urlArray: NSArray ): id; message 'setUrlArray:';
     procedure dealloc; override;
@@ -52,6 +56,60 @@ begin
   Result:= QLPreviewItemProtocol( _urlArray.objectAtIndex(index) );
 end;
 
+var
+  // the file panel that gets the keys while the preview is shown
+  quickLookFocusView: NSView = nil;
+
+procedure setQuickLookFocusView( const responder: NSResponder );
+begin
+  if Assigned(quickLookFocusView) then
+    quickLookFocusView.release;
+  quickLookFocusView:= nil;
+  if Assigned(responder) and responder.isKindOfClass(NSView) then begin
+    quickLookFocusView:= NSView(responder);
+    quickLookFocusView.retain;
+  end;
+end;
+
+// The panel makes itself the key window when shown, and again when its content
+// is loaded. Pass the keys on to the file panel, so its cursor keeps moving and
+// the preview follows it. Escape is left to the panel to close it.
+function TQLPreviewPanelMate.previewPanel_handleEvent(panel: QLPreviewPanel;
+  event: NSEvent): ObjCBOOL;
+const
+  kVK_Escape = 53;
+var
+  callback: ICommonCallback;
+begin
+  Result:= False;
+  if not ((event.type_ = NSKeyDown) or (event.type_ = NSKeyUp)) then
+    Exit;
+  if event.keyCode = kVK_Escape then
+    Exit;
+  if (quickLookFocusView = nil) or (quickLookFocusView.window = nil) then
+    Exit;
+
+  // the main window loses its first responder while the panel is shown,
+  // restore it and make the main window key again, so that the file panel
+  // counts as focused for the hotkeys (e.g. Tab) and the next keys go
+  // directly to it
+  quickLookFocusView.window.makeFirstResponder( quickLookFocusView );
+  quickLookFocusView.window.makeKeyWindow;
+
+  // LCL handles the keys in TCocoaApplication.sendEvent, before Cocoa does,
+  // but the event was sent to the panel. Do the same for the file panel.
+  callback:= quickLookFocusView.lclGetCallback;
+  if Assigned(callback) then begin
+    if callback.handleEventBeforeCocoa( event ) then
+      quickLookFocusView.keyDown( event );
+    callback.handleEventAfterCocoa( event );
+  end;
+  // the keys may move the focus, e.g. Tab to the other file panel
+  if Assigned(quickLookFocusView.window) then
+    setQuickLookFocusView( quickLookFocusView.window.firstResponder );
+  Result:= True;
+end;
+
 function TQLPreviewPanelMate.initWithItems(urlArray: NSArray): id;
 begin
   Result:= Inherited init;
@@ -65,21 +123,79 @@ begin
   Inherited;
 end;
 
+var
+  quickLookMate: TQLPreviewPanelMate = nil;
+
+procedure setQuickLookItems( const panel: QLPreviewPanel; const urlArray: NSArray );
+var
+  mate: TQLPreviewPanelMate;
+begin
+  mate:= TQLPreviewPanelMate.alloc.initWithItems( urlArray );
+  panel.setDataSource( mate );
+  panel.setDelegate( mate );
+  // the panel retains neither its data source nor its delegate
+  if Assigned(quickLookMate) then
+    quickLookMate.release;
+  quickLookMate:= mate;
+end;
+
+function isQuickLookVisible: Boolean;
+begin
+  Result:= Assigned(quickLookMate) and
+           QLPreviewPanel.sharedPreviewPanelExists and
+           QLPreviewPanel.sharedPreviewPanel.isVisible;
+end;
+
 class procedure TDarwinPanelUtil.showQuickLook;
 var
   lclArray: TStringArray;
-  mate: TQLPreviewPanelMate;
   panel: QLPreviewPanel;
 begin
+  // toggle, like Space in Finder
+  if hideQuickLook then
+    Exit;
+
   lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
   if lclArray = nil then
     Exit;
 
-  mate:= TQLPreviewPanelMate.alloc.initWithItems( TCocoaCollectionUtil.urlArrayToNSArray(lclArray) );
+  if Assigned(NSApp.keyWindow) then
+    setQuickLookFocusView( NSApp.keyWindow.firstResponder )
+  else
+    setQuickLookFocusView( nil );
+
   panel:= QLPreviewPanel.sharedPreviewPanel;
-  panel.setDataSource( mate );
+  setQuickLookItems( panel, TCocoaCollectionUtil.urlArrayToNSArray(lclArray) );
   panel.makeKeyAndOrderFront( nil );
-  mate.release;
+end;
+
+class function TDarwinPanelUtil.hideQuickLook: Boolean;
+begin
+  Result:= isQuickLookVisible;
+  if Result then
+    QLPreviewPanel.sharedPreviewPanel.orderOut( nil );
+end;
+
+class procedure TDarwinPanelUtil.updateQuickLook;
+var
+  lclArray: TStringArray;
+  urlArray: NSArray;
+  panel: QLPreviewPanel;
+begin
+  if not isQuickLookVisible then
+    Exit;
+
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  urlArray:= TCocoaCollectionUtil.urlArrayToNSArray( lclArray );
+  if urlArray.isEqualToArray( quickLookMate._urlArray ) then
+    Exit;
+
+  panel:= QLPreviewPanel.sharedPreviewPanel;
+  setQuickLookItems( panel, urlArray );
+  panel.reloadData;
 end;
 
 type

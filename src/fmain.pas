@@ -59,6 +59,7 @@ uses
   , CocoaConfig
   , uDarwinApplication
   , uDarwinFileView
+  , uDarwinPanel
   {$ENDIF}
   , Types, LMessages;
 
@@ -4277,6 +4278,15 @@ var
 begin
   SetDragCursor(Shift);
 
+  {$IF DEFINED(DARWIN)}
+  // The keys go to the file panel while the Quick Look panel is shown
+  if (Key = VK_ESCAPE) and (Shift = []) and TDarwinPanelUtil.hideQuickLook then
+  begin
+    Key := 0;
+    Exit;
+  end;
+  {$ENDIF}
+
   if ActiveControl = nil then
     ActiveFrame.SetFocus;
 
@@ -4938,6 +4948,9 @@ begin
       UpdateFreeSpace(Page.Notebook.Side, False);
     end;
   UpdateFileView;
+  {$IF DEFINED(DARWIN)}
+  TDarwinPanelUtil.updateQuickLook;
+  {$ENDIF}
 end;
 
 procedure TfrmMain.FileViewFilesChanged(FileView: TFileView);

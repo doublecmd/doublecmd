@@ -299,8 +299,7 @@ begin
       SetLastActiveFile(NewFileIndex, TopRowIndex);
     end;
 
-    if Assigned(OnChangeActiveFile) then
-      OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+    DoChangeActiveFile(FFiles[NewFileIndex].FSFile);
 
     if FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
   end;
@@ -915,8 +914,7 @@ begin
       if Result then
       begin
           SetUpdate(Index);
-          if Assigned(OnChangeActiveFile) then
-            OnChangeActiveFile(Self, FFiles[Index].FSFile);
+          DoChangeActiveFile(FFiles[Index].FSFile);
           Exit(True);
       end;
     end;
@@ -937,8 +935,7 @@ begin
           else begin
             SetUpdate(FFiles.Count - 1);
           end;
-          if Assigned(OnChangeActiveFile) then
-            OnChangeActiveFile(Self, FFiles[FLastActiveFileIndex].FSFile);
+          DoChangeActiveFile(FFiles[FLastActiveFileIndex].FSFile);
         end;
       end;
     end;
