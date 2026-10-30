@@ -60,8 +60,9 @@ type
     sddsScanning,
 
     // Compare with "by Content" checkbox
-    // running in Background Thread, but Block other operations in Main Thread
-    // it is not possible to perform other operations at the same time
+    // running in Background Thread, but in Main Thread Block other operations
+    // except browsing the Grid, it is not possible to perform other operations
+    // at the same time.
     // update statistics of FFilteredCount in Status Bar
     // update statistics of FileSize in Progress Bar
     // NO need to call Application.ProcessMessages()
@@ -1454,7 +1455,7 @@ begin
   Timer.Enabled:= True;
   HeaderDG.Enabled:= False;
   GroupBox1.Enabled:= False;
-  MainDrawGrid.Enabled:= False;
+  MainDrawGrid.PopupMenu:= nil;
   FFileSizeProgressHelper.open(rsDiffComparing, 100);
   FFileCountProgressHelper.close;
   pnlProgress.Visible:= True;
@@ -1472,8 +1473,8 @@ begin
   HeaderDG.Enabled:= True;
   TopPanel.Enabled:= True;
   GroupBox1.Enabled:= True;
-  MainDrawGrid.Enabled:= True;
   pnlProgress.Visible:= False;
+  MainDrawGrid.PopupMenu:= pmGridMenu;
   MainDrawGrid.SetFocus;
 end;
 
