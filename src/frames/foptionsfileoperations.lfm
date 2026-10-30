@@ -251,6 +251,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Height = 28
       Top = 74
       Width = 50
+      MaxValue = 64
+      MinValue = 1
       TabOrder = 2
     end
     object cbProcessComments: TCheckBox
