@@ -169,7 +169,7 @@ uses
     , qt5, qtwidgets
     {$ENDIF}
     {$IF DEFINED(LCLQT6)}
-    , qt6, qtwidgets
+    , qt6, qtwidgets, qtint
     {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
     , Gtk2,  Glib2, Themes
@@ -562,8 +562,13 @@ var
 begin
   if not (Form is THintWindow) then
   begin
-    ClassName:= Form.ClassName;
-    QWidget_setWindowRole(QWidget_window(TQtWidget(Form.Handle).GetContainerWidget), @ClassName);
+  {$IF DEFINED(LCLQT6)}
+    if not IsWayland then
+  {$ENDIF}
+    begin
+      ClassName:= Form.ClassName;
+      QWidget_setWindowRole(QWidget_window(TQtWidget(Form.Handle).GetContainerWidget), @ClassName);
+    end;
   end;
 end;
 {$ENDIF}
