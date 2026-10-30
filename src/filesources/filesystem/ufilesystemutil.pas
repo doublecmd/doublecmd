@@ -207,7 +207,7 @@ var
 begin
   filename:= FileSource.GetFileName( aFile );
   // Only change name for files.
-  if aFile.IsDirectory or aFile.IsLink then
+  if aFile.IsDirectory or aFile.IsLinkToDirectory then
     Result := filename
   else
     Result := ApplyRenameMask(filename, NameMask, ExtMask);
