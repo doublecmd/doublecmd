@@ -1308,41 +1308,48 @@ var
     basePaths[side]:= path;
   end;
 
+  procedure doScan;
+  begin
+    try
+      if IsMaskSearchTemplate(cbExtFilter.Text) then
+      begin
+        FMaskList := nil;
+        FTemplate:= gSearchTemplateList.TemplateByName[cbExtFilter.Text];
+      end
+      else begin
+        FTemplate := nil;
+        if cbExtFilter.Text <> EmptyStr then
+          FMaskList := TMaskList.Create(cbExtFilter.Text)
+        else
+          FMaskList := TMaskList.Create( '*' );
+      end;
+      FCmpFileSources := FFileSources;
+      setBaseDir(edPath1.Text, dsLeft);
+      setBaseDir(edPath2.Text, dsRight);
+      FCmpFilePaths := basePaths;
+
+      builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources, basePaths );
+      builder.build( FFullTree, FSelectedFiles );
+      FillFoundItemsDG;
+    finally
+      FreeAndNil(builder);
+      FreeAndNil(FMaskList);
+      FTemplate := nil;
+    end;
+  end;
+
+var
+  abort: Boolean;
 begin
   FState.enter(sddsScanning);
-  try
-    if IsMaskSearchTemplate(cbExtFilter.Text) then
-    begin
-      FMaskList := nil;
-      FTemplate:= gSearchTemplateList.TemplateByName[cbExtFilter.Text];
-    end
-    else begin
-      FTemplate := nil;
-      if cbExtFilter.Text <> EmptyStr then
-        FMaskList := TMaskList.Create(cbExtFilter.Text)
-      else
-        FMaskList := TMaskList.Create( '*' );
-    end;
-    FCmpFileSources := FFileSources;
-    setBaseDir(edPath1.Text, dsLeft);
-    setBaseDir(edPath2.Text, dsRight);
-    FCmpFilePaths := basePaths;
-
-    builder:= TSyncDirsTreeBuilder.Create( self, FSortService, FCompareOption, FFileSources, basePaths );
-    builder.build( FFullTree, FSelectedFiles );
-
-    FillFoundItemsDG;
-    if NOT FState.isRunningInState(sddsScanning) then
-      Exit;
-    if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
-      checkContentThreadStart;
-  finally
-    FreeAndNil(builder);
-    FreeAndNil(FMaskList);
-    FTemplate := nil;
-    if FState.isInState(sddsScanning) then
-      FState.reset;
-  end;
+  doScan;
+  abort:= NOT FState.isRunning;
+  if FState.isInState(sddsScanning) then
+    FState.reset;
+  if abort then
+    Exit;
+  if (FFullTree.Count > 0) and (cfByContent in FCompareOption.flags) then
+    checkContentThreadStart
 end;
 
 procedure TfrmSyncDirsDlg.UpdateStatusBar;
