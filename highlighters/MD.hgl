@@ -1,0 +1,106 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="Markdown" Extensions="md,markdown,mdown,mkdn,mdtxt,mdtext" Other="0"/>
+    <Author Name="Ronen Rozner" Email="" Web="" Copyright="" Company="" Remark="Markdown syntax highlighting"/>
+    <Version Version="1" Revision="1" Date="45338,8541038426"/>
+    <History>
+    </History>
+    <Sample>
+      <S># Markdown</S>
+      <S></S>
+      <S>Markdown has **strong**, *emphasized*, and `inline code` text.</S>
+      <S></S>
+      <S>- A list item</S>
+      <S>- [x] A completed task</S>
+      <S></S>
+      <S>&gt; A block quote</S>
+      <S></S>
+      <S>```text</S>
+      <S>Fenced code block</S>
+      <S>```</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Set Name="Numbers" Attributes="$00008000,$80000005;False:True." Style="" Symbols="0123456789"/>
+    <Keywords Name="Task markers" Attributes="$00800000,$80000005;False:True." Style="">
+      <Word Value="[ ]"/>
+      <Word Value="[x]"/>
+      <Word Value="[X]"/>
+    </Keywords>
+    <Range Name="Fenced code block (backticks)" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="```" OpenSymbolStartLine="NonSpace" CloseSymbol="```" CloseSymbolStartLine="NonSpace"/>
+    </Range>
+    <Range Name="Fenced code block (tildes)" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="~~~" OpenSymbolStartLine="NonSpace" CloseSymbol="~~~" CloseSymbolStartLine="NonSpace"/>
+    </Range>
+    <Range Name="HTML comment" Attributes="$00A00000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&lt;!--" CloseSymbol="--&gt;"/>
+    </Range>
+    <Range Name="ATX heading" Attributes="$00FF0000,$80000005;False:True.B" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="#" OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Setext heading" Attributes="$00FF0000,$80000005;False:True.B" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="===" OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Horizontal rule" Attributes="$00FF0080,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="---" OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Block quote" Attributes="$00800000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&gt;" OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Bullet list" Attributes="$00800080,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="- " OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Bullet list" Attributes="$00800080,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="+ " OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Bullet list" Attributes="$00800080,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="* " OpenSymbolStartLine="NonSpace" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Image" Attributes="$00808000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="![" CloseSymbol="]" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Link text" Attributes="$00808000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="[" CloseSymbol="]" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Inline code" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="`" CloseSymbol="`" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Strong text" Attributes="$000000FF,$80000005;False:True.B" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="**" CloseSymbol="**" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Strong text" Attributes="$000000FF,$80000005;False:True.B" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="__" CloseSymbol="__" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Emphasized text" Attributes="$000000FF,$80000005;False:True.I" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="*" CloseSymbol="*" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Emphasized text" Attributes="$000000FF,$80000005;False:True.I" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="_" CloseSymbol="_" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Strikethrough text" Attributes="$00C08000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="~~" CloseSymbol="~~" CloseOnEol="True"/>
+    </Range>
+  </Range>
+</UniHighlighter>
