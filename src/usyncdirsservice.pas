@@ -970,8 +970,10 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
     try
       if NOT _callback.commonCheckRunning(True) then
         Exit;
-      processOneSide(dirItem, currentDirIndex, leftDirs, dsLeft);
-      processOneSide(dirItem, currentDirIndex, rightDirs, dsRight);
+      if (dir='') or dirSyncRec.hasLeftFile then
+        processOneSide(dirItem, currentDirIndex, leftDirs, dsLeft);
+      if (dir='') or dirSyncRec.hasRightFile then
+        processOneSide(dirItem, currentDirIndex, rightDirs, dsRight);
       dirSyncRec.updateState;
       _sortedService.sortDirItem(dirItem);
       if not (cfSubdirs in _compareOption.flags) then
