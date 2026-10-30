@@ -278,6 +278,7 @@ type
     procedure toggleSelectionAction;
     procedure setSelectionAction(const newAction: TSyncRecState);
 
+    function stopOperation: Boolean;
     procedure doCopyProperties(const targetSide: TDoubleSide);
 
     procedure Compare;
@@ -596,10 +597,7 @@ end;
 
 procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
-  if Assigned(FOperation) then
-    FOperation.Stop
-  else
-    FState.stop;
+  self.stopOperation;
 end;
 
 procedure TfrmSyncDirsDlg.btnCompareClick(Sender: TObject);
@@ -792,21 +790,7 @@ end;
 
 procedure TfrmSyncDirsDlg.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  if Assigned(FOperation) then
-  begin
-    FOperation.Stop;
-    CanClose := False;
-  end
-  else if FState.isRunningInState(sddsScanning) then
-  begin
-    FState.reset;
-    CanClose := False;
-  end
-  else if FState.isRunningInState(sddsCheckingContent) then
-  begin
-    CanClose := False;
-    checkContentThreadStop;
-  end;
+  CanClose:= NOT self.stopOperation;
 end;
 
 procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
@@ -1006,16 +990,15 @@ end;
 
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  noOperation: Boolean;
 begin
   if Key <> VK_ESCAPE then
     Exit;
 
   Key := 0;
-  if FState.isRunningInState(sddsScanning) then
-    FState.reset
-  else if FState.isRunning then
-    FState.stop
-  else
+  noOperation:= NOT self.stopOperation;
+  if noOperation then
     Close;
 end;
 
@@ -1394,6 +1377,16 @@ begin
   end;
 end;
 
+function TfrmSyncDirsDlg.stopOperation: Boolean;
+begin
+  Result:= FState.isRunning;
+  if NOT Result then
+    Exit;
+  FState.stop;
+  if Assigned(FOperation) then
+    FOperation.Stop;
+end;
+
 procedure TfrmSyncDirsDlg.doCopyProperties(const targetSide: TDoubleSide);
   function selectProperties: TCopyAttributesOptions;
   var
@@ -1504,7 +1497,7 @@ end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStop;
 begin
-  if NOT FState.isInState(sddsCheckingContent) then
+  if FCheckContentThread = nil then
     Exit;
   FCheckContentThread.Terminate;
   FCheckContentThread.WaitFor;    // onCheckContentThreadFinish() will be called
