@@ -34,10 +34,6 @@ type
   { TAloneForm }
 
   TAloneForm = class(TForm)
-  {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
-  protected
-    procedure DoClose(var CloseAction: TCloseAction); override;
-  {$ENDIF}
   public
     constructor CreateNew(AOwner: TComponent; Num: Integer = 0); override;
   end;
@@ -178,53 +174,6 @@ uses
   , uDCReadSVG, uTurboJPEG;
 
 { TAloneForm }
-
-{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
-
-var
-  FMain, FBefore, FCurrent: TCustomForm;
-
-procedure TAloneForm.DoClose(var CloseAction: TCloseAction);
-
-  procedure TrySetFocus(Form: TCustomForm); inline;
-  begin
-    if Form.CanFocus then Form.SetFocus;
-  end;
-
-var
-  psnFront, psnCurrent: ProcessSerialNumber;
-begin
-  inherited DoClose(CloseAction);
-  if (GetCurrentProcess(psnCurrent) = noErr) and (GetFrontProcess(psnFront) = noErr) then
-  begin
-    // Check that our process is active
-    if (psnCurrent.lowLongOfPSN = psnFront.lowLongOfPSN) and
-       (psnCurrent.highLongOfPSN = psnFront.highLongOfPSN) then
-    begin
-      // Restore active form
-      if (Screen.CustomFormIndex(FBefore) < 0) then
-        TrySetFocus(FMain)
-      else if (FBefore <> Self) then
-        TrySetFocus(FBefore)
-      else
-        FBefore:= FMain;
-    end;
-  end;
-end;
-
-procedure ActiveFormChangedHandler(Self, Sender: TObject; Form: TCustomForm);
-begin
-  if (Form is TAloneForm) or (FMain = Form) then
-  begin
-    if FCurrent <> Form then
-    begin
-      FBefore:= FCurrent;
-      FCurrent:= Form;
-    end;
-  end;
-end;
-
-{$ENDIF}
 
 constructor TAloneForm.CreateNew(AOwner: TComponent; Num: Integer);
 begin
@@ -704,12 +653,7 @@ begin
   end;
   {$ENDIF}
 
-  {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
-  FMain:= MainForm;
-  Handler.Data:= MainForm;
-  Handler.Code:= @ActiveFormChangedHandler;
-  Screen.AddHandlerActiveFormChanged(TScreenFormEvent(Handler), True);
-  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   Handler.Data:= MainForm;
   Handler.Code:= @ScreenFormEvent;
   ScreenFormEvent(MainForm, MainForm, MainForm);
