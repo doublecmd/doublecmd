@@ -305,9 +305,6 @@ type
       const sourceFile: TFile;
       const targetFile: TFile;
       const attrs: TCopyAttributesOptions ): Boolean;
-    function fileProcessorWithUIDeleteFile(
-      const FileSource: IFileSource;
-      const f: TFile): Boolean;
 
   private
     FCheckContentThread: TSyncDirsCheckContentThread;
@@ -1692,19 +1689,6 @@ begin
     askResult:= MessageDlg(errMsg, mtError, [mbIgnore, mbAbort], 0, mbAbort);
     Result:= (askResult = mrIgnore);
   end;
-end;
-
-function TfrmSyncDirsDlg.fileProcessorWithUIDeleteFile(
-  const FileSource: IFileSource;
-  const f: TFile ): Boolean;
-var
-  files: TFiles;
-begin
-  files := TFiles.Create(EmptyStr);
-  files.OwnsObjects:= False;
-  files.Add(f);
-  Result:= fileProcessorWithUIDeleteFiles(FileSource, files);
-  files.Free;
 end;
 
 procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;

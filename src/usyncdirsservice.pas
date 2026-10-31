@@ -106,9 +106,6 @@ type
       const sourceFile: TFile;
       const targetFile: TFile;
       const attrs: TCopyAttributesOptions ): Boolean;
-    function fileProcessorWithUIDeleteFile(
-      const fs: IFileSource;
-      const f: TFile): Boolean;
   end;
 
   { TSyncDirsSortService }
@@ -231,6 +228,20 @@ type
   end;
 
 implementation
+
+function fileProcessorWithUIDeleteFile(
+  const fileProcessor: ISyncDirsFileProcessorWithUI;
+  const fs: IFileSource;
+  const f: TFile): Boolean;
+var
+  files: TFiles;
+begin
+  files := TFiles.Create(EmptyStr);
+  files.OwnsObjects:= False;
+  files.Add( f );
+  Result:= fileProcessor.fileProcessorWithUIDeleteFiles(fs, files);
+  files.Free;
+end;
 
 { TSyncDirsUtil }
 
@@ -716,7 +727,7 @@ var
     if NOT Assigned(f) then
       Exit;
 
-    Result:= _fileProcessor.fileProcessorWithUIDeleteFile( _fileSources[side], f );
+    Result:= fileProcessorWithUIDeleteFile( _fileProcessor, _fileSources[side], f );
     if NOT Result then
       Exit;
 
@@ -1073,7 +1084,7 @@ var
 
     Result:= Assigned(f);
     if Result then
-      Result:= _fileProcessor.fileProcessorWithUIDeleteFile( _fileSources[side], f );
+      Result:= fileProcessorWithUIDeleteFile( _fileProcessor, _fileSources[side], f );
     f.Free;                                      // free file
   end;
 
