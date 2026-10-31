@@ -379,15 +379,15 @@ begin
     end;
   end;
 
-  {$IF lcl_fullversion < 093100}
-  case Key of
-    VK_ESCAPE: // Must handle before drag manager. Lazarus bug 0020676.
-      begin
-        ModalResult := mrCancel;
-        Key := 0;
-      end;
+{$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+  // https://github.com/doublecmd/doublecmd/issues/2197
+  // https://github.com/doublecmd/doublecmd/issues/3185
+  if (Key = VK_NEXT) or
+     ((Key = VK_DOWN) and (ActiveControl = edtDst)) then
+  begin
+    Key := 0;
   end;
-  {$ENDIF}
+{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.FormPaint(Sender: TObject);
