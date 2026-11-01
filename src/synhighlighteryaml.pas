@@ -132,6 +132,9 @@ type
     function GetSampleSource: String; override;
     function IsFilterStored: Boolean; override;
     function GetIdentChars: TSynIdentChars; override;
+{$if lcl_fullversion >= 4990000}
+    function GetInitialDefaultFileFilterMask: String; override;
+{$endif}
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -451,7 +454,9 @@ begin
   AddAttribute(fErrorAttri);
 
   SetAttributesOnChange(@DefHighlightChange);
+{$if lcl_fullversion < 4990000}
   fDefaultFilter := SYNS_FilterYAML;
+{$endif}
   LongRec(fRange).Lo := rsUnknown;
 
   // for coloring doc comment background
@@ -708,6 +713,13 @@ function TSynYAMLSyn.GetIdentChars: TSynIdentChars;
 begin
   Result:= ['_', '0'..'9', 'a'..'z', 'A'..'Z'];
 end;
+
+{$if lcl_fullversion >= 4990000}
+function TSynYAMLSyn.GetInitialDefaultFileFilterMask: String;
+begin
+  Result:= SYNS_FilterYAML;
+end;
+{$endif}
 
 class function TSynYAMLSyn.GetLanguageName: string;
 begin

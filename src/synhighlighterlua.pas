@@ -231,6 +231,9 @@ type
     function GetIdentChars: TSynIdentChars; override;
     function IsFilterStored: Boolean; override;
     function GetSampleSource: String; override;
+{$if lcl_fullversion >= 4990000}
+    function GetInitialDefaultFileFilterMask: String; override;
+{$endif}
   public
     constructor Create(AOwner: TComponent); override;
     function GetRange: Pointer; override;
@@ -957,7 +960,9 @@ begin
   InitIdent;
   MakeMethodTables;
   fRange := rsUnknown;
+{$if lcl_fullversion < 4990000}
   fDefaultFilter := SYNS_FilterLua;
+{$endif}
 end;
 
 procedure TSynLuaSyn.SpaceProc;
@@ -1494,6 +1499,13 @@ begin
            'end'#13 +
            'print(str)';
 end;
+
+{$if lcl_fullversion >= 4990000}
+function TSynLuaSyn.GetInitialDefaultFileFilterMask: String;
+begin
+  Result:= SYNS_FilterLua;
+end;
+{$endif}
 
 procedure TSynLuaSyn.ResetRange;
 begin
