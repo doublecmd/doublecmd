@@ -352,7 +352,7 @@ begin
         filterList.addPath( IncludeTrailingPathDelimiter(currentDirPath), rec );
     end;
     for fileIndex:= 0 to currentDirItem.fileCount-1 do begin
-      rec:= currentDirItem.fileSyncRec( fileIndex );
+      rec:= currentDirItem.getSyncRec( fileIndex );
       if isMatching(rec) then
         filterList.addPath( currentDirItem.files[fileIndex], rec );
     end;
@@ -370,7 +370,7 @@ class function TSyncDirsUtil.selectionToStringList(
     s: string;
     rec: TSyncRec;
   begin
-    rec := filteredList.fileSyncRec(R);
+    rec := filteredList.getSyncRec(R);
     if rec.isDir then
     begin
       s := filteredList.path(R);
@@ -573,8 +573,8 @@ procedure TSyncDirsSortService.sortDirItem( const dirItem: TTwoLevelTreeDirItem 
   begin
     if _sortIndex in [1..5] then
     begin
-      r1:= dirItem.fileSyncRec(i);
-      r2:= dirItem.fileSyncRec(j);
+      r1:= dirItem.getSyncRec(i);
+      r2:= dirItem.getSyncRec(j);
     end;
     case _sortIndex of
     0:
@@ -770,7 +770,7 @@ begin
     sourceSide:= dsLeft;
 
   for i in indexes do begin
-    rec:= _filteredList.fileSyncRec( i );
+    rec:= _filteredList.getSyncRec( i );
     if NOT rec.hasFilesOnBothSides then
       continue;
     ret:= _fileProcessor.fileProcessorWithUICopyProperties(
@@ -883,7 +883,7 @@ procedure TSyncDirsTreeBuilder.build( const FFullTree: TTwoLevelTree; const sele
           if recIndex < 0 then
             rec := TSyncFileRec.Create(_compareOption, dir, parentDirIndex)
           else
-            rec := dirItem.fileSyncRec(recIndex);
+            rec := dirItem.getSyncRec(recIndex);
           rec.filesOnSide[side]:= f.Clone;
           rec.updateState;
           dirItem.addFile(filename, rec);
@@ -1024,7 +1024,7 @@ var
 begin
   Result:= Default( TSyncDirsSyncCount );
   for i:= 0 to _filteredList.Count-1 do begin
-    rec := _filteredList.fileSyncRec( i );
+    rec := _filteredList.getSyncRec( i );
     case rec.action of
       srsCopyToLeft:
         begin
@@ -1234,7 +1234,7 @@ var
         end;
         index:= index + 1;
         if index < _filteredList.Count then
-          rec:= _filteredList.fileSyncRec(index);
+          rec:= _filteredList.getSyncRec(index);
       until (index = _filteredList.Count) or rec.isDir;
 
       if copyToLeftFiles.Count > 0 then begin
@@ -1293,7 +1293,7 @@ begin
   Result:= True;
   index:= 0;
   while index < _filteredList.Count do begin
-    rec:= _filteredList.fileSyncRec(index);
+    rec:= _filteredList.getSyncRec(index);
     if rec.isDir then begin
       if NOT processDir then
         break;
@@ -1406,7 +1406,7 @@ var
     begin
       for fileIndex := 0 to _fullTree.dirItem(dirIndex).fileCount - 1 do
       begin
-        rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
+        rec := _fullTree.getSyncRec(dirIndex, fileIndex);
         if rec.isFile and (rec.state = srsUnknown) then
         begin
           Statistics.TotalBytes+= rec.leftFile.Size;
@@ -1421,7 +1421,7 @@ var
       begin
         if NOT _callback.commonCheckRunning then
           Exit;
-        rec := _fullTree.fileSyncRec(dirIndex, fileIndex);
+        rec := _fullTree.getSyncRec(dirIndex, fileIndex);
         if rec.isDir then
           continue;
         if rec.state <> srsUnknown then

@@ -867,7 +867,7 @@ begin
   if (r < 0) or (r >= FFilteredList.Count) then Exit;
   x := MainDrawGrid.ScreenToClient(Mouse.CursorPos).X;
   if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
-  rec := FFilteredList.fileSyncRec(r);
+  rec := FFilteredList.getSyncRec(r);
   if rec.isDir or NOT rec.hasFilesOnBothSides or (rec.state = srsEqual) then
     Exit;
   PrepareToolData(self.leftFS, rec.leftFile, self.rightFS, rec.rightFile, @ShowDifferByGlobList);
@@ -885,7 +885,7 @@ begin
   if (FFilteredList = nil) or (aRow >= FFilteredList.Count) then Exit;
   with MainDrawGrid.Canvas do
   begin
-    rec := FFilteredList.fileSyncRec(aRow);
+    rec := FFilteredList.getSyncRec(aRow);
     if rec.isDir then
     begin
       if gdSelected in aState then begin
@@ -1026,7 +1026,7 @@ var
 begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FFilteredList.Count) then Exit;
-  rec := FFilteredList.fileSyncRec(r);
+  rec := FFilteredList.getSyncRec(r);
   if rec.isFile then
   begin
     if Sender = MenuItemViewLeft then

@@ -200,10 +200,10 @@ type
     constructor Create(const dirSyncRec: TSyncDirRec);
     destructor Destroy; override;
 
-    procedure addFile( const filename: String; const fileSyncRec: TSyncRec );
+    procedure addFile( const filename: String; const syncRec: TSyncRec );
 
     function fileCount: Integer;
-    function fileSyncRec( const fileIndex: Integer ): TSyncRec;
+    function getSyncRec( const fileIndex: Integer ): TSyncRec;
     function files: TStringListEx;
     function indexOfFile( const filename: String ): Integer;
 
@@ -228,7 +228,7 @@ type
     function indexOfDir( const dirPath: String ): Integer;
     function dirPath( const dirIndex: Integer ): String;
     function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
-    function fileSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec;
+    function getSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec;
     function findParentDirRec(const childSyncRec: TSyncRec): TSyncDirRec;
 
     {$IFOPT D+}
@@ -269,7 +269,7 @@ type
 
     function Count: Integer;
     function path( const index: Integer ): String;
-    function fileSyncRec( const index: Integer ): TSyncRec;
+    function getSyncRec( const index: Integer ): TSyncRec;
     procedure countLeftRight( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
     function countBothSides( const indexes: TIntegerList ): Integer;
     function flatCount: TSyncDirsFlatCount;
@@ -646,9 +646,9 @@ begin
   FreeAndNil( _files );
 end;
 
-procedure TTwoLevelTreeDirItem.addFile( const filename: String; const fileSyncRec: TSyncRec );
+procedure TTwoLevelTreeDirItem.addFile( const filename: String; const syncRec: TSyncRec );
 begin
-  _files.AddObject( filename, fileSyncRec );
+  _files.AddObject( filename, syncRec );
 end;
 
 function TTwoLevelTreeDirItem.fileCount: Integer;
@@ -656,7 +656,7 @@ begin
   Result:= _files.Count;
 end;
 
-function TTwoLevelTreeDirItem.fileSyncRec(const fileIndex: Integer): TSyncRec;
+function TTwoLevelTreeDirItem.getSyncRec(const fileIndex: Integer): TSyncRec;
 begin
   Result:= TSyncRec( _files.Objects[fileIndex] );
 end;
@@ -750,9 +750,9 @@ begin
   Result:= TTwoLevelTreeDirItem( _dirs.Objects[dirIndex] );
 end;
 
-function TTwoLevelTree.fileSyncRec(const dirIndex: Integer; const fileIndex: Integer): TSyncRec;
+function TTwoLevelTree.getSyncRec(const dirIndex: Integer; const fileIndex: Integer): TSyncRec;
 begin
-  Result:= self.dirItem(dirIndex).fileSyncRec(fileIndex);
+  Result:= self.dirItem(dirIndex).getSyncRec(fileIndex);
 end;
 
 function TTwoLevelTree.findParentDirRec( const childSyncRec: TSyncRec ): TSyncDirRec;
@@ -777,7 +777,7 @@ begin
     Result:= Result + IntToStr(dirIndex) + '. ' + self.dirItem(dirIndex).dirSyncRec.ToString + #10;
     for fileIndex:= 0 to dirItem(dirIndex).fileCount-1 do begin
       Result:= Result + '    ' + IntToStr(dirIndex) + '.' + IntToStr(fileIndex) + ' ' +
-               self.fileSyncRec(dirIndex,fileIndex).ToString + #10;
+               self.getSyncRec(dirIndex,fileIndex).ToString + #10;
     end;
   end;
 end;
@@ -792,7 +792,7 @@ procedure TFlatDirFileList.incParentDirRecChildrenCount(
 var
   childRec: TSyncRec;
 begin
-  childRec:= self.fileSyncRec( childIndex );
+  childRec:= self.getSyncRec( childIndex );
   _fullTree.incParentDirRecChildrenCount( childRec, side, delta );
 end;
 
@@ -823,7 +823,7 @@ procedure TFlatDirFileList.FullyDelete(const index: Integer);
 var
   rec: TSyncRec;
 begin
-  rec:= self.fileSyncRec( index );
+  rec:= self.getSyncRec( index );
   rec.state:= srsDeleted;
   self.Delete( index );
 end;
@@ -834,13 +834,13 @@ var
   rec: TSyncRec;
 begin
   for i:= self.Count-1 downto 0 do begin
-    rec:= self.fileSyncRec( i );
+    rec:= self.getSyncRec( i );
     if rec.isFile then
       continue;
     if rec.state <> srsDoNothing then
       continue;
     if i + 1 < self.Count then begin
-      rec:= self.fileSyncRec(i+1);
+      rec:= self.getSyncRec(i+1);
       if rec.isFile then
         continue;
     end;
@@ -861,7 +861,7 @@ var
   rec: TSyncRec;
 begin
   incParentDirRecChildrenCount( index, side, 1 );
-  rec:= self.fileSyncRec( index );
+  rec:= self.getSyncRec( index );
   rec.filesOnSide[side]:= f;
 end;
 
@@ -869,7 +869,7 @@ procedure TFlatDirFileList.removeFile(const index: Integer; const side: TDoubleS
 var
   rec: TSyncRec;
 begin
-  rec:= self.fileSyncRec( index );
+  rec:= self.getSyncRec( index );
   _fullTree.removeFile( rec, side );
 end;
 
@@ -883,7 +883,7 @@ begin
   Result:= _list[index];
 end;
 
-function TFlatDirFileList.fileSyncRec(const index: Integer): TSyncRec;
+function TFlatDirFileList.getSyncRec(const index: Integer): TSyncRec;
 begin
   Result:= TSyncRec( _list.Objects[index] );
 end;
@@ -899,7 +899,7 @@ begin
   leftCount:= 0;
   rightCount:= 0;
   for i in indexes do begin
-    rec:= self.fileSyncRec( i );
+    rec:= self.getSyncRec( i );
     if rec.isDir and NOT (cfEmptyDirs in rec.option.flags) then
       continue;
     if rec.hasLeftFile then
@@ -916,7 +916,7 @@ var
 begin
   Result:= 0;
   for i in indexes do begin
-    rec:= self.fileSyncRec( i );
+    rec:= self.getSyncRec( i );
     if rec.hasFilesOnBothSides then
       Inc( Result );
   end;
@@ -929,7 +929,7 @@ var
 begin
   Result:= Default( TSyncDirsFlatCount );
   for i:= 0 to self.Count-1 do begin
-    rec:= self.fileSyncRec(i);
+    rec:= self.getSyncRec(i);
     if rec.isDir then
       continue;
 
@@ -954,13 +954,13 @@ var
   rec: TSyncRec;
 begin
   Result:= fromIndex;
-  rec:= self.fileSyncRec(fromIndex);
+  rec:= self.getSyncRec(fromIndex);
   if rec.isFile then
     Exit;
 
   Inc( Result );
   while Result < self.Count do begin
-    rec:= self.fileSyncRec( Result );
+    rec:= self.getSyncRec( Result );
     if rec.isDir then
       break;
     Inc( Result );
@@ -997,7 +997,7 @@ procedure TFlatDirFileList.deleteAndGetSelected(
       end;
     end;
   begin
-    rec:= self.fileSyncRec( index );
+    rec:= self.getSyncRec( index );
     action( leftFiles, dsLeft );
     action( rightFiles, dsRight );
     if rec.hasFileOnAnySide then begin
@@ -1029,7 +1029,7 @@ var
       Exit;
     handled[index]:= True;
 
-    rec:= self.fileSyncRec(index);
+    rec:= self.getSyncRec(index);
     properAction:= rec.getProperAction( expectAction );
     if properAction <> srsNoAction then
       rec.action:= properAction;
@@ -1040,7 +1040,7 @@ var
     rec: TSyncRec;
     basePath: String;
   begin
-    rec:= self.fileSyncRec(index);
+    rec:= self.getSyncRec(index);
     if NOT (cfEmptyDirs in rec._option.flags) then
       Exit;
 
@@ -1048,7 +1048,7 @@ var
 
     Dec(index);
     while index >= 0 do begin
-      rec:= self.fileSyncRec(index);
+      rec:= self.getSyncRec(index);
       if rec.relPath = EmptyStr then
         break;
       if NOT PathIsInPath(basePath, rec.relPath) then
@@ -1071,12 +1071,12 @@ var
     rec: TSyncRec;
     basePath: String;
   begin
-    rec:= self.fileSyncRec(index);
+    rec:= self.getSyncRec(index);
     basePath:= IncludeTrailingPathDelimiter(rec.relPath);
     Inc(index);
     if NOT (cfEmptyDirs in rec._option.flags) then begin
       while index < self.Count do begin
-        rec:= self.fileSyncRec(index);
+        rec:= self.getSyncRec(index);
         if rec.isDir then
           break;
         doUpdateAction(index, cascadingAction);
@@ -1084,7 +1084,7 @@ var
       end;
     end else begin
       while index < self.Count do begin
-        rec:= self.fileSyncRec(index);
+        rec:= self.getSyncRec(index);
         if cascadingAction = srsDoNothing then begin
           if NOT (rec.action in [srsCopyToLeft, srsCopyToRight]) then begin
             Inc(index);
@@ -1106,7 +1106,7 @@ var
     if handled[index] then
       Exit;
 
-    rec:= self.fileSyncRec(index);
+    rec:= self.getSyncRec(index);
     if rec.state = srsDoNothing then
       Exit;
 
@@ -1144,7 +1144,7 @@ var
 begin
   Result:= '';
   for index:= 0 to self.Count-1 do
-    Result:= Result + IntToStr(index) + '. ' + self.fileSyncRec(index).ToString + #10;
+    Result:= Result + IntToStr(index) + '. ' + self.getSyncRec(index).ToString + #10;
 end;
 {$ENDIF}
 
