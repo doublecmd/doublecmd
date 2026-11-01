@@ -160,6 +160,20 @@ type
     on operating system and LCLWidgetType (compile-time) }
   function IsExternalDraggingSupported: Boolean;
 
+  {en
+     Returns True if an internal (intra-application) dragging operation that is
+     already running can be transformed into an external (system) one while the
+     mouse is being moved.
+
+     That requires a screen wide pointer grab and a working WindowFromPoint(),
+     so that the application can notice that the cursor has left its own window.
+     A native Wayland client has neither: it stops receiving pointer events as
+     soon as the cursor leaves its surface, and it is not allowed to ask what
+     lies under a global screen coordinate. There the choice between internal
+     and external dragging has to be made when the drag starts.
+  }
+  function IsDragTransformSupported: Boolean;
+
   { Analyzes keyboard modifier keys (Shift, Ctrl, etc.) and mouse button nr
     and returns the appropriate drop effect. }
   function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
@@ -197,7 +211,11 @@ uses
   uDragDropQt, uDragDropCocoa;
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
 uses
-  uDragDropQt;
+  uDragDropQt
+  {$IF DEFINED(LCLQT6) and DEFINED(XDG)}
+  , Interfaces
+  {$ENDIF}
+  ;
 {$ENDIF}
 
 const
@@ -350,6 +368,17 @@ begin
 end;
 
 { --------------------------------------------------------------------------- }
+
+function IsDragTransformSupported: Boolean;
+begin
+{$IF DEFINED(LCLQT6) and DEFINED(XDG)}
+  Result := (QtWidgetSetEx = nil);
+{$ELSEIF DEFINED(LCLCOCOA)}
+  Result := False;
+{$ELSE}
+  Result := True;
+{$ENDIF}
+end;
 
 function IsExternalDraggingSupported: Boolean;
 begin

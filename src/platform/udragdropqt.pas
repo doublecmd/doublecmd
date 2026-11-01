@@ -69,12 +69,19 @@ type
 implementation
 
 uses
-  uClipboard, LCLIntf;
+  uClipboard, LCLIntf
+{$IF DEFINED(XDG)}
+  , uFileTransferPortal
+{$ENDIF}
+  ;
 
 
 const
   uriListMimeW   : WideString = uriListMime;
   textPlainMimeW : WideString = textPlainMime;
+{$IF DEFINED(XDG)}
+  portalMimeW    : WideString = portalFileTransferMime;
+{$ENDIF}
 
 
 {$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
@@ -121,7 +128,9 @@ function TDragDropSourceQT.DoDragDrop(const FileNamesList: TStringList;
   var
     ByteArray: QByteArrayH;
   begin
-    ByteArray := QByteArray_create(PAnsiChar(DataString));
+    // Sized, because the portal key is transferred with a trailing zero byte
+    // and the pointer-only constructor would cut the array short of it.
+    ByteArray := QByteArray_create(PAnsiChar(DataString), Length(DataString));
     try
       QMimeData_setData(MimeData, @MimeType, ByteArray);
     finally
@@ -132,21 +141,39 @@ function TDragDropSourceQT.DoDragDrop(const FileNamesList: TStringList;
 var
   DragObject: QDragH = nil;
   MimeData: QMimeDataH = nil;
-
+  DropAction: QtDropAction;
+{$IF DEFINED(XDG)}
+  TransferKey: String;
+{$ENDIF}
 begin
-  Result := False;
+  Result := True;
+  FLastStatus := DragDropError;
 
   // Simulate drag-begin event.
   if Assigned(GetDragBeginEvent) then
   begin
     Result := GetDragBeginEvent()();
-    if Result = False then Exit;
+    if Result = False then
+    begin
+      FLastStatus := DragDropAborted;
+      Exit;
+    end;
   end;
 
   DragObject := QDrag_create(GetWidget);      // deleted automatically by QT
   try
     MimeData := QMimeData_create;
     QDrag_setMimeData(DragObject, MimeData); // MimeData owned by DragObject after this
+
+{$IF DEFINED(XDG)}
+    // Offered before the plain formats, the way the toolkits that implement
+    // this do. A sandboxed target understands text/uri-list as well, and would
+    // otherwise take a host path that it has no permission to open: it shows
+    // the file name it parsed out of the URI and reads nothing at all.
+    TransferKey := FileTransferRegister(FileNamesList);
+    if (Length(TransferKey) > 0) then
+      SetMimeDataInFormat(MimeData, portalMimeW, TransferKey + #0);
+{$ENDIF}
 
     SetMimeDataInFormat(MimeData, uriListMimeW, FormatUriList(FileNamesList));
     SetMimeDataInFormat(MimeData, textPlainMimeW, FormatTextPlain(FileNamesList));
@@ -157,16 +184,21 @@ begin
   end;
 
   // Start drag&drop operation (default to Copy action).
-  QDrag_exec(DragObject, QtCopyAction or QtLinkAction or QtMoveAction, qtCopyAction);
+  // This blocks in a nested event loop until the drop has been performed or
+  // the operation has been cancelled. It must be called while the input event
+  // that started the drag is still being handled, otherwise the serial that
+  // Qt passes to wl_data_device.start_drag is stale and the compositor
+  // silently refuses to start the drag.
+  DropAction := QDrag_exec(DragObject, QtCopyAction or QtLinkAction or QtMoveAction, qtCopyAction);
+
+  if (DropAction = QtIgnoreAction) then
+    FLastStatus := DragDropAborted
+  else
+    FLastStatus := DragDropSuccessful;
 
   // Simulate drag-end event.
   if Assigned(GetDragEndEvent) then
-  begin
-    if Result = True then
-      Result := GetDragEndEvent()()
-    else
-      GetDragEndEvent()()
-  end;
+    Result := GetDragEndEvent()() and Result;
 end;
 
 function TDragDropSourceQT.GetWidget: QWidgetH;
@@ -231,6 +263,9 @@ begin
   begin
     if QMimeData_hasFormat(mimedata, @urilistmimew) or
        QMimeData_hasFormat(mimedata, @textPlainMimeW)
+{$IF DEFINED(XDG)}
+       or QMimeData_hasFormat(mimedata, @portalMimeW)
+{$ENDIF}
     then
       Exit(True);
   end;
@@ -380,6 +415,11 @@ var
   uriList: String;
   FileNamesList: TStringList = nil;
   MimeData: QMimeDataH;
+  Handled: Boolean = False;
+{$IF DEFINED(XDG)}
+  NulPos: Integer;
+  TransferKey: String;
+{$ENDIF}
 begin
   Result := False;
 
@@ -396,27 +436,55 @@ begin
   MimeData := QDropEvent_mimeData(DropEvent);
   if Assigned(GetDropEvent) and Assigned(MimeData) then
   begin
-    if QMimeData_hasFormat(MimeData, @uriListMimeW) then
+{$IF DEFINED(XDG)}
+    // Files offered by a sandboxed application. The payload is a key that the
+    // document portal turns into names that we are allowed to open; the plain
+    // formats it offers next to it point into a sandbox we cannot see into.
+    if QMimeData_hasFormat(MimeData, @portalMimeW) then
+    begin
+      TransferKey := GetMimeDataInFormat(MimeData, portalMimeW);
+      // The key is transferred with a terminating zero byte.
+      NulPos := Pos(#0, TransferKey);
+      if (NulPos > 0) then SetLength(TransferKey, NulPos - 1);
 
-      uriList := Trim(GetMimeDataInFormat(MimeData, uriListMimeW))
-
-    else if QMimeData_hasFormat(MimeData, @textPlainMimeW) then
-
-      // try decoding, as text/plain may also be percent-encoded
-      uriList := Trim(GetMimeDataInFormat(MimeData, textPlainMimeW))
-
-    else
-      Exit;  // reject the drop
-
-    try
-      FileNamesList := ExtractFilenames(uriList, True);
-
-      if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
-        Result := GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
-
-    finally
-      if Assigned(FileNamesList) then
+      FileNamesList := TStringList.Create;
+      try
+        if FileTransferRetrieve(Trim(TransferKey), FileNamesList) then
+        begin
+          Result := GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
+          Handled := True;
+        end;
+      finally
         FreeAndNil(FileNamesList);
+      end;
+    end;
+{$ENDIF}
+
+    // Not offered, or the portal could not resolve it: fall back to the paths.
+    if not Handled then
+    begin
+      if QMimeData_hasFormat(MimeData, @uriListMimeW) then
+
+        uriList := Trim(GetMimeDataInFormat(MimeData, uriListMimeW))
+
+      else if QMimeData_hasFormat(MimeData, @textPlainMimeW) then
+
+        // try decoding, as text/plain may also be percent-encoded
+        uriList := Trim(GetMimeDataInFormat(MimeData, textPlainMimeW))
+
+      else
+        Exit;  // reject the drop
+
+      try
+        FileNamesList := ExtractFilenames(uriList, True);
+
+        if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
+          Result := GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
+
+      finally
+        if Assigned(FileNamesList) then
+          FreeAndNil(FileNamesList);
+      end;
     end;
 
     QDropEvent_setDropAction(DropEvent, DropAction); // accept the drop
