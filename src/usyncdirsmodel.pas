@@ -236,9 +236,9 @@ type
     {$ENDIF}
   end;
 
-  { TSyncDirsFlatCount }
+  { TSyncDirsFlatCountRec }
 
-  TSyncDirsFlatCount = record
+  TSyncDirsFlatCountRec = record
     total: Integer;
     equal: Integer;
     notEqual: Integer;
@@ -272,7 +272,7 @@ type
     function getSyncRec( const index: Integer ): TSyncRec;
     procedure countLeftRight( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
     function countBothSides( const indexes: TIntegerList ): Integer;
-    function flatCount: TSyncDirsFlatCount;
+    function getCountRec: TSyncDirsFlatCountRec;
 
     function lastFileInCurrentDir(const fromIndex: Integer): Integer;
     procedure deleteAndGetSelected(const indexes: TIntegerList; const leftFiles: TFiles; const rightFiles: TFiles);
@@ -922,12 +922,12 @@ begin
   end;
 end;
 
-function TFlatDirFileList.flatCount: TSyncDirsFlatCount;
+function TFlatDirFileList.getCountRec: TSyncDirsFlatCountRec;
 var
   i: Integer;
   rec: TSyncRec;
 begin
-  Result:= Default( TSyncDirsFlatCount );
+  Result:= Default( TSyncDirsFlatCountRec );
   for i:= 0 to self.Count-1 do begin
     rec:= self.getSyncRec(i);
     if rec.isDir then

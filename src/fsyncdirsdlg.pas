@@ -259,7 +259,7 @@ type
     FCmpFilePaths: TDoublePaths;
     FAddresses: TDoublePaths;
     hCols: array [0..6] of record Left, Width: Integer end;
-    FFilteredCount: TSyncDirsFlatCount;
+    FFilteredCountRec: TSyncDirsFlatCountRec;
     FOperation: TFileSourceOperation;
     FileExistsOption: TFileSourceOperationOptionFileExists;
     SymLinkOption: TFileSourceOperationOptionSymLink;
@@ -1239,7 +1239,7 @@ begin
   MainDrawGrid.ColCount := 1;
   MainDrawGrid.RowCount := FFilteredList.Count;
   MainDrawGrid.Invalidate;
-  FFilteredCount:= FFilteredList.flatCount;
+  FFilteredCountRec:= FFilteredList.getCountRec;
   UpdateStatusBar;
   if FFullTree.Count > 0 then
   begin
@@ -1337,7 +1337,7 @@ procedure TfrmSyncDirsDlg.UpdateStatusBar;
 var
   s: string;
 begin
-  s := Format(rsFilesFound, [FFilteredCount.total, FFilteredCount.equal, FFilteredCount.notEqual, FFilteredCount.leftUnique, FFilteredCount.rightUnique]);
+  s := Format(rsFilesFound, [FFilteredCountRec.total, FFilteredCountRec.equal, FFilteredCountRec.notEqual, FFilteredCountRec.leftUnique, FFilteredCountRec.rightUnique]);
   if FState.isRunningInState(sddsCheckingContent) then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
@@ -1478,9 +1478,9 @@ procedure TfrmSyncDirsDlg.onCheckContentThreadCountUpdated(
   const equalInc: Integer;
   const notEqInc: Integer);
 begin
-  Inc( FFilteredCount.total, totalInc );
-  Inc( FFilteredCount.equal, equalInc );
-  Inc( FFilteredCount.notEqual, notEqInc );
+  Inc( FFilteredCountRec.total, totalInc );
+  Inc( FFilteredCountRec.equal, equalInc );
+  Inc( FFilteredCountRec.notEqual, notEqInc );
 end;
 
 procedure TfrmSyncDirsDlg.checkContentThreadStart;
