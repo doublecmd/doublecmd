@@ -41,7 +41,8 @@ type
 {$IF DEFINED(LCL_VER_499)}
     function GetInitialDefaultFileFilterMask: string; override;
 {$ELSE}
-    function GetDefaultFilter: string; override;
+  public
+    constructor Create(AOwner: TComponent); override;
 {$ENDIF}
   end;
 
@@ -59,8 +60,6 @@ type
     constructor Create(AOwner: TComponent); override;
 {$IF DEFINED(LCL_VER_499)}
     function GetInitialDefaultFileFilterMask: string; override;
-{$ELSE}
-    function GetDefaultFilter: string; override;
 {$ENDIF}
   end;
 
@@ -72,7 +71,8 @@ type
 {$IF DEFINED(LCL_VER_499)}
     function GetInitialDefaultFileFilterMask: string; override;
 {$ELSE}
-    function GetDefaultFilter: string; override;
+  public
+    constructor Create(AOwner: TComponent); override;
 {$ENDIF}
   end;
 
@@ -86,9 +86,9 @@ type
   { TSynPoSynEx }
 
   TSynPoSynEx = class(TSynPoSyn)
+{$IF DEFINED(LCL_VER_499)}
   protected
-{$IF NOT DEFINED(LCL_VER_499)}
-    function GetDefaultFilter: string; override;
+    function GetInitialDefaultFileFilterMask: string; override;
 {$ENDIF}
   public
     constructor Create(AOwner: TComponent); override;
@@ -168,6 +168,12 @@ uses
 {$endif}
   ;
 
+const
+  SYNS_FilterPo = 'Po Files (*.po,*.pot)|*.po;*.pot';
+  SYNS_FilterDIFF = 'Difference Files (*.diff,*.patch)|*.diff;*.patch';
+  SYNS_FilterINI = 'INI Files (*.ini;*.desktop;*.service)|*.ini;*.desktop;*.service';
+  SYNS_FilterPascal = 'Pascal Files (*.pas,*.dpr,*.dpk,*.inc,*.pp,*.lpr)|*.pas;*.dpr;*.dpk;*.inc;*.pp;*.lpr';
+
 { TSynBatSynEx }
 
 constructor TSynBatSynEx.Create(AOwner: TComponent);
@@ -213,12 +219,16 @@ end;
 
 {$IF DEFINED(LCL_VER_499)}
 function TSynDiffSynEx.GetInitialDefaultFileFilterMask: string;
-{$ELSE}
-function TSynDiffSynEx.GetDefaultFilter: string;
-{$ENDIF}
 begin
-  Result:= 'Difference Files (*.diff,*.patch)|*.diff;*.patch';
+  Result:= SYNS_FilterDIFF;
 end;
+{$ELSE}
+constructor TSynDiffSynEx.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  fDefaultFilter:= SYNS_FilterDIFF;
+end;
+{$ENDIF}
 
 { TSynHTMLSynEx }
 
@@ -236,6 +246,13 @@ end;
 
 { TSynIniSynEx }
 
+{$IF DEFINED(LCL_VER_499)}
+function TSynIniSynEx.GetInitialDefaultFileFilterMask: string;
+begin
+  Result:= SYNS_FilterINI;
+end;
+{$ENDIF}
+
 constructor TSynIniSynEx.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -248,15 +265,9 @@ begin
   SpaceAttri.StoredName   := SYNS_XML_AttrSpace;
   StringAttri.StoredName  := SYNS_XML_AttrString;
   SymbolAttri.StoredName  := SYNS_XML_AttrSymbol;
-end;
-
-{$IF DEFINED(LCL_VER_499)}
-function TSynIniSynEx.GetInitialDefaultFileFilterMask: string;
-{$ELSE}
-function TSynIniSynEx.GetDefaultFilter: string;
+{$IF NOT DEFINED(LCL_VER_499)}
+  fDefaultFilter          := SYNS_FilterINI;
 {$ENDIF}
-begin
-  Result:= 'INI Files (*.ini;*.desktop;*.service)|*.ini;*.desktop;*.service';
 end;
 
 { TSynPasSynEx }
@@ -285,12 +296,16 @@ end;
 
 {$IF DEFINED(LCL_VER_499)}
 function TSynPasSynEx.GetInitialDefaultFileFilterMask: string;
-{$ELSE}
-function TSynPasSynEx.GetDefaultFilter: string;
-{$ENDIF}
 begin
-  Result:= 'Pascal Files (*.pas,*.dpr,*.dpk,*.inc,*.pp,*.lpr)|*.pas;*.dpr;*.dpk;*.inc;*.pp;*.lpr';
+  Result:= SYNS_FilterPascal;
 end;
+{$ELSE}
+constructor TSynPasSynEx.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  fDefaultFilter:= SYNS_FilterPascal;
+end;
+{$ENDIF}
 
 { TSynPerlSynEx }
 
@@ -305,10 +320,10 @@ end;
 
 { TSynPoSynEx }
 
-{$IF NOT DEFINED(LCL_VER_499)}
-function TSynPoSynEx.GetDefaultFilter: string;
+{$IF DEFINED(LCL_VER_499)}
+function TSynPoSynEx.GetInitialDefaultFileFilterMask: string;
 begin
-  Result:= 'Po Files (*.po,*.pot)|*.po;*.pot';
+  Result:= SYNS_FilterPo;
 end;
 {$ENDIF}
 
@@ -318,6 +333,9 @@ begin
   CommentAttri.StoredName := SYNS_XML_AttrComment;
   TextAttri.StoredName    := SYNS_XML_AttrText;
   KeyAttri.StoredName     := SYNS_XML_AttrKey;
+{$IF NOT DEFINED(LCL_VER_499)}
+  fDefaultFilter          := SYNS_FilterPo;
+{$ENDIF}
 end;
 
 { TSynTeXSynEx }
