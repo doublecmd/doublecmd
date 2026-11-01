@@ -1356,7 +1356,7 @@ var
 
           UpdateStatistics(Statistics);
 
-        until Terminated or not Result or (DoneBytes >= Size);
+        until NOT _callback.commonCheckRunning or NOT Result or (DoneBytes >= Size);
       finally
         File2.Free;
       end;
