@@ -1150,7 +1150,6 @@ begin
     begin
       // If result is 0 then the window belongs to another process
       // and we transform intra-process dragging into inter-process dragging.
-
       TransformDraggingToExternal(Point);
     end;
   end
@@ -1181,9 +1180,23 @@ begin
         // Check if valid item is being dragged.
         if IsItemValid(AFile) then
         begin
+{$IF DEFINED(LCLCOCOA)}
+          { The Cocoa drag session has to be started while the cursor is still
+            inside the panel. A session begun later, once the pointer has left
+            the window, is never handed the mouse and ends at its starting
+            point without following the cursor. The session serves drops inside
+            the application too, so there is no separate internal drag here. }
+
+          // Restore selection of active file before the dragged list is built.
+          if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
+
+          BeginDragExternal(AFile, FDragDropSource, FMainControlLastMouseButton,
+                            MainControl.ClientToScreen(Classes.Point(X, Y)));
+{$ELSE}
           MainControl.BeginDrag(False);
           // Restore selection of active file
           if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
+{$ENDIF}
         end;
       end;
     end;
@@ -1419,6 +1432,19 @@ begin
   Result := True;
 
   ClientPoint := MainControl.ScreenToClient(ScreenPoint);
+
+  // A drag that started in one of this application's own panels keeps the
+  // rules internal dragging has always had -- which file may be dropped onto
+  // which, and the drop highlight. Reuse the handler that provides them rather
+  // than restating the rules here.
+  if Assigned(uDragDropEx.ExternalDragSourceControl) then
+  begin
+    Result := False;
+    MainControlDragOver(MainControl, uDragDropEx.ExternalDragSourceControl,
+                        ClientPoint.X, ClientPoint.Y, dsDragMove, Result);
+    Exit;
+  end;
+
   FileIndex := GetFileIndexFromCursor(ClientPoint.x, ClientPoint.y, AtFileList);
 
   if IsFileIndexInRange(FileIndex) then
@@ -1441,8 +1467,15 @@ function TFileViewWithMainCtrl.OnExDrop(const FileNamesList: TStringList; DropEf
 var
   AFiles: TFiles = nil;
   DropParams: TDropParams;
+  SourcePanel: TFileView = nil;
 begin
   Result := False;
+
+  // When the drag started here, the drop is an internal one and has to carry
+  // its source panel, or it would be treated as coming from another program.
+  if Assigned(uDragDropEx.ExternalDragSourceControl) and
+     (uDragDropEx.ExternalDragSourceControl.Parent is TFileView) then
+    SourcePanel := TFileView(uDragDropEx.ExternalDragSourceControl.Parent);
   if FileNamesList.Count > 0 then
   try
     AFiles := TFileSystemFileSource.CreateFilesFromFileList(
@@ -1450,7 +1483,7 @@ begin
     try
       DropParams := TDropParams.Create(
         AFiles, DropEffect, ScreenPoint, True,
-        nil, Self, Self.FileSource, Self.CurrentPath);
+        SourcePanel, Self, Self.FileSource, Self.CurrentPath);
 
       frmMain.DropFiles(DropParams);
 
