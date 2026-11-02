@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# The new package will be saved here
+PACK_DIR=$PWD/doublecmd-release
+
+# Temp dir for creating *.tar.xz package
+BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
+
+# Save revision number
+DC_REVISION=$(install/linux/update-revision.sh ./ ./)
+
+# Read version number
+DC_MAJOR=$(grep 'MajorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+')
+DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_MICRO=$(grep 'RevisionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
+
+# Set processor architecture
+export CPU_TARGET=$(fpc -iTP)
+
+# Get libraries
+wget https://github.com/doublecmd/external/raw/main/linux.tar.gz
+tar xzf linux.tar.gz -C install && rm -f linux.tar.gz
+
+# Copy libraries
+cp -a install/linux/lib/$CPU_TARGET/*.so  ./
+
+# Prepare linking dependencies
+echo "-k--allow-shlib-undefined" | sudo tee -a /etc/fpc.cfg
+sudo ln -sf $PWD/install/linux/lib/$CPU_TARGET/qt6/libQt6Pas.so.6 /usr/lib/libQt6Pas.so
+
+build_doublecmd()
+{
+  # Build release
+  ./build.sh release
+
+  # Copy libraries
+  cp -a install/linux/lib/$CPU_TARGET/$lcl/*.so*  ./
+
+  # Create *.tar.xz package
+  mkdir -p $BUILD_PACK_DIR
+  install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
+  pushd $BUILD_PACK_DIR
+  # Set run-time library search path
+  patchelf --set-rpath '$ORIGIN' doublecmd/doublecmd
+  tar -cJf $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.tar.xz doublecmd
+  popd
+
+  # Clean DC build dir
+  ./clean.sh
+  rm -rf $BUILD_PACK_DIR
+}
+
+mkdir -p $PACK_DIR
+
+# Set widgetset
+export lcl=gtk3
+
+build_doublecmd
+
+# Set widgetset
+export lcl=qt6
+
+build_doublecmd
