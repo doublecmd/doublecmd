@@ -3401,7 +3401,7 @@ msgstr "&Sleutelafleidingsfunctie:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr "De sleutel "
+msgstr "De sleutel wordt omgezet met een sleutelafleidingsfunctie. Dit voegt een inspanningsfactor toe en maakt woordenboek- en raadaanvallen moeilijker."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
