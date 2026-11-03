@@ -745,7 +745,7 @@ var
 begin
   with HeaderDG.Columns do
   begin
-    for Index := 0 to Count - 1 do
+    for Index := 0 to Count - 2 do
       Items[Index].Width:= StrToIntDef(FIniPropStorage.StoredValue[Format(GRID_COLUMN_FMT, [Index])], Items[Index].Width);
   end;
   RecalcHeaderCols;
@@ -780,7 +780,7 @@ begin
 
   with HeaderDG.Columns do
   begin
-    for Index := 0 to Count - 1 do
+    for Index := 0 to Count - 2 do
       FIniPropStorage.StoredValue[Format(GRID_COLUMN_FMT, [Index])]:= IntToStr(Items[Index].Width);
   end;
 end;

@@ -496,8 +496,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Width = 120
       end    
       item
-        MinSize = 10
-        MaxSize = 200
+        MinSize = 0
+        MaxSize = 0
         Title.Caption = 'Name'
         Width = 0
       end>
