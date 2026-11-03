@@ -67,6 +67,7 @@ type
     dgPanel: TFileViewGrid;
     lblDetails: TLabel;
   private
+    function ResetPosition: Boolean;
     procedure SetFilesDisplayItems;
     procedure UpdateFooterDetails;
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
@@ -610,15 +611,17 @@ begin
 end;
 
 procedure TFileViewWithGrid.FileSourceFileListLoaded;
+var
+  ADone: Boolean;
 begin
   inherited;
+
+  ADone:= ResetPosition;
 
   dgPanel.CalculateColRowCount;
   dgPanel.CalculateColumnWidth;
 
-  FUpdatingActiveFile := True;
-  dgPanel.MoveExtend(False, 0, 0);
-  FUpdatingActiveFile := False;
+  if not ADone then ResetPosition;
 end;
 
 procedure TFileViewWithGrid.ClearAfterDragDrop;
@@ -635,9 +638,7 @@ begin
 
   if not IsLoadingFileList then
   begin
-    FUpdatingActiveFile := True;
-    dgPanel.MoveExtend(False, 0, 0);
-    FUpdatingActiveFile := False;
+    ResetPosition;
   end;
 end;
 
@@ -726,9 +727,7 @@ begin
 
   if Result and (not IsLoadingFileList) then
   begin
-    FUpdatingActiveFile := True;
-    dgPanel.MoveExtend(False, 0, 0);
-    FUpdatingActiveFile := False;
+    ResetPosition;
   end;
 end;
 
@@ -749,6 +748,13 @@ begin
     dgPanel.MoveExtend(False, ACol, ARow);
     dgPanel.Click;
   end;
+end;
+
+function TFileViewWithGrid.ResetPosition: Boolean;
+begin
+  FUpdatingActiveFile := True;
+  Result:= dgPanel.MoveExtend(False, 0, 0);
+  FUpdatingActiveFile := False;
 end;
 
 procedure TFileViewWithGrid.SetFilesDisplayItems;
