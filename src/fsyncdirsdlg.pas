@@ -41,11 +41,20 @@ const
   HotkeysCategory = 'Synchronize Directories';
 
 type
+
+  TOnGetColumnPreferedWidth = procedure (const Sender: TObject; const aCol: Integer; var preferedWidth: Integer) of object;
+  TOnGetCellPreferedWidth = procedure (const Sender: TObject; const aCol: Integer; const aRow: Integer; var preferedWidth: Integer) of object;
+
   { TDrawGrid }
 
   TDrawGrid = class(Grids.TDrawGrid)
+  private
+    OnGetColumnPreferedWidth: TOnGetColumnPreferedWidth;
+    OnGetCellPreferedWidth: TOnGetCellPreferedWidth;
+    function calcPreferedWidth(const aCol: Integer): Integer;
   protected
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure AutoAdjustColumn(aCol: Integer); override;
   end;
 
   { TSyncDirsDlgState }
@@ -223,6 +232,8 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure MainDrawGridGetCellPreferedWidth(const Sender: TObject;
+      const aCol: Integer; const aRow: Integer; var preferedWidth: Integer);
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -237,6 +248,8 @@ type
       const aIndex, aSize: Integer);
     procedure HeaderDGHeaderSized(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
+    procedure HeaderDGGetColumnPreferedWidth(const Sender: TObject;
+      const aCol: Integer; var preferedWidth: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
     procedure MenuItemViewClick(Sender: TObject);
     procedure pmGridMenuPopup(Sender: TObject);
@@ -391,6 +404,9 @@ uses
 const
   GRID_COLUMN_FMT = 'HeaderDG_Column%d_Width';
 
+const
+  LEFT_FILE_INDENTATION = 8;
+
 procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
   function isSupported: Boolean;
   var
@@ -425,6 +441,19 @@ end;
 
 { TDrawGrid }
 
+function TDrawGrid.calcPreferedWidth(const aCol: Integer): Integer;
+var
+  aRow: Integer;
+  currentWidth: Integer;
+begin
+  Result:= 0;
+  for aRow:= GCache.VisibleGrid.Top to GCache.VisibleGrid.Bottom do begin
+    OnGetCellPreferedWidth(self, aCol, aRow, currentWidth);
+    if currentWidth > Result then
+      Result:= currentWidth;
+  end;
+end;
+
 procedure TDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   C, R: Integer;
@@ -446,6 +475,21 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TDrawGrid.AutoAdjustColumn(aCol: Integer);
+var
+  preferedWidth: Integer;
+  column: TGridColumn;
+begin
+  if NOT Assigned(OnGetColumnPreferedWidth) then
+    Exit;
+
+  OnGetColumnPreferedWidth(self, aCol, preferedWidth);
+  column:= self.Columns[aCol];
+  if preferedWidth < column.MinSize then
+    preferedWidth:= column.MinSize;
+  column.Width:= preferedWidth;
 end;
 
 { TSyncDirsDlgStateHelper }
@@ -804,11 +848,13 @@ begin
   begin
     FIniPropStorage.StoredValues.Add.DisplayName:= Format(GRID_COLUMN_FMT, [Index]);
   end;
+  HeaderDG.OnGetColumnPreferedWidth:= @HeaderDGGetColumnPreferedWidth;
 
   {$IFDEF LCLCOCOA}
   pnlProgress.Color:=clBtnHighlight;
   {$ENDIF}
   MainDrawGrid.SelectedColor:= gColors.SyncDirs^.SelectedColor;
+  MainDrawGrid.OnGetCellPreferedWidth:= @MainDrawGridGetCellPreferedWidth;
 
   FFileSizeProgressHelper:= TSyncDirsDlgProgressHelper.Create(
     True,
@@ -860,6 +906,64 @@ begin
   pbFileCountProgress.Width:= pbFileSizeProgress.Width;
 end;
 
+procedure TfrmSyncDirsDlg.MainDrawGridGetCellPreferedWidth(
+  const Sender: TObject;
+  const aCol: Integer;
+  const aRow: Integer;
+  var preferedWidth: Integer);
+var
+  rec: TSyncRec;
+
+  function calcName: Integer;
+  var
+    text: String;
+  begin
+    text:= FFilteredList.path(aRow);
+    Result:= MainDrawGrid.Canvas.TextWidth(text) + 2 + LEFT_FILE_INDENTATION + 2;
+  end;
+
+  function calcSize(const side: TDoubleSide): Integer;
+  var
+    text: String;
+  begin
+    Result:= 0;
+    if NOT rec.hasFileOnSide(side) then
+      Exit;
+    text:= IntToStrTS(rec.filesOnSide[side].Size);
+    Result:= MainDrawGrid.Canvas.TextWidth(text) + 8;
+  end;
+
+  function calcDate(const side: TDoubleSide): Integer;
+  var
+    text: String;
+  begin
+    Result:= 0;
+    if NOT rec.hasFileOnSide(side) then
+      Exit;
+    text:= FormatDateTime(gDateTimeFormatSync, rec.filesOnSide[side].ModificationTime);
+    Result:= MainDrawGrid.Canvas.TextWidth(text) + 2 + 2;
+  end;
+
+begin
+  preferedWidth:= 0;
+  rec:= FFilteredList.getSyncRec(aRow);
+  if rec.isFile then begin
+    case aCol of
+      0:
+        if rec.hasLeftFile then
+          preferedWidth:= calcName;
+      1:
+        preferedWidth:= calcSize(dsLeft);
+      2:
+        preferedWidth:= calcDate(dsLeft);
+      4:
+        preferedWidth:= calcDate(dsRight);
+      5:
+        preferedWidth:= calcSize(dsRight);
+    end;
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
 var
   r, x: Integer;
@@ -877,8 +981,6 @@ end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
-const
-  LEFT_FILE_INDENTATION = 8;
 var
   rec: TSyncRec;
   x: Integer;
@@ -1028,6 +1130,16 @@ begin
   column:= HeaderDG.Columns[Index];
   if column.Width < column.MinSize then
     column.Width:= column.MinSize;
+  RecalcHeaderCols;
+  MainDrawGrid.Invalidate;
+end;
+
+procedure TfrmSyncDirsDlg.HeaderDGGetColumnPreferedWidth(
+  const Sender: TObject;
+  const aCol: Integer;
+  var preferedWidth: Integer);
+begin
+  preferedWidth:= MainDrawGrid.calcPreferedWidth(aCol);
 end;
 
 procedure TfrmSyncDirsDlg.FilterSpeedButtonClick(Sender: TObject);
