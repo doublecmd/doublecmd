@@ -88,6 +88,9 @@ type
     function GetRootDir: String; override; overload;
     function GetPathType(sPath : String): TPathType; override;
 
+    function IsSystemFile(aFile: TFile): Boolean; override;
+    function IsHiddenFile(aFile: TFile): Boolean; override;
+
     function CreateDirectory(const Path: String): Boolean; override;
     function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
@@ -140,7 +143,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths, uLog, uLng,
+  DCClassesUtf8, uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths, uLog, uLng,
 {$IFDEF MSWINDOWS}
   DCWindows, uMyWindows, Windows,
 {$ENDIF}
@@ -170,6 +173,40 @@ uses
 var
   fileSystemFileSourceWatcher: TFileSourceWatcher;
   fileSystemFileSourceProcessor: TFileSystemFileSourceProcessor;
+
+// Returns True if AName is listed in the directory's ".hidden" file
+// (GTK/Qt/GNOME desktop convention: one name per line).
+function IsListedInDotHidden(const APath, AName: String): Boolean;
+var
+  I: Integer;
+  HiddenFile, HiddenName: String;
+  Names: TStringListEx;
+begin
+  Result := False;
+  if (AName = EmptyStr) or (AName = '.') or (AName = '..') then
+    Exit;
+
+  HiddenFile := IncludeTrailingPathDelimiter(APath) + '.hidden';
+  if not mbFileExists(HiddenFile) then
+    Exit;
+
+  Names := TStringListEx.Create;
+  try
+    try
+      Names.LoadFromFile(HiddenFile);
+    except
+      Exit;
+    end;
+    for I := 0 to Names.Count - 1 do
+    begin
+      HiddenName := TrimRight(Names[I]);
+      if HiddenName = AName then
+        Exit(True);
+    end;
+  finally
+    Names.Free;
+  end;
+end;
 
 {$IF DEFINED(MSWINDOWS)}
 
@@ -848,6 +885,20 @@ end;
 procedure TFileSystemFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
   FDescr.Reset;
+end;
+
+function TFileSystemFileSource.IsSystemFile(aFile: TFile): Boolean;
+begin
+  Result := inherited IsSystemFile(aFile);
+  if not Result then
+    Result := IsListedInDotHidden(aFile.Path, aFile.Name);
+end;
+
+function TFileSystemFileSource.IsHiddenFile(aFile: TFile): Boolean;
+begin
+  Result := inherited IsHiddenFile(aFile);
+  if not Result then
+    Result := IsListedInDotHidden(aFile.Path, aFile.Name);
 end;
 
 function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;

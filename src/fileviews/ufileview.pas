@@ -3472,6 +3472,14 @@ end;
 
 procedure TFileView.HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 begin
+  // ".hidden" changes which other names are visible; an incremental
+  // add/update/delete of ".hidden" itself is not enough.
+  if (EventData.FileName = '.hidden') or (EventData.NewFileName = '.hidden') then
+  begin
+    Reload();
+    Exit;
+  end;
+
   case EventData.EventType of
     fswFileCreated:
       Self.AddFile(EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
