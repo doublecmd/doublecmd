@@ -510,6 +510,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     TabOrder = 5
     TabStop = False
     OnHeaderClick = HeaderDGHeaderClick
+    OnHeaderSized = HeaderDGHeaderSized
     OnHeaderSizing = HeaderDGHeaderSizing
     ColWidths = (
       250

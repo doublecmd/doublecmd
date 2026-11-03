@@ -235,6 +235,8 @@ type
       Index: Integer);
     procedure HeaderDGHeaderSizing(sender: TObject; const IsColumn: boolean;
       const aIndex, aSize: Integer);
+    procedure HeaderDGHeaderSized(Sender: TObject; IsColumn: Boolean;
+      Index: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
     procedure MenuItemViewClick(Sender: TObject);
     procedure pmGridMenuPopup(Sender: TObject);
@@ -1008,9 +1010,24 @@ end;
 
 procedure TfrmSyncDirsDlg.HeaderDGHeaderSizing(sender: TObject;
   const IsColumn: boolean; const aIndex, aSize: Integer);
+var
+  column: TGridColumn;
 begin
+  column:= HeaderDG.Columns[aIndex];
+  if aSize < column.MinSize then
+    column.Width:= column.MinSize;
   RecalcHeaderCols;
   MainDrawGrid.Invalidate;
+end;
+
+procedure TfrmSyncDirsDlg.HeaderDGHeaderSized(Sender: TObject;
+  IsColumn: Boolean; Index: Integer);
+var
+  column: TGridColumn;
+begin
+  column:= HeaderDG.Columns[Index];
+  if column.Width < column.MinSize then
+    column.Width:= column.MinSize;
 end;
 
 procedure TfrmSyncDirsDlg.FilterSpeedButtonClick(Sender: TObject);
