@@ -4542,24 +4542,21 @@ begin
     AFactor:= pbxDrive.GetCanvasScaleFactor;
     ABitmap.SetSize(Round(ARect.Width * AFactor), Round(ARect.Height * AFactor));
 
-    ABitmap.Canvas.Brush.Color:= clBlack;
-    ABitmap.Canvas.FrameRect(0, 0, ABitmap.Width - 1, ABitmap.Height - 1);
-
     ARect.Top    := 1;
-    ARect.Bottom := ABitmap.Height - 2;
+    ARect.Bottom := ABitmap.Height - 1;
 
     if not bIndUseGradient then
       begin
         ARect.Left  := 1;
-        ARect.Right := 1 + FillPercentage * (ABitmap.Width - 2) div 100;
+        ARect.Right := 1 + FillPercentage * (ABitmap.Width - 1) div 100;
         if FillPercentage <= OccupiedThresholdPercent then
           AColor := pIndForeColor
         else begin
           AColor := pIndThresholdForeColor;
         end;
         ABitmap.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
-        ARect.Left  := ARect.Right + 1;
-        ARect.Right := ABitmap.Width - 2;
+        ARect.Left  := ARect.Right;
+        ARect.Right := ABitmap.Width - 1;
         AColor := pIndBackColor;
         ABitmap.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
       end
@@ -4576,12 +4573,12 @@ begin
           AColor2:= DarkColor(AColor, 50);
 
           ARect.Left  := ARect.Right;
-          ARect.Right := 1 + (I + 1) * (ABitmap.Width - 2) div 100;
+          ARect.Right := 1 + (I + 1) * (ABitmap.Width - 1) div 100;
 
           ABitmap.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
         end;
         ARect.Left  := ARect.Right;
-        ARect.Right := ABitmap.Width - 2;
+        ARect.Right := ABitmap.Width - 1;
         ABitmap.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
       end;
     pbxDrive.Canvas.StretchDraw(pbxDrive.ClientRect, ABitmap);
