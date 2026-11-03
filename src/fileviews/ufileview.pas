@@ -505,6 +505,7 @@ type
     procedure MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; pMarkFileChecks: TPFindFileChecks = nil);
     procedure MarkGroup(bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; psAttribute:PString = nil);
     procedure OpenActiveFile;
+    procedure UpdateSelection;
     procedure RestoreSelection;
     procedure SaveSelection;
     procedure SaveSelectionToFile(const AFileName: String);
@@ -1754,6 +1755,11 @@ begin
           msgError(rsMsgErrSaveFile + '-' + E.Message);
       end;
   end;
+end;
+
+procedure TFileView.UpdateSelection;
+begin
+  Notify([fvnSelectionChanged]);
 end;
 
 procedure TFileView.RestoreSelection;
