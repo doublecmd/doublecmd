@@ -97,6 +97,11 @@ type
     function OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
     function OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
     function OnExDragLeave: Boolean;
+    {en
+       Returns the panel that started the external dragging operation that is
+       currently in progress, or nil if it was started by another application.
+    }
+    function GetExternalDragSourcePanel: TFileView;
 
     procedure SetMainControl(AValue: TWinControl);
     procedure tmContextMenuTimer(Sender: TObject);
@@ -105,6 +110,10 @@ type
     // If internal dragging is currently in effect, this function
     // stops internal dragging and starts external.
     procedure TransformDraggingToExternal(ScreenPoint: TPoint);
+    // Starts an external (system) dragging operation immediately, without
+    // going through internal dragging first. Used on platforms that cannot
+    // transform a running internal drag into an external one.
+    procedure StartDraggingExternal(AFile: TDisplayFile; X, Y: Integer);
 
     procedure edtRenameEnter(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
@@ -142,6 +151,9 @@ type
     FDragFileIndex: PtrInt;
     FDropFileIndex: PtrInt;
     FStartDrag: Boolean;
+    // True while an external dragging operation started by this
+    // panel is running (MainControl.Dragging stays False in that case).
+    FExternalDragging: Boolean;
     tmContextMenu: TTimer;
     tmMouseScroll: TTimer;
     // Needed for rename on mouse
@@ -516,6 +528,7 @@ begin
   FLastDoubleClickTime := Now;
 {$ENDIF}
   FStartDrag := False;
+  FExternalDragging := False;
 
   inherited CreateDefault(AOwner);
 
@@ -686,7 +699,7 @@ begin
   // Register as drag&drop source and target.
   FDragDropSource := uDragDropEx.CreateDragDropSource(AControl);
   if Assigned(FDragDropSource) then
-    FDragDropSource.RegisterEvents(nil, nil, @OnExDragEnd);
+    FDragDropSource.RegisterEvents(@OnExDragBegin, nil, @OnExDragEnd);
 
   FDragDropTarget := uDragDropEx.CreateDragDropTarget(AControl);
   if Assigned(FDragDropTarget) then
@@ -1141,7 +1154,10 @@ begin
 
   // If dragging is currently in effect, the window has mouse capture and
   // we can retrieve the window over which the mouse cursor currently is.
-  if MainControl.Dragging and uDragDropEx.IsExternalDraggingSupported then
+  // Where the widgetset cannot report either (Wayland), dragging has already
+  // been started as external in the first place, see StartDraggingExternal.
+  if MainControl.Dragging and uDragDropEx.IsExternalDraggingSupported and
+     uDragDropEx.IsDragTransformSupported then
   begin
     Point := MainControl.ClientToScreen(Classes.Point(X, Y));
 
@@ -1180,23 +1196,19 @@ begin
         // Check if valid item is being dragged.
         if IsItemValid(AFile) then
         begin
-{$IF DEFINED(LCLCOCOA)}
-          { The Cocoa drag session has to be started while the cursor is still
-            inside the panel. A session begun later, once the pointer has left
-            the window, is never handed the mouse and ends at its starting
-            point without following the cursor. The session serves drops inside
-            the application too, so there is no separate internal drag here. }
-
-          // Restore selection of active file before the dragged list is built.
-          if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
-
-          BeginDragExternal(AFile, FDragDropSource, FMainControlLastMouseButton,
-                            MainControl.ClientToScreen(Classes.Point(X, Y)));
-{$ELSE}
-          MainControl.BeginDrag(False);
-          // Restore selection of active file
-          if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
-{$ENDIF}
+          if uDragDropEx.IsExternalDraggingSupported and
+             (not uDragDropEx.IsDragTransformSupported) then
+          begin
+            // External dragging blocks until the drop, so the selection has to
+            // be in its final state before the operation is started.
+            if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
+            StartDraggingExternal(AFile, X, Y);
+          end
+          else begin
+            MainControl.BeginDrag(False);
+            // Restore selection of active file
+            if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
+          end;
         end;
       end;
     end;
@@ -1209,7 +1221,8 @@ begin
   end;
   // Show file info tooltip.
   if ShowHint and
-     not MainControl.Dragging and ([ssLeft, ssMiddle, ssRight] * Shift = []) then
+     not (MainControl.Dragging or FExternalDragging) and
+     ([ssLeft, ssMiddle, ssRight] * Shift = []) then
     begin
       FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
       if FileIndex <> FHintFileIndex then
@@ -1223,7 +1236,8 @@ begin
 
   // A single click starts programs and opens files
   if (gMouseSingleClickStart in [1..3]) and (FMainControlMouseDown = False) and
-     (Shift * [ssShift, ssAlt, ssModifier] = []) and (not MainControl.Dragging) then
+     (Shift * [ssShift, ssAlt, ssModifier] = []) and
+     (not (MainControl.Dragging or FExternalDragging)) then
   begin
     FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
     if IsFileIndexInRange(FileIndex) and
@@ -1367,6 +1381,9 @@ var
   currentPoint: TPoint;
 {$ENDIF}
 begin
+  FExternalDragging := False;
+  uDragDropEx.ExternalDragSourceControl := nil;
+
   // Refresh source file panel after the drop to (possibly) another application
   // (files could have been moved for example). This has to be done here, when
   // the drag has really ended, and not right after starting it: on GTK and
@@ -1473,30 +1490,50 @@ begin
 
   // When the drag started here, the drop is an internal one and has to carry
   // its source panel, or it would be treated as coming from another program.
-  if Assigned(uDragDropEx.ExternalDragSourceControl) and
-     (uDragDropEx.ExternalDragSourceControl.Parent is TFileView) then
-    SourcePanel := TFileView(uDragDropEx.ExternalDragSourceControl.Parent);
-  if FileNamesList.Count > 0 then
+
+  // A drag started by this application carries the full source context, and it
+  // has to be preserved. Rebuilding the files from their names would pin them
+  // to the local file system and silently turn a drag out of an archive or a
+  // remote file source into a copy of non-existing local paths.
+
+  SourcePanel := GetExternalDragSourcePanel;
+
+  if Assigned(SourcePanel) then
+  begin
+    AFiles := SourcePanel.CloneSelectedOrActiveFiles
+  end
+  else if FileNamesList.Count > 0 then
   try
     AFiles := TFileSystemFileSource.CreateFilesFromFileList(
         ExtractFilePath(FileNamesList[0]), FileNamesList);
-    try
-      DropParams := TDropParams.Create(
-        AFiles, DropEffect, ScreenPoint, True,
-        SourcePanel, Self, Self.FileSource, Self.CurrentPath);
-
-      frmMain.DropFiles(DropParams);
-
-      Result := True;
-    finally
-      FreeAndNil(AFiles);
-    end;
   except
     on e: EFileNotFound do
       MessageDlg(e.Message, mtError, [mbOK], 0);
   end;
 
+  if Assigned(AFiles) then
+  try
+    DropParams := TDropParams.Create(
+      AFiles, DropEffect, ScreenPoint, True,
+      SourcePanel, Self, Self.FileSource, Self.CurrentPath);
+
+    frmMain.DropFiles(DropParams);
+
+    Result := True;
+  finally
+    FreeAndNil(AFiles);
+  end;
+
   SetDropFileIndex(-1);
+end;
+
+function TFileViewWithMainCtrl.GetExternalDragSourcePanel: TFileView;
+begin
+  if Assigned(uDragDropEx.ExternalDragSourceControl) and
+     (uDragDropEx.ExternalDragSourceControl.Parent is TFileView) then
+    Result:= TFileView(uDragDropEx.ExternalDragSourceControl.Parent)
+  else
+    Result := nil;
 end;
 
 procedure TFileViewWithMainCtrl.SetDropFileIndex(NewFileIndex: PtrInt);
@@ -1703,6 +1740,30 @@ begin
     end;
   end;
   FRenameFileIndex := -1;
+end;
+
+procedure TFileViewWithMainCtrl.StartDraggingExternal(AFile: TDisplayFile; X,
+  Y: Integer);
+begin
+  // A drag has to be handed over to the widgetset right here, from inside the
+  // mouse event handler that crossed the drag threshold. Starting it later is
+  // not possible where an internal drag cannot be transformed into an external
+  // one: without a screen wide pointer grab the application stops receiving
+  // mouse events the moment the cursor leaves its own window, so it would
+  // never notice that the drag has to leave the application at all.
+
+  // The nested event loop below keeps delivering mouse events to this control,
+  // so guard against starting a second operation on top of this one.
+  if FExternalDragging then Exit;
+
+  FExternalDragging := True;
+
+  // Let drop targets within this application recognize
+  // their own drag and recover the source panel from it.
+  uDragDropEx.ExternalDragSourceControl := MainControl;
+
+  BeginDragExternal(AFile, FDragDropSource, FMainControlLastMouseButton,
+                    MainControl.ClientToScreen(Classes.Point(X, Y)));
 end;
 
 procedure TFileViewWithMainCtrl.TransformDraggingToExternal(ScreenPoint: TPoint);
