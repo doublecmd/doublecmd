@@ -221,12 +221,12 @@ msgstr "Egyéni ..."
 #: lclstrconsts.rsdatetoolarge
 #, object-pascal-format
 msgid "Date cannot be past %s"
-msgstr ""
+msgstr "A dátum nem lehet későbbi, mint %s"
 
 #: lclstrconsts.rsdatetoosmall
 #, object-pascal-format
 msgid "Date cannot be before %s"
-msgstr ""
+msgstr "A dátum nem lehet korábbi, mint %s"
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
@@ -646,7 +646,7 @@ msgstr "Nincs megjelenítő az ilyen típusú súgótartalomhoz"
 
 #: lclstrconsts.rshidedetails
 msgid "Hide details"
-msgstr ""
+msgstr "Részletek elrejtése"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -718,7 +718,7 @@ msgstr "A(z) %s %d Index a 0 .. %d tartományon kívül esik"
 #: lclstrconsts.rsindexoutofboundsminusone
 #, object-pascal-format
 msgid "%s Index %d out of bounds -1 .. %d"
-msgstr ""
+msgstr "%s: A(z) %d index kívül esik a megengedett tartományon (-1 .. %d)"
 
 #: lclstrconsts.rsindexoutofrange
 #, object-pascal-format
@@ -817,7 +817,7 @@ msgstr "Visszavonás"
 
 #: lclstrconsts.rsmacosfileformat
 msgid "File Format:"
-msgstr ""
+msgstr "Fájlformátum:"
 
 #: lclstrconsts.rsmacosmenuabout
 #, object-pascal-format
@@ -840,7 +840,7 @@ msgstr "Beállítások..."
 #: lclstrconsts.rsmacosmenuquit
 #, object-pascal-format
 msgid "Quit %s"
-msgstr "%s befejezése"
+msgstr "%s kilépés"
 
 #: lclstrconsts.rsmacosmenuservices
 msgid "Services"
@@ -1045,7 +1045,7 @@ msgstr "Lila"
 
 #: lclstrconsts.rsqtoptiondisableaccurateframe
 msgid "Disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
-msgstr ""
+msgstr "Letiltja az ablakkeret teljesen pontos meghatározását X11 alatt. Ez a funkció a Qt, Qt5 és Gtk2 felületeken van megvalósítva, és főként a GetWindowRect() használja."
 
 #: lclstrconsts.rsqtoptiondograb
 #, fuzzy
@@ -1231,7 +1231,7 @@ msgstr "Betűtípus kiválasztása"
 
 #: lclstrconsts.rsshowdetails
 msgid "Show details"
-msgstr ""
+msgstr "Részletek megjelenítése"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
@@ -1259,7 +1259,7 @@ msgstr "Szöveg"
 
 #: lclstrconsts.rstga
 msgid "TGA Image Files"
-msgstr ""
+msgstr "TGA-képfájlok"
 
 #: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
 msgid "The built-in URL is read only. Change the BaseURL instead."

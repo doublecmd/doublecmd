@@ -1607,7 +1607,7 @@ msgstr "&Törlés"
 
 #: tfrmfinddlg.btnsearchload.caption
 msgid "L&oad"
-msgstr "Beto&ltás"
+msgstr "Betö&ltés"
 
 #: tfrmfinddlg.btnsearchsave.caption
 msgid "S&ave"
@@ -3334,15 +3334,15 @@ msgstr "Vagy válasszon előre meghatározott kiválasztási típust:"
 
 #: tfrmmasterkey.btntest.caption
 msgid "Test"
-msgstr ""
+msgstr "Teszt"
 
 #: tfrmmasterkey.caption
 msgid "Create Key"
-msgstr ""
+msgstr "Kulcs létrehozása"
 
 #: tfrmmasterkey.gbkeytransform.caption
 msgid "Key transformation"
-msgstr ""
+msgstr "Kulcs átalakítása"
 
 #: tfrmmasterkey.gbmasterkey.caption
 #, fuzzy
@@ -3352,39 +3352,39 @@ msgstr "Fő jelszó"
 
 #: tfrmmasterkey.lblfooter.caption
 msgid "The more iterations, the harder are dictionary and guessing attacks, but also password store loading/saving takes more time."
-msgstr ""
+msgstr "Minél több az iteráció, annál nehezebbek a szótáralapú és találgatásos támadások, de a jelszótároló betöltése és mentése is több időt vesz igénybe."
 
 #: tfrmmasterkey.lblfunction.caption
 msgid "&Key derivation function:"
-msgstr ""
+msgstr "&Kulcsszármaztatási függvény:"
 
 #: tfrmmasterkey.lblheader.caption
 msgid "The key is transformed using a key derivation function. This adds a work factor and makes dictionary and guessing attacks harder."
-msgstr ""
+msgstr "A kulcs átalakítása egy kulcsszármaztatási függvénnyel történik. Ez növeli a számítási igényt, és megnehezíti a szótáralapú és találgatásos támadásokat."
 
 #: tfrmmasterkey.lbliterations.caption
 msgid "&Iterations:"
-msgstr ""
+msgstr "&Iterációk:"
 
 #: tfrmmasterkey.lblmemory.caption
 msgid "&Memory:"
-msgstr ""
+msgstr "&Memória:"
 
 #: tfrmmasterkey.lblparallelism.caption
 msgid "&Parallelism:"
-msgstr ""
+msgstr "&Párhuzamosság:"
 
 #: tfrmmasterkey.lblpassword.caption
 msgid "Pass&word:"
-msgstr ""
+msgstr "Jels&zó:"
 
 #: tfrmmasterkey.lblrepeat.caption
 msgid "&Repeat password:"
-msgstr ""
+msgstr "&Jelszó megismétlése:"
 
 #: tfrmmasterkey.lbltext.caption
 msgid "Specify a new key, which will be used to encrypt the password store."
-msgstr ""
+msgstr "Adj meg egy új kulcsot, amely a jelszótároló titkosítására szolgál."
 
 #: tfrmmasterkey.lblunit.caption
 #, fuzzy
@@ -4209,11 +4209,11 @@ msgstr "Fájlkiterjesztések megjelenítése"
 
 #: tfrmoptionsbriefview.rbaligned.caption
 msgid "ali&gned (with Tab)"
-msgstr "igazí&tott (tabulátorral)"
+msgstr "Igazí&tott (tabulátorral)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr "közvetlenül a fájlnév &után"
+msgstr "Közvetlenül a fájlnév &után"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
@@ -9888,7 +9888,7 @@ msgid ""
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
-msgstr ""
+msgstr "vagy nyomd meg a \"MÉGSE\" gombot a nélküle történő folytatáshoz?"
 "Ez a fájl nem található, és segíthet a fájlok végleges kombinációjának ellenőrzésében:\n"
 "%s\n"
 "\n"
@@ -10863,10 +10863,13 @@ msgid ""
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
 msgstr ""
+"URL:\n"
+"(pl. smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
-msgstr ""
+msgstr "SMB / Samba / WebDAV / NFS ..."
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10986,22 +10989,22 @@ msgstr "Finder"
 #: ulng.rsmfstbigobackwardtips
 msgctxt "ulng.rsmfstbigobackwardtips"
 msgid "Backward"
-msgstr ""
+msgstr "Vissza"
 
 #: ulng.rsmfstbigobackwardtitle
 msgctxt "ulng.rsmfstbigobackwardtitle"
 msgid "Backward"
-msgstr ""
+msgstr "Vissza"
 
 #: ulng.rsmfstbigoforwardtips
 msgctxt "ulng.rsmfstbigoforwardtips"
 msgid "Forward"
-msgstr ""
+msgstr "Előre"
 
 #: ulng.rsmfstbigoforwardtitle
 msgctxt "ulng.rsmfstbigoforwardtitle"
 msgid "Forward"
-msgstr ""
+msgstr "Előre"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -11989,12 +11992,12 @@ msgstr "Érvénytelen kiválasztás."
 #: ulng.rsmsgkeytransformerror
 #, object-pascal-format
 msgid "The key transformation failed (error code %d)!"
-msgstr ""
+msgstr "A kulcs átalakítása sikertelen (hibakód: %d)!"
 
 #: ulng.rsmsgkeytransformtime
 #, object-pascal-format
 msgid "The key transformation took %f seconds."
-msgstr ""
+msgstr "A kulcs átalakítása %f másodpercig tartott."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
