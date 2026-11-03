@@ -901,7 +901,7 @@ begin
       Font.Bold := True;
       Font.Color := clWindowText;
       with hCols[0] do
-        TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+        TextRect(Rect(Left, aRect.Top, hCols[3].Left, aRect.Bottom),
           Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
     end else begin
       with gColors.SyncDirs^ do
