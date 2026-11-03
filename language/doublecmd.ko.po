@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-09-16 05:10+0900\n"
+"PO-Revision-Date: 2026-11-03 06:08+0900\n"
 "Last-Translator: VenusGirl <venusgirl@outlook.com>\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -99,7 +99,7 @@ msgstr "검증(&V)"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr "파일 시간, 속성 등을 설정할 수 없는 경우 수행할 작업"
+msgstr "파일 시간이나 속성 등을 설정할 수 없는 경우에 대한 처리 방법입니다."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
@@ -8979,11 +8979,11 @@ msgstr "링크 이름(&L)"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "파일 속성 복사 -> (왼쪽에서 오른쪽으로)..."
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "파일 속성 복사 <- (오른쪽에서 왼쪽으로)..."
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9184,36 +9184,36 @@ msgstr "덮어쓰기 확인"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "왼쪽: 빈 디렉터리 모두 삭제"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "오른쪽: 빈 디렉터리 모두 삭제"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
-msgstr ""
+msgstr "검증"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "파일 속성"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "권한 /  소유권(&P)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "타임스탬프 (날짜+시간)(&T)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "확장 속성"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "다음 파일 속성 복사:"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -12052,7 +12052,7 @@ msgstr "디렉터리 변경 후 활성화되지 않은 프레임을 지정된 �
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr "상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하는 몇 가지 기능"
+msgstr "상대 경로, 절대 경로, Windows 특수 폴더 등 적절한 경로를 선택하기 위한 기능들입니다."
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
@@ -13390,7 +13390,7 @@ msgstr "부동"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "cm_Delete의 단축키 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
+msgstr "cm_Delete에 대한 단축키 %s가 등록될 예정이므로, 이 설정을 반전하는 데 사용할 수 있습니다."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13417,12 +13417,12 @@ msgstr "명령"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "cm_Delete 단축키 %s에는 이 설정을 재정의하는 매개변수가 있습니다. 이 매개변수를 전역 설정으로 변경하시겠습니까?"
+msgstr "cm_Delete에 대한 단축키 %s에는 이 설정을 무시하는 매개변수가 있습니다. 전역 설정을 사용하도록 이 매개변수를 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "cm_Delete 단축키 %s의 매개변수를 단축키 %s와 일치하도록 변경해야 합니다. 변경하시겠습니까?"
+msgstr "cm_Delete에 대한 단축키 %s는 단축키 %s와 일치하도록 매개변수를 변경해야 합니다. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13469,7 +13469,7 @@ msgstr "이 설정이 %s 단축키로 작동하려면 단축키 %s을(를) cm_De
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "cm_Delete 단축키 %s는 Shift 키를 반전시킨 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
+msgstr "cm_Delete에 대한 단축키 %s는 Shift 키가 반전된 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정은 작동하지 않을 수 있습니다."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
