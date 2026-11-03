@@ -202,6 +202,8 @@ begin
       ARange.First:= Index;
     end;
   end;
+
+  FFileView.UpdateSelection;
 end;
 
 procedure TfrmSelectDuplicates.btnIncludeMaskClick(Sender: TObject);
