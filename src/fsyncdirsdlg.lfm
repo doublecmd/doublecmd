@@ -224,7 +224,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 20
         Width = 70
         BorderSpacing.Bottom = 2
-        Caption = 'Subdirs'
+        Caption = 'subdirs'
         ParentFont = False
         TabOrder = 1
       end

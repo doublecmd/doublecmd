@@ -9303,7 +9303,7 @@ msgid "only selected"
 msgstr "選択項目のみ"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "サブディレクトリ"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

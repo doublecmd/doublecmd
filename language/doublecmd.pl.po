@@ -9055,8 +9055,8 @@ msgid "only selected"
 msgstr "Tylko zaznaczone"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Podkatalogi"
+msgid "subdirs"
+msgstr "podkatalogi"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

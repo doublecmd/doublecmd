@@ -9085,8 +9085,8 @@ msgid "only selected"
 msgstr "alleen geselecteerde"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Submappen"
+msgid "subdirs"
+msgstr "submappen"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
@@ -12534,7 +12534,7 @@ msgstr ""
 "Sluit TC en druk op Oké of op Annuleren om af te breken."
 
 #: ulng.rsmsgtctoolbarnotfound
-#, fuzzy, object-pascal-format
+#, object-pascal-format, fuzzy, badformat
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s"
@@ -14574,3 +14574,4 @@ msgstr "Er vond geen vervanging plaats."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Geen instelling genaamd '%s'"
+

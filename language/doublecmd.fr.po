@@ -9393,7 +9393,7 @@ msgid "only selected"
 msgstr "seulement les sélections"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "sous-dossiers"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

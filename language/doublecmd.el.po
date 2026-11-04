@@ -9275,8 +9275,8 @@ msgid "only selected"
 msgstr "μόνο το(α) επιλεγμένο(α)"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Υποκατάλογοι"
+msgid "subdirs"
+msgstr "υποκατάλογοι"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

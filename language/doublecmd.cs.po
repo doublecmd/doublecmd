@@ -9121,8 +9121,8 @@ msgid "only selected"
 msgstr "pouze vybrané"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Podsložky"
+msgid "subdirs"
+msgstr "podsložky"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

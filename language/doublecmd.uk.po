@@ -9394,8 +9394,8 @@ msgid "only selected"
 msgstr "лише виділене"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Підтеки"
+msgid "subdirs"
+msgstr "підтеки"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

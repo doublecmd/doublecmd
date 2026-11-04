@@ -9079,8 +9079,8 @@ msgid "only selected"
 msgstr "endast markerade"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Underkataloger"
+msgid "subdirs"
+msgstr "underkataloger"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

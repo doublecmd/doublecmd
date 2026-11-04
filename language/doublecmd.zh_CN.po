@@ -9077,7 +9077,7 @@ msgid "only selected"
 msgstr "仅选定的文件"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "子文件夹"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

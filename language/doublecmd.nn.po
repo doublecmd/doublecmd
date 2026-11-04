@@ -9553,8 +9553,8 @@ msgid "only selected"
 msgstr "bare valde"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Undermapper"
+msgid "subdirs"
+msgstr "undermapper"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

@@ -9100,8 +9100,8 @@ msgid "only selected"
 msgstr "толькі абранае"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Падкаталогі"
+msgid "subdirs"
+msgstr "падкаталогі"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

@@ -9081,8 +9081,8 @@ msgid "only selected"
 msgstr "nur Markierte"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Unterverzeichnisse"
+msgid "subdirs"
+msgstr "unterverzeichnisse"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

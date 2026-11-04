@@ -9315,7 +9315,7 @@ msgid "only selected"
 msgstr "&Выделенные"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "с &подкаталогами"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

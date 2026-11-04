@@ -9312,7 +9312,7 @@ msgid "only selected"
 msgstr "僅選中的檔案"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "子資料夾"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

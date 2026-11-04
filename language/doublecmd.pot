@@ -9068,7 +9068,7 @@ msgid "only selected"
 msgstr ""
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr ""
 
 #: tfrmsyncdirsdlg.groupbox1.caption

@@ -9079,8 +9079,8 @@ msgid "only selected"
 msgstr "csak kijelöltek"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Alkönyvtárak"
+msgid "subdirs"
+msgstr "alkönyvtárak"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

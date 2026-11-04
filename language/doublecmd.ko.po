@@ -9079,7 +9079,7 @@ msgid "only selected"
 msgstr "선택된 것만"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+msgid "subdirs"
 msgstr "하위 디렉터리"
 
 #: tfrmsyncdirsdlg.groupbox1.caption

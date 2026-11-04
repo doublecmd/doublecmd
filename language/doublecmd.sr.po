@@ -9290,8 +9290,8 @@ msgid "only selected"
 msgstr "само одабрано"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
-msgstr "Подфасцикле"
+msgid "subdirs"
+msgstr "подфасцикле"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"

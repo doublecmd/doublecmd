@@ -7,7 +7,7 @@
 {"hash":181520105,"name":"tfrmsyncdirsdlg.label1.caption","sourcebytes":[40,105,110,32,109,97,105,110,32,119,105,110,100,111,119,41],"value":"(in main window)"},
 {"hash":28426435,"name":"tfrmsyncdirsdlg.chkemptydir.caption","sourcebytes":[101,109,112,116,121,32,100,105,114,101,99,116,111,114,105,101,115],"value":"empty directories"},
 {"hash":70923251,"name":"tfrmsyncdirsdlg.chkasymmetric.caption","sourcebytes":[97,115,121,109,109,101,116,114,105,99],"value":"asymmetric"},
-{"hash":179876035,"name":"tfrmsyncdirsdlg.chksubdirs.caption","sourcebytes":[83,117,98,100,105,114,115],"value":"Subdirs"},
+{"hash":179876067,"name":"tfrmsyncdirsdlg.chksubdirs.caption","sourcebytes":[115,117,98,100,105,114,115],"value":"subdirs"},
 {"hash":174272820,"name":"tfrmsyncdirsdlg.chkbycontent.caption","sourcebytes":[98,121,32,99,111,110,116,101,110,116],"value":"by content"},
 {"hash":135876037,"name":"tfrmsyncdirsdlg.chkignoredate.caption","sourcebytes":[105,103,110,111,114,101,32,100,97,116,101],"value":"ignore date"},
 {"hash":5895850,"name":"tfrmsyncdirsdlg.groupbox1.caption","sourcebytes":[83,104,111,119,58],"value":"Show:"},
