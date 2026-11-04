@@ -108,6 +108,10 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 {en
+   Returns @true when application is running on the native Wayland platform
+}
+function IsWaylandSession: Boolean;
+{en
    Show open with dialog
    @param(FileList List of files to open with)
 }
@@ -159,13 +163,16 @@ uses
     , qt4, qtwidgets
     {$ENDIF}
     {$IF DEFINED(LCLQT5)}
-    , qt5, qtwidgets
+    , qt5, qtwidgets, qtint
     {$ENDIF}
     {$IF DEFINED(LCLQT6)}
     , qt6, qtwidgets, qtint
     {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
     , Gtk2,  Glib2, Themes
+    {$ENDIF}
+    {$IF DEFINED(LCLGTK3)}
+    , Gtk3Int
     {$ENDIF}
   {$ENDIF}
   {$IF FPC_FULLVERSION < 30300}
@@ -509,7 +516,7 @@ begin
   if not (Form is THintWindow) then
   begin
   {$IF DEFINED(LCLQT6)}
-    if not IsWayland then
+    if not IsWaylandSession then
   {$ENDIF}
     begin
       ClassName:= Form.ClassName;
@@ -1045,6 +1052,30 @@ end;
 {$ENDIF}
 
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+function IsWaylandSession: Boolean;
+{$IF DEFINED(LCLQT5) or DEFINED(LCLQT6) or DEFINED(LCLGTK3)}
+const
+  FIsWayland: TDuplicates = dupIgnore;
+begin
+  if FIsWayland = dupIgnore then
+  begin
+  {$IFDEF LCLGTK3}
+    with GTK3WidgetSet do
+  {$ENDIF}
+    if IsWayland then
+      FIsWayland:= dupAccept
+    else begin
+      FIsWayland:= dupError;
+    end;
+  end;
+  Result:= (FIsWayland = dupAccept);
+end;
+{$ELSE}
+begin
+  Result:= False;
+end;
+{$ENDIF}
+
 procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
   fOpenWith.ShowOpenWithDlg(TheOwner, FileList);
