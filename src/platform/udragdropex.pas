@@ -205,17 +205,13 @@ uses
   uDragDropCocoa;
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 uses
-  uDragDropGtk;
+  uDragDropGtk, uOSForms;
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
 uses
   uDragDropQt, uDragDropCocoa;
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
 uses
-  uDragDropQt
-  {$IF DEFINED(LCLQT6) and DEFINED(XDG)}
-  , Interfaces
-  {$ENDIF}
-  ;
+  uDragDropQt, uOSForms;
 {$ENDIF}
 
 const
@@ -371,8 +367,8 @@ end;
 
 function IsDragTransformSupported: Boolean;
 begin
-{$IF DEFINED(LCLQT6) and DEFINED(XDG)}
-  Result := (QtWidgetSetEx = nil);
+{$IF DEFINED(XDG)}
+  Result := not IsWaylandSession;
 {$ELSEIF DEFINED(LCLCOCOA)}
   Result := False;
 {$ELSE}
