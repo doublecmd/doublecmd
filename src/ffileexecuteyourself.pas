@@ -96,7 +96,7 @@ begin
     else
       begin
         FileName:= TempFileSource.FileSystemRoot + aFile.Name;
-        TempFiles:= TFiles.Create(aFileView.CurrentPath);
+        TempFiles:= TFiles.Create(aFile.Path);
         TempFiles.Add(aFile.Clone);
       end;
     Operation := aFileView.FileSource.CreateCopyOutOperation(
