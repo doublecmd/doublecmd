@@ -296,6 +296,8 @@ type
     function stopOperation: Boolean;
     procedure doCopyProperties(const targetSide: TDoubleSide);
 
+    function getDisplayText(const aCol: Integer; const aRow: Integer): String;
+
     procedure Compare;
     procedure FillFoundItemsDG;
     procedure InitVisibleItems;
@@ -913,54 +915,22 @@ procedure TfrmSyncDirsDlg.MainDrawGridGetCellPreferedWidth(
   var preferedWidth: Integer);
 var
   rec: TSyncRec;
-
-  function calcName: Integer;
-  var
-    text: String;
-  begin
-    text:= FFilteredList.path(aRow);
-    Result:= MainDrawGrid.Canvas.TextWidth(text) + 2 + LEFT_FILE_INDENTATION + 2;
-  end;
-
-  function calcSize(const side: TDoubleSide): Integer;
-  var
-    text: String;
-  begin
-    Result:= 0;
-    if NOT rec.hasFileOnSide(side) then
-      Exit;
-    text:= IntToStrTS(rec.filesOnSide[side].Size);
-    Result:= MainDrawGrid.Canvas.TextWidth(text) + 8;
-  end;
-
-  function calcDate(const side: TDoubleSide): Integer;
-  var
-    text: String;
-  begin
-    Result:= 0;
-    if NOT rec.hasFileOnSide(side) then
-      Exit;
-    text:= FormatDateTime(gDateTimeFormatSync, rec.filesOnSide[side].ModificationTime);
-    Result:= MainDrawGrid.Canvas.TextWidth(text) + 2 + 2;
-  end;
-
+  s: String;
 begin
   preferedWidth:= 0;
   rec:= FFilteredList.getSyncRec(aRow);
-  if rec.isFile then begin
-    case aCol of
-      0:
-        if rec.hasLeftFile then
-          preferedWidth:= calcName;
-      1:
-        preferedWidth:= calcSize(dsLeft);
-      2:
-        preferedWidth:= calcDate(dsLeft);
-      4:
-        preferedWidth:= calcDate(dsRight);
-      5:
-        preferedWidth:= calcSize(dsRight);
-    end;
+  if rec.isDir then
+    Exit;
+
+  s:= getDisplayText(aCol, aRow);
+  if s = EmptyStr then
+    Exit;
+
+  preferedWidth:= MainDrawGrid.Canvas.TextWidth(s);
+  case aCol of
+    0: Inc(preferedWidth, 2 + LEFT_FILE_INDENTATION + 2);
+    1, 5: Inc(preferedWidth, 2 + 8);
+    2, 4: Inc(preferedWidth, 2 + 2);
   end;
 end;
 
@@ -1011,43 +981,41 @@ begin
       with gColors.SyncDirs^ do
       begin
         case rec.state of
-        srsNotEq:       Font.Color := UnknownColor;
-        srsCopyToLeft:    Font.Color := RightColor;
-        srsCopyToRight:   Font.Color := LeftColor;
-        srsDeleteLeft:  Font.Color := LeftColor;
-        srsDeleteRight: Font.Color := RightColor;
-        else Font.Color := clWindowText;
+          srsNotEq:       Font.Color := UnknownColor;
+          srsCopyToLeft:  Font.Color := RightColor;
+          srsCopyToRight: Font.Color := LeftColor;
+          srsDeleteLeft:  Font.Color := LeftColor;
+          srsDeleteRight: Font.Color := RightColor;
+          else Font.Color := clWindowText;
         end;
       end;
       if rec.hasLeftFile then
       begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(rec.leftFile.Size);
+            Left + 2 + LEFT_FILE_INDENTATION, aRect.Top + 2, getDisplayText(0, aRow));
         with hCols[1] do begin
+          s := getDisplayText(1, aRow);
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
         with hCols[2] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2, aRect.Top + 2, s)
+            Left + 2, aRect.Top + 2, getDisplayText(2, aRow))
       end;
       if rec.hasRightFile then
       begin
-        TextOut(hCols[6].Left + 2, aRect.Top + 2, FFilteredList.path(aRow));
-        s := IntToStrTS(rec.rightFile.Size);
+        TextOut(hCols[6].Left + 2, aRect.Top + 2, getDisplayText(6, aRow));
         with hCols[5] do begin
+          s := getDisplayText(5, aRow);
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime);
         with hCols[4] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2, aRect.Top + 2, s)
+            Left + 2, aRect.Top + 2, getDisplayText(4, aRow))
       end;
     end;
     if rec.isFile or (rec.state<>srsDoNothing) then begin
@@ -1566,6 +1534,28 @@ begin
     end;
     commonService.Free;
     indexes.Free;
+  end;
+end;
+
+function TfrmSyncDirsDlg.getDisplayText(const aCol: Integer; const aRow: Integer): String;
+var
+  rec: TSyncRec;
+begin
+  Result:= EmptyStr;
+  rec:= FFilteredList.getSyncRec(aRow);
+  case aCol of
+    0: if rec.hasLeftFile then
+         Result:= FFilteredList.path(aRow);
+    1: if rec.hasLeftFile then
+         Result:= IntToStrTS(rec.leftFile.Size);
+    2: if rec.hasLeftFile then
+         Result:= FormatDateTime(gDateTimeFormatSync, rec.leftFile.ModificationTime);
+    4: if rec.hasRightFile then
+         Result:= FormatDateTime(gDateTimeFormatSync, rec.rightFile.ModificationTime);
+    5: if rec.hasRightFile then
+         Result:= IntToStrTS(rec.rightFile.Size);
+    6: if rec.hasRightFile then
+         Result:= FFilteredList.path(aRow);
   end;
 end;
 
