@@ -227,7 +227,17 @@ type
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
   end;
 
+  function otherSide(const side: TDoubleSide): TDoubleSide;
+
 implementation
+
+function otherSide(const side: TDoubleSide): TDoubleSide;
+begin
+  if side = dsLeft then
+    Result:= dsRight
+  else
+    Result:= dsLeft;
+end;
 
 function fileProcessorWithUIDeleteFile(
   const fileProcessor: ISyncDirsFileProcessorWithUI;
@@ -764,11 +774,7 @@ var
   sourceSide: TDoubleSide;
   ret: Boolean;
 begin
-  if targetSide = dsLeft then
-    sourceSide:= dsRight
-  else
-    sourceSide:= dsLeft;
-
+  sourceSide:= otherSide( targetSide );
   for i in indexes do begin
     rec:= _filteredList.getSyncRec( i );
     if NOT rec.hasFilesOnBothSides then
@@ -1125,10 +1131,7 @@ var
       targetFile: TFile;
       targetPath: String;
     begin
-      if targetSide = dsLeft then
-        sourceSide:= dsRight
-      else
-        sourceSide:= dsLeft;
+      sourceSide:= otherSide( targetSide );
       sourceFile:= rec.filesOnSide[sourceSide].Clone;
       files.Add( sourceFile );
       targetPath:= _basePaths[targetSide] + rec.relPath;
@@ -1177,10 +1180,7 @@ var
     targetFS: IFileSource;
     targetFullPath: String;
   begin
-    if targetSide = dsLeft then
-      sourceSide:= dsRight
-    else
-      sourceSide:= dsLeft;
+    sourceSide:= otherSide( targetSide );
     sourceFS:= _fileSources[sourceSide];
     targetFS:= _fileSources[targetSide];
     targetFullPath:= ExcludeBackPathDelimiter( _basePaths[targetSide] + dirSyncRec.relPath );
