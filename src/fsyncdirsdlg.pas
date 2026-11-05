@@ -742,15 +742,14 @@ begin
         FFileCountProgressHelper.close;
 
       synchronizer.sync( syncFlags );
-
-      EnableControls(True);
-      btnCompare.Click;
     end;
   finally
     if FState.isInState(sddsSynchronizing) then begin
       FFileSizeProgressHelper.close;
       FFileCountProgressHelper.close;
+      EnableControls(True);
       FState.reset;
+      btnCompare.Click;
     end;
     synchronizer.Free;
     Free;
@@ -1519,17 +1518,17 @@ begin
     indexes:= self.createSelectionIndexes;
 
     FState.enter(sddsCopyingProperties);
+    EnableControls(False);
     FFileSizeProgressHelper.close;
     FFileCountProgressHelper.open(rsOperSettingProperty, FFilteredList.countBothSides(indexes));
-    EnableControls(False);
 
     commonService.copyProperties(indexes, targetSide, attrs);
 
     self.MainDrawGrid.Invalidate;
-    EnableControls(True);
   finally
     if FState.isInState(sddsCopyingProperties) then begin
       FFileCountProgressHelper.close;
+      EnableControls(True);
       FState.reset;
     end;
     commonService.Free;
@@ -1565,9 +1564,9 @@ begin
   HeaderDG.Enabled:= False;
   GroupBox1.Enabled:= False;
   MainDrawGrid.PopupMenu:= nil;
+  pnlProgress.Visible:= True;
   FFileSizeProgressHelper.open(rsDiffComparing, 100);
   FFileCountProgressHelper.close;
-  pnlProgress.Visible:= True;
 end;
 
 procedure TfrmSyncDirsDlg.onCheckContentThreadFinish;
@@ -1698,21 +1697,21 @@ begin
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then begin
       FState.enter(sddsDeletingFiles);
+      EnableControls(False);
       FFileSizeProgressHelper.close;
       FFileCountProgressHelper.open(rsOperDeleting, FDeleteStatistics.TotalFiles);
-      EnableControls(False);
 
       fullyDone:= commonService.delete(indexes, ALeft, ARight);
       if fullyDone then
         self.FillFoundItemsDG;
 
-      EnableControls(True);
       if NOT fullyDone then
         btnCompare.Click;
     end;
   finally
     if FState.isInState(sddsDeletingFiles) then begin
       FFileCountProgressHelper.close;
+      EnableControls(True);
       FState.reset;
     end;
     commonService.Free;
