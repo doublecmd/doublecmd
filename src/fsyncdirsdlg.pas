@@ -104,13 +104,13 @@ type
     _running: Boolean;
 
     constructor Create;
-    procedure enter(const state: TSyncDirsDlgState);
-    procedure stop;
-    procedure reset;
+    procedure enter(const state: TSyncDirsDlgState); inline;
+    procedure stop; inline;
+    procedure reset; inline;
 
-    function isInState(const state: TSyncDirsDlgState): Boolean;
-    function isRunningInState(const state: TSyncDirsDlgState): Boolean;
-    function isRunning: Boolean;
+    function isInState(const state: TSyncDirsDlgState): Boolean; inline;
+    function isRunningInState(const state: TSyncDirsDlgState): Boolean; inline;
+    function isRunning: Boolean; inline;
   end;
 
   { TSyncDirsDlgProgressHelper }
@@ -290,7 +290,7 @@ type
     function createFilterFlags: TFilterFlags;
     function createSelectionIndexes: TIntegerList;
 
-    procedure toggleSelectionAction;
+    procedure toggleSelectionAction; inline;
     procedure setSelectionAction(const newAction: TSyncRecState);
 
     function stopOperation: Boolean;

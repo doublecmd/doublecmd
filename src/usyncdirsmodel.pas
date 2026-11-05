@@ -118,22 +118,22 @@ type
     _option: TSyncDirsCompareOption;
     _filesOnSide: TDoubleFiles;
   private
-    function getFileOnSide(const side: TDoubleSide): TFile;
-    procedure setFileOnSide(const side: TDoubleSide; const f: TFile);
+    function getFileOnSide(const side: TDoubleSide): TFile; inline;
+    procedure setFileOnSide(const side: TDoubleSide; const f: TFile); inline;
   public
     constructor Create(const option: TSyncDirsCompareOption; const relPath: String; const parentDirIndex: Integer);
     destructor Destroy; override;
 
-    function isFile: Boolean;
+    function isFile: Boolean;  inline;
     function isDir: Boolean; virtual; abstract;
     function isDeletable( const side: TDoubleSide ): Boolean; virtual;
 
-    function hasFileOnSide( const side: TDoubleSide ): Boolean;
-    function hasLeftFile: Boolean;
-    function hasRightFile: Boolean;
-    function hasFilesOnBothSides: Boolean;
-    function hasFileOnOnlyOneSide: Boolean;
-    function hasFileOnAnySide: Boolean;
+    function hasFileOnSide( const side: TDoubleSide ): Boolean; inline;
+    function hasLeftFile: Boolean; inline;
+    function hasRightFile: Boolean; inline;
+    function hasFilesOnBothSides: Boolean; inline;
+    function hasFileOnOnlyOneSide: Boolean; inline;
+    function hasFileOnAnySide: Boolean; inline;
 
     procedure updateState; virtual;
     function getProperAction(const expectAction: TSyncRecState): TSyncRecState; virtual;
@@ -176,14 +176,14 @@ type
 
     function isDir: Boolean; override;
     function isDeletable(const side: TDoubleSide): Boolean; override;
-    procedure incDirCount(const side: TDoubleSide; const delta: Integer);
-    procedure incFileCount(const side: TDoubleSide; const delta: Integer);
-    function fileCount(const side: TDoubleSide): Integer;
-    function noDirDescendant(const side: TDoubleSide): Boolean;
-    function noDirDescendant: Boolean;
-    function noFileDescendant(const side: TDoubleSide): Boolean;
-    function noFileDescendant: Boolean;
-    function isEmpty(const side: TDoubleSide): Boolean;
+    procedure incDirCount(const side: TDoubleSide; const delta: Integer); inline;
+    procedure incFileCount(const side: TDoubleSide; const delta: Integer); inline;
+    function fileCount(const side: TDoubleSide): Integer; inline;
+    function noDirDescendant(const side: TDoubleSide): Boolean; inline;
+    function noDirDescendant: Boolean; inline;
+    function noFileDescendant(const side: TDoubleSide): Boolean; inline;
+    function noFileDescendant: Boolean; inline;
+    function isEmpty(const side: TDoubleSide): Boolean; inline;
 
     {$IFOPT D+}
     function ToString: ansistring; override;
@@ -200,13 +200,13 @@ type
     constructor Create(const dirSyncRec: TSyncDirRec);
     destructor Destroy; override;
 
-    procedure addFile( const filename: String; const syncRec: TSyncRec );
+    procedure addFile( const filename: String; const syncRec: TSyncRec ); inline;
 
-    function fileCount: Integer;
-    function getSyncRec( const fileIndex: Integer ): TSyncRec;
-    function files: TStringListEx;
-    function indexOfFile( const filename: String ): Integer;
+    function fileCount: Integer; inline;
+    function getSyncRec( const fileIndex: Integer ): TSyncRec; inline;
+    function indexOfFile( const filename: String ): Integer; inline;
 
+    property files: TStringListEx read _files;
     property dirSyncRec: TSyncDirRec read _dirSyncRec;
   end;
 
@@ -219,16 +219,16 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function addDir( const dirPath: String; const item: TTwoLevelTreeDirItem ): Integer;
+    function addDir( const dirPath: String; const item: TTwoLevelTreeDirItem ): Integer; inline;
     procedure incParentDirRecChildrenCount( const childRec: TSyncRec; const side: TDoubleSide; const delta: Integer );
     procedure removeFile(const rec: TSyncRec; const side: TDoubleSide);
-    procedure Clear;
+    procedure Clear; inline;
 
-    function Count: Integer;
-    function indexOfDir( const dirPath: String ): Integer;
-    function dirPath( const dirIndex: Integer ): String;
-    function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem;
-    function getSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec;
+    function Count: Integer; inline;
+    function indexOfDir( const dirPath: String ): Integer; inline;
+    function dirPath( const dirIndex: Integer ): String; inline;
+    function dirItem( const dirIndex: Integer ): TTwoLevelTreeDirItem; inline;
+    function getSyncRec( const dirIndex: Integer; const fileIndex: Integer ): TSyncRec; inline;
     function findParentDirRec(const childSyncRec: TSyncRec): TSyncDirRec;
 
     {$IFOPT D+}
@@ -258,18 +258,18 @@ type
     constructor Create( const fullTree: TTwoLevelTree );
     destructor Destroy; override;
 
-    procedure addPath( const path: String; const syncRec: TSyncRec );
-    procedure Delete( const index: Integer );
-    procedure FullyDelete( const index: Integer );
+    procedure addPath( const path: String; const syncRec: TSyncRec ); inline;
+    procedure Delete( const index: Integer ); inline;
+    procedure FullyDelete( const index: Integer ); inline;
     procedure clearInvisibleDirs;
-    procedure Clear;
+    procedure Clear; inline;
 
     procedure addFile( const index: Integer; const side: TDoubleSide; const f: TFile );
     procedure removeFile(const index: Integer; const side: TDoubleSide);
 
-    function Count: Integer;
-    function path( const index: Integer ): String;
-    function getSyncRec( const index: Integer ): TSyncRec;
+    function Count: Integer; inline;
+    function path( const index: Integer ): String; inline;
+    function getSyncRec( const index: Integer ): TSyncRec; inline;
     procedure countLeftRight( const indexes: TIntegerList; out leftCount: Integer; out rightCount: Integer );
     function countBothSides( const indexes: TIntegerList ): Integer;
     function getCountRec: TSyncDirsFlatCountRec;
@@ -659,11 +659,6 @@ end;
 function TTwoLevelTreeDirItem.getSyncRec(const fileIndex: Integer): TSyncRec;
 begin
   Result:= TSyncRec( _files.Objects[fileIndex] );
-end;
-
-function TTwoLevelTreeDirItem.files: TStringListEx;
-begin
-  Result:= _files;
 end;
 
 function TTwoLevelTreeDirItem.indexOfFile(const filename: String): Integer;

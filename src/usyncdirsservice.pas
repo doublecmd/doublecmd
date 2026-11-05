@@ -52,10 +52,10 @@ type
     class function consultCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function consultAndConfirmCopyOperation(var params: TFileSourceConsultParams): Boolean;
     class function supportsSyncDirs(const sourceFS: IFileSource; const targetFS: IFileSource): Boolean;
-    class function supportsCompareByContent(const fileSources: TDoubleFileSources): Boolean;
-    class function supportsVerify(const fileSources: TDoubleFileSources): Boolean;
-    class function supportsCopyProperties(const fileSources: TDoubleFileSources): Boolean;
-    class function isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean;
+    class function supportsCompareByContent(const fileSources: TDoubleFileSources): Boolean; inline;
+    class function supportsVerify(const fileSources: TDoubleFileSources): Boolean; inline;
+    class function supportsCopyProperties(const fileSources: TDoubleFileSources): Boolean; inline;
+    class function isBothFileSystemFileSource(const fileSources: TDoubleFileSources): Boolean; inline;
   public
     class procedure filterFlatListWithFlags(
       const fullTree: TTwoLevelTree;
@@ -227,7 +227,7 @@ type
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
   end;
 
-  function otherSide(const side: TDoubleSide): TDoubleSide;
+  function otherSide(const side: TDoubleSide): TDoubleSide; inline;
 
 implementation
 
