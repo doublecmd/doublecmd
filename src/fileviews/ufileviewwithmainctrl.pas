@@ -643,7 +643,7 @@ begin
               end;
             end
             else
-              TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
+              TargetPath := TargetPath + AFile.DisplayName + DirectorySeparator;
           end
           else if FileIsArchive(AFile.FSFile.FullPath) then
             try
