@@ -246,6 +246,7 @@ type
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
     procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); virtual;
     procedure DoFileRenamed(ADisplayFile: TDisplayFile); virtual;
+    procedure DoChangeActiveFile(const aFile: TFile);
     procedure BeginUpdate;
     procedure CalculateSpace(AFile: TDisplayFile);
     procedure CalculateSpace(var AFileList: TFVWorkerFileList);
@@ -624,7 +625,11 @@ uses
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
   fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels,
-  LCLVersion;
+  LCLVersion
+  {$IFDEF DARWIN}
+  , uDarwinPanel
+  {$ENDIF}
+  ;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -2096,6 +2101,16 @@ end;
 
 procedure TFileView.SetActiveFile(const aFile: TFile);
 begin
+end;
+
+procedure TFileView.DoChangeActiveFile(const aFile: TFile);
+begin
+  if Assigned(OnChangeActiveFile) then
+    OnChangeActiveFile(Self, aFile);
+  {$IFDEF DARWIN}
+  // Let an open Quick Look panel follow the cursor
+  TDarwinPanelUtil.updateQuickLook;
+  {$ENDIF}
 end;
 
 procedure TFileView.SetActiveFile(aFilePath: String);
