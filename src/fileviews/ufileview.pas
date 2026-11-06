@@ -1084,11 +1084,12 @@ end;
 
 function TFileView.calcFileHashKey(const FileName, APath: String): String;
 begin
-  if FFlatView then begin
-    Result := ExcludeTrailingPathDelimiter( IncludeTrailingPathDelimiter(APath) + FileName );
-  end else begin
+  if FileName = EmptyStr then
+    Result := APath
+  else if FFlatView then
+    Result := ExcludeTrailingPathDelimiter( IncludeTrailingPathDelimiter(APath) + FileName )
+  else
     Result := FileName;
-  end;
 end;
 
 procedure TFileView.AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
