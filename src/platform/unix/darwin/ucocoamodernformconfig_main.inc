@@ -892,14 +892,9 @@ const
   );
 
 procedure translateMainFormToolbarItem;
-var
-  poFile: TPOFile;
 begin
   if NOT (LRSTranslator is TTranslator) then
     Exit;
-
-  poFile:= TTranslator(LRSTranslator).POFile;
-  translateItemConfig( poFile, 'tfrmmain.actopenicloud', iCloudItemConfig );
 end;
 
 procedure addMainFormShortCutTips;
