@@ -258,7 +258,7 @@ begin
       else if (E = 'xpm') then
         ExtIdx:= EXT_IDX_XPM
       else begin
-        Break;
+        Continue;
       end;
       Result.Add(ExtractOnlyFileName(S), Pointer(ExtIdx));
     end;
