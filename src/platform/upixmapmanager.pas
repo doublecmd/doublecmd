@@ -30,15 +30,6 @@ unit uPixMapManager;
 
 interface
 
-{
-  GTK2 is used directly in PixmapManager, because FPC/Lazarus draws bitmaps
-  without alpha channel under GTK2, so bitmaps looks ugly.
-  If this problem will be fixed then GTK2 specific code could be dropped.
-}
-{$IF DEFINED(LCLGTK2) AND DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  {.$DEFINE GTK2_FIX}
-{$ENDIF}
-
 // Use freedesktop.org specifications
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   {$DEFINE XDG}
@@ -59,12 +50,7 @@ uses
     , CocoaAll, MacOSAll
     , uDarwinImage, uDarwinUtil, uDarwinFile
     {$ELSEIF NOT DEFINED(HAIKU)}
-    , Math, Contnrs, FileUtil, uGio, uXdg
-      {$IFDEF GTK2_FIX}
-      , gtk2
-      {$ELSE}
-      , uUnixIconTheme
-      {$ENDIF}
+    , Math, Contnrs, FileUtil, uGio, uXdg, uUnixIconTheme
     {$ENDIF}
   {$ENDIF};
 
@@ -137,11 +123,7 @@ type
        Maps file extension to MIME icon name(s).
     }
     FExtToMimeIconName: TFPDataHashTable;
-    {$IFDEF GTK2_FIX}
-    FIconTheme: PGtkIconTheme;
-    {$ELSE}
     FIconTheme: TIconTheme;
-    {$ENDIF}
     FHomeFolder: String;
     {$ENDIF}
     {en
@@ -402,9 +384,6 @@ uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin, uClassesEx,
   DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug, uFileSourceProperty,
   IntfGraphics, DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics, uHash, uSysFolders
-  {$IFDEF GTK2_FIX}
-    , uPixMapGtk, gdk2pixbuf, gdk2, glib2
-  {$ENDIF}
   {$IFDEF MSWINDOWS}
     , ActiveX, CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
       DCConvertEncoding, uShlObjAdditional, uShellFolder, uMyWindows,
@@ -534,29 +513,10 @@ end;
 { TPixMapManager.LoadBitmapFromFile }
 function TPixMapManager.LoadBitmapFromFile(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
 var
-  {$IFDEF GTK2_FIX}
-  pbPicture : PGdkPixbuf;
-  {$ELSE}
   Picture: TPicture;
-  {$ENDIF}
 begin
   Result:= False;
 
-  {$IFDEF GTK2_FIX}
-  pbPicture := gdk_pixbuf_new_from_file(PChar(AIconFileName), nil);
-  if pbPicture <> nil then
-  begin
-    ABitmap := PixBufToBitmap(pbPicture);
-    gdk_pixmap_unref(pbPicture);
-
-    // if unsupported BitsPerPixel then exit
-    if (ABitmap = nil) or (ABitmap.RawImage.Description.BitsPerPixel > 32) then
-      raise EInvalidGraphic.Create('Unsupported bits per pixel');
-
-    Result:= True;
-  end;
-
-  {$ELSE}
   Picture := TPicture.Create;
   try
     ABitmap := Graphics.TBitmap.Create;
@@ -580,7 +540,6 @@ begin
   finally
     FreeAndNil(Picture);
   end;
-  {$ENDIF}
 end;
 
 function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor; fromWhatItWasLoaded:PTfromWhatBitmapWasLoaded) : Graphics.TBitmap;
@@ -751,11 +710,7 @@ end;
 function TPixMapManager.CheckAddPixmapLocked(AIconName: String; AIconSize: Integer): PtrInt;
 var
   fileIndex: PtrInt;
-  {$IFDEF GTK2_FIX}
-  pbPicture : PGdkPixbuf;
-  {$ELSE}
   bmpBitmap: Graphics.TBitmap;
-  {$ENDIF}
 begin
   Result:= -1;
   if Length(AIconName) = 0 then Exit;
@@ -766,21 +721,6 @@ begin
         fileIndex := FPixmapsFileNames.Find(AIconName);
         if fileIndex < 0 then
         begin
-        {$IFDEF GTK2_FIX}
-            if not mbFileExists(AIconName) then
-              begin
-                DCDebug(Format('Warning: pixmap [%s] not exists!', [AIconName]));
-                Exit;
-              end;
-            pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(AIconName), AIconSize, AIconSize, nil);
-            if Assigned(pbPicture) then
-              begin
-                Result := FPixmapList.Add(pbPicture);
-                FPixmapsFileNames.Add(AIconName, Pointer(Result));
-              end
-            else
-              DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
-        {$ELSE}
             {$IFDEF DARWIN}
             bmpBitmap := LoadImageFileBitmap(AIconName, AIconSize);
             {$ELSE}
@@ -791,7 +731,6 @@ begin
               Result := FPixmapList.Add(bmpBitmap);
               FPixmapsFileNames.Add(AIconName, Pointer(Result));
             end;
-        {$ENDIF}
           end
         else begin
             Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
@@ -820,18 +759,9 @@ var
   DirList: array of string;
 begin
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  {$IFDEF GTK2_FIX}
-  // get current gtk theme
-  FIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
-  { // load custom theme
-  FIconTheme:= gtk_icon_theme_new;
-  gtk_icon_theme_set_custom_theme(FIconTheme, 'oxygen');
-  }
-  {$ELSE}
   FIconTheme:= TIconTheme.Create(GetCurrentIconTheme,
                                  GetUnixIconThemeBaseDirList,
                                  GetUnixDefaultTheme);
-  {$ENDIF}
 {$ENDIF}
 
   // Create DC theme.
@@ -845,12 +775,7 @@ end;
 procedure TPixMapManager.DestroyIconTheme;
 begin
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  {$IFDEF GTK2_FIX}
-  FIconTheme:= nil;
-  {$ELSE}
-  if Assigned(FIconTheme) then
-    FreeAndNil(FIconTheme);
-  {$ENDIF}
+  FreeAndNil(FIconTheme);
 {$ENDIF}
   FreeAndNil(FDCIconTheme);
 end;
@@ -891,13 +816,8 @@ begin
     finally
       ABitmap.Free;
     end;
-{$IF DEFINED(GTK2_FIX)}
-    Result := FPixmapList.Add(ImageToPixBuf(Target));
-    AIcon.Free;
-{$ELSE}
     BitmapAssign(AIcon, Target);
     Result := FPixmapList.Add(AIcon);
-{$ENDIF}
   finally
     Target.Free;
   end;
@@ -1300,41 +1220,13 @@ end;
 function TPixMapManager.CheckAddThemePixmapLocked(AIconName: String; AIconSize: Integer): PtrInt;
 var
   fileIndex: PtrInt;
-{$IFDEF GTK2_FIX}
-  pbPicture: PGdkPixbuf = nil;
-  sIconFileName: String;
-{$ELSE}
   bmpBitmap: Graphics.TBitmap;
-{$ENDIF}
 begin
   // This function must be called under FPixmapsLock.
 
   fileIndex := FThemePixmapsFileNames.Find(AIconName);
   if fileIndex < 0 then
     begin
-    {$IF DEFINED(GTK2_FIX) AND DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-      if gShowIcons > sim_standart then
-        begin
-          pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(AIconName),
-                                               AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
-        end;
-      // If not found in system theme or using of system theme is disabled look in DC theme.
-      if not Assigned(pbPicture) then
-        begin
-          sIconFileName := FDCIconTheme.FindIcon(AIconName, AIconSize);
-          if sIconFileName <> EmptyStr then
-            pbPicture := gdk_pixbuf_new_from_file_at_size(
-                PChar(sIconFileName), AIconSize, AIconSize, nil);
-        end;
-
-      if Assigned(pbPicture) then
-        begin
-          Result := FPixmapList.Add(pbPicture);
-          FThemePixmapsFileNames.Add(AIconName, Pointer(Result));
-        end
-      else
-        Result := -1;
-    {$ELSE}
       bmpBitmap := LoadIconThemeBitmapLocked(AIconName, AIconSize);
       if Assigned(bmpBitmap) then
         begin
@@ -1343,7 +1235,6 @@ begin
         end
       else
         Result := -1;
-    {$ENDIF}
     end
   else
     Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
@@ -1353,18 +1244,9 @@ function TPixMapManager.AddDefaultThemePixmap(const AIconName: String;
   AIconSize: Integer): PtrInt;
 var
   bmpBitmap: Pointer;
-{$IF DEFINED(GTK2_FIX)}
-  sIconFileName: String;
-{$ENDIF}
 begin
   if AIconSize = 0 then AIconSize := gIconsSize;
-{$IF DEFINED(GTK2_FIX)}
-  sIconFileName := FDCIconTheme.FindIcon(AIconName, AIconSize);
-  if Length(sIconFileName) = 0 then Exit(-1);
-  bmpBitmap := gdk_pixbuf_new_from_file_at_size(PChar(sIconFileName), AIconSize, AIconSize, nil);
-{$ELSE}
   bmpBitmap := FDCIconTheme.LoadThemeIcon(AIconName, AIconSize);
-{$ENDIF}
   if (bmpBitmap = nil) then
     Result := -1
   else begin
@@ -1393,10 +1275,6 @@ begin
 end;
 
 function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
-{$IFDEF GTK2_FIX}
-var
-  pbPicture: PGdkPixbuf = nil;
-{$ENDIF}
 begin
   // This function must be called under FPixmapsLock.
 
@@ -1405,15 +1283,8 @@ begin
   // Try to load icon from system theme
   if gShowIcons > sim_standart then
   begin
-  {$IFDEF GTK2_FIX}
-    pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(PChar(AIconName)),
-                                         AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
-    if pbPicture <> nil then
-      Result := PixBufToBitmap(pbPicture);
-  {$ELSE}
   Result:= LoadThemeIcon(FIconTheme, AIconName, AIconSize);
   if (Result = nil) then Result:= LoadLegacyIcon(AIconName, AIconSize);
-  {$ENDIF}
   end;
   if not Assigned(Result) then
 {$ENDIF}
@@ -1481,12 +1352,6 @@ begin
     if Result >= 0 then
       AResult:= FPixmapsFileNames.List[Result]^.Data
     else begin
-{$IF DEFINED(GTK2_FIX)}
-      AResult := gdk_pixbuf_new_from_file_at_size(PChar(AFileName), gIconsSize, gIconsSize, nil);
-      if (AResult = nil) then Exit(ADefaultIcon);
-      Result := FPixmapList.Add(AResult);
-      FPixmapsFileNames.Add(AFileName, AResult);
-{$ELSE}
       AIcon:= TIcon.Create;
       try
         AIcon.LoadFromFile(AFileName);
@@ -1503,7 +1368,6 @@ begin
         Result:= ADefaultIcon;
       end;
       AIcon.Free;
-{$ENDIF}
     end;
   finally
     FPixmapsLock.Release;
@@ -1735,11 +1599,7 @@ begin
   begin
     for I := 0 to FPixmapList.Count - 1 do
       if Assigned(FPixmapList.Items[I]) then
-  {$IFDEF GTK2_FIX}
-        g_object_unref(PGdkPixbuf(FPixmapList.Items[I]));
-  {$ELSE}
         Graphics.TBitmap(FPixmapList.Items[I]).Free;
-  {$ENDIF}
     FreeAndNil(FPixmapList);
   end;
 
@@ -1803,10 +1663,8 @@ begin
   if gShowIcons > sim_standart then
     begin
       LoadMimeIconNames; // For use with GetMimeIcon
-  {$IFNDEF GTK2_FIX}
       FIconTheme.Load; // Load system icon theme.
       LoadLegacyPixmaps;
-  {$ENDIF}
     end;
   {$ENDIF}
   FDCIconTheme.Load; // Load DC theme.
@@ -2003,9 +1861,6 @@ begin
 
   if PixmapFromList then
   begin
-{$IFDEF GTK2_FIX}
-    Result:= PixBufToBitmap(PGdkPixbuf(PPixmap));
-{$ELSE}
     // Make a new copy.
     Result := Graphics.TBitmap.Create;
   {$IF DEFINED(LCLGTK2)}
@@ -2013,7 +1868,6 @@ begin
   {$ELSE}
     Result.Assign(Graphics.TBitmap(PPixmap));
   {$ENDIF}
-{$ENDIF}
   end
   else
 {$IFDEF LCLWIN32}
@@ -2089,14 +1943,8 @@ var
   hicn: HICON;
   cx, cy: Integer;
 {$ENDIF}
-{$IFDEF GTK2_FIX}
-  pbPicture : PGdkPixbuf;
-  iPixbufWidth : Integer;
-  iPixbufHeight : Integer;
-{$ELSE}
   Bitmap: Graphics.TBitmap;
   aRect: TRect;
-{$ENDIF}
 begin
   Result := True;
 
@@ -2113,18 +1961,10 @@ begin
 
   if PixmapFromList then
   begin
-  {$IFDEF GTK2_FIX}
-    pbPicture := PGdkPixbuf(PPixmap);
-    iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
-    iPixbufHeight :=  gdk_pixbuf_get_height(pbPicture);
-    TrySetSize(iPixbufWidth, iPixbufHeight);
-    DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
-  {$ELSE}
     Bitmap := Graphics.TBitmap(PPixmap);
     TrySetSize(Bitmap.Width, Bitmap.Height);
     aRect := Classes.Bounds(X, Y, Width, Height);
     Canvas.StretchDraw(aRect, Bitmap);
-  {$ENDIF}
   end
   else
   {$IFDEF MSWINDOWS}
