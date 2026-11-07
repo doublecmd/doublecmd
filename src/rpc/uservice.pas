@@ -179,7 +179,7 @@ destructor TClientThread.Destroy;
 begin
   FTransport.Free;
   inherited Destroy;
-  DCDebug('TClientThread.Destroy');
+  // DCDebug('TClientThread.Destroy');
 end;
 
 end.
