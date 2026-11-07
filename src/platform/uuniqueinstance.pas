@@ -42,7 +42,7 @@ type
 
     procedure RunListen;
     procedure StopListen;
-    function isAnotherDCRunningWhileIamRunning:boolean;
+    function isAnotherDCRunningWhileIamTerminating:boolean;
 
     property OnMessage: TOnUniqueInstanceMessage read FOnMessage write FOnMessage;
     property ServernameByUser: String read FServernameByUser;
@@ -275,7 +275,7 @@ begin
   FServerIPC.StopServer;
 end;
 
-function TUniqueInstance.isAnotherDCRunningWhileIamRunning:boolean;
+function TUniqueInstance.isAnotherDCRunningWhileIamTerminating:boolean;
 var
   LocalClientIPC: TSimpleIPCClient;
   IndexInstance:integer;
@@ -295,21 +295,17 @@ begin
   if IsRunning then
   begin
     FServerIPC.Active:=False;
+    LocalClientIPC:=TSimpleIPCClient.Create(nil);
     try
-      LocalClientIPC:=TSimpleIPCClient.Create(nil);
-      try
-        IndexInstance:=1;
-        Result:=FALSE;
-        repeat
-          LocalClientIPC.ServerID:=GetServerIdNameToCheck;
-          Result:=LocalClientIPC.ServerRunning;
-          inc(IndexInstance);
-        until Result OR (IndexInstance>=10);
-      finally
-        FreeAndNil(LocalClientIPC);
-      end;
+      IndexInstance:=1;
+      Result:=FALSE;
+      repeat
+        LocalClientIPC.ServerID:=GetServerIdNameToCheck;
+        Result:=LocalClientIPC.ServerRunning;
+        inc(IndexInstance);
+      until Result OR (IndexInstance>=10);
     finally
-      FServerIPC.Active:=True;
+      FreeAndNil(LocalClientIPC);
     end;
   end;
 end;

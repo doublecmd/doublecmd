@@ -248,7 +248,7 @@ begin
       Application.ProcessMessages;
       Application.Run;
 
-      if not UniqueInstance.isAnotherDCRunningWhileIamRunning then
+      if not UniqueInstance.isAnotherDCRunningWhileIamTerminating then
         DeleteTempFolderDeletableAtTheEnd;
 
       FreeMemoryFromOurAccentLookupTableList;
