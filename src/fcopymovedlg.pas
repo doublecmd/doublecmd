@@ -378,16 +378,6 @@ begin
       end;
     end;
   end;
-
-{$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
-  // https://github.com/doublecmd/doublecmd/issues/2197
-  // https://github.com/doublecmd/doublecmd/issues/3185
-  if (Key = VK_NEXT) or
-     ((Key = VK_DOWN) and (ActiveControl = edtDst)) then
-  begin
-    Key := 0;
-  end;
-{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.FormPaint(Sender: TObject);

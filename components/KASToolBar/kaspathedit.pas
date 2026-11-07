@@ -424,9 +424,16 @@ begin
   end;
 
   inherited KeyDown(Key, Shift);
+
 {$IFDEF LCLGTK2}
   // Workaround for GTK2 - up and down arrows moving through controls.
   if Key in [VK_UP, VK_DOWN] then Key:= 0;
+{$ENDIF}
+
+{$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+  // https://github.com/doublecmd/doublecmd/issues/2197
+  // https://github.com/doublecmd/doublecmd/issues/3185
+  if Key in [VK_NEXT, VK_DOWN] then Key := 0;
 {$ENDIF}
 end;
 
