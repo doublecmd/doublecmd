@@ -337,10 +337,6 @@ begin
     for I := Low(SystemDataDirs) to High(SystemDataDirs) do
       DirList.Add(IncludeTrailingBackslash(SystemDataDirs[I]) + 'icons');
 
-    // Unthemed pixmaps fallback directories are not part of $XDG_DATA_DIRS
-    DirList.Add('/usr/local/share/pixmaps');
-    DirList.Add('/usr/share/pixmaps');
-
     SetLength(UnixIconThemesBaseDirList, DirList.Count);
     for I := 0 to DirList.Count - 1 do
       UnixIconThemesBaseDirList[I] := DirList[I];
