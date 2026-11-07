@@ -60,7 +60,9 @@ copy  plugins\wcx\zip\zip.wcx             %DC_INSTALL_DIR%\plugins\wcx\zip\
 xcopy /E plugins\wcx\zip\language         %DC_INSTALL_DIR%\plugins\wcx\zip\language\
 rem WDX
 copy  plugins\wdx\rpm_wdx\rpm_wdx.wdx     %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
+copy  plugins\wdx\rpm_wdx\rpm_wdx.lng     %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\deb_wdx.wdx     %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
+copy  plugins\wdx\deb_wdx\deb_wdx.lng     %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
 copy  plugins\wdx\scripts\*               %DC_INSTALL_DIR%\plugins\wdx\scripts\
 copy  plugins\wdx\audioinfo\audioinfo.wdx %DC_INSTALL_DIR%\plugins\wdx\audioinfo\
 copy  plugins\wdx\audioinfo\audioinfo.lng %DC_INSTALL_DIR%\plugins\wdx\audioinfo\

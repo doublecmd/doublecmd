@@ -96,7 +96,9 @@ cp -r plugins/wcx/sevenzip/language                 $DC_INSTALL_DIR/plugins/wcx/
 install -m 644 plugins/wcx/sevenzip/sevenzip.wcx    $DC_INSTALL_DIR/plugins/wcx/sevenzip/
 # WDX
 install -m 644 plugins/wdx/rpm_wdx/rpm_wdx.wdx      $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
+install -m 644 plugins/wdx/rpm_wdx/rpm_wdx.lng      $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 install -m 644 plugins/wdx/deb_wdx/deb_wdx.wdx      $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
+install -m 644 plugins/wdx/deb_wdx/deb_wdx.lng      $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
 install -m 644 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
 install -m 644 plugins/wdx/audioinfo/audioinfo.wdx  $DC_INSTALL_DIR/plugins/wdx/audioinfo/
 install -m 644 plugins/wdx/audioinfo/audioinfo.lng  $DC_INSTALL_DIR/plugins/wdx/audioinfo/
