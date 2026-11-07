@@ -1,16 +1,15 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: Double Commander unrar WCX plugin\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Forge Studios Ltd. <kroy <kroysoft@citromail.hu>>\n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-05 14:00+0200\n"
+"PO-Revision-Date: 2026-11-06 14:30+0100\n"
+"Last-Translator: Gyuri <irataim@gmail.com>\n"
+"Language-Team: Gyuri <irataim@gmail.com>\n"
 "Language: hu_HU\n"
-"X-Generator: Poedit 1.8.8\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.10\n"
 
 #: tdialogbox.caption
 msgid "Options"
@@ -61,24 +60,24 @@ msgstr "Normál"
 
 #: rarlng.rsdictlargewarning
 msgid "Large dictionary warning"
-msgstr ""
+msgstr "Figyelmeztetés a nagy szótárméretre"
 
 #: rarlng.rsdictnotallowed
 #, object-pascal-format
 msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
-msgstr ""
+msgstr "A(z) %u GB méretű szótár meghaladja a(z) %u GB-os korlátot, és a kicsomagoláshoz több mint %u GB memória szükséges."
 
 #: rarlng.rsmsgbuttoncancel
 msgid "&Cancel"
-msgstr ""
+msgstr "&Mégse"
 
 #: rarlng.rsmsgbuttonextract
 msgid "&Extract"
-msgstr ""
+msgstr "&Kicsomagolás"
 
 #: rarlng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr ""
+msgstr "Add meg a jelszót:"
 
 #: rarlng.rsmsgexecutablenotfound
 #, object-pascal-format
@@ -89,8 +88,13 @@ msgid ""
 "\n"
 "Please check the plugin settings."
 msgstr ""
+"A RAR végrehajtható fájlja nem található!\n"
+"\n"
+"%s\n"
+"\n"
+"Ellenőrizd a bővítmény beállításait."
 
 #: rarlng.rsmsglibrarynotfound
 #, object-pascal-format
 msgid "Cannot load library %s! Please check your installation."
-msgstr ""
+msgstr "Nem sikerült betölteni a(z) %s függvénykönyvtárat! Ellenőrizd a telepítést."

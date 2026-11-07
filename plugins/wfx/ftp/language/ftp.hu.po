@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: Double Commander FTP WFX plugin\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Forge Studios Ltd. < kroy <kroysoft@citromail.hu>>\n"
+"POT-Creation-Date: 2026-11-05 14:00+0200\n"
+"PO-Revision-Date: 2026-11-06 14:30+0100\n"
+"Last-Translator: Gyuri <irataim@gmail.com>\n"
+"Language-Team: Gyuri <irataim@gmail.com>\n"
+"Language: hu_HU\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 3.10\n"
 
 #: tdialogbox.btnadd.caption
 msgid "+"
@@ -42,7 +42,7 @@ msgstr "FTP"
 
 #: tdialogbox.chkagentssh.caption
 msgid "Use SSH-agent authentication"
-msgstr ""
+msgstr "SSH-ügynök használata hitelesítéshez"
 
 #: tdialogbox.chkcopyscp.caption
 msgid "Copy using SCP protocol (faster)"
@@ -108,7 +108,7 @@ msgstr "Jelszó:"
 
 #: tdialogbox.lblprivatekey.caption
 msgid "Private key file (*.pem):"
-msgstr "Privát kulcs fájl (*.pub):"
+msgstr "Privát kulcs fájl (*.pem):"
 
 #: tdialogbox.lblprotocol.caption
 msgid "Protocol:"
@@ -160,13 +160,13 @@ msgstr "Proxy"
 
 #: tfrmfileproperties.caption
 msgid "Properties"
-msgstr ""
+msgstr "Tulajdonságok"
 
 #: ftplng.rsaddconnection
 msgid "Add connection"
-msgstr ""
+msgstr "Kapcsolat hozzáadása"
 
 #: ftplng.rsquickconnection
 msgid "Quick connection"
-msgstr ""
+msgstr "Gyors kapcsolódás"
 

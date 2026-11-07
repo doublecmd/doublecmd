@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.0 alpha\n"
+"Project-Id-Version: Double Commander 1.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2026-09-10 09:31+0200\n"
-"Last-Translator: Faludi Zoltán <zoltan@faludi.info>\n"
-"Language-Team: Hungarian\n"
+"POT-Creation-Date: 2026-11-05 14:00+0200\n"
+"PO-Revision-Date: 2026-11-06 14:30+0100\n"
+"Last-Translator: Gyuri <irataim@gmail.com>\n"
+"Language-Team: Gyuri <irataim@gmail.com>\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Magyar\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -1625,7 +1625,7 @@ msgstr "&Törlés"
 
 #: tfrmfinddlg.btnsearchload.caption
 msgid "L&oad"
-msgstr "Beto&ltás"
+msgstr "Betö&ltés"
 
 #: tfrmfinddlg.btnsearchsave.caption
 msgid "S&ave"
@@ -3738,7 +3738,7 @@ msgstr "Többszörös átnevezés eszköz"
 
 #: tfrmmultirename.cbcasesens.caption
 msgid "A≠a"
-msgstr "A≠a\"  # (This is a symbol that doesn't need translation"
+msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
 msgctxt "tfrmmultirename.cbcasesens.hint"
@@ -4255,11 +4255,11 @@ msgstr "Fájlkiterjesztések megjelenítése"
 
 #: tfrmoptionsbriefview.rbaligned.caption
 msgid "ali&gned (with Tab)"
-msgstr "igazí&tott (tabulátorral)"
+msgstr "Igazí&tott (tabulátorral)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr "közvetlenül a fájlnév &után"
+msgstr "Közvetlenül a fájlnév &után"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
@@ -4318,7 +4318,7 @@ msgstr "Törölve:"
 
 #: tfrmoptionscolors.lbldirselection.caption
 msgid "Directory Selection:"
-msgstr ""
+msgstr "Mappa kiválasztása:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -7312,7 +7312,7 @@ msgstr "Fájlnév"
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "A megjele&nítő bővítmények lehetővé teszik különböző fájlformátumok (például képek, táblázatok, adatbázisok stb.) megjelenítését a Megjelenítőben (F3, Ctrl+Q)."
+msgstr "A megjele&nítő bővítmények lehetővé teszik különböző fájlformátumok (például képek, táblázatok, adatbázisok stb.) megjelenítését a Megjelenítőben (F3, Ctrl+Q)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
@@ -7417,7 +7417,7 @@ msgstr "Meghajtóbetű mindig látható a lapcímben"
 
 #: tfrmoptionstabs.cbtabsunavailablemarker.caption
 msgid "Mark unavailable path in tab title with &a question mark ?"
-msgstr "&A lap címében az elérhetetlen útvonalat  kérdőjellel (?) jelölje."
+msgstr "&A lap címében az elérhetetlen útvonalat  kérdőjellel (?) jelölje"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
@@ -8979,11 +8979,11 @@ msgstr "Link &neve"
 
 #: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
 msgid "Copy file properties -> (left to right)..."
-msgstr ""
+msgstr "Fájltulajdonságok másolása -> (balról jobbra)..."
 
 #: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
 msgid "Copy file properties <- (right to left)..."
-msgstr ""
+msgstr "Fájltulajdonságok másolása <- (jobbról balra)..."
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
@@ -9184,36 +9184,36 @@ msgstr "Felülírások megerősítése"
 
 #: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
 msgid "Left: Delete all empty directories"
-msgstr ""
+msgstr "Bal oldal: Az összes üres mappa törlése"
 
 #: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
 msgctxt "tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption"
 msgid "Right: Delete all empty directories"
-msgstr ""
+msgstr "Jobb oldal: Az összes üres mappa törlése"
 
 #: tfrmsyncdirsperformdlg.chkverify.caption
 msgid "Verify"
-msgstr ""
+msgstr "Ellenőrzés"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
 msgid "File &attributes"
-msgstr ""
+msgstr "Fájl&attribútumok"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
 msgid "&Permissions /  Ownership"
-msgstr ""
+msgstr "&Jogosultságok /  Tulajdonjog"
 
 #: tfrmsyncdirsselectpropertiesdlg.chktime.caption
 msgid "&Timestamp (date+time)"
-msgstr ""
+msgstr "&Időbélyeg (dátum+idő)"
 
 #: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
 msgid "&Extended attributes"
-msgstr ""
+msgstr "&Kiterjesztett attribútumok"
 
 #: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
 msgid "Copy these file properties:"
-msgstr ""
+msgstr "A következő fájltulajdonságok másolása:"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -10570,7 +10570,7 @@ msgstr "Végrehajtás terminálon keresztül és nyitva maradás"
 #: ulng.rsextsclosedbracketnofound
 #, object-pascal-format
 msgid "\"]\" not found in line %s"
-msgstr "\"]\" karakter nem található ebben a sorban: %s"
+msgstr "\"]\" karakter nem található ebben a sorban %s"
 
 #: ulng.rsextscommandwithnoext
 #, object-pascal-format
@@ -10770,7 +10770,7 @@ msgstr "Nézőkönyv betűtípusa"
 #: ulng.rsfreemsg
 #, object-pascal-format
 msgid "%s of %s free"
-msgstr "%s szabad ebből: %s"
+msgstr "%s szabad ebből %s"
 
 #: ulng.rsfreemsgshort
 #, object-pascal-format
@@ -11469,12 +11469,12 @@ msgstr "A(z) \"%s\" fájlt nem másolhatja/helyezheti át önmagába!"
 #: ulng.rsmsgcannotcopyspecialfile
 #, object-pascal-format
 msgid "Cannot copy special file %s"
-msgstr "Nem másolható speciális fájl: %s"
+msgstr "Nem másolható speciális fájl %s"
 
 #: ulng.rsmsgcannotdeletedirectory
 #, object-pascal-format
 msgid "Cannot delete directory %s"
-msgstr "Nem törölhető könyvtár: %s"
+msgstr "Nem törölhető könyvtár %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
 #, object-pascal-format
@@ -11925,7 +11925,7 @@ msgstr "Ez a következő parancsot hajtja végre:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr "Ez a hot dir neve: "
+msgstr "Ez a hot dir neve "
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
@@ -12983,7 +12983,7 @@ msgstr "Ellenőrzőösszeg számítása"
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
 msgid "Calculating checksum in \"%s\""
-msgstr "Ellenőrzőösszeg számítása ebben: \"%s\""
+msgstr "Ellenőrzőösszeg számítása ebben \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
@@ -13006,7 +13006,7 @@ msgstr "Összefűzés"
 #: ulng.rsopercombiningfromto
 #, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr "Fájlok összefűzése innen: \"%s\" ide: \"%s\""
+msgstr "Fájlok összefűzése innen \"%s\" ide \"%s\""
 
 #: ulng.rsopercopying
 msgid "Copying"
@@ -13015,12 +13015,12 @@ msgstr "Másolás"
 #: ulng.rsopercopyingfromto
 #, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
-msgstr "Másolás innen: \"%s\" ide: \"%s\""
+msgstr "Másolás innen \"%s\" ide \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 #, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
-msgstr "\"%s\" másolása ide: \"%s\""
+msgstr "\"%s\" másolása ide \"%s\""
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
@@ -13038,7 +13038,7 @@ msgstr "Törlés"
 #: ulng.rsoperdeletingin
 #, object-pascal-format
 msgid "Deleting in \"%s\""
-msgstr "Törlés itt: \"%s\""
+msgstr "Törlés itt \"%s\""
 
 #: ulng.rsoperdeletingsomething
 #, object-pascal-format
@@ -13061,7 +13061,7 @@ msgstr "Kicsomagolás"
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr "Kicsomagolás innen: \"%s\" ide: \"%s\""
+msgstr "Kicsomagolás innen \"%s\" ide \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -13083,12 +13083,12 @@ msgstr "Áthelyezés"
 #: ulng.rsopermovingfromto
 #, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
-msgstr "Áthelyezés innen: \"%s\" ide: \"%s\""
+msgstr "Áthelyezés innen \"%s\" ide \"%s\""
 
 #: ulng.rsopermovingsomethingto
 #, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
-msgstr "\"%s\" áthelyezése ide: \"%s\""
+msgstr "\"%s\" áthelyezése ide \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -13101,12 +13101,12 @@ msgstr "Csomagolás"
 #: ulng.rsoperpackingfromto
 #, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
-msgstr "Csomagolás innen: \"%s\" ide: \"%s\""
+msgstr "Csomagolás innen \"%s\" ide \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 #, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
-msgstr "\"%s\" csomagolása ide: \"%s\""
+msgstr "\"%s\" csomagolása ide \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -13127,7 +13127,7 @@ msgstr "Tulajdonság beállítása"
 #: ulng.rsopersettingpropertyin
 #, object-pascal-format
 msgid "Setting property in \"%s\""
-msgstr "Tulajdonság beállítása itt: \"%s\""
+msgstr "Tulajdonság beállítása itt \"%s\""
 
 #: ulng.rsopersettingpropertyof
 #, object-pascal-format
@@ -13141,7 +13141,7 @@ msgstr "Felosztás"
 #: ulng.rsopersplittingfromto
 #, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
-msgstr "\"%s\" felosztása ide: \"%s\""
+msgstr "\"%s\" felosztása ide \"%s\""
 
 #: ulng.rsoperstarting
 msgid "Starting"
@@ -13162,7 +13162,7 @@ msgstr "Tesztelés"
 #: ulng.rsopertestingin
 #, object-pascal-format
 msgid "Testing in \"%s\""
-msgstr "Tesztelés itt: \"%s\""
+msgstr "Tesztelés itt \"%s\""
 
 #: ulng.rsopertestingsomething
 #, object-pascal-format
@@ -13176,7 +13176,7 @@ msgstr "Ellenőrzőösszeg ellenőrzése"
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
 msgid "Verifying checksum in \"%s\""
-msgstr "Ellenőrzőösszeg ellenőrzése itt: \"%s\""
+msgstr "Ellenőrzőösszeg ellenőrzése itt \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
@@ -13198,7 +13198,7 @@ msgstr "Törlés"
 #: ulng.rsoperwipingin
 #, object-pascal-format
 msgid "Wiping in \"%s\""
-msgstr "Törlés itt: \"%s\""
+msgstr "Törlés itt \"%s\""
 
 #: ulng.rsoperwipingsomething
 #, object-pascal-format
@@ -13394,7 +13394,7 @@ msgstr "A(z) %s gyorsbillentyű a cm_Delete-hez lesz regisztrálva, így haszná
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
 msgid "Add hotkey for %s"
-msgstr "Gyorsbillentyű hozzáadása ehhez: %s"
+msgstr "Gyorsbillentyű hozzáadása ehhez %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
@@ -13431,7 +13431,7 @@ msgstr "Leírás"
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
 msgid "Edit hotkey for %s"
-msgstr "Gyorsbillentyű szerkesztése ehhez: %s"
+msgstr "Gyorsbillentyű szerkesztése ehhez %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -13463,7 +13463,7 @@ msgstr "Fájltörlés gyorsbillentyű beállítása"
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Ahhoz, hogy ez a beállítás működjön a(z) %s gyorsbillentyűvel, a(z) %s gyorsbillentyűt a cm_Delete-hez kell rendelni, de ez már hozzá van rendelve ehhez: %s. Szeretné módosítani?"
+msgstr "Ahhoz, hogy ez a beállítás működjön a(z) %s gyorsbillentyűvel, a(z) %s gyorsbillentyűt a cm_Delete-hez kell rendelni, de ez már hozzá van rendelve ehhez %s. Szeretné módosítani?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
@@ -13482,12 +13482,12 @@ msgstr "A(z) %s gyorsbillentyű már használatban van."
 #: ulng.rsopthotkeysshortcutusedtext2
 #, object-pascal-format
 msgid "Change it to %s?"
-msgstr "Módosítsa erre: %s?"
+msgstr "Módosítsa erre %s?"
 
 #: ulng.rsopthotkeysusedby
 #, object-pascal-format
 msgid "used for %s in %s"
-msgstr "használva ehhez: %s itt: %s"
+msgstr "használva ehhez %s itt %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
@@ -13655,7 +13655,7 @@ msgid ""
 "\n"
 "Do you want to save modifications?"
 msgstr ""
-"A beállítások megváltoztak itt: \"%s\"\n"
+"A beállítások megváltoztak itt \"%s\"\n"
 "\n"
 "Menti a módosításokat?"
 
@@ -14059,7 +14059,7 @@ msgstr "Válassza ki az ablakot"
 #: ulng.rsshowhelpfor
 #, object-pascal-format
 msgid "&Show help for %s"
-msgstr "&Súgó megjelenítése ehhez: %s"
+msgstr "&Súgó megjelenítése ehhez %s"
 
 #: ulng.rssimplewordall
 msgctxt "ulng.rssimplewordall"

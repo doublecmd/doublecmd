@@ -1,0 +1,15 @@
+[HUN]
+Package=Csomag
+Version=Verzió
+Section=Kategória
+Priority=Prioritás
+Architecture=Architektúra
+Depends=Függőségek
+Recommends=Ajánlott csomagok
+Suggests=Javasolt csomagok
+Conflicts=Ütközések
+Installed-Size=Telepített méret
+Maintainer=Karbantartó
+Source=Forrás
+Summary=Összefoglaló
+Description=Leírás

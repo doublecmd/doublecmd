@@ -1,0 +1,14 @@
+[HUN]
+Package=Csomag
+Version=Verzió
+Release=Kiadás
+Distribution=Disztribúció
+Vender=Gyártó
+License=Licenc
+Packager=Csomagkészítő
+Group=Csoport
+OS=Operációs rendszer
+Arch=Architektúra
+Source-RPM=Forrás-RPM
+Summary=Összefoglaló
+Description=Leírás
