@@ -176,6 +176,12 @@ type
   function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
   function ReverseSortDirection(Sortings: TFileSortings): TFileSortings;
 
+  {en
+     Converts string in format "column[,asc|desc]" to sorting.
+     Column is one of: name, namenoext, ext, size, datetime, attr.
+  }
+  function StrToSorting(const Value: String; out Sortings: TFileSortings): Boolean;
+
 implementation
 
 uses
@@ -598,6 +604,44 @@ begin
   Result := CloneSortings(Sortings);
   for i := 0 to Length(Result) - 1 do
     Result[i].SortDirection := ReverseSortDirection(Result[i].SortDirection);
+end;
+
+function StrToSorting(const Value: String; out Sortings: TFileSortings): Boolean;
+var
+  Index: Integer;
+  Column, Order: String;
+  SortFunction: TFileFunction;
+  SortDirection: TSortDirection;
+  SortFunctions: TFileFunctions = nil;
+begin
+  Sortings := nil;
+  Column := LowerCase(Value);
+  Order := EmptyStr;
+  Index := Pos(',', Column);
+  if Index > 0 then
+  begin
+    Order := Copy(Column, Index + 1, MaxInt);
+    SetLength(Column, Index - 1);
+  end;
+
+  if Column = 'name' then SortFunction := fsfName
+  else if Column = 'namenoext' then SortFunction := fsfNameNoExtension
+  else if Column = 'ext' then SortFunction := fsfExtension
+  else if Column = 'size' then SortFunction := fsfSize
+  else if Column = 'datetime' then SortFunction := fsfModificationTime
+  else if Column = 'attr' then SortFunction := fsfAttr
+  else Exit(False);
+
+  if (Order = EmptyStr) or (Order = 'asc') then
+    SortDirection := sdAscending
+  else if Order = 'desc' then
+    SortDirection := sdDescending
+  else
+    Exit(False);
+
+  AddSortFunction(SortFunctions, SortFunction);
+  AddSorting(Sortings, SortFunctions, SortDirection);
+  Result := True;
 end;
 
 { TBaseSorter }
