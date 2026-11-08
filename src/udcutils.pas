@@ -257,6 +257,9 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , Windows
 {$ENDIF}
+{$IF DEFINED(DARWIN)}
+  , MacOSAll
+{$ENDIF}
   ;
 
 var
@@ -925,6 +928,55 @@ begin
 end;
 {$ENDIF}
 
+{en
+   Compare two UTF-8 strings using the collation of the current user locale.
+   On macOS FPC's UnicodeCompareStr/UnicodeCompareText perform only a literal
+   (code point) comparison (the CoreFoundation-based wide string manager does
+   not use a localized comparison), so use CoreFoundation directly here
+   (see https://github.com/doublecmd/doublecmd/issues/3117). On other platforms
+   UnicodeCompareStr/UnicodeCompareText already follow the locale collation.
+}
+function LocaleCompareStr(const S1, S2: String; CaseSensitivity: TCaseSensitivity): PtrInt;
+{$IF DEFINED(DARWIN)}
+var
+  CF1, CF2: CFStringRef;
+  Flags: CFStringCompareFlags;
+begin
+  if S1 = S2 then
+    Exit(0);
+  CF1 := CFStringCreateWithCString(nil, PAnsiChar(S1), kCFStringEncodingUTF8);
+  CF2 := CFStringCreateWithCString(nil, PAnsiChar(S2), kCFStringEncodingUTF8);
+  if (CF1 = nil) or (CF2 = nil) then
+  begin
+    // Not a valid UTF-8 string, compare as code points instead
+    if Assigned(CF1) then CFRelease(CF1);
+    if Assigned(CF2) then CFRelease(CF2);
+    if CaseSensitivity = cstNotSensitive then
+      Result := UnicodeCompareText(CeUtf8ToUtf16(S1), CeUtf8ToUtf16(S2))
+    else
+      Result := UnicodeCompareStr(CeUtf8ToUtf16(S1), CeUtf8ToUtf16(S2));
+    Exit;
+  end;
+  // kCFCompareLocalized compares using the current user locale
+  // (the same locale that Finder uses), like the Windows build does
+  Flags := kCFCompareLocalized;
+  if CaseSensitivity = cstNotSensitive then
+    Flags := Flags or kCFCompareCaseInsensitive;
+  Result := CFStringCompare(CF1, CF2, Flags);
+  CFRelease(CF1);
+  CFRelease(CF2);
+end;
+{$ELSE}
+begin
+  case CaseSensitivity of
+    cstNotSensitive:
+      Result := UnicodeCompareText(CeUtf8ToUtf16(S1), CeUtf8ToUtf16(S2));
+    else
+      Result := UnicodeCompareStr(CeUtf8ToUtf16(S1), CeUtf8ToUtf16(S2));
+  end;
+end;
+{$ENDIF}
+
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
 {$IF DEFINED(MSWINDOWS)}
 var
@@ -965,9 +1017,9 @@ begin
     begin
       case CaseSensitivity of
         cstNotSensitive:
-          Result := UnicodeCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
+          Result := LocaleCompareStr(s1, s2, cstNotSensitive);
         cstLocale:
-          Result := UnicodeCompareStr(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
+          Result := LocaleCompareStr(s1, s2, cstLocale);
         cstCharValue:
           Result := SysUtils.CompareStr(S1, S2);
         else
@@ -1125,8 +1177,8 @@ begin
           PrepareChunk(Chunk1);
           PrepareChunk(Chunk2);
           case CaseSensitivity of
-            cstNotSensitive: Result := UnicodeCompareText(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
-            cstLocale:       Result := UnicodeCompareStr(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
+            cstNotSensitive: Result := LocaleCompareStr(Chunk1.Str, Chunk2.Str, cstNotSensitive);
+            cstLocale:       Result := LocaleCompareStr(Chunk1.Str, Chunk2.Str, cstLocale);
             cstCharValue:    Result := UnicodeStrComp(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
             else
               raise Exception.Create('Invalid CaseSensitivity parameter');
