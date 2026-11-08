@@ -303,6 +303,7 @@ type
   public
     function Clone: TUnixFileAttributesProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
+    function Equals(p: TObject): Boolean; override;
 
     // Is the file a directory.
     function IsDirectory: Boolean; override;
@@ -1034,6 +1035,15 @@ begin
   inherited CloneTo(FileProperty);
   if FileProperty is TUnixFileAttributesProperty then
     TUnixFileAttributesProperty(FileProperty).FHiddenFlag := FHiddenFlag;
+end;
+
+function TUnixFileAttributesProperty.Equals(p: TObject): Boolean;
+begin
+  // The hidden flag is part of the identity, so that toggling it
+  // (chflags hidden / nohidden) is detected as a property change on refresh.
+  Result := inherited Equals(p) and
+            (p is TUnixFileAttributesProperty) and
+            (TUnixFileAttributesProperty(p).FHiddenFlag = FHiddenFlag);
 end;
 
 function TUnixFileAttributesProperty.IsDirectory: Boolean;
