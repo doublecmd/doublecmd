@@ -460,6 +460,11 @@ begin
   end;
 end;
 
+function TPtyDevice.GetChildPid: THandle;
+begin
+  Result := 0; // Not fully implemented for Windows pseudo console here
+end;
+
 procedure Initialize;
 begin
   if InitializeNew then
@@ -470,11 +475,6 @@ end;
 
 initialization
   Initialize;
-
-function TPtyDevice.GetChildPid: THandle;
-begin
-  Result := 0; // Not fully implemented for Windows pseudo console here
-end;
 
 end.
 
