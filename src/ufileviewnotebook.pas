@@ -311,6 +311,11 @@ begin
           with (FileView.FileSource as TArchiveFileSource) do
             NewCaption := ExtractFileName(ArchiveFileName);
         end
+      else if (FileView.FileSource.FileSystem <> EmptyStr) and
+              (FileView.FileSource.IsPathAtRoot(FileView.CurrentPath)) then
+        begin
+          NewCaption := FileView.FileSource.FileSystem;
+        end
       else
         begin
           NewCaption := FileView.CurrentPath;
