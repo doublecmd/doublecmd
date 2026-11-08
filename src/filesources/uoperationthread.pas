@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  uDebug, uExceptions;
+  uDebug, uExceptions, uOSUtils;
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
@@ -44,13 +44,17 @@ begin
 end;
 
 procedure TOperationThread.Execute;
+var
+  resourceContext: PtrUInt;
 begin
+  resourceContext := NotifyPlatformMarkResources;
   try
     FOperation.Execute;
   except
     on e: Exception do
       HandleException(e, Self);
   end;
+  NotifyPlatformCleanupResources(resourceContext);
 end;
 
 end.

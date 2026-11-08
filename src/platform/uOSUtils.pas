@@ -34,7 +34,7 @@ uses
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
-      , MacOSAll, uDarwinFile
+      , MacOSAll, CocoaAll, uDarwinFile
       {$ENDIF}
     {$ENDIF}
     ;
@@ -186,6 +186,51 @@ function GetCurrentUserName : String;
   Get the current machine name
 }
 function GetComputerNetName: String;
+
+{en
+regarding the Memory Resources Management related to Threads in Lazarus GUI Applications：
+1. in the Main Thread, Lazarus already handles the periodic release of memory resources
+   within the event loop; it is managed by the corresponding WidgetSet and requires no
+   intervention from the APP itself.
+2. for threads created by the APP, however, FPC and Lazarus do not and can not provide
+   such a facility. therefore, the APP bears the responsibility for resource management
+   regarding the threads it creates.
+3. for example, on macOS, a large number of features rely — directly or indirectly —
+   on `NSAutoreleasePool` for memory deallocation. if these functions are called
+   in the thread created by the APP itself, the APP must manage the `NSAutoreleasePool`.
+   based on the thread lifecycle, there are two scenarios:
+(1) for short-lived threads, resources only need to be marked once at the start of
+    the thread and released once at the end of the thread.
+(2) for long-running threads, it is not sufficient to release resources only once
+    at the end of execution. since no resources are freed throughout the entire duration
+    of the thread's process, this results in memory leaks.
+    therefore, the APP must periodically release resources while the thread is still running.
+4. several situations currently existing with DC
+(1) the thread utilizes APIs based on `Autorelease`, and it is long-running.
+    consequently, resources must be marked and cleaned up periodically.
+    eg. TFunctionThread. the lifecycle of a `TFunctionThread` is typically as long as
+    that of its corresponding Tab; and it utilizes APIs based on `Autorelease`.
+(2) the thread often spawn a wide range of functions, making it difficult to determine
+    whether any APIs relying on `Autorelease` are being used. its lifespans vary
+    — though generally not very long — so they are handled via a one-time marking
+    and cleanup process.
+    eg. TOperationThread. its primary purpose is to execute the corresponding `Operation`.
+    the lifecycle of an `Operation` varies in duration depending on the specific task,
+    but it generally concludes within a finite time. the actual work is distributed
+    across dozens of specific subclasses of `Operation`.
+(3) the thread does not currently utilizes APIs based on `Autorelease`, so no
+    resource manage is being added.
+    eg. TPollThread. it's a long-running thread with a lifecycle matching that of
+    the DC instance; however, it currently does not appear to be utilizing any
+    APIs based on `Autorelease`.
+    there are other similar examples, such as:
+       TSyncDirsCheckContentThread
+       TFileSystemWatcherImpl
+       TSimpleDarwinFSWatcher
+       TThread.ExecuteInThread(), currently, the primary objective is to obtain disk space stat.
+}
+function NotifyPlatformMarkResources: PtrUInt; inline;
+procedure NotifyPlatformCleanupResources(const context: PtrUInt); inline;
 
 implementation
 
@@ -897,6 +942,24 @@ end;
 begin
   Result:= SysToUTF8(GetHostName);
 end;
+
+{$PUSH}
+{$WARNINGS OFF}
+function NotifyPlatformMarkResources: PtrUInt;
+begin
+  {$IFDEF DARWIN}
+  Result:= PtrUInt(NSAutoreleasePool.new);
+  {$ENDIF}
+end;
+{$POP}
+
+procedure NotifyPlatformCleanupResources(const context: PtrUInt);
+begin
+  {$IFDEF DARWIN}
+  NSAutoreleasePool(context).release;
+  {$ENDIF}
+end;
+
 {$ENDIF}
 
 function mbFileNameToNative(const FileName: String): NativeString;

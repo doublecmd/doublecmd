@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  LCLProc, uDebug, uExceptions
+  LCLProc, uDebug, uExceptions, uOSUtils
   {$IFDEF MSWINDOWS}
   , ActiveX
   {$ENDIF}
@@ -126,6 +126,7 @@ end;
 procedure TFunctionThread.Execute;
 var
   pItem: PFunctionThreadItem;
+  resourceContext: PtrUInt;
 begin
   {$IFDEF MSWINDOWS}
   CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
@@ -151,6 +152,7 @@ begin
 
       if Assigned(pItem) then
       begin
+        resourceContext := NotifyPlatformMarkResources;
         try
           pItem^.Method(pItem^.Params);
           Dispose(pItem);
@@ -161,6 +163,7 @@ begin
             HandleException(e, Self);
           end;
         end;
+        NotifyPlatformCleanupResources(resourceContext);
       end
       else
       begin
