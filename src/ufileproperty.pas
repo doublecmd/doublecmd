@@ -297,8 +297,12 @@ type
   { TUnixFileAttributesProperty }
 
   TUnixFileAttributesProperty = class(TFileAttributesProperty)
+  private
+    // macOS "hidden" file flag (UF_HIDDEN): file is invisible in Finder.
+    FHiddenFlag: Boolean;
   public
     function Clone: TUnixFileAttributesProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
 
     // Is the file a directory.
     function IsDirectory: Boolean; override;
@@ -310,6 +314,11 @@ type
     function IsLink: Boolean; override;
 
     function IsReadOnly: Boolean; override;
+
+    // Is the file marked as hidden by the OS (macOS "hidden" file flag).
+    function IsHidden: Boolean;
+
+    property HiddenFlag: Boolean read FHiddenFlag write FHiddenFlag;
 
     function IsOwnerRead: Boolean;
     function IsOwnerWrite: Boolean;
@@ -1020,6 +1029,13 @@ begin
   CloneTo(Result);
 end;
 
+procedure TUnixFileAttributesProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  inherited CloneTo(FileProperty);
+  if FileProperty is TUnixFileAttributesProperty then
+    TUnixFileAttributesProperty(FileProperty).FHiddenFlag := FHiddenFlag;
+end;
+
 function TUnixFileAttributesProperty.IsDirectory: Boolean;
 begin
   Result:= ((FAttributes and S_IFMT) = S_IFDIR);
@@ -1038,6 +1054,11 @@ end;
 function TUnixFileAttributesProperty.IsReadOnly: Boolean;
 begin
   Result:= (((FAttributes and S_IRUGO) <> 0) and ((FAttributes and S_IWUGO) = 0));
+end;
+
+function TUnixFileAttributesProperty.IsHidden: Boolean;
+begin
+  Result := FHiddenFlag;
 end;
 
 function TUnixFileAttributesProperty.IsOwnerRead: Boolean;

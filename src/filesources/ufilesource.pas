@@ -1017,6 +1017,10 @@ begin
 {$ELSEIF DEFINED(DARWIN)}
   if (Length(aFile.Name) > 1) and (aFile.Name[1] = '.') and (aFile.Name <> '..') then exit(true);
   if aFile.Name='Icon'#$0D then exit(true);
+  // Respect the macOS "hidden" file flag (UF_HIDDEN), as Finder does.
+  if (fpAttributes in aFile.SupportedProperties) and
+     (aFile.Properties[fpAttributes] is TUnixFileAttributesProperty) and
+     TUnixFileAttributesProperty(aFile.Properties[fpAttributes]).IsHidden then exit(true);
   exit(false);
 {$ELSE}
   // Files beginning with '.' are treated as system/hidden files on Unix.
@@ -1034,6 +1038,11 @@ begin
     else begin
       // Files beginning with '.' are treated as system/hidden files on Unix.
       Result := (Length(aFile.Name) > 1) and (aFile.Name[1] = '.') and (aFile.Name <> '..');
+      {$IF DEFINED(DARWIN)}
+      // Also respect the macOS "hidden" file flag (UF_HIDDEN), as Finder does.
+      if (not Result) and (aFile.Properties[fpAttributes] is TUnixFileAttributesProperty) then
+        Result := TUnixFileAttributesProperty(aFile.Properties[fpAttributes]).IsHidden;
+      {$ENDIF}
     end;
   end;
 end;

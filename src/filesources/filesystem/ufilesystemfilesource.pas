@@ -264,6 +264,15 @@ begin
   else
     Result := nil;
 end;
+
+const
+  // sys/stat.h: UF_HIDDEN - the file is hidden from Finder (chflags hidden).
+  UF_HIDDEN_FLAG = $00008000;
+
+function StatIsHidden(const StatInfo: TDCStat): Boolean; inline;
+begin
+  Result := (StatInfo.st_flags and UF_HIDDEN_FLAG) <> 0;
+end;
 {$ENDIF}
 
 procedure FillFromStat(
@@ -276,6 +285,9 @@ begin
   with AFile do
   begin
     AttributesProperty := TUnixFileAttributesProperty.Create(pStatInfo^.st_mode);
+    {$IF DEFINED(DARWIN)}
+    TUnixFileAttributesProperty(AttributesProperty).HiddenFlag := StatIsHidden(pStatInfo^);
+    {$ENDIF}
 
     if fpS_ISDIR(pStatInfo^.st_mode) then
       // On Unix a size for directory entry on filesystem is returned in StatInfo.
@@ -423,6 +435,9 @@ begin
 {$ENDIF}
     SizeProperty := TFileSizeProperty.Create(pSearchRecord^.Size);
     AttributesProperty := TFileAttributesProperty.CreateOSAttributes(pSearchRecord^.Attr);
+    {$IF DEFINED(DARWIN)}
+    TUnixFileAttributesProperty(AttributesProperty).HiddenFlag := StatIsHidden(pSearchRecord^.FindData);
+    {$ENDIF}
 
     LinkProperty := TFileLinkProperty.Create;
 
@@ -666,7 +681,12 @@ begin
         raise EFileNotFound.Create(sFullPath);
 
       if not (fpAttributes in AssignedProperties) then
+      begin
         AttributesProperty := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
+        {$IF DEFINED(DARWIN)}
+        TUnixFileAttributesProperty(AttributesProperty).HiddenFlag := StatIsHidden(StatInfo);
+        {$ENDIF}
+      end;
 
       if not (fpSize in AssignedProperties) then
       begin
