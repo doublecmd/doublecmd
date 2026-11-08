@@ -320,24 +320,28 @@ begin
   if I >= 0 then
     begin
       FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[I]);
-      
+
       if FtpSend.NetworkError then
-        //Server closed the connection, or network error occurred, or whatever else.
-        //Attempt to reconnect and execute login sequence
+        // The link is dead: the server closed it, a network error occurred, or
+        // it was dropped while the tab sat idle. Discard the stale connection
+        // and open a fresh one through the normal path below. The cached
+        // password is reused when available, otherwise the user is prompted
+        // again. This way a simple refresh of the view fully reconnects and
+        // re-lists whatever folder is currently displayed in the tab.
         begin
-          LogProc(PluginNumber, msgtype_details, PWideChar('Network error detected, attempting to reconnect...'));
-          I:= ConnectionList.IndexOf(ConnectionName);
-          if I >= 0 then
+          LogProc(PluginNumber, msgtype_details, PWideChar('Connection lost, reconnecting...'));
+          // Quick connections have no stored entry, so they cannot be rebuilt.
+          if ConnectionList.IndexOf(ConnectionName) < 0 then
           begin
-            Connection := TConnection(ConnectionList.Objects[I]);
-            if not FtpLogin(Connection, FtpSend) then
-              begin
-                RequestProc(PluginNumber, RT_MsgOK, nil, 'Connection lost, unable to reconnect!', nil, MAX_PATH);
-                Exit;
-              end;
+            RequestProc(PluginNumber, RT_MsgOK, nil, 'Connection lost, unable to reconnect!', nil, MAX_PATH);
+            Exit;
           end;
+          ActiveConnectionList.Delete(I);
+          FreeAndNil(FtpSend);
+          Result:= FtpConnect(ConnectionName, FtpSend);
+          Exit;
         end;
-      
+
       Result:= True;
     end
   else

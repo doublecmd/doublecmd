@@ -551,6 +551,11 @@ begin
       end;
 
       DoStatus(False, 'Authentication succeeded');
+
+      // Keep the SSH connection alive across long idle periods. TScpSend
+      // overrides Connect and never runs TFTPSendEx.Connect, so without this
+      // the SSH socket got no keep-alive at all (unlike plain FTP).
+      ApplyKeepAlive;
     finally
       if not Result then begin
         libssh2_session_free(FSession);
@@ -637,7 +642,12 @@ end;
 
 function TScpSend.NetworkError: Boolean;
 begin
-  Result:= FSock.CanRead(0) and (libssh2_session_last_errno(FSession) <> 0);
+  // The link is considered dead if libssh2 already recorded a fatal error, or
+  // if the idle socket has unexpected pending data (a peer FIN/RST, or a
+  // keep-alive probe that found the connection gone). The previous code
+  // required BOTH conditions, so a connection that the server closed while the
+  // tab was idle went unnoticed and never reconnected.
+  Result:= (libssh2_session_last_errno(FSession) <> 0) or FSock.CanRead(0);
 end;
 
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);
