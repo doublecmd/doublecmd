@@ -2122,9 +2122,46 @@ begin
 end;
 
 procedure TfrmFindDlg.cm_AddToStash(const Params: array of string);
+var
+  oldCount: Integer;
+  newCount: Integer;
+  message: String;
+  ret: TModalResult;
+
+  procedure openStash;
+  var
+    Notebook: TFileViewNotebook;
+    NewPage: TFileViewPage;
+  begin
+    Notebook := frmMain.ActiveNotebook;
+    NewPage := Notebook.NewPage(Notebook.ActiveView);
+    NewPage.FileView.clearFilesOnly;
+    NewPage.MakeActive;
+    frmMain.mnuOpenStashClick(self);
+  end;
+
 begin
   StopSearch;
+
+  oldCount:= stashFilesBackend.count;
   stashFilesBackend.addFromStringArray( lsFoundedFiles.Items.ToStringArray );
+  newCount:= stashFilesBackend.count;
+  if newCount <= oldCount then
+    Exit;
+
+  message:= Format( rsFindConfirmAfterAddtoStash,
+                    [newCount-oldCount, rsStashName] );
+  ret:= MessageDlg(
+          message,
+          TMsgDlgType.mtConfirmation,
+          [mbYes, mbNo],
+          0,
+          mbYes );
+  if ret = mrNo then
+    Exit;
+
+  openStash;
+  self.Close;
 end;
 
 procedure TfrmFindDlg.cm_PageNext(const Params: array of string);

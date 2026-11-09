@@ -10663,6 +10663,11 @@ msgstr "DC Symbolleisten-Dateien"
 msgid ".xml Config files"
 msgstr ".xml Konfigurationsdateien"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Vorlage definieren"

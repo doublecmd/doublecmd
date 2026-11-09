@@ -11734,6 +11734,11 @@ msgstr "DC-værktøjslinjefil"
 msgid ".xml Config files"
 msgstr ".xml-konfigurationsfiler"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 # F5 - Indstillinger - (ikonet)_Vælg_skabelon
 #: ulng.rsfinddefinetemplate
 msgid "Define template"

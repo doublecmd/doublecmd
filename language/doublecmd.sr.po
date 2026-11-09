@@ -10903,6 +10903,11 @@ msgstr "Датотеке траке прибора ДК-а"
 msgid ".xml Config files"
 msgstr "Датотеке поставки .xml"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Одреди образац"

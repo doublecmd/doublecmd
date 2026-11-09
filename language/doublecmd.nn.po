@@ -11170,6 +11170,11 @@ msgstr "DC-verktøyrad-filer"
 msgid ".xml Config files"
 msgstr ".xml-oppsettsfiler"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Definér mal"

@@ -10923,6 +10923,11 @@ msgstr "DC ツールバー ファイル"
 msgid ".xml Config files"
 msgstr ".xml構成ファイル"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "テンプレートを定義"

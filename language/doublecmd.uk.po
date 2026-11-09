@@ -11024,6 +11024,11 @@ msgstr "Панелі інструментів DC"
 msgid ".xml Config files"
 msgstr "XML-Файли"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Визначення шаблону"

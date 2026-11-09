@@ -612,6 +612,7 @@ resourcestring
   rsDiffTextDifferenceEncoding = 'Encoding';
   rsDiffTextDifferenceLineEnding = 'Line-endings';
   // Find files dialog
+  rsFindConfirmAfterAddtoStash = '%d files/directories have been added. Close the search window and open %s now?';
   rsFindSearchFiles = 'Find files';
   rsFindDefineTemplate = 'Define template';
   rsFindScanning = 'Scanning';

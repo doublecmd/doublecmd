@@ -1,4 +1,4 @@
-msgid ""
+msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -11,9 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: עברית\n"
+"משווה... %d%% (ESC לביטול)"
 
+#: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr "משווה... %d%% (ESC לביטול)"
+msgstr ""
 
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
@@ -1496,6 +1499,12 @@ msgstr "מזהה תהליך"
 msgid "Executable Path"
 msgstr "נתיב קובץ הרצה"
 
+#: tfrmfinddlg.actaddtostash.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actaddtostash.caption"
+msgid "Add to Stash"
+msgstr "הוספה ל-Stash"
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
 msgid "C&ancel"
@@ -2046,6 +2055,7 @@ msgid "Add Plugin"
 msgstr "הוספת תוסף"
 
 #: tfrmmain.actaddtostash.caption
+msgctxt "tfrmmain.actaddtostash.caption"
 msgid "Add to Stash"
 msgstr "הוספה ל-Stash"
 
@@ -4306,6 +4316,10 @@ msgstr "קטגוריה:"
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
 msgstr "נמחק:"
+
+#: tfrmoptionscolors.lbldirselection.caption
+msgid "Directory Selection:"
+msgstr ""
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
@@ -6710,7 +6724,9 @@ msgstr "&שמירה ב:"
 msgid ""
 "Force F1, F2, etc. to be treated as function keys\n"
 "ignore the settings in System Settings > Keyboard"
-msgstr "כפה על F1, F2 וכו׳ להיות מטופלים כמקשי פונקציה\nהתעלם מההגדרות בהגדרות מערכת > מקלדת"
+msgstr ""
+"כפה על F1, F2 וכו׳ להיות מטופלים כמקשי פונקציה\n"
+"התעלם מההגדרות בהגדרות מערכת > מקלדת"
 
 #: tfrmoptionskeyboard.cbfnkey.hint
 msgid ""
@@ -6721,7 +6737,14 @@ msgid ""
 "\n"
 "Each time a new version of DC is installed, you must first\n"
 "remove DC from the list and then add it back in."
-msgstr "תכונה זו דורשת הרשאת מערכת נוספת.\n\nהפעלתה תוביל אותך אוטומטית ללוח\nהגדרות מערכת > פרטיות && אבטחה > נגישות.\n\nבכל פעם שמתקינים גרסה חדשה של DC, יש להסיר תחילה\nאת DC מהרשימה ואז להוסיף אותו בחזרה."
+msgstr ""
+"תכונה זו דורשת הרשאת מערכת נוספת.\n"
+"\n"
+"הפעלתה תוביל אותך אוטומטית ללוח\n"
+"הגדרות מערכת > פרטיות && אבטחה > נגישות.\n"
+"\n"
+"בכל פעם שמתקינים גרסה חדשה של DC, יש להסיר תחילה\n"
+"את DC מהרשימה ואז להוסיף אותו בחזרה."
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
@@ -7392,6 +7415,10 @@ msgstr "הצגת לחצן סגירת כ&רטיסייה"
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
 msgstr "הצגת אות כונן תמיד בכותרת הכרטיסייה"
+
+#: tfrmoptionstabs.cbtabsunavailablemarker.caption
+msgid "Mark unavailable path in tab title with &a question mark ?"
+msgstr ""
 
 #: tfrmoptionstabs.gbtabs.caption
 msgid "Folder tabs headers"
@@ -8951,6 +8978,14 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "&שם הקישור"
 
+#: tfrmsyncdirsdlg.actcopypropertieslefttoright.caption
+msgid "Copy file properties -> (left to right)..."
+msgstr ""
+
+#: tfrmsyncdirsdlg.actcopypropertiesrighttoleft.caption
+msgid "Copy file properties <- (right to left)..."
+msgstr ""
+
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
 msgstr "מחיקה משני הצדדים"
@@ -9045,7 +9080,9 @@ msgid "only selected"
 msgstr "רק נבחרים"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
-msgid "Subdirs"
+#, fuzzy
+#| msgid "Subdirs"
+msgid "subdirs"
 msgstr "תת-תיקיות"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
@@ -9147,6 +9184,38 @@ msgstr "סנכרון"
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
 msgstr "אישור החלפות"
+
+#: tfrmsyncdirsperformdlg.chkdeleteleftallemptydirs.caption
+msgid "Left: Delete all empty directories"
+msgstr ""
+
+#: tfrmsyncdirsperformdlg.chkdeleterightallemptydirs.caption
+msgid "Right: Delete all empty directories"
+msgstr ""
+
+#: tfrmsyncdirsperformdlg.chkverify.caption
+msgid "Verify"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkattributes.caption
+msgid "File &attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkpermissions.caption
+msgid "&Permissions /  Ownership"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chktime.caption
+msgid "&Timestamp (date+time)"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.chkxattributes.caption
+msgid "&Extended attributes"
+msgstr ""
+
+#: tfrmsyncdirsselectpropertiesdlg.lbllabel.caption
+msgid "Copy these file properties:"
+msgstr ""
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -9966,7 +10035,12 @@ msgid ""
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
-msgstr "לא ניתן למצוא קובץ זה והוא יכול לעזור באימות השילוב הסופי של קבצים:\n%s\n\nהאם תוכל להפוך אותו לזמין וללחוץ על \"אישור\" כשמוכן,\nאו ללחוץ על \"ביטול\" כדי להמשיך בלעדיו?"
+msgstr ""
+"לא ניתן למצוא קובץ זה והוא יכול לעזור באימות השילוב הסופי של קבצים:\n"
+"%s\n"
+"\n"
+"האם תוכל להפוך אותו לזמין וללחוץ על \"אישור\" כשמוכן,\n"
+"או ללחוץ על \"ביטול\" כדי להמשיך בלעדיו?"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10216,7 +10290,9 @@ msgstr "הטקסט זהה, אך נעשה שימוש באפשרויות הבאו�
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:"
-msgstr "הטקסט זהה, אך הקבצים אינם תואמים!\nנמצאו ההבדלים הבאים:"
+msgstr ""
+"הטקסט זהה, אך הקבצים אינם תואמים!\n"
+"נמצאו ההבדלים הבאים:"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10587,6 +10663,11 @@ msgstr "קובצי סרגל כלים של DC"
 msgid ".xml Config files"
 msgstr "קובצי הגדרות .xml"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "הגדרת תבנית"
@@ -10791,7 +10872,10 @@ msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?"
-msgstr "אזהרה! בעת שחזור קובץ גיבוי .hotlist, הדבר ימחק את הרשימה הקיימת כדי להחליפה בזו שיובאה.\n\nהאם אתה בטוח שברצונך להמשיך?"
+msgstr ""
+"אזהרה! בעת שחזור קובץ גיבוי .hotlist, הדבר ימחק את הרשימה הקיימת כדי להחליפה בזו שיובאה.\n"
+"\n"
+"האם אתה בטוח שברצונך להמשיך?"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -10838,7 +10922,9 @@ msgstr "צופה"
 msgid ""
 "A setup with that name already exists.\n"
 "Do you want to overwrite it?"
-msgstr "כבר קיימת הגדרה עם שם זה.\nהאם ברצונך להחליפה?"
+msgstr ""
+"כבר קיימת הגדרה עם שם זה.\n"
+"האם ברצונך להחליפה?"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
@@ -10871,7 +10957,9 @@ msgstr "שם חדש"
 msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?"
-msgstr "ההגדרה \"%s\" שונתה.\nהאם ברצונך לשמור אותה כעת?"
+msgstr ""
+"ההגדרה \"%s\" שונתה.\n"
+"האם ברצונך לשמור אותה כעת?"
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
@@ -10930,7 +11018,10 @@ msgid ""
 "URL:\n"
 "(eg. smb://server/share; https://dav.server.com; nfs://server/path)\n"
 " "
-msgstr "URL:\n(למשל smb://server/share; https://dav.server.com; nfs://server/path)\n "
+msgstr ""
+"URL:\n"
+"(למשל smb://server/share; https://dav.server.com; nfs://server/path)\n"
+" "
 
 #: ulng.rsmacosconnectservertitle
 msgid "SMB / Samba / WebDAV / NFS ..."
@@ -11324,7 +11415,12 @@ msgid ""
 "For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.\n"
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
-msgstr "מערכות קבצים וירטואליות מסוימות מכילות מבני תיקיות ייחודיים. בעת העתקה מהן לארכיון דחוס, ניתן לבחור רק תיקייה אחת בכל פעם, אלא אם המיקומים בפועל של התיקיות הנבחרות נמצאים כולם תחת אותה תיקיית אב.\n\nלדוגמה, עבור iCloud Drive, בעת העתקת תיקייה מהשורש לארכיון דחוס, אולי יש לבחור רק תיקייה אחת.\n\nמומלץ לפעול לפי נוהגך הרגיל ולנסות לבחור רק תיקייה אחת כאשר אתה מקבל הודעה זו."
+msgstr ""
+"מערכות קבצים וירטואליות מסוימות מכילות מבני תיקיות ייחודיים. בעת העתקה מהן לארכיון דחוס, ניתן לבחור רק תיקייה אחת בכל פעם, אלא אם המיקומים בפועל של התיקיות הנבחרות נמצאים כולם תחת אותה תיקיית אב.\n"
+"\n"
+"לדוגמה, עבור iCloud Drive, בעת העתקת תיקייה מהשורש לארכיון דחוס, אולי יש לבחור רק תיקייה אחת.\n"
+"\n"
+"מומלץ לפעול לפי נוהגך הרגיל ולנסות לבחור רק תיקייה אחת כאשר אתה מקבל הודעה זו."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
@@ -11358,7 +11454,11 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?"
-msgstr "CRC32 שגוי עבור הקובץ התוצאתי:\n\"%s\"\n\nהאם ברצונך לשמור את הקובץ הפגום התוצאתי בכל זאת?"
+msgstr ""
+"CRC32 שגוי עבור הקובץ התוצאתי:\n"
+"\"%s\"\n"
+"\n"
+"האם ברצונך לשמור את הקובץ הפגום התוצאתי בכל זאת?"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
@@ -11763,7 +11863,10 @@ msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!"
-msgstr "אורך שם היעד (%d) הוא יותר מ-%d תווים!\n%s\nרוב התוכניות לא תוכלנה לגשת לקובץ/תיקייה עם שם כה ארוך!"
+msgstr ""
+"אורך שם היעד (%d) הוא יותר מ-%d תווים!\n"
+"%s\n"
+"רוב התוכניות לא תוכלנה לגשת לקובץ/תיקייה עם שם כה ארוך!"
 
 #: ulng.rsmsgfilereadonly
 #, object-pascal-format
@@ -11963,7 +12066,10 @@ msgid ""
 "Total entries saved: %d\n"
 "\n"
 "Backup filename: %s"
-msgstr "סה״כ ערכים שנשמרו: %d\n\nשם קובץ גיבוי: %s"
+msgstr ""
+"סה״כ ערכים שנשמרו: %d\n"
+"\n"
+"שם קובץ גיבוי: %s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
@@ -11974,7 +12080,9 @@ msgstr "סה״כ ערכים שיוצאו: "
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
-msgstr "האם ברצונך למחוק את כל המרכיבים בתוך תפריט המשנה [%s]?\nתשובה שלילית תמחק רק מפרידי תפריט אך תשמור על המרכיבים שבתוך תפריט המשנה."
+msgstr ""
+"האם ברצונך למחוק את כל המרכיבים בתוך תפריט המשנה [%s]?\n"
+"תשובה שלילית תמחק רק מפרידי תפריט אך תשמור על המרכיבים שבתוך תפריט המשנה."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -11994,7 +12102,13 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Number of bytes still to write: %d"
-msgstr "אנא הכנס את הדיסק הבא או משהו דומה.\n\nזאת כדי לאפשר כתיבת קובץ זה:\n\"%s\"\n\nמספר הבתים שעוד יש לכתוב: %d"
+msgstr ""
+"אנא הכנס את הדיסק הבא או משהו דומה.\n"
+"\n"
+"זאת כדי לאפשר כתיבת קובץ זה:\n"
+"\"%s\"\n"
+"\n"
+"מספר הבתים שעוד יש לכתוב: %d"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -12413,27 +12527,35 @@ msgstr "נתיב יעד:"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s"
-msgstr "שגיאה! לא ניתן למצוא את קובץ ההגדרות של TC:\n%s"
+msgstr ""
+"שגיאה! לא ניתן למצוא את קובץ ההגדרות של TC:\n"
+"%s"
 
 #: ulng.rsmsgtcexecutablenotfound
 #, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s"
-msgstr "שגיאה! לא ניתן למצוא את קובץ ההרצה של הגדרות TC:\n%s"
+msgstr ""
+"שגיאה! לא ניתן למצוא את קובץ ההרצה של הגדרות TC:\n"
+"%s"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort."
-msgstr "שגיאה! TC עדיין פועל אך יש לסגור אותו עבור פעולה זו.\nסגור אותו ולחץ על אישור או לחץ על ביטול כדי להפסיק."
+msgstr ""
+"שגיאה! TC עדיין פועל אך יש לסגור אותו עבור פעולה זו.\n"
+"סגור אותו ולחץ על אישור או לחץ על ביטול כדי להפסיק."
 
 #: ulng.rsmsgtctoolbarnotfound
 #, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s"
-msgstr "שגיאה! לא ניתן למצוא את תיקיית הפלט הרצויה של סרגל הכלים של TC:\n%s"
+msgstr ""
+"שגיאה! לא ניתן למצוא את תיקיית הפלט הרצויה של סרגל הכלים של TC:\n"
+"%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -12477,7 +12599,9 @@ msgstr "הזן מיקום ושם קובץ של סרגל כלים לשחזור"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s"
-msgstr "נשמר!\nשם קובץ סרגל כלים: %s"
+msgstr ""
+"נשמר!\n"
+"שם קובץ סרגל כלים: %s"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -12554,7 +12678,9 @@ msgstr "עם"
 msgid ""
 "Wrong password!\n"
 "Please try again!"
-msgstr "סיסמה שגויה!\nאנא נסה שוב!"
+msgstr ""
+"סיסמה שגויה!\n"
+"אנא נסה שוב!"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
@@ -12759,7 +12885,9 @@ msgstr "הזן שם תבנית חדש"
 msgid ""
 "\"%s\" preset has been modified.\n"
 "Do you want to save it now?"
-msgstr "התבנית \"%s\" שונתה.\nהאם ברצונך לשמור אותה כעת?"
+msgstr ""
+"התבנית \"%s\" שונתה.\n"
+"האם ברצונך לשמור אותה כעת?"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
@@ -13533,7 +13661,10 @@ msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
 "Do you want to save modifications?"
-msgstr "האפשרויות ב-\"%s\" השתנו\n\nהאם ברצונך לשמור את השינויים?"
+msgstr ""
+"האפשרויות ב-\"%s\" השתנו\n"
+"\n"
+"האם ברצונך לשמור את השינויים?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13908,13 +14039,17 @@ msgstr "<תבנית ללא שם>"
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one."
-msgstr "חיפוש קבצים המשתמש בתוסף DSX כבר מתבצע.\nעלינו שזה יושלם לפני הפעלת חדש."
+msgstr ""
+"חיפוש קבצים המשתמש בתוסף DSX כבר מתבצע.\n"
+"עלינו שזה יושלם לפני הפעלת חדש."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one."
-msgstr "חיפוש קבצים המשתמש בתוסף WDX כבר מתבצע.\nעלינו שזה יושלם לפני הפעלת חדש."
+msgstr ""
+"חיפוש קבצים המשתמש בתוסף WDX כבר מתבצע.\n"
+"עלינו שזה יושלם לפני הפעלת חדש."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -14452,5 +14587,4 @@ msgstr "לא בוצעה החלפה."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "אין הגדרה בשם \"%s\""
-
 

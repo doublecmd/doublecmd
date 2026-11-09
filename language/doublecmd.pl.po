@@ -10634,6 +10634,11 @@ msgstr "Pliki paska narzędzi DC"
 msgid ".xml Config files"
 msgstr "Pliki konfiguracyjne .xml"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Zdefiniuj szablon"

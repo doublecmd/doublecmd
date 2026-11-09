@@ -10661,6 +10661,11 @@ msgstr "DC 도구 모음 파일"
 msgid ".xml Config files"
 msgstr ".xml 구성 파일"
 
+#: ulng.rsfindconfirmafteraddtostash
+#, object-pascal-format
+msgid "%d files/directories have been added. Close the search window and open %s now?"
+msgstr ""
+
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "템플릿 정의"
