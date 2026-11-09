@@ -17,8 +17,9 @@ uses
   {$ENDIF}
   cthreads,
   {$IFDEF DARWIN}
+  CocoaInt,         // enable autorelease pool
   iosxwstr,
-  iosxlocale,
+  iosxlocale,       // base on `autorelease`
   {$ELSE}
   cwstring,
   clocale,
