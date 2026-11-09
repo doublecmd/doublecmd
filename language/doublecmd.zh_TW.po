@@ -10914,7 +10914,7 @@ msgstr ""
 #: ulng.rsfindconfirmafteraddtostash
 #, object-pascal-format
 msgid "%d files/directories have been added. Close the search window and open %s now?"
-msgstr ""
+msgstr "已經新增%d個檔案/資料夾，是否關閉搜尋並開啟%s？"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"

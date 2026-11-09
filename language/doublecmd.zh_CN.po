@@ -10662,7 +10662,7 @@ msgstr ".xml 配置文件"
 #: ulng.rsfindconfirmafteraddtostash
 #, object-pascal-format
 msgid "%d files/directories have been added. Close the search window and open %s now?"
-msgstr ""
+msgstr "已经添加%d个文件/目录，是否关闭搜索并打开%s？"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
