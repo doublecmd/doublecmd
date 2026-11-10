@@ -355,7 +355,7 @@ type
     procedure cm_Edit(const {%H-}Params: array of string);
     procedure cm_GoToFile(const {%H-}Params: array of string);
     procedure cm_FeedToListbox(const {%H-}Params: array of string);
-    procedure cm_AddToStash(const {%H-}Params: array of string);
+    procedure cm_AddToStash(const Params: array of string);
     procedure cm_PageNext(const Params: array of string);
     procedure cm_PagePrev(const Params: array of string);
     procedure cm_PageStandard(const {%H-}Params: array of string);
@@ -2125,8 +2125,7 @@ procedure TfrmFindDlg.cm_AddToStash(const Params: array of string);
 var
   oldCount: Integer;
   newCount: Integer;
-  message: String;
-  ret: TModalResult;
+  postAction: String;
 
   procedure openStash;
   var
@@ -2140,27 +2139,46 @@ var
     frmMain.mnuOpenStashClick(self);
   end;
 
+  function confirm: Boolean;
+  var
+    message: String;
+    ret: TModalResult;
+  begin
+    message:= Format( rsFindConfirmAfterAddtoStash,
+                      [newCount-oldCount, rsStashName] );
+    ret:= MessageDlg(
+            message,
+            TMsgDlgType.mtConfirmation,
+            [mbYes, mbNo],
+            0,
+            mbYes );
+    Result:= (ret = mrYes);
+  end;
+
 begin
   StopSearch;
 
   oldCount:= stashFilesBackend.count;
   stashFilesBackend.addFromStringArray( lsFoundedFiles.Items.ToStringArray );
   newCount:= stashFilesBackend.count;
-  if newCount <= oldCount then
-    Exit;
+  if oldCount > newCount then
+    oldCount:= newCount;
 
-  message:= Format( rsFindConfirmAfterAddtoStash,
-                    [newCount-oldCount, rsStashName] );
-  ret:= MessageDlg(
-          message,
-          TMsgDlgType.mtConfirmation,
-          [mbYes, mbNo],
-          0,
-          mbYes );
-  if ret = mrNo then
-    Exit;
+  if NOT GetParamValue(Params, 'postAction', postAction) or postAction.IsEmpty then
+    postAction:= 'confirm';
 
-  openStash;
+  case LowerCase(postAction) of
+    'confirm':
+      if confirm then
+        openStash
+      else
+        Exit;
+    'openstashwithoutconfirm':
+      openStash;
+    else
+      Exit;
+  end;
+
   self.Close;
 end;
 
