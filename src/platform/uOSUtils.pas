@@ -942,6 +942,7 @@ end;
 begin
   Result:= SysToUTF8(GetHostName);
 end;
+{$ENDIF}
 
 {$PUSH}
 {$WARNINGS OFF}
@@ -959,8 +960,6 @@ begin
   NSAutoreleasePool(context).release;
   {$ENDIF}
 end;
-
-{$ENDIF}
 
 function mbFileNameToNative(const FileName: String): NativeString;
 {$IF DEFINED(MSWINDOWS) and DEFINED(FPC_HAS_CPSTRING)}
