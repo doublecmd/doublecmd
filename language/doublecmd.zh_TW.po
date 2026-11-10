@@ -337,11 +337,11 @@ msgstr "任務完成後打開校驗碼檔案"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
-msgstr "為每個檔案建立單獨的驗證碼檔案 (&R)"
+msgstr "為每個檔案建立單獨的校驗碼檔案 (&R)"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr "為每個資料夾建立單獨的驗證碼檔案 (&D)"
+msgstr "為每個資料夾建立單獨的校驗碼檔案 (&D)"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -349,7 +349,7 @@ msgstr "檔案格式 (&F)"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
-msgstr "儲存驗證碼檔案到 (&S):"
+msgstr "儲存校驗碼檔案到 (&S):"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
@@ -371,7 +371,7 @@ msgstr "關閉 (&C)"
 #: tfrmchecksumverify.caption
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify checksum..."
-msgstr "校驗驗證碼..."
+msgstr "核實校驗碼..."
 
 #: tfrmchooseencoding.caption
 msgctxt "tfrmchooseencoding.caption"
@@ -2136,12 +2136,12 @@ msgstr "變更到根資料夾"
 #: tfrmmain.actchecksumcalc.caption
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
 msgid "Calculate Check&sum..."
-msgstr "計算驗證碼... (&S)"
+msgstr "計算校驗碼... (&S)"
 
 #: tfrmmain.actchecksumverify.caption
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "&Verify Checksum..."
-msgstr "校驗驗證碼... (&V)"
+msgstr "核實校驗碼... (&V)"
 
 #: tfrmmain.actclearlogfile.caption
 msgid "Clear log file"
@@ -6199,11 +6199,11 @@ msgstr "刪除操作 (&D)"
 
 #: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
 msgid "Delete hidden/system files"
-msgstr ""
+msgstr "刪除隱藏/系統檔案"
 
 #: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
 msgid "Delete read-only files"
-msgstr ""
+msgstr "刪除唯讀檔案"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -6245,11 +6245,11 @@ msgstr "略過操作有錯誤的檔案並將錯誤寫到記錄視窗 (&K)"
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "測試壓縮檔案操作"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
-msgstr ""
+msgstr "核實校驗碼操作"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -6265,7 +6265,7 @@ msgstr "檔案操作的緩衝區大小 (單位: KB) (&B):"
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr ""
+msgstr "杂凑計算的緩衝區大小 (單位: KB) (&H):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
@@ -6274,7 +6274,7 @@ msgstr "顯示操作處理進度在 (&I):"
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
-msgstr ""
+msgstr "重名自動重命名方式:"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
@@ -6283,7 +6283,7 @@ msgstr "檔案抹除次數: (&N)"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
-msgstr ""
+msgstr "重設為 DC 預設值"
 
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
@@ -6311,7 +6311,7 @@ msgstr "指標外框"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "當前路徑"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -12651,7 +12651,7 @@ msgstr "選擇可執行檔案"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "請僅選擇驗證碼檔案!"
+msgstr "請僅選擇校驗碼檔案!"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
@@ -13203,17 +13203,17 @@ msgstr "已放棄"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating checksum"
-msgstr "正在計算驗證碼"
+msgstr "正在計算校驗碼"
 
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
 msgid "Calculating checksum in \"%s\""
-msgstr "正在「%s」計算驗證碼"
+msgstr "正在「%s」計算校驗碼"
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
 msgid "Calculating checksum of \"%s\""
-msgstr "正在計算「%s」的驗證碼"
+msgstr "正在計算「%s」的校驗碼"
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
@@ -13398,17 +13398,17 @@ msgstr "正在測試「%s」"
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying checksum"
-msgstr "正在校驗驗證碼"
+msgstr "正在核實校驗碼"
 
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
 msgid "Verifying checksum in \"%s\""
-msgstr "正在「%s」校驗驗證碼"
+msgstr "正在「%s」核實校驗碼"
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
 msgid "Verifying checksum of \"%s\""
-msgstr "正在校驗「%s」的驗證碼"
+msgstr "正在核實「%s」的校驗碼"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -14137,7 +14137,7 @@ msgstr ""
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr ""
+msgstr "DC 傳統格式 - 複製 (x) 檔案名稱.副檔名;Windows - 檔案名稱 (x).副檔名;其他 - 檔案名稱(x).副檔名"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
