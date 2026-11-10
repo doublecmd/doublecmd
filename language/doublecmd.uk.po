@@ -6251,6 +6251,14 @@ msgstr "Операції &копіювання"
 msgid "&Delete operation"
 msgstr "Операції &видалення"
 
+#: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
+msgid "Delete hidden/system files"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
+msgid "Delete read-only files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"

@@ -35,7 +35,9 @@ type
 
   TfrmOptionsFileOperations = class(TOptionsEditor)
     bvlConfirmations: TDividerBevel;
+    cbDeleteHiddenSystemConfirmation: TCheckBox;
     cbDeleteToTrash: TCheckBox;
+    cbDeleteReadOnlyConfirmation: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbProcessComments: TCheckBox;
     cbRenameSelOnlyName: TCheckBox;
@@ -129,13 +131,15 @@ begin
     fopkOperationsPanel:          cbProgressKind.ItemIndex := 2;
   end;
 
-  cbCopyConfirmation.Checked           := focCopy in gFileOperationsConfirmations;
-  cbMoveConfirmation.Checked           := focMove in gFileOperationsConfirmations;
-  cbDeleteConfirmation.Checked         := focDelete in gFileOperationsConfirmations;
-  cbTestArchiveConfirmation.Checked    := focTestArchive in gFileOperationsConfirmations;
-  cbDeleteToTrashConfirmation.Checked  := focDeleteToTrash in gFileOperationsConfirmations;
-  cbVerifyChecksumConfirmation.Checked := focVerifyChecksum in gFileOperationsConfirmations;
-  cmbTypeOfDuplicatedRename.ItemIndex  := Integer(gTypeOfDuplicatedRename);
+  cbCopyConfirmation.Checked               := focCopy in gFileOperationsConfirmations;
+  cbMoveConfirmation.Checked               := focMove in gFileOperationsConfirmations;
+  cbDeleteConfirmation.Checked             := focDelete in gFileOperationsConfirmations;
+  cbDeleteToTrashConfirmation.Checked      := focDeleteToTrash in gFileOperationsConfirmations;
+  cbDeleteReadOnlyConfirmation.Checked     := focDeleteReadOnly in gFileOperationsConfirmations;
+  cbDeleteHiddenSystemConfirmation.Checked := focDeleteHiddenSystem in gFileOperationsConfirmations;
+  cbVerifyChecksumConfirmation.Checked     := focVerifyChecksum in gFileOperationsConfirmations;
+  cbTestArchiveConfirmation.Checked        := focTestArchive in gFileOperationsConfirmations;
+  cmbTypeOfDuplicatedRename.ItemIndex      := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
 end;
@@ -167,12 +171,16 @@ begin
     Include(gFileOperationsConfirmations, focMove);
   if cbDeleteConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDelete);
-  if cbTestArchiveConfirmation.Checked then
-    Include(gFileOperationsConfirmations, focTestArchive);
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
+  if cbDeleteReadOnlyConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focDeleteReadOnly);
+  if cbDeleteHiddenSystemConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focDeleteHiddenSystem);
   if cbVerifyChecksumConfirmation.Checked then
     Include(gFileOperationsConfirmations, focVerifyChecksum);
+  if cbTestArchiveConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focTestArchive);
   gTypeOfDuplicatedRename := tDuplicatedRename(cmbTypeOfDuplicatedRename.ItemIndex);
 end;
 

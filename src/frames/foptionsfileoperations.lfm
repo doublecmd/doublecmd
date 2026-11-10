@@ -143,6 +143,28 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Caption = 'D&elete to trash operation'
       TabOrder = 8
     end
+    object cbDeleteReadOnlyConfirmation: TCheckBox
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = cbDeleteToTrashConfirmation
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 18
+      Top = 236
+      Width = 156
+      Caption = 'Delete read-only files'
+      TabOrder = 9
+    end
+    object cbDeleteHiddenSystemConfirmation: TCheckBox
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = cbDeleteReadOnlyConfirmation
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 18
+      Top = 258
+      Width = 186
+      Caption = 'Delete hidden/system files'
+      TabOrder = 10
+    end
     object bvlConfirmations: TDividerBevel
       AnchorSideLeft.Control = lblProgressKind
       AnchorSideTop.Control = cbDeleteToTrash
@@ -160,14 +182,14 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     end
     object cbVerifyChecksumConfirmation: TCheckBox
       AnchorSideLeft.Control = cbDeleteToTrashConfirmation
-      AnchorSideTop.Control = cbDeleteToTrashConfirmation
+      AnchorSideTop.Control = cbDeleteHiddenSystemConfirmation
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 24
       Top = 298
       Width = 199
       Caption = 'Verify checksum operation'
-      TabOrder = 9
+      TabOrder = 11
     end
     object cbTestArchiveConfirmation: TCheckBox
       AnchorSideLeft.Control = cbVerifyChecksumConfirmation
@@ -178,7 +200,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Top = 323
       Width = 161
       Caption = 'Test archive operation'
-      TabOrder = 10
+      TabOrder = 12
     end
   end
   object gbExecutingOperations: TGroupBox[1]

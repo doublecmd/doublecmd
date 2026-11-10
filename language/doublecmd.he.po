@@ -6097,6 +6097,14 @@ msgstr "פעולת &העתקה"
 msgid "&Delete operation"
 msgstr "פעולת &מחיקה"
 
+#: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
+msgid "Delete hidden/system files"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
+msgid "Delete read-only files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "&מחיקה לפח המיחזור (מקש Shift הופך הגדרה זו)"

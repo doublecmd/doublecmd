@@ -6243,6 +6243,14 @@ msgstr "Operație de copiere (&y)"
 msgid "&Delete operation"
 msgstr "Operație de ștergere (&d)"
 
+#: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
+msgid "Delete hidden/system files"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
+msgid "Delete read-only files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "Ș&terge la coș (Tasta Shift inversează această setare)"
