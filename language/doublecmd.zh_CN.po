@@ -6096,11 +6096,11 @@ msgstr "删除操作(&D)"
 
 #: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
 msgid "Delete hidden/system files"
-msgstr ""
+msgstr "删除隐藏/系统文件"
 
 #: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
 msgid "Delete read-only files"
-msgstr ""
+msgstr "删除只读文件"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
@@ -13930,7 +13930,7 @@ msgstr "工具提示文件类型名称"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "DC 传统方式 - 副本 (x) 文件名.扩展名;窗口 - 文件名 (x).扩展名;其他 - 文件名 (x).扩展名"
+msgstr "DC 传统方式 - 副本 (x) 文件名.扩展名;Windows - 文件名 (x).扩展名;其他 - 文件名(x).扩展名"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
