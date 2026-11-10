@@ -1,0 +1,59 @@
+object frmSelectFileProperties: TfrmSelectFileProperties
+  Left = 0
+  Height = 240
+  Top = 0
+  Width = 320
+  AutoSize = True
+  ClientHeight = 240
+  ClientWidth = 320
+  LCLVersion = '5.99.0.0'
+  TabOrder = 0
+  DesignLeft = 487
+  DesignTop = 25
+  object chkTime: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 0
+    Height = 18
+    Top = 0
+    Width = 159
+    Caption = '&Timestamp (date+time)'
+    TabOrder = 0
+  end
+  object chkAttributes: TCheckBox
+    AnchorSideLeft.Control = chkTime
+    AnchorSideTop.Control = chkTime
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 18
+    Top = 28
+    Width = 104
+    BorderSpacing.Top = 10
+    Caption = 'File &attributes'
+    TabOrder = 1
+  end
+  object chkPermissions: TCheckBox
+    AnchorSideLeft.Control = chkAttributes
+    AnchorSideTop.Control = chkAttributes
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 18
+    Top = 56
+    Width = 169
+    BorderSpacing.Top = 10
+    Caption = '&Permissions /  Ownership'
+    TabOrder = 2
+  end
+  object chkXAttributes: TCheckBox
+    AnchorSideLeft.Control = chkPermissions
+    AnchorSideTop.Control = chkPermissions
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 18
+    Top = 84
+    Width = 138
+    BorderSpacing.Top = 10
+    Caption = '&Extended attributes'
+    TabOrder = 3
+  end
+end

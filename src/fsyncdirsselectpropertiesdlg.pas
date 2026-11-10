@@ -5,7 +5,8 @@ unit fSyncDirsSelectPropertiesDlg;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel,
+  fSelectFileProperties;
 
 type
 
@@ -13,10 +14,7 @@ type
 
   TfrmSyncDirsSelectPropertiesDlg = class(TForm)
     ButtonPanel1: TButtonPanel;
-    chkTime: TCheckBox;
-    chkAttributes: TCheckBox;
-    chkPermissions: TCheckBox;
-    chkXAttributes: TCheckBox;
+    frmProperties: TfrmSelectFileProperties;
     lblLabel: TLabel;
   end;
 

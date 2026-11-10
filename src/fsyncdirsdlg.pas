@@ -393,7 +393,8 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
 implementation
 
 uses
-  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, fSyncDirsSelectPropertiesDlg,
+  fMain, uDebug, fDiffer,
+  fSyncDirsPerformDlg, fSyncDirsSelectPropertiesDlg, fSelectFileProperties,
   uGlobs, LCLType, LazUTF8, LazFileUtils,
   uFileSystemFileSource, DCDateTimeUtils,
   uDCUtils, uFileSourceOperationTypes, uShowForm, uAdministrator,
@@ -1484,21 +1485,23 @@ procedure TfrmSyncDirsDlg.doCopyProperties(const targetSide: TDoubleSide);
   function selectProperties: TCopyAttributesOptions;
   var
     dialog: TfrmSyncDirsSelectPropertiesDlg;
+    properties: TfrmSelectFileProperties;
   begin
     Result:= [];
     dialog:= TfrmSyncDirsSelectPropertiesDlg.Create(nil);
-    dialog.chkTime.Checked:= gOperationOptionCopyTime;
-    dialog.chkAttributes.Checked:= gOperationOptionCopyAttributes;
-    dialog.chkPermissions.Checked:= gOperationOptionCopyOwnership or gOperationOptionCopyPermissions;
-    dialog.chkXAttributes.Checked:= gOperationOptionCopyXattributes;
+    properties:= dialog.frmProperties;
+    properties.chkTime.Checked:= gOperationOptionCopyTime;
+    properties.chkAttributes.Checked:= gOperationOptionCopyAttributes;
+    properties.chkPermissions.Checked:= gOperationOptionCopyOwnership or gOperationOptionCopyPermissions;
+    properties.chkXAttributes.Checked:= gOperationOptionCopyXattributes;
     if dialog.ShowModal = mrOK then begin
-      if dialog.chkTime.Checked then
+      if properties.chkTime.Checked then
         Include(Result, caoCopyTime);
-      if dialog.chkAttributes.Checked then
+      if properties.chkAttributes.Checked then
         Include(Result, caoCopyAttributes);
-      if dialog.chkPermissions.Checked then
+      if properties.chkPermissions.Checked then
         Result:= Result + [caoCopyPermissions, caoCopyOwnership];
-      if dialog.chkXAttributes.Checked then
+      if properties.chkXAttributes.Checked then
         Include(Result, caoCopyXattributes);
     end;
     dialog.Free;

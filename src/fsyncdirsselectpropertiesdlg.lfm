@@ -7,6 +7,7 @@ object frmSyncDirsSelectPropertiesDlg: TfrmSyncDirsSelectPropertiesDlg
   ClientHeight = 193
   ClientWidth = 320
   Constraints.MinWidth = 320
+  Position = poScreenCenter
   LCLVersion = '5.99.0.0'
   object lblLabel: TLabel
     AnchorSideLeft.Control = Owner
@@ -18,56 +19,8 @@ object frmSyncDirsSelectPropertiesDlg: TfrmSyncDirsSelectPropertiesDlg
     BorderSpacing.Around = 10
     Caption = 'Copy these file properties:'
   end
-  object chkTime: TCheckBox
-    AnchorSideLeft.Control = lblLabel
-    AnchorSideTop.Control = lblLabel
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 18
-    Top = 36
-    Width = 159
-    BorderSpacing.Top = 10
-    Caption = '&Timestamp (date+time)'
-    TabOrder = 1
-  end
-  object chkAttributes: TCheckBox
-    AnchorSideLeft.Control = chkTime
-    AnchorSideTop.Control = chkTime
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 18
-    Top = 64
-    Width = 104
-    BorderSpacing.Top = 10
-    Caption = 'File &attributes'
-    TabOrder = 2
-  end
-  object chkPermissions: TCheckBox
-    AnchorSideLeft.Control = chkAttributes
-    AnchorSideTop.Control = chkAttributes
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 18
-    Top = 92
-    Width = 169
-    BorderSpacing.Top = 10
-    Caption = '&Permissions /  Ownership'
-    TabOrder = 3
-  end
-  object chkXAttributes: TCheckBox
-    AnchorSideLeft.Control = chkPermissions
-    AnchorSideTop.Control = chkPermissions
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 18
-    Top = 120
-    Width = 138
-    BorderSpacing.Top = 10
-    Caption = '&Extended attributes'
-    TabOrder = 4
-  end
   object ButtonPanel1: TButtonPanel
-    AnchorSideTop.Control = chkXAttributes
+    AnchorSideTop.Control = frmProperties
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 27
@@ -88,5 +41,22 @@ object frmSyncDirsSelectPropertiesDlg: TfrmSyncDirsSelectPropertiesDlg
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
+  end
+  inline frmProperties: TfrmSelectFileProperties
+    AnchorSideLeft.Control = lblLabel
+    AnchorSideTop.Control = lblLabel
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 102
+    Top = 36
+    Width = 169
+    BorderSpacing.Top = 10
+    ClientHeight = 102
+    ClientWidth = 169
+    TabOrder = 1
+    inherited chkTime: TCheckBox
+      AnchorSideLeft.Control = frmProperties
+      AnchorSideTop.Control = frmProperties
+    end
   end
 end
