@@ -806,6 +806,7 @@ object frmSetFileProperties: TfrmSetFileProperties
       BorderSpacing.Right = 4
       Caption = 'First file in clipboard(&3)'
       TabOrder = 2
+      OnClick = btnLoadFromClipboardClick
     end
     object btnLoadAdv: TButton
       AnchorSideLeft.Control = btnLoadFromClipboard

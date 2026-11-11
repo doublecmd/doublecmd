@@ -90,6 +90,7 @@ type
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
+    procedure btnLoadFromClipboardClick(Sender: TObject);
     procedure btnLoadFromSourceClick(Sender: TObject);
     procedure btnLoadFromTargetClick(Sender: TObject);
     procedure SetOtherDateLikeThis(ReferenceZVDateTimePicker:TDateTimePicker);
@@ -141,7 +142,8 @@ implementation
 
 uses
   LCLType, ImgList, EditBtn,
-  DCFileAttributes, DCStrUtils, uDCUtils, uKeyboard;
+  uFileSource, uFileSystemFileSource, uFileSourceManager,
+  DCFileAttributes, DCStrUtils, uDCUtils, uKeyboard, uClipboard;
 
 function ShowChangeFilePropertiesDialog(
   const aOperation: TFileSourceSetFilePropertyOperation;
@@ -489,6 +491,25 @@ begin
   ZVLastWriteDateTime.DateTime:= Now;
   if not chkLastWriteTime.Checked then chkLastWriteTime.Checked:=TRUE;
   if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastWriteDateTime);
+end;
+
+procedure TfrmSetFileProperties.btnLoadFromClipboardClick(Sender: TObject);
+var
+  ClipboardOp: TClipboardOperation;
+  filenamesList: TStringList;
+  f: TFile;
+  fs: IFileSource;
+begin
+  if NOT PasteFromClipboard(ClipboardOp, filenamesList) then
+    Exit;
+
+  f:= TFile.Create(EmptyStr);
+  f.FullPath:= filenamesList[0];
+  fs:= FileSourceManager.Find(TFileSystemFileSource, EmptyStr);
+  fs.RetrieveProperties(f, [fpAttributes,fpModificationTime,fpCreationTime,fpLastAccessTime,fpChangeTime], []);
+  FOperation.NewProperties:= self.CreateNewProperties(f);
+  self.LoadProperties(True);
+  f.Free;
 end;
 
 procedure TfrmSetFileProperties.btnLoadFromSourceClick(Sender: TObject);
