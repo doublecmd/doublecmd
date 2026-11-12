@@ -588,16 +588,6 @@ begin
     pasteImageToFile;
 end;
 
-function GetFirstFilenameInClipboard: String;
-var
-  op: TClipboardOperation;
-  filenamesList: TStringList;
-begin
-  Result:= EmptyStr;
-  if PasteFromClipboard(op, filenamesList) then
-    Result:= filenamesList[0];
-end;
-
 procedure ClipboardSetText(AText: String);
 begin
   TDarwinClipboardUtil.setText( AText );
@@ -619,6 +609,15 @@ begin
   Result := SendToClipboard(filenames, ClipboardCut);
 end;
 
+function GetFirstFilenameInClipboard: String;
+var
+  op: TClipboardOperation;
+  filenamesList: TStringList;
+begin
+  Result:= EmptyStr;
+  if PasteFromClipboard(op, filenamesList) then
+    Result:= filenamesList[0];
+end;
 
 {$IFDEF MSWINDOWS}
 function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
