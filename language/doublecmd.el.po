@@ -19,6 +19,22 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPathExcluded-0: .\n"
 
+#: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
+msgid "Active panel (source)"
+msgstr "Ενεργό πάνελ (πηγή)"
+
+#: fsetfileproperties.rssetfilepropertiesloadfromclipboard
+msgid "Clipboard"
+msgstr ""
+
+#: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
+msgid "Inactive panel (target)"
+msgstr "Ανενεργό πάνελ (στόχος)"
+
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -9075,6 +9091,15 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr " "
 
+#: tfrmsetfilepropertiesadvload.gbloadattributes.caption
+msgid "Load these attributes"
+msgstr ""
+
+#: tfrmsetfilepropertiesadvload.rgloadfrom.caption
+msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
+msgid "Load attributes from"
+msgstr ""
+
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
 msgstr "Ταξινόμηση"
@@ -14784,10 +14809,12 @@ msgid "Will show a simple message"
 msgstr "Θα εμφανίσει ένα απλό μήνυμα"
 
 #: ulng.rsvarsourcepanel
+msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
 msgstr "Ενεργό πάνελ (πηγή)"
 
 #: ulng.rsvartargetpanel
+msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
 msgstr "Ανενεργό πάνελ (στόχος)"
 

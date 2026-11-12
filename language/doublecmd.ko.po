@@ -13,6 +13,22 @@ msgstr ""
 "X-Native-Language: 한국어\n"
 "X-Generator: Poedit 3.10\n"
 
+#: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
+msgid "Active panel (source)"
+msgstr "활성 패널 (원본)"
+
+#: fsetfileproperties.rssetfilepropertiesloadfromclipboard
+msgid "Clipboard"
+msgstr ""
+
+#: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
+msgid "Inactive panel (target)"
+msgstr "비활성 패널 (대상)"
+
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -8883,6 +8899,15 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
+#: tfrmsetfilepropertiesadvload.gbloadattributes.caption
+msgid "Load these attributes"
+msgstr ""
+
+#: tfrmsetfilepropertiesadvload.rgloadfrom.caption
+msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
+msgid "Load attributes from"
+msgstr ""
+
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
 msgstr "정렬(&S)"
@@ -14531,10 +14556,12 @@ msgid "Will show a simple message"
 msgstr "간단한 메시지를 표시합니다"
 
 #: ulng.rsvarsourcepanel
+msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
 msgstr "활성 패널 (원본)"
 
 #: ulng.rsvartargetpanel
+msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
 msgstr "비활성 패널 (대상)"
 

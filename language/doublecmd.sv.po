@@ -13,6 +13,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Native-Language: Svenska\n"
 
+#: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
+msgid "Active panel (source)"
+msgstr "Aktiv panel (källa)"
+
+#: fsetfileproperties.rssetfilepropertiesloadfromclipboard
+msgid "Clipboard"
+msgstr ""
+
+#: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
+msgid "Inactive panel (target)"
+msgstr "Inaktiv panel (mål)"
+
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -8883,6 +8899,15 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr "  "
 
+#: tfrmsetfilepropertiesadvload.gbloadattributes.caption
+msgid "Load these attributes"
+msgstr ""
+
+#: tfrmsetfilepropertiesadvload.rgloadfrom.caption
+msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
+msgid "Load attributes from"
+msgstr ""
+
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
 msgstr "&Sortera"
@@ -14530,10 +14555,12 @@ msgid "Will show a simple message"
 msgstr "Visar ett enkelt meddelande"
 
 #: ulng.rsvarsourcepanel
+msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
 msgstr "Aktiv panel (källa)"
 
 #: ulng.rsvartargetpanel
+msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
 msgstr "Inaktiv panel (mål)"
 

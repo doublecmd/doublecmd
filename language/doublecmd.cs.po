@@ -15,6 +15,22 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 "Language: cs\n"
 
+#: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
+msgid "Active panel (source)"
+msgstr "aktivní panel (zdroj)"
+
+#: fsetfileproperties.rssetfilepropertiesloadfromclipboard
+msgid "Clipboard"
+msgstr ""
+
+#: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
+msgid "Inactive panel (target)"
+msgstr "Neaktivní panel (cíl)"
+
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -8925,6 +8941,15 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
+#: tfrmsetfilepropertiesadvload.gbloadattributes.caption
+msgid "Load these attributes"
+msgstr ""
+
+#: tfrmsetfilepropertiesadvload.rgloadfrom.caption
+msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
+msgid "Load attributes from"
+msgstr ""
+
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
 msgstr "Seřadit"
@@ -14580,10 +14605,12 @@ msgid "Will show a simple message"
 msgstr "Zobrazí jednoduchou zprávu"
 
 #: ulng.rsvarsourcepanel
+msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
 msgstr "aktivní panel (zdroj)"
 
 #: ulng.rsvartargetpanel
+msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
 msgstr "Neaktivní panel (cíl)"
 

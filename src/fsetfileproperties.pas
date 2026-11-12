@@ -138,6 +138,11 @@ function ShowChangeFilePropertiesDialog(
   const aSourceFrame: TFileView;
   const aTargetFrame: TFileView ): Boolean;
 
+resourcestring
+  rsSetFilePropertiesLoadFromActivePanel = 'Active panel (source)';
+  rsSetFilePropertiesLoadFromInactivePanel = 'Inactive panel (target)';
+  rsSetFilePropertiesLoadFromClipboard = 'Clipboard';
+
 implementation
 
 {$R *.lfm}
@@ -445,6 +450,8 @@ procedure TfrmSetFileProperties.LoadProperties(const checked: Boolean);
     end;
   end;
 
+var
+  lastActiveControl1: TWinControl;
 begin
   if caoCopyAttributes in FSetAttributesOptions then
     loadAttributes;
@@ -453,9 +460,11 @@ begin
     loadDateTime;
 
   if (checked=False) or (caoCopyTime in FSetAttributesOptions) then begin
+    lastActiveControl1:= self.ActiveControl;
     chkCreationTime.Checked:= checked;
     chkLastWriteTime.Checked:= checked;
     chkLastAccessTime.Checked:= checked;
+    self.ActiveControl:= lastActiveControl1;
   end;
 end;
 
@@ -514,25 +523,23 @@ var
 
   procedure initDialog;
   var
-    filename: String;
+    captions: TStringArray;
+    filenames: TStringArray;
+    i: Integer;
   begin
-    filename:= FSourceFrame.GetActiveFileName;
-    if filename <> EmptyStr then
-      dialog.rgLoadFrom.Items[0]:= dialog.rgLoadFrom.Items[0] + ': ' + filename
-    else
-      dialog.rgLoadFrom.Buttons[0].Enabled:= False;
-
-    filename:= FTargetFrame.GetActiveFileName;
-    if filename <> EmptyStr then
-      dialog.rgLoadFrom.Items[1]:= dialog.rgLoadFrom.Items[1] + ': ' + filename
-    else
-      dialog.rgLoadFrom.Buttons[1].Enabled:= False;
-
-    filename:= GetFirstFilenameInClipboard;
-    if filename <> EmptyStr then
-      dialog.rgLoadFrom.Items[2]:= dialog.rgLoadFrom.Items[2] + ': ' + filename
-    else
-      dialog.rgLoadFrom.Buttons[2].Enabled:= False;
+    captions:= [rsSetFilePropertiesLoadFromActivePanel,
+                rsSetFilePropertiesLoadFromInactivePanel,
+                rsSetFilePropertiesLoadFromClipboard];
+    filenames:= [FSourceFrame.GetActiveFileName,
+                 FTargetFrame.GetActiveFileName,
+                 GetFirstFilenameInClipboard];
+    for i:= Low(captions) to High(captions) do begin
+      if filenames[i] <> EmptyStr then
+        dialog.rgLoadFrom.Items[i]:= captions[i] + ': ' + filenames[i]
+      else
+        dialog.rgLoadFrom.Items[i]:= captions[i];
+      dialog.rgLoadFrom.Buttons[i].Enabled:= filenames[i] <> EmptyStr;
+    end;
 
     dialog.frmProperties.chkTime.Checked:= caoCopyTime in FSetAttributesOptions;
     dialog.frmProperties.chkAttributes.Checked:= caoCopyAttributes in FSetAttributesOptions

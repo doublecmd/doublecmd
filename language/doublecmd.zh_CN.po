@@ -12,6 +12,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 简体中文\n"
 
+#: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
+msgid "Active panel (source)"
+msgstr "活动面板（来源）"
+
+#: fsetfileproperties.rssetfilepropertiesloadfromclipboard
+msgid "Clipboard"
+msgstr ""
+
+#: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
+#, fuzzy
+msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
+msgid "Inactive panel (target)"
+msgstr "非活动面板（目标）"
+
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -8881,6 +8897,15 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
+#: tfrmsetfilepropertiesadvload.gbloadattributes.caption
+msgid "Load these attributes"
+msgstr ""
+
+#: tfrmsetfilepropertiesadvload.rgloadfrom.caption
+msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
+msgid "Load attributes from"
+msgstr ""
+
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
 msgstr "排序(S)"
@@ -14551,10 +14576,12 @@ msgid "Will show a simple message"
 msgstr "将显示一条简单消息"
 
 #: ulng.rsvarsourcepanel
+msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
 msgstr "活动面板（来源）"
 
 #: ulng.rsvartargetpanel
+msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
 msgstr "非活动面板（目标）"
 
