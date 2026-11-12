@@ -4209,7 +4209,7 @@ begin
             Exit;
           end;
 
-          if ShowChangeFilePropertiesDialog(Operation) then
+          if ShowChangeFilePropertiesDialog(Operation, frmMain.ActiveFrame, frmMain.NotActiveFrame) then
           begin
             OperationsManager.AddOperation(Operation);
             Operation := nil; // So it doesn't get destroyed below.

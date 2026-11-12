@@ -30,5 +30,10 @@
 {"hash":89827322,"name":"tfrmsetfileproperties.lbloctal.caption","sourcebytes":[79,99,116,97,108,58],"value":"Octal:"},
 {"hash":5951354,"name":"tfrmsetfileproperties.lblattrtextstr.caption","sourcebytes":[84,101,120,116,58],"value":"Text:"},
 {"hash":265289741,"name":"tfrmsetfileproperties.lblattrtext.caption","sourcebytes":[45,45,45,45,45,45,45,45,45,45,45],"value":"-----------"},
-{"hash":97017545,"name":"tfrmsetfileproperties.lblmodeinfo.caption","sourcebytes":[40,103,114,97,121,32,102,105,101,108,100,32,109,101,97,110,115,32,117,110,99,104,97,110,103,101,100,32,118,97,108,117,101,41],"value":"(gray field means unchanged value)"}
+{"hash":97017545,"name":"tfrmsetfileproperties.lblmodeinfo.caption","sourcebytes":[40,103,114,97,121,32,102,105,101,108,100,32,109,101,97,110,115,32,117,110,99,104,97,110,103,101,100,32,118,97,108,117,101,41],"value":"(gray field means unchanged value)"},
+{"hash":45034109,"name":"tfrmsetfileproperties.gbloadattributes.caption","sourcebytes":[76,111,97,100,32,97,116,116,114,105,98,117,116,101,115,32,102,114,111,109],"value":"Load attributes from"},
+{"hash":249704905,"name":"tfrmsetfileproperties.btnloadfromsource.caption","sourcebytes":[70,105,108,101,32,117,110,100,101,114,32,99,117,114,115,111,114,32,105,110,32,97,99,116,105,118,101,32,112,97,110,101,108,32,40,115,111,117,114,99,101,41,40,38,49,41],"value":"File under cursor in active panel (source)(&1)"},
+{"hash":17901225,"name":"tfrmsetfileproperties.btnloadfromtarget.caption","sourcebytes":[70,105,108,101,32,105,110,32,116,97,114,103,101,116,40,38,50,41],"value":"File in target(&2)"},
+{"hash":210117225,"name":"tfrmsetfileproperties.btnloadfromclipboard.caption","sourcebytes":[70,105,114,115,116,32,102,105,108,101,32,105,110,32,99,108,105,112,98,111,97,114,100,40,38,51,41],"value":"First file in clipboard(&3)"},
+{"hash":102137310,"name":"tfrmsetfileproperties.btnloadadv.caption","sourcebytes":[65,100,118,97,110,99,101,100,40,38,48,41,46,46,46],"value":"Advanced(&0)..."}
 ]}
