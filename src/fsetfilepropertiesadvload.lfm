@@ -1,0 +1,121 @@
+object frmSetFilePropertiesAdvLoad: TfrmSetFilePropertiesAdvLoad
+  Left = 487
+  Height = 294
+  Top = 250
+  Width = 502
+  AutoSize = True
+  ClientHeight = 294
+  ClientWidth = 502
+  Constraints.MaxWidth = 1000
+  Constraints.MinWidth = 400
+  Position = poOwnerFormCenter
+  LCLVersion = '5.99.0.0'
+  object rgLoadFrom: TRadioGroup
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 97
+    Top = 8
+    Width = 486
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 8
+    Caption = 'Load attributes from'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 78
+    ClientWidth = 476
+    ItemIndex = 1
+    Items.Strings = (
+      'Active panel (source)'
+      'Inactive panel (target)'
+      'Clipboard'
+    )
+    TabOrder = 2
+    TabStop = True
+  end
+  object gbLoadAttributes: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = rgLoadFrom
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 137
+    Top = 113
+    Width = 486
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 8
+    Caption = 'Load these attributes'
+    ClientHeight = 118
+    ClientWidth = 476
+    TabOrder = 0
+    inline frmProperties: TfrmSelectFileProperties
+      AnchorSideLeft.Control = gbLoadAttributes
+      AnchorSideTop.Control = gbLoadAttributes
+      AnchorSideRight.Control = gbLoadAttributes
+      Left = 8
+      Height = 102
+      Top = 8
+      Width = 169
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 8
+      BorderSpacing.Bottom = 8
+      ClientHeight = 102
+      ClientWidth = 169
+      inherited chkTime: TCheckBox
+        AnchorSideLeft.Control = frmProperties
+        AnchorSideTop.Control = frmProperties
+        Checked = True
+        State = cbChecked
+      end
+      inherited chkAttributes: TCheckBox
+        Checked = True
+        State = cbChecked
+      end
+      inherited chkPermissions: TCheckBox
+        Visible = False
+      end
+      inherited chkXAttributes: TCheckBox
+        Visible = False
+      end
+    end
+  end
+  object ButtonPanel1: TButtonPanel
+    AnchorSideTop.Control = gbLoadAttributes
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 30
+    Top = 258
+    Width = 490
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    ButtonOrder = boCloseOKCancel
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end

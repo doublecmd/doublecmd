@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Buttons,
   uFile, uFileProperty, uFileSourceSetFilePropertyOperation, uFileView,
-  DCBasicTypes, DateTimePicker;
+  DCBasicTypes, DCOSUtils, DateTimePicker;
 
 type
 
@@ -90,6 +90,7 @@ type
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
+    procedure btnLoadAdvClick(Sender: TObject);
     procedure btnLoadFromClipboardClick(Sender: TObject);
     procedure btnLoadFromSourceClick(Sender: TObject);
     procedure btnLoadFromTargetClick(Sender: TObject);
@@ -111,6 +112,7 @@ type
     procedure ZVLastAccessDateTimeClick(Sender: TObject);
   private
     FOperation: TFileSourceSetFilePropertyOperation;
+    FSetAttributesOptions: TCopyAttributesOptions;
     FSourceFrame: TFileView;
     FTargetFrame: TFileView;
     FChangeTriggersEnabled: Boolean;
@@ -143,7 +145,8 @@ implementation
 uses
   LCLType, ImgList, EditBtn,
   uFileSource, uFileSystemFileSource, uFileSourceManager,
-  DCFileAttributes, DCStrUtils, uDCUtils, uKeyboard, uClipboard;
+  DCFileAttributes, DCStrUtils, uDCUtils, uKeyboard, uClipboard,
+  fSetFilePropertiesAdvLoad;
 
 function ShowChangeFilePropertiesDialog(
   const aOperation: TFileSourceSetFilePropertyOperation;
@@ -398,52 +401,62 @@ begin
 end;
 
 procedure TfrmSetFileProperties.LoadProperties(const checked: Boolean);
-begin
-  // Enable only supported file properties
-  with FOperation do
+  procedure loadAttributes;
   begin
-    if fpAttributes in SupportedProperties then
-      begin
-        UpdateAllowGrayed((TargetFiles.Count > 1) or TargetFiles[0].IsDirectory);
-        if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
-        begin
-          if TargetFiles.Count = 1 then
-            ShowAttr((NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value);
-          gbWinAttributes.Show;
-        end;
-        if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
-        begin
-          if TargetFiles.Count = 1 then
-            ShowMode((NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value);
-          gbUnixAttributes.Show;
-        end;
-      end;
-    if (fpCreationTime in SupportedProperties) and Assigned(NewProperties[fpCreationTime]) then
-      begin
-        ZVCreationDateTime.DateTime:= (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value;
-        ZVCreationDateTime.Enabled:= True;
-        chkCreationTime.Enabled:= True;
-        btnCreationTime.Enabled:= True;
-      end;
-    if (fpModificationTime in SupportedProperties) and Assigned(NewProperties[fpModificationTime]) then
-      begin
-        ZVLastWriteDateTime.DateTime:= (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value;
-        ZVLastWriteDateTime.Enabled:= True;
-        chkLastWriteTime.Enabled:= True;
-        btnLastWriteTime.Enabled:= True;
-      end;
-    if (fpLastAccessTime in SupportedProperties) and Assigned(NewProperties[fpLastAccessTime]) then
-      begin
-        ZVLastAccessDateTime.DateTime:= (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value;
-        ZVLastAccessDateTime.Enabled:= True;
-        chkLastAccessTime.Enabled:= True;
-        btnLastAccessTime.Enabled:= True;
-      end;
+    if NOT (fpAttributes in FOperation.SupportedProperties) then
+      Exit;
+    UpdateAllowGrayed((FOperation.TargetFiles.Count > 1) or FOperation.TargetFiles[0].IsDirectory);
+    if FOperation.NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
+    begin
+      if FOperation.TargetFiles.Count = 1 then
+        ShowAttr((FOperation.NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value);
+      gbWinAttributes.Show;
+    end;
+    if FOperation.NewProperties[fpAttributes] is TUnixFileAttributesProperty then
+    begin
+      if FOperation.TargetFiles.Count = 1 then
+        ShowMode((FOperation.NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value);
+      gbUnixAttributes.Show;
+    end;
   end;
 
-  chkCreationTime.Checked:= checked;
-  chkLastWriteTime.Checked:= checked;
-  chkLastAccessTime.Checked:= checked;
+  procedure loadDateTime;
+  begin
+    if (fpCreationTime in FOperation.SupportedProperties) and Assigned(FOperation.NewProperties[fpCreationTime]) then
+    begin
+      ZVCreationDateTime.DateTime:= (FOperation.NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value;
+      ZVCreationDateTime.Enabled:= True;
+      chkCreationTime.Enabled:= True;
+      btnCreationTime.Enabled:= True;
+    end;
+    if (fpModificationTime in FOperation.SupportedProperties) and Assigned(FOperation.NewProperties[fpModificationTime]) then
+    begin
+      ZVLastWriteDateTime.DateTime:= (FOperation.NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value;
+      ZVLastWriteDateTime.Enabled:= True;
+      chkLastWriteTime.Enabled:= True;
+      btnLastWriteTime.Enabled:= True;
+    end;
+    if (fpLastAccessTime in FOperation.SupportedProperties) and Assigned(FOperation.NewProperties[fpLastAccessTime]) then
+    begin
+      ZVLastAccessDateTime.DateTime:= (FOperation.NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value;
+      ZVLastAccessDateTime.Enabled:= True;
+      chkLastAccessTime.Enabled:= True;
+      btnLastAccessTime.Enabled:= True;
+    end;
+  end;
+
+begin
+  if caoCopyAttributes in FSetAttributesOptions then
+    loadAttributes;
+
+  if caoCopyTime in FSetAttributesOptions then
+    loadDateTime;
+
+  if (checked=False) or (caoCopyTime in FSetAttributesOptions) then begin
+    chkCreationTime.Checked:= checked;
+    chkLastWriteTime.Checked:= checked;
+    chkLastAccessTime.Checked:= checked;
+  end;
 end;
 
 function TfrmSetFileProperties.CreateNewProperties(const f: TFile): TFileProperties;
@@ -470,6 +483,7 @@ constructor TfrmSetFileProperties.Create(
 begin
   inherited Create(aOwner);
   FOperation:= aOperation;
+  FSetAttributesOptions:= [caoCopyTime, caoCopyAttributes];
   FSourceFrame:= aSourceFrame;
   FTargetFrame:= aTargetFrame;
   FChangeTriggersEnabled:= True;
@@ -493,18 +507,73 @@ begin
   if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastWriteDateTime);
 end;
 
+procedure TfrmSetFileProperties.btnLoadAdvClick(Sender: TObject);
+var
+  dialog: TfrmSetFilePropertiesAdvLoad;
+  ret: Integer;
+
+  procedure initDialog;
+  var
+    filename: String;
+  begin
+    filename:= FSourceFrame.GetActiveFileName;
+    if filename <> EmptyStr then
+      dialog.rgLoadFrom.Items[0]:= dialog.rgLoadFrom.Items[0] + ': ' + filename
+    else
+      dialog.rgLoadFrom.Buttons[0].Enabled:= False;
+
+    filename:= FTargetFrame.GetActiveFileName;
+    if filename <> EmptyStr then
+      dialog.rgLoadFrom.Items[1]:= dialog.rgLoadFrom.Items[1] + ': ' + filename
+    else
+      dialog.rgLoadFrom.Buttons[1].Enabled:= False;
+
+    filename:= GetFirstFilenameInClipboard;
+    if filename <> EmptyStr then
+      dialog.rgLoadFrom.Items[2]:= dialog.rgLoadFrom.Items[2] + ': ' + filename
+    else
+      dialog.rgLoadFrom.Buttons[2].Enabled:= False;
+
+    dialog.frmProperties.chkTime.Checked:= caoCopyTime in FSetAttributesOptions;
+    dialog.frmProperties.chkAttributes.Checked:= caoCopyAttributes in FSetAttributesOptions
+  end;
+
+  procedure doAdvancedAction;
+  begin
+    FSetAttributesOptions:= [];
+    if dialog.frmProperties.chkTime.Checked then
+      Include(FSetAttributesOptions, caoCopyTime);
+    if dialog.frmProperties.chkAttributes.Checked then
+      Include(FSetAttributesOptions, caoCopyAttributes);
+
+    case dialog.rgLoadFrom.ItemIndex of
+      0: self.btnLoadFromSourceClick(nil);
+      1: self.btnLoadFromTargetClick(nil);
+      2: self.btnLoadFromClipboardClick(nil);
+    end;
+  end;
+
+begin
+  dialog:= TfrmSetFilePropertiesAdvLoad.Create(nil);
+  initDialog;
+  ret:= dialog.ShowModal;
+  if ret = mrOK then
+    doAdvancedAction;
+  dialog.Free;
+end;
+
 procedure TfrmSetFileProperties.btnLoadFromClipboardClick(Sender: TObject);
 var
-  ClipboardOp: TClipboardOperation;
-  filenamesList: TStringList;
+  path: String;
   f: TFile;
   fs: IFileSource;
 begin
-  if NOT PasteFromClipboard(ClipboardOp, filenamesList) then
+  path:= GetFirstFilenameInClipboard;
+  if path = EmptyStr then
     Exit;
 
   f:= TFile.Create(EmptyStr);
-  f.FullPath:= filenamesList[0];
+  f.FullPath:= path;
   fs:= FileSourceManager.Find(TFileSystemFileSource, EmptyStr);
   fs.RetrieveProperties(f, [fpAttributes,fpModificationTime,fpCreationTime,fpLastAccessTime,fpChangeTime], []);
   FOperation.NewProperties:= self.CreateNewProperties(f);

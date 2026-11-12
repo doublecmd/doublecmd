@@ -18,6 +18,7 @@ uses
   function CutToClipboard(const filenames:TStringList):Boolean;
   function PasteFromClipboard(out ClipboardOp: TClipboardOperation;
                               out filenames:TStringList):Boolean;
+  function GetFirstFilenameInClipboard: String;
 
   function URIDecode(encodedUri: String): String;
   function URIEncode(path: String): String;
@@ -585,6 +586,16 @@ begin
 
   if TDarwinClipboardUtil.hasImage then
     pasteImageToFile;
+end;
+
+function GetFirstFilenameInClipboard: String;
+var
+  op: TClipboardOperation;
+  filenamesList: TStringList;
+begin
+  Result:= EmptyStr;
+  if PasteFromClipboard(op, filenamesList) then
+    Result:= filenamesList[0];
 end;
 
 procedure ClipboardSetText(AText: String);

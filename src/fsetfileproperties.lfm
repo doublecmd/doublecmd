@@ -823,6 +823,7 @@ object frmSetFileProperties: TfrmSetFileProperties
       BorderSpacing.Right = 2
       Caption = 'Advanced(&0)...'
       TabOrder = 3
+      OnClick = btnLoadAdvClick
     end
   end
 end
