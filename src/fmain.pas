@@ -44,7 +44,7 @@ uses
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uFilePanelSelect, uBriefFileView, VTEmuCtl, VTEmuPty,
   uFileView, uFileSource, uFileSourceManager, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
-  uOperationsManager, uFileSourceOperation, uDrivesList, DCClassesUtf8,
+  uOperationsManager, uFileSourceOperation, uDrivesList, DCClassesUtf8, uDragDropEx,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
   {$IF DEFINED(LCLQT)}
@@ -731,6 +731,8 @@ type
     cmdConsole: TVirtualTerminal;
     FCommands: TMainCommands;
     FInitializedView: Boolean;
+    FMainToolBarDropTarget: TDragDropTargetHelper;
+    FMiddleToolBarDropTarget: TDragDropTargetHelper;
     {en
        Used to pass drag&drop parameters to pmDropMenu. Single variable
        can be used, because the user can do only one menu popup at a time. }
@@ -967,7 +969,7 @@ uses
   Themes, uFileProcs, uShellContextMenu, fTreeViewMenu,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
-  LazLogger, uDragDropEx, uKeyboard,
+  LazLogger, uKeyboard,
   uLocalFileSource, uFileSystemFileSource, uSearchResultFileSource, uStashFileSource,
   uVfsModule, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -1284,6 +1286,13 @@ begin
     Application.OnIdle:= @installMacOSFNKeyTap;
   TDCCocoaModernFormUtils.checkAndSetPrivilegeItem;
 {$ENDIF}
+
+  if uDragDropEx.IsExternalDraggingSupported and
+     not uDragDropEx.IsDragTransformSupported then
+  begin
+    FMainToolBarDropTarget:= TDragDropTargetHelper.Create(MainToolBar);
+    FMiddleToolBarDropTarget:= TDragDropTargetHelper.Create(MiddleToolBar);
+  end;
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -1846,6 +1855,9 @@ begin
   CloseNotebook(RightTabs);
 
   FreeAndNil(DrivesList);
+
+  FreeAndNil(FMainToolBarDropTarget);
+  FreeAndNil(FMiddleToolBarDropTarget);
 
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
   QObject_hook_destroy(QEventHook);

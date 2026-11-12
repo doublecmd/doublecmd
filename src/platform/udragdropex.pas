@@ -152,6 +152,19 @@ type
     function GetControl: TWinControl;
   end;
 
+  { TDragDropTargetHelper }
+
+  TDragDropTargetHelper = class
+  private
+    FDragDropTarget: TDragDropTarget;
+  private
+    function OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
+    function OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
+  public
+    constructor Create(TargetControl: TWinControl);
+    destructor  Destroy; override;
+  end;
+
   { These functions return system-appropriate DragDrop... object. }
   function CreateDragDropSource(Control: TWinControl): TDragDropSource;
   function CreateDragDropTarget(Control: TWinControl): TDragDropTarget;
@@ -213,6 +226,9 @@ uses
 uses
   uDragDropQt, uOSForms;
 {$ENDIF}
+
+type
+  TWinControlHack = class(TWinControl);
 
 const
   DropDefaultEffect: array[Boolean] of TDropEffect = (DropMoveEffect, DropCopyEffect);
@@ -361,6 +377,63 @@ begin
   FDragOverEvent  := nil;
   FDropEvent      := nil;
   FDragLeaveEvent := nil;
+end;
+
+{ TDragDropTargetHelper }
+
+function TDragDropTargetHelper.OnExDragOver(var DropEffect: TDropEffect;
+  ScreenPoint: TPoint): Boolean;
+var
+  ClientPoint: TPoint;
+  Sender: TWinControlHack;
+begin
+  if Assigned(ExternalDragSourceControl) then
+  begin
+    Result := False;
+    Sender := TWinControlHack(FDragDropTarget.FDragDropControl);
+    if Assigned(Sender.OnDragOver) then
+    begin
+      ClientPoint := Sender.ScreenToClient(ScreenPoint);
+      Sender.OnDragOver(Sender, ExternalDragSourceControl,
+                        ClientPoint.X, ClientPoint.Y, dsDragMove, Result);
+      Exit;
+    end;
+  end;
+  Result:= False;
+end;
+
+function TDragDropTargetHelper.OnExDrop(const FileNamesList: TStringList;
+  DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
+var
+  ClientPoint: TPoint;
+  Sender: TWinControlHack;
+begin
+  if Assigned(ExternalDragSourceControl) then
+  begin
+    Sender := TWinControlHack(FDragDropTarget.FDragDropControl);
+    if Assigned(Sender.OnDragDrop) then
+    begin
+      ClientPoint := Sender.ScreenToClient(ScreenPoint);
+      Sender.OnDragDrop(Sender, ExternalDragSourceControl,
+                                    ClientPoint.X, ClientPoint.Y);
+      Exit(True);
+    end;
+  end;
+  Result:= False;
+end;
+
+constructor TDragDropTargetHelper.Create(TargetControl: TWinControl);
+begin
+  FDragDropTarget:= CreateDragDropTarget(TargetControl);
+  if Assigned(FDragDropTarget) then
+  begin
+    FDragDropTarget.RegisterEvents(nil, @OnExDragOver, @OnExDrop, nil);
+  end;
+end;
+
+destructor TDragDropTargetHelper.Destroy;
+begin
+  FDragDropTarget.Free;
 end;
 
 { --------------------------------------------------------------------------- }
