@@ -6207,11 +6207,11 @@ msgstr "&Удаление"
 
 #: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
 msgid "Delete hidden/system files"
-msgstr ""
+msgstr "Удаление скрытых/системных файлов"
 
 #: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
 msgid "Delete read-only files"
-msgstr ""
+msgstr "Удаление файлов, доступных только для чтения"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -10958,7 +10958,7 @@ msgstr "XML-Файлы"
 #: ulng.rsfindconfirmafteraddtostash
 #, object-pascal-format
 msgid "%d files/directories have been added. Close the search window and open %s now?"
-msgstr ""
+msgstr "Добавлено файлов/каталогов: %d. Закрыть окно поиска и открыть %s?"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
