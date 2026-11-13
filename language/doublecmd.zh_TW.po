@@ -15,16 +15,16 @@ msgstr ""
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
-msgstr ""
+msgstr "現用面板（來源）"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "剪貼簿"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "非現用面板（目標）"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -8951,22 +8951,22 @@ msgstr "取消 (&C)"
 #: tfrmsetfileproperties.btnloadadv.caption
 msgctxt "tfrmsetfileproperties.btnloadadv.caption"
 msgid "Advanced(&0)..."
-msgstr ""
+msgstr "高級(&0)..."
 
 #: tfrmsetfileproperties.btnloadfromclipboard.caption
 msgctxt "tfrmsetfileproperties.btnloadfromclipboard.caption"
 msgid "First file in clipboard(&3)"
-msgstr ""
+msgstr "剪貼簿中的首個檔案(&3)"
 
 #: tfrmsetfileproperties.btnloadfromsource.caption
 msgctxt "tfrmsetfileproperties.btnloadfromsource.caption"
 msgid "File under cursor in active panel (source)(&1)"
-msgstr ""
+msgstr "現用面板（來源）中遊標下的檔案(&1)"
 
 #: tfrmsetfileproperties.btnloadfromtarget.caption
 msgctxt "tfrmsetfileproperties.btnloadfromtarget.caption"
 msgid "File in target(&2)"
-msgstr ""
+msgstr "目標面板中的檔案(&2)"
 
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
@@ -9035,7 +9035,7 @@ msgstr "系統"
 #: tfrmsetfileproperties.gbloadattributes.caption
 msgctxt "tfrmsetfileproperties.gbloadattributes.caption"
 msgid "Load attributes from"
-msgstr ""
+msgstr "從中載入屬性"
 
 #: tfrmsetfileproperties.gbtimesamp.caption
 msgid "Timestamp properties"
@@ -9128,12 +9128,12 @@ msgstr ""
 
 #: tfrmsetfilepropertiesadvload.gbloadattributes.caption
 msgid "Load these attributes"
-msgstr ""
+msgstr "載入以下屬性"
 
 #: tfrmsetfilepropertiesadvload.rgloadfrom.caption
 msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
 msgid "Load attributes from"
-msgstr ""
+msgstr "從下列檔案中載入屬性"
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
@@ -14786,12 +14786,12 @@ msgstr ""
 #: ulng.rsvarsourcepanel
 msgctxt "ulng.rsvarsourcepanel"
 msgid "Active panel (source)"
-msgstr ""
+msgstr "現用面板（來源）"
 
 #: ulng.rsvartargetpanel
 msgctxt "ulng.rsvartargetpanel"
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "非現用面板（目標）"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
