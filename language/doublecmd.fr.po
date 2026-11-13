@@ -47,17 +47,15 @@ msgstr ""
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
 msgstr "Panneau actif (source)"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "Presse-papier"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
 msgstr "Panneau inactif (cible)"

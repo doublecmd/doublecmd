@@ -14,17 +14,15 @@ msgstr ""
 "X-Generator: Poedit 3.10\n"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
 msgstr "활성 패널 (원본)"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "클립보드"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
 msgstr "비활성 패널 (대상)"

@@ -15,17 +15,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
 msgstr "Aktivt panel (kilde)"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "Utklipp"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
 msgstr "Inaktivt panel (mål)"

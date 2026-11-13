@@ -12,17 +12,15 @@ msgstr ""
 "X-Native-Language: Русский\n"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
 msgstr "Активная панель (источник)"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "Буфер обмена"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
 msgstr "Неактивная панель (назначение)"
