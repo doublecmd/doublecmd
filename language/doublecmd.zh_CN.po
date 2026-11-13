@@ -13,17 +13,15 @@ msgstr ""
 "X-Native-Language: 简体中文\n"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfromactivepanel"
 msgid "Active panel (source)"
 msgstr "活动面板（来源）"
 
 #: fsetfileproperties.rssetfilepropertiesloadfromclipboard
 msgid "Clipboard"
-msgstr ""
+msgstr "粘贴板"
 
 #: fsetfileproperties.rssetfilepropertiesloadfrominactivepanel
-#, fuzzy
 msgctxt "fsetfileproperties.rssetfilepropertiesloadfrominactivepanel"
 msgid "Inactive panel (target)"
 msgstr "非活动面板（目标）"
@@ -8726,22 +8724,22 @@ msgstr "取消(&C)"
 #: tfrmsetfileproperties.btnloadadv.caption
 msgctxt "tfrmsetfileproperties.btnloadadv.caption"
 msgid "Advanced(&0)..."
-msgstr ""
+msgstr "高级(&0)..."
 
 #: tfrmsetfileproperties.btnloadfromclipboard.caption
 msgctxt "tfrmsetfileproperties.btnloadfromclipboard.caption"
 msgid "First file in clipboard(&3)"
-msgstr ""
+msgstr "粘贴板中的首个文件(&3)"
 
 #: tfrmsetfileproperties.btnloadfromsource.caption
 msgctxt "tfrmsetfileproperties.btnloadfromsource.caption"
 msgid "File under cursor in active panel (source)(&1)"
-msgstr ""
+msgstr "活动面板（来源）中光标下的文件(&1)"
 
 #: tfrmsetfileproperties.btnloadfromtarget.caption
 msgctxt "tfrmsetfileproperties.btnloadfromtarget.caption"
 msgid "File in target(&2)"
-msgstr ""
+msgstr "目标面板中的文件(&2)"
 
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
@@ -8806,7 +8804,7 @@ msgstr "系统"
 #: tfrmsetfileproperties.gbloadattributes.caption
 msgctxt "tfrmsetfileproperties.gbloadattributes.caption"
 msgid "Load attributes from"
-msgstr ""
+msgstr "从中加载属性"
 
 #: tfrmsetfileproperties.gbtimesamp.caption
 msgid "Timestamp properties"
@@ -8899,12 +8897,12 @@ msgstr ""
 
 #: tfrmsetfilepropertiesadvload.gbloadattributes.caption
 msgid "Load these attributes"
-msgstr ""
+msgstr "加载以下属性"
 
 #: tfrmsetfilepropertiesadvload.rgloadfrom.caption
 msgctxt "tfrmsetfilepropertiesadvload.rgloadfrom.caption"
 msgid "Load attributes from"
-msgstr ""
+msgstr "从以下文件中加载属性"
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
