@@ -267,6 +267,7 @@ var
   ArcHandle: TArcHandle;
   Header: TWCXHeader;
   TargetFileName: String;
+  TargetAttrs: TFileAttrs;
   CreatedPaths: TStringHashListUtf8;
   OpenResult: Longint;
   iResult: Integer;
@@ -347,7 +348,14 @@ begin
         end;
 
         if (DoFileExists(Header, TargetFileName) = fsoofeOverwrite) then
-          iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName)
+        begin
+          // Plugins can not overwrite a read-only target file,
+          // so remove the read-only attribute first (like file system copy does)
+          TargetAttrs := mbFileGetAttr(TargetFileName);
+          if (TargetAttrs <> faInvalidAttributes) and FileIsReadOnly(TargetAttrs) then
+            mbFileSetReadOnly(TargetFileName, False);
+          iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName);
+        end
         else
           iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
 
