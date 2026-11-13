@@ -575,6 +575,7 @@ begin
                             // But let's do it for two reasons:
                             //  1st) Previously with "SaveConfig" it was updating it no matter what.
                             //  2nd) The little delay and visual blink it gives to user is a good feedback to him confirming him he just saved settings.
+  frmMain.UpdateTrayIcon;
 end;
 
 procedure TfrmOptions.MakeVisible(Data: PtrInt);
