@@ -241,10 +241,19 @@ begin
   // Called after checking any windows-check
 end;
 
+// on macOS, set Key to #0 in OnKeyPress doesn't prevent Key sending to TEdit
+// because TEdit had handled the Event before calling OnKeyPress
 procedure TfrmSetFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
 begin
-  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK)) or (Key = Chr(VK_DELETE))) then
-    Key:= #0;
+  case Key of
+    '0'..'7',
+    Chr(VK_BACK),
+    Chr(VK_DELETE),
+    Chr(VK_ESCAPE),
+    Chr(VK_RETURN): ;
+    else
+      Key:= #0;
+  end;
 end;
 
 procedure TfrmSetFileProperties.edtOctalKeyUp(Sender: TObject; var Key: Word;
@@ -255,9 +264,13 @@ begin
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
-    AMode:= OctToDec(edtOctal.Text);
-    lblAttrText.Caption:= FormatUnixAttributesEx(AMode);
-    ShowMode(AMode);
+    try
+      AMode:= OctToDec(edtOctal.Text);
+      lblAttrText.Caption:= FormatUnixAttributesEx(AMode);
+      ShowMode(AMode);
+    except
+      on e: EConvertError do;
+    end;
     FChangeTriggersEnabled := True;
   end;
 end;
