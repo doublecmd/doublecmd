@@ -461,9 +461,9 @@ begin
 
   if (checked=False) or (caoCopyTime in FSetAttributesOptions) then begin
     lastActiveControl1:= self.ActiveControl;
-    chkCreationTime.Checked:= checked;
-    chkLastWriteTime.Checked:= checked;
-    chkLastAccessTime.Checked:= checked;
+    if chkCreationTime.Enabled then chkCreationTime.Checked:= checked;
+    if chkLastWriteTime.Enabled then chkLastWriteTime.Checked:= checked;
+    if chkLastAccessTime.Enabled then chkLastAccessTime.Checked:= checked;
     self.ActiveControl:= lastActiveControl1;
   end;
 end;
