@@ -617,6 +617,7 @@ begin
   Result:= EmptyStr;
   if PasteFromClipboard(op, filenamesList) then
     Result:= filenamesList[0];
+  filenamesList.Free;
 end;
 
 {$IFDEF MSWINDOWS}
