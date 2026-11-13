@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.3.0\n"
+"Project-Id-Version: Double Commander 1.2.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 14:00+0200\n"
-"PO-Revision-Date: 2026-11-06 14:30+0100\n"
-"Last-Translator: Gyuri <irataim@gmail.com>\n"
-"Language-Team: Gyuri <irataim@gmail.com>\n"
+"POT-Creation-Date: 2026-11-13 13:20+0100\n"
+"PO-Revision-Date: 2026-11-13 13:20+0100\n"
+"Last-Translator: Mihaly Nyilas <dr.dabzse+dctr@gmail.com>\n"
+"Language-Team: dabzse.net | nyilas.dev <dr.dabzse+dctr@gmail.com>\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6098,11 +6098,11 @@ msgstr "Törlési művelet"
 
 #: tfrmoptionsfileoperations.cbdeletehiddensystemconfirmation.caption
 msgid "Delete hidden/system files"
-msgstr ""
+msgstr "Rejtett/rendszerfájlok törlése"
 
 #: tfrmoptionsfileoperations.cbdeletereadonlyconfirmation.caption
 msgid "Delete read-only files"
-msgstr ""
+msgstr "Csak olvasható fájlok törlése"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
@@ -8712,22 +8712,22 @@ msgstr "&Mégsem"
 #: tfrmsetfileproperties.btnloadadv.caption
 msgctxt "tfrmsetfileproperties.btnloadadv.caption"
 msgid "Advanced(&0)..."
-msgstr ""
+msgstr "Haladó(&0)..."
 
 #: tfrmsetfileproperties.btnloadfromclipboard.caption
 msgctxt "tfrmsetfileproperties.btnloadfromclipboard.caption"
 msgid "First file in clipboard(&3)"
-msgstr ""
+msgstr "Első fájl a vágólapon(&3)"
 
 #: tfrmsetfileproperties.btnloadfromsource.caption
 msgctxt "tfrmsetfileproperties.btnloadfromsource.caption"
 msgid "File under cursor in active panel (source)(&1)"
-msgstr ""
+msgstr "Kurzor alatti fájl az aktív panelen (forrás)(&1)"
 
 #: tfrmsetfileproperties.btnloadfromtarget.caption
 msgctxt "tfrmsetfileproperties.btnloadfromtarget.caption"
 msgid "File in target(&2)"
-msgstr ""
+msgstr "Fájl a célban(&2)"
 
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
@@ -8792,7 +8792,7 @@ msgstr "Rendszer"
 #: tfrmsetfileproperties.gbloadattributes.caption
 msgctxt "tfrmsetfileproperties.gbloadattributes.caption"
 msgid "Load attributes from"
-msgstr ""
+msgstr "Attribútumok betöltése innen"
 
 #: tfrmsetfileproperties.gbtimesamp.caption
 msgid "Timestamp properties"
@@ -10701,7 +10701,7 @@ msgstr ".xml konfigurációs fájlok"
 #: ulng.rsfindconfirmafteraddtostash
 #, object-pascal-format
 msgid "%d files/directories have been added. Close the search window and open %s now?"
-msgstr ""
+msgstr "%d fájl/könyvtár hozzáadva. Bezárja a keresési ablakot, és megnyitja most a következőt: %s?"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
