@@ -581,6 +581,17 @@ var
     lblSymlink.Caption := target;
   end;
 
+  function datetimePropertyToString(const peoperty: TFileProperty): String;
+  var
+    format: String;
+  begin
+    format:= 'yyyy' + DefaultFormatSettings.DateSeparator +
+             'mm' + DefaultFormatSettings.DateSeparator +
+             'dd' + ' ' +
+             'hh:nn:ss.zzz';
+    Result:= FormatDateTime(format, TFileDateTimeProperty(peoperty).Value);
+  end;
+
 begin
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
@@ -638,30 +649,38 @@ begin
     // Times
     lblLastAccess.Visible := fpLastAccessTime in SupportedProperties;
     lblLastAccessStr.Visible := fpLastAccessTime in SupportedProperties;
-    if fpLastAccessTime in SupportedProperties then
-      lblLastAccess.Caption := Properties[fpLastAccessTime].Format(FPropertyFormatter)
-    else
+    if fpLastAccessTime in SupportedProperties then begin
+      lblLastAccess.Caption := datetimePropertyToString(Properties[fpLastAccessTime]);
+      lblLastAccess.Hint := Properties[fpLastAccessTime].Format(FPropertyFormatter);
+      lblLastAccess.ShowHint:= True;
+    end else
       lblLastAccess.Caption := '';
 
     lblLastStChange.Visible := fpChangeTime in SupportedProperties;
     lblLastStChangeStr.Visible := fpChangeTime in SupportedProperties;
-    if fpChangeTime in SupportedProperties then
-      lblLastStChange.Caption := Properties[fpChangeTime].Format(FPropertyFormatter)
-    else
+    if fpChangeTime in SupportedProperties then begin
+      lblLastStChange.Caption := datetimePropertyToString(Properties[fpChangeTime]);
+      lblLastStChange.Hint := Properties[fpChangeTime].Format(FPropertyFormatter);
+      lblLastStChange.ShowHint:= True;
+    end else
       lblLastStChange.Caption := '';
 
     lblLastModif.Visible := fpModificationTime in SupportedProperties;
     lblLastModifStr.Visible := fpModificationTime in SupportedProperties;
-    if fpModificationTime in SupportedProperties then
-      lblLastModif.Caption := Properties[fpModificationTime].Format(FPropertyFormatter)
-    else
+    if fpModificationTime in SupportedProperties then begin
+      lblLastModif.Caption := datetimePropertyToString(Properties[fpModificationTime]);
+      lblLastModif.Hint := Properties[fpModificationTime].Format(FPropertyFormatter);
+      lblLastModif.ShowHint:= True;
+    end else
       lblLastModif.Caption := '';
 
     lblCreated.Visible := fpCreationTime in SupportedProperties;
     lblCreatedStr.Visible := fpCreationTime in SupportedProperties;
-    if fpCreationTime in SupportedProperties then
-      lblCreated.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
-    else
+    if fpCreationTime in SupportedProperties then begin
+      lblCreated.Caption := datetimePropertyToString(Properties[fpCreationTime]);
+      lblCreated.Hint := Properties[fpCreationTime].Format(FPropertyFormatter);
+      lblCreated.ShowHint:= True;
+    end else
       lblCreated.Caption := '';
 
     // Chown

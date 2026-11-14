@@ -113,7 +113,7 @@ begin
   else
     Sign := '-';
 
-  Result := SysUtils.FormatDateTime('ddd, dd mmmm yyyy hh:nn:ss', FileProperty.Value)
+  Result := SysUtils.FormatDateTime('ddd, dd mmmm yyyy hh:nn:ss.zzz', FileProperty.Value)
           + ' UT' + Sign
           + Format('%.2D%.2D', [Bias div 60, Bias mod 60]);
 end;
