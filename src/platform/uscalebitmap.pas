@@ -19,6 +19,14 @@ uses
 type
   TRawAccess = class(TRasterImage) end;
 
+function ScaleImage32Available(Src: TRasterImage): Boolean;
+begin
+  with TRawAccess(Src).GetRawImageDescriptionPtr^ do
+  begin
+    Result:= (Depth = 32) and (Depth = BitsPerPixel);
+  end;
+end;
+
 function ScaleImage32(Bitmap, DstBitmap: TRasterImage; DstWidth, DstHeight: Cardinal): Boolean;
 var
   Image32: TImage32;
@@ -74,7 +82,7 @@ begin
   begin
     Result:= ScaleBitmapFast(Src, Dst, DstWidth, DstHeight);
   end
-  else if (Src.RawImage.Description.BitsPerPixel = 32) then
+  else if ScaleImage32Available(Src) then
   begin
     Result:= ScaleImage32(Src, Dst, DstWidth, DstHeight);
   end
