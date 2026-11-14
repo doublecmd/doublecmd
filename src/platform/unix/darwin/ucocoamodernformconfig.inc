@@ -597,7 +597,7 @@ const
     appValidates: True;
     iconName: '';
     title: rsMFSTBIShareTitle;
-    tips: '';
+    tips: rsMFSTBIShareTitle;
     bordered: True;
 
     onGetItems: @onGetSharingItems;
@@ -649,7 +649,6 @@ const
     onAction: nil;
 
     showsIndicator: False;
-    menu: nil;
     onGetMenu: @onGetFolderMenu;
   );
 
@@ -687,7 +686,6 @@ const
     onAction: nil;
 
     showsIndicator: True;
-    menu: nil;
     onGetMenu: @onGetCommandMenu;
   );
 
@@ -714,7 +712,6 @@ const
 
     showsIndicator: False;
     dynamic: True;
-    menu: nil;
     onGetMenu: @onGetSearchMenu;
   );
 
@@ -788,6 +785,7 @@ const
       identifier: 'MainForm.ToolBar';
       style: NSWindowToolbarStyleAutomatic;
       displayMode: NSToolbarDisplayModeIconOnly;
+      autoHideInFullScreen: False;
 
       allowsUserCustomization: True;
       autosavesConfiguration: False;
