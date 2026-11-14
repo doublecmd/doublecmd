@@ -44,6 +44,9 @@ uses
   Math, IntfGraphics, GraphType, FPImage, DynLibs, DCOSUtils;
 
 type
+  TRawAccess = class(TRasterImage);
+
+type
   PSwsVector = ^TSwsVector;
   TSwsVector = record
     coeff: PDouble;
@@ -117,25 +120,27 @@ var
   SrcWidth, SrcHeight: Cardinal;
   SrcStride, DstStride: Cardinal;
   SrcImage, DstImage: TLazIntfImage;
+  Description: PRawImageDescription;
   SPF: TAVPixelFormat = AV_PIX_FMT_NONE;
 begin
   if Pointer(@sws_getContext) = nil then Exit(False);
+  Description:= TRawAccess(Bitmap).GetRawImageDescriptionPtr;
 
   // validate the input, we can only process 24/32-bit RGB/BGR[A] formats
   SrcWidth := Bitmap.Width;
-  case Bitmap.PixelFormat of
-    pf24bit:
+  case Description^.BitsPerPixel of
+    24:
       begin
         SrcStride := Align4(SrcWidth * 3);
-        if Bitmap.RawImage.Description.RedShift = 16 then
+        if Description^.RedShift = 16 then
           SPF := AV_PIX_FMT_BGR24
         else
           SPF := AV_PIX_FMT_RGB24;
       end;
-    pf32bit:
+    32:
       begin
         SrcStride := SrcWidth * 4;
-        if Bitmap.RawImage.Description.RedShift = 0 then
+        if Description^.RedShift = 0 then
           SPF := AV_PIX_FMT_RGBA
         else
           SPF := AV_PIX_FMT_BGRA;
