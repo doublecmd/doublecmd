@@ -614,6 +614,7 @@ var
   op: TClipboardOperation;
   filenamesList: TStringList;
 begin
+  filenamesList:= nil;
   Result:= EmptyStr;
   if PasteFromClipboard(op, filenamesList) then
     Result:= filenamesList[0];
