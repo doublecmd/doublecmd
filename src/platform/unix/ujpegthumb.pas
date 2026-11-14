@@ -30,7 +30,7 @@ implementation
 
 uses
   Classes, SysUtils, Types, Graphics, FPReadJPEG, IntfGraphics, GraphType,
-  DCClassesUtf8, uReSample, uThumbnails;
+  DCClassesUtf8, uScaleBitmap, uThumbnails;
 
 function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
@@ -50,7 +50,7 @@ begin
     FPReaderJPEG.MinHeight:= aSize.cy;
     try
       FileStream:= TFileStreamEx.Create(aFileName, fmOpenRead or fmShareDenyNone);
-      LazIntfImage:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB]);
+      LazIntfImage:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB, riqfAlpha]);
       try
         FPReaderJPEG.ImageRead(FileStream, LazIntfImage);
         LazIntfImage.GetRawImage(RawImage, True);
@@ -62,8 +62,7 @@ begin
             try
               Bitmap.LoadFromRawImage(RawImage, True);
               aSize:= TThumbnailManager.GetPreviewScaleSize(aSize, Bitmap.Width, Bitmap.Height);
-              Result.SetSize(aSize.cx, aSize.cy);
-              Stretch(Bitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+              ScaleBitmapAuto(Bitmap, Result, aSize.cx, aSize.cy);
             finally
               Bitmap.Free;
             end;

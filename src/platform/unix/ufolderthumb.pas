@@ -31,7 +31,7 @@ implementation
 uses
   Math, Classes, SysUtils, Graphics, IntfGraphics, GraphType, BaseUnix, Unix,
   Types, FPImage, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
-  LCLVersion, uThumbnails, uPixMapManager, uReSample, uGraphics;
+  LCLVersion, uThumbnails, uPixMapManager, uScaleBitmap, uGraphics;
 
 var
   ProviderIndex: Integer;
@@ -143,8 +143,7 @@ begin
 
           OBitmap:= TBitmap.Create;
           try
-            OBitmap.SetSize(InnerSize.cx, InnerSize.cy);
-            Stretch(ABitmap, OBitmap, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+            ScaleBitmapAuto(ABitmap, OBitmap, InnerSize.cx, InnerSize.cy);
           finally
             ABitmap.Free;
             ABitmap:= OBitmap;

@@ -52,7 +52,7 @@ implementation
 
 uses
   StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, uDCUtils, DCOSUtils, DCStrUtils,
-  uDebug, uReSample, uGlobsPaths, uGlobs, uPixmapManager, uFileSystemFileSource,
+  uDebug, uScaleBitmap, uGlobsPaths, uGlobs, uPixmapManager, uFileSystemFileSource,
   uGraphics, uFileProcs;
 
 const
@@ -74,19 +74,11 @@ end;
 function TThumbnailManager.CreatePreviewImage(const Graphic: TGraphic): TBitmap;
 var
   aSize: TSize;
-  bmpTemp: TBitmap = nil;
 begin
-  try
-    // Calculate aspect width and height of thumb
-    aSize:= GetPreviewScaleSize(FThumbBitmapSize, Graphic.Width, Graphic.Height);
-    bmpTemp:= TBitMap.Create;
-    bmpTemp.Assign(Graphic);
-    Result:= TBitMap.Create;
-    Result.SetSize(aSize.cx, aSize.cy);
-    Stretch(bmpTemp, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
-  finally
-    FreeAndNil(bmpTemp);
-  end;
+  Result:= TBitMap.Create;
+  // Calculate aspect width and height of thumb
+  aSize:= GetPreviewScaleSize(FThumbBitmapSize, Graphic.Width, Graphic.Height);
+  ScaleBitmapAuto(TRasterImage(Graphic), Result, aSize.cx, aSize.cy);
 end;
 
 procedure TThumbnailManager.DoCreatePreviewText;
