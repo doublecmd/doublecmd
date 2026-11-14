@@ -157,7 +157,7 @@ begin
   // https://www.reddit.com/r/cemu/comments/aq2wbs/scale_filter_comparison_bilinear_vs_bicubic_vs
   // Bilinear works as well as Bicubic and Hermite
   sws := sws_getContext(SrcWidth, SrcHeight, SPF,
-                        DstWidth, DstHeight, DPF, SWS_FAST_BILINEAR, nil, nil, nil);
+                        DstWidth, DstHeight, DPF, SWS_BILINEAR, nil, nil, nil);
 
   SrcSlice := SrcImage.PixelData;
   DstSlice := DstImage.PixelData;
