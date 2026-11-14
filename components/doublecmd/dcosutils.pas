@@ -318,6 +318,13 @@ function CreateHardLink(const Path, LinkName: String) : Boolean;
 }
 function CreateSymLink(const Path, LinkName: string; Attr: UInt32 = faInvalidAttributes) : Boolean;
 {en
+   Creates a Unix symbolic link.
+   @param(Path Name of file)
+   @param(LinkName Name of symbolic link)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function CreateSymLinkUnix(const Path, LinkName: String): Boolean;
+{en
    Read destination of symbolic link
    @param(LinkName Name of symbolic link)
    @returns(The file name/path the symbolic link name is pointing to.
@@ -2109,6 +2116,17 @@ begin
   wsPath:= CeUtf8ToUtf16(Path);
   wsLinkName:= UTF16LongName(LinkName);
   Result:= DCNtfsLinks.CreateSymlink(wsPath, wsLinkName, Attr);
+end;
+{$ELSE}
+begin
+  Result := (fpsymlink(PAnsiChar(CeUtf8ToSys(Path)), PAnsiChar(CeUtf8ToSys(LinkName)))=0);
+end;
+{$ENDIF}
+
+function CreateSymLinkUnix(const Path, LinkName: String): Boolean;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= DCNtfsLinks.CreateSymLinkUnix(Path, UTF16LongName(LinkName));
 end;
 {$ELSE}
 begin
