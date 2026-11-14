@@ -112,6 +112,18 @@ type
     function getDeltaRect( const delta: Integer ): TRect; inline;
   end;
 
+  { TImage }
+
+  TImage = class(ExtCtrls.TImage)
+  private
+    FBitmap: TBitmap;
+  protected
+    procedure Paint; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
+
   { TfrmViewer }
 
   TfrmViewer = class(TAloneForm, IFormCommands)
@@ -583,7 +595,7 @@ uses
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
   SynEditTypes, uFile, uFileSystemFileSource, uFileProcs, uOperationsManager,
-  LazLogger, uFileSourceOperationOptions, uGraphics
+  LazLogger, uFileSourceOperationOptions, uGraphics, uScaleBitmap
 {$if lcl_fullversion >= 4990000}
   , SynEditWrappedView
 {$endif}
@@ -896,6 +908,57 @@ function TNormalizedRect.getDeltaRect(const delta: Integer): TRect;
 begin
   Result:= _rect;
   InflateRect( Result, delta, delta );
+end;
+
+{ TImage }
+
+procedure TImage.Paint;
+var
+  F: Double;
+  C: TCanvas;
+  ARect: TRect;
+  ASize: TSize;
+  Graphic: TRasterImage;
+begin
+  if ScaleFastAvailable(TRasterImage(Picture.Graphic)) then
+  begin
+    ARect:= ClientRect;
+    F:= GetCanvasScaleFactor;
+    ASize.cx:= Round(ARect.Right * F);
+    ASize.cy:= Round(ARect.Bottom * F);
+    Graphic:= TRasterImage(Picture.Graphic);
+
+    if (Graphic.Width > ASize.cx) or (Graphic.Height > ASize.cy) then
+    begin
+      if (ASize.cx <> FBitmap.Width) or (ASize.cy <> FBitmap.Height) then
+      begin
+        ScaleBitmapFast(Graphic, FBitmap, ASize.cx, ASize.cy);
+        FBitmap.Handle;
+      end;
+      C:= TGraphicControl(Self).Canvas;
+      C.AntialiasingMode:= AntialiasingMode;
+      if Assigned(OnPaintBackground) then
+      begin
+        OnPaintBackground(Self, C, ARect);
+      end;
+      C.StretchDraw(ARect, FBitmap);
+      Exit;
+    end;
+  end;
+
+  inherited Paint;
+end;
+
+constructor TImage.Create(AOwner: TComponent);
+begin
+  FBitmap:= TBitmap.Create;
+  inherited Create(AOwner);
+end;
+
+destructor TImage.Destroy;
+begin
+  inherited Destroy;
+  FBitmap.Free;
 end;
 
 { TThumbThread }
