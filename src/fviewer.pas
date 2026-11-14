@@ -119,6 +119,7 @@ type
     FBitmap: TBitmap;
   protected
     procedure Paint; override;
+    procedure PictureChange(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -949,10 +950,16 @@ begin
   inherited Paint;
 end;
 
+procedure TImage.PictureChange(Sender: TObject);
+begin
+  FBitmap.Clear;
+end;
+
 constructor TImage.Create(AOwner: TComponent);
 begin
   FBitmap:= TBitmap.Create;
   inherited Create(AOwner);
+  Picture.OnChange:= @PictureChange;
 end;
 
 destructor TImage.Destroy;
