@@ -2131,7 +2131,7 @@ begin
   Q:= SysUtils.GetTickCount64;
   BitmapMirror(TRasterImage(Image.Picture.Graphic), AVertically);
   DebugLn('Mirror: ', IntToStr(SysUtils.GetTickCount64 - Q));
-  AdjustImageSize;
+  Image.Invalidate;
   CreateTmp;
 end;
 
