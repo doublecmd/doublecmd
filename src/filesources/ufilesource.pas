@@ -117,6 +117,11 @@ type
 
   TFileSourceEventListener = procedure(var params: TFileSourceEventParams) of object;
 
+  TFileSourceDescriber = class
+    function tabCaption(const fs: IFileSource; const path: String): String; virtual; abstract;
+    function tabHint(const fs: IFileSource; const path: String): String; virtual; abstract;
+  end;
+
   { IFileSource }
 
   IFileSource = interface(IInterface)
@@ -125,6 +130,7 @@ type
     function GetWatcher: TFileSourceWatcher;
     function GetProcessor: TFileSourceProcessor;
     function GetUIHandler: TFileSourceUIHandler;
+    function GetDescriber: TFileSourceDescriber;
 
     function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -323,6 +329,7 @@ type
     function GetWatcher: TFileSourceWatcher; virtual;
     function GetProcessor: TFileSourceProcessor; virtual;
     function GetUIHandler: TFileSourceUIHandler; virtual;
+    function GetDescriber: TFileSourceDescriber; virtual;
 
     function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -511,8 +518,37 @@ implementation
 uses
   uDebug, uFileSourceManager, uFileSourceListOperation, uLng, LazFileUtils;
 
+type
+  
+  { TDefaultFileSourceDescriber }
+
+  TDefaultFileSourceDescriber = class( TFileSourceDescriber )
+    function tabCaption(const fs: IFileSource; const path: String): String; override;
+    function tabHint(const fs: IFileSource; const path: String): String; override;
+  end;
+
 var
   defaultFileSourceWatcher: TFileSourceWatcher;
+  defaultFileSourceDescriber: TFileSourceDescriber;
+
+{ TDefaultFileSourceDescriber }
+
+function TDefaultFileSourceDescriber.tabCaption(
+  const fs: IFileSource;
+  const path: String ): String;
+begin
+  if (fs.FileSystem <> EmptyStr) and fs.IsPathAtRoot(path) then
+    Result:= fs.FileSystem
+  else
+    Result:= GetLastDir( path );
+end;
+
+function TDefaultFileSourceDescriber.tabHint(
+  const fs: IFileSource;
+  const path: String ): String;
+begin
+  Result:= path;
+end;
 
 { TFileSource }
 
@@ -608,6 +644,11 @@ end;
 function TFileSource.GetUIHandler: TFileSourceUIHandler;
 begin
   Result:= nil;
+end;
+
+function TFileSource.GetDescriber: TFileSourceDescriber;
+begin
+  Result:= defaultFileSourceDescriber;
 end;
 
 function TFileSource.Equals(aFileSource: IFileSource): Boolean;
@@ -1267,8 +1308,10 @@ end;
 
 initialization
   defaultFileSourceWatcher:= TDefaultFileSourceWatcher.Create;
+  defaultFileSourceDescriber:= TDefaultFileSourceDescriber.Create;
 
 finalization
+  FreeAndNil( defaultFileSourceDescriber );
   FreeAndNil( defaultFileSourceWatcher );
 
 end.
