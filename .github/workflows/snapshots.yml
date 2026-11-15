@@ -42,7 +42,7 @@ jobs:
 
     - name: Install Free Pascal
       run: |
-           sudo installer -pkg "${{ runner.temp }}/fpc-dmg/fpc-3.2.4-rc2-aarch64-macosx.pkg" -target /
+           sudo installer -pkg "${{ runner.temp }}/fpc-dmg/fpc-3.2.4-aarch64-macosx.pkg" -target /
            sudo fpcmkcfg -d "basepath=/usr/local/lib/fpc/3.2.4" -o /etc/fpc.cfg
 
     - name: Get Lazarus source
