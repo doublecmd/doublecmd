@@ -194,10 +194,9 @@ implementation
 uses
   LCLIntf,
   LazUTF8,
-  DCStrUtils,
   uGlobs,
   uColumnsFileView,
-  uArchiveFileSource
+  uFileSource
   {$IF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ELSEIF DEFINED(LCLWIN32)}
@@ -305,23 +304,7 @@ begin
     end
     else
     begin
-      if (FileView.FileSource is TArchiveFileSource) and
-         (FileView.FileSource.IsPathAtRoot(FileView.CurrentPath)) then
-        begin
-          with (FileView.FileSource as TArchiveFileSource) do
-            NewCaption := ExtractFileName(ArchiveFileName);
-        end
-      else if (FileView.FileSource.FileSystem <> EmptyStr) and
-              (FileView.FileSource.IsPathAtRoot(FileView.CurrentPath)) then
-        begin
-          NewCaption := FileView.FileSource.FileSystem;
-        end
-      else
-        begin
-          NewCaption := FileView.CurrentPath;
-          if NewCaption <> '' then
-            NewCaption := GetLastDir(NewCaption);
-        end;
+      NewCaption := FileView.FileSource.GetDescriber.tabCaption(FileView.FileSource, FileView.CurrentPath);
       FCurrentTitle := NewCaption;
     end;
 
@@ -399,7 +382,7 @@ begin
     begin
       LockPath := FileView.CurrentPath;
       if (FLockState <> tlsNormal) or (Length(FPermanentTitle) = 0) then
-        FPermanentTitle := GetLastDir(LockPath);
+        FPermanentTitle := FileView.FileSource.GetDescriber.tabCaption(FileView.FileSource, LockPath);
     end
   else
     begin
@@ -647,14 +630,16 @@ end;
 procedure TFileViewNotebook.TabShowHint(Sender: TObject; HintInfo: PHintInfo);
 var
   ATabIndex: Integer;
+  fs: IFileSource;
 begin
   ATabIndex := IndexOfPageAt( ScreenToClient(Mouse.CursorPos) );
 
   if ATabIndex >= 0 then begin
+    fs:= View[ATabIndex].FileSource;
     if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
-      HintInfo^.HintStr := '* ' + Page[ATabIndex].LockPath
+      HintInfo^.HintStr := '* ' + fs.GetDescriber.tabHint(fs, Page[ATabIndex].LockPath)
     else
-      HintInfo^.HintStr := View[ATabIndex].CurrentPath;
+      HintInfo^.HintStr := fs.GetDescriber.tabHint(fs, View[ATabIndex].CurrentPath);
   end else begin
     HintInfo^.HintStr := '';
     FHintPos := TPoint.Zero;
