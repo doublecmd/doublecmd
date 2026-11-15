@@ -30,7 +30,7 @@ jobs:
       if: steps.fpc-restore.outputs.cache-hit != 'true'
       run: |
             curl -L -o "${{ runner.temp }}/fpc.dmg" \
-              https://github.com/doublecmd/fpc-3.2.x/releases/download/v3.2.4-rc2/fpc-3.2.4-rc2-aarch64-macosx.dmg
+              https://github.com/doublecmd/fpc-3.2.x/releases/download/v3.2.4/fpc-3.2.4-aarch64-macosx.dmg
             hdiutil attach "${{ runner.temp }}/fpc.dmg" -mountpoint "${{ runner.temp }}/fpc-dmg"
 
     - name: Save fpc to cache
