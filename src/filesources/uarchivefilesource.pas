@@ -9,6 +9,7 @@ uses
   uClassesEx,
   DCStringHashListUtf8,
   DCOSUtils,
+  DCStrUtils,
   uLocalFileSource,
   uFileSource,
   uFileSourceUtil,
@@ -69,6 +70,8 @@ type
                        anArchiveFileName: String); virtual reintroduce overload;
     destructor Destroy; override;
 
+    function GetDescriber: TFileSourceDescriber; override;
+
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     class function CreateFile(const APath: String): TFile; override;
@@ -88,6 +91,37 @@ type
 
 implementation
 
+type
+  
+  { TArchiveFileSourceDescriber }
+
+  TArchiveFileSourceDescriber = class( TFileSourceDescriber )
+    function tabCaption(const fs: IFileSource; const path: String): String; override;
+    function tabHint(const fs: IFileSource; const path: String): String; override;
+  end;
+
+var
+  archiveFileSourceDescriber: TFileSourceDescriber;
+
+{ TArchiveFileSourceDescriber }
+
+function TArchiveFileSourceDescriber.tabCaption(
+  const fs: IFileSource;
+  const path: String): String;
+begin
+  if fs.IsPathAtRoot(path) then
+    Result:= ExtractFileName( (fs as TArchiveFileSource).ArchiveFileName )
+  else
+    Result:= GetLastDir(path);
+end;
+
+function TArchiveFileSourceDescriber.tabHint(
+  const fs: IFileSource;
+  const path: String): String;
+begin
+  Result:= path;
+end;
+
 constructor TArchiveFileSource.Create(anArchiveFileSource: IFileSource;
                                       anArchiveFileName: String);
 begin
@@ -104,6 +138,11 @@ begin
   inherited Destroy;
   FreeAndNil(FArcFilenameList);
   FreeAndNil(FArcFileList);
+end;
+
+function TArchiveFileSource.GetDescriber: TFileSourceDescriber;
+begin
+  Result:= archiveFileSourceDescriber;
 end;
 
 function TArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -181,6 +220,12 @@ begin
 
   self.ReadArchive;
 end;
+
+initialization
+  archiveFileSourceDescriber:= TArchiveFileSourceDescriber.Create;
+
+finalization
+  FreeAndNil( archiveFileSourceDescriber );
 
 end.
 
