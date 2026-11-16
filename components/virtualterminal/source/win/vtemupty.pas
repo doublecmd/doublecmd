@@ -117,7 +117,8 @@ var
                                       lpPreviousValue: PVOID; lpReturnSize: PSIZE_T): BOOL; stdcall;
   DeleteProcThreadAttributeList: procedure(lpAttributeList: LPPROC_THREAD_ATTRIBUTE_LIST); stdcall;
 
-function CreatePseudoConsoleNew(const ACommand: String; phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
+function CreatePseudoConsoleNew(const ACommand: String; ADirectory: PWideChar;
+                                phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
 var
   attrListSize: SIZE_T = 0;
   startupInfo: STARTUPINFOEXW;
@@ -159,7 +160,7 @@ begin
   begin
     Result:= CreateProcessW(nil, PWideChar(CeUtf8ToUtf16(ACommand)),
                             nil, nil, False, EXTENDED_STARTUPINFO_PRESENT,
-                            nil, nil, @startupInfo.StartupInfo, @piClient);
+                            nil, ADirectory, @startupInfo.StartupInfo, @piClient);
   end;
   if not Result then
   begin
@@ -269,7 +270,8 @@ var
   winpty_conout_name: function(wp: Pwinpty_t): LPCWSTR; cdecl;
   winpty_conerr_name: function(wp: Pwinpty_t): LPCWSTR; cdecl;
 
-function CreatePseudoConsoleOld(const ACommand: String; phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
+function CreatePseudoConsoleOld(const ACommand: String; ADirectory: PWideChar;
+                                phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
 var
   childHandle: HANDLE;
   lastError: DWORD = 0;
@@ -295,8 +297,8 @@ begin
       phPipeIn^:= CreateFileW(winpty_conout_name(phPC^), GENERIC_READ, 0, nil, OPEN_EXISTING, 0, 0);
       phPipeOut^:= CreateFileW(winpty_conin_name(phPC^), GENERIC_WRITE, 0, nil, OPEN_EXISTING, 0, 0);
 
-      spawnCfg:= winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN,
-                                         nil, PWideChar(CeUtf8ToUtf16(ACommand)), nil, nil, nil);
+      spawnCfg:= winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, nil,
+                                         PWideChar(CeUtf8ToUtf16(ACommand)), ADirectory, nil, nil);
       Result:= Assigned(spawnCfg);
       if Result then
       begin
@@ -403,10 +405,19 @@ begin
 end;
 
 function TPtyDevice.CreatePseudoConsole(const ACommand: String): Boolean;
+var
+  pwcDirectory: PWideChar;
+  usDirectory: UnicodeString;
 begin
+  if (Length(FInitialDir) = 0) then
+    pwcDirectory:= nil
+  else begin
+    usDirectory:= CeUtf8ToUtf16(FInitialDir);
+    pwcDirectory:= PWideChar(usDirectory);
+  end;
   case ConsoleType of
-    ctNative:  Result:= CreatePseudoConsoleNew(ACommand, @FPty, @FPipeIn, @FPipeOut, FSize);
-    ctEmulate: Result:= CreatePseudoConsoleOld(ACommand, @FPty, @FPipeIn, @FPipeOut, FSize);
+    ctNative:  Result:= CreatePseudoConsoleNew(ACommand, pwcDirectory, @FPty, @FPipeIn, @FPipeOut, FSize);
+    ctEmulate: Result:= CreatePseudoConsoleOld(ACommand, pwcDirectory, @FPty, @FPipeIn, @FPipeOut, FSize);
     ctNone:    Result:= False;
   end;
 end;
