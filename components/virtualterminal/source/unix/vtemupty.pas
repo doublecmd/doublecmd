@@ -54,6 +54,7 @@ type
   protected
     procedure ReadySync;
     procedure ReadThread;
+    function GetChildPid: THandle; override;
     procedure SetConnected(AValue: Boolean); override;
     function CreatePseudoConsole(const cmd: String): Boolean;
   public
@@ -62,7 +63,6 @@ type
     function WriteStr(const Str: string): Integer; override;
     function SetCurrentDir(const Path: String): Boolean; override;
     function SetScreenSize(aCols, aRows: Integer): Boolean; override;
-    function GetChildPid: THandle; override;
   end;
 
 implementation
