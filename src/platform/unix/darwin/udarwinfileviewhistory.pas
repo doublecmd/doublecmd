@@ -7,8 +7,7 @@ interface
 
 uses
   SysUtils, Classes, Graphics,
-  uFile, uFileSource, uFileSystemFileSource,
-  uSearchResultFileSource, uStashFileSource, uiCloudDrive,
+  uFileSource, uFileSystemFileSource,
   uFileView, uDCUtils, uGlobs,
   uDarwinUtil, uDarwinImage, uDarwinFile,
   CocoaAll;
@@ -279,22 +278,11 @@ end;
 class function TDarwinFileViewHistoryUtil.getDisplayName(
   const fs: IFileSource;
   const path: String ): String;
-var
-  tempFile: TFile;
 begin
-  if fs.IsClass(TSearchResultFileSource) or fs.IsClass(TStashFileSource) then begin
-    tempFile:= TFile.Create( path );
-    Result:= fs.GetDisplayFileName( tempFile );
-    tempFile.Free;
-    Exit;
-  end;
-
-  if fs.IsClass(TFileSystemFileSource) then begin
-    Result:= TDarwinFileUtil.getDisplayName( path );
-    Exit;
-  end;
-
-  Result:= path;
+  if fs.GetClass.ClassType = TFileSystemFileSource then
+    Result:= TDarwinFileUtil.getDisplayName( path )
+  else
+    Result:= fs.GetDescriber.tabCaption( fs, path );
 end;
 
 class function TDarwinFileViewHistoryUtil.createHistoryMenu(
