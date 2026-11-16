@@ -39,12 +39,12 @@ type
     FConnected: Boolean;
     FInitialDir: String;
   protected
+    function GetChildPid: THandle; virtual; abstract;
     procedure SetConnected(AValue: Boolean); virtual; abstract;
   public
     function WriteStr(const Str: string): Integer; virtual; abstract;
     function SetCurrentDir(const Path: String): Boolean; virtual; abstract;
     function SetScreenSize(aCols, aRows: Integer): Boolean; virtual; abstract;
-    function GetChildPid: THandle; virtual; abstract;
     property ChildPid: THandle read GetChildPid;
     property OnRxBuf: TOnRxBuf read FOnRxBuf write FOnRxBuf;
     property Connected: Boolean read FConnected write SetConnected default False;
