@@ -54,7 +54,7 @@ type
   protected
     procedure ReadySync;
     procedure ReadThread;
-    function GetChildPid: THandle; override;
+    function GetChildHandle: THandle; override;
     procedure SetConnected(AValue: Boolean); override;
     function CreatePseudoConsole(const cmd: String): Boolean;
   public
@@ -221,7 +221,7 @@ begin
     Result:= True;
 end;
 
-function TPtyDevice.GetChildPid: THandle;
+function TPtyDevice.GetChildHandle: THandle;
 begin
   Result := FChildPid;
 end;

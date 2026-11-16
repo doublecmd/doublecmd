@@ -44,13 +44,14 @@ type
     FSize: TCoord;
     FLength: Integer;
     FThread: TThread;
+    FProcess: HANDLE;
     FPipeIn, FPipeOut: THandle;
     FBuffer: array[0..8191] of AnsiChar;
   protected
     procedure ReadySync;
     procedure ReadThread;
     procedure DestroyPseudoConsole;
-    function GetChildPid: THandle; override;
+    function GetChildHandle: THandle; override;
     procedure SetConnected(AValue: Boolean); override;
     function CreatePseudoConsole(const ACommand: String): Boolean;
   public
@@ -118,7 +119,7 @@ var
   DeleteProcThreadAttributeList: procedure(lpAttributeList: LPPROC_THREAD_ATTRIBUTE_LIST); stdcall;
 
 function CreatePseudoConsoleNew(const ACommand: String; ADirectory: PWideChar;
-                                phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
+                                phPC: PPointer; phProcess, phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
 var
   attrListSize: SIZE_T = 0;
   startupInfo: STARTUPINFOEXW;
@@ -161,6 +162,9 @@ begin
     Result:= CreateProcessW(nil, PWideChar(CeUtf8ToUtf16(ACommand)),
                             nil, nil, False, EXTENDED_STARTUPINFO_PRESENT,
                             nil, ADirectory, @startupInfo.StartupInfo, @piClient);
+    if Result then begin
+      phProcess^:= piClient.hProcess;
+    end;
   end;
   if not Result then
   begin
@@ -271,9 +275,8 @@ var
   winpty_conerr_name: function(wp: Pwinpty_t): LPCWSTR; cdecl;
 
 function CreatePseudoConsoleOld(const ACommand: String; ADirectory: PWideChar;
-                                phPC: PPointer; phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
+                                phPC: PPointer; phProcess, phPipeIn, phPipeOut: PHandle; ASize: COORD): Boolean;
 var
-  childHandle: HANDLE;
   lastError: DWORD = 0;
   agentCfg: Pwinpty_config_t;
   spawnCfg: Pwinpty_spawn_config_t;
@@ -302,7 +305,7 @@ begin
       Result:= Assigned(spawnCfg);
       if Result then
       begin
-        Result:= winpty_spawn(phPC^, spawnCfg, @childHandle, nil, @lastError, nil);
+        Result:= winpty_spawn(phPC^, spawnCfg, phProcess, nil, @lastError, nil);
         winpty_spawn_config_free(spawnCfg);
       end;
 
@@ -416,8 +419,8 @@ begin
     pwcDirectory:= PWideChar(usDirectory);
   end;
   case ConsoleType of
-    ctNative:  Result:= CreatePseudoConsoleNew(ACommand, pwcDirectory, @FPty, @FPipeIn, @FPipeOut, FSize);
-    ctEmulate: Result:= CreatePseudoConsoleOld(ACommand, pwcDirectory, @FPty, @FPipeIn, @FPipeOut, FSize);
+    ctNative:  Result:= CreatePseudoConsoleNew(ACommand, pwcDirectory, @FPty, @FProcess, @FPipeIn, @FPipeOut, FSize);
+    ctEmulate: Result:= CreatePseudoConsoleOld(ACommand, pwcDirectory, @FPty, @FProcess, @FPipeIn, @FPipeOut, FSize);
     ctNone:    Result:= False;
   end;
 end;
@@ -471,9 +474,9 @@ begin
   end;
 end;
 
-function TPtyDevice.GetChildPid: THandle;
+function TPtyDevice.GetChildHandle: THandle;
 begin
-  Result := 0; // Not fully implemented for Windows pseudo console here
+  Result := FProcess;
 end;
 
 procedure Initialize;
