@@ -205,6 +205,7 @@ uses
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
   , Windows, Messages
+  , uArchiveFileSource
   {$ENDIF}
   ;
 
