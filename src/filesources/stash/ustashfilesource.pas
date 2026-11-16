@@ -19,18 +19,6 @@ uses
 
 type
 
-  { TStashFileSourceProcessor }
-
-  TStashFileSourceProcessor = class( TDefaultFileSourceProcessor )
-  private
-    procedure consultCopyOperation( var params: TFileSourceConsultParams );
-    procedure consultMoveOperation( var params: TFileSourceConsultParams );
-    procedure consultPackOperation( var params: TFileSourceConsultParams );
-  public
-    procedure consultOperation( var params: TFileSourceConsultParams ); override;
-    procedure confirmOperation(var params: TFileSourceConsultParams); override;
-  end;
-
   { TStashFileSource }
 
   TStashFileSource = class(TVirtualFileSource)
@@ -44,6 +32,9 @@ type
     constructor Create; override; overload;
     destructor Destroy; override;
     class function GetFileSource: IFileSource; override;
+
+    function GetProcessor: TFileSourceProcessor; override;
+    function GetDescriber: TFileSourceDescriber; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     function GetRootDir(sPath : String): String; override;
@@ -59,7 +50,6 @@ type
     function GetDisplayFileName(aFile: TFile): String; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
 
-    function GetProcessor: TFileSourceProcessor; override;
     function GetProperties: TFileSourceProperties; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
@@ -95,8 +85,47 @@ implementation
 uses
   uStashFileSourceOperation;
 
+type
+
+  { TStashFileSourceProcessor }
+
+  TStashFileSourceProcessor = class( TDefaultFileSourceProcessor )
+  private
+    procedure consultCopyOperation( var params: TFileSourceConsultParams );
+    procedure consultMoveOperation( var params: TFileSourceConsultParams );
+    procedure consultPackOperation( var params: TFileSourceConsultParams );
+  public
+    procedure consultOperation( var params: TFileSourceConsultParams ); override;
+    procedure confirmOperation(var params: TFileSourceConsultParams); override;
+  end;
+
+  { TStashFileSourceDescriber }
+
+  TStashFileSourceDescriber = class( TFileSourceDescriber )
+    function tabCaption(const fs: IFileSource; const path: String): String; override;
+    function tabHint(const fs: IFileSource; const path: String): String; override;
+  end;
+
+
 var
   stashFileSourceProcessor: TFileSourceProcessor;
+  stashFileSourceDescriber: TFileSourceDescriber;
+
+{ TStashFileSourceDescriber }
+
+function TStashFileSourceDescriber.tabCaption(
+  const fs: IFileSource;
+  const path: String): String;
+begin
+  Result:= rsStashName;
+end;
+
+function TStashFileSourceDescriber.tabHint(
+  const fs: IFileSource;
+  const path: String): String;
+begin
+  Result:= rsStashName;
+end;
 
 { TStashFileSourceProcessor }
 
@@ -295,9 +324,14 @@ begin
   Result:= stashFileSourceProcessor;
 end;
 
+function TStashFileSource.GetDescriber: TFileSourceDescriber;
+begin
+  Result:= stashFileSourceDescriber;
+end;
+
 function TStashFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + rsStashName + PathDelim;
+  Result:= PathDelim;
 end;
 
 function TStashFileSource.GetRealPath(const path: String): String;
@@ -565,8 +599,10 @@ end;
 
 initialization
   stashFileSourceProcessor:= TStashFileSourceProcessor.Create;
+  stashFileSourceDescriber:= TStashFileSourceDescriber.Create;
 
 finalization
+  FreeAndNil( stashFileSourceDescriber );
   FreeAndNil( stashFileSourceProcessor );
 
 end.
