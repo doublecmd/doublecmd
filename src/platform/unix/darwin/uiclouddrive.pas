@@ -12,7 +12,7 @@ uses
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager, uFileSourceWatcher,
   uMountedFileSource, uVfsModule, uStashFileSource,
-  uDCUtils, uLng,
+  uDCUtils, DCStrUtils, uLng,
   uDarwinFSWatch, uDarwinSimpleFSWatch, uDarwinDC,
   uDarwinFile, uDarwinImage, uDarwinUtil,
   CocoaAll, CocoaUtils;
@@ -41,6 +41,7 @@ type
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
     function GetUIHandler: TFileSourceUIHandler; override;
+    function GetDescriber: TFileSourceDescriber; override;
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
     class function GetMainIcon(out Path: String): Boolean; override;
 
@@ -114,6 +115,13 @@ type
     function click( var params: TFileSourceUIParams): Boolean; override;
   end;
 
+  { TiCloudDriveDescriber }
+
+  TiCloudDriveDescriber = class( TFileSourceDescriber )
+    function tabCaption(const fs: IFileSource; const path: String): String; override;
+    function tabHint(const fs: IFileSource; const path: String): String; override;
+  end;
+
   { TSeedFileUtil }
 
   TSeedFileUtil = class
@@ -133,9 +141,32 @@ type
   end;
 
 var
-  iCloudDriveWatcher: TiCloudDriveWatcher;
-  iCloudDriveProcessor: TiCloudDriveProcessor;
-  iCloudDriveUIProcessor: TiCloudDriveUIHandler;
+  iCloudDriveWatcher: TFileSourceWatcher;
+  iCloudDriveProcessor: TFileSourceProcessor;
+  iCloudDriveUIProcessor: TFileSourceUIHandler;
+  iCloudDriveDescriber: TFileSourceDescriber;
+
+{ TiCloudDriveDescriber }
+
+function TiCloudDriveDescriber.tabCaption(
+  const fs: IFileSource;
+  const path: String): String;
+var
+  basePath: String;
+begin
+  if fs.IsPathAtRoot(path) then begin
+    basePath:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.drive );
+    Result:= TDarwinFileUtil.getDisplayName( basePath );
+  end else
+    Result:= GetLastDir( path );
+end;
+
+function TiCloudDriveDescriber.tabHint(
+  const fs: IFileSource;
+  const path: String): String;
+begin
+  Result:= fs.CurrentAddress + ExcludeBackPathDelimiter(path);
+end;
 
 { TiCloudDriveProcessor }
 
@@ -711,6 +742,11 @@ begin
   Result:= iCloudDriveUIProcessor;
 end;
 
+function TiCloudDriveFileSource.GetDescriber: TFileSourceDescriber;
+begin
+  Result:= iCloudDriveDescriber;
+end;
+
 function TiCloudDriveFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
@@ -775,9 +811,7 @@ var
   path: String;
   displayName: String;
 begin
-  path:= uDCUtils.ReplaceTilde( iCloudDriveConfig.path.drive );
-  displayName:= TDarwinFileUtil.getDisplayName( path );
-  Result:= PathDelim + displayName + PathDelim;
+  Result:= PathDelim;
 end;
 
 function TiCloudDriveFileSource.IsSystemFile(aFile: TFile): Boolean;
@@ -865,12 +899,14 @@ initialization
   iCloudDriveWatcher:= TiCloudDriveWatcher.Create;
   iCloudDriveProcessor:= TiCloudDriveProcessor.Create;
   iCloudDriveUIProcessor:= TiCloudDriveUIHandler.Create;
+  iCloudDriveDescriber:= TiCloudDriveDescriber.Create;
   RegisterVirtualFileSource( 'iCloud', 'iCloud://', TiCloudDriveFileSource, True );
 
 finalization
-  FreeAndNil( iCloudDriveWatcher );
-  FreeAndNil( iCloudDriveProcessor );
+  FreeAndNil( iCloudDriveDescriber );
   FreeAndNil( iCloudDriveUIProcessor );
+  FreeAndNil( iCloudDriveProcessor );
+  FreeAndNil( iCloudDriveWatcher );
 
 end.
 
