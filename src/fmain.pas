@@ -1008,9 +1008,6 @@ uses
 {$IFDEF DARWIN}
   , uCocoaModernFormConfig
 {$ENDIF}
-{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
-  , BaseUnix
-{$ENDIF}
   ;
 
 const
@@ -5757,8 +5754,8 @@ begin
   if Assigned(LeftPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbLeft.ActivePage) and (TFileViewPage(nbLeft.ActivePage).TermSyncMode = 2)) or
                             ((gTermWindowMode < twmPerTab) and (gTermSyncModeLeft = 2))) then
   begin
-    {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
-    Target := fpReadLink('/proc/' + IntToStr(LeftPty.ChildPid) + '/cwd');
+{$IF DEFINED(XDG) or DEFINED(MSWINDOWS)}
+    Target := GetCurrentDirectory(LeftPty.ChildHandle);
     if Target <> FLastTermCwdLeft then
     begin
       FLastTermCwdLeft := Target;
@@ -5768,13 +5765,13 @@ begin
           nbLeft.ActivePage.FileView.CurrentPath := Target;
       end;
     end;
-    {$ENDIF}
+{$ENDIF}
   end;
   if Assigned(RightPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbRight.ActivePage) and (TFileViewPage(nbRight.ActivePage).TermSyncMode = 2)) or
                              ((gTermWindowMode < twmPerTab) and (gTermSyncModeRight = 2))) then
   begin
-    {$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
-    Target := fpReadLink('/proc/' + IntToStr(RightPty.ChildPid) + '/cwd');
+{$IF DEFINED(XDG) or DEFINED(MSWINDOWS)}
+    Target := GetCurrentDirectory(RightPty.ChildHandle);
     if Target <> FLastTermCwdRight then
     begin
       FLastTermCwdRight := Target;
@@ -5784,7 +5781,7 @@ begin
           nbRight.ActivePage.FileView.CurrentPath := Target;
       end;
     end;
-    {$ENDIF}
+{$ENDIF}
   end;
 end;
 

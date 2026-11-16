@@ -178,6 +178,11 @@ function ParamStrU(Param: Integer): String; overload;
 function ParamStrU(const Param: String): String; overload;
 
 {en
+   Get process current directory
+}
+function GetCurrentDirectory(Process: THandle): String;
+
+{en
   Get the current username of the current session
 }
 function GetCurrentUserName : String;
@@ -902,6 +907,17 @@ end;
 constructor EInvalidQuoting.Create;
 begin
   inherited Create(rsMsgInvalidQuoting);
+end;
+
+function GetCurrentDirectory(Process: THandle): String;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result := GetRemoteProcessCurrentDirectory(Process);
+{$ELSEIF DEFINED(XDG)}
+  Result := fpReadLink('/proc/' + IntToStr(Process) + '/cwd');
+{$ELSE}
+  Result := EmptyStr;
+{$ENDIF}
 end;
 
 { GetCurrentUserName }

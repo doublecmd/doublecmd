@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2026 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -26,7 +26,8 @@ unit uMyWindows;
 interface
 
 uses
-  Graphics, Classes, SysUtils, JwaWinType, JwaWinBase, JwaNative, Windows;
+  Graphics, Classes, SysUtils, JwaWinType, JwaWinBase, JwaWinternl, JwaNative,
+  Windows;
 
 const
   // STORAGE_BUS_TYPE
@@ -179,6 +180,8 @@ procedure CreateShortcut(const Target, Shortcut: String);
    @param(FindData Find data record from FindFirstFile/FindNextFile function.)
 }
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
+
+function GetRemoteProcessCurrentDirectory(hProcess: THandle): String;
 
 function CheckPhotosVersion(ABuild, ARevision: UInt16): Boolean;
 
@@ -1196,6 +1199,77 @@ begin
     Result:= FindData.dwFileAttributes - FILE_ATTRIBUTE_REPARSE_POINT
   else
     Result:= FindData.dwFileAttributes;
+end;
+
+const
+  ProcessBasicInformation = 0;
+
+{$IFDEF CPU64}
+  PEB_PROCESS_PARAMETERS_OFFSET = $20;
+  PARAMS_CURRENT_DIR_OFFSET     = $38;
+{$ELSE}
+  PEB_PROCESS_PARAMETERS_OFFSET = $10;
+  PARAMS_CURRENT_DIR_OFFSET     = $24;
+{$ENDIF}
+
+type
+  TNtQueryInformationProcess = function(ProcessHandle: THandle; ProcessInformationClass: DWORD;
+                                        ProcessInformation: PVOID; ProcessInformationLength: ULONG;
+                                        ReturnLength: PULONG): NTSTATUS; stdcall;
+
+function GetRemoteProcessCurrentDirectory(hProcess: THandle): String;
+var
+  retLen: ULONG;
+  hNtDll: HMODULE;
+  bytesRead: SIZE_T;
+  pProcParams: PByte;
+  curDirStr: TUnicodeString;
+  wsDirectory: UnicodeString;
+  pbi: TProcessBasicInformation;
+  NtQueryInformationProcess: TNtQueryInformationProcess;
+begin
+  Result:= EmptyStr;
+
+  // 1. Load NtQueryInformationProcess from ntdll.dll
+  hNtDll:= GetModuleHandleW(ntdll);
+  if hNtDll = 0 then Exit;
+
+  Pointer(NtQueryInformationProcess):= GetProcAddress(hNtDll, 'NtQueryInformationProcess');
+  if not Assigned(NtQueryInformationProcess) then Exit;
+
+  // 2. Get the PEB base address of the target process
+  pbi:= Default(TProcessBasicInformation);
+
+  if NtQueryInformationProcess(hProcess, ProcessBasicInformation,
+                        @pbi, SizeOf(pbi), @retLen) <> STATUS_SUCCESS then Exit;
+
+  if pbi.PebBaseAddress = nil then Exit;
+
+  // 3. Read the ProcessParameters pointer from the PEB
+  bytesRead:= 0;
+  pProcParams:= nil;
+
+  if ReadProcessMemory(hProcess, PByte(pbi.PebBaseAddress) + PEB_PROCESS_PARAMETERS_OFFSET,
+                       @pProcParams, SizeOf(pProcParams), bytesRead) and (pProcParams <> nil) then
+  begin
+    // 4. Read the CurrentDirectory.DosPath (UNICODE_STRING) structure
+    curDirStr:= Default(TUnicodeString);
+
+    if ReadProcessMemory(hProcess, pProcParams + PARAMS_CURRENT_DIR_OFFSET,
+                                      @curDirStr, SizeOf(curDirStr), bytesRead) then
+    begin
+      if (curDirStr.Length = 0) or (curDirStr.Buffer = nil) then Exit;
+
+      // 5. Allocate the UnicodeString and read the directory path characters
+      SetLength(wsDirectory, curDirStr.Length div SizeOf(WideChar));
+
+      if ReadProcessMemory(hProcess, curDirStr.Buffer,
+                           PWideChar(wsDirectory), curDirStr.Length, bytesRead) then
+      begin
+        Result:= CeUtf16ToUtf8(wsDirectory);
+      end;
+    end;
+  end;
 end;
 
 procedure UpdateEnvironment;
