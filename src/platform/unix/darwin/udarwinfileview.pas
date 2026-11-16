@@ -102,7 +102,7 @@ var
   image: NSImage;
 begin
   _searchName:= toString.UTF8String;
-  Inherited Create( _searchName );
+  Inherited Create( _searchName, '' );
   tag:= TFinderTags.getTagOfName( NSString(tagNames.firstObject) );
   if NOT Assigned(tag) then
     Exit;
@@ -144,7 +144,7 @@ end;
 
 function TSmartFolderSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _displayName + PathDelim;
+  Result:= PathDelim;
 end;
 
 function TSmartFolderSearchResultFileSource.GetCustomIcon(
@@ -172,7 +172,7 @@ procedure TDarwinSearchResultHandler.onSearchSavedSearchComplete(
 var
   fs: ISearchResultFileSource;
 begin
-  fs:= TSmartFolderSearchResultFileSource.Create( NSString(info).UTF8String );
+  fs:= TSmartFolderSearchResultFileSource.Create( NSString(info).UTF8String, '' );
   TDarwinFileViewUtil.addFinderSearchResult( fs, files, False );
 end;
 

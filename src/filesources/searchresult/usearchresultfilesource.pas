@@ -29,9 +29,13 @@ type
 
   TSearchResultFileSource = class(TMultiListFileSource, ISearchResultFileSource)
   protected
-    _displayName: String;
+    _searchKeyword: String;
+    _searchPath: String;
   public
-    constructor Create( const displayName: String );
+    constructor Create( const keyword: String; const path: String );
+
+    function GetProcessor: TFileSourceProcessor; override;
+    function GetDescriber: TFileSourceDescriber; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     function GetRootDir(sPath : String): String; override;
@@ -41,18 +45,23 @@ type
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
     function GetDisplayFileName(aFile: TFile): String; override;
 
-    function GetProcessor: TFileSourceProcessor; override;
     function GetProperties: TFileSourceProperties; override;
     class function CreateFile(const APath: String): TFile; override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
 
     procedure AddSearchPath( const startPath: String; paths: TStringList); override;
+  public
+    property searchKeyword: String read _searchKeyword;
+    property searchPath: String read _searchPath;
   end;
 
 implementation
 
 uses
   uFileSystemFileSource, uSearchResultListOperation, uLng;
+
+const
+  SEARCH_SCHEME = 'search://';
 
 type
 
@@ -101,8 +110,46 @@ type
     procedure confirmOperation(var params: TFileSourceConsultParams); override;
   end;
 
+  { TSearchResultFileSourceDescriber }
+
+  TSearchResultFileSourceDescriber = class( TFileSourceDescriber )
+    function tabCaption(const fs: IFileSource; const path: String): String; override;
+    function tabHint(const fs: IFileSource; const path: String): String; override;
+  end;
+
 var
-  searchResultFileSourceProcessor: TSearchResultFileSourceProcessor;
+  searchResultFileSourceProcessor: TFileSourceProcessor;
+  searchResultFileSourceDescriber: TFileSourceDescriber;
+
+function TSearchResultFileSourceDescriber.tabCaption(
+  const fs: IFileSource;
+  const path: String): String;
+var
+  keyword: String;
+begin
+  keyword:= (fs as TSearchResultFileSource).searchKeyword;
+  if keyword <> EmptyStr then
+    Result:= rsSearchResult + ': ' + keyword
+  else
+    Result:= rsSearchResult;
+end;
+
+function TSearchResultFileSourceDescriber.tabHint(
+  const fs: IFileSource;
+  const path: String): String;
+var
+  searchKeyword: String;
+  searchPath: String;
+begin
+  searchKeyword:= (fs as TSearchResultFileSource).searchKeyword;
+  searchPath:= (fs as TSearchResultFileSource).searchPath;
+  if (searchKeyword<>EmptyStr) and (searchPath<>EmptyStr) then
+    Result:= rsSearchResult + ': ' + searchKeyword + ' @ ' + searchPath
+  else if (searchKeyword<>EmptyStr) or (searchPath<>EmptyStr) then
+    Result:= rsSearchResult + ': ' + searchKeyword + searchPath
+  else
+    Result:= rsSearchResult;
+end;
 
 procedure TSearchResultFileSourceProcessor.consultCopyOperation(
   var params: TFileSourceConsultParams);
@@ -164,10 +211,12 @@ begin
   params.files.setPathBaseOnAllFiles;
 end;
 
-constructor TSearchResultFileSource.Create(const displayName: String);
+constructor TSearchResultFileSource.Create( const keyword: String; const path: String );
 begin
   inherited Create;
-  _displayName:= displayName;
+  FCurrentAddress:= SEARCH_SCHEME;
+  _searchKeyword:= keyword;
+  _searchPath:= path;
 end;
 
 function TSearchResultFileSource.GetProcessor: TFileSourceProcessor;
@@ -175,9 +224,14 @@ begin
   Result:= searchResultFileSourceProcessor;
 end;
 
+function TSearchResultFileSource.GetDescriber: TFileSourceDescriber;
+begin
+  Result:= searchResultFileSourceDescriber;
+end;
+
 function TSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + PathDelim;
+  Result:= PathDelim;
 end;
 
 function TSearchResultFileSource.GetRealPath(const path: String): String;
@@ -242,7 +296,7 @@ end;
 function TSearchResultFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
   if aFile.FullPath = self.GetRootDir() then
-    Result:= _displayName
+    Result:= PathDelim
   else
     Result:= FileSource.GetDisplayFileName(aFile);
 end;
@@ -264,8 +318,10 @@ end;
 
 initialization
   searchResultFileSourceProcessor:= TSearchResultFileSourceProcessor.Create;
+  searchResultFileSourceDescriber:= TSearchResultFileSourceDescriber.Create;
 
 finalization
+  FreeAndNil( searchResultFileSourceDescriber );
   FreeAndNil( searchResultFileSourceProcessor );
 
 end.
