@@ -38,7 +38,6 @@ type
     function GetDescriber: TFileSourceDescriber; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
-    function GetRootDir(sPath : String): String; override;
     function GetRealPath(const path: String): String; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
@@ -227,11 +226,6 @@ end;
 function TSearchResultFileSource.GetDescriber: TFileSourceDescriber;
 begin
   Result:= searchResultFileSourceDescriber;
-end;
-
-function TSearchResultFileSource.GetRootDir(sPath: String): String;
-begin
-  Result:= PathDelim;
 end;
 
 function TSearchResultFileSource.GetRealPath(const path: String): String;

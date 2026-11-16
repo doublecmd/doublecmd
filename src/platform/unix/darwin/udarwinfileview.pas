@@ -60,12 +60,10 @@ type
 
   TFinderTagSearchResultFileSource = class( TSearchResultFileSource )
   private
-    _searchName: String;
     _icon: TBitmap;
   public
     constructor Create( tagNames: NSArray );
     destructor Destroy; override;
-    function GetRootDir(sPath: String): String; override;
     function GetCustomIcon(const path: String; const iconSize: Integer
       ): TBitmap; override; overload;
   end;
@@ -74,9 +72,7 @@ type
 
   TSmartFolderSearchResultFileSource = class( TSearchResultFileSource )
   public
-    function GetRootDir(sPath: String): String; override;
-    function GetCustomIcon(const path: String; const iconSize: Integer
-      ): TBitmap; override; overload;
+    function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
   end;
 
 { TFinderTagSearchResultFileSource }
@@ -101,8 +97,7 @@ var
   tag: TFinderTag;
   image: NSImage;
 begin
-  _searchName:= toString.UTF8String;
-  Inherited Create( _searchName, '' );
+  Inherited Create( toString.UTF8String, '' );
   tag:= TFinderTags.getTagOfName( NSString(tagNames.firstObject) );
   if NOT Assigned(tag) then
     Exit;
@@ -123,11 +118,6 @@ begin
   inherited Destroy;
 end;
 
-function TFinderTagSearchResultFileSource.GetRootDir(sPath: String): String;
-begin
-  Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _searchName + PathDelim;
-end;
-
 function TFinderTagSearchResultFileSource.GetCustomIcon(
   const path: String;
   const iconSize: Integer ): TBitmap;
@@ -141,11 +131,6 @@ begin
 end;
 
 { TSmartFolderSearchResultFileSource }
-
-function TSmartFolderSearchResultFileSource.GetRootDir(sPath: String): String;
-begin
-  Result:= PathDelim;
-end;
 
 function TSmartFolderSearchResultFileSource.GetCustomIcon(
   const path: String;

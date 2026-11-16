@@ -37,7 +37,6 @@ type
     function GetDescriber: TFileSourceDescriber; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
-    function GetRootDir(sPath : String): String; override;
     function GetRealPath(const path: String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
     class function IsSupportedPath(const Path: String): Boolean; override;
@@ -327,11 +326,6 @@ end;
 function TStashFileSource.GetDescriber: TFileSourceDescriber;
 begin
   Result:= stashFileSourceDescriber;
-end;
-
-function TStashFileSource.GetRootDir(sPath: String): String;
-begin
-  Result:= PathDelim;
 end;
 
 function TStashFileSource.GetRealPath(const path: String): String;

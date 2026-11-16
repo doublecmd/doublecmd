@@ -45,7 +45,6 @@ type
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override;
     class function GetMainIcon(out Path: String): Boolean; override;
 
-    function GetRootDir(sPath : String): String; override;
     function IsSystemFile(aFile: TFile): Boolean; override;
     function IsPathAtRoot(Path: String): Boolean; override;
     function GetRealPath(const APath: String): String; override;
@@ -804,14 +803,6 @@ end;
 function TiCloudDriveFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= iCloudDriveProcessor;
-end;
-
-function TiCloudDriveFileSource.GetRootDir(sPath: String): String;
-var
-  path: String;
-  displayName: String;
-begin
-  Result:= PathDelim;
 end;
 
 function TiCloudDriveFileSource.IsSystemFile(aFile: TFile): Boolean;
