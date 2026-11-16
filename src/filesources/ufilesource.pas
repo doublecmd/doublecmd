@@ -537,9 +537,12 @@ function TDefaultFileSourceDescriber.tabCaption(
   const fs: IFileSource;
   const path: String ): String;
 begin
-  if (fs.FileSystem <> EmptyStr) and fs.IsPathAtRoot(path) then
-    Result:= fs.FileSystem
-  else
+  if fs.FileSystem <> EmptyStr then begin
+    if fs.IsPathAtRoot(path) then
+      Result:= fs.FileSystem
+    else
+      Result:= fs.FileSystem + ': ' + GetLastDir( path );
+  end else
     Result:= GetLastDir( path );
 end;
 
@@ -547,7 +550,7 @@ function TDefaultFileSourceDescriber.tabHint(
   const fs: IFileSource;
   const path: String ): String;
 begin
-  Result:= path;
+  Result:= ExcludeBackPathDelimiter( fs.CurrentAddress + path );
 end;
 
 { TFileSource }
