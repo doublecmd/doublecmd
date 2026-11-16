@@ -50,6 +50,7 @@ type
     procedure ReadySync;
     procedure ReadThread;
     procedure DestroyPseudoConsole;
+    function GetChildPid: THandle; override;
     procedure SetConnected(AValue: Boolean); override;
     function CreatePseudoConsole(const ACommand: String): Boolean;
   public
@@ -457,6 +458,11 @@ begin
     FSize.Y:= aRows;
     FSize.X:= aCols;
   end;
+end;
+
+function TPtyDevice.GetChildPid: THandle;
+begin
+  Result := 0; // Not fully implemented for Windows pseudo console here
 end;
 
 procedure Initialize;

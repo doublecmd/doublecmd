@@ -1,8 +1,9 @@
 inherited frmOptionsLayout: TfrmOptionsLayout
-  Height = 550
+  Height = 650
   Width = 784
   HelpKeyword = '/configuration.html#ConfigLayout'
-  ClientHeight = 550
+  AutoSize = True
+  ClientHeight = 650
   ClientWidth = 784
   DesignLeft = 276
   DesignTop = 44
@@ -12,7 +13,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 530
+    Height = 630
     Top = 6
     Width = 772
     Anchors = [akTop, akLeft, akRight]
@@ -21,7 +22,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
     Caption = ' Screen layout '
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 512
+    ClientHeight = 612
     ClientWidth = 768
     TabOrder = 0
     object cbShowMainMenu: TCheckBox
@@ -190,7 +191,32 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       Width = 152
       BorderSpacing.Top = 2
       Caption = 'Show te&rminal window'
+      OnChange = cbTermWindowChange
       TabOrder = 18
+    end
+    object rgTermMode: TRadioGroup
+      AnchorSideLeft.Control = cbTermWindow
+      AnchorSideTop.Control = cbTermWindow
+      AnchorSideTop.Side = asrBottom
+      Left = 28
+      AutoSize = True
+      BorderSpacing.Left = 16
+      BorderSpacing.Top = 2
+      Caption = 'Terminal mode'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      Items.Strings = (
+        'Single shared terminal'
+        'Terminal per panel'
+        'Terminal per tab'
+      )
+      TabOrder = 19
     end
     object cbFreespaceInd: TCheckBox
       AnchorSideTop.Control = cbShowShortDriveFreeSpace
@@ -204,26 +230,26 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       TabOrder = 9
     end
     object cbProgInMenuBar: TCheckBox
-      AnchorSideTop.Control = cbTermWindow
+      AnchorSideTop.Control = rgTermMode
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 460
+      Top = 562
       Width = 236
       BorderSpacing.Top = 2
       Caption = 'Show common progress in menu bar'
-      TabOrder = 19
+      TabOrder = 20
     end
     object cbPanelOfOperations: TCheckBox
       AnchorSideTop.Control = cbProgInMenuBar
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 484
+      Top = 586
       Width = 248
       BorderSpacing.Top = 2
       Caption = 'Show panel of operation in background'
-      TabOrder = 20
+      TabOrder = 21
     end
     object cbShowDriveFreeSpace: TCheckBox
       AnchorSideTop.Control = cbShowDrivesListButton
