@@ -252,6 +252,7 @@ type
     destructor Destroy; override;
     procedure ClearScreen;
     procedure MoveCaret(AColumn, ARow: Integer);
+    procedure MoveCursor(AColumn, ARow: Integer; AStyle: TScrollStyle);
     procedure Write(const Buffer:string; Size: Integer);
     procedure WriteStr(const Str: string);
     procedure CopyToClipboard;
@@ -898,6 +899,19 @@ begin
   if FCaretCreated then
     SetCaretPos((FCaretPos.X - FTopLeft.X) * FFontWidth,
       (FCaretPos.Y - FTopLeft.Y) * FFontHeight + FFontHeight - FCaretHeight);
+end;
+
+procedure TCustomComTerminal.MoveCursor(AColumn, ARow: Integer; AStyle: TScrollStyle);
+begin
+  if (AStyle in [ssBoth, ssVertical]) then
+  begin
+    ARow:= FTopLeft.Y + ARow - 1;
+  end;
+  if (AStyle in [ssBoth, ssHorizontal]) then
+  begin
+    AColumn:= FTopLeft.X + AColumn - 1;
+  end;
+  MoveCaret(AColumn, ARow);
 end;
 
 // write data to screen
@@ -1982,9 +1996,9 @@ begin
       ecCursorLeft: MoveCaret(FCaretPos.X - GetParam(1, AParams), FCaretPos.Y);
       ecCursorNextLine: MoveCaret(1, FCaretPos.Y + GetParam(1, AParams));
       ecCursorPrevLine: MoveCaret(1, FCaretPos.Y - GetParam(1, AParams));
-      ecCursorMove: MoveCaret(GetParam(2, AParams), GetParam(1, AParams));
-      ecCursorMoveX: MoveCaret(GetParam(1, AParams), FCaretPos.Y);
-      ecCursorMoveY: MoveCaret(FCaretPos.X, GetParam(1, AParams));
+      ecCursorMove: MoveCursor(GetParam(2, AParams), GetParam(1, AParams), ssBoth);
+      ecCursorMoveX: MoveCursor(GetParam(1, AParams), FCaretPos.Y, ssHorizontal);
+      ecCursorMoveY: MoveCursor(FCaretPos.X, GetParam(1, AParams), ssVertical);
       ecReverseLineFeed: AdvanceCaret(acReverseLineFeed);
       ecEraseLineLeft: FBuffer.EraseLineLeft(FCaretPos.X, FCaretPos.Y);
       ecEraseLineRight: FBuffer.EraseLineRight(FCaretPos.X, FCaretPos.Y);
