@@ -1261,7 +1261,7 @@ begin
   if AFileView.FlatView then
   begin
     AFileView.FlatView := False;
-    if AFileSource.IsInterface(ISearchResultFileSource) then
+    if AFileSource.IsInterface(IFlatViewFileSource) then
       AFileView.ChangePathToParent(True)
     else
       AFileView.Reload;
@@ -5639,7 +5639,7 @@ var
   NewPage: TFileViewPage;
   StringList: TStringListUAC;
   Notebook: TFileViewNotebook;
-  SearchResultFS: ISearchResultFileSource;
+  flatViewFS: IFlatViewFileSource;
 begin
   with frmMain do
   begin
@@ -5677,11 +5677,11 @@ begin
           on EFileNotFound do ;
         end;
       end;
-      SearchResultFS := TSearchResultFileSource.Create;
-      SearchResultFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
+      flatViewFS := TFlatViewFileSource.Create( PathDelim );
+      flatViewFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
 
       NewPage := Notebook.ActivePage;
-      NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+      NewPage.FileView.AddFileSource(flatViewFS, flatViewFS.GetRootDir);
       NewPage.FileView.FlatView := True;
       NewPage.MakeActive;
     except
