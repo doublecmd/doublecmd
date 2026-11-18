@@ -885,6 +885,7 @@ end;
          (mnt_type = 'securityfs') or
          (mnt_type = 'binfmt_misc') or
          (mnt_type = 'fuse.portal') or
+         (mnt_type = 'fuse.kio-fuse') or
          (mnt_type = 'fuse.gvfsd-fuse') or
          (mnt_type = 'fuse.gvfs-fuse-daemon') or
          (mnt_type = 'fuse.truecrypt') or

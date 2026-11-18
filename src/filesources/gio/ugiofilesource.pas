@@ -81,7 +81,7 @@ uses
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
   DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio, uFileSourceManager,
-  uGioFileSourceUtil;
+  uGioFileSourceUtil, uMyUnix;
 
 type
 
@@ -418,6 +418,8 @@ var
   GVfs: PGVfs;
   Schemes: PPgchar;
 begin
+  if (DesktopEnv = DE_KDE) and StrBegins(Path, 'mtp://') then
+    Exit(False);
   GVfs := g_vfs_get_default ();
   Schemes := g_vfs_get_supported_uri_schemes (GVfs);
   while Schemes^ <> nil do

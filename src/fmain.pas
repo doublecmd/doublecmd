@@ -1008,6 +1008,9 @@ uses
 {$IFDEF DARWIN}
   , uCocoaModernFormConfig
 {$ENDIF}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  , uKde
+{$ENDIF}
   ;
 
 const
@@ -7115,11 +7118,14 @@ begin
               end;
 
               sDir:= ReplaceTilde(sDir);
-              sDir:= GetAbsoluteFileName(ActiveFrame.CurrentPath, sDir);
-              if mbFileExists(sDir) then //if user entered an existing file, let's switch to the parent folder AND select that file
+              if (Pos('://', sDir) = 0) and (not StrBegins(sDir, 'mtp:')) then
               begin
-                sFilename:= ExtractFileName(sDir);
-                sDir:= ExtractFileDir(sDir);
+                sDir:= GetAbsoluteFileName(ActiveFrame.CurrentPath, sDir);
+                if mbFileExists(sDir) then //if user entered an existing file, let's switch to the parent folder AND select that file
+                begin
+                  sFilename:= ExtractFileName(sDir);
+                  sDir:= ExtractFileDir(sDir);
+                end;
               end;
             end;
 
@@ -7315,6 +7321,9 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     if Length(aPath) <> 0 then
     begin
       aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
+      {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+      KmtpResolvePath(aPath);
+      {$ENDIF}
       if (gVfsModuleList.GetFileSource(aPath) = nil) then
       begin
         if not mbFileSystemEntryExists(aPath) then

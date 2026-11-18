@@ -35,7 +35,8 @@ begin
   begin
     Result:= URIDecode(Copy(Result, 8, MaxInt));
   end;
-  Result:= GetAbsoluteFileName(IncludeTrailingBackslash(GetCurrentDir), Result);
+  if (Pos('://', Result) = 0) and (not StrBegins(Result, 'mtp:')) then
+    Result:= GetAbsoluteFileName(IncludeTrailingBackslash(GetCurrentDir), Result);
 end;
 
 procedure ProcessCommandLineParams;

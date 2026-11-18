@@ -364,7 +364,7 @@ function mbExpandFileName(const sFileName: String): String;
 const
   PATH_DELIM_POS = {$IFDEF MSWINDOWS}1{$ELSE}0{$ENDIF};
 begin
-  if (Pos('://', sFileName) > 2) then
+  if (Pos('://', sFileName) > 2) or StrBegins(sFileName, 'mtp:') then
     Result:= sFileName
   else begin
     Result:= NormalizePathDelimiters(sFileName);
