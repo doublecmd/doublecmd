@@ -1254,7 +1254,7 @@ var
   AFile: TFile;
   AFiles: TFiles;
   AFileView: TFileView;
-  AFlatView: ISearchResultFileSource;
+  AFlatView: TFlatViewFileSource;
 begin
   AFileView:= frmMain.ActiveFrame;
   AFileSource:= AFileView.FileSource;
@@ -1287,7 +1287,7 @@ begin
   AFiles.Free;
 
   // Create search result file source.
-  AFlatView := TFlatViewFileSource.Create;
+  AFlatView := TFlatViewFileSource.Create(AFileView.CurrentPath);
   AFlatView.AddList(AFileList, AFileSource);
 
   AFileView.AddFileSource(AFlatView, AFileView.CurrentPath);

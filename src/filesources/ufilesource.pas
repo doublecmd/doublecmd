@@ -742,6 +742,7 @@ end;
 
 function TFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
+  Path:= IncludeTrailingPathDelimiter(Path);
   Result := (Path = GetRootDir(Path));
 end;
 
