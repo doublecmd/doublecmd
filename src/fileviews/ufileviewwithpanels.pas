@@ -136,6 +136,7 @@ end;
 procedure TFileViewWithPanels.DisplayFileListChanged;
 begin
   inherited DisplayFileListChanged;
+  pnlHeader.UpdatePathLabel;
   UpdateInfoPanel;
 end;
 

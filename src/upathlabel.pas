@@ -41,6 +41,7 @@ type
     FHighlightStartPos: Integer;
     FHighlightText: String;
     FMousePos: Integer;
+    FPath: String;
     FColors: array[0..3] of TColor;
     {en
        How much space to leave between the text and left border.
@@ -58,6 +59,7 @@ type
        it is highlighted, so that user can click on it.
     }
     procedure Highlight;
+    procedure SetPath(const AValue: String);
 
     function GetColor(const AIndex: Integer): TColor;
     procedure SetColor(const AIndex: Integer; const AValue: TColor); overload;
@@ -84,6 +86,8 @@ type
     property AllowHighlight: Boolean read FAllowHighlight write FAllowHighlight;
     property LeftSpacing: Integer read FLeftSpacing write FLeftSpacing;
     property SelectedDir: String read FSelectedDir;
+    // Only strict ancestors of this path can be navigation targets.
+    property Path: String read FPath write SetPath;
 
     property ActiveColor: TColor index 0 read GetColor write SetColor;
     property ActiveFontColor: TColor index 1 read GetColor write SetColor;
@@ -158,6 +162,13 @@ begin
   FActive := Active;
 end;
 
+procedure TPathLabel.SetPath(const AValue: String);
+begin
+  if FPath = AValue then Exit;
+  FPath := AValue;
+  if FAllowHighlight and MouseInClient then Highlight;
+end;
+
 procedure TPathLabel.Highlight;
 var
   LeftText: String;
@@ -181,6 +192,9 @@ begin
   begin
     if Text[CurPos] = PathDelim then
     begin
+      if (FPath <> '') and ((CurPos >= Length(FPath)) or
+         (CompareByte(Text[1], FPath[1], CurPos) <> 0)) then
+        Break;
       PartText := Copy(Text, StartPos, CurPos - StartPos);
       PartWidth := Canvas.TextWidth(PartText);
       LeftText := Copy(Text, 0, CurPos-1 );
