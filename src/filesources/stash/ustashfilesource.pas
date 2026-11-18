@@ -10,7 +10,7 @@ uses
   uFile, uFileProperty, uFileSourceManager,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uFileSource, uVirtualFileSource, uFileSystemFileSource,
-  DCStrUtils, uLng, uSysFolders,
+  uLng, uSysFolders,
   uStashFilesBackend
   {$IFDEF DARWIN}
   , uDarwinImage
@@ -38,7 +38,6 @@ type
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     function GetRealPath(const path: String): String; override;
-    function IsPathAtRoot(Path: String): Boolean; override;
     class function IsSupportedPath(const Path: String): Boolean; override;
 
     function FileSystemEntryExists(const Path: String; const Options: TFileSourceExistsOptions): TFileSourceExistsResult; override;
@@ -334,17 +333,6 @@ begin
     Result:= GetHomeDir
   else
     Result:= Path;
-end;
-
-function TStashFileSource.IsPathAtRoot(Path: String): Boolean;
-var
-  dirs: TStringList;
-  dirCount: Integer;
-begin
-  dirs:= TStringList.Create;
-  dirCount:= GetDirs( ExcludeTrailingPathDelimiter(Path), dirs );
-  Result:= (dirCount <= 1);
-  dirs.Free;
 end;
 
 class function TStashFileSource.IsSupportedPath(const Path: String): Boolean;
