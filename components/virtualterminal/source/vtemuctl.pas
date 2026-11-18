@@ -160,7 +160,9 @@ type
     FCaret: TTermCaret;
     FCaretPos: TPoint;
     FSaveCaret: TPoint;
+    FShowCaret: Boolean;
     FCaretCreated: Boolean;
+    FCaretVisible: Boolean;
     FTopLeft: TPoint;
     FCaretHeight: Integer;
     FInvalidateRect: TRect;
@@ -829,6 +831,7 @@ begin
   FColumns := 80;
   FRows := 100;
   FVisibleRows:= 25;
+  FShowCaret:= True;
   FWrapLines := True;
   FAutoFollow := True;
   FCaretPos := Classes.Point(1, 1);
@@ -962,8 +965,6 @@ begin
       FInvalidateRect.Top:= -1;
     end;
     UpdateScrollRange;
-    UpdateScrollPos;
-    ShowCaret;
   end;
 end;
 
@@ -1722,6 +1723,10 @@ begin
     else
       Columns := 80;
   end
+  else if Str = '?25' then
+  begin
+    FShowCaret := OnOff;
+  end
   else if Str = '?1002' then
     FTermMode.MouseTrack:= OnOff
   else if Str = '?1006' then
@@ -1911,15 +1916,15 @@ end;
 // hide caret
 procedure TCustomComTerminal.HideCaret;
 begin
-  if FCaretCreated then
-    LCLIntf.HideCaret(Handle);
+  if FCaretCreated and FCaretVisible then
+    FCaretVisible:= not LCLIntf.HideCaret(Handle);
 end;
 
 // show caret
 procedure TCustomComTerminal.ShowCaret;
 begin
-  if FCaretCreated then
-    LCLIntf.ShowCaret(Handle);
+  if FCaretCreated and FShowCaret then
+    FCaretVisible:= LCLIntf.ShowCaret(Handle);
 end;
 
 // send character to com port
