@@ -218,7 +218,7 @@ end;
 function TMountedFileSource.GetProperties: TFileSourceProperties;
 begin
   Result:= inherited GetProperties;
-  Result:= Result + [fspMounted];
+  Result:= Result + [fspMounted] - [fspListFlatView];
 end;
 
 function TMountedFileSource.GetParentDir(sPath : String): String;
@@ -228,12 +228,12 @@ end;
 
 function TMountedFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim + PathDelim + PathDelim + 'mount' + PathDelim;
+  Result:= PathDelim;
 end;
 
 function TMountedFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
-  Result:= ( IncludeTrailingPathDelimiter(Path)=self.GetRootDir );
+  Result:= ( Path=self.GetRootDir );
 end;
 
 function TMountedFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
