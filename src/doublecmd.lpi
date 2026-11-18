@@ -1366,11 +1366,6 @@ end;"/>
         <UnitName Value="uSearchResultFileSource"/>
       </Unit>
       <Unit>
-        <Filename Value="filesources\searchresult\usearchresultlistoperation.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uSearchResultListOperation"/>
-      </Unit>
-      <Unit>
         <Filename Value="filesources\tempfilesystem\utempfilesystemfilesource.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -2226,6 +2221,11 @@ end;"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSetFilePropertiesAdvLoad"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\uflatviewlistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFlatViewListOperation"/>
       </Unit>
     </Units>
   </ProjectOptions>

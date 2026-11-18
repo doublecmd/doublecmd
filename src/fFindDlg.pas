@@ -2056,14 +2056,6 @@ var
     else
       Result:= EmptyStr;
   end;
-
-  function getSearchPathAndMask: String;
-  begin
-    Result:= ExcludeBackPathDelimiter(cmbFindPathStart.Text);
-    if cmbFindFileMask.Text <> EmptyStr then
-      Result:= Result + ' > ' + cmbFindFileMask.Text;
-  end;
-
 begin
   StopSearch;
 
@@ -2093,7 +2085,7 @@ begin
 
   // Create search result file source.
   // Currently only searching FileSystem is supported.
-  SearchResultFS := TSearchResultFileSource.Create( getSearchText, getSearchPathAndMask );
+  SearchResultFS := TSearchResultFileSource.Create( getSearchText, cmbFindPathStart.Text, cmbFindFileMask.Text );
   SearchResultFS.AddList(FileList, FFileSource);
 
   // Add new tab for search results.

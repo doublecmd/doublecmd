@@ -7,9 +7,8 @@ interface
 uses
   Classes, SysUtils,
   Graphics,
-  uFile, uFileSource, uFileSourceManager, uMultiListFileSource,
-  uFileSourceOperationTypes, uFileSourceOperation, uFileSourceProperty,
-  uSysFolders
+  uFileSource, uFileSourceManager, uFlatViewFileSource,
+  DCStrUtils
   {$IFDEF DARWIN}
   , uDarwinFile, uDarwinImage, uDCUtils
   {$ENDIF}
@@ -17,7 +16,7 @@ uses
 
 type
 
-  ISearchResultFileSource = interface(IMultiListFileSource)
+  ISearchResultFileSource = interface(IFlatViewFileSource)
     ['{5076D4C2-3AB8-4029-9318-0AF115F7FDDD}']
   end;
 
@@ -27,87 +26,32 @@ type
 
   { TSearchResultFileSource }
 
-  TSearchResultFileSource = class(TMultiListFileSource, ISearchResultFileSource)
+  TSearchResultFileSource = class(TFlatViewFileSource, ISearchResultFileSource)
   protected
     _searchKeyword: String;
     _searchPath: String;
+    _searchMask: String;
   public
-    constructor Create( const keyword: String; const path: String );
+    constructor Create( const keyword: String; const path: String; const mask: String );
 
-    function GetProcessor: TFileSourceProcessor; override;
     function GetDescriber: TFileSourceDescriber; override;
 
-    function GetLocalName(var aFile: TFile): Boolean; override;
-    function GetRealPath(const path: String): String; override;
-    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
-
     function GetCustomIcon(const path: String; const iconSize: Integer): TBitmap; override; overload;
-    function GetDisplayFileName(aFile: TFile): String; override;
-
-    function GetProperties: TFileSourceProperties; override;
-    class function CreateFile(const APath: String): TFile; override;
-    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
-
-    procedure AddSearchPath( const startPath: String; paths: TStringList); override;
   public
     property searchKeyword: String read _searchKeyword;
     property searchPath: String read _searchPath;
+    property searchMask: String read _searchMask;
   end;
 
 implementation
 
 uses
-  uFileSystemFileSource, uSearchResultListOperation, uLng;
+  uFileSystemFileSource, uLng;
 
 const
   SEARCH_SCHEME = 'search://';
 
 type
-
-  { TSearchResultFileSourceProcessor }
-
-  TSearchResultFileSourceProcessor = class( TDefaultFileSourceProcessor )
-  private
-    {
-      when copying from SearchResult to TargetFileSource, the following needs to be considered:
-      1. SearchResult only supports copying outwards, not copying to SearchResult.
-      2. there are two types of SearchResult: one is created from a FileSource that
-         supports DirectAccess, in which case the SearchResult supports DirectAccess;
-         the other is created from a Wcx/Zip, in which case the SearchResult does not
-         support DirectAccess.
-      3. there are also two types of TargetFileSource: one that supports DirectAccess
-         and one that does not (such as Wcx/Zip).
-      therefore, there are a total of 4 combinations:
-      1. both SearchResult and TargetFileSource support DirectAccess
-         TargetFileSource CopyIn / no temp file
-      2. SearchResult supports DirectAccess, but TargetFileSource does not
-         TargetFileSource CopyIn / no temp file
-      3. SearchResult does not support DirectAccess, but TargetFileSource does
-         SearchResult CopyOut / no temp file
-      4. Neither SearchResult nor TargetFileSource supports DirectAccess
-         SearchResult CopyOut / TargetFileSource CopyIn / Temp file needed
-    }
-    procedure consultCopyOperation( var params: TFileSourceConsultParams );
-
-    {
-      when moving from SearchResult to TargetFileSource, the following needs to be considered:
-      1. the SearchResult created from a Wcx/Zip doesn't support moving files.
-         it's limited by DC's philosophy that doesn't support moving files from
-         WCX/ZIP files to external.
-      2. only the SearchResult created from FileSource that supports DirectAccess,
-         such as FileSystemFileSource, supports moving files. it only supports moving outwards,
-         not moving to SearchResult.
-      3. only the TargetFileSource that supports DirectAccess supports moving files from
-         SearchResult. it's also limited by DC's philosophy that doesn't support moving
-         files to Wcx/Zip.
-      4. therefore, only one type of movement is currently supported: moving from
-         SearchResult that supports DirectAccess to TargetFileSource that supports DirectAccess.
-    }
-    procedure consultMoveOperation( var params: TFileSourceConsultParams );
-  public
-    procedure consultOperation( var params: TFileSourceConsultParams ); override;
-    procedure confirmOperation(var params: TFileSourceConsultParams); override;
-  end;
 
   { TSearchResultFileSourceDescriber }
 
@@ -117,7 +61,6 @@ type
   end;
 
 var
-  searchResultFileSourceProcessor: TFileSourceProcessor;
   searchResultFileSourceDescriber: TFileSourceDescriber;
 
 function TSearchResultFileSourceDescriber.tabCaption(
@@ -137,136 +80,41 @@ function TSearchResultFileSourceDescriber.tabHint(
   const fs: IFileSource;
   const path: String): String;
 var
+  searchFS: TSearchResultFileSource;
   searchKeyword: String;
   searchPath: String;
+  searchMask: String;
 begin
-  searchKeyword:= (fs as TSearchResultFileSource).searchKeyword;
-  searchPath:= (fs as TSearchResultFileSource).searchPath;
+  searchFS:= fs as TSearchResultFileSource;
+  searchKeyword:= searchFS.searchKeyword;
+  searchPath:= searchFS.searchPath;
+  searchMask:= searchFS.searchMask;
+
   if (searchKeyword<>EmptyStr) and (searchPath<>EmptyStr) then
     Result:= rsSearchResult + ': ' + searchKeyword + ' @ ' + searchPath
   else if (searchKeyword<>EmptyStr) or (searchPath<>EmptyStr) then
     Result:= rsSearchResult + ': ' + searchKeyword + searchPath
   else
     Result:= rsSearchResult;
+  if searchMask <> EmptyStr then
+    Result:= Result + ' > ' + searchMask;
 end;
 
-procedure TSearchResultFileSourceProcessor.consultCopyOperation(
-  var params: TFileSourceConsultParams);
-var
-  targetFS: IFileSource;
+constructor TSearchResultFileSource.Create(
+  const keyword: String;
+  const path: String;
+  const mask: String );
 begin
-  if params.phase = TFileSourceConsultPhase.target then
-    Exit;
-
-  targetFS:= params.targetFS;
-
-  if NOT (fspDirectAccess in targetFS.Properties) and
-     NOT (fsoCopyIn in targetFS.GetOperationsTypes) then
-        Exit;
-
-  params.resultOperationType:= fsoCopyIn;
-  params.resultFS:= targetFS;
-  params.operationTemp:= False;
-  params.consultResult:= fscrSuccess;
-  params.handled:= False;
-end;
-
-procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
-begin
-  if params.phase = TFileSourceConsultPhase.target then
-    Exit;
-
-  if NOT (fspDirectAccess in params.sourceFS.Properties) then
-    Exit;
-
-  if NOT (fspDirectAccess in params.targetFS.Properties) then
-    Exit;
-
-  params.resultFS:= params.partnerFS;
-  params.resultOperationType:= fsoMove;
-  params.operationTemp:= False;
-  params.consultResult:= fscrSuccess;
-  params.handled:= False;
-end;
-
-procedure TSearchResultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams);
-begin
-  params.consultResult:= fscrNotSupported;
-  params.handled:= True;
-
-  case params.operationType of
-    fsoCopy:
-      self.consultCopyOperation( params );
-    fsoMove:
-      self.consultMoveOperation( params );
-    else
-      Inherited;
-  end;
-end;
-
-procedure TSearchResultFileSourceProcessor.confirmOperation(
-  var params: TFileSourceConsultParams);
-begin
-  params.files.setPathBaseOnAllFiles;
-end;
-
-constructor TSearchResultFileSource.Create( const keyword: String; const path: String );
-begin
-  inherited Create;
+  inherited Create( path );
   FCurrentAddress:= SEARCH_SCHEME;
   _searchKeyword:= keyword;
-  _searchPath:= path;
-end;
-
-function TSearchResultFileSource.GetProcessor: TFileSourceProcessor;
-begin
-  Result:= searchResultFileSourceProcessor;
+  _searchPath:= ExcludeBackPathDelimiter( path );
+  _searchMask:= mask;
 end;
 
 function TSearchResultFileSource.GetDescriber: TFileSourceDescriber;
 begin
   Result:= searchResultFileSourceDescriber;
-end;
-
-function TSearchResultFileSource.GetRealPath(const path: String): String;
-begin
-  if self.IsPathAtRoot(path) then
-    Result:= GetHomeDir
-  else
-    Result:= Path;
-end;
-
-function TSearchResultFileSource.GetProperties: TFileSourceProperties;
-begin
-  Result := inherited GetProperties;
-  Result -= [fspNoneParent, fspListFlatView, fspSaveableLoadable, fspSearchable];
-  Result += [fspDontChangePath, fspDontCreateDirectory, fspImmutable];
-  if (fspDirectAccess in Result) then
-    Result+= [fspLinksToLocalFiles, fspSearchable];
-end;
-
-function TSearchResultFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
-begin
-  // Only Root dir allowed (for flat mode).
-  Result := IsPathAtRoot(NewDir);
-end;
-
-class function TSearchResultFileSource.CreateFile(const APath: String): TFile;
-begin
-  Result:= TFileSystemFileSource.CreateFile(APath);
-end;
-
-function TSearchResultFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
-begin
-  Result := TSearchResultListOperation.Create(Self, TargetPath);
-end;
-
-function TSearchResultFileSource.GetLocalName(var aFile: TFile): Boolean;
-begin
-  if (fspLinksToLocalFiles in FileSource.Properties) then
-    Result:= FileSource.GetLocalName(aFile)
-  else
-    Result:= True;
 end;
 
 function TSearchResultFileSource.GetCustomIcon(
@@ -287,36 +135,11 @@ begin
 end;
 {$ENDIF}
 
-function TSearchResultFileSource.GetDisplayFileName(aFile: TFile): String;
-begin
-  if aFile.FullPath = self.GetRootDir() then
-    Result:= PathDelim
-  else
-    Result:= FileSource.GetDisplayFileName(aFile);
-end;
-
-procedure TSearchResultFileSource.AddSearchPath(
-  const startPath: String;
-  paths: TStringList );
-var
-  files: TFiles;
-  i: Integer;
-begin
-  if paths.Count > 0 then
-    Exit;
-  files:= self.GetFiles( self.GetRootDir );
-  for i:= 0 to files.Count-1 do
-    paths.Add( files[i].FullPath );
-  files.Free;
-end;
-
 initialization
-  searchResultFileSourceProcessor:= TSearchResultFileSourceProcessor.Create;
   searchResultFileSourceDescriber:= TSearchResultFileSourceDescriber.Create;
 
 finalization
   FreeAndNil( searchResultFileSourceDescriber );
-  FreeAndNil( searchResultFileSourceProcessor );
 
 end.
 

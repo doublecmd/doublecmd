@@ -97,7 +97,7 @@ var
   tag: TFinderTag;
   image: NSImage;
 begin
-  Inherited Create( toString.UTF8String, '' );
+  Inherited Create( toString.UTF8String, '', '' );
   tag:= TFinderTags.getTagOfName( NSString(tagNames.firstObject) );
   if NOT Assigned(tag) then
     Exit;
@@ -157,7 +157,7 @@ procedure TDarwinSearchResultHandler.onSearchSavedSearchComplete(
 var
   fs: ISearchResultFileSource;
 begin
-  fs:= TSmartFolderSearchResultFileSource.Create( NSString(info).UTF8String, '' );
+  fs:= TSmartFolderSearchResultFileSource.Create( NSString(info).UTF8String, '', '' );
   TDarwinFileViewUtil.addFinderSearchResult( fs, files, False );
 end;
 
