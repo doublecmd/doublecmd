@@ -267,9 +267,7 @@ var
 
 procedure SyncDoWatcherEvent; inline;
 begin
-  // if Main Thread terminated, Synchronize() will never return
-  if not Application.Terminated then
-    FileSystemWatcher.Synchronize( @FileSystemWatcher.DoWatcherEvent );
+  FileSystemWatcher.DoWatcherEvent;
 end;
 
 { TFileSystemWatcher }

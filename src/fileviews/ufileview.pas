@@ -28,7 +28,7 @@ unit uFileView;
 interface
 
 uses
-  uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
+  uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, syncobjs, fgl, LMessages,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig, DCBasicTypes,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSourceWatcher, fQuickSearch, DCStringHashListUtf8, uGlobs;
@@ -115,6 +115,7 @@ type
     FPathAvailable: Boolean;     //<en Cached availability of the current path (used by the tab marker)
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashListUtf8;
+    FPendingFilesLockObject: TCriticalSection;
     FPendingFilesChanges: TFPList;
     FPendingFilesTimer: TTimer;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
@@ -699,6 +700,7 @@ begin
   FFiles := TDisplayFiles.Create(False);
   FFilterOptions := gQuickSearchOptions;
   FHashedNames := TStringHashListUtf8.Create(True);
+  FPendingFilesLockObject := syncobjs.TCriticalSection.Create;
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
@@ -759,6 +761,7 @@ begin
   FreeAndNil(FSavedSelection);
   FreeAndNil(FPendingFilesChanges);
   FreeAndNil(FRecentlyUpdatedFiles);
+  FreeAndNil(FPendingFilesLockObject);
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -853,6 +856,8 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
 var
   pEvent: PFSWatcherEventData;
 begin
+  FPendingFilesLockObject.Acquire;
+  try
   if not Assigned(FPendingFilesChanges) then
     FPendingFilesChanges := TFPList.Create;
 
@@ -883,6 +888,9 @@ begin
     FPendingFilesChanges.Add(pEvent);
     pEvent^ := EventData;
   end;
+  finally
+    FPendingFilesLockObject.Release;
+  end;
 end;
 
 procedure TFileView.ApplyPendingFilesChanges(NewFilesPosition: TNewFilesPosition;
@@ -891,6 +899,8 @@ var
   i: Integer;
   pEvent: PFSWatcherEventData;
 begin
+  FPendingFilesLockObject.Acquire;
+  try
   if Assigned(FPendingFilesChanges) then
   begin
     BeginUpdate;
@@ -915,6 +925,9 @@ begin
       EndUpdate;
     end;
   end;
+  finally
+    FPendingFilesLockObject.Release;
+  end;
 end;
 
 procedure TFileView.ClearPendingFilesChanges;
@@ -922,6 +935,8 @@ var
   pEvent: PFSWatcherEventData;
   i: Integer;
 begin
+  FPendingFilesLockObject.Acquire;
+  try
   if Assigned(FPendingFilesTimer) then
     FPendingFilesTimer.Enabled := False;
 
@@ -933,6 +948,9 @@ begin
       Dispose(pEvent);
     end;
     FreeAndNil(FPendingFilesChanges);
+  end;
+  finally
+    FPendingFilesLockObject.Release;
   end;
 end;
 
@@ -3572,7 +3590,7 @@ begin
     begin
       if FileListLoaded then
       begin
-        AddToPending := Assigned(FPendingFilesTimer) and FPendingFilesTimer.Enabled;
+        AddToPending := True;
         if not AddToPending then
         begin
           CurrentTime := SysUtils.Now;
