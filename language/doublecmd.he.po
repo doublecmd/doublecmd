@@ -13889,7 +13889,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "אלפביתי, תוך התחשבות במבטאים;אלפביתי עם מיון תווים מיוחדים;מיון טבעי: אלפביתי ומספרים;טבעי עם מיון תווים מיוחדים"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;"
 msgstr "עליון;תחתון;"
 
 #: ulng.rsopttoolbarbuttontype

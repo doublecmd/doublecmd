@@ -2227,6 +2227,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFlatViewListOperation"/>
       </Unit>
+      <Unit>
+        <Filename Value="ufileviewtablist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewTabList"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

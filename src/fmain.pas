@@ -43,7 +43,7 @@ uses
   ufavoritetabs, Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uFilePanelSelect, uBriefFileView, VTEmuCtl, VTEmuPty,
-  uFileView, uFileSource, uFileSourceManager, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
+  uFileView, uFileSource, uFileSourceManager, uFileViewNotebook, uFileViewTabList, uFile, LCLVersion, KASToolPanel,
   uOperationsManager, uFileSourceOperation, uDrivesList, DCClassesUtf8, uDragDropEx,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
@@ -668,6 +668,7 @@ type
     procedure NotebookDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure NotebookCloseTabClicked(Sender: TObject);
+    procedure TabListWidthChanged(Sender: TObject);
     procedure pmDropMenuClose(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure edtCommandKeyUp(Sender: TObject; var Key: Word;
@@ -728,6 +729,7 @@ type
     HiddenToTray: Boolean;
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
+    tlLeft, tlRight: TFileViewTabList;
     cmdConsole: TVirtualTerminal;
     pnlTermContainerLeft, pnlTermContainerRight: TPanel;
     tlbTermLeft, tlbTermRight: TPanel;
@@ -799,6 +801,16 @@ type
 
     procedure PopupDragDropMenu(var DropParams: TDropParams);
     procedure CloseNotebook(ANotebook: TFileViewNotebook);
+    {en
+       Returns notebook for the Sender of tab events
+       (TFileViewNotebook or vertical TFileViewTabList).
+    }
+    function TabNotebook(Sender: TObject): TFileViewNotebook;
+    {en
+       Returns index of the tab at client position of the Sender or -1.
+    }
+    function TabIndexAt(Sender: TObject; X, Y: Integer): Integer;
+    procedure ShowTabMenu(ANotebook: TFileViewNotebook; ATabIndex: Integer; const ScreenPos: TPoint);
 
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
@@ -1117,6 +1129,16 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnDragDrop:= @NotebookDragDrop;
   end;
 
+  function CreateTabList(ANotebook: TFileViewNotebook): TFileViewTabList;
+  begin
+    Result := TFileViewTabList.Create(Self, ANotebook);
+    Result.OnMouseDown := @nbPageMouseDown;
+    Result.OnMouseUp := @nbPageMouseUp;
+    Result.OnDragOver:= @NotebookDragOver;
+    Result.OnDragDrop:= @NotebookDragDrop;
+    Result.OnWidthChanged:= @TabListWidthChanged;
+  end;
+
   function GenerateTitle(): String;
   var
     R: Integer;
@@ -1223,6 +1245,8 @@ begin
 
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
+  tlLeft := CreateTabList(nbLeft);
+  tlRight := CreateTabList(nbRight);
 
   FDrivesListPopup := TDrivesListPopup.Create(Self, Self);
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
@@ -2751,11 +2775,14 @@ var
   Notebook: TFileViewNotebook;
   TabNr: Integer;
 begin
-  Notebook := TFileViewNotebook(Sender);
-  TabNr := Notebook.IndexOfPageAt(Point(X, Y));
-  if TabNr <> -1 then Notebook.ActivePageIndex := TabNr;
+  if Sender is TFileViewNotebook then
+  begin
+    Notebook := TFileViewNotebook(Sender);
+    TabNr := Notebook.IndexOfPageAt(Point(X, Y));
+    if TabNr <> -1 then Notebook.ActivePageIndex := TabNr;
+  end;
 {$ENDIF}
-  Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(Sender));
+  Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(TabNotebook(Sender)));
 end;
 
 procedure TfrmMain.nbPageChanged(Sender: TObject);
@@ -2793,20 +2820,56 @@ begin
   UpdateMainTitleBar;
 end;
 
+function TfrmMain.TabNotebook(Sender: TObject): TFileViewNotebook;
+begin
+  if Sender is TFileViewTabList then
+    Result := TFileViewTabList(Sender).Notebook
+  else
+    Result := Sender as TFileViewNotebook;
+end;
+
+function TfrmMain.TabIndexAt(Sender: TObject; X, Y: Integer): Integer;
+begin
+  if Sender is TFileViewTabList then
+    Result := TFileViewTabList(Sender).IndexOfTabAt(X, Y)
+  else
+    Result := (Sender as TFileViewNotebook).IndexOfPageAt(Classes.Point(X, Y));
+end;
+
+procedure TfrmMain.ShowTabMenu(ANotebook: TFileViewNotebook; ATabIndex: Integer;
+  const ScreenPos: TPoint);
+begin
+  // Check tab options items.
+  case ANotebook.Page[ATabIndex].LockState of
+    tlsNormal:
+      miTabOptionNormal.Checked := True;
+    tlsPathLocked:
+      miTabOptionPathLocked.Checked := True;
+    tlsDirsInNewTab:
+      miTabOptionDirsInNewTab.Checked := True;
+    tlsPathResets:
+      miTabOptionPathResets.Checked := True;
+  end;
+
+  pmTabMenu.Parent := ANotebook;
+  pmTabMenu.Tag := ATabIndex;
+  pmTabMenu.PopUp(ScreenPos.X, ScreenPos.Y);
+end;
+
 procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  PopUpPoint: TPoint;
   NoteBook: TFileViewNotebook;
   TabNr: Integer;
 begin
-  NoteBook := Sender as TFileViewNotebook;
+  NoteBook := TabNotebook(Sender);
+  if NoteBook = nil then Exit;
 
   case Button of
 
     mbMiddle:
       begin
-        TabNr := NoteBook.IndexOfPageAt(Point(X, Y));
+        TabNr := TabIndexAt(Sender, X, Y);
         if TabNr <> -1 then
         begin
           Commands.DoCloseTab(NoteBook, TabNr);
@@ -2815,26 +2878,10 @@ begin
 
     mbRight:
       begin
-        TabNr := NoteBook.IndexOfPageAt(Point(X, Y));
+        TabNr := TabIndexAt(Sender, X, Y);
         if TabNr <> -1 then
         begin
-          PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
-
-          // Check tab options items.
-          case NoteBook.Page[TabNr].LockState of
-            tlsNormal:
-              miTabOptionNormal.Checked := True;
-            tlsPathLocked:
-              miTabOptionPathLocked.Checked := True;
-            tlsDirsInNewTab:
-              miTabOptionDirsInNewTab.Checked := True;
-            tlsPathResets:
-              miTabOptionPathResets.Checked := True;
-          end;
-
-          pmTabMenu.Parent := NoteBook;
-          pmTabMenu.Tag := TabNr;
-          pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+          ShowTabMenu(NoteBook, TabNr, (Sender as TControl).ClientToScreen(Point(X, Y)));
         end;
       end;
 
@@ -2847,11 +2894,12 @@ var
   TargetPath: String;
   SourceFiles: TFiles;
   TargetFileSource: IFileSource;
-  ANotebook: TFileViewNotebook absolute Sender;
+  ANotebook: TFileViewNotebook;
 begin
   if (Source is TWinControl) and (TWinControl(Source).Parent is TFileView) then
   begin
-    ATabIndex := ANotebook.IndexOfPageAt(Classes.Point(X, Y));
+    ANotebook := TabNotebook(Sender);
+    ATabIndex := TabIndexAt(Sender, X, Y);
     if (ATabIndex > -1) then
     begin
       SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
@@ -2878,12 +2926,13 @@ procedure TfrmMain.NotebookDragOver(Sender, Source: TObject; X, Y: Integer;
 var
   ATabIndex: Integer;
   APage: TFileViewPage;
-  ANotebook: TFileViewNotebook absolute Sender;
+  ANotebook: TFileViewNotebook;
 begin
   Accept := False;
   if (Source is TWinControl) and (TWinControl(Source).Parent is TFileView) then
   begin
-    ATabIndex := ANotebook.IndexOfPageAt(Classes.Point(X, Y));
+    ANotebook := TabNotebook(Sender);
+    ATabIndex := TabIndexAt(Sender, X, Y);
     if (ATabIndex > -1) then
     begin
       APage:= ANotebook.Page[ATabIndex];
@@ -2900,6 +2949,13 @@ begin
   begin
     RemovePage(Notebook, PageIndex);
   end;
+end;
+
+procedure TfrmMain.TabListWidthChanged(Sender: TObject);
+begin
+  // Both panels share the width of the vertical tabs list
+  if Sender <> tlLeft then tlLeft.UpdateLayout;
+  if Sender <> tlRight then tlRight.UpdateLayout;
 end;
 
 procedure TfrmMain.ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem; const Shortcut: String);
@@ -4536,16 +4592,7 @@ begin
           begin
             if FileViewNotebook.DoubleClickPageIndex<>-1 then
             begin
-              // Check tab options items.
-              case FileViewNotebook.Page[FileViewNotebook.DoubleClickPageIndex].LockState of
-                tlsNormal: miTabOptionNormal.Checked := True;
-                tlsPathLocked: miTabOptionPathLocked.Checked := True;
-                tlsDirsInNewTab: miTabOptionDirsInNewTab.Checked := True;
-                tlsPathResets: miTabOptionPathResets.Checked := True;
-              end;
-              pmTabMenu.Parent := FileViewNotebook;
-              pmTabMenu.Tag := FileViewNotebook.DoubleClickPageIndex;
-              pmTabMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+              ShowTabMenu(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex, Mouse.CursorPos);
             end;
           end;
       end;
@@ -6504,7 +6551,7 @@ procedure TfrmMain.UpdateWindowView;
   var
     I: Integer;
   begin
-    NoteBook.ShowTabs := ((NoteBook.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+    NoteBook.UpdateTabsVisibility;
 
     if tb_show_close_button in gDirTabOptions then
       begin
@@ -6521,6 +6568,7 @@ procedure TfrmMain.UpdateWindowView;
     case gDirTabPosition of
       tbpos_top:    NoteBook.TabPosition := tpTop;
       tbpos_bottom: NoteBook.TabPosition := tpBottom;
+      // tbpos_left, tbpos_right: native tabs are hidden, see TFileViewTabList
       else          NoteBook.TabPosition := tpTop;
     end;
 
@@ -6791,6 +6839,11 @@ begin
 
     UpdateNoteBook(nbLeft);
     UpdateNoteBook(nbRight);
+
+    tlLeft.ActivePanel := (PanelSelected = fpLeft);
+    tlRight.ActivePanel := (PanelSelected = fpRight);
+    tlLeft.UpdateLayout;
+    tlRight.UpdateLayout;
 
     if FInitializedView then
     begin
@@ -7239,6 +7292,8 @@ procedure TfrmMain.SetPanelSelected(AValue: TFilePanelSelect);
 begin
   if PanelSelected = AValue then Exit;
   PanelSelected := AValue;
+  if Assigned(tlLeft) then tlLeft.ActivePanel := (PanelSelected = fpLeft);
+  if Assigned(tlRight) then tlRight.ActivePanel := (PanelSelected = fpRight);
   UpdateTreeViewPath;
   UpdateMainTitleBar;
   UpdatePrompt;
@@ -8371,6 +8426,8 @@ var
 begin
   UpdateNoteBook(LeftTabs);
   UpdateNoteBook(RightTabs);
+  tlLeft.Invalidate;
+  tlRight.Invalidate;
 
   ColSet.UpdateStyle;
   gColorExt.UpdateStyle;

@@ -14115,8 +14115,8 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "按字母順序：考慮重音;按字母順序：考慮特殊字符;按自然順序排序：考慮字母和數字;按自然順序排序：考慮特殊字符"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
-msgstr "頂端;底部;"
+msgid "Top;Bottom;Left;Right;"
+msgstr "頂端;底部;左側;右側;"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"

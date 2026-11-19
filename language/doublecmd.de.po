@@ -13889,7 +13889,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Alphabetisch (= Ziffern einzeln -> 19 vor 2), Diakritika beachten -> aàáâäbcd;Alphabetisch, Sonderzeichen beachten -> (@§€19.20.3.4abcd;Natürliche Sortierung: alphabetisch und mehrstellige Zahlen nach ihrem Wert -> 8.9.10.11abcd;Natürliche Sortierung, Sonderzeichen beachten -> (@§€8.9.10.11abcd"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;"
 msgstr "Oben;Unten;"
 
 #: ulng.rsopttoolbarbuttontype

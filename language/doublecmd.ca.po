@@ -14867,7 +14867,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Alfabèticament, considerant accents; Ordre natural: alfabètic i números"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;"
 msgstr "Amunt;Avall;"
 
 #: ulng.rsopttoolbarbuttontype
