@@ -1121,7 +1121,7 @@ begin
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(AFileKey, ADisplayFile);
     InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
-    if not TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions) then
+    if not TFileListBuilder.MatchesFilter(FileSource, ADisplayFile, FileFilter, FFilterOptions) then
     begin
       InsertFile(ADisplayFile, FFiles, NewFilesPosition);
       VisualizeFileUpdate(ADisplayFile);
@@ -2238,7 +2238,7 @@ var
   bFilterOut: Boolean;
   FilteredFilesIndex: Integer;
 begin
-  bFilterOut := TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions);
+  bFilterOut := TFileListBuilder.MatchesFilter(FileSource, ADisplayFile, FileFilter, FFilterOptions);
   FilteredFilesIndex := FFiles.Find(ADisplayFile);
   if FilteredFilesIndex >= 0 then
   begin

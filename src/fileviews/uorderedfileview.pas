@@ -645,7 +645,6 @@ var
   NewSelectedState,
   FirstFound,
   Result: Boolean;
-  sFileName : String;
   AFile: TFile;
   Masks: TMaskList;
   AOptions: TMaskOptions = [moPinyin];
@@ -727,10 +726,8 @@ begin
            not AFile.IsLinkToDirectory then
           Result := False;
 
-        sFileName := AFile.Name;
-
         // Match the file name and Pinyin letter
-        if not (Masks.Matches(sFileName)) then
+        if not (Masks.Matches(FFiles[Index].DisplayName)) then
           Result := False;
 
         if Result then
