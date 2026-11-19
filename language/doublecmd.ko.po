@@ -13890,7 +13890,7 @@ msgstr "억양을 고려한 알파벳순;특수문자 포함 알파벳순;자연
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "맨 위;맨 아래;"
 
 #: ulng.rsopttoolbarbuttontype

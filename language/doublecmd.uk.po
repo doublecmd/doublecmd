@@ -14279,7 +14279,7 @@ msgstr "За абеткою, з урахуванням наголосів; Пр�
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Зверху;Знизу"
 
 #: ulng.rsopttoolbarbuttontype

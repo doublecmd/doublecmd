@@ -13891,7 +13891,7 @@ msgstr "אלפביתי, תוך התחשבות במבטאים;אלפביתי עם
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "עליון;תחתון;"
 
 #: ulng.rsopttoolbarbuttontype

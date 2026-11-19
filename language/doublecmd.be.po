@@ -13915,7 +13915,7 @@ msgstr "Па алфавіце з улікам моўных асаблівасц�
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Верх;Ніз;"
 
 #: ulng.rsopttoolbarbuttontype

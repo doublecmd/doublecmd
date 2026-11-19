@@ -13905,7 +13905,7 @@ msgstr "abecedno, upoštevajoč znakovne naglase;abecedno, upoštevajoč posebne
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "zgoraj;spodaj;"
 
 #: ulng.rsopttoolbarbuttontype

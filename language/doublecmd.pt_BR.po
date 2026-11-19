@@ -14368,7 +14368,7 @@ msgstr "Alfabétca, considerando acentos;Ordem natural;alfabética e números"
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Topo;Inferior;"
 
 #: ulng.rsopttoolbarbuttontype

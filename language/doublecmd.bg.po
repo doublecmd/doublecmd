@@ -14383,7 +14383,7 @@ msgstr "Азбучно, с отчитане на ударенията;Естес
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Отгоре;Отдолу"
 
 #: ulng.rsopttoolbarbuttontype

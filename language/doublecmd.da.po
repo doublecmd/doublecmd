@@ -15077,7 +15077,7 @@ msgstr "Alfabetiske, inklusive tegn med accenter;Naturlig sortering: Alfabetisk 
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Top;Bund;"
 
 # Opsætning - Indstillinger - Værktøjslinje

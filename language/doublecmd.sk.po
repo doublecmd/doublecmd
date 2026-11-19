@@ -13889,7 +13889,7 @@ msgstr "Abecedne, s ohľadom na diakritiku;Abecedne s radením špeciálnych zna
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Hore;Dole;"
 
 #: ulng.rsopttoolbarbuttontype

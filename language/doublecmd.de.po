@@ -13891,7 +13891,7 @@ msgstr "Alphabetisch (= Ziffern einzeln -> 19 vor 2), Diakritika beachten -> aà
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Oben;Unten;"
 
 #: ulng.rsopttoolbarbuttontype

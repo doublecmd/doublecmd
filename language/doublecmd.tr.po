@@ -14557,7 +14557,7 @@ msgstr "Alfabetik,sıralamayı hesaba katma;Doğal sıralama: alfabetik ve numar
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Üst;Alt;"
 
 #: ulng.rsopttoolbarbuttontype

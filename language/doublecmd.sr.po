@@ -14157,7 +14157,7 @@ msgstr "Азбучно, водећи рачуна о нагласцима;Азб
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Врх;Дно;"
 
 #: ulng.rsopttoolbarbuttontype

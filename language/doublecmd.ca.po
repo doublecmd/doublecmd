@@ -14869,7 +14869,7 @@ msgstr "Alfabèticament, considerant accents; Ordre natural: alfabètic i númer
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Amunt;Avall;"
 
 #: ulng.rsopttoolbarbuttontype

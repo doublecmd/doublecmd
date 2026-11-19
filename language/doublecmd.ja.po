@@ -14184,7 +14184,7 @@ msgstr "アクセントを考慮の上アルファベット順;特殊文字の�
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "上部;下部;"
 
 #: ulng.rsopttoolbarbuttontype

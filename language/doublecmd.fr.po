@@ -14323,7 +14323,7 @@ msgstr "Tri alphabétique avec accents;Tri alphabétique avec caractères spéci
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Haut;Bas;"
 
 #: ulng.rsopttoolbarbuttontype

@@ -39,6 +39,7 @@ type
     FScrollTimer: TTimer;
     FScrollDelta: Integer;
     FScrollBarVisible: Boolean;
+    FScrollBarPending: Boolean;
     FUpdatingScrollBar: Boolean;
     FItemHeight: Integer;
     FTopIndex: Integer;
@@ -76,6 +77,7 @@ type
     }
     function GetInsertIndex(ASource: TFileViewTabList; X, Y: Integer): Integer;
     procedure UpdateScrollBar;
+    function IsWindowAtBounds: Boolean;
     procedure UpdateVisibility;
     procedure UpdateDragScroll(Y: Integer);
     procedure StopDragScroll;
@@ -88,6 +90,7 @@ type
 
   protected
     procedure CreateWnd; override;
+    procedure DoSendBoundsToInterface; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure FontChanged(Sender: TObject); override;
     procedure Paint; override;
@@ -136,7 +139,7 @@ type
 implementation
 
 uses
-  Math, uGlobs;
+  Math, uGlobs, uFilePanelSelect;
 
 const
   ACCENT_WIDTH = 3;  // at 96 DPI
@@ -217,6 +220,17 @@ begin
   // A new window has no scroll bar
   FScrollBarVisible:= False;
   UpdateScrollBar;
+end;
+
+procedure TFileViewTabList.DoSendBoundsToInterface;
+begin
+  inherited DoSendBoundsToInterface;
+  // The window is at its new place now, see UpdateScrollBar
+  if FScrollBarPending then
+  begin
+    FScrollBarPending:= False;
+    UpdateScrollBar;
+  end;
 end;
 
 procedure TFileViewTabList.Notification(AComponent: TComponent; Operation: TOperation);
@@ -339,7 +353,7 @@ begin
   if AValue < 0 then AValue:= 0;
   if FTopIndex = AValue then Exit;
   FTopIndex:= AValue;
-  if FScrollBarVisible and HandleAllocated then
+  if FScrollBarVisible and HandleAllocated and not FScrollBarPending then
     SetScrollPos(Handle, SB_VERT, FTopIndex, True);
   Invalidate;
 end;
@@ -395,6 +409,15 @@ begin
   end;
 end;
 
+function TFileViewTabList.IsWindowAtBounds: Boolean;
+var
+  X, Y, W, H: Integer;
+begin
+  X:= 0; Y:= 0; W:= 0; H:= 0;
+  Result:= GetWindowRelativePosition(Handle, X, Y) and GetWindowSize(Handle, W, H) and
+           (X = Left) and (Y = Top) and (W = Width) and (H = Height);
+end;
+
 procedure TFileViewTabList.UpdateScrollBar;
 var
   ACount, AVisibleCount: Integer;
@@ -413,6 +436,18 @@ begin
 
     if HandleAllocated then
     begin
+{$IF DEFINED(LCLWIN32)}
+      // Changing the scroll bar makes Windows send WM_SIZE, and LCL takes the position
+      // for it from Left/Top. While the form delays moving the window to new Left/Top
+      // (e.g. when the tabs position is changed), LCL would then think that the window
+      // was already moved and never move it. So wait until it is moved.
+      if not IsWindowAtBounds then
+      begin
+        FScrollBarPending:= True;
+        Exit;
+      end;
+{$ENDIF}
+      FScrollBarPending:= False;
       if AShow then
       begin
         AInfo:= Default(TScrollInfo);
@@ -558,10 +593,18 @@ var
 begin
   if not Assigned(FNotebook) or not Assigned(Parent) then Exit;
 
-  if gDirTabPosition = tbpos_right then
-    AAlign:= alRight
-  else
-    AAlign:= alLeft;
+  case gDirTabPosition of
+    tbpos_right:
+      AAlign:= alRight;
+    // Next to the splitter between the panels
+    tbpos_middle:
+      if FNotebook.Side = fpLeft then AAlign:= alRight else AAlign:= alLeft;
+    // On the outer side of each panel
+    tbpos_sides:
+      if FNotebook.Side = fpLeft then AAlign:= alLeft else AAlign:= alRight;
+    else
+      AAlign:= alLeft;
+  end;
 
   Parent.DisableAlign;
   try

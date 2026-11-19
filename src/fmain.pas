@@ -6568,7 +6568,7 @@ procedure TfrmMain.UpdateWindowView;
     case gDirTabPosition of
       tbpos_top:    NoteBook.TabPosition := tpTop;
       tbpos_bottom: NoteBook.TabPosition := tpBottom;
-      // tbpos_left, tbpos_right: native tabs are hidden, see TFileViewTabList
+      // Vertical positions: native tabs are hidden, see TFileViewTabList
       else          NoteBook.TabPosition := tpTop;
     end;
 

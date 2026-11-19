@@ -76,7 +76,9 @@ type
 
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
-  TTabsPosition = (tbpos_top, tbpos_bottom, tbpos_left, tbpos_right);
+  // Left, right, middle and sides show tabs as a vertical list beside each panel:
+  // middle - between the two panels, sides - on the outer sides of the panels
+  TTabsPosition = (tbpos_top, tbpos_bottom, tbpos_left, tbpos_right, tbpos_middle, tbpos_sides);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
   { Custom icons mode }

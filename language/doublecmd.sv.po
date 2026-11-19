@@ -13889,7 +13889,7 @@ msgstr "Alfabetiskt, med hänsyn till accenter;Alfabetiskt med sortering av spec
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Överst;Nederst;"
 
 #: ulng.rsopttoolbarbuttontype

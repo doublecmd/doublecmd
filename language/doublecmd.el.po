@@ -14136,7 +14136,7 @@ msgstr "Αλφαβητικά, σε σχέση με τον τονισμό, Αλφ
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Κορυφή;Κάτω;"
 
 #: ulng.rsopttoolbarbuttontype

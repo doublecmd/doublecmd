@@ -14441,7 +14441,7 @@ msgstr "Azbučno, vodeći računa o akcentima;Prirodan raspored: azbučno i broj
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Vrh;Dno"
 
 #: ulng.rsopttoolbarbuttontype

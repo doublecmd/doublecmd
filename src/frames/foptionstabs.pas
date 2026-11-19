@@ -94,8 +94,8 @@ procedure TfrmOptionsTabs.UpdateTabsPositionDependents;
 var
   bVertical: Boolean;
 begin
-  // Left and Right positions show tabs as a vertical list (see TFileViewTabList)
-  bVertical := cmbTabsPosition.ItemIndex in [2, 3];
+  // Left, Right, Middle and Both sides show tabs as a vertical list (see TFileViewTabList)
+  bVertical := cmbTabsPosition.ItemIndex in [2..5];
   cbTabsMultiLines.Enabled := not bVertical;
   cbTabsShowCloseButton.Visible := bVertical or (nbcShowCloseButtons in FPageControl.GetCapabilities);
 end;
@@ -145,6 +145,8 @@ begin
     tbpos_bottom: cmbTabsPosition.ItemIndex := 1;
     tbpos_left: cmbTabsPosition.ItemIndex := 2;
     tbpos_right: cmbTabsPosition.ItemIndex := 3;
+    tbpos_middle: cmbTabsPosition.ItemIndex := 4;
+    tbpos_sides: cmbTabsPosition.ItemIndex := 5;
     else
       cmbTabsPosition.ItemIndex := 0;
   end;
@@ -198,6 +200,8 @@ begin
     1: gDirTabPosition := tbpos_bottom;
     2: gDirTabPosition := tbpos_left;
     3: gDirTabPosition := tbpos_right;
+    4: gDirTabPosition := tbpos_middle;
+    5: gDirTabPosition := tbpos_sides;
   end;
 end;
 

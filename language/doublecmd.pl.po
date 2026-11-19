@@ -13863,7 +13863,7 @@ msgstr "Alfabetycznie, uwzględniając akcenty;Alfabetyczne sortowanie ze znakam
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "U góry;Na dole;"
 
 #: ulng.rsopttoolbarbuttontype

@@ -13939,7 +13939,7 @@ msgstr "Abecedně s ohledem na znaménka;Abecedně se tříděním speciálních
 #: ulng.rsopttabsposition
 #, fuzzy
 #| msgid "Top;Bottom;"
-msgid "Top;Bottom;Left;Right;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Nahoře;Dole;"
 
 #: ulng.rsopttoolbarbuttontype
