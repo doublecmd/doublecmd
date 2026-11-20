@@ -19,6 +19,7 @@ type
                          fswFileDeleted,
                          fswFileRenamed,
                          fswSelfDeleted,
+                         fswNeedReload,
                          fswUnknownChange);
   TFSWatcherEventTypes = set of TFSWatcherEventType;
 

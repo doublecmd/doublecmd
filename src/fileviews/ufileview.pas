@@ -868,7 +868,7 @@ begin
      (FPendingFilesChanges.Count > 100) then
   begin
     // Too many changes. Reload the whole file list again.
-    pEvent^.EventType := fswUnknownChange;
+    pEvent^.EventType := fswNeedReload;
   end
   else
   begin
@@ -885,9 +885,11 @@ begin
           Exit;
       fswFileRenamed:
         CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
+      fswUnknownChange:
+         pEvent^.EventType := fswNeedReload;
     end;
   end;
-  if pEvent^.EventType <> fswUnknownChange then
+  if pEvent^.EventType <> fswNeedReload then
     FPendingFilesChanges.Add(pEvent)
   else
     FPendingFilesChanges.Insert(0, pEvent);
@@ -2563,10 +2565,12 @@ end;
 
 function TFileView.Reload(const PathToReload: String): Boolean;
 var
-  Paths: TPathsArray;
+  Paths: TPathsArray = nil;
 begin
-  SetLength(Paths, 1);
-  Paths[0] := PathToReload;
+  if PathToReload <> EmptyStr then begin
+    SetLength(Paths, 1);
+    Paths[0] := PathToReload;
+  end;
   Result := Reload(Paths);
 end;
 
@@ -3497,6 +3501,8 @@ begin
       Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
     fswSelfDeleted:
       CurrentPath:= GetDeepestExistingPath(CurrentPath);
+    fswNeedReload:
+      Reload();
     else
       Reload();
   end;
