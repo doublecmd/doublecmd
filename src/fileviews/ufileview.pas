@@ -860,12 +860,15 @@ begin
   if not Assigned(FPendingFilesChanges) then
     FPendingFilesChanges := TFPList.Create;
 
+  New(pEvent);
+  pEvent^ := EventData;
+
   if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
       (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
      (FPendingFilesChanges.Count > 100) then
   begin
     // Too many changes. Reload the whole file list again.
-    Reload(EventData.Path);
+    pEvent^.EventType := fswUnknownChange;
   end
   else
   begin
@@ -883,10 +886,11 @@ begin
       fswFileRenamed:
         CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
     end;
-    New(pEvent);
-    FPendingFilesChanges.Add(pEvent);
-    pEvent^ := EventData;
   end;
+  if pEvent^.EventType <> fswUnknownChange then
+    FPendingFilesChanges.Add(pEvent)
+  else
+    FPendingFilesChanges.Insert(0, pEvent);
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -3548,8 +3552,6 @@ end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 var
-  CurrentTime: TDateTime;
-  AddToPending: Boolean;
   virtualPath: String;
 begin
   if (not FReloadNeeded) and CheckIfDelayReload then
@@ -3563,42 +3565,9 @@ begin
      not FReloadNeeded and
      String(IncludeTrailingPathDelimiter(virtualPath)).StartsWith(CurrentPath) then
   begin
-    if GetCurrentWorkType = fvwtCreate then
-    begin
-      // If some unknown change then we can only reload the whole file list.
-      if EventData.EventType <> fswUnknownChange then
-        AddEventToPendingFilesChanges(EventData)
-      else
-        Reload();
-    end
-    else
-    begin
-      if FileListLoaded then
-      begin
-        AddToPending := True;
-        if not AddToPending then
-        begin
-          CurrentTime := SysUtils.Now;
-          if DateTimeToTimeStamp(CurrentTime - FWatcherEventLastTime).Time > UpdateFilelistInterval then
-            FWatcherEventsApplied := 0;
-
-          FWatcherEventLastTime := CurrentTime;
-          if FWatcherEventsApplied < 5 then
-          begin
-            Inc(FWatcherEventsApplied);
-            HandleFSWatcherEvent(EventData, gNewFilesPosition, gUpdatedFilesPosition);
-          end
-          else
-            AddToPending := True;
-        end;
-
-        if AddToPending then
-        begin
-          AddEventToPendingFilesChanges(EventData);
-        end;
-      end
-      // else filelist not loaded and not even started loading - discard the event
-    end;
+    if FileListLoaded then
+      AddEventToPendingFilesChanges(EventData);
+    // else filelist not loaded and not even started loading - discard the event
   end;
 end;
 
