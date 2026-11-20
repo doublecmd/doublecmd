@@ -76,6 +76,9 @@ uses
 {$IFDEF DARWIN}
   , uDarwinFinderModel, uDarwinFileView
 {$ENDIF}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  , uKde
+{$ENDIF}
   ;
 
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
@@ -264,33 +267,38 @@ end;
 function ChooseFileSource(aFileView: TFileView; const aPath: String;
   bLocal: Boolean): Boolean;
 var
+  ResolvedPath,
   RemotePath: String;
   FileSource: IFileSource;
 begin
   Result:= True;
-  RemotePath:= aPath;
+  ResolvedPath:= aPath;
+  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  KmtpResolvePath(ResolvedPath);
+  {$ENDIF}
+  RemotePath:= ResolvedPath;
   FileSource:= ParseFileSource(RemotePath, aFileView.FileSource);
   // If found special FileSource for path
   if Assigned(FileSource) then
     begin
       // If path is URI
-      if RemotePath <> aPath then
+      if RemotePath <> ResolvedPath then
         aFileView.AddFileSource(FileSource, RemotePath)
       // If found FileSource is same as current then simply change path
       else if aFileView.FileSource.Equals(FileSource) then
-        aFileView.CurrentPath := aPath
+        aFileView.CurrentPath := ResolvedPath
       // Else create new FileSource with given path
       else
-        aFileView.AddFileSource(FileSource, aPath);
+        aFileView.AddFileSource(FileSource, ResolvedPath);
     end
   // If current FileSource has address
   else if bLocal and (Length(aFileView.CurrentAddress) > 0) then
-     aFileView.CurrentPath := aPath
+     aFileView.CurrentPath := ResolvedPath
   // Else use FileSystemFileSource
   else
     begin
-      SetFileSystemPath(aFileView, aPath);
-      Result:= mbSetCurrentDir(aPath);
+      SetFileSystemPath(aFileView, ResolvedPath);
+      Result:= mbSetCurrentDir(ResolvedPath);
     end;
 end;
 
