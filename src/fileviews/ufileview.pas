@@ -920,6 +920,15 @@ begin
   try
     BeginUpdate;
     try
+      if FPendingFilesChanges.Count > 0 then begin
+        pEvent := PFSWatcherEventData(FPendingFilesChanges[0]);
+        if pEvent^.EventType = fswNeedReload then begin
+          Reload;
+          ClearPendingFilesChanges;
+          Exit;
+        end;
+      end;
+
       // Check if another reload was not issued.
       if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
       begin
