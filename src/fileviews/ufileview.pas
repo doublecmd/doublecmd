@@ -128,8 +128,6 @@ type
     FRecentlyUpdatedFilesTimer: TTimer;
     FRequests: TFileViewRequests;
     FUpdateCount: Integer;           //<en Nr of times BeginUpdate was called without corresponding EndUpdate
-    FWatcherEventLastTime: TDateTime;
-    FWatcherEventsApplied: Integer;  //<en How many filesystem watcher events have been applied immediately before postponing them
 
     FActive: Boolean;             //<en Is this view active
     FLastActiveFile: String;      //<en Last active file (cursor)
@@ -206,7 +204,7 @@ type
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatedFilesTimerEvent(Sender: TObject);
     procedure UpdatePath({%H-}UpdateAddressToo: Boolean);
-    procedure UpdatePendingTimerEvent(Sender: TObject; var Done: Boolean);
+    procedure UpdatePendingOnIdle(Sender: TObject; var Done: Boolean);
     procedure UpdateTitle;
     procedure VisualizeFileUpdate(AFile: TDisplayFile);
     {en
@@ -627,7 +625,6 @@ uses
 
 const
   MinimumReloadInterval  = 1000; // 1 second
-  UpdateFilelistInterval =  500;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
@@ -699,7 +696,8 @@ begin
   FFilterOptions := gQuickSearchOptions;
   FHashedNames := TStringHashListUtf8.Create(True);
   FPendingFilesLockObject := syncobjs.TCriticalSection.Create;
-  Application.AddOnIdleHandler(@UpdatePendingTimerEvent);
+  FPendingFilesChanges := TFPList.Create;
+  Application.AddOnIdleHandler(@UpdatePendingOnIdle);
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
@@ -758,8 +756,8 @@ begin
   FreeAndNil(FHashedNames);
   FreeAndNil(FHistory);
   FreeAndNil(FSavedSelection);
-  FreeAndNil(FPendingFilesChanges);
   FreeAndNil(FRecentlyUpdatedFiles);
+  FreeAndNil(FPendingFilesChanges);
   FreeAndNil(FPendingFilesLockObject);
 end;
 
@@ -822,6 +820,7 @@ begin
   else begin
     FHistory.Add(aFileSource, aPath);
   end;
+  Result := True;
 end;
 
 procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
@@ -857,42 +856,39 @@ var
 begin
   FPendingFilesLockObject.Acquire;
   try
-  if not Assigned(FPendingFilesChanges) then
-    FPendingFilesChanges := TFPList.Create;
+    New(pEvent);
+    pEvent^ := EventData;
 
-  New(pEvent);
-  pEvent^ := EventData;
-
-  if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
-      (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
-     (FPendingFilesChanges.Count > 100) then
-  begin
-    // Too many changes. Reload the whole file list again.
-    pEvent^.EventType := fswNeedReload;
-  end
-  else
-  begin
-    // Remove obsolete events if they exist.
-    case EventData.EventType of
-      fswFileCreated:
-        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
-      fswFileDeleted:
-        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
-      fswFileChanged:
-        // If FileChanged or FileCreated already exists then new one is not scheduled.
-        // FileCreated will cause update anyway if a file already exists in the filelist.
-        if CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated], False) then
-          Exit;
-      fswFileRenamed:
-        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
-      fswUnknownChange:
-         pEvent^.EventType := fswNeedReload;
+    if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
+        (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
+       (FPendingFilesChanges.Count > 100) then
+    begin
+      // Too many changes. Reload the whole file list again.
+      pEvent^.EventType := fswNeedReload;
+    end
+    else
+    begin
+      // Remove obsolete events if they exist.
+      case EventData.EventType of
+        fswFileCreated:
+          CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
+        fswFileDeleted:
+          CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
+        fswFileChanged:
+          // If FileChanged or FileCreated already exists then new one is not scheduled.
+          // FileCreated will cause update anyway if a file already exists in the filelist.
+          if CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated], False) then
+            Exit;
+        fswFileRenamed:
+          CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
+        fswUnknownChange:
+           pEvent^.EventType := fswNeedReload;
+      end;
     end;
-  end;
-  if pEvent^.EventType <> fswNeedReload then
-    FPendingFilesChanges.Add(pEvent)
-  else
-    FPendingFilesChanges.Insert(0, pEvent);
+    if pEvent^.EventType <> fswNeedReload then
+      FPendingFilesChanges.Add(pEvent)
+    else
+      FPendingFilesChanges.Insert(0, pEvent);
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -905,10 +901,11 @@ var
   i: Integer;
   pEvent: PFSWatcherEventData;
 begin
+  if FPendingFilesChanges.Count = 0 then
+    Exit;
+
   FPendingFilesLockObject.Acquire;
   try
-  if Assigned(FPendingFilesChanges) then
-  begin
     BeginUpdate;
     try
       // Check if another reload was not issued.
@@ -922,7 +919,7 @@ begin
           HandleFSWatcherEvent(pEvent^, NewFilesPosition, UpdatedFilesPosition);
 
           // HandleFSWatcherEvent might call Reload which clears FPendingFilesChanges, so check for it.
-          if not Assigned(FPendingFilesChanges) then
+          if FPendingFilesChanges.Count = 0 then
             Break;
         end;
       end;
@@ -930,7 +927,6 @@ begin
     finally
       EndUpdate;
     end;
-  end;
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -943,15 +939,12 @@ var
 begin
   FPendingFilesLockObject.Acquire;
   try
-    if Assigned(FPendingFilesChanges) then
+    for i := 0 to FPendingFilesChanges.Count - 1 do
     begin
-      for i := 0 to FPendingFilesChanges.Count - 1 do
-      begin
-        pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
-        Dispose(pEvent);
-      end;
-      FreeAndNil(FPendingFilesChanges);
+      pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
+      Dispose(pEvent);
     end;
+    FPendingFilesChanges.Clear;
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -1061,7 +1054,7 @@ procedure TFileView.Clear;
 var
   i: Integer;
 begin
-  Application.RemoveOnIdleHandler(@UpdatePendingTimerEvent);
+  Application.RemoveOnIdleHandler(@UpdatePendingOnIdle);
   StopWorkers;
 
   for i := 0 to FHistory.Count - 1 do
@@ -1398,7 +1391,7 @@ begin
   UpdateView;
 end;
 
-procedure TFileView.UpdatePendingTimerEvent(Sender: TObject; var Done: Boolean);
+procedure TFileView.UpdatePendingOnIdle(Sender: TObject; var Done: Boolean);
 begin
   ApplyPendingFilesChanges(gNewFilesPosition, gUpdatedFilesPosition);
 end;
