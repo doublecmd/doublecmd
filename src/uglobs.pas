@@ -76,7 +76,9 @@ type
 
   TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
-  TTabsPosition = (tbpos_top, tbpos_bottom);
+  // Left, right, middle and sides show tabs as a vertical list beside each panel:
+  // middle - between the two panels, sides - on the outer sides of the panels
+  TTabsPosition = (tbpos_top, tbpos_bottom, tbpos_left, tbpos_right, tbpos_middle, tbpos_sides);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
   { Custom icons mode }
@@ -558,6 +560,7 @@ var
   gDirTabActionOnDoubleClick : TTabsOptionsDoubleClick;
   gDirTabLimit : Integer;
   gDirTabPosition : TTabsPosition;
+  gDirTabVerticalWidth : Integer; // Width of the vertical tabs list at 96 DPI
 
   { Log page }
   gLogFile : Boolean;
@@ -2153,6 +2156,7 @@ begin
   gDirTabActionOnDoubleClick := tadc_FavoriteTabs;
   gDirTabLimit := 32;
   gDirTabPosition := tbpos_top;
+  gDirTabVerticalWidth := 160;
 
   { Favorite Tabs}
   gFavoriteTabsUseRestoreExtraOptions := False;
@@ -3176,6 +3180,7 @@ begin
       end;
       gDirTabLimit := GetValue(Node, 'CharacterLimit', gDirTabLimit);
       gDirTabPosition := TTabsPosition(GetValue(Node, 'Position', Integer(gDirTabPosition)));
+      gDirTabVerticalWidth := GetValue(Node, 'VerticalWidth', gDirTabVerticalWidth);
       gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(GetValue(Node, 'ActionOnDoubleClick', Integer(tadc_CloseTab)));
     end;
 
@@ -3849,6 +3854,7 @@ begin
     SetValue(Node, 'Options', Integer(gDirTabOptions));
     SetValue(Node, 'CharacterLimit', gDirTabLimit);
     SetValue(Node, 'Position', Integer(gDirTabPosition));
+    SetValue(Node, 'VerticalWidth', gDirTabVerticalWidth);
     SetValue(Node, 'ActionOnDoubleClick',Integer(gDirTabActionOnDoubleClick));
 
     { Log page }

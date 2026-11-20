@@ -13887,7 +13887,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Ábécé, ékezetek figyelembevételével;Ábécé, speciális karakterek rendezéssel;Természetes rendezés: ábécé és számok;Természetes speciális karakterek rendezéssel"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Felül;Alul;"
 
 #: ulng.rsopttoolbarbuttontype

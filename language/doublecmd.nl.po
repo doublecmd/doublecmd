@@ -13881,7 +13881,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Alfabetisch, rekening houdend met accenten; Alfabetisch met sortering van speciale tekens; Natuurlijke sortering: alfabetisch en cijfers; Natuurlijk met sortering van speciale tekens"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Boven;Onder;"
 
 #: ulng.rsopttoolbarbuttontype

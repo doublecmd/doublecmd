@@ -845,7 +845,7 @@ resourcestring
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
   rsOptMouseSelectionButton = 'Left button;Right button;';
   rsOptAutoSizeColumn = 'First;Last;';
-  rsOptTabsPosition = 'Top;Bottom;';
+  rsOptTabsPosition = 'Top;Bottom;Left;Right;Middle;Both sides;';
   rsOptArchiveTypeName = 'Archive type name:';
   //-------------------------------
   // Hotkeys
