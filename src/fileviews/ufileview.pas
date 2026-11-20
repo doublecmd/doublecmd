@@ -851,6 +851,20 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
       end;
     end;
   end;
+
+  function shouldReload: Boolean; inline;
+  begin
+    Result := False;
+    if NOT Assigned(FAllDisplayFiles) then
+      Exit;
+    if FAllDisplayFiles.Count = 0 then
+      Exit;
+    if FPendingFilesChanges.Count < 4 then
+      Exit;
+    if FPendingFilesChanges.Count > 100 then
+      Exit( True );
+    Result := FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4;
+  end;
 var
   pEvent: PFSWatcherEventData;
 begin
@@ -859,9 +873,7 @@ begin
     New(pEvent);
     pEvent^ := EventData;
 
-    if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
-        (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
-       (FPendingFilesChanges.Count > 100) then
+    if shouldReload then
     begin
       // Too many changes. Reload the whole file list again.
       pEvent^.EventType := fswNeedReload;
