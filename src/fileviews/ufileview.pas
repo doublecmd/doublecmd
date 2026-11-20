@@ -117,7 +117,6 @@ type
     FHashedNames: TStringHashListUtf8;
     FPendingFilesLockObject: TCriticalSection;
     FPendingFilesChanges: TFPList;
-    FPendingFilesTimer: TTimer;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
     FReloadTimer: TTimer;
@@ -204,11 +203,10 @@ type
     procedure SetFlags(AValue: TFileViewFlags);
     procedure SetLoadingFileListLongTime(AValue: Boolean);
     procedure StartRecentlyUpdatedTimerIfNeeded;
-    procedure StartUpdatePendingTimer;
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatedFilesTimerEvent(Sender: TObject);
     procedure UpdatePath({%H-}UpdateAddressToo: Boolean);
-    procedure UpdatePendingTimerEvent(Sender: TObject);
+    procedure UpdatePendingTimerEvent(Sender: TObject; var Done: Boolean);
     procedure UpdateTitle;
     procedure VisualizeFileUpdate(AFile: TDisplayFile);
     {en
@@ -701,6 +699,7 @@ begin
   FFilterOptions := gQuickSearchOptions;
   FHashedNames := TStringHashListUtf8.Create(True);
   FPendingFilesLockObject := syncobjs.TCriticalSection.Create;
+  Application.AddOnIdleHandler(@UpdatePendingTimerEvent);
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
@@ -891,6 +890,7 @@ begin
   finally
     FPendingFilesLockObject.Release;
   end;
+  WakeMainThread(self);
 end;
 
 procedure TFileView.ApplyPendingFilesChanges(NewFilesPosition: TNewFilesPosition;
@@ -937,18 +937,15 @@ var
 begin
   FPendingFilesLockObject.Acquire;
   try
-  if Assigned(FPendingFilesTimer) then
-    FPendingFilesTimer.Enabled := False;
-
-  if Assigned(FPendingFilesChanges) then
-  begin
-    for i := 0 to FPendingFilesChanges.Count - 1 do
+    if Assigned(FPendingFilesChanges) then
     begin
-      pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
-      Dispose(pEvent);
+      for i := 0 to FPendingFilesChanges.Count - 1 do
+      begin
+        pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
+        Dispose(pEvent);
+      end;
+      FreeAndNil(FPendingFilesChanges);
     end;
-    FreeAndNil(FPendingFilesChanges);
-  end;
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -1058,6 +1055,7 @@ procedure TFileView.Clear;
 var
   i: Integer;
 begin
+  Application.RemoveOnIdleHandler(@UpdatePendingTimerEvent);
   StopWorkers;
 
   for i := 0 to FHistory.Count - 1 do
@@ -1263,18 +1261,6 @@ begin
   end;
 end;
 
-procedure TFileView.StartUpdatePendingTimer;
-begin
-  if not Assigned(FPendingFilesTimer) then
-  begin
-    FPendingFilesTimer := TTimer.Create(Self);
-    FPendingFilesTimer.Interval := UpdateFilelistInterval;
-    FPendingFilesTimer.OnTimer := @UpdatePendingTimerEvent;
-  end;
-
-  FPendingFilesTimer.Enabled := True;
-end;
-
 procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   AFile: TFile;
@@ -1406,9 +1392,8 @@ begin
   UpdateView;
 end;
 
-procedure TFileView.UpdatePendingTimerEvent(Sender: TObject);
+procedure TFileView.UpdatePendingTimerEvent(Sender: TObject; var Done: Boolean);
 begin
-  FPendingFilesTimer.Enabled := False;
   ApplyPendingFilesChanges(gNewFilesPosition, gUpdatedFilesPosition);
 end;
 
@@ -3610,7 +3595,6 @@ begin
         if AddToPending then
         begin
           AddEventToPendingFilesChanges(EventData);
-          StartUpdatePendingTimer;
         end;
       end
       // else filelist not loaded and not even started loading - discard the event
