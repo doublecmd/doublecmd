@@ -72,7 +72,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   ipc, baseunix, uPipeServer,
   {$ENDIF}
-  Forms, StrUtils, FileUtil, uRegExprA, uGlobs, uDebug;
+  Forms, Math, StrUtils, FileUtil, uRegExprA, uGlobs, uDebug;
 
 {$IF DEFINED(DARWIN)}
 const
@@ -88,8 +88,10 @@ var
 begin
   if Assigned(FOnMessage) then
     begin
+      // Message can be sent by another version with different record size
+      FillChar(Params, SizeOf(Params), #0);
       FServerIPC.MsgData.Seek(0, soFromBeginning);
-      FServerIPC.MsgData.ReadBuffer(Params, FServerIPC.MsgType);
+      FServerIPC.MsgData.ReadBuffer(Params, Min(FServerIPC.MsgType, SizeOf(Params)));
       FOnMessage(Self, Params);
     end;
 end;
