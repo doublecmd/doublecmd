@@ -38,12 +38,14 @@ type
     cbAlwaysShowTrayIcon: TCheckBox;
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
+    cbUseMonochromeTrayIcon: TCheckBox;
     cbBlacklistUnmountedDevices: TCheckBox;
     edtDrivesBlackList: TEdit;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
     lblDrivesBlackList: TLabel;
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
+    procedure cbTrayIconOptionChange(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -65,6 +67,12 @@ procedure TfrmOptionsBehavior.cbAlwaysShowTrayIconChange(Sender: TObject);
 begin
   // Force minimizing to tray when tray icon is always shown.
   cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
+  cbUseMonochromeTrayIcon.Enabled:= cbAlwaysShowTrayIcon.Checked or cbMinimizeToTray.Checked;
+end;
+
+procedure TfrmOptionsBehavior.cbTrayIconOptionChange(Sender: TObject);
+begin
+  cbUseMonochromeTrayIcon.Enabled:= cbAlwaysShowTrayIcon.Checked or cbMinimizeToTray.Checked;
 end;
 
 class function TfrmOptionsBehavior.GetIconIndex: Integer;
@@ -81,8 +89,9 @@ procedure TfrmOptionsBehavior.Load;
 begin
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
   cbMinimizeToTray.Checked:= gMinimizeToTray;
-  cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
+  cbUseMonochromeTrayIcon.Checked:= gUseMonochromeTrayIcon;
+  cbAlwaysShowTrayIconChange(cbAlwaysShowTrayIcon);
   edtDrivesBlackList.Text:= gDriveBlackList;
   cbBlacklistUnmountedDevices.Checked:= gDriveBlackListUnmounted;
 end;
@@ -94,9 +103,9 @@ begin
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
+  gUseMonochromeTrayIcon:= cbUseMonochromeTrayIcon.Checked;
   gDriveBlackList:= edtDrivesBlackList.Text;
   gDriveBlackListUnmounted:= cbBlacklistUnmountedDevices.Checked;
 end;
-
 end.
-
+
