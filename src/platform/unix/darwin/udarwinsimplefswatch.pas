@@ -18,11 +18,9 @@ type
   private
     _monitor: TDarwinFSWatcher;
     _callback: TDarwinFSWatchCallBack;
-    _event: TDarwinFSWatchEvent;
   protected
     procedure Execute; override;
     procedure handleEvent( event:TDarwinFSWatchEvent );
-    procedure doSyncCallback;
   public
     procedure stop();
     constructor Create( const path:String; const callback:TDarwinFSWatchCallBack );
@@ -42,14 +40,7 @@ end;
 
 procedure TSimpleDarwinFSWatcher.handleEvent( event:TDarwinFSWatchEvent );
 begin
-  _event:= event;
-  Synchronize( doSyncCallback );
-end;
-
-procedure TSimpleDarwinFSWatcher.doSyncCallback;
-begin
-  _callback( _event );
-  _event:= nil;
+  _callback( event );
 end;
 
 procedure TSimpleDarwinFSWatcher.stop();
