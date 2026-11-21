@@ -76,8 +76,6 @@ type
   private
     _watcher: TSimpleDarwinFSWatcher;
     _watcherItems: TWatcherItems;
-    _currentItem: TWatcherItem;
-    _currentFSEvent: TFSWatcherEventData;
   private
     procedure createWatcher;
     procedure destroyWatcher;
@@ -86,7 +84,6 @@ type
   private
     function toFileSourceEvent( event: TDarwinFSWatchEvent;
       var fileSourceEvent: TFSWatcherEventData ): Boolean;
-    procedure handleEventInMainThread;
     procedure handleEvent( event: TDarwinFSWatchEvent );
   public
     function canWatch(const path: String): Boolean; override;
@@ -313,11 +310,6 @@ begin
   end;
 end;
 
-procedure TiCloudDriveWatcher.handleEventInMainThread;
-begin
-  _currentItem.eventHandler( _currentFSEvent );
-end;
-
 procedure TiCloudDriveWatcher.handleEvent(event: TDarwinFSWatchEvent);
 var
   ok: Boolean;
@@ -338,10 +330,8 @@ begin
     for item in _watcherItems do begin
       if virtualPath = item.path then begin
         if not Application.Terminated then begin
-          _currentItem:= item;
-          _currentFSEvent:= fileSourceEvent;
-          _currentFSEvent.UserData:= item.userData;
-          _watcher.Synchronize( _watcher, @handleEventInMainThread );
+          fileSourceEvent.UserData:= item.userData;
+          item.eventHandler( fileSourceEvent );
         end;
       end;
     end;
@@ -355,8 +345,10 @@ begin
   Result:= True;
 end;
 
-function TiCloudDriveWatcher.addWatch(const path: String;
-  const filter: TFSWatchFilter; const event: TFSWatcherEvent;
+function TiCloudDriveWatcher.addWatch(
+  const path: String;
+  const filter: TFSWatchFilter;
+  const event: TFSWatcherEvent;
   const UserData: Pointer): Boolean;
 var
   watcherItem: TWatcherItem;
