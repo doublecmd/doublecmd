@@ -35,6 +35,7 @@ type
 
   { TfrmOptionsArchivers }
   TfrmOptionsArchivers = class(TOptionsEditor)
+    ckbFixDirAttr:TCheckBox;
     chkHide: TCheckBox;
     chkFileNameOnlyList: TCheckBox;
     pnlFileNameOnlyList: TPanel;
@@ -317,6 +318,7 @@ begin
       ckbArchiverWindowsPath.Checked := False;
       ckbArchiverUnixFileAttributes.Checked := False;
       ckbArchiverWindowsFileAttributes.Checked := False;
+      ckbFixDirAttr.Checked := False;
       chkArchiverMultiArcOutput.Checked := False;
       chkArchiverMultiArcDebug.Checked := False;
       chkArchiverEnabled.Checked := False;
@@ -345,6 +347,7 @@ begin
         edtArchiverIdPosition.Text := FIDPos;
         edtArchiverIdSeekRange.Text := FIDSeekRange;
         chkFileNameOnlyList.Checked:= mafFileNameList in FFlags;
+        ckbFixDirAttr.Checked := mafFixDirAttr in FFlags;
         chkHide.Checked:= mafHide in FFlags;
         ckbArchiverUnixPath.Checked := (FFormMode and $01 <> $00);
         ckbArchiverWindowsPath.Checked := (FFormMode and $02 <> $00);
@@ -539,6 +542,7 @@ begin
     FFlags := [];
     if chkFileNameOnlyList.Checked then Include(FFlags, mafFileNameList);
     if chkHide.Checked then Include(FFlags, mafHide);
+    if ckbFixDirAttr.Checked then Include(FFlags, mafFixDirAttr);
     FFormMode := 0;
     if ckbArchiverUnixPath.Checked then  FFormMode := FFormMode or $01;
     if ckbArchiverWindowsPath.Checked then  FFormMode := FFormMode or $02;

@@ -21,8 +21,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     Constraints.MinWidth = 120
     TabOrder = 0
     object lblArchiverListBox: TLabel
-      AnchorSideLeft.Control = pnlArchiverListbox
-      AnchorSideTop.Control = pnlArchiverListbox
       Left = 3
       Height = 18
       Top = 3
@@ -1001,9 +999,22 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           ParentBidiMode = False
           TabOrder = 11
         end
+        object ckbFixDirAttr: TCheckBox
+          AnchorSideLeft.Control = ckbArchiverUnixPath
+          AnchorSideTop.Control = ckbArchiverUnixPath
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 23
+          Top = 464
+          Width = 364
+          BorderSpacing.Top = 5
+          Caption = 'Additional check and correction of attributes for directories'
+          OnChange = edtAnyChange
+          TabOrder = 12
+        end
         object bvlArchiverOptions: TDividerBevel
           AnchorSideLeft.Control = lblArchiverDelete
-          AnchorSideTop.Control = ckbArchiverUnixPath
+          AnchorSideTop.Control = ckbFixDirAttr
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblArchiverDelete
           AnchorSideRight.Side = asrBottom
@@ -1027,7 +1038,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           BorderSpacing.Top = 5
           Caption = 'S&how console output'
           OnChange = edtAnyChange
-          TabOrder = 12
+          TabOrder = 13
         end
         object chkArchiverMultiArcDebug: TCheckBox
           AnchorSideLeft.Control = chkArchiverMultiArcOutput
@@ -1041,7 +1052,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           BorderSpacing.Left = 10
           Caption = 'De&bug mode'
           OnChange = edtAnyChange
-          TabOrder = 13
+          TabOrder = 14
         end
       end
     end
