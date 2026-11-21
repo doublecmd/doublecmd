@@ -254,10 +254,13 @@ type
     procedure PressButtonDown(Button: TKASToolButton);
     procedure UpdateIcon(Icon: String);
     procedure DisplayAppropriateControls(EnableNormal, EnableCommand, EnableProgram: boolean);
+    procedure FreezeEditPanel;
+    procedure FreezeEditPanelAsync({%H-}Data: PtrInt);
     class function GetNode: String; virtual;
   protected
     procedure Init; override;
   public
+    destructor Destroy; override;
     property TopToolbar: TKASToolBar read GetTopToolbar;
     class function GetIconIndex: Integer; override;
     class function GetShortcuts(NormalItem: TKASNormalItem): TDynamicStringArray;
@@ -393,6 +396,14 @@ begin
   miImportTCBAR.free;
 {$ENDIF}
   AlignControlsEx(pnlEditControls, cbInternalCommand, lblInternalCommand);
+  // Fix the edit panel size as soon as the page is shown, see FreezeEditPanel
+  Application.QueueAsyncCall(@FreezeEditPanelAsync, 0);
+end;
+
+destructor TfrmOptionsToolbarBase.Destroy;
+begin
+  Application.RemoveAsyncCalls(Self);
+  inherited Destroy;
 end;
 
 procedure TfrmOptionsToolbarBase.LoadCurrentButton;
@@ -1324,6 +1335,7 @@ begin
 
   if not FUpdatingButtonType then
     ApplyEditControls;
+  FreezeEditPanel;
 
   if Assigned(FCurrentButton) then
   begin
@@ -1433,6 +1445,23 @@ end;
 
 { TfrmOptionsToolbarBase.FrameEnter }
 procedure TfrmOptionsToolbarBase.FrameEnter(Sender: TObject);
+begin
+  FreezeEditPanel;
+end;
+
+// Toolbar buttons do not take the focus, so when this was done only in
+// FrameEnter, the page was usually entered by pressing "Delete" (or "Insert
+// new button", "Clone button"). The edit panel then changed its size between
+// mouse down and mouse up, the button moved away from the mouse pointer and
+// the click was lost. So it is also done once the page is shown and on the
+// first click on a toolbar button.
+procedure TfrmOptionsToolbarBase.FreezeEditPanelAsync(Data: PtrInt);
+begin
+  if Showing then
+    FreezeEditPanel;
+end;
+
+procedure TfrmOptionsToolbarBase.FreezeEditPanel;
 begin
   //Tricky pass to don't have the "pnlEditToolbar" being continously resized depending on the button task we're going through.
   //The idea is to have system arrange for the "CommandItem", which is the taller size one, then freeze size there and keep this way.
