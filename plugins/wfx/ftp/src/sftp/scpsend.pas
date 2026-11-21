@@ -641,13 +641,24 @@ begin
 end;
 
 function TScpSend.NetworkError: Boolean;
+var
+  LastError: cint;
 begin
-  // The link is considered dead if libssh2 already recorded a fatal error, or
-  // if the idle socket has unexpected pending data (a peer FIN/RST, or a
-  // keep-alive probe that found the connection gone). The previous code
-  // required BOTH conditions, so a connection that the server closed while the
-  // tab was idle went unnoticed and never reconnected.
-  Result:= (libssh2_session_last_errno(FSession) <> 0) or FSock.CanRead(0);
+  // The link is considered dead if libssh2 recorded a fatal error, or if the
+  // idle socket has unexpected pending data (a peer FIN/RST, or a keep-alive
+  // probe that found the connection gone). Requiring BOTH, as the code once
+  // did, missed a connection the server closed while the tab sat idle.
+  //
+  // EAGAIN must not count as fatal. Transfers switch the session to
+  // non-blocking mode, so libssh2_sftp_read/write return EAGAIN as a matter of
+  // course, and libssh2 leaves it in the session error slot afterwards --
+  // nothing ever clears it. Counting it as a dead link made every file after
+  // the first tear the session down and reconnect, costing a full SSH
+  // handshake per file: many small files crawled, while a single large file
+  // stayed fast because it never reaches a second file.
+  LastError:= libssh2_session_last_errno(FSession);
+  Result:= ((LastError <> 0) and (LastError <> LIBSSH2_ERROR_EAGAIN))
+           or FSock.CanRead(0);
 end;
 
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);
