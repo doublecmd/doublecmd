@@ -859,7 +859,7 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
       Exit;
     if FAllDisplayFiles.Count = 0 then
       Exit;
-    if FPendingFilesChanges.Count < 4 then
+    if FPendingFilesChanges.Count < 10 then
       Exit;
     if FPendingFilesChanges.Count > 100 then
       Exit( True );
@@ -897,10 +897,10 @@ begin
            pEvent^.EventType := fswNeedReload;
       end;
     end;
-    if pEvent^.EventType <> fswNeedReload then
-      FPendingFilesChanges.Add(pEvent)
-    else
-      FPendingFilesChanges.Insert(0, pEvent);
+
+    if pEvent^.EventType = fswNeedReload then
+      ClearPendingFilesChanges;
+    FPendingFilesChanges.Add(pEvent);
   finally
     FPendingFilesLockObject.Release;
   end;
@@ -909,6 +909,13 @@ end;
 
 procedure TFileView.ApplyPendingFilesChanges(NewFilesPosition: TNewFilesPosition;
                                              UpdatedFilesPosition: TUpdatedFilesPosition);
+  function isReloadEvent: Boolean; inline;
+  begin
+    if FPendingFilesChanges.Count > 0 then
+      Result := PFSWatcherEventData(FPendingFilesChanges[0])^.EventType = fswNeedReload
+    else
+      Result := False;
+  end;
 var
   i: Integer;
   pEvent: PFSWatcherEventData;
@@ -920,17 +927,12 @@ begin
   try
     BeginUpdate;
     try
-      if FPendingFilesChanges.Count > 0 then begin
-        pEvent := PFSWatcherEventData(FPendingFilesChanges[0]);
-        if pEvent^.EventType = fswNeedReload then begin
-          Reload;
-          ClearPendingFilesChanges;
-          Exit;
-        end;
-      end;
-
+      if isReloadEvent then
+      begin
+        Reload;
+      end
       // Check if another reload was not issued.
-      if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
+      else if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
       begin
         for i := 0 to FPendingFilesChanges.Count - 1 do
         begin
@@ -3515,8 +3517,6 @@ begin
       Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
     fswSelfDeleted:
       CurrentPath:= GetDeepestExistingPath(CurrentPath);
-    fswNeedReload:
-      Reload();
     else
       Reload();
   end;
