@@ -397,9 +397,12 @@ var
   newTokenRange: NSRange;
 
   procedure removeEditingToken;
+  var
+    editingIndex: NSUInteger;
   begin
-    if newTokenRange.length > 0 then
-      tokenNames.removeObjectAtIndex( newTokenRange.location );
+    editingIndex:= self.editingStringIndexInObjectValue;
+    if editingIndex <> NSNotFound then
+      tokenNames.removeObjectAtIndex( editingIndex );
   end;
 
   procedure removeDuplicateToken;
