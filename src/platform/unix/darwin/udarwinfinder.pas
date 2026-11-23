@@ -117,6 +117,8 @@ type
       message 'doublecmd_editingString';
     function editingStringRange: NSRange;
       message 'doublecmd_editingStringRange';
+    function editingStringIndexInObjectValue: NSUInteger;
+      message 'doublecmd_editingStringIndexInObjectValue';
     function isSelectedTokenObject( const anObject: id ): Boolean;
       message 'doublecmd_isSelectedTokenObject:';
   end;
@@ -498,6 +500,22 @@ begin
   Result:= calcRange( findLastToken, findNextToken );
 end;
 
+function TCocoaTokenField.editingStringIndexInObjectValue: NSUInteger;
+var
+  editingRange: NSRange;
+  tagNames: NSArray;
+begin
+  Result:= NSNotFound;
+  editingRange:= self.editingStringRange;
+  if editingRange.length = 0 then
+    Exit;
+  tagNames:= NSMutableArray(self.objectValue);
+  if editingRange.location >= tagNames.count then
+    Exit;
+  if self.editingString.isEqual(tagNames.objectAtIndex(editingRange.location)) then
+    Result:=  editingRange.location;
+end;
+
 { TFinderTagsListView }
 
 function TFinderTagsListView.init: id;
@@ -768,13 +786,13 @@ procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
 var
   tagName: NSString;
   usedTagNames: NSMutableArray;
-  editingRange: NSRange;
+  editingIndex: NSUInteger;
 begin
   _filterTagNames.removeAllObjects;
   usedTagNames:= NSMutableArray.arrayWithArray( _tagsTokenField.objectValue );
-  editingRange:= _tagsTokenField.editingStringRange;
-  if editingRange.length > 0 then
-    usedTagNames.removeObjectAtIndex( editingRange.location );
+  editingIndex:= _tagsTokenField.editingStringIndexInObjectValue;
+  if editingIndex <> NSNotFound then
+    usedTagNames.removeObjectAtIndex( editingIndex );
 
   for tagName in TFinderTags.tags do begin
     if (substring.length>0) and (NOT tagName.localizedCaseInsensitiveContainsString(substring)) then
