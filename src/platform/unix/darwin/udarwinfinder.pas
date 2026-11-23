@@ -166,6 +166,7 @@ type
     procedure insertCurrentFilterToken; message 'doublecmd_insertCurrentFilterToken';
     procedure tokenField_onUpdate( editingString: NSString = nil );
   private
+    function tokenField_shouldAddObjects_atIndex(tokenField: NSTokenField; tokens: NSArray; index: NSUInteger): NSArray;
     function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
     procedure popoverWillClose(notification: NSNotification);
     procedure popoverDidClose (notification: NSNotification);
@@ -765,6 +766,19 @@ procedure TFinderTagsEditorPanel.tokenField_onUpdate( editingString: NSString = 
 begin
   self.updateFilter( editingString );
   self.updateLayout;
+end;
+
+function TFinderTagsEditorPanel.tokenField_shouldAddObjects_atIndex(
+  tokenField: NSTokenField; tokens: NSArray; index: NSUInteger): NSArray;
+var
+  tokenName: NSString;
+begin
+  Result:= NSArray.new.autorelease;
+  if NOT tokenField.isKindOfClass(TCocoaTokenField) then
+    Exit;
+  for tokenName in tokens do
+    TCocoaTokenField(tokenField).insertTokenNameReplaceEditingString( tokenName );
+  self.tokenField_onUpdate;
 end;
 
 procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
