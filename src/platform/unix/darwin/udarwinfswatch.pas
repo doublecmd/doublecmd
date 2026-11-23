@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    This unit contains specific DARWIN FSEvent functions.
 
-   Copyright (C) 2023 Alexander Koblov (alexx2000@mail.ru)
-   Copyright (C) 2023 Rich Chang (rich2014.git@outlook.com)
+   Copyright (C) 2023-2026 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2023-2026 Rich Chang (rich2014.git@outlook.com)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -52,6 +52,10 @@ type TDarwinFSWatchEventCategory = (
   ecDropabled );
 
 type TDarwinFSWatchEventCategories = set of TDarwinFSWatchEventCategory;
+
+type TDarwinFSWatchState = (
+  stateInitializing, stateRunning, stateTerminated,
+  statePathChanged );
 
 type TInternalEvent = class
 private
@@ -121,12 +125,11 @@ private
   _streamContext: FSEventStreamContext;
   _lastEventId: FSEventStreamEventId;
 
-  _running: Boolean;
   _runLoop: CFRunLoopRef;
   _thread: TThread;
 
-  _lockObject: TCriticalSection;
-  _pathsSyncObject: TEventObject;
+  _condition: NSCondition;
+  _state: TDarwinFSWatchState;
 public
   watchSubtree: Boolean;
 private
@@ -137,7 +140,7 @@ private
   procedure closeStream;
   procedure waitPath;
   procedure notifyPath;
-  procedure interrupt;
+  procedure interrupt;    /// 似乎不应该交这个名字了
 public
   constructor create( const callback:TDarwinFSWatchCallBack; const latency:Integer=300 );
   destructor destroy; override;
@@ -510,16 +513,14 @@ begin
   _streamContext.info:= self;
   _lastEventId:= FSEventStreamEventId(kFSEventStreamEventIdSinceNow);
 
-  _running:= false;
-  _lockObject:= TCriticalSection.Create;
-  _pathsSyncObject:= TSimpleEvent.Create;
+  _state:= stateInitializing;
+  _condition:= NSCondition.new;
 end;
 
 destructor TDarwinFSWatcher.destroy;
 begin
-  _pathsSyncObject.SetEvent;
-  FreeAndNil( _lockObject );
-  FreeAndNil( _pathsSyncObject );
+  _condition.release;
+  _condition:= nil;
   _watchPaths.release;
   _watchPaths:= nil;
   _watchRealPaths.release;
@@ -564,12 +565,12 @@ begin
   currentWatchSubtree:= watchSubtree;
 
   try
-    _lockObject.Acquire;
+    _condition.lock;
     try
       tempWatchPaths:= _watchPaths.copy;
       tempWatchRealPaths:= _watchRealPaths.copy;
     finally
-      _lockObject.Release;
+      _condition.unlock;
     end;
 
     if tempWatchPaths.count=0 then
@@ -623,11 +624,11 @@ begin
   repeat
     // Closing an FSEvent stream may block on SMB for several seconds.
     // Take a snapshot so the stream can be updated without holding _lockObject.
-    _lockObject.Acquire;
+    _condition.lock;
     try
       watchPaths:= _watchPaths.copy;
     finally
-      _lockObject.Release;
+      _condition.unlock;
     end;
 
     try
@@ -656,12 +657,12 @@ begin
       watchPaths.release;
     end;
 
-    _lockObject.Acquire;
+    _condition.lock;
     try
-      Result:= _running;
+      Result:= _state <> stateTerminated;
       pathsChanged:= not _watchPaths.isEqualToArray(_streamPaths);
     finally
-      _lockObject.Release;
+      _condition.unlock;
     end;
   until not Result or not pathsChanged;
 end;
@@ -684,7 +685,7 @@ var
   pool: NSAutoReleasePool;
   keepRunning: Boolean;
 begin
-  _running:= true;
+  _state:= stateRunning;
   _runLoop:= CFRunLoopGetCurrent();
   _thread:= TThread.CurrentThread;
 
@@ -709,14 +710,15 @@ end;
 
 procedure TDarwinFSWatcher.terminate;
 begin
-  _lockObject.Acquire;
+  _condition.lock;
   try
-    _running:= false;
+    _state:= stateTerminated;
     interrupt;
   finally
-    _lockObject.Release;
+    _condition.unlock;
   end;
-  if Assigned(_thread) then _thread.WaitFor;
+  if Assigned(_thread) then
+    _thread.WaitFor;
   closeStream;
 end;
 
@@ -748,7 +750,7 @@ var
   nsPath: NSString;
   nsRealPath: NSString;
 begin
-  _lockObject.Acquire;
+  _condition.lock;
   try
     if path<>PathDelim then
       path:= ExcludeTrailingPathDelimiter(path);
@@ -761,7 +763,7 @@ begin
 
     interrupt;
   finally
-    _lockObject.Release;
+    _condition.unlock;
   end;
 end;
 
@@ -770,7 +772,7 @@ var
   index: NSInteger;
   nsPath: NSString;
 begin
-  _lockObject.Acquire;
+  _condition.lock;
   try
     if path<>PathDelim then
       path:= ExcludeTrailingPathDelimiter(path);
@@ -784,32 +786,36 @@ begin
 
     interrupt;
   finally
-    _lockObject.Release;
+    _condition.unlock;
   end;
 end;
 
 procedure TDarwinFSWatcher.clearPath;
 begin
-  _lockObject.Acquire;
+  _condition.lock;
   try
     if _watchPaths.count = 0 then exit;
     _watchPaths.removeAllObjects;
     _watchRealPaths.removeAllObjects;
     interrupt;
   finally
-    _lockObject.Release;
+    _condition.unlock;
   end;
 end;
 
 procedure TDarwinFSWatcher.waitPath;
 begin
-  _pathsSyncObject.WaitFor( INFINITE );
-  _pathsSyncObject.ResetEvent;
+  _condition.lock;
+  while NOT (_state in [statePathChanged, stateTerminated]) do begin
+    _condition.wait;
+  end;
+  _condition.unlock;
 end;
 
 procedure TDarwinFSWatcher.notifyPath;
 begin
-  _pathsSyncObject.SetEvent;
+  _state:= statePathChanged;
+  _condition.broadcast;
 end;
 
 initialization
