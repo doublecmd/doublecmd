@@ -348,15 +348,15 @@ begin
 
   editor.setNeedsDisplay_( True );
 
-  range:= self.currentEditor.selectedRange;
+  if self.editingStringRange.length <> 0 then
+    Exit;
+
+  range:= editor.selectedRange;
   if range.length = 0 then
     Exit;
 
   beginIndex:= range.location;
   endIndex:= range.location + range.length - 1;
-
-  if editor.string_.characterAtIndex(beginIndex) <> NSAttachmentCharacter then
-    Exit;
 
   tokenNames:= NSArray( objectValue );
   for i:= beginIndex to endIndex do begin
@@ -455,52 +455,34 @@ end;
 
 function TCocoaTokenField.editingStringRange: NSRange;
 var
-  editor: NSText;
   editorString: NSString;
-  caretIndex: NSUInteger;
-
-  function findLastToken: NSUInteger;
-  var
-    tokenRange: NSRange;
-    tokenIndex: NSUInteger;
-  begin
-    tokenRange.location:= 0;
-    tokenRange.length:= caretIndex;
-    tokenRange:= editorString.rangeOfString_options_range(
-      NSSTR_ATTACHMENT_CHARACTER, NSBackwardsSearch, tokenRange );
-    tokenIndex:= tokenRange.location;
-    if tokenIndex = NSNotFound then
-      tokenIndex:= 0
-    else
-      tokenIndex:= tokenIndex + 1;
-    Result:= tokenIndex;
-  end;
-
-  function findNextToken: NSUInteger;
-  var
-    tokenRange: NSRange;
-    tokenIndex: NSUInteger;
-  begin
-    tokenRange.location:= caretIndex;
-    tokenRange.length:= editorString.length - caretIndex;
-    tokenRange:= editorString.rangeOfString_options_range(
-      NSSTR_ATTACHMENT_CHARACTER, 0, tokenRange );
-    tokenIndex:= tokenRange.location;
-    if tokenIndex = NSNotFound then
-      tokenIndex:= editorString.length;
-    Result:= tokenIndex;
-  end;
-
-  function calcRange( beginIndex: NSUInteger; endIndex: NSUInteger ): NSRange;
-  begin
-    Result.location:= beginIndex;
-    Result.length:= endIndex - beginIndex;
-  end;
+  i: NSUInteger;
+  c: unichar;
 begin
-  editor:= self.currentEditor;
-  editorString:= editor.string_;
-  caretIndex:= editor.selectedRange.location;
-  Result:= calcRange( findLastToken, findNextToken );
+  Result.location:= self.currentEditor.selectedRange.location;
+  Result.length:= 0;
+  editorString:= self.currentEditor.string_;
+  if editorString.length = 0 then
+    Exit;
+
+  for i:= 0 to editorString.length-1 do begin
+    c:= editorString.characterAtIndex(i);
+    if c <> NSAttachmentCharacter then begin
+      Result.location:= i;
+      Result.length:= editorString.length - Result.location;
+      break;
+    end;
+  end;
+  if Result.length = 0 then
+    Exit;
+
+  for i:= Result.location+1 to editorString.length-1 do begin
+    c:= editorString.characterAtIndex(i);
+    if c = NSAttachmentCharacter then begin
+      Result.length:= i - Result.location;
+      break;
+    end;
+  end;
 end;
 
 function TCocoaTokenField.editingStringIndexInObjectValue: NSUInteger;
