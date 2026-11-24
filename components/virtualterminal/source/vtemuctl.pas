@@ -1100,7 +1100,8 @@ var
 begin
   inherited WMSize(Msg);
 
-  if (ClientWidth = 0) or (ClientHeight = 0) then
+  if (FFontHeight = 0) or (FFontWidth = 0) or
+     (ClientWidth = 0) or (ClientHeight = 0) then
     Exit;
 
   ARows:= Max(2, ClientHeight div FFontHeight);
