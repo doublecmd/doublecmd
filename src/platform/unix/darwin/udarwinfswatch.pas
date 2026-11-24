@@ -41,7 +41,7 @@ unit uDarwinFSWatch;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, SyncObjs,
+  Classes, SysUtils, Contnrs,
   MacOSAll, CocoaAll, BaseUnix;
 
 type TDarwinFSWatchEventCategory = (
@@ -113,34 +113,44 @@ end;
 
 type TDarwinFSWatchCallBack = Procedure( event:TDarwinFSWatchEvent ) of object;
 
-type TDarwinFSWatcher = class
+type 
+
+{ TDarwinFSWatcher }
+
+ TDarwinFSWatcher = class
 private
-  _watchPaths: NSMutableArray;
-  _watchRealPaths: NSMutableArray;
-  _streamPaths: NSArray;
+  _watchPaths: NSMutableArray;            // *** needs to be protected ***
+  _watchRealPaths: NSMutableArray;        // only one thread access
+  _streamPaths: NSArray;                  // only one thread access
 
-  _callback: TDarwinFSWatchCallBack;
-  _latency: Integer;
-  _stream: FSEventStreamRef;
-  _streamContext: FSEventStreamContext;
-  _lastEventId: FSEventStreamEventId;
+  _callback: TDarwinFSWatchCallBack;      // immutable
+  _latency: Integer;                      // immutable
+  _stream: FSEventStreamRef;              // *** needs to be protected ***
+  _streamContext: FSEventStreamContext;   // immutable
+  _lastEventId: FSEventStreamEventId;     // only one thread access
 
-  _runLoop: CFRunLoopRef;
-  _thread: TThread;
+  _runLoop: CFRunLoopRef;                 // immutable
+  _watcherThread: TThread;                // immutable
+  _pathsMonitorThread: TThread;           // immutable
 
-  _condition: NSCondition;
-  _state: TDarwinFSWatchState;
+  _condition: NSCondition;                // immutable
+  _state: TDarwinFSWatchState;            // *** needs to be protected ***
 public
   watchSubtree: Boolean;
 private
+  procedure runLoopExecute;
+  procedure pathsMonitorExecute;
+
   procedure handleEvents( const originalSession:TDarwinFSWatchEventSession );
   procedure doCallback( const watchPath:String; const internalEvent:TInternalEvent );
 
-  function updateStream: Boolean;
-  procedure closeStream;
-  procedure waitPath;
-  procedure notifyPath;
-  procedure interrupt;    /// 似乎不应该交这个名字了
+  procedure updateStream;
+  procedure closeStream(const stream: FSEventStreamRef);
+
+  procedure waitPaths;
+  procedure waitStream;
+  procedure wakeupAllWaiting;
+  procedure doWakeupAllWaiting;
 public
   constructor create( const callback:TDarwinFSWatchCallBack; const latency:Integer=300 );
   destructor destroy; override;
@@ -527,6 +537,7 @@ begin
   _watchRealPaths:= nil;
   _streamPaths.release;
   _streamPaths:= nil;
+  _pathsMonitorThread.Free;    // _watcherThread managed by caller
   Inherited;
 end;
 
@@ -547,6 +558,33 @@ begin
   watcher.handleEvents( session );
   pool.release;
   // seesion released in handleEvents()
+end;
+
+procedure TDarwinFSWatcher.runLoopExecute;
+var
+  pool: NSAutoReleasePool;
+begin
+  repeat
+    pool:= NSAutoreleasePool.alloc.init;
+    CFRunLoopRun;
+    self.waitStream;
+    pool.release;
+  until _state = stateTerminated;
+end;
+
+procedure TDarwinFSWatcher.pathsMonitorExecute;
+var
+  pool: NSAutoReleasePool;
+begin
+  TThread.CurrentThread.FreeOnTerminate:= False;
+
+  repeat
+    pool:= NSAutoreleasePool.alloc.init;
+    self.updateStream;
+    self.wakeupAllWaiting;
+    self.waitPaths;
+    pool.release;
+  until _state = stateTerminated;
 end;
 
 procedure TDarwinFSWatcher.handleEvents( const originalSession:TDarwinFSWatchEventSession );
@@ -616,119 +654,123 @@ begin
   event.Free;
 end;
 
-function TDarwinFSWatcher.updateStream: Boolean;
+procedure TDarwinFSWatcher.updateStream;
 var
   watchPaths: NSArray;
+  stream: FSEventStreamRef;
   pathsChanged: Boolean;
-begin
-  repeat
-    // Closing an FSEvent stream may block on SMB for several seconds.
-    // Take a snapshot so the stream can be updated without holding _lockObject.
+
+  procedure copyProtectedToLocalWithLock;
+  begin
     _condition.lock;
     try
       watchPaths:= _watchPaths.copy;
+      stream:= _stream;
+      _stream:= nil;
     finally
       _condition.unlock;
     end;
+  end;
 
-    try
-      if not watchPaths.isEqualToArray(_streamPaths) then
-      begin
-        closeStream;
-
-        _streamPaths.release;
-        _streamPaths:= NSArray.alloc.initWithArray( watchPaths );
-
-        if watchPaths.count = 0 then
-          _lastEventId:= FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
-        else begin
-          _stream:= FSEventStreamCreate( nil,
-                      @cdeclFSEventsCallback,
-                      @_streamContext,
-                      CFArrayRef(watchPaths),
-                      _lastEventId,
-                      _latency/1000,
-                      CREATE_FLAGS );
-          FSEventStreamScheduleWithRunLoop( _stream, _runLoop, kCFRunLoopDefaultMode );
-          FSEventStreamStart( _stream );
-        end;
-      end;
-    finally
-      watchPaths.release;
-    end;
-
+  procedure setResultWithLock;
+  begin
     _condition.lock;
     try
-      Result:= _state <> stateTerminated;
-      pathsChanged:= not _watchPaths.isEqualToArray(_streamPaths);
+      pathsChanged:= NOT _watchPaths.isEqualToArray(_streamPaths);
+      if pathsChanged then
+        Exit;
+      _stream:= stream;
     finally
       _condition.unlock;
     end;
-  until not Result or not pathsChanged;
+  end;
+
+  procedure releaseLocal;
+  begin
+    watchPaths.release;
+  end;
+
+  procedure doUpdateWithoutLock;
+  begin
+    if watchPaths.isEqualToArray(_streamPaths) then
+      Exit;
+
+    if Assigned(stream) then
+      _lastEventId:= FSEventsGetCurrentEventId();
+    closeStream( stream );
+
+    _streamPaths.release;
+    _streamPaths:= NSArray.alloc.initWithArray( watchPaths );
+
+    if watchPaths.count = 0 then
+      _lastEventId:= FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
+    else begin
+      stream:= FSEventStreamCreate( nil,
+                 @cdeclFSEventsCallback,
+                 @_streamContext,
+                 CFArrayRef(watchPaths),
+                 _lastEventId,
+                 _latency/1000,
+                 CREATE_FLAGS );
+      FSEventStreamScheduleWithRunLoop( stream, _runLoop, kCFRunLoopDefaultMode );
+      FSEventStreamStart( stream );
+    end;
+  end;
+
+begin
+  // Closing an FSEvent stream may block on SMB for several seconds.
+  // Take a snapshot so the stream can be updated without holding _lockObject.
+  repeat
+    try
+      copyProtectedToLocalWithLock;
+      doUpdateWithoutLock;
+      setResultWithLock;
+    finally
+      releaseLocal;
+    end;
+  until (_state=stateTerminated) or NOT pathsChanged;
 end;
 
-procedure TDarwinFSWatcher.closeStream;
+procedure TDarwinFSWatcher.closeStream(const stream: FSEventStreamRef);
 begin
-  if Assigned(_stream) then
-  begin
-    _lastEventId:= FSEventsGetCurrentEventId();
-    FSEventStreamFlushSync( _stream );
-    FSEventStreamStop( _stream );
-    FSEventStreamInvalidate( _stream );
-    FSEventStreamRelease( _stream );
-    _stream:= nil;
-  end;
+  if NOT Assigned(stream) then
+    Exit;
+  FSEventStreamFlushSync( stream );
+  FSEventStreamStop( stream );
+  FSEventStreamInvalidate( stream );
+  FSEventStreamRelease( stream );
 end;
 
 procedure TDarwinFSWatcher.start;
-var
-  pool: NSAutoReleasePool;
-  keepRunning: Boolean;
 begin
   _state:= stateRunning;
-  _runLoop:= CFRunLoopGetCurrent();
-  _thread:= TThread.CurrentThread;
+  _runLoop:= CFRunLoopGetCurrent;
+  _watcherThread:= TThread.CurrentThread;
+  _pathsMonitorThread:= TThread.ExecuteInThread( self.pathsMonitorExecute );
 
-  repeat
-
-    pool:= NSAutoreleasePool.alloc.init;
-
-    keepRunning:= updateStream;
-
-    if keepRunning then
-    begin
-      if Assigned(_stream) then
-        CFRunLoopRun
-      else
-        waitPath;
-    end;
-
-    pool.release;
-
-  until not keepRunning;
+  self.runLoopExecute;
 end;
 
 procedure TDarwinFSWatcher.terminate;
+var
+  stream: FSEventStreamRef;
 begin
   _condition.lock;
   try
     _state:= stateTerminated;
-    interrupt;
+    stream:= _stream;
+    _stream:= nil;
+    doWakeupAllWaiting;
+    CFRunLoopStop( _runLoop );
+    _runLoop:= nil;
   finally
     _condition.unlock;
   end;
-  if Assigned(_thread) then
-    _thread.WaitFor;
-  closeStream;
-end;
-
-procedure TDarwinFSWatcher.interrupt;
-begin
-  Sleep( 20 );
-  if Assigned(_stream) then
-    CFRunLoopStop( _runLoop )
-  else
-    notifyPath;
+  if Assigned(_watcherThread) then
+    _watcherThread.WaitFor;
+  if Assigned(_pathsMonitorThread) then
+    _pathsMonitorThread.WaitFor;
+  closeStream( stream );
 end;
 
 function realpath(__name:Pchar; __resolved:Pchar):Pchar;cdecl;external clib name 'realpath';
@@ -761,7 +803,7 @@ begin
     nsRealPath:= StringToNSString( toRealPath(path) );
     _watchRealPaths.addObject( nsRealPath );
 
-    interrupt;
+    doWakeupAllWaiting;
   finally
     _condition.unlock;
   end;
@@ -784,7 +826,7 @@ begin
     _watchPaths.removeObjectAtIndex( index );
     _watchRealPaths.removeObjectAtIndex( index );
 
-    interrupt;
+    doWakeupAllWaiting;
   finally
     _condition.unlock;
   end;
@@ -797,24 +839,46 @@ begin
     if _watchPaths.count = 0 then exit;
     _watchPaths.removeAllObjects;
     _watchRealPaths.removeAllObjects;
-    interrupt;
+    doWakeupAllWaiting;
   finally
     _condition.unlock;
   end;
 end;
 
-procedure TDarwinFSWatcher.waitPath;
+procedure TDarwinFSWatcher.waitPaths;
 begin
   _condition.lock;
-  while NOT (_state in [statePathChanged, stateTerminated]) do begin
+
+  while NOT (_state in [statePathChanged, stateTerminated]) do
     _condition.wait;
-  end;
+
+  if _state <> stateTerminated then
+    _state:= stateRunning;
+
   _condition.unlock;
 end;
 
-procedure TDarwinFSWatcher.notifyPath;
+procedure TDarwinFSWatcher.waitStream;
 begin
-  _state:= statePathChanged;
+  _condition.lock;
+
+  while (_stream=nil) and (_state<>stateTerminated) do
+    _condition.wait;
+
+  _condition.unlock;
+end;
+
+procedure TDarwinFSWatcher.wakeupAllWaiting;
+begin
+  _condition.lock;
+  self.doWakeupAllWaiting;
+  _condition.unlock;
+end;
+
+procedure TDarwinFSWatcher.doWakeupAllWaiting;
+begin
+  if _state <> stateTerminated then
+    _state:= statePathChanged;
   _condition.broadcast;
 end;
 
