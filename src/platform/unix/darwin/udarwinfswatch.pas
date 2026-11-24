@@ -27,10 +27,42 @@
    3. file attributes monitoring is supported, and monitoring of adding files,
       renaming files, deleting files is also supported.
       for comparison, file attributes monitoring is missing with kqueue/kevent.
-   4. Renamed Event fully supported from MacOS 10.13
-   5. CFRunLoop is used in TDarwinFSWatcher. because in DC a separate thread
-      has been opened (in uFileSystemWatcher), it is more appropriate to use
-      CFRunLoop than DispatchQueue.
+   4. renamed Event fully supported from MacOS 10.13
+   5. CFRunLoop is used in TDarwinFSWatcher. because Currently, on Aarch64,
+      Free Pascal is incompatible with DispatchQueue, which leads to crashes.
+      it seems to be related to Blocks and ARC.
+   6. synchronization mechanism
+   (1) with FSEvent, file monitoring events are generated and consumed in single
+       threaded, no synchronization is required.
+   (2) watch paths changes may involve multiple threads, which inherently
+       necessitates synchronization
+   (3) synchronization is also required between the above two operations.
+       therefore, the synchronization within DarwinFSWatch is heterogeneous,
+       as it does not originate from a single event source.
+   (4) the most suitable synchronization mechanism for this purpose is, in fact,
+       the equivalent of `pthread_mutex_t` combined with `pthread_cond_wait`.
+       however, Free Pascal lacks an equivalent, so DarwinFSWatch originally
+       employed a combination of `TCriticalSection` and `TEventObject` to
+       simulate the requirement.
+       while this generally achieves synchronization, it inherently carries risks
+       in extreme scenarios.
+   (5) given that DarwinFSWatch is used exclusively on macOS, there is no need
+       for cross-platform support. therefore, in addition to RTL and POSIX,
+       one might also consider Cocoa. within Cocoa, `NSCondition` is arguably
+       the best choice; it is not only equivalent to a combination of
+       `pthread_mutex_t` and `pthread_cond_wait`, but also encapsulates these
+       primitives, thereby simplifying operations.
+       as for `NSConditionLock`, which appears simpler on the surface, it is not
+       actually suitable for a proper application; its design even makes it
+       difficult — if not impossible — to gracefully notify relevant threads to exit.
+   (6) initially, both file events (RunLoop) and path changes were handled
+       within the Watcher thread, but this approach has its flaws.
+       because a RunLoop is blocking, it is necessary to switch between
+       `RunLoopRun` and `Lock.wait` depending on the circumstances;
+       however, this switching process carries potential risks in extreme scenarios.
+       now, an additional thread has been introduced specifically for handling
+       path changes (see `pathsMonitorExecute`), while the Watcher thread is
+       dedicated to `RunLoopRun` (see `runLoopExecute`).
 }
 
 unit uDarwinFSWatch;
