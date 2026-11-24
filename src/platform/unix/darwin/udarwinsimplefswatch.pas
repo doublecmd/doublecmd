@@ -60,7 +60,6 @@ end;
 
 destructor TSimpleDarwinFSWatcher.Destroy;
 begin
-  _monitor.terminate;
   FreeAndNil( _monitor );
   inherited;
 end;
