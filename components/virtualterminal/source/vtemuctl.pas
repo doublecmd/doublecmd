@@ -168,6 +168,7 @@ type
     FInvalidateRect: TRect;
     FSaveAttr: TTermAttributes;
     FSelecting: Boolean;
+    FSelReady: Boolean;
     FSelStart: TPoint;
     FSelEnd: TPoint;
     FBuffer: TComTermBuffer;
@@ -1316,11 +1317,10 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if (not (FTermMode.MouseMode and FTermMode.MouseTrack)) and (Button = mbLeft) then
   begin
-    FSelecting := True;
+    FSelReady := True;
     FSelStart.X := X div FFontWidth + FTopLeft.X;
     FSelStart.Y := Y div FFontHeight + FTopLeft.Y;
     FSelEnd := FSelStart;
-    Invalidate;
   end;
   MouseEvent(ecMouseDown, Button, Shift, X, Y);
 end;
@@ -1328,6 +1328,11 @@ end;
 procedure TCustomComTerminal.MouseMove(Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseMove(Shift, X, Y);
+  if FSelReady then
+  begin
+    FSelReady := False;
+    FSelecting := True;
+  end;
   if FSelecting then
   begin
     FSelEnd.X := X div FFontWidth + FTopLeft.X;
@@ -1342,11 +1347,21 @@ procedure TCustomComTerminal.MouseUp(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   inherited MouseUp(Button, Shift, X, Y);
+  if FSelReady and (Button = mbLeft) then
+  begin
+    FSelReady := False;
+  end;
   if FSelecting and (Button = mbLeft) then
   begin
     FSelecting := False;
     FSelEnd.X := X div FFontWidth + FTopLeft.X;
     FSelEnd.Y := Y div FFontHeight + FTopLeft.Y;
+    Invalidate;
+  end
+  else if (Button = mbLeft) and (FSelStart.X > 0) then
+  begin
+    FSelStart := Default(TPoint);
+    FSelEnd := Default(TPoint);
     Invalidate;
   end
   else if (not FSelecting) and (Button in [mbMiddle, mbRight]) then
