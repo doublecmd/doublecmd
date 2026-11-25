@@ -1,6 +1,23 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: uoauth2auth.rsoauth2waitingpromptbutton
+msgctxt "uoauth2auth.rsoauth2waitingpromptbutton"
+msgid "Cancel"
+msgstr "取消"
+
+#: uoauth2auth.rsoauth2waitingpromptmessage
+msgid ""
+"Please login your {driverName} account in Safari and authorize Double Commander to access.\n"
+"The authorization is completed on the {driverName} official website, Double Command will not get your password."
+msgstr ""
+"请在Safari登录你的{driverName}账户并授权Double Commander访问。\n"
+"授权完全是在{driverName}的官网完成，Double Command不会获取你的密码。"
+
+#: uoauth2auth.rsoauth2waitingprompttitle
+msgid "Waiting for {driverName} authorization"
+msgstr "正在等待 {driverName} 授权"
+
 #: uwfxconfig.rsaliyunossdisplayname
 msgctxt "uwfxconfig.rsaliyunossdisplayname"
 msgid "Alibaba Cloud OSS"

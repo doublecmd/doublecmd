@@ -98,6 +98,13 @@ type
 
 implementation
 
+resourcestring
+  rsOAuth2WaitingPromptTitle = 'Waiting for {driverName} authorization';
+  rsOAuth2WaitingPromptMessage =
+    'Please login your {driverName} account in Safari and authorize Double Commander to access.'#13 +
+    'The authorization is completed on the {driverName} official website, Double Command will not get your password.';
+  rsOAuth2WaitingPromptButton = 'Cancel';
+
 { TCloudDriverOAuth2Session }
 
 procedure TCloudDriverOAuth2Session.requestAuthorization;
@@ -118,12 +125,17 @@ begin
 end;
 
 procedure TCloudDriverOAuth2Session.waitAuthorizationAndPrompt;
+var
+  title: String;
+  message: String;
 begin
+  title:= rsOAuth2WaitingPromptTitle.Replace( '{driverName}', _cloudDriver.driverName );
+  message:= rsOAuth2WaitingPromptMessage.Replace( '{driverName}', _cloudDriver.driverName );
   NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
   _alert:= NSAlert.new;
-  _alert.setMessageText( StringToNSString('Waiting for ' + _cloudDriver.driverName + ' authorization') );
-  _alert.setInformativeText( StringToNSString('Please login your ' + _cloudDriver.driverName + ' account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the ' + _cloudDriver.driverName + ' official website, Double Command will not get your password.') );
-  _alert.addButtonWithTitle( NSSTR('Cancel') );
+  _alert.setMessageText( StringToNSString(title) );
+  _alert.setInformativeText( StringToNSString(message) );
+  _alert.addButtonWithTitle( StringToNSString(rsOAuth2WaitingPromptButton) );
   _alert.runModal;
   NSApplication(NSAPP).setOpenURLObserver( nil );
   _alert.release;

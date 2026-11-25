@@ -12,6 +12,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Native-Language: Svenska\n"
 
+#: uoauth2auth.rsoauth2waitingpromptbutton
+msgctxt "uoauth2auth.rsoauth2waitingpromptbutton"
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: uoauth2auth.rsoauth2waitingpromptmessage
+msgid ""
+"Please login your {driverName} account in Safari and authorize Double Commander to access.\n"
+"The authorization is completed on the {driverName} official website, Double Command will not get your password."
+msgstr ""
+
+#: uoauth2auth.rsoauth2waitingprompttitle
+msgid "Waiting for {driverName} authorization"
+msgstr ""
+
 #: uwfxconfig.rsaliyunossdisplayname
 msgctxt "uwfxconfig.rsaliyunossdisplayname"
 msgid "Alibaba Cloud OSS"
@@ -42,29 +57,23 @@ msgid "Huawei Cloud OBS"
 msgstr "Huawei Cloud OBS"
 
 #: uwfxconfig.rsoauth2authnotes
-#
 msgctxt "uwfxconfig.rsoauth2authnotes"
 msgid ""
-"1. Before successfully enabling the connection, Double Commander needs to obtain authorization "
-"from {driverName}\n"
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
 "\n"
-"2. Click the connect button to be redirected to the {driverName} official website in the Safari "
-"browser\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
 "\n"
 "3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
 "\n"
-"4. The authorization is completed on the {driverName} official website, Double Commander will not"
-" get your password"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
 msgstr ""
 "1. Innan anslutningen kan aktiveras behöver Double Commander få behörighet från {driverName}\n"
 "\n"
-"2. Klicka på anslutningsknappen för att omdirigeras till {driverName}s officiella webbplats i "
-"Safari\n"
+"2. Klicka på anslutningsknappen för att omdirigeras till {driverName}s officiella webbplats i Safari\n"
 "\n"
 "3. Logga in på ditt {driverName}-konto i Safari och ge Double Commander åtkomst\n"
 "\n"
-"4. Auktoriseringen slutförs på {driverName}s officiella webbplats. Double Commander får inte "
-"tillgång till ditt lösenord"
+"4. Auktoriseringen slutförs på {driverName}s officiella webbplats. Double Commander får inte tillgång till ditt lösenord"
 
 #: uwfxconfig.rsonedrivedisplayname
 msgctxt "uwfxconfig.rsonedrivedisplayname"
@@ -77,19 +86,13 @@ msgstr "Qiniu Cloud KODO"
 
 #: uwfxconfig.rss3autoconfignotes
 msgid ""
-"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level "
-"security. The confidential data can only be read by your own macOS permissions.\n"
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
 "\n"
-"2. Access Key ID and Secret Access Key are required, and the others are optional. Double "
-"Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint /"
-" Bucket are only required if Access Key permissions are insufficient."
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
 msgstr ""
-"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De "
-"konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
+"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
 "\n"
-"2. Access Key ID och Secret Access Key krävs, övriga uppgifter är valfria. Double Commander kan "
-"vanligtvis hämta övriga uppgifter, till exempel bucketar, automatiskt. Region / EndPoint / Bucket"
-" behövs därför bara om behörigheterna för Access Key inte är tillräckliga."
+"2. Access Key ID och Secret Access Key krävs, övriga uppgifter är valfria. Double Commander kan vanligtvis hämta övriga uppgifter, till exempel bucketar, automatiskt. Region / EndPoint / Bucket behövs därför bara om behörigheterna för Access Key inte är tillräckliga."
 
 #: uwfxconfig.rss3compatibledisplayname
 msgctxt "uwfxconfig.rss3compatibledisplayname"
@@ -97,15 +100,12 @@ msgid "S3 Compatible"
 msgstr "S3-kompatibel"
 
 #: uwfxconfig.rss3manualconfignotes
-#
 msgid ""
-"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level "
-"security. The confidential data can only be read by your own macOS permissions.\n"
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
 "\n"
 "2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are required for {driverName}"
 msgstr ""
-"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De "
-"konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
+"1. AccessKeyID och SecretAccessKey sparas i macOS-nyckelringen för säkerhet på systemnivå. De konfidentiella uppgifterna kan endast läsas med dina egna macOS-behörigheter.\n"
 "\n"
 "2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket krävs för {driverName}"
 
@@ -171,13 +171,8 @@ msgid "Endpoint:"
 msgstr "Endpoint:"
 
 #: uwfxoptionss3.rsparamsalerttext
-msgid ""
-"Access Key ID and Secret Access Key are required, please make sure they are correct. If "
-"permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is "
-"also required."
-msgstr ""
-"Access Key ID och Secret Access Key krävs. Kontrollera att de är korrekta. Om behörigheterna är "
-"otillräckliga eller om du konfigurerar ”S3-kompatibel” krävs även Region / Endpoint / Bucket."
+msgid "Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is also required."
+msgstr "Access Key ID och Secret Access Key krävs. Kontrollera att de är korrekta. Om behörigheterna är otillräckliga eller om du konfigurerar ”S3-kompatibel” krävs även Region / Endpoint / Bucket."
 
 #: uwfxoptionss3.rsparamsalerttitle
 msgid "Incomplete Parameters"
@@ -202,3 +197,4 @@ msgstr "Secret Access Key:"
 #: uwfxoptionss3.rstemporarytokenlabel
 msgid "Temporary Token:"
 msgstr "Tillfällig token:"
+
