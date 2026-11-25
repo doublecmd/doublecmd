@@ -254,7 +254,7 @@ var
   sha256Buf: array [1..CC_SHA256_DIGEST_LENGTH] of Byte;
 begin
   CC_SHA256( input.cString, input.cStringLength, @sha256Buf );
-  TStringUtil.hexstr( @sha256Buf, CC_SHA256_DIGEST_LENGTH );
+  Result:= TStringUtil.hexstr( @sha256Buf, CC_SHA256_DIGEST_LENGTH );
 end;
 
 class function THashUtil.sha1AndBase64(const inputStream: NSinputStream): String;
