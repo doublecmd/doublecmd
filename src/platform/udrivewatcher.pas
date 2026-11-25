@@ -65,7 +65,7 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uUDev, uMountWatcher, uOSUtils, FileUtil, uGVolume, DCOSUtils
+   , uUDisks, uUDev, uMountWatcher, uOSUtils, FileUtil, uGVolume, uKde, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
    , StrUtils, uDarwinFSWatch, uDarwinIO, ExtCtrls
@@ -457,6 +457,7 @@ begin
 
   uGVolume.Initialize;
   uGVolume.AddObserver(@FakeClass.OnGVolumeNotify);
+  uKde.KmtpInitialize(@FakeClass.OnMountWatcherNotify);
   {$ENDIF}
 
   {$IFDEF MSWINDOWS}
@@ -489,6 +490,7 @@ begin
   end;
   uGVolume.RemoveObserver(@FakeClass.OnGVolumeNotify);
   uGVolume.Finalize;
+  uKde.KmtpFinalize;
   FreeAndNil(MountWatcher);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
@@ -1228,6 +1230,7 @@ begin
       end;
     end;
     EnumerateVolumes(Result);
+    uKde.KmtpEnumerateVolumes(Result);
   finally
     if Assigned(AddedDevices) then
       AddedDevices.Free;

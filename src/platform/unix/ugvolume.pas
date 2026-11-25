@@ -46,7 +46,7 @@ function EnumerateVolumes(DrivesList: TDrivesList): Boolean;
 implementation
 
 uses
-  typinfo, fgl, LazLogger, uGLib2, uGio2, uGObject2, uShowMsg, uKde;
+  typinfo, fgl, LazLogger, uGLib2, uGio2, uGObject2, uShowMsg;
 
 type
   TGVolumeObserverList = specialize TFPGList<TGVolumeNotify>;
@@ -202,17 +202,6 @@ begin
   end;
 end;
 
-procedure NotifyKmtpChanged;
-var
-  Index: Integer;
-begin
-  if Assigned(Observers) then
-  begin
-    for Index:= 0 to Observers.Count - 1 do
-      Observers[Index](GVolume_Changed, nil);
-  end;
-end;
-
 procedure AddObserver(Func: TGVolumeNotify);
 begin
   if Observers.IndexOf(Func) < 0 then
@@ -245,14 +234,11 @@ begin
                           gpointer(PtrInt(GVolume_Changed)), nil, G_CONNECT_AFTER);
     g_signal_connect_data(VolumeMonitor, 'mount-removed', TGCallback(@MountEvent),
                           gpointer(PtrInt(GVolume_Removed)), nil, G_CONNECT_AFTER);
-
-    uKde.KmtpInitialize(@NotifyKmtpChanged);
   end;
 end;
 
 procedure Finalize;
 begin
-  uKde.KmtpFinalize;
   if Assigned(VolumeMonitor) then
   begin
     FreeAndNil(Observers);
@@ -365,9 +351,6 @@ begin
     end;
     g_list_free(VolumeList);
   end;
-
-  if uKde.KmtpEnumerateVolumes(DrivesList) then
-    Result:= True;
 end;
 
 end.

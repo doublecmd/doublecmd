@@ -50,7 +50,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash;filesources\kmtp"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -97,7 +97,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash;filesources\kmtp"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -140,7 +140,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash;filesources\kmtp"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -229,7 +229,7 @@ end;"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;..\components\DDetours\Source;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;..\components\DDetours\Source;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash;filesources\kmtp"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -2227,6 +2227,56 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFlatViewListOperation"/>
       </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpFileSource"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpfilesourceutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpFileSourceUtil"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtplistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpListOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpcopyinoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpCopyInOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpcopyoutoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpCopyOutOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpdeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpDeleteOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpcreatedirectoryoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpCreateDirectoryOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpexecuteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpExecuteOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpcalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpCalcStatisticsOperation"/>
+      </Unit>
+      <Unit>
+        <Filename Value="filesources\kmtp\ukmtpsetfilepropertyoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKmtpSetFilePropertyOperation"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -2237,7 +2287,7 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys;filesources\recyclebin;filesources\gio\trash;filesources\winnet\wsl;filesources\shellfolder;platform\win\winrt;filesources\gio\network;filesources\mounted;filesources\gio\google;filesources\stash;filesources\kmtp"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
