@@ -257,6 +257,9 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , Windows
 {$ENDIF}
+{$IF DEFINED(DARWIN)}
+  , MacOSALL, UDarwinUtil
+{$ENDIF}
   ;
 
 var
@@ -925,6 +928,26 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(DARWIN)}
+// treat 'cstCharValue' as 'cstLocale' on macOS
+function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
+var
+  flags: CFStringCompareFlags;
+  cfs1: CFStringRef;
+  cfs2: CFStringRef;
+begin
+  flags:= kCFCompareLocalized or kCFCompareNonliteral;
+  if CaseSensitivity = cstNotSensitive then
+    flags:= flags or kCFCompareCaseInsensitive;
+  if Natural then
+    flags:= flags or kCFCompareNumerically;
+  cfs1:= StringToCFStringRef(s1);
+  cfs2:= StringToCFStringRef(s2);
+  Result:= CFStringCompare(cfs1, cfs2, flags);
+  CFRelease(cfs1);
+  CFRelease(cfs2);
+end;
+{$ELSE}
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
 {$IF DEFINED(MSWINDOWS)}
 var
@@ -975,6 +998,7 @@ begin
       end;
     end;
 end;
+{$ENDIF}
 
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox; AValue: UIntPtr);
 var
