@@ -69,7 +69,7 @@ const
 type
 {$IF DEFINED(LINUX)}
   TUnixTime =
-    {$IF DEFINED(CPUAARCH64)}
+    {$IF DEFINED(CPUAARCH64) or DEFINED(CPULOONGARCH64)}
       Int64
     {$ELSEIF DEFINED(CPUMIPS)}
       LongInt

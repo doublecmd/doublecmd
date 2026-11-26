@@ -494,12 +494,12 @@ end;
 class procedure TFormCommands.GetMethodsList(Instance: TObject; MethodsList: TStringHashList; ActionList: TActionList);
 type
   pmethodnamerec = ^tmethodnamerec;
-  tmethodnamerec = packed record
+  tmethodnamerec = {$ifndef FPC_REQUIRES_PROPER_ALIGNMENT}packed{$endif} record
     name : pshortstring;
     addr : pointer;
   end;
 
-  tmethodnametable = packed record
+  tmethodnametable = {$ifndef FPC_REQUIRES_PROPER_ALIGNMENT}packed{$endif} record
     count : dword;
     entries : tmethodnamerec; // first entry
     // subsequent tmethodnamerec records follow
