@@ -300,6 +300,7 @@ begin
     end
     else begin
       FTarStream := TAbVirtualMemoryStream.Create;
+      TAbVirtualMemoryStream(FTarStream).SwapFileDirectory := ExtractFileDir(FArchiveName);
       { Decompress and send to tar LoadArchive }
       DecompressToStream(FTarStream);
       SwapToTar;
