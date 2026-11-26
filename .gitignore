@@ -34,3 +34,7 @@ lib/
 # Application bundle for Mac OS
 *.app/
 .DS_Store
+
+# Nix build artifacts
+/result
+/result-*
