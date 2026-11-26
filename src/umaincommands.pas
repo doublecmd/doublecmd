@@ -58,6 +58,7 @@ type
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
+   procedure RestoreFocusAfterDelete({%H-}Data: PtrInt);
 
   public
    constructor Create(TheOwner: TComponent; ActionList: TActionList = nil); reintroduce;
@@ -460,6 +461,16 @@ end;
 function TMainCommands.CommandsFilter(Command: String): Boolean;
 begin
   Result := Command = 'cm_ExecuteToolbarItem';
+end;
+
+procedure TMainCommands.RestoreFocusAfterDelete({%H-}Data: PtrInt);
+begin
+  if frmMain.CanSetFocus then
+  begin
+    frmMain.BringToFront;
+    if frmMain.ActiveFrame.CanSetFocus then
+      frmMain.ActiveFrame.SetFocus;
+  end;
 end;
 
 //------------------------------------------------------
@@ -2730,11 +2741,10 @@ begin
       end;
       if (bConfirmation = False) or (ShowDeleteDialog(frmMain, Message, FileSource, QueueId)) then
       begin
-        // Restore focus to main window after confirmation dialog closes
-        if bConfirmation and frmMain.ActiveFrame.CanSetFocus then
-        begin
-          frmMain.ActiveFrame.SetFocus;
-        end;
+        // Let the widgetset finish closing the modal window before restoring
+        // the main window and active panel focus (required by Qt6 in particular).
+        if bConfirmation then
+          Application.QueueAsyncCall(@RestoreFocusAfterDelete, 0);
         if FileSource.IsClass(TFileSystemFileSource) then
         begin
           if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
