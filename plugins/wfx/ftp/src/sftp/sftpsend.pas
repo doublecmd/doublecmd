@@ -42,6 +42,7 @@ type
     FSFTPSession: PLIBSSH2_SFTP;
   protected
     function Connect: Boolean; override;
+    function LinkAlive: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
     function Login: Boolean; override;
@@ -204,6 +205,17 @@ end;
 function TSftpSend.RenameFile(const OldName, NewName: string): Boolean;
 begin
   Result:= libssh2_sftp_rename(FSFTPSession, PAnsiChar(OldName), PAnsiChar(NewName)) = 0;
+end;
+
+function TSftpSend.LinkAlive: Boolean;
+var
+  Attributes: LIBSSH2_SFTP_ATTRIBUTES;
+begin
+  // One round-trip lets libssh2 consume whatever is pending (a keep-alive is
+  // answered, a disconnect message is noticed). Any SFTP status reply, even
+  // an error, proves the link works.
+  FLastError:= libssh2_sftp_stat(FSFTPSession, '.', @Attributes);
+  Result:= (FLastError = 0) or (FLastError = LIBSSH2_ERROR_SFTP_PROTOCOL);
 end;
 
 function TSftpSend.ChangeMode(const FileName, Mode: String): Boolean;

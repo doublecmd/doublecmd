@@ -64,6 +64,9 @@ type
     function AuthKey: Integer;
     function AuthAgent: Integer;
     function Connect: Boolean; override;
+    // Called when the idle socket has pending data: True if the session still
+    // answers, i.e. the data was ordinary traffic such as a server keep-alive.
+    function LinkAlive: Boolean; virtual;
   public
     constructor Create(const Encoding: String); override;
     destructor Destroy; override;
@@ -551,6 +554,11 @@ begin
       end;
 
       DoStatus(False, 'Authentication succeeded');
+
+      // Keep the SSH connection alive across long idle periods. TScpSend
+      // overrides Connect and never runs TFTPSendEx.Connect, so without this
+      // the SSH socket got no keep-alive at all (unlike plain FTP).
+      ApplyKeepAlive;
     finally
       if not Result then begin
         libssh2_session_free(FSession);
@@ -636,8 +644,49 @@ begin
 end;
 
 function TScpSend.NetworkError: Boolean;
+var
+  LastError: cint;
 begin
-  Result:= FSock.CanRead(0) and (libssh2_session_last_errno(FSession) <> 0);
+  // libssh2 never clears its session error slot, so the last error is
+  // whatever the most recent failing call left there -- usually harmless:
+  // EAGAIN from every non-blocking transfer, SFTP_PROTOCOL from any "no such
+  // file" or "permission denied" answer. Treating any non-zero value as a
+  // dead link made the next call tear the session down and log in again;
+  // a directory compare that meets a few unreadable entries then reconnects
+  // over and over. Only errors of the transport itself mean the link is gone.
+  LastError:= libssh2_session_last_errno(FSession);
+  case LastError of
+    LIBSSH2_ERROR_SOCKET_NONE,
+    LIBSSH2_ERROR_BANNER_RECV,
+    LIBSSH2_ERROR_BANNER_SEND,
+    LIBSSH2_ERROR_INVALID_MAC,
+    LIBSSH2_ERROR_KEX_FAILURE,
+    LIBSSH2_ERROR_SOCKET_SEND,
+    LIBSSH2_ERROR_KEY_EXCHANGE_FAILURE,
+    LIBSSH2_ERROR_TIMEOUT,
+    LIBSSH2_ERROR_DECRYPT,
+    LIBSSH2_ERROR_SOCKET_DISCONNECT,
+    LIBSSH2_ERROR_PROTO,
+    LIBSSH2_ERROR_SOCKET_TIMEOUT,
+    LIBSSH2_ERROR_SOCKET_RECV,
+    LIBSSH2_ERROR_ENCRYPT,
+    LIBSSH2_ERROR_BAD_SOCKET:
+      Exit(True);
+  end;
+  // Pending data on an idle socket may be a peer FIN/RST, but just as often
+  // it is a server keep-alive (sshd ClientAliveInterval). Ask the session
+  // rather than assume: this still catches a connection the server closed
+  // while the tab sat idle, without dropping a healthy one.
+  Result:= FSock.CanRead(0) and not LinkAlive;
+end;
+
+function TScpSend.LinkAlive: Boolean;
+var
+  AByte: Byte;
+begin
+  // Data waiting means the peer is still sending; zero bytes is an orderly
+  // close, a negative result a reset.
+  Result:= FSock.PeekBuffer(@AByte, 1) > 0;
 end;
 
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);
