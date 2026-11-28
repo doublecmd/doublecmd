@@ -157,7 +157,7 @@ uses
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
-    , uDCReadJXL, uFileSourceUtil, uNetworkFileSource, uGoogleFileSource
+    , uDCReadJXL, uFileSourceUtil, uNetworkFileSource, uGoogleFileSource, uKmtpFileSource
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     , uFlatpak
@@ -659,6 +659,7 @@ begin
     if TGioFileSource.IsSupportedPath('network://') then
       RegisterVirtualFileSource(rsVfsNetwork, rsVfsNetwork, TNetworkFileSource, True);
     RegisterVirtualFileSource('Google', 'Google', TGoogleFileSource, False);
+    RegisterVirtualFileSource('KMTP', 'KMTP', TKmtpFileSource, False);
     RegisterVirtualFileSource('GVfs', 'GVfs', TGioFileSource, False);
   end;
   {$ENDIF}
