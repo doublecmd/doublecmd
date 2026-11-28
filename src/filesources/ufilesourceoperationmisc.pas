@@ -38,7 +38,7 @@ procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
 implementation
 
 uses
-  DateUtils, fFileOpDlg, uFileSourceOperationTypes, uGlobs, uPlaySound;
+  Forms, DateUtils, fFileOpDlg, uFileSourceOperationTypes, uGlobs, uPlaySound;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 begin
@@ -84,13 +84,15 @@ begin
 end;
 
 procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
+var
+  form: TfrmFileOp;
 begin
-//  with TfrmFileOp.Create(OpManItem.Queue.Identifier) do
-  with TfrmFileOp.Create(OpManItem.Handle) do
+//  TfrmFileOp.Create(OpManItem.Queue.Identifier) do
+  form:= TfrmFileOp.Create(OpManItem.Handle);
   try
-    ShowModal;
+    form.ShowModal;
   finally
-    Free;
+    Application.ReleaseComponent(form);
   end;
 end;
 
