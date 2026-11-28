@@ -15,6 +15,7 @@ const
 
 function CloseRange(first: cuint; last: cuint; flags: cint): cint; cdecl;
 function mbFileCopyXattr(const Source, Target: String): Boolean;
+function GetProcessCurrentDirectory(APid: pid_t): String;
 
 // MacOS File Utils
 function MacosFileSetCreationTime( const path:String; const birthtime:TFileTimeEx ): Boolean;
@@ -39,8 +40,54 @@ type
   end;
   Pproc_fdinfo = ^proc_fdinfo;
 
+  fsid_t = record
+    val: array[0..1] of cint32;
+  end;
+
+  vinfo_stat = record
+    vst_dev: cuint32;
+    vst_mode: cuint16;
+    vst_nlink: cuint16;
+    vst_ino: cuint64;
+    vst_uid: cuint32;
+    vst_gid: cuint32;
+    vst_atime: cint64;
+    vst_atimensec: cint64;
+    vst_mtime: cint64;
+    vst_mtimensec: cint64;
+    vst_ctime: cint64;
+    vst_ctimensec: cint64;
+    vst_birthtime: cint64;
+    vst_birthtimensec: cint64;
+    vst_size: cint64;
+    vst_blocks: cint64;
+    vst_blksize: cint32;
+    vst_flags: cuint32;
+    vst_gen: cuint32;
+    vst_rdev: cuint32;
+    vst_qspare: array[0..1] of cint64;
+  end;
+
+  vnode_info = record
+    vi_stat: vinfo_stat;
+    vi_type: cint;
+    vi_pad: cint;
+    vi_fsid: fsid_t;
+  end;
+
+  vnode_info_path = record
+    vip_vi: vnode_info;
+    vip_path: array[0..MAXPATHLEN - 1] of AnsiChar;
+  end;
+
+  proc_vnodepathinfo = record
+    pvi_cdir: vnode_info_path;
+    pvi_rdir: vnode_info_path;
+  end;
+
 const
   PROC_PIDLISTFDS = 1;
+  PROC_PIDVNODEPATHINFO = 9;
   PROC_PIDLISTFD_SIZE = SizeOf(proc_fdinfo);
 
 const
@@ -110,6 +157,18 @@ begin
   ret:= copyfile( pchar(Source), pchar(Target), nil, COPYFILE_XATTR );
   fpseterrno( ret );
   Result:= (ret=0);
+end;
+
+function GetProcessCurrentDirectory(APid: pid_t): String;
+var
+  AInfo: proc_vnodepathinfo;
+begin
+  AInfo:= Default(proc_vnodepathinfo);
+  if proc_pidinfo(APid, PROC_PIDVNODEPATHINFO, 0, @AInfo, SizeOf(AInfo)) > 0 then
+    Result:= StrPas(AInfo.pvi_cdir.vip_path)
+  else begin
+    Result:= EmptyStr;
+  end;
 end;
 
 function StringToNSString(const S: String): NSString;

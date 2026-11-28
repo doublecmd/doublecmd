@@ -34,7 +34,7 @@ uses
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
-      , MacOSAll, CocoaAll, uDarwinFile
+      , MacOSAll, CocoaAll, DCDarwin, uDarwinFile
       {$ENDIF}
     {$ENDIF}
     ;
@@ -913,6 +913,8 @@ function GetCurrentDirectory(Process: THandle): String;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := GetRemoteProcessCurrentDirectory(Process);
+{$ELSEIF DEFINED(DARWIN)}
+  Result := GetProcessCurrentDirectory(Process);
 {$ELSEIF DEFINED(XDG)}
   Result := fpReadLink('/proc/' + IntToStr(Process) + '/cwd');
 {$ELSE}

@@ -5754,7 +5754,7 @@ begin
   if Assigned(LeftPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbLeft.ActivePage) and (TFileViewPage(nbLeft.ActivePage).TermSyncMode = 2)) or
                             ((gTermWindowMode < twmPerTab) and (gTermSyncModeLeft = 2))) then
   begin
-{$IF DEFINED(XDG) or DEFINED(MSWINDOWS)}
+{$IF DEFINED(XDG) or DEFINED(DARWIN) or DEFINED(MSWINDOWS)}
     Target := GetCurrentDirectory(LeftPty.ChildHandle);
     if Target <> FLastTermCwdLeft then
     begin
@@ -5770,7 +5770,7 @@ begin
   if Assigned(RightPty) and (((gTermWindowMode = twmPerTab) and Assigned(nbRight.ActivePage) and (TFileViewPage(nbRight.ActivePage).TermSyncMode = 2)) or
                              ((gTermWindowMode < twmPerTab) and (gTermSyncModeRight = 2))) then
   begin
-{$IF DEFINED(XDG) or DEFINED(MSWINDOWS)}
+{$IF DEFINED(XDG) or DEFINED(DARWIN) or DEFINED(MSWINDOWS)}
     Target := GetCurrentDirectory(RightPty.ChildHandle);
     if Target <> FLastTermCwdRight then
     begin
