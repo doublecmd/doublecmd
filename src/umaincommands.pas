@@ -4063,16 +4063,14 @@ var
 begin
   with frmMain do
   begin
-    if IsCommandLineVisible then
+    if edtCommand.Visible then
     begin
+      ShowCommandLine(True);
+
       // 1. Let's parse our parameters.
       DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithCommandLineHistory, gUseTreeViewMenuWithCommandLineHistory, bUseTreeViewMenu, bUsePanel, p);
 
-      // 2. No matter what, we need to fill in the popup menu structure.
-      gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
-      Application.ProcessMessages;
-
-      // 3. Show the appropriate menu.
+      // 2. Show the appropriate menu.
       if bUseTreeViewMenu then
       begin
         iWantedWidth := frmMain.edtCommand.Width;
