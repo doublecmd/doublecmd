@@ -180,7 +180,7 @@ procedure SetGlob1KBase(const value: UInt64);
 
 const
   { Default hotkey list version number }
-  hkVersion = 72;
+  hkVersion = 73;
   // 72 - In "Viewer" and "Editor" context, for macOS, added:
   //      "Cmd+G" for Find Next
   //      "Cmd+L" for Goto Line
@@ -1179,6 +1179,14 @@ begin
           Remove(HMHotKey);
         end;
       end;
+      if HotMan.Version < 73 then
+      begin
+        HMHotKey:= FindByCommand('cm_CopyFullNamesToClip');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['Ctrl+Shift+C']) then
+        begin
+          Remove(HMHotKey);
+        end;
+      end;
 
       AddIfNotExists(['F1'],[],'cm_HelpIndex');
       AddIfNotExists(['F2','','',
@@ -1242,7 +1250,6 @@ begin
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
       AddIfNotExists(['Ctrl+Shift+A'],[],'cm_ShowTabsList');
       AddIfNotExists(['Ctrl+Shift+B'],[],'cm_FlatViewSel');
-      AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
       AddIfNotExists(['Ctrl+Shift+D'],[],'cm_ConfigDirHotList');
       AddIfNotExists(['Ctrl+Shift+H'],[],'cm_HorizontalFilePanels');
       AddIfNotExists(['Ctrl+Shift+X'],[],'cm_CopyNamesToClip');
@@ -1336,6 +1343,7 @@ begin
       AddIfNotExists(['Ctrl+Shift+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
+      AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
 
       if HotMan.Version < 46 then
       begin
