@@ -14321,7 +14321,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Tri alphabétique avec accents;Tri alphabétique avec caractères spéciaux;Tri alphanumérique;Tri avec caractères spéciaux"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Haut;Bas;"
 
 #: ulng.rsopttoolbarbuttontype

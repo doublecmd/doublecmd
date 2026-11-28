@@ -14277,7 +14277,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "За абеткою, з урахуванням наголосів; Природне сортування: по алфавіту і цифрах"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Зверху;Знизу"
 
 #: ulng.rsopttoolbarbuttontype

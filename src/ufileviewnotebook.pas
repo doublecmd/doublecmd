@@ -137,6 +137,7 @@ type
     FHintPos: TPoint;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
+    FOnTabsChanged: TNotifyEvent;
 
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
@@ -185,6 +186,32 @@ type
     procedure ActivateTabByIndex(Index: Integer);
     function IndexOfPageAt(P: TPoint): Integer; override;
 
+    {en
+       Returns @true if folder tabs are shown as a vertical list
+       beside the notebook instead of the native tab header.
+    }
+    function IsVerticalTabs: Boolean;
+    {en
+       Returns @true if the tabs (native header or vertical list) should be visible.
+    }
+    function TabsVisible: Boolean;
+    procedure UpdateTabsVisibility;
+    {en
+       Notifies listeners (vertical tab list) that pages, their titles
+       or the active page have changed.
+    }
+    procedure TabsChanged;
+    function GetTabHint(Index: Integer): String;
+    {en
+       Emulates double click on the tab with the given index (-1 = empty area).
+    }
+    procedure DoTabDblClick(Index: Integer);
+    {en
+       Moves page within this notebook or clones it from another notebook
+       (removing it from the source when Shift is pressed).
+    }
+    procedure MovePageFrom(SourceNotebook: TFileViewNotebook; SourceIndex, TargetIndex: Integer);
+
     procedure DragDrop(Source: TObject; X,Y: Integer); override;
     procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState;
                        var Accept: Boolean); override;
@@ -195,6 +222,7 @@ type
     property Page[Index: Integer]: TFileViewPage read GetPage;
     property View[Index: Integer]: TFileView read GetFileViewOnPage; default;
     property Side: TFilePanelSelect read FNotebookSide;
+    property OnTabsChanged: TNotifyEvent read FOnTabsChanged write FOnTabsChanged;
 
   published
     property OnDblClick;
@@ -381,6 +409,9 @@ begin
 {$ELSE}
     Caption := StringReplace(NewCaption, '&', '&&', [rfReplaceAll]);
 {$ENDIF}
+
+    if Assigned(Notebook) then
+      Notebook.TabsChanged;
   end;
 end;
 
@@ -522,7 +553,8 @@ function TFileViewNotebook.InsertPage(Index: Integer): TFileViewPage;
 begin
   Tabs.Insert(Index, '');
   Result := GetPage(Index);
-  ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+  UpdateTabsVisibility;
+  TabsChanged;
 end;
 
 function TFileViewNotebook.NewEmptyPage: TFileViewPage;
@@ -571,13 +603,15 @@ begin
 
   Tabs.Delete(Index);
 
-  ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+  UpdateTabsVisibility;
 
 {$IFNDEF LCLGTK2}
   // Force-activate current page.
   if PageIndex <> -1 then
     Page[PageIndex].MakeActive;
 {$ENDIF}
+
+  TabsChanged;
 end;
 
 procedure TFileViewNotebook.RemovePage(var aPage: TFileViewPage);
@@ -635,6 +669,7 @@ begin
   for i:=PageCount-1 downto 0 do
     if i<>ActivePageIndex then Tabs.Delete( i );
   Tabs.Delete( 0 );
+  TabsChanged;
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
@@ -669,6 +704,95 @@ begin
   if (Result >= PageCount) then Result:= -1;
 end;
 
+function TFileViewNotebook.IsVerticalTabs: Boolean;
+begin
+  Result:= gDirTabPosition in [tbpos_left, tbpos_right, tbpos_middle, tbpos_sides];
+end;
+
+function TFileViewNotebook.TabsVisible: Boolean;
+begin
+  Result:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+end;
+
+procedure TFileViewNotebook.UpdateTabsVisibility;
+begin
+  // In vertical mode the tabs are shown by the separate tab list control
+  ShowTabs:= TabsVisible and not IsVerticalTabs;
+end;
+
+procedure TFileViewNotebook.TabsChanged;
+begin
+  if Assigned(FOnTabsChanged) then
+    FOnTabsChanged(Self);
+end;
+
+function TFileViewNotebook.GetTabHint(Index: Integer): String;
+var
+  AView: TFileView;
+  fs: IFileSource;
+begin
+  Result:= EmptyStr;
+  if (Index < 0) or (Index >= PageCount) then Exit;
+
+  AView:= View[Index];
+  if not Assigned(AView) then Exit;
+  fs:= AView.FileSource;
+
+  if (Index <> PageIndex) and (Length(Page[Index].LockPath) <> 0) then
+    Result:= '* ' + fs.GetDescriber.tabHint(fs, Page[Index].LockPath)
+  else
+    Result:= fs.GetDescriber.tabHint(fs, AView.CurrentPath);
+end;
+
+procedure TFileViewNotebook.DoTabDblClick(Index: Integer);
+begin
+  if Assigned(OnDblClick) then
+  begin
+    FStartDrag:= False;
+    FLastMouseDownTime:= 0;
+    FLastMouseDownPageIndex:= Index;
+    OnDblClick(Self);
+    FLastMouseDownPageIndex:= -1;
+  end;
+end;
+
+procedure TFileViewNotebook.MovePageFrom(SourceNotebook: TFileViewNotebook;
+  SourceIndex, TargetIndex: Integer);
+var
+  ANewPage, DraggedPage: TFileViewPage;
+begin
+  if (SourceIndex < 0) or (SourceIndex >= SourceNotebook.PageCount) then
+    Exit;
+
+  if SourceNotebook = Self then
+  begin
+    // Move within the same panel.
+    if (TargetIndex <> -1) and (TargetIndex <> SourceIndex) and (TargetIndex < PageCount) then
+    begin
+      Tabs.Move(SourceIndex, TargetIndex);
+      TabsChanged;
+    end;
+  end
+  else begin
+    // Move page between panels.
+    DraggedPage := SourceNotebook.Page[SourceIndex];
+
+    if (TargetIndex < 0) or (TargetIndex > PageCount) then
+      TargetIndex := PageCount;
+
+    // Create a clone of the page in the panel.
+    ANewPage := InsertPage(TargetIndex);
+    ANewPage.AssignPage(DraggedPage);
+    ANewPage.MakeActive;
+
+    if (ssShift in GetKeyShiftState) and (SourceNotebook.PageCount > 1) then
+    begin
+      // Remove page from source panel.
+      SourceNotebook.RemovePage(DraggedPage);
+    end;
+  end;
+end;
+
 // compared to handling hints in MouseMove(), DoShowHint() is compatible
 // with all WidgetSets.
 // on Windows, when Mouse Move in the blank of the TabControl,
@@ -676,16 +800,11 @@ end;
 procedure TFileViewNotebook.TabShowHint(Sender: TObject; HintInfo: PHintInfo);
 var
   ATabIndex: Integer;
-  fs: IFileSource;
 begin
   ATabIndex := IndexOfPageAt( ScreenToClient(Mouse.CursorPos) );
 
   if ATabIndex >= 0 then begin
-    fs:= View[ATabIndex].FileSource;
-    if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
-      HintInfo^.HintStr := '* ' + fs.GetDescriber.tabHint(fs, Page[ATabIndex].LockPath)
-    else
-      HintInfo^.HintStr := fs.GetDescriber.tabHint(fs, View[ATabIndex].CurrentPath);
+    HintInfo^.HintStr := GetTabHint(ATabIndex);
   end else begin
     HintInfo^.HintStr := '';
     FHintPos := TPoint.Zero;
@@ -830,40 +949,13 @@ end;
 
 procedure TFileViewNotebook.DragDrop(Source: TObject; X,Y: Integer);
 var
-  ATabIndex: Integer;
   SourceNotebook: TFileViewNotebook;
-  ANewPage, DraggedPage: TFileViewPage;
 begin
   if (Source is TFileViewNotebook) then
   begin
     SourceNotebook := TFileViewNotebook(Source);
-    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
-
-    if Source = Self then
-    begin
-      // Move within the same panel.
-      if ATabIndex <> -1 then
-        Tabs.Move(FDraggedPageIndex, ATabIndex);
-    end
-    else if (SourceNotebook.FDraggedPageIndex < SourceNotebook.PageCount) then
-    begin
-      // Move page between panels.
-      DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
-
-      if ATabIndex = -1 then
-        ATabIndex := PageCount;
-
-      // Create a clone of the page in the panel.
-      ANewPage := InsertPage(ATabIndex);
-      ANewPage.AssignPage(DraggedPage);
-      ANewPage.MakeActive;
-
-      if (ssShift in GetKeyShiftState) and (SourceNotebook.PageCount > 1) then
-      begin
-        // Remove page from source panel.
-        SourceNotebook.RemovePage(DraggedPage);
-      end;
-    end;
+    MovePageFrom(SourceNotebook, SourceNotebook.FDraggedPageIndex,
+                 IndexOfPageAt(Classes.Point(X, Y)));
   end
   else begin
     inherited DragDrop(Source, X, Y);
@@ -879,6 +971,7 @@ begin
   {$IF DEFINED(DARKWIN)} and (not g_darkModeEnabled){$ENDIF} then
     Invalidate;
 {$ENDIF}
+  TabsChanged;
 end;
 
 function TFileViewNotebook.GetPageClass: TCustomPageClass;

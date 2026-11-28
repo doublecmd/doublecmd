@@ -13819,7 +13819,7 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr ""
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr ""
 
 #: ulng.rsopttoolbarbuttontype

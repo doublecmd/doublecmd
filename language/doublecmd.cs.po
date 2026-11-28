@@ -13937,7 +13937,9 @@ msgid "Alphabetical, considering accents;Alphabetical with special characters so
 msgstr "Abecedně s ohledem na znaménka;Abecedně se tříděním speciálních znaků;Přirozené řazení: abecedy a čísel;Přirozené se speciálními znaky"
 
 #: ulng.rsopttabsposition
-msgid "Top;Bottom;"
+#, fuzzy
+#| msgid "Top;Bottom;"
+msgid "Top;Bottom;Left;Right;Middle;Both sides;"
 msgstr "Nahoře;Dole;"
 
 #: ulng.rsopttoolbarbuttontype
